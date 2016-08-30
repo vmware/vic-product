@@ -13,7 +13,7 @@ sudo bash
 ```
 This is the command we are using to instantiate Admiral:
 ```
-root@lab-vic01:~/harbor/Deploy# docker run -d -p 8282:8282 --name admiral vmware/admiral
+root@lab-vic01:~/harbor/Deploy# docker run -d -p 8282:8282 --volume /data/admiral:/var/admiral --name admiral vmware/admiral
 676c060aa2595b7d3c4758887e4cce66adfe3b7f5f56d26eb71567f0595db534
 ```
 Admiral is now running on the Linux VM and is exposed on port 8282. This is the complete URL you need to point your browser to: http://10.140.50.77:8282/uic/ (where 10.140.50.77 is the IP the Linux host it's running on). 
