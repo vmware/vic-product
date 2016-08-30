@@ -1,5 +1,5 @@
 
-When we deployed `VCH1` we exercised it mildly by deploying a few basic containers, namely Busybox and Nginx.
+When we [deployed VCH1](install-configure-vch.md) we exercised it simply by deploying a few basic containers, namely Busybox and Nginx.
 
 Let’s try to do the same using the Admiral interface now.
 
