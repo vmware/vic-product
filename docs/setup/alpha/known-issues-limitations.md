@@ -1,7 +1,6 @@
 ###Nested environments
 
-We have seen a high level of failures when deploying VIC Engine in nested environments that uses shared storage. The issue may potentially be due to storage performance than nested per se. This is currently being investigated:
-https://github.com/vmware/vic/issues/1822.
+Deploying containers to a VCH deployed in nested ESX with some forms of shared storage can lead to timeouts. This is more to do with storage latencies which is exaccerbated by the nesting. iSCSI NAS seems to work fine, but NFS performance can be limiting. This is currently being investigated. https://github.com/vmware/vic/issues/1822.
 
 ###Mapping port 8080 is not supported with VIC Engine 
 
@@ -19,13 +18,6 @@ For containerVMs deployed with Admiral to a VIC Engine endpoint, stats are not a
 
 Leveraging the terminal functionality in Admiral for a container deployed to a VIC Engine end-point is not supported.    
 
-###Virtual Container Hosts can’t connect to Harbor 
-
-VIC does not yet support docker login and this is preventing VIC to connect to Harbor as a local registry. This is also true for Harbor public projects.
-
-Technical details: Harbor is setup with authentication/authorization enabled, so the mechanism of authorization always kicks in. The Docker client always need to get a token from the registry. The registry will grant access to the client if the project is public. VIC doesn’t yet support authentication/authorization, so it cannot complete the normal flow of getting a token and get access granted. Therefore, it cannot access public projects either. 
-
-
 ###Admiral can’t map the same port out on the external network
 
 There is a limitation right now with Admiral that prevents container ports to be exposed outside on the same port. That is to say you should avoid mapping 5000 to 5000 (or 443 to 443 for that matter). This is going to be fixed soon. 
@@ -33,10 +25,6 @@ There is a limitation right now with Admiral that prevents container ports to be
 ###Admiral can’t map to port 80 when used with Linux Hosts and Docker Engine
 
 The Admiral container agent that gets instantiated on Linux hosts running Docker Engine uses port 80 and so user containers cannot be mapped out on port 80. This is being fixed by the Admiral engineering team. Admiral deploying to a VIC endpoint doesn’t experience this problem since the Admiral container agent is not instantiated on the VCH.  
-
-###VIC can’t work with the extended image path 
-
-Admiral, by default, includes the entire path to describe the image location (e.g. registry.hub.docker.com/library/busybox). This will not work when deploying to a VIC endpoint. As a workaround you can remove the registry address (e.g. use instead library/busybox). 
 
 ###Admiral only support the exec form 
 
