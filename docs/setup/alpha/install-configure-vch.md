@@ -217,3 +217,11 @@ This is because the Endpoint VM acts as a NAT between the external world and the
 If you got to this point congratulations, it looks like you have your VIC Engine setup running fine and you are good to move to the next step! 
 
 Feel free to continue to play around VIC Engine but mind the limitations we currently have at the time of this writing. An up to date list of supported operations is available [here](https://vmware.github.io/vic/assets/files/html/vic_app_dev/container_operations.html)
+
+### Deleting the VCH
+
+If you want to delete the VCH you installed, you use a vic-machine command like the create one above. Here's an example:
+
+```
+./vic-machine-linux delete --force --name VCH1 --target msbu-vc-lab.mgmt.local --user mreferre@vmware.com --password xxxxxxxx
+```
