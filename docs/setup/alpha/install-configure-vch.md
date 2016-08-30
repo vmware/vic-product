@@ -11,7 +11,7 @@ There are a couple of ways to get ready to launch vic-machine:
 
 For the purpose of this document we are going to use a vic release (namely [0.5.5](https://github.com/vmware/vic/releases/tag/v0.5.5) which is the latest at the time of this writing).
 
-Scroll down and you will find a link to the [Bintray download](https://bintray.com/vmware/vic/Download/v0.5.5) page for this release
+The link to the [Bintray download](https://bintray.com/vmware/vic/Download/v0.5.5) is also available by scrolling down the GitHub release page referenced above.
 
 Right click with your browser on the vic_0.5.0.tar.gz file and copy the link address. 
 
@@ -121,9 +121,6 @@ INFO[2016-08-16T01:54:55-07:00] Connect to docker:
 INFO[2016-08-16T01:54:55-07:00] docker -H 10.140.51.101:2376 --tls info      
 INFO[2016-08-16T01:54:55-07:00] Installer completed successfully             
 ```
-This is what you should be seeing in the vSphere UI at this point:
-
-[Picture]
 
 Note how we chose (for now) to deploy the VCH on the root of the cluster. It is possible to deploy the VCH inside an existing RP using the appropriate options in the vic-machine command. 
 
