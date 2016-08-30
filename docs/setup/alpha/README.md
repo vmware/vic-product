@@ -38,7 +38,7 @@ These instructions will guide you through the process of setting up vSphere Inte
 
 - [Installing and configuring Admiral](https://github.com/vmware/vic-product/blob/master/docs/setup/alpha/install-configure-admiral.md)
 
-- [Deploying a simple container on VCH1 via Admiral](https://github.com/vmware/vic-product/blob/master/docs/setup/alpha/deploy-simple-container-on-vch1-via-admiral.md)
+- [Deploying a simple container via Admiral](https://github.com/vmware/vic-product/blob/master/docs/setup/alpha/deploy-simple-container-via-admiral.md)
 
 - [Known Issues and Limitations](https://github.com/vmware/vic-product/blob/master/docs/setup/alpha/known-issues-limitations.md)
 
