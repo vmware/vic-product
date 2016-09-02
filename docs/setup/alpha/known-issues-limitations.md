@@ -2,6 +2,10 @@
 
 There is an existing limitation in deploying a docker image from a repository marked private in Harbor to a VCH via the Admiral portal. You _can_ deploy from a private repository to a VCH using `docker login` and the regular docker client. However, Admiral uses a different code path that is not yet supported by VIC engine. The workaround is to make the repository public or use the Docker client.
 
+###No image tagging support yet in VIC 0.5.5
+
+This means that if you pull an image into a VCH image cache using a particular path (say registry.hub.docker.com/library/busybox), you can't then subsequently pull or run the same image using a different path. Even if it's simply a port added registry.hub.docker.com:80/library/busybox - it's still an image tag and it still counts. VIC 0.5.5 doesn't yet support deleting images either, so for now, just pick a repository path and stick with it. You can edit the image path when you provision in Admiral if you want.
+
 ###Nested environments
 
 Deploying containers to a VCH deployed in nested ESX with some forms of shared storage can lead to timeouts. This is more to do with storage latencies which is exaccerbated by the nesting. iSCSI NAS seems to work fine, but NFS performance can be limiting. This is currently being investigated. https://github.com/vmware/vic/issues/1822.
