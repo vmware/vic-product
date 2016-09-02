@@ -1,3 +1,7 @@
+###Cannot deploy from Harbor private repository to a VCH via Admiral
+
+There is an existing limitation in deploying a docker image from a repository marked private in Harbor to a VCH via the Admiral portal. You _can_ deploy from a private repository to a VCH using `docker login` and the regular docker client. However, Admiral uses a different code path that is not yet supported by VIC engine. The workaround is to make the repository public or use the Docker client.
+
 ###Nested environments
 
 Deploying containers to a VCH deployed in nested ESX with some forms of shared storage can lead to timeouts. This is more to do with storage latencies which is exaccerbated by the nesting. iSCSI NAS seems to work fine, but NFS performance can be limiting. This is currently being investigated. https://github.com/vmware/vic/issues/1822.
