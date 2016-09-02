@@ -4,7 +4,7 @@ There is an existing limitation in deploying a docker image from a repository ma
 
 ###No image tagging support yet in VIC 0.5.5
 
-This means that if you pull an image into a VCH image cache using a particular path (say registry.hub.docker.com/library/busybox), you can't then subsequently pull or run the same image using a different path. Even if it's simply a port added registry.hub.docker.com:80/library/busybox - it's still an image tag and it still counts. VIC 0.5.5 doesn't yet support deleting images either, so for now, just pick a repository path and stick with it. You can edit the image path when you provision in Admiral if you want.
+This means that if you pull an image into a VCH image cache using a particular path (say `registry.hub.docker.com/library/busybox`), you can't then subsequently pull or run the same image using a different path. Even if it's simply a port added `registry.hub.docker.com:80/library/busybox` - it's still an image tag and it still counts. VIC 0.5.5 doesn't yet support deleting images either, so for now, just pick a repository path and stick with it. You can edit the image path when you provision in Admiral if you want.
 
 ###Nested environments
 
