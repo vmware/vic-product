@@ -6,7 +6,7 @@ Similarly to what we did for [Harbor](install-configure-harbor.md), for the time
 You can grab the latest Admiral bits from [docker hub](https://hub.docker.com/r/vmware/admiral/)
 
 #### Installation procedure for Admiral
-We assume you are logged in as root inside the Linux VM and that you have your Admiral image pulled/built already and available locally.Before you start deploying Harbor, make sure you don't have stale environment variables from previous experiments, such as DOCKER_HOST. Simplest way to do this is by running a new shell:
+We assume you are logged in as root inside the Linux VM and that you have your Admiral image pulled/built already and available locally. Before you start deploying Admiral, make sure you don't have stale environment variables from previous experiments, such as DOCKER_HOST. Simplest way to do this is by running a new shell:
 
 ```
 sudo bash
