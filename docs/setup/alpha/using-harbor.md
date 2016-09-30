@@ -67,13 +67,13 @@ If you check the Harbor UI, in the vmworld project, you should now see a new ite
 
 #### Interacting with Harbor with a Virtual Container Host (VCH)
 
-Similarly, we can configure a VCH to interact with a local Harbor registry. Should you have proper certificates in place, the interaction is going to be fairly similar to what we have seen above.
+Similarly, we can configure a VCH to interact with a local Harbor registry.
 
-In case you need to consume a Harbor instance that has self-signed certificates, then you need to set the `--insecure-registry` at the VCH level.
+In case you need to consume a Harbor instance that has self-signed certificates, then you need to set the `--docker-insecure-registry` at the VCH level.
 
 To do so you have to deploy the VCH specifying the FQDN/IP of the insecure registry you will connect to.
 
-For example, you can add `--insecure-registry 10.140.50.77` to the `vic-machine` command you use to deploy the Virtual Container Host. This will tell the VCH that it's ok to pull from the Harbor registry hosted at 10.140.50.77.
+For example, you can add `--docker-insecure-registry 10.140.50.77` to the `vic-machine` command you use to deploy the Virtual Container Host. This will tell the VCH that it's ok to pull from the Harbor registry hosted at 10.140.50.77. If you need to add more than one registry, just repeat the option for each IP.
 
 Should you have deployed your VCH with that flag and should the VCH got the IP 10.140.51.101, this is how you'd interact with it to pull an image from Harbor:
 
