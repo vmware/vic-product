@@ -122,7 +122,7 @@ busybox                      latest              332de81782ef        3 months ag
 The first three images are those we pulled during our previous exercises. The fourth one (_10.140.50.77/vmworld/nginx_) is the image we have just pulled from our local Harbor instance.
 
 ```
-root@photonOSvm1 [ ~ ]# docker -H 10.140.51.101:2376 --tls run -d -p 81:80 --name nginxfromharborimage 10.140.50.77/vmworld/nginx:1.9.0
+root@photonOSvm1 [ ~ ]# docker -H 10.140.51.101:2376 --tls run -d -p 81:80 --name nginxharbor 10.140.50.77/vmworld/nginx:1.9.0
 73c4d46ba648597f880efafe2af96208804da72cb7f26a0fd63ae804f0261230
 ```
 
@@ -132,7 +132,7 @@ Now this is what I have running on VCH1:
 ```
 root@photonOSvm1 [ ~ ]# docker -H 10.140.51.101:2376 --tls ps
 CONTAINER ID        IMAGE                              COMMAND                  CREATED             STATUS              PORTS               NAMES
-73c4d46ba648        10.140.50.77/vmworld/nginx:1.9.0   "nginx -g daemon off;"   2 minutes ago       Running                                 nginxfromharborimage
+73c4d46ba648        10.140.50.77/vmworld/nginx:1.9.0   "nginx -g daemon off;"   2 minutes ago       Running                                 nginxharbor
 a900c4435f00        nginx                              "nginx -g daemon off;"   About an hour ago   Running                                 mynginx
 95fce528c0e4        vmware/admiral                     "/entrypoint.sh"         About an hour ago   Running                                 admiral
 ```

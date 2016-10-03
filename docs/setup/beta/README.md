@@ -46,3 +46,11 @@ These instructions will guide you through the process of setting up vSphere Inte
 - [Deploying a simple container via Admiral](deploy-simple-container-via-admiral.md)
 
 - [Known Issues and Limitations](known-issues-limitations.md)
+
+##Outcome
+
+If you (strictly) follow the instructions above the diagram below outlines the end result you are going to achieve.
+
+![Outcome](outcome.png)
+
+You should consider the VCH1 proxy VM, the Harbor VM and the Admiral ContainerVM the components that comprise VIC. You should consider every other containerVM being deployed inside the VCH1 vSphere vApp as "user workloads".  

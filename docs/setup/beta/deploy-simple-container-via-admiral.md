@@ -7,7 +7,7 @@ To do so you can do the following from the Admiral UI:
 
 *   Move to the `Templates` tab and search for “Busybox”.
 *   Click on `Enter additional info` for the Busybox container.
-*   Customize the name of this container to busybox-from-admiral.
+*   Customize the name of this container to _busyboxadmiral_.
 *   Click `provision` to instantiate the Busybox image against VCH1.
 *   Check in the Admiral UI `Containers` tab that Busybox has been instantiated and it’s running.
 *   Check in the vSphere UI that a new ContainerVM has been created and started.
@@ -21,7 +21,7 @@ Follow these steps:
 *   Move to the `Templates` tab and search for “vmworld/nginx”.
 *   Click on `Enter additional info` for the vmworld/nginx container.
 *   Since this image has an explicit version, you need to manually add _1.9.0_ (should the version be latest you can leave the string as-is).
-*   Customize the name of this container to nginx-from-admiral.
+*   Customize the name of this container to _nginxadmiral_.
 *   Move to the Network tab and map host port _82_ to container port _80_.
 *   Click `provision` to instantiate the vmworld/nginx image hosted on Harbor against VCH1.
 *   Check in the Admiral UI `Containers` tab that Nginx has been instantiated and it’s running.
