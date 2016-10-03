@@ -4,7 +4,7 @@ A [Virtual Container Host](https://github.com/vmware/vic/blob/master/doc/design/
 
 #### Preparing the VIC Engine binaries and tools
 
-We will use a [Linux Docker host](setup-linux-docker-host.md) as a launch-pad for vic-machine (the CLI utility that allows for VCHs lifecycle). In particular vic-machine allows us to create and delete Virtual Container Hosts.
+We will use the [client machine](pre) as a launch-pad for vic-machine (the CLI utility that allows for VCHs lifecycle). In particular vic-machine allows us to create and delete Virtual Container Hosts.
 There are a couple of ways to get ready to launch vic-machine:
 - Using an [official release](https://github.com/vmware/vic/releases)
 - [Build yourself](https://github.com/vmware/vic/blob/master/README.md) from the source code
@@ -15,7 +15,7 @@ The link to the [Bintray download](https://bintray.com/vmware/vic/Download/v0.6.
 
 Right click with your browser on the vic_0.6.0.tar.gz file and copy the link address.
 
-Now move onto the Linux VM we prepared (for convenience just login as root and stay in the /root directory) and run the following command to download the release:
+Now move to the client machine (for convenience we assume you don't need to sudo; if you do, just prefix these commands with `sudo`) and run the following command to download the release:
 ```
 curl -L -o vic_0.6.0.tar.gz https://bintray.com/vmware/vic/download_file?file_path=vic_0.6.0.tar.gz
 ```
@@ -64,7 +64,7 @@ Just like a Docker host, a VCH has a local image cache and can create and store 
 
 ### Installation of the Virtual Container Host (VCH)
 
-Now that you have the tools and binaries as well as your vSphere environment ready, the next step is to start deploying your first VCH. To do so we go on our Linux VM and launch the following commands from the previously unpacked file (vic_0.6.0.tar.gz):
+Now that you have the tools and binaries as well as your vSphere environment ready, the next step is to start deploying your first VCH. To do so we go on your client machine and launch the following commands from the previously unpacked file (vic_0.6.0.tar.gz):
 
 First, run `./vic-machine-linux` to see the options available. You'll see the sub-options, `create, delete, ls, inspect and version`. These options allow you to control the lifecycle of your VCHs. `./vic-machine-linux create --help` will show you all the available options for creating a VCH. There's quite a few, but the example below will simplify this significantly.
 
@@ -73,9 +73,10 @@ First, run `./vic-machine-linux` to see the options available. You'll see the su
 ```
 Here's now it looks on my system (note I only have a single cluster, so `--compute-resource` didn't need to be specified):
 ```
-./vic-machine-linux create --name VCH1 --target msbu-vc-lab.mgmt.local --user mreferre@vmware.com --password xxxxxxxx --bridge-network vds10g-lab-446-vmnet --external-network vds10g-lab-506-vmnet-eph --image-store vsan-lab
+./vic-machine-linux create --name VCH1 --target msbu-vc-lab.mgmt.local --user mreferre@vmware.com --password xxxxxxxx --bridge-network vds10g-lab-446-vmnet --external-network vds10g-lab-506-vmnet-eph --image-store vsan-lab  --docker-insecure-registry 10.140.50.77
 ```
-Note: if you need more details about the various options that vic-machine supports, please refer to the [official documentation](
+
+Note: we provisioned this VCH with the --docker-insecure-registry option to specify that the VCH can connect to the local Harbor registry that we deployed in the [previous step](install-configure-harbor.md). If you need more details about the various options that vic-machine supports, please refer to the [official documentation](
 vmware.github.io/vic/assets/files/html/vic_installation/vch_installer_options.html)
 
 This is the output you are supposed to be seeing on the screen:
@@ -130,9 +131,9 @@ In the text shown during the deployment of the VCH, you may have noted the IP of
 
 ### Verify connectivity to your VCH
 
-We will now use our Linux VM as the Docker client to connect to the VCH (our new docker end-point).
+We will now use our client machine as the Docker client to connect to the VCH (our new docker end-point).
 
-So far the Docker runtime on our Linux VM has been configured to just talk to the local daemon. We are now going to tell the docker CLI to point to another docker daemon (specifically the one that the VCH1 proxy exposes).
+So far the Docker runtime on the client machine has been configured to just talk to the local daemon. We are now going to tell the docker CLI to point to another docker daemon (specifically the one that the VCH1 proxy exposes).
 
 While you can always interactively point to a different host when you run the docker client command, for convenience we are going to set it in an environment variable so that every time you run the docker command you are going to point to the VCH1. To do so just run this command on your Linux VM:
 ```
@@ -140,7 +141,7 @@ export DOCKER_HOST=tcp://10.140.51.101:2376
 ```
 Ideally this is all you’d need to do.
 
-However, note that VIC implements the version 1.23 of the docker API interface. If the docker client you are running on the Linux VM is beyond that version, we also need to tell the client to use the 1.23 version of the APIs.
+However, note that VIC implements the version 1.23 of the docker API interface. If the docker client you are running on the client machine is beyond that version, we also need to tell the client to use the 1.23 version of the APIs.
 
 You do so by running:
 ```
@@ -150,7 +151,7 @@ export DOCKER_API_VERSION=1.23
 
 We are now going to pull the busybox image.  Note we need to use the --tls option to allow secure communication between the Docker client and the Docker host. (This can be disabled by adding `--no-tls` to vic-machine create):
 ```
-root@lab-vic01:~/vic# docker --tls pull busybox
+root@photonOSvm1 [ ~ ]# docker --tls pull busybox
 Using default tag: latest
 Pulling from library/busybox
 a3ed95caeb02: Pull complete
@@ -160,7 +161,7 @@ Status: Downloaded newer image for library/busybox:latest
 ```
 And we are going to instantiate said busybox docker image:
 ```
-root@lab-vic01:~/vic# docker --tls run -it --name mybusybox busybox
+root@photonOSvm1 [ ~ ]# docker --tls run -it --name mybusybox busybox
 / #
 ```
 As you can see, the VCH took the busybox docker image and instantiated it **as** a VM (as opposed to **in** a VM):
@@ -182,7 +183,7 @@ To exercise and familiarize a bit further with how basic networking works with D
 
 Now run the following command:
 ```
-root@lab-vic01:~/vic# docker --tls run -d -p 80:80 --name mynginx nginx
+root@photonOSvm1 [ ~ ]# docker --tls run -d -p 80:80 --name mynginx nginx
 Unable to find image 'nginx:latest' locally
 Pulling from library/nginx
 a3ed95caeb02: Pull complete
@@ -192,9 +193,9 @@ bcd41daec8cc: Pull complete
 Digest: sha256:9dff4680bc81db31be8f4d6a3323080948282048c432b36c2593d8d8014255bf
 Status: Downloaded newer image for library/nginx:latest
 167634511cd0b22357b79e65ca47e51755eb55161e5c3619a073a52895e5a842
-root@lab-vic01:~/vic#
+root@photonOSvm1 [ ~ ]#
 
-root@lab-vic01:~/vic# docker --tls ps
+root@photonOSvm1 [ ~ ]# docker --tls ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
 167634511cd0        nginx               "nginx -g daemon off;"   2 minutes ago       Running                                 mynginx
 ```
@@ -206,7 +207,7 @@ It then instantiated said image as a VM in vSphere behind the scenes. You can se
 Note that, with the build we are using at the time of this writing, `docker ps` doesn’t show the ports being mapped (albeit they are).
 You can check them explicitly by typing:
 ```
-root@lab-vic01:~/vic# docker --tls port mynginx
+root@photonOSvm1 [ ~ ]# docker --tls port mynginx
 80/tcp -> 0.0.0.0:80
 ```
 
@@ -220,7 +221,7 @@ Feel free to continue to play around VIC Engine but mind the limitations we curr
 
 ### Deleting the VCH
 
-If you want to delete the VCH you installed, you use a vic-machine command like the create one above. Here's an example:
+If you want to delete the VCH you installed, you use a vic-machine command like the create one above. Don't delete it as of yet but here's an example re how you would do it (for future reference):
 
 ```
 ./vic-machine-linux delete --force --name VCH1 --target msbu-vc-lab.mgmt.local --user mreferre@vmware.com --password xxxxxxxx
