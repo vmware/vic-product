@@ -33,16 +33,16 @@ This Linux VM can ideally be hosted on the same vSphere Infrastructure used to d
 
 These instructions will guide you through the process of setting up vSphere Integrated Containers (all three components) and deploy various sample containers to exercise the behaviour of the solution.
 
-- [Preparing the client machine](https://github.com/vmware/vic-product/blob/master/docs/setup/beta/preparing-the-client-machine.md)
+- [Preparing the client machine](preparing-the-client-machine.md)
 
-- [Installing and configuring Harbor](https://github.com/vmware/vic-product/blob/master/docs/setup/beta/install-configure-harbor.md)
+- [Installing and configuring Harbor](install-configure-harbor.md)
 
-- [Installing and configuring the Virtual Container Host (VCH)](https://github.com/vmware/vic-product/blob/master/docs/setup/beta/install-configure-vch.md)
+- [Installing and configuring the Virtual Container Host (VCH)](install-configure-vch.md)
 
-- [Installing and configuring Admiral](https://github.com/vmware/vic-product/blob/master/docs/setup/beta/install-configure-admiral.md)
+- [Installing and configuring Admiral](install-configure-admiral.md)
 
-- [Using Harbor](https://github.com/vmware/vic-product/blob/master/docs/setup/beta/using-harbor.md)
+- [Using Harbor](using-harbor.md)
 
-- [Deploying a simple container via Admiral](https://github.com/vmware/vic-product/blob/master/docs/setup/beta/deploy-simple-container-via-admiral.md)
+- [Deploying a simple container via Admiral](deploy-simple-container-via-admiral.md)
 
-- [Known Issues and Limitations](https://github.com/vmware/vic-product/blob/master/docs/setup/beta/known-issues-limitations.md)
+- [Known Issues and Limitations](known-issues-limitations.md)
