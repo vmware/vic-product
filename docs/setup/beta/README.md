@@ -17,17 +17,12 @@ Before you start, make sure you have a vSphere environment that satisfy [these r
 
 ###The client machine  
 
-To setup VIC you only need a working vSphere environment as well as a client machine from where you will install and then interact with all the VIC components:
+To setup VIC you only need a working vSphere environment as well as a client machine from where you will install and then interact with all the VIC components. The client machine plays the following roles:
 
-1. A system to run vic-machine to deploy and manage VCH endpoints in vSphere.
-2. A Docker client to exercise VIC Engine and the other components.  
-3. A Docker Host to run Harbor (delivered as a set of containers).
-4. A Docker Host to run Admiral (delivered as a container).
-
-This Linux VM can ideally be hosted on the same vSphere Infrastructure used to deploy deploy the user workloads.
-
-*Please note: For #1 and #2 you can also use your laptop (Linux, Windows, Mac), but throughout this document, for convenience, we assume all of them are executed on this Linux VM.*  
-
+- A system to run vic-machine to deploy and manage VCH endpoints in vSphere.
+- A to deploy the Harbor OVA (delivered as a virtual appliance).
+- A Docker client to exercise VIC Engine and to deploy Admiral on top of the Virtual Container Host we will deploy.
+- A Web client to manage the components that require UI interaction.
 
 ##Setup instructions
 
