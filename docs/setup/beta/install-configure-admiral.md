@@ -47,7 +47,7 @@ This is how we do that:
 
 - Move to the Hosts tab and click ***Add***.
 
-- Specify `http://10.140.51.101:2376` as your Docker host IP address (10.140.51.101 is the IP of the VCH1 Endpoint VM).
+- Specify `https://10.140.51.101:2376` as your Docker host IP address (10.140.51.101 is the IP of the VCH1 Endpoint VM).
 
 - Enter the credentials for the VCH. Since Admiral only works with Docker APIs (i.e. it doesn’t try to SSH into the hosts) we are going to provide the certificates to connect to the daemon. If you look in the vic directory (from where you launched the vic-machine-linux command to create VCH1) you should find a couple of files that have been generated during the VCH deployment:
 ```
