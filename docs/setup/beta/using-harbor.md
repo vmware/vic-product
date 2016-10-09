@@ -88,7 +88,7 @@ If you check the Harbor UI, in the vmworld project, you should now see a new ite
 
 Our VCH (VCH1) has alrady been deployed with the `--docker-insecure-registry 10.140.50.77` flag set in anticipation of being able to pull from our local Harbor registry when using VCH1.
 
-As we hinted in the [VCH deployment section](install-configure-vch.md), in case you need to consume a Harbor instance that has self-signed certificates, then you need to set the `--docker-insecure-registry` at the VCH level.
+As we hinted in the [VCH deployment section](install-configure-vch.md), in case you need to consume a Harbor instance via plain http, then you need to set the `--docker-insecure-registry` at the VCH level.
 
 As we have seen, you can just add `--docker-insecure-registry` to the `vic-machine` command you use to deploy the Virtual Container Host. This will tell the VCH that it's ok to pull from the Harbor registry hosted at 10.140.50.77. If you need to add more than one registry, just repeat the option for each IP.
 
