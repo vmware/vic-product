@@ -47,7 +47,7 @@ Just like regular Docker, ContainerVMs can have identities on multiple networks.
 
 Networks are backed by distributed PortGroups, which need to be pre-configured before the VCH is installed.
 
-Please note: VIC Engine supports more granularity in network configurations but this is beyond the scope of this document. If you want to read more about these network options, you can look [here](https://vmware.github.io/vic/assets/files/html/vic_admin/networks.html) and [here](https://vmware.github.io/vic/assets/files/html/vic_app_dev/network_use_cases.html).
+Please note: VIC Engine supports more granularity in network configurations but this is beyond the scope of this document. If you want to read more about these network options, you can look [here](https://vmware.github.io/vic/assets/files/html/vic_installation/networks.html) and [here](https://vmware.github.io/vic/assets/files/html/vic_app_dev/network_use_cases.html).
 
 ##### Storage
 
