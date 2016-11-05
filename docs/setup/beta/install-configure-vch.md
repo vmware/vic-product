@@ -9,19 +9,19 @@ There are a couple of ways to get ready to launch vic-machine:
 - Using an [official release](https://github.com/vmware/vic/releases)
 - [Build yourself](https://github.com/vmware/vic/blob/master/README.md) from the source code
 
-For the purpose of this document we are going to use a vic release (namely [0.6.0](https://github.com/vmware/vic/releases/tag/v0.6.0) which is the latest at the time of this writing).
+For the purpose of this document we are going to use a vic release (namely [0.7.0](https://github.com/vmware/vic/releases/tag/v0.7.0) which is the latest at the time of this writing).
 
-The link to the [Bintray download](https://bintray.com/vmware/vic/Download/v0.6.0) is also available by scrolling down the GitHub release page referenced above.
+The link to the [Bintray download](https://bintray.com/vmware/vic/Download/v0.7.0) is also available by scrolling down the GitHub release page referenced above.
 
-Right click with your browser on the vic_0.6.0.tar.gz file and copy the link address.
+Right click with your browser on the vic_0.7.0.tar.gz file and copy the link address.
 
 Now move to the client machine (for convenience we assume you don't need to sudo; if you do, just prefix these commands with `sudo`) and run the following command to download the release:
 ```
-curl -L -o vic_0.6.0.tar.gz https://bintray.com/vmware/vic/download_file?file_path=vic_0.6.0.tar.gz
+curl -L -o vic_0.7.0.tar.gz https://bintray.com/vmware/vic/download_file?file_path=vic_0.7.0.tar.gz
 ```
 Un-tar the package with:
 ```
-tar -zxvf vic_0.6.0.tar.gz
+tar -zxvf vic_0.7.0.tar.gz
 ```
 Now you should have a directory called vic and inside vic you have all the tools and binaries you need.
 
@@ -64,63 +64,47 @@ Just like a Docker host, a VCH has a local image cache and can create and store 
 
 ### Installation of the Virtual Container Host (VCH)
 
-Now that you have the tools and binaries as well as your vSphere environment ready, the next step is to start deploying your first VCH. To do so we go on your client machine and launch the following commands from the previously unpacked file (vic_0.6.0.tar.gz):
+Now that you have the tools and binaries as well as your vSphere environment ready, the next step is to start deploying your first VCH. To do so we go on your client machine and launch the following commands from the previously unpacked file (vic_0.7.0.tar.gz):
 
 First, run `./vic-machine-linux` to see the options available. You'll see the sub-options, `create, delete, ls, inspect and version`. These options allow you to control the lifecycle of your VCHs. `./vic-machine-linux create --help` will show you all the available options for creating a VCH. There's quite a few, but the example below will simplify this significantly.
 
 ```
-./vic-machine-linux create --name <name> --target <address of vCenter or ESX> --user <vCenter/ESX uid> --password <pwd> --compute-resource <cluster/optional resource pool> --external-network <external network name> --bridge-network <bridge network name> --image-store <datastore name>
+./vic-machine-linux create --name <name> --target <address of vCenter or ESX> --user <vCenter/ESX uid> --password <pwd> --compute-resource <cluster/optional resource pool> --external-network <external network name> --bridge-network <bridge network name> --image-store <datastore name> --no-tls --force
 ```
 Here's now it looks on my system (note I only have a single cluster, so `--compute-resource` didn't need to be specified):
 ```
-./vic-machine-linux create --name VCH1 --target msbu-vc-lab.mgmt.local --user mreferre@vmware.com --password xxxxxxxx --bridge-network vds10g-lab-446-vmnet --external-network vds10g-lab-506-vmnet-eph --image-store vsan-lab  --docker-insecure-registry 10.140.50.77
+./vic-machine-linux create --name VCH1 --target msbu-vc-lab.mgmt.local --user mreferre@vmware.com --password xxxxxxxx --bridge-network vds10g-lab-446-vmnet --external-network vds10g-lab-506-vmnet-eph --image-store vsan-lab  --docker-insecure-registry 10.140.50.77 --no-tls --force
 ```
 
 Note: we provisioned this VCH with the --docker-insecure-registry option to specify that the VCH can connect to the local Harbor registry that we deployed in the [previous step](install-configure-harbor.md). If you need more details about the various options that vic-machine supports, please refer to the [official documentation](
 vmware.github.io/vic/assets/files/html/vic_installation/vch_installer_options.html)
 
+In this exercise we are disabling entirely security for the VCH being deployed (with the `--no-tls` option). We are also instructing `vic-machine` to ignore the vCenter certificates (with the `--force` option)
+
 This is the output you are supposed to be seeing on the screen:
 ```
-INFO[2016-08-16T01:54:31-07:00] ### Installing VCH ####                      
-INFO[2016-08-16T01:54:31-07:00] Generating certificate/key pair - private key in ./VCH1-key.pem
-INFO[2016-08-16T01:54:32-07:00] Validating supplied configuration            
-INFO[2016-08-16T01:54:32-07:00] vDS configuration OK on "vds10g-lab-446-vmnet"
-INFO[2016-08-16T01:54:32-07:00] Firewall status: ENABLED on "/lab-dc/host/lab-clus1/w2-sm-c4b1.mgmt.local"
-INFO[2016-08-16T01:54:32-07:00] Firewall status: ENABLED on "/lab-dc/host/lab-clus1/w2-sm-c4b2.mgmt.local"
-INFO[2016-08-16T01:54:32-07:00] Firewall status: ENABLED on "/lab-dc/host/lab-clus1/w2-sm-c4b3.mgmt.local"
-INFO[2016-08-16T01:54:32-07:00] Firewall status: ENABLED on "/lab-dc/host/lab-clus1/w2-sm-c4b4.mgmt.local"
-INFO[2016-08-16T01:54:32-07:00] Firewall configuration OK on hosts:          
-INFO[2016-08-16T01:54:32-07:00]   "/lab-dc/host/lab-clus1/w2-sm-c4b1.mgmt.local"
-INFO[2016-08-16T01:54:32-07:00]   "/lab-dc/host/lab-clus1/w2-sm-c4b2.mgmt.local"
-INFO[2016-08-16T01:54:32-07:00]   "/lab-dc/host/lab-clus1/w2-sm-c4b3.mgmt.local"
-INFO[2016-08-16T01:54:32-07:00]   "/lab-dc/host/lab-clus1/w2-sm-c4b4.mgmt.local"
-INFO[2016-08-16T01:54:32-07:00] License check OK on hosts:                   
-INFO[2016-08-16T01:54:32-07:00]   "/lab-dc/host/lab-clus1/w2-sm-c4b1.mgmt.local"
-INFO[2016-08-16T01:54:32-07:00]   "/lab-dc/host/lab-clus1/w2-sm-c4b2.mgmt.local"
-INFO[2016-08-16T01:54:32-07:00]   "/lab-dc/host/lab-clus1/w2-sm-c4b3.mgmt.local"
-INFO[2016-08-16T01:54:32-07:00]   "/lab-dc/host/lab-clus1/w2-sm-c4b4.mgmt.local"
-INFO[2016-08-16T01:54:32-07:00] DRS check OK on:                             
-INFO[2016-08-16T01:54:32-07:00]   "/lab-dc/host/lab-clus1/Resources"         
-INFO[2016-08-16T01:54:32-07:00] Creating virtual app "VCH1"                  
-INFO[2016-08-16T01:54:32-07:00] Creating appliance on target                 
-INFO[2016-08-16T01:54:32-07:00] Network role "client" is sharing NIC with "external"
-INFO[2016-08-16T01:54:32-07:00] Network role "management" is sharing NIC with "external"
-INFO[2016-08-16T01:54:36-07:00] Uploading images for container               
-INFO[2016-08-16T01:54:36-07:00] 	"appliance.iso"                             
-INFO[2016-08-16T01:54:36-07:00] 	"bootstrap.iso"                             
-INFO[2016-08-16T01:54:39-07:00] Registering VCH as a vSphere extension       
-INFO[2016-08-16T01:54:44-07:00] Waiting for IP information                   
-INFO[2016-08-16T01:54:55-07:00] Waiting for major appliance components to launch
-INFO[2016-08-16T01:54:55-07:00] Initialization of appliance successful       
-INFO[2016-08-16T01:54:55-07:00]                                              
-INFO[2016-08-16T01:54:55-07:00] vic-admin portal:                            
-INFO[2016-08-16T01:54:55-07:00] https://10.140.51.101:2378                   
-INFO[2016-08-16T01:54:55-07:00]                                              
-INFO[2016-08-16T01:54:55-07:00] DOCKER_HOST=10.140.51.101:2376               
-INFO[2016-08-16T01:54:55-07:00]                                              
-INFO[2016-08-16T01:54:55-07:00] Connect to docker:                           
-INFO[2016-08-16T01:54:55-07:00] docker -H 10.140.51.101:2376 --tls info      
-INFO[2016-08-16T01:54:55-07:00] Installer completed successfully             
+INFO[2016-11-03T10:55:29Z] ### Installing VCH ####                      
+.....             
+.....
+.....
+INFO[2016-11-03T10:55:29Z] Registering VCH as a vSphere extension       
+INFO[2016-11-03T10:55:41Z] Waiting for IP information                   
+INFO[2016-11-03T10:56:08Z] Waiting for major appliance components to launch
+INFO[2016-11-03T10:56:14Z] Initialization of appliance successful       
+INFO[2016-11-03T10:56:14Z]                                              
+INFO[2016-11-03T10:56:14Z] vic-admin portal:                            
+INFO[2016-11-03T10:56:14Z] http://10.140.51.101:2378                     
+INFO[2016-11-03T10:56:14Z]                                              
+INFO[2016-11-03T10:56:14Z] Published ports can be reached at:           
+INFO[2016-11-03T10:56:14Z] 10.140.51.101                                 
+INFO[2016-11-03T10:56:14Z]                                              
+INFO[2016-11-03T10:56:14Z] Docker environment variables:                
+INFO[2016-11-03T10:56:14Z] DOCKER_HOST=10.140.51.101:2375                
+INFO[2016-11-03T10:56:14Z]                                              
+INFO[2016-11-03T10:56:14Z] Connect to docker:                           
+INFO[2016-11-03T10:56:14Z] docker -H 10.140.51.101:2375 info             
+INFO[2016-11-03T10:56:14Z] Installer completed successfully   
+
 ```
 
 Note how we chose (for now) to deploy the VCH on the root of the cluster. It is possible to deploy the VCH inside an existing RP using the appropriate options in the vic-machine command.
@@ -137,7 +121,7 @@ So far the Docker runtime on the client machine has been configured to just talk
 
 While you can always interactively point to a different host when you run the docker client command, for convenience we are going to set it in an environment variable so that every time you run the docker command you are going to point to the VCH1. To do so just run this command on your Linux VM:
 ```
-export DOCKER_HOST=tcp://10.140.51.101:2376
+export DOCKER_HOST=tcp://10.140.51.101:2375
 ```
 Ideally this is all you’d need to do.
 
@@ -149,9 +133,9 @@ export DOCKER_API_VERSION=1.23
 ```
 ### Deploying a first container
 
-We are now going to pull the busybox image.  Note we need to use the --tls option to allow secure communication between the Docker client and the Docker host. (This can be disabled by adding `--no-tls` to vic-machine create):
+We are now going to pull the busybox image:
 ```
-root@photonOSvm1 [ ~ ]# docker --tls pull busybox
+root@photonOSvm1 [ ~ ]# docker pull busybox
 Using default tag: latest
 Pulling from library/busybox
 a3ed95caeb02: Pull complete
@@ -161,7 +145,7 @@ Status: Downloaded newer image for library/busybox:latest
 ```
 And we are going to instantiate said busybox docker image:
 ```
-root@photonOSvm1 [ ~ ]# docker --tls run -it --name mybusybox busybox
+root@photonOSvm1 [ ~ ]# docker run -it --name mybusybox busybox
 / #
 ```
 As you can see, the VCH took the busybox docker image and instantiated it **as** a VM (as opposed to **in** a VM):
@@ -172,8 +156,8 @@ Note this VM sits on the dedicated PortGroup we selected for this VCH and has be
 
 Now you can exit from the busybox shell and you are back to your shell.
 
-If you run `docker --tls ps -a` you will see the docker containerVM stopped (that is expected).
-You can remove it by typing `docker --tls rm mybusybox`
+If you run `docker ps -a` you will see the docker containerVM stopped (that is expected).
+You can remove it by typing `docker rm mybusybox`
 
 ### Setup of a more meaningful docker image
 
@@ -183,7 +167,7 @@ To exercise and familiarize a bit further with how basic networking works with D
 
 Now run the following command:
 ```
-root@photonOSvm1 [ ~ ]# docker --tls run -d -p 80:80 --name mynginx nginx
+root@photonOSvm1 [ ~ ]# docker run -d -p 80:80 --name mynginx nginx
 Unable to find image 'nginx:latest' locally
 Pulling from library/nginx
 a3ed95caeb02: Pull complete
@@ -195,7 +179,7 @@ Status: Downloaded newer image for library/nginx:latest
 167634511cd0b22357b79e65ca47e51755eb55161e5c3619a073a52895e5a842
 root@photonOSvm1 [ ~ ]#
 
-root@photonOSvm1 [ ~ ]# docker --tls ps
+root@photonOSvm1 [ ~ ]# docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
 167634511cd0        nginx               "nginx -g daemon off;"   2 minutes ago       Running                                 mynginx
 ```
@@ -207,7 +191,7 @@ It then instantiated said image as a VM in vSphere behind the scenes. You can se
 Note that, with the build we are using at the time of this writing, `docker ps` doesn’t show the ports being mapped (albeit they are).
 You can check them explicitly by typing:
 ```
-root@photonOSvm1 [ ~ ]# docker --tls port mynginx
+root@photonOSvm1 [ ~ ]# docker port mynginx
 80/tcp -> 0.0.0.0:80
 ```
 

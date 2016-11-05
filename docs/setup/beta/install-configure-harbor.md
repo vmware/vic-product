@@ -5,7 +5,7 @@ Setting up up Harbor is pretty straightforward. Harbor is shipped as a virtual a
 
 We will instantiate Harbor on the same vSphere infrastructure that will host the VCH as well as the containerVMs.
 
-You can grab the OVA file from [here](https://github.com/vmware/harbor/releases/download/0.4.1/harbor_0.4.1_beta.ova). If you need more information on this release please see [here](https://github.com/vmware/harbor/releases/tag/0.4.1).
+You can grab the OVA file from [here](https://github.com/vmware/harbor/releases/download/0.4.5/harbor_0.4.5_beta_respin2.ova). If you need more information on this release please see [here](https://github.com/vmware/harbor/releases/tag/0.4.5).
 
 ### Installation procedure for Harbor
 
@@ -18,12 +18,15 @@ OVA deployments have been tested with the following tools:
 - vSphere C# Client
 - ovftool
 
+
+Please refer to [this document](https://github.com/vmware/harbor/blob/master/docs/installation_guide_ova.md) for more information about how to properly install the Harbor OVA. 
+
 For reference, the following is a working example (run from a Mac) of an ovftool syntax that sets a fixed IP address (10.140.50.77). Note that before you can run the command below you must have extracted the OVF and VMDK files from the OVA.
 
 ```
-"/Applications/VMware OVF Tool/ovftool" harbor_0.4.1_beta.ova harbor_0.4.1_beta.ovf
+"/Applications/VMware OVF Tool/ovftool" harbor_0.4.5_beta_respin2.ova harbor_0.4.5_beta_respin2.ovf
 
-"/Applications/VMware OVF Tool/ovftool" --datastore=vsan-lab --name=harbor1 --net:"Network 1"="vds10g-lab-506-vmnet-eph" --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:vami.domain.Harbor=mgmt.local --prop:vami.searchpath.Harbor=mgmt.local --prop:vami.DNS.Harbor=8.8.8.8 --prop:vami.ip0.Harbor=10.140.50.77 --prop:vami.netmask0.Harbor=255.255.255.0 --prop:vami.gateway.Harbor=10.140.50.254 --prop:vm.vmname=Harbor harbor_0.4.1_beta.ovf 'vi://mreferre@vmware.com:xxxxxx@msbu-vc-lab.mgmt.local/Home/host/Cluster1/10.140.50.11'
+"/Applications/VMware OVF Tool/ovftool" --datastore=vsan-lab --name=harbor1 --net:"Network 1"="vds10g-lab-506-vmnet-eph" --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:vami.domain.Harbor=mgmt.local --prop:vami.searchpath.Harbor=mgmt.local --prop:vami.DNS.Harbor=8.8.8.8 --prop:vami.ip0.Harbor=10.140.50.77 --prop:vami.netmask0.Harbor=255.255.255.0 --prop:vami.gateway.Harbor=10.140.50.254 --prop:vm.vmname=Harbor harbor_0.4.5_beta_respin2.ovf 'vi://mreferre@vmware.com:xxxxxx@msbu-vc-lab.mgmt.local/Home/host/Cluster1/10.140.50.11'
 ```
 ***Note `msbu-vc-lab.mgmt.local` is the FQDN of the vCenter server and `10.140.50.11` is the IP of an ESX host inside `Cluster1`. `Home` is the name of the vSphere Datacenter where `Cluster1` resides. Also note that in this example we are not filling the AD/LDAP properties which means we are not configuring the integration on this appliance being deployed. Additional OVF properties should be set to configure AD/LDAP integration***
 
