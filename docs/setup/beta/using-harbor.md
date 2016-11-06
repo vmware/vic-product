@@ -10,7 +10,7 @@ While we have deployed the VCH to allow insecure connections to our Harbor insta
 
 To start, we will use our client machine as a Docker host to show how to interact with a private registry.
 
-First thing first, since we are not using signed certificates, we need to instruct the Docker daemon that it’s ok to connect to an a non trusted registry. This is similar to what we have done when [deploying VCH1](install-configure-vch.md) by adding the `--docker-insecure-registry` flag.
+First thing first, since we are not using signed certificates, we need to instruct the Docker daemon that it’s ok to connect to an a non trusted registry. This is similar to what we have done when [deploying VCH1](install-configure-vch.md) by adding the `--insecure-registry` flag.
 
 You do so by adding `--insecure-registry 10.140.50.77:80` to the DOCKER_OPTS file.
 
@@ -86,11 +86,11 @@ If you check the Harbor UI, in the vmworld project, you should now see a new ite
 
 #### Interacting with Harbor with a Virtual Container Host (VCH)
 
-Our VCH (VCH1) has alrady been deployed with the `--docker-insecure-registry 10.140.50.77` flag set in anticipation of being able to pull from our local Harbor registry when using VCH1.
+Our VCH (VCH1) has alrady been deployed with the `--insecure-registry 10.140.50.77` flag set in anticipation of being able to pull from our local Harbor registry when using VCH1.
 
-As we hinted in the [VCH deployment section](install-configure-vch.md), in case you need to consume a Harbor instance via plain http, then you need to set the `--docker-insecure-registry` at the VCH level.
+As we hinted in the [VCH deployment section](install-configure-vch.md), in case you need to consume a Harbor instance via plain http, then you need to set the `--insecure-registry` at the VCH level.
 
-As we have seen, you can just add `--docker-insecure-registry` to the `vic-machine` command you use to deploy the Virtual Container Host. This will tell the VCH that it's ok to pull from the Harbor registry hosted at 10.140.50.77. If you need to add more than one registry, just repeat the option for each IP.
+As we have seen, you can just add `--insecure-registry` to the `vic-machine` command you use to deploy the Virtual Container Host. This will tell the VCH that it's ok to pull from the Harbor registry hosted at 10.140.50.77. If you need to add more than one registry, just repeat the option for each IP.
 
 Since we have already deployed VCH1 with that flag, we can interact with it to pull the _nginx:1.9.0_ image from Harbor (the image we just pushed). Note that now we are explicitly working with VCH1 (by virtue of the -H flag):
 ```

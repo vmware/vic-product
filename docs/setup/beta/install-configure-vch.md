@@ -69,14 +69,14 @@ Now that you have the tools and binaries as well as your vSphere environment rea
 First, run `./vic-machine-linux` to see the options available. You'll see the sub-options, `create, delete, ls, inspect and version`. These options allow you to control the lifecycle of your VCHs. `./vic-machine-linux create --help` will show you all the available options for creating a VCH. There's quite a few, but the example below will simplify this significantly.
 
 ```
-./vic-machine-linux create --name <name> --target <address of vCenter or ESX> --user <vCenter/ESX uid> --password <pwd> --compute-resource <cluster/optional resource pool> --external-network <external network name> --bridge-network <bridge network name> --image-store <datastore name> --no-tls --force
+./vic-machine-linux create --name <name> --target <address of vCenter or ESX> --user <vCenter/ESX uid> --password <pwd> --compute-resource <cluster/optional resource pool> --external-network <external network name> --bridge-network <bridge network name> --image-store <datastore name> --volume-store <datastore name>:default --insecure-registry <Harbor IP address> --no-tls --force
 ```
 Here's now it looks on my system (note I only have a single cluster, so `--compute-resource` didn't need to be specified):
 ```
-./vic-machine-linux create --name VCH1 --target msbu-vc-lab.mgmt.local --user mreferre@vmware.com --password xxxxxxxx --bridge-network vds10g-lab-446-vmnet --external-network vds10g-lab-506-vmnet-eph --image-store vsan-lab  --docker-insecure-registry 10.140.50.77 --no-tls --force
+./vic-machine-linux create --name VCH1 --target msbu-vc-lab.mgmt.local --user mreferre@vmware.com --password xxxxxxxx --bridge-network vds10g-lab-446-vmnet --external-network vds10g-lab-506-vmnet-eph --image-store vsan-lab  --volume-store vsan-lab:default --insecure-registry 10.140.50.77 --no-tls --force
 ```
 
-Note: we provisioned this VCH with the --docker-insecure-registry option to specify that the VCH can connect to the local Harbor registry that we deployed in the [previous step](install-configure-harbor.md). If you need more details about the various options that vic-machine supports, please refer to the [official documentation](
+Note: we provisioned this VCH with the --insecure-registry option to specify that the VCH can connect to the local Harbor registry that we deployed in the [previous step](install-configure-harbor.md). If you need more details about the various options that vic-machine supports, please refer to the [official documentation](
 vmware.github.io/vic/assets/files/html/vic_installation/vch_installer_options.html)
 
 In this exercise we are disabling entirely security for the VCH being deployed (with the `--no-tls` option). We are also instructing `vic-machine` to ignore the vCenter certificates (with the `--force` option)
@@ -181,21 +181,15 @@ root@photonOSvm1 [ ~ ]#
 
 root@photonOSvm1 [ ~ ]# docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
-167634511cd0        nginx               "nginx -g daemon off;"   2 minutes ago       Running                                 mynginx
+167634511cd0        nginx               "nginx -g daemon off;"   2 minutes ago       Running              10.140.51.101:80->80/tcp                    mynginx
 ```
 
 As you can see the nginx image didn’t exist so, first thing first, it pulled it from Docker hub.
 
 It then instantiated said image as a VM in vSphere behind the scenes. You can see the NGINX ContainerVM if you expand the VCH1 vApp in the vSphere UI.
 
-Note that, with the build we are using at the time of this writing, `docker ps` doesn’t show the ports being mapped (albeit they are).
-You can check them explicitly by typing:
-```
-root@photonOSvm1 [ ~ ]# docker port mynginx
-80/tcp -> 0.0.0.0:80
-```
 
-As a matter of fact, if everything worked correctly, should you now point your browser to port 80 of your Endpoint VM (i.e. your docker endpoint) you can see nginx serving web pages.
+If everything worked correctly, should you now point your browser to port 80 of your Endpoint VM (i.e. your docker endpoint) you can see nginx serving web pages.
 
 This is because the Endpoint VM acts as a NAT between the external world and the inner 172.16.0.0/16 docker defined network.
 

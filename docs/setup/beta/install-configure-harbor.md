@@ -19,20 +19,20 @@ OVA deployments have been tested with the following tools:
 - ovftool
 
 
-Please refer to [this document](https://github.com/vmware/harbor/blob/master/docs/installation_guide_ova.md) for more information about how to properly install the Harbor OVA. 
+Please refer to [this document](https://github.com/vmware/harbor/blob/master/docs/installation_guide_ova.md) for more information about how to properly install the Harbor OVA.
 
 For reference, the following is a working example (run from a Mac) of an ovftool syntax that sets a fixed IP address (10.140.50.77). Note that before you can run the command below you must have extracted the OVF and VMDK files from the OVA.
 
 ```
 "/Applications/VMware OVF Tool/ovftool" harbor_0.4.5_beta_respin2.ova harbor_0.4.5_beta_respin2.ovf
 
-"/Applications/VMware OVF Tool/ovftool" --datastore=vsan-lab --name=harbor1 --net:"Network 1"="vds10g-lab-506-vmnet-eph" --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:vami.domain.Harbor=mgmt.local --prop:vami.searchpath.Harbor=mgmt.local --prop:vami.DNS.Harbor=8.8.8.8 --prop:vami.ip0.Harbor=10.140.50.77 --prop:vami.netmask0.Harbor=255.255.255.0 --prop:vami.gateway.Harbor=10.140.50.254 --prop:vm.vmname=Harbor harbor_0.4.5_beta_respin2.ovf 'vi://mreferre@vmware.com:xxxxxx@msbu-vc-lab.mgmt.local/Home/host/Cluster1/10.140.50.11'
+"/Applications/VMware OVF Tool/ovftool" --datastore=vsan-lab --name=harbor1 --net:"Network 1"="vds10g-lab-506-vmnet-eph" --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:vami.domain.Harbor=mgmt.local --prop:root_pw="Vmware123!" --prop:harbor_admin_password="Vmware123!" --prop:db_password="Vmware123!" --prop:vami.searchpath.Harbor=mgmt.local --prop:vami.DNS.Harbor=8.8.8.8 --prop:vami.ip0.Harbor=10.140.50.77 --prop:vami.netmask0.Harbor=255.255.255.0 --prop:vami.gateway.Harbor=10.140.50.254 --prop:vm.vmname=Harbor harbor_0.4.5_beta_respin2.ovf 'vi://mreferre@vmware.com:xxxxxx@msbu-vc-lab.mgmt.local/Home/host/Cluster1/10.140.50.11'
 ```
 ***Note `msbu-vc-lab.mgmt.local` is the FQDN of the vCenter server and `10.140.50.11` is the IP of an ESX host inside `Cluster1`. `Home` is the name of the vSphere Datacenter where `Cluster1` resides. Also note that in this example we are not filling the AD/LDAP properties which means we are not configuring the integration on this appliance being deployed. Additional OVF properties should be set to configure AD/LDAP integration***
 
 If everything worked, you should point the browser to the Linux VM (in this case 10.140.50.77) on port 80 and see the Harbor portal. Port 80 is the port that the Harbor frontend component is exposed on.
 
-Now you can login using _admin_ and the default password (_Harbor12345_). You can optionally change this password if you want to.
+Now you can login using _admin_ and the password you set (_Vmware123!_).
 
 Among the many features Harbor provides, there is also RBAC support.
 
