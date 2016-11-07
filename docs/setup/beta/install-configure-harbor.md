@@ -21,6 +21,11 @@ OVA deployments have been tested with the following tools:
 
 Please refer to [this document](https://github.com/vmware/harbor/blob/master/docs/installation_guide_ova.md) for more information about how to properly install the Harbor OVA.
 
+If you intend to use ovftool, this is a quick way to curl the OVA and then use ovtool against it:
+
+```
+curl -O -L https://github.com/vmware/harbor/releases/download/0.4.5/harbor_0.4.5_beta_respin2.ova
+```
 For reference, the following is a working example (run from a Mac) of an ovftool syntax that sets a fixed IP address (10.140.50.77). Note that before you can run the command below you must have extracted the OVF and VMDK files from the OVA.
 
 ```

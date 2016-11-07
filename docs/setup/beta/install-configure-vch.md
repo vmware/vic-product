@@ -17,7 +17,7 @@ Right click with your browser on the vic_0.7.0.tar.gz file and copy the link add
 
 Now move to the client machine (for convenience we assume you don't need to sudo; if you do, just prefix these commands with `sudo`) and run the following command to download the release:
 ```
-curl -L -o vic_0.7.0.tar.gz https://bintray.com/vmware/vic/download_file?file_path=vic_0.7.0.tar.gz
+curl -L -o -k vic_0.7.0.tar.gz https://bintray.com/vmware/vic/download_file?file_path=vic_0.7.0.tar.gz
 ```
 Un-tar the package with:
 ```
