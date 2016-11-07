@@ -47,7 +47,7 @@ This is how we do that:
 
 - Move to the Hosts tab and click ***Add***.
 
-- Specify `https://10.140.51.101:2375` as your Docker host IP address (10.140.51.101 is the IP of the VCH1 Endpoint VM).
+- Specify `http://10.140.51.101:2375` as your Docker host IP address (10.140.51.101 is the IP of the VCH1 Endpoint VM).
 
 - Since we have instantiate the VCH with the `--no-tls` flag, there is no need to configure the credentials. Should you have instantiated it with proper certificates you would have needed to configure the certificates based credentials in Admiral before connecting to the VCH.
 
