@@ -69,11 +69,11 @@ Now that you have the tools and binaries as well as your vSphere environment rea
 First, run `./vic-machine-linux` to see the options available. You'll see the sub-options, `create, delete, ls, inspect and version`. These options allow you to control the lifecycle of your VCHs. `./vic-machine-linux create --help` will show you all the available options for creating a VCH. There's quite a few, but the example below will simplify this significantly.
 
 ```
-./vic-machine-linux create --name <name> --target <address of vCenter or ESX> --user <vCenter/ESX uid> --password <pwd> --compute-resource <cluster/optional resource pool> --external-network <external network name> --bridge-network <bridge network name> --image-store <datastore name> --volume-store <datastore name>:default --insecure-registry <Harbor IP address> --no-tls --force
+./vic-machine-linux create --name <name> --target <address of vCenter or ESX> --user <vCenter/ESX uid> --password <pwd> --compute-resource <cluster/optional resource pool> --external-network <external network name> --bridge-network <bridge network name> --image-store <datastore name> --volume-store <datastore name>:default --insecure-registry <Harbor IP address>:80 --no-tls --force
 ```
 Here's now it looks on my system (note I only have a single cluster, so `--compute-resource` didn't need to be specified):
 ```
-./vic-machine-linux create --name VCH1 --target msbu-vc-lab.mgmt.local --user mreferre@vmware.com --password xxxxxxxx --bridge-network vds10g-lab-446-vmnet --external-network vds10g-lab-506-vmnet-eph --image-store vsan-lab  --volume-store vsan-lab:default --insecure-registry 10.140.50.77 --no-tls --force
+./vic-machine-linux create --name VCH1 --target msbu-vc-lab.mgmt.local --user mreferre@vmware.com --password xxxxxxxx --bridge-network vds10g-lab-446-vmnet --external-network vds10g-lab-506-vmnet-eph --image-store vsan-lab  --volume-store vsan-lab:default --insecure-registry 10.140.50.77:80 --no-tls --force
 ```
 
 Note: we provisioned this VCH with the --insecure-registry option to specify that the VCH can connect to the local Harbor registry that we deployed in the [previous step](install-configure-harbor.md). If you need more details about the various options that vic-machine supports, please refer to the [official documentation](
