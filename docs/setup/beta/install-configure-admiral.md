@@ -8,13 +8,13 @@ The Admiral bits are available on [docker hub](https://hub.docker.com/r/vmware/a
 #### Installation procedure for Admiral
 We assume you are on your client machine and your `DOCKER_HOST` (and `DOCKER_API_VERSION` if needed) variables are properly set to connect to the VCH. If not, set them again:
 ```
-export DOCKER_HOST=tcp://10.140.51.101:2376
+export DOCKER_HOST=tcp://10.140.51.101:2375
 export DOCKER_API_VERSION=1.23  
 ```
 This is the command we are using to instantiate Admiral:
 
 ```
-root@photonOSvm1 [ ~ ]# docker --tls run -d -p 8282:8282 --name admiral vmware/admiral
+root@photonOSvm1 [ ~ ]# docker run -d -p 8282:8282 --name admiral vmware/admiral
 676c060aa2595b7d3c4758887e4cce66adfe3b7f5f56d26eb71567f0595db534
 ```
 Admiral is now running as a VM inside the Virtual Container Host in vSphere and is exposed on port 8282. This is the complete URL you need to point your browser to: http://10.140.51.101:8282 (where 10.140.51.101 is the IP of the VCH1 Endpoint VM).
@@ -47,30 +47,9 @@ This is how we do that:
 
 - Move to the Hosts tab and click ***Add***.
 
-- Specify `https://10.140.51.101:2376` as your Docker host IP address (10.140.51.101 is the IP of the VCH1 Endpoint VM).
+- Specify `http://10.140.51.101:2375` as your Docker host IP address (10.140.51.101 is the IP of the VCH1 Endpoint VM).
 
-- Enter the credentials for the VCH. Since Admiral only works with Docker APIs (i.e. it doesn’t try to SSH into the hosts) we are going to provide the certificates to connect to the daemon. If you look in the vic directory (from where you launched the vic-machine-linux command to create VCH1) you should find a couple of files that have been generated during the VCH deployment:
-```
-root@photonOSvm1 [ ~ ]# ll
-total 433108
-drwxr-xr-x 3 root root      4096 Aug 16 01:34 ./
-drwx------ 7 root root      4096 Aug 16 07:33 ../
--rw-r--r-- 1 root root 134086656 Aug 15 08:40 appliance.iso
--rw-r--r-- 1 root root  65339392 Aug 15 08:40 bootstrap.iso
--rw-r--r-- 1 root root    183989 Aug 15 08:40 LICENSE
--rw-r--r-- 1 root root        57 Aug 15 08:40 README
-drwxr-xr-x 5 root root      4096 Aug 15 08:40 ui/
--rw-r--r-- 1 root root      1034 Aug 16 01:54 VCH1-cert.pem
--rw-r--r-- 1 root root      1675 Aug 16 01:54 VCH1-key.pem
--rwxr-xr-x 1 root root  41873680 Aug 15 08:40 vic-machine-darwin*
--rwxr-xr-x 1 root root  42179888 Aug 15 08:40 vic-machine-linux*
--rw-r--r-- 1 root root     12632 Aug 16 01:54 vic-machine.log
--rwxr-xr-x 1 root root  41931264 Aug 15 08:40 vic-machine-windows.exe*
--rwxr-xr-x 1 root root  39172720 Aug 15 08:40 vic-ui-darwin*
--rwxr-xr-x 1 root root  39458184 Aug 15 08:40 vic-ui-linux*
--rwxr-xr-x 1 root root  39221248 Aug 15 08:40 vic-ui-windows.exe*
-```
-- You can now just cat the two files (VCH1-cert.pem and VCH1-key.pem) and copy and paste their content respectively in the credentials window on the top and in the window at the bottom. Make sure to add the full text, including the header and footer!
+- Since we have instantiate the VCH with the `--no-tls` flag, there is no need to configure the credentials. Should you have instantiated it with proper certificates you would have needed to configure the certificates based credentials in Admiral before connecting to the VCH.
 
 - For now, in the Resource Pool field you can select the default-resource-pool and leave all the other fields empty.
 

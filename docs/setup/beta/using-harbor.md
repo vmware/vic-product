@@ -10,7 +10,7 @@ While we have deployed the VCH to allow insecure connections to our Harbor insta
 
 To start, we will use our client machine as a Docker host to show how to interact with a private registry.
 
-First thing first, since we are not using signed certificates, we need to instruct the Docker daemon that it’s ok to connect to an a non trusted registry. This is similar to what we have done when [deploying VCH1](install-configure-vch.md) by adding the `--docker-insecure-registry` flag.
+First thing first, since we are not using signed certificates, we need to instruct the Docker daemon that it’s ok to connect to an a non trusted registry. This is similar to what we have done when [deploying VCH1](install-configure-vch.md) by adding the `--insecure-registry` flag.
 
 You do so by adding `--insecure-registry 10.140.50.77:80` to the DOCKER_OPTS file.
 
@@ -86,15 +86,15 @@ If you check the Harbor UI, in the vmworld project, you should now see a new ite
 
 #### Interacting with Harbor with a Virtual Container Host (VCH)
 
-Our VCH (VCH1) has alrady been deployed with the `--docker-insecure-registry 10.140.50.77` flag set in anticipation of being able to pull from our local Harbor registry when using VCH1.
+Our VCH (VCH1) has alrady been deployed with the `--insecure-registry 10.140.50.77` flag set in anticipation of being able to pull from our local Harbor registry when using VCH1.
 
-As we hinted in the [VCH deployment section](install-configure-vch.md), in case you need to consume a Harbor instance via plain http, then you need to set the `--docker-insecure-registry` at the VCH level.
+As we hinted in the [VCH deployment section](install-configure-vch.md), in case you need to consume a Harbor instance via plain http, then you need to set the `--insecure-registry` at the VCH level.
 
-As we have seen, you can just add `--docker-insecure-registry` to the `vic-machine` command you use to deploy the Virtual Container Host. This will tell the VCH that it's ok to pull from the Harbor registry hosted at 10.140.50.77. If you need to add more than one registry, just repeat the option for each IP.
+As we have seen, you can just add `--insecure-registry` to the `vic-machine` command you use to deploy the Virtual Container Host. This will tell the VCH that it's ok to pull from the Harbor registry hosted at 10.140.50.77. If you need to add more than one registry, just repeat the option for each IP.
 
 Since we have already deployed VCH1 with that flag, we can interact with it to pull the _nginx:1.9.0_ image from Harbor (the image we just pushed). Note that now we are explicitly working with VCH1 (by virtue of the -H flag):
 ```
-root@photonOSvm1 [ ~ ]# docker -H 10.140.51.101:2376 --tls pull 10.140.50.77:80/vmworld/nginx:1.9.0
+root@photonOSvm1 [ ~ ]# docker -H 10.140.51.101:2375 pull 10.140.50.77:80/vmworld/nginx:1.9.0
 Pulling from vmworld/nginx
 a3ed95caeb02: Pull complete
 e5ad7970bc69: Pull complete
@@ -107,11 +107,11 @@ Digest: sha256:39e2153fc1ad63dc419d02e2c38e12e5f7074ef60ec1acc48ff70b63d007a444
 Status: Downloaded newer image for vmworld/nginx:1.9.0
 ```
 
-As usual, if you set the `DOCKER_HOST` variable with `export DOCKER_HOST=tcp://10.140.51.101:2376` there would be no need to specify the `-H` option in the command above.
+As usual, if you set the `DOCKER_HOST` variable with `export DOCKER_HOST=tcp://10.140.51.101:2375` there would be no need to specify the `-H` option in the command above.
 
 As a final check let's see the list of images that are currently available for our VCH (VCH1):
 ```
-root@photonOSvm1 [ ~ ]# docker -H 10.140.51.101:2376 --tls images
+root@photonOSvm1 [ ~ ]# docker -H 10.140.51.101:2375 images
 REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
 nginx                        latest              f7df00cd0f62        9 days ago          181.3 MB
 vmware/admiral               latest              538645599b3b        3 weeks ago         506.4 MB
@@ -122,7 +122,7 @@ busybox                      latest              332de81782ef        3 months ag
 The first three images are those we pulled during our previous exercises. The fourth one (_10.140.50.77/vmworld/nginx_) is the image we have just pulled from our local Harbor instance.
 
 ```
-root@photonOSvm1 [ ~ ]# docker -H 10.140.51.101:2376 --tls run -d -p 81:80 --name nginxharbor 10.140.50.77/vmworld/nginx:1.9.0
+root@photonOSvm1 [ ~ ]# docker -H 10.140.51.101:2375 run -d -p 81:80 --name nginxharbor 10.140.50.77/vmworld/nginx:1.9.0
 73c4d46ba648597f880efafe2af96208804da72cb7f26a0fd63ae804f0261230
 ```
 
@@ -130,7 +130,7 @@ Note we had to NAT port 81 since port 80 was already used by the other nginx con
 
 Now this is what I have running on VCH1:
 ```
-root@photonOSvm1 [ ~ ]# docker -H 10.140.51.101:2376 --tls ps
+root@photonOSvm1 [ ~ ]# docker -H 10.140.51.101:2375 ps
 CONTAINER ID        IMAGE                              COMMAND                  CREATED             STATUS              PORTS               NAMES
 73c4d46ba648        10.140.50.77/vmworld/nginx:1.9.0   "nginx -g daemon off;"   2 minutes ago       Running                                 nginxharbor
 a900c4435f00        nginx                              "nginx -g daemon off;"   About an hour ago   Running                                 mynginx
