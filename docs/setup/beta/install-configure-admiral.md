@@ -51,7 +51,7 @@ This is how we do that:
 
 - Since we have instantiate the VCH with the `--no-tls` flag, there is no need to configure the credentials. Should you have instantiated it with proper certificates you would have needed to configure the certificates based credentials in Admiral before connecting to the VCH.
 
-- For now, in the Resource Pool field you can select the default-resource-pool and leave all the other fields empty.
+- For now, in the Placement zone field you can select the default-placement-zone and leave all the other fields empty.
 
 - When you Add the VCH Admiral will inform you that the certificate isn’t trusted. Just click yes.
 
