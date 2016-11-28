@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Verify the Deployment of a VCH | VMware vSphere Integrated Containers Engine Installation, version 0.8 Release Candidate 2</title>
+        <title>Verify the Deployment of a VCH | VMware vSphere Integrated Containers Engine Installation, version 0.8 Release Candidate 3</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -53,7 +53,7 @@
         data-chapter-title="Verify the Deployment of a VCH"
         data-filepath="verify_vch_deployment.md"
         data-basepath="."
-        data-revision="Mon Nov 28 2016 12:43:54 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Mon Nov 28 2016 19:09:11 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -510,7 +510,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="./" >VMware vSphere Integrated Containers Engine Installation, version 0.8 Release Candidate 2</a>
+        <a href="./" >VMware vSphere Integrated Containers Engine Installation, version 0.8 Release Candidate 3</a>
     </h1>
 </div>
 
@@ -525,15 +525,8 @@
 <p><strong>IMPORTANT</strong>: Do not use the vSphere Client or vSphere Web Client to perform operations on VCH appliances or container VMs. Specifically, using the vSphere Client or vSphere Web Client to power off, power on, or delete VCH appliances or container VMs can cause vSphere Integrated Containers Engine to not function correctly. Always use <code>vic-machine</code> to perform operations on VCHs. Always use Docker commands to perform operations on containers.</p>
 <p><strong>Prerequisites</strong></p>
 <ul>
-<li>You used <code>vic-machine</code> <code>create</code> to deploy a VCH to either a vCenter Server instance or an ESXi host. For information about running <code>vic-machine</code>, see <a href="install_vic_cli.md">Deploy a VCH</a> and <a href="vch_installer_options.html">VCH Deployment Options</a>.</li>
+<li>You followed the instructions in <a href="deploy_vch_esxi.html">Deploy a VCH to an ESXi Host</a> or <a href="deploy_vch_vcenter.html">Deploy a VCH to a vCenter Server Cluster</a> to deploy a VCH to either an ESXi host or to a vCenter Server instance.</li>
 <li>You have installed a Docker client.</li>
-<li><p>Configure your Docker client according to the type of authentication that the VCH uses:</p>
-<ul>
-<li>If you deployed the VCH with either of the <code>--no-tlsverify</code> or <code>--no-tls</code> options, disable TLS in the Docker client.<pre>set DOCKER_TLS_VERIFY=0</pre> </li>
-<li>If you deployed the VCH with full TLS autentication with trusted certificates, enable TLS in the Docker client.<pre>set DOCKER_TLS_VERIFY=1</pre></li>
-<li>If you deployed the VCH with full TLS autentication with trusted certificates, and if you are not running the Docker client in the same location as the one on which you ran <code>vic-machine</code>, copy the <code>*.pem</code> certificate files to the system on which you you are running the Docker client. Copy the certificate files either to the folder in which you run Docker commands, or to the <code>~/.docker</code> folder.</li>
-</ul>
-</li>
 <li>If you deployed the VCH to vCenter Server, connect a vSphere Web Client to that vCenter Server instance.</li>
 <li>If you deployed the VCH to an ESXi host, connect a vSphere Client to that host.</li>
 </ul>
@@ -546,54 +539,40 @@
 </ul>
 <p>The vApp or resource pool contains the VCH endpoint VM.   </p>
 </li>
-<li><p>In your Docker client terminal, run the <code>docker info</code> command to confirm that you can connect to the VCH.</p>
-<p>How you run Docker commands depends on the level of authentication that the VCH requires:</p>
-<ul>
-<li>Full TLS authentication with trusted CA certificates: <pre>docker -H <i>vch_address</i>:2376 --tlsverify --tlscacert=ca.pem --tlscert=./cert.pem --tlskey=./key.pem info</pre></li>
-<li>TLS authentication with untrusted self-signed certificates: <pre>docker -H <i>vch_address</i>:2376 --tls info</pre></li>
-<li>With no TLS authentication: <pre>$ docker -H <i>vch_address</i>:2375 info</pre></li>
-</ul>
-<p>You should see confirmation that the Storage Driver is <code>vSphere Integrated Containers Backend Engine</code>. If the connection fails with a Docker API version error, see <a href="ts_docker_version_error.html">Docker Commands Fail with a Docker API Version Error</a>.</p>
+<li><p>In your Docker client terminal, disable TLS client authentication.<pre>set DOCKER_TLS_VERIFY=0</pre> </p>
 </li>
-<li><p>Pull a Docker container image into the VCH, for example, the <code>BusyBox</code> container.</p>
-<ul>
-<li>Full TLS authentication with trusted CA certificates: <pre>docker -H <i>vch_address</i>:2376 --tlsverify --tlscacert=ca.pem --tlscert=./cert.pem --tlskey=./key.pem pull busybox:latest</pre></li>
-<li>TLS authentication with untrusted self-signed certificates: <pre>docker -H <i>vch_address</i>:2376 --tls pull busybox:latest</pre></li>
-<li>With no TLS authentication: <pre>$ docker -H <i>vch_address</i>:2375 pull busybox:latest</pre></li>
-</ul>
+<li><p>Run the <code>docker info</code> command to confirm that you can connect to the VCH.<pre>docker -H <i>vch_address</i>:2376 --tls info</pre></p>
+<p> You should see confirmation that the Storage Driver is <code>vSphere Integrated Containers Backend Engine</code>. If the connection fails with a Docker API version error, see <a href="ts_docker_version_error.html">Docker Commands Fail with a Docker API Version Error</a>.</p>
+</li>
+<li><p>Pull a Docker container image into the VCH, for example, the <code>BusyBox</code> container.<pre>docker -H <i>vch_address</i>:2376 --tls pull busybox:latest</pre></p>
 </li>
 <li><p>View the container image files in the vSphere Web Client or vSphere Client.</p>
 <ul>
 <li>vCenter Server: Go to <strong>Storage</strong>, select the datastore that you designated as the image store, and click <strong>Manage</strong> &gt; <strong>Files</strong>. </li>
-<li>ESXi host: Click the <strong>Summary</strong> tab for the ESXi host, right-click the datastore that you designated as the image store, and select <strong>Browse Datastore</strong>. </li>
-</ul>
-<p>vSphere Integrated Containers Engine creates a folder named <code>VIC</code> in which to store container image files. </p>
-<ul>
-<li>If you specified a specific datastore folder as the image store when you deployed the VCH, the <code>VIC</code> folder appears inside that folder.</li>
-<li>If you did not specify a specific datastore folder as the image store when you deployed the VCH, the <code>VIC</code> folder appears in a folder that has the same name as the VCH.</li>
-</ul>
-<p>Expand the <code>VIC</code> folder to navigate to the <code>images</code> folder.  The <code>images</code> folder contains a folder for every container image that you pull into the VCH. The folders contain the container image files.</p>
+<li><p>ESXi host: Click the <strong>Summary</strong> tab for the ESXi host, right-click the datastore that you designated as the image store, and select <strong>Browse Datastore</strong>. </p>
+<p>vSphere Integrated Containers Engine creates a folder a folder that has the same name as the VCH, that contains a folder named <code>VIC</code> in which to store container image files.</p>
 </li>
-<li><p>In your Docker client, run the Docker container that you pulled into the VCH.</p>
-<ul>
-<li>Full TLS authentication with trusted CA certificates: <pre>docker -H <i>vch_address</i>:2376 --tlscacert --tlscert=<i>path</i> --tlskey=<i>path</i> run --name test busybox</pre></li>
-<li>TLS authentication with untrusted self-signed certificates: <pre>docker -H <i>vch_address</i>:2376 --tls run --name test busybox</pre></li>
-<li>With no TLS authentication: <pre>$ docker -H <i>vch_address</i>:2375 run --name test busybox</pre> </li>
 </ul>
+</li>
+<li><p>Expand the <code>VIC</code> folder to navigate to the <code>images</code> folder.  The <code>images</code> folder contains a folder for every container image that you pull into the VCH. The folders contain the container image files.</p>
+</li>
+<li><p>In your Docker client, run the Docker container that you pulled into the VCH.<pre>docker -H <i>vch_address</i>:2376 --tls run --name test busybox</pre></p>
 </li>
 <li><p>View the container VMs in the vSphere Web Client or vSphere Client.</p>
 <ul>
 <li>vCenter Server: Go to <strong>Hosts and Clusters</strong> and expand the VCH vApp.</li>
-<li>ESXi host: Go to <strong>Inventory</strong> and expand the VCH resource pool.</li>
-</ul>
+<li><p>ESXi host: Go to <strong>Inventory</strong> and expand the VCH resource pool.</p>
 <p>You should see a VM for every container that you run, including a VM named <code>test</code>.</p>
+</li>
+</ul>
 </li>
 <li><p>View the container VM files in the vSphere Web Client or vSphere Client.</p>
 <ul>
 <li>vCenter Server: Go to <strong>Storage</strong> and select the datastore that you designated as the image store. </li>
-<li>ESXi host: Click the <strong>Summary</strong> tab for the ESXi host, right-click the datastore that you designated as the image store, and select <strong>Browse Datastore</strong>. </li>
-</ul>
+<li><p>ESXi host: Click the <strong>Summary</strong> tab for the ESXi host, right-click the datastore that you designated as the image store, and select <strong>Browse Datastore</strong>. </p>
 <p>At the top-level of the datastore, you should see a folder for every container that you run. The folders contain the container VM files.</p>
+</li>
+</ul>
 </li>
 </ol>
 

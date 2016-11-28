@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>VCH Deployment Options | VMware vSphere Integrated Containers Engine Installation, version 0.8 Release Candidate 2</title>
+        <title>VCH Deployment Options | VMware vSphere Integrated Containers Engine Installation, version 0.8 Release Candidate 3</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -53,7 +53,7 @@
         data-chapter-title="VCH Deployment Options"
         data-filepath="vch_installer_options.md"
         data-basepath="."
-        data-revision="Mon Nov 28 2016 12:43:54 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Mon Nov 28 2016 19:09:11 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -510,7 +510,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="./" >VMware vSphere Integrated Containers Engine Installation, version 0.8 Release Candidate 2</a>
+        <a href="./" >VMware vSphere Integrated Containers Engine Installation, version 0.8 Release Candidate 3</a>
     </h1>
 </div>
 
@@ -712,17 +712,19 @@ may not work as intended.</pre> </li>
 <p><a name="volume-store"></a></p>
 <h3 id="volumestore"><code>--volume-store</code></h3>
 <p>Short name: <code>--vs</code></p>
-<p>The datastore in which to create volumes when container developers use the <code>docker volume create</code> or <code>docker create -v</code> commands. When you specify the <code>volume-store</code> option, you  provide the name of the target datastore and a label for the volume store. You can optionally provide a path to a specific folder in the datastore in which to create the volume store. If the folders that you specify in the path do not already exist on the datastore, <code>vic-machine create</code> creates the appropriate folder structure. If you specify an invalid datastore name, <code>vic-machine create</code> fails and suggests valid datastores. </p>
+<p>The datastore in which to create volumes when container developers use the <code>docker volume create</code> or <code>docker create -v</code> commands. When you specify the <code>volume-store</code> option, you  provide the name of the target datastore and a label for the volume store. You can optionally provide a path to a specific folder in the datastore in which to create the volume store. If the folders that you specify in the path do not already exist on the datastore, <code>vic-machine create</code> creates the appropriate folder structure. </p>
+<p>The <code>vic-machine create</code> creates command creates the <code>volumes</code> folder independently from the folders for VCH files so that you can share volumes between VCHs. If you delete a VCH, any volumes that the VCH managed will remain available in the volume store unless you specify the <code>--force</code> option when you delete the VCH. You can then assign an existing volume store that already contains data to a newly created VCH. </p>
 <p><strong>IMPORTANT</strong>: If multiple VCHs will use the same datastore for their volume stores, specify a different datastore folder for each VCH. Do not designate the same datastore folder as the volume store for multiple VCHs.</p>
 <p>If you are deploying the VCH to a vCenter Server cluster, the datastore that you designate in the <code>volume-store</code> option should be shared by at least two ESXi hosts in the cluster. Using non-shared datastores is possible and <code>vic-machine create</code> succeeds, but it issues a warning that this configuration limits the use of vSphere features such as vSphere vMotion and DRS.</p>
 <p>The label that you specify is the volume store name that Docker uses. For example, the volume store label appears in the information for a VCH when container developers run <code>docker info</code>. Container developers specify the volume store label in the <code>docker volume create --opt VolumeStore=volume_store_label</code> option when they create a volume.</p>
+<p>If you specify an invalid datastore name, <code>vic-machine create</code> fails and suggests valid datastores. </p>
 <p><strong>IMPORTANT</strong> If you do not specify the <code>volume-store</code> option, no  volume store is created and container developers cannot use the <code>docker volume create</code> or <code>docker create -v</code> commands.</p>
 <ul>
 <li><p>If you only require one volume store, you can set the volume store label to <code>default</code>. If you set the volume store label to <code>default</code>, container developers do not need to specify the <code>--opt VolumeStore=volume_store_label</code> option when they run <code>docker volume create</code>. </p>
 <p><strong>NOTE</strong>: If container developers intend to use <code>docker create -v</code> to create containers that are attached to anonymous or named volumes, you must create a volume store with a label of <code>default</code>.</p>
 <pre>--volume-store <i>datastore_name</i>:default</pre>
 </li>
-<li><p>If you specify the target datastore and the volume store label, <code>vic-machine create</code> creates a folder named <code>VIC/volumes</code> at the top level of the target datastore. Any volumes that container developers create will appear in the <code>VIC/volumes</code> folder.</p>
+<li><p>If you specify the target datastore and the volume store label, <code>vic-machine create</code> creates a folder named <code>VIC/volumes</code> at the top level of the target datastore. Any volumes that container developers create will appear in the <code>VIC/volumes</code> folder. </p>
 <pre>--volume-store <i>datastore_name</i>:<i>volume_store_label</i></pre></li>
 <li><p>If you specify the target datastore, a datastore path, and the volume store label, <code>vic-machine create</code> creates a folder named <code>volumes</code> in the location that you specify in the datastore path. Any volumes that container developers create will appear in the <code>path/volumes</code> folder.</p>
 <pre>--volume-store <i>datastore_name</i>/<i>datastore_path</i>:<i>volume_store_label</i></pre></li>
@@ -975,7 +977,7 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 <li><p>If you do not specify an IP address for the endpoint VM on a given network, <code>vic-machine create</code> uses DHCP to obtain an IP address for the endpoint VM on that network.</p>
 </li>
 </ul>
-<p>You can specify addresses either as IPv4 addresses. Do not use CIDR notation.</p>
+<p>You can specify addresses as IPv4 addresses. Do not use CIDR notation.</p>
 <pre>--public-network-ip 192.168.X.N
 --management-network-ip 192.168.Y.N
 --client-network-ip 192.168.Z.N
