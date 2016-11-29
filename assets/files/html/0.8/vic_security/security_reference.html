@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Security Reference | VMware vSphere Integrated Containers Engine Security, version 0.8 Release Candidate 3</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.6.7">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    
+    <link rel="prev" href="./index.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book"
+        data-level="1"
+        data-chapter-title="Security Reference"
+        data-filepath="security_reference.md"
+        data-basepath="."
+        data-revision="Mon Nov 28 2016 19:10:01 GMT+0100 (W. Europe Standard Time)"
+        data-innerlanguage="">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="./index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="1" data-path="security_reference.html">
+            
+                
+                    <a href="./security_reference.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        Security Reference
+                    </a>
+            
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="./" >VMware vSphere Integrated Containers Engine Security, version 0.8 Release Candidate 3</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="vsphere-integrated-containers-engine-security-reference">vSphere Integrated Containers Engine Security Reference</h1>
+<p>Use the Security Reference to learn about the security features of vSphere Integrated Containers Engine.</p>
+<ul>
+<li><a href="#network">Network Security</a></li>
+<li><a href="#list_open_ports">List of External Interfaces, Ports, and Services</a></li>
+<li><a href="#accounts">vSphere Integrated Containers Service Accounts and Privileges</a></li>
+<li><a href="#patches">Apply Security Updates and Patches</a></li>
+<li><a href="#logs">Security Related Log Messages</a></li>
+</ul>
+<p><a name="network"></a></p>
+<h2 id="network-security">Network Security</h2>
+<p>Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the virtual container host (VCH), always use a secure network for the management network. Ideally, use separate networks for the management network and the container network.</p>
+<p><a name="list_open_ports"></a></p>
+<h2 id="external-interfaces-ports-and-services">External Interfaces, Ports, and Services</h2>
+<p>The following ports must be open on the VCH appliance:<br></p>
+<ul>
+<li>2375 if no TLS is deployed</li>
+<li>2376 for TLS</li>
+<li>2377 to configure or disable the firewall</li>
+<li>2378 vic-admin</li>
+<li>53 DNS server</li>
+<li>22 for SSH for debugging purposes</li>
+</ul>
+<p><a name="accounts"></a></p>
+<h2 id="service-accounts-and-privileges">Service Accounts and Privileges</h2>
+<p>vSphere Integrated Containers Engine does not create service accounts and does not assign privileges. Instead, it creates a vSphere Extension and authenticates against it.</p>
+<p><a name="patches"></a></p>
+<h2 id="apply-security-updates-and-patches">Apply Security Updates and Patches</h2>
+<p>Download a new version of vSphere Integrated Containers Engine and upgrade your existing VCHs.</p>
+<p><a name="logs"></a></p>
+<h2 id="security-related-log-messages">Security Related Log Messages</h2>
+<p>Security-related information for vSphere Integrated Containers Engine appears in <code>docker-personality.log</code> and <code>vicadmin.log</code>, that you can access from the VCH Admin portal for a VCH.</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="./index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Introduction"><i class="fa fa-angle-left"></i></a>
+        
+        
+    </div>
+</div>
+
+        
+<script src="gitbook/app.js"></script>
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>
