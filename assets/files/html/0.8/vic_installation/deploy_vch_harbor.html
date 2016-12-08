@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Verify the Deployment of the Plug-In | VMware vSphere Integrated Containers Engine 0.8 Installation</title>
+        <title>Deploy a VCH with vSphere Integrated Containers Registry (Harbor) | VMware vSphere Integrated Containers Engine 0.8 Installation</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="./troubleshoot_vic_install.html" />
+    <link rel="next" href="./install_vic_plugin.html" />
     
     
-    <link rel="prev" href="./plugin_vcsa_no_web.html" />
+    <link rel="prev" href="./vch_installer_examples.html" />
     
 
         
@@ -49,9 +49,9 @@
         
         
     <div class="book"
-        data-level="4.5"
-        data-chapter-title="Verify the Deployment of the Plug-In"
-        data-filepath="plugin_verify_deployment.md"
+        data-level="3.7"
+        data-chapter-title="Deploy a VCH with vSphere Integrated Containers Registry (Harbor)"
+        data-filepath="deploy_vch_harbor.md"
         data-basepath="."
         data-revision="Thu Dec 08 2016 19:41:39 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
@@ -260,7 +260,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.7" data-path="deploy_vch_harbor.html">
+        <li class="chapter active" data-level="3.7" data-path="deploy_vch_harbor.html">
             
                 
                     <a href="./deploy_vch_harbor.html">
@@ -356,7 +356,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="4.5" data-path="plugin_verify_deployment.html">
+        <li class="chapter " data-level="4.5" data-path="plugin_verify_deployment.html">
             
                 
                     <a href="./plugin_verify_deployment.html">
@@ -535,31 +535,68 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="verify-the-deployment-of-the-vsphere-integrated-containers-engine-plugin">Verify the Deployment of the vSphere Integrated Containers Engine Plug-In</h1>
-<p>After you have installed the vSphere Web Client plug-in for vSphere Integrated Containers Engine, verify the deployment of the plug-in in the vSphere Web Client.</p>
-<p><strong>Prerequisites</strong></p>
-<ul>
-<li>You deployed a virtual container host (VCH).</li>
-<li>You installed the vSphere Web Client plug-in for vSphere Integrated Containers Engine.</li>
-<li>You logged out of the vSphere Web Client after deploying the plug-in, and logged back in.</li>
-<li>If you deployed the VCH to a vCenter Server 6.5 instance, use the Flash-based vSphere Web Client to view the vSphere Web Client plug-in for vSphere Integrated Containers Engine. vSphere Integrated Containers Engine does not currently provide a plug-in for the new HTML5 vSphere Client.</li>
-</ul>
-<p><strong>Procedure</strong></p>
-<ol>
-<li>In the vSphere Web Client Home page, select <strong>Hosts and Clusters</strong>.</li>
-<li>Expand the hierarchy of vCenter Server objects to navigate to the VCH vApp.</li>
-<li>Expand the VCH vApp and select the VCH endpoint VM.</li>
-<li>Click the <strong>Summary</strong> tab for the VCH endpoint VM and scroll down to the VCH portlet.</li>
-</ol>
-<p><strong>Result</strong></p>
-<p>Information about the VCH appears in the VCH portlet in the <strong>Summary</strong> tab:</p>
-<ul>
-<li>The address of the Docker API endpoint for this VCH</li>
-<li>A link to the vic-admin portal for the VCH, from which you can obtain health information and download log bundles for the VCH.</li>
-</ul>
-<p><strong>What to Do Next</strong></p>
-<p>If the VCH portlet still does not appear in the <strong>Summary</strong> tab for the VCH endpoint VM, restart the vSphere Web Client service. For instructions about how to restart the vSphere Web Client service, see <a href="ts_ui_not_appearing.html">vSphere Integrated Containers Engine Plug-In Does Not Appear in the vSphere Web Client</a>.</p>
+                        <h1 id="deploy-a-vch-with-vsphere-integrated-containers-registry-harbor">Deploy a VCH with vSphere Integrated Containers Registry (Harbor)</h1>
+<p>This example uses vSphere Integrated Containers Engine 0.8.0, Harbor 0.5.0, and Ubuntu on the user machine. Harbor requires 60GB or more free space on your datastore.</p>
+<p>If no server certificate and private key are provided during installation, Harbor will create a self-generated CA (certificate authority) certificate, a server certificate, and a server private key.  The self-generated CA certificate will be available for download from the Harbor web client.</p>
+<p>See the OVA installation guide for Harbor <a href="https://github.com/vmware/harbor/blob/master/docs/installation_guide_ova.md" target="_blank">Harbor docs</a>. Harbor requires both an IP address and FQDN (fully qualified domain name) for the server. A DHCP install method is available for debugging purposes, but it is not a recommended production deployment model.</p>
+<p>This example assumes a Harbor instance was installed without a server certificate or a private key and the CA cert downloaded using the Harbor instructions. For Harbor to work with vSphere Integrated Containers Engine you need to update standard docker with the Harbor CA cert and deploy a new VCH with the CA cert.</p>
+<h2 id="update-the-user-working-machines-standard-docker-with-the-harbor-ca-certificate">Update the User Working Machine&apos;s Standard Docker with the Harbor CA Certificate</h2>
+<p>Update the machine with standard Docker so it recognizes the CA certificate. Docker can look for additional CA certificates outside of the operating system&apos;s CA bundle folder if the new CA certificates are in the correct location. See <a href="https://docs.docker.com/engine/security/certificates/" target="_blank">Verify repository client with certificates</a>.</p>
+<p>Create the necessary folder, copy the CA cert file to the folder. Restart Docker, then verify that you can log onto the Harbor server.</p>
+<p><strong>Note</strong> This example has Ubuntu-specific commands.</p>
+<pre><code>user@Devbox:~/mycerts$ sudo su
+[sudo] password for user: 
+root@Devbox:/home/user/mycerts# mkdir -p /etc/docker/certs.d/&lt;Harbor FQDN&gt;
+root@Devbox:/home/user/mycerts# mkdir -p /etc/docker/certs.d/&lt;Harbor IP&gt;
+root@Devbox:/home/user/mycerts# cp ca.crt /etc/docker/certs.d/&lt;Harbor FQDN&gt;/
+root@Devbox:/home/user/mycerts# cp ca.crt /etc/docker/certs.d/&lt;Harbor IP&gt;/
+root@Devbox:/home/user/mycerts# exit
+exit
+user@Devbox:~/mycerts$ sudo systemctl daemon-reload
+user@Devbox:~/mycerts$ sudo systemctl restart docker
 
+user@Devbox:~$ docker logout &lt;Harbor FQDN&gt;
+Remove login credentials for &lt;Harbor FQDN&gt;
+user@Devbox:~$ docker logout &lt;Harbor IP&gt;
+Remove login credentials for &lt;Harbor IP&gt;
+
+user@Devbox:~$ docker login &lt;Harbor FQDN&gt;
+Username: user
+Password: 
+Login Succeeded
+
+user@Devbox:~$ docker login &lt;Harbor IP&gt;
+Username: user
+Password: 
+Login Succeeded
+
+user@Devbox:~$ docker logout &lt;Harbor FQDN&gt;
+Remove login credentials for &lt;Harbor FQDN&gt;
+
+user@Devbox:~$ docker logout &lt;Harbor IP&gt;
+Remove login credentials for &lt;Harbor IP&gt;
+</code></pre><p>This example creates folders for both FQDN and IP in the docker cert folder and copies the CA cert to both folders. You can then log into Harbor from Docker using both FQDN and IP address.</p>
+<h2 id="install-a-vch-with-the-new-ca-certificate">Install a VCH with the New CA Certificate</h2>
+<p>Deploy a VCH and specify the CA cert with <code>--registry-ca</code> parameter in vic-machine.  This parameter is a list, and you can easily add multiple CA certs by specifying multiple <code>--registry-ca</code> parameters.</p>
+<p>For simplicity, this example installs a VCH with the <code>--no-tls</code> flag, so you do not need TLS from a docker CLI to the VCH. However, it does not imply that access to Harbor is performed without TLS.</p>
+<pre>
+./vic-machine-linux create 
+--target=<vCenter_IP> 
+--image-store=&quot;vsanDatastore&quot; 
+--name=vic-docker 
+--user=root 
+--password=<vCenter_password> 
+--compute-resource=&quot;/dc1/host/cluster1/Resources&quot; 
+--bridge-network DPortGroup 
+--force 
+--no-tls 
+--registry-ca=ca.crt
+
+ WARN[2016-11-11T11:46:37-08:00] Configuring without TLS 
+- all communications will be insecure
+ ...
+
+ INFO[2016-11-11T11:47:57-08:00] Installer completed successfully</vCenter_password></vCenter_IP></pre>            
                     
                     </section>
                 
@@ -569,10 +606,10 @@
         </div>
 
         
-        <a href="./plugin_vcsa_no_web.html" class="navigation navigation-prev " aria-label="Previous page: vCenter Server Appliance without a Web Server"><i class="fa fa-angle-left"></i></a>
+        <a href="./vch_installer_examples.html" class="navigation navigation-prev " aria-label="Previous page: Advanced Examples of Deploying a VCH"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="./troubleshoot_vic_install.html" class="navigation navigation-next " aria-label="Next page: Troubleshooting vSphere Integrated Containers Engine Installation"><i class="fa fa-angle-right"></i></a>
+        <a href="./install_vic_plugin.html" class="navigation navigation-next " aria-label="Next page: Installing the vSphere Web Client Plug-in"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

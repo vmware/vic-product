@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Deploy a VCH to a vCenter Server Cluster | VMware vSphere Integrated Containers Engine Installation, version 0.8 Release Candidate 3</title>
+        <title>Deploy a VCH to a Basic vCenter Server Cluster | VMware vSphere Integrated Containers Engine 0.8 Installation</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -50,10 +50,10 @@
         
     <div class="book"
         data-level="3.3"
-        data-chapter-title="Deploy a VCH to a vCenter Server Cluster"
+        data-chapter-title="Deploy a VCH to a Basic vCenter Server Cluster"
         data-filepath="deploy_vch_vcenter.md"
         data-basepath="."
-        data-revision="Mon Nov 28 2016 19:09:11 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Thu Dec 08 2016 19:41:39 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -118,16 +118,16 @@
             
         </li>
     
-        <li class="chapter " data-level="2" data-path="download_vic_engine.html">
+        <li class="chapter " data-level="2" data-path="download_vic.html">
             
                 
-                    <a href="./download_vic_engine.html">
+                    <a href="./download_vic.html">
                 
                         <i class="fa fa-check"></i>
                         
                             <b>2.</b>
                         
-                        Download vSphere Integrated Containers Engine
+                        Download vSphere Integrated Containers
                     </a>
             
             
@@ -194,7 +194,7 @@
                         
                             <b>3.2.</b>
                         
-                        Deploy a VCH to an ESXi Host
+                        Deploy a VCH to an ESXi Host with No vCenter Server
                     </a>
             
             
@@ -209,7 +209,7 @@
                         
                             <b>3.3.</b>
                         
-                        Deploy a VCH to a vCenter Server Cluster
+                        Deploy a VCH to a Basic vCenter Server Cluster
                     </a>
             
             
@@ -254,7 +254,22 @@
                         
                             <b>3.6.</b>
                         
-                        Examples of Deploying a VCH
+                        Advanced Examples of Deploying a VCH
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="deploy_vch_harbor.html">
+            
+                
+                    <a href="./deploy_vch_harbor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.7.</b>
+                        
+                        Deploy a VCH with vSphere Integrated Containers Registry (Harbor)
                     </a>
             
             
@@ -377,29 +392,14 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="5.1" data-path="ts_resource_pool_error.html">
-            
-                
-                    <a href="./ts_resource_pool_error.html">
-                
-                        <i class="fa fa-check"></i>
-                        
-                            <b>5.1.</b>
-                        
-                        Resource Pool Creation Error
-                    </a>
-            
-            
-        </li>
-    
-        <li class="chapter " data-level="5.2" data-path="ts_thumbprint_error.html">
+        <li class="chapter " data-level="5.1" data-path="ts_thumbprint_error.html">
             
                 
                     <a href="./ts_thumbprint_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.2.</b>
+                            <b>5.1.</b>
                         
                         Certificate Verification Error
                     </a>
@@ -407,29 +407,29 @@
             
         </li>
     
-        <li class="chapter " data-level="5.3" data-path="ts_cli_argument_error.html">
+        <li class="chapter " data-level="5.2" data-path="ts_cli_argument_error.html">
             
                 
                     <a href="./ts_cli_argument_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.3.</b>
+                            <b>5.2.</b>
                         
-                        Unknown or Non-Specified Argument Error or Incorrect User Name Error
+                        Missing Common Name Error When TLS Options Are Specified
                     </a>
             
             
         </li>
     
-        <li class="chapter " data-level="5.4" data-path="ts_firewall_error.html">
+        <li class="chapter " data-level="5.3" data-path="ts_firewall_error.html">
             
                 
                     <a href="./ts_firewall_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.4.</b>
+                            <b>5.3.</b>
                         
                         Firewall Validation Error
                     </a>
@@ -437,14 +437,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.5" data-path="ts_cname_mismatch.html">
+        <li class="chapter " data-level="5.4" data-path="ts_cname_mismatch.html">
             
                 
                     <a href="./ts_cname_mismatch.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.5.</b>
+                            <b>5.4.</b>
                         
                         Certificate cname Mismatch
                     </a>
@@ -452,14 +452,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.6" data-path="ts_ui_not_appearing.html">
+        <li class="chapter " data-level="5.5" data-path="ts_ui_not_appearing.html">
             
                 
                     <a href="./ts_ui_not_appearing.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.6.</b>
+                            <b>5.5.</b>
                         
                         Plug-In Does Not Appear in the vSphere Web Client
                     </a>
@@ -467,14 +467,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.7" data-path="ts_docker_version_error.html">
+        <li class="chapter " data-level="5.6" data-path="ts_docker_version_error.html">
             
                 
                     <a href="./ts_docker_version_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.7.</b>
+                            <b>5.6.</b>
                         
                         Docker API Version Error
                     </a>
@@ -484,6 +484,21 @@
     
 
             </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="feedback.html">
+            
+                
+                    <a href="./feedback.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        Send Documentation Feedback
+                    </a>
+            
             
         </li>
     
@@ -510,7 +525,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="./" >VMware vSphere Integrated Containers Engine Installation, version 0.8 Release Candidate 3</a>
+        <a href="./" >VMware vSphere Integrated Containers Engine 0.8 Installation</a>
     </h1>
 </div>
 
@@ -520,23 +535,21 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="deploy-a-vch-to-a-vcenter-server-cluster">Deploy a VCH to a vCenter Server Cluster</h1>
+                        <h1 id="deploy-a-vch-to-a-basic-vcenter-server-cluster">Deploy a VCH to a Basic vCenter Server Cluster</h1>
 <p>This topic provides instructions for deploying a virtual container host (VCH) in a very basic vCenter Server environment. This basic deployment allows you to test vSphere Integrated Containers Engine with vCenter Server before attempting a more complex deployment that corresponds to your real vSphere environment.</p>
 <p>The vCenter Server instance to which you deploy the VCH must match the specifications listed in the prerequisites.</p>
 <p><strong>Prerequisites</strong></p>
 <ul>
-<li>Download and unpack the vSphere Integrated Containers Engine bundle. For information about where to obtain vSphere Integrated Containers Engine, see <a href="download_vic_engine.html">Download vSphere Integrated Containers Engine</a>.</li>
-<li>Add the folder that contains the vSphere Integrated Containers Engine binaries to the <code>PATH</code> environment variable on the machine on which you are running <code>vic-machine</code>. </li>
+<li>Download and unpack the vSphere Integrated Containers Engine bundle. For information about where to obtain vSphere Integrated Containers Engine, see <a href="download_vic.html">Download vSphere Integrated Containers</a>.</li>
 <li>Create or obtain a vCenter Server instance with the following configuration:<ul>
 <li>One datacenter</li>
 <li>One cluster with two ESXi hosts and DRS enabled. You can use nested ESXi hosts for this example.</li>
-<li>One datastore</li>
-<li>One network, for example the default VM Network</li>
-<li>One distributed virtual switch with one distributed port group named <code>vic-bridge</code>.</li>
+<li>A shared datastore, that is accessible by both of the ESXi hosts.</li>
+<li>The VM Network is present</li>
+<li>One distributed virtual switch with one port group named <code>vic-bridge</code></li>
 </ul>
 </li>
 <li>Verify that your vCenter Server instance and both of the ESXi hosts in the cluster meet the requirements in <a href="vic_installation_prereqs.html">Environment Prerequisites for vSphere Integrated Containers Engine Installation</a>.</li>
-<li>If your vSphere environment does not use trusted certificates that have been signed by a Certificate Authority (CA), obtain the thumbprint of the vCenter Server or ESXi host certificate.</li>
 <li>Familiarize yourself with the vSphere Integrated Containers Engine binaries, as described in <a href="contents_of_vic_binaries.html">Contents of the vSphere Integrated Containers Engine Binaries</a>. </li>
 <li>Familiarize yourself with the options of the <code>vic-machine create</code> command described in <a href="vch_installer_options.html">VCH Deployment Options</a>.</li>
 </ul>
@@ -545,27 +558,34 @@
 <li>Open a terminal on the system on which you downloaded and unpacked the vSphere Integrated Containers Engine binary bundle.</li>
 <li>Navigate to the directory that contains the <code>vic-machine</code> utility:</li>
 <li><p>Run the <code>vic-machine create</code> command.</p>
+<p>Wrap any option arguments that include spaces or special characters in quotes. Use single quotes if you are using <code>vic-machine</code> on a Linux or Mac OS system and double quotes on a Windows system. In these examples, the user name is wrapped in quotes because it contains <code>@</code>.</p>
 <ul>
 <li>Linux OS: <pre>$ vic-machine-linux create
 --target <i>vcenter_server_address</i>
 --user &apos;Administrator@vsphere.local&apos;
 --password <i>vcenter_server_password</i>
 --bridge-network vic-bridge
+--image-store <i>shared_datastore_name</i>
 --no-tlsverify
+--force
 </pre>  </li>
 <li>Windows: <pre>$ vic-machine-windows create
 --target <i>vcenter_server_address</i>
 --user &quot;Administrator@vsphere.local&quot;
 --password <i>vcenter_server_password</i>
 --bridge-network vic-bridge
+--image-store <i>shared_datastore_name</i>
 --no-tlsverify
+--force
 </pre> </li>
 <li>Mac OS:  <pre>$ vic-machine-darwin create
 --target <i>vcenter_server_address</i>
 --user &apos;Administrator@vsphere.local&apos;
 --password <i>vcenter_server_password</i>
 --bridge-network vic-bridge
+--image-store <i>shared_datastore_name</i>
 --no-tlsverify
+--force
 </pre> 
 
 </li>
@@ -574,18 +594,19 @@
 </ol>
 <p>The <code>vic-machine create</code> command in this example specifies the minimum information required to deploy a VCH to vCenter Server:</p>
 <ul>
-<li>The address of the vCenter Server instance on which to deploy the VCH, in the <code>--target</code> option. </li>
-<li>The vCenter Single Sign-On user and password in the <code>--user</code> and <code>--password</code> options. Note that the user name is wrapped in quotes, because it contains the <code>@</code> character. Use single quotes if you are using <code>vic-machine</code> on a Linux or Mac OS system and double quotes on a Windows system. </li>
-<li>The distributed port group named <code>vic-bridge</code>, for use as the container bridge network. </li>
+<li>The address of the vCenter Server instance on which to deploy the VCH, in the <code>--target</code> option.  </li>
+<li>The vCenter Single Sign-On user and password in the <code>--user</code> and <code>--password</code> options. </li>
+<li>The port group named <code>vic-bridge</code>, for use as the container bridge network. </li>
+<li>The name of the shared datastore to use as the image store, in which to store container images.</li>
 <li>Disables the verification of clients that connect to this VCH by specifying the <code>--no-tlsverify</code> option.</li>
+<li>Disables the verification of the vCenter Server certificate by specifying the <code>--force</code> option.</li>
 </ul>
-<p>Because the vCenter Server instance only has one datacenter, one cluster, one network, and one datastore, <code>vic-machine create</code> automatically detects and uses these resources.</p>
+<p>Because the vCenter Server instance only has one datacenter and one cluster, and uses the VM Network network, <code>vic-machine create</code> automatically detects and uses these resources.</p>
 <p>This example deploys a VCH with the default name <code>virtual-container-host</code>.</p>
 <p><strong>Result</strong></p>
-<p>If you see the error <code>Failed to verify certificate for target</code>, see <a href="ts_thumbprint_error.html">VCH Deployment Fails with a Certificate Verification Error</a>.</p>
 <p>At the end of a successful installation, <code>vic-machine</code> displays information about the new VCH:</p>
 <pre>Initialization of appliance successful
-vic-admin portal:
+VCH Admin Portal:
 https://<i>vch_address</i>:2378
 Published ports can be reached at:
 <i>vch_address</i>
@@ -598,7 +619,7 @@ Installer completed successfully</pre>
 
 <p><strong>What to Do Next</strong> </p>
 <p>To test your VCH, see <a href="verify_vch_deployment.html">Verify the Deployment of a VCH</a>.</p>
-<p>For examples of commands to deploy a VCH in various other vSphere configurations, see <a href="vch_installer_examples.html">Examples of Deploying a VCH</a>. </p>
+<p>For examples of commands to deploy a VCH in various other vSphere configurations, see <a href="vch_installer_examples.html">Advanced Examples of Deploying a VCH</a>. </p>
 
                     
                     </section>
@@ -609,7 +630,7 @@ Installer completed successfully</pre>
         </div>
 
         
-        <a href="./deploy_vch_esxi.html" class="navigation navigation-prev " aria-label="Previous page: Deploy a VCH to an ESXi Host"><i class="fa fa-angle-left"></i></a>
+        <a href="./deploy_vch_esxi.html" class="navigation navigation-prev " aria-label="Previous page: Deploy a VCH to an ESXi Host with No vCenter Server"><i class="fa fa-angle-left"></i></a>
         
         
         <a href="./verify_vch_deployment.html" class="navigation navigation-next " aria-label="Next page: Verify the Deployment of a VCH"><i class="fa fa-angle-right"></i></a>

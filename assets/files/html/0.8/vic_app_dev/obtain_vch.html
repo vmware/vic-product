@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Obtain a VCH | Developing Container Applications with VMware vSphere Integrated Containers Engine, version 0.8 Release Candidate 3</title>
+        <title>Obtain a VCH | Developing Container Applications with VMware vSphere Integrated Containers 0.8</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -53,7 +53,7 @@
         data-chapter-title="Obtain a VCH"
         data-filepath="obtain_vch.md"
         data-basepath="."
-        data-revision="Mon Nov 28 2016 19:09:48 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Thu Dec 08 2016 19:42:23 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -157,46 +157,127 @@
             
         </li>
     
-        <li class="chapter " data-level="6" data-path="using_insecure_registries_with_vic.html">
+        <li class="chapter " data-level="6" data-path="using_registries_with_vic.html">
             
                 
-                    <a href="./using_insecure_registries_with_vic.html">
+                    <a href="./using_registries_with_vic.html">
                 
                         <i class="fa fa-check"></i>
                         
                             <b>6.</b>
                         
-                        Using Insecure Private Registry Servers with vSphere Integrated Containers Engine
+                        Using Private Registry Servers with vSphere Integrated Containers Engine
                     </a>
             
             
         </li>
     
-        <li class="chapter " data-level="7" data-path="network_use_cases.html">
+        <li class="chapter " data-level="7" data-path="using_vic_with_harbor.html">
+            
+                
+                    <a href="./using_vic_with_harbor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="network_use_cases.html">
             
                 
                     <a href="./network_use_cases.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>7.</b>
+                            <b>8.</b>
                         
-                        Network Port Use Cases
+                        Container Networking with vSphere Integrated Containers Engine
                     </a>
             
             
         </li>
     
-        <li class="chapter " data-level="8" data-path="ts_docker_version_error.html">
+        <li class="chapter " data-level="9" data-path="creating_containerized_app_with_vic.html">
+            
+                
+                    <a href="./creating_containerized_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        Creating a Containerized Application
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1" data-path="constraints_using_vic.html">
+            
+                
+                    <a href="./constraints_using_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.1.</b>
+                        
+                        Constraints of Using vSphere Integrated Containers Engine to Build Applications
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.2" data-path="build_app_with_vic.html">
+            
+                
+                    <a href="./build_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.2.</b>
+                        
+                        Example of Building an Application with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="ts_docker_version_error.html">
             
                 
                     <a href="./ts_docker_version_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>8.</b>
+                            <b>10.</b>
                         
                         Docker Commands Fail with a Docker API Version Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="feedback.html">
+            
+                
+                    <a href="./feedback.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        Send Documentation Feedback
                     </a>
             
             
@@ -225,7 +306,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="./" >Developing Container Applications with VMware vSphere Integrated Containers Engine, version 0.8 Release Candidate 3</a>
+        <a href="./" >Developing Container Applications with VMware vSphere Integrated Containers 0.8</a>
     </h1>
 </div>
 
@@ -237,10 +318,22 @@
                     
                         <h1 id="obtain-a-vch">Obtain a VCH</h1>
 <p>vSphere Integrated Containers Engine does not currently provide an automated means of obtaining virtual container hosts (VCHs).</p>
-<p>When you or the vSphere Administrator use <code>vic-machine create</code> to deploy a VCH, the VCH endpoint VM obtains an IP address. The IP address can either be static or be obtained from DHCP. As a container developer, you require the IP address of the VCH endpoint VM when you run Docker commands. </p>
-<p>Depending on the nature of your organization, you might deploy VCHs yourself, or you might request a VCH from a different person or team. If you do not run <code>vic-machine create</code> yourself, your organization must define the process by which you obtain VCH addresses. This process can be as simple as an exchange of emails with a vSphere Administrator, or as advanced as a custom self-provisioning portal or API end-point. For example, your organization could use VMware vRealize&#xAE; Automation&#x2122; to provide a self-provisioning service. In this case, you would use the vRealize Automation interface or APIs to request a VCH. At the end of the provisioning process, vRealize Automation would communicate the VCH endpoint VM address to you.</p>
+<p>When you or the vSphere administrator use <code>vic-machine create</code> to deploy a VCH, the VCH endpoint VM obtains an IP address. The IP address can either be static or be obtained from DHCP. As a container developer, you require the IP address of the VCH endpoint VM when you run Docker commands. </p>
+<p>Depending on the nature of your organization, you might deploy VCHs yourself, or you might request a VCH from a different person or team. If you do not run <code>vic-machine create</code> yourself, your organization must define the process by which you obtain VCH addresses. This process can be as simple as an exchange of emails with a vSphere administrator, or as advanced as a custom self-provisioning portal or API end-point. For example, your organization could use VMware vRealize&#xAE; Automation&#x2122; to provide a self-provisioning service, by using the vRealize Automation interface or APIs to request VCHs. At the end of the provisioning process, vRealize Automation would communicate the VCH endpoint VM address to you.</p>
 <h2 id="using-docker-environment-variables">Using Docker Environment Variables</h2>
-<p>If you or the vSphere Administrator deploy the VCHs   with TLS authentication, either with trusted certificates or with untrusted self-signed certificates, <code>vic-machine create</code> generates a  file named <code>vch_address.env</code>. The <code>env</code> file contains Docker environment variables that are specific to the VCH. You can use the contents of the <code>env</code> file to set environment variables in your Docker client so that it connects to the correct VCH and uses the appropriate level of authentication. A self-provisioning service such as vRealize Automation could potentially provide the <code>env</code> file at the end of the provisioning process for VCHs.</p>
+<p>If you or the vSphere administrator deploy VCHs with TLS authentication, <code>vic-machine create</code> generates a file named <code>vch_address.env</code>. The <code>env</code> file contains Docker environment variables that are specific to the VCH. You can use the contents of the <code>env</code> file to set environment variables in your Docker client. A self-provisioning service such as vRealize Automation could potentially provide the env file at the end of the provisioning process for VCHs.</p>
+<h2 id="connecting-to-the-vch">Connecting to the VCH</h2>
+<p>How you connect to your VCH depends on the security options with which  you or the vSphere administrator deployed the VCH. </p>
+<ul>
+<li>If the VCH uses TLS authentication, either by using server certificates or by using mutual authentication with client and server certificates, you connect to the VCH at <em>vch_address</em>:2376.  </li>
+<li>If the VCH uses mutual authentication with client and server certificates, you must configure the Docker client appropriately with one of the following options:<ul>
+<li>By using the following <code>--tlsverify</code>, <code>--tlscert</code>, and <code>--tlskey</code> Docker options, adding <code>tlscacert</code> if a custom CA was used to sign the server certificate.</li>
+<li>By setting <code>DOCKER_CERT_PATH=/path/to/client/cert.pem</code> and <code>DOCKER_TLS_VERIFY=1</code>.</li>
+</ul>
+</li>
+<li>If the VCH uses server certificates without client authentication, you run Docker commands with the <code>--tls</code> option. The <code>DOCKER_TLS_VERIFY</code> environment variable must not be set. Note that setting <code>DOCKER_TLS_VERIFY</code> to 0 or <code>false</code> has no effect. </li>
+<li>If TLS is completely disabled on the VCH, you connect to the VCH at <em>vch_address</em>:2375 and do not need to specify any additional Docker options. </li>
+</ul>
 
                     
                     </section>

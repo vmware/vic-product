@@ -5,9 +5,9 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Introduction | Developing Container Applications with VMware vSphere Integrated Containers 0.8</title>
+        <title>Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor) | Developing Container Applications with VMware vSphere Integrated Containers 0.8</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="Developing Container Applications with vSphere Integrated Containers Engine provides information about how to use VMware vSphere&amp;reg; Integrated Containers&amp;trade; Engine as the endpoint for Docker container application development.">
+        <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
         
         
@@ -37,8 +37,10 @@
         
     
     
-    <link rel="next" href="./overview_of_vic_engine.html" />
+    <link rel="next" href="./network_use_cases.html" />
     
+    
+    <link rel="prev" href="./using_registries_with_vic.html" />
     
 
         
@@ -47,9 +49,9 @@
         
         
     <div class="book"
-        data-level="0"
-        data-chapter-title="Introduction"
-        data-filepath="README.md"
+        data-level="7"
+        data-chapter-title="Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)"
+        data-filepath="using_vic_with_harbor.md"
         data-basepath="."
         data-revision="Thu Dec 08 2016 19:42:23 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
@@ -67,7 +69,7 @@
 
             
     
-        <li class="chapter active" data-level="0" data-path="index.html">
+        <li class="chapter " data-level="0" data-path="index.html">
             
                 
                     <a href="./index.html">
@@ -170,7 +172,7 @@
             
         </li>
     
-        <li class="chapter " data-level="7" data-path="using_vic_with_harbor.html">
+        <li class="chapter active" data-level="7" data-path="using_vic_with_harbor.html">
             
                 
                     <a href="./using_vic_with_harbor.html">
@@ -314,23 +316,69 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="developing-container-applications-with-vsphere-integrated-containers-engine">Developing Container Applications with vSphere Integrated Containers Engine</h1>
-<p><em>Developing Container Applications with vSphere Integrated Containers Engine</em> provides information about how to use VMware vSphere&#xAE; Integrated Containers&#x2122; Engine as the endpoint for Docker container application development.</p>
-<p><strong>Product version: 0.8</strong></p>
-<h2 id="intended-audience">Intended Audience</h2>
-<p>This information is intended for container application developers whose Docker environment uses vSphere Integrated Containers Engine as its endpoint. Knowledge of <a href="https://en.wikipedia.org/wiki/Operating-system-level_virtualization" target="_blank">container technology</a> and <a href="https://docs.docker.com/" target="_blank">Docker</a> is assumed.</p>
-<h1 id="send-documentation-feedback">Send Documentation Feedback</h1>
-<p>Help us to improve the vSphere Integrated Containers documentation. </p>
-<ul>
-<li><a href="mailto:docfeedback@vmware.com?subject=vSphere Integrated Containers&amp;body=Please include the document name, HTML link, PDF page number, and section heading in your feedback. Thank you!" target="_blank">Send doc feedback to VMware</a></li>
-<li><a href="https://github.com/vmware/vic-product/issues" target="_blank">Submit a doc issue in Github</a></li>
-</ul>
-<hr>
-<p>Copyright &#xA9; 2016 VMware, Inc. All rights reserved. <a href="http://pubs.vmware.com/copyright-trademark.html" target="_blank">Copyright and trademark information</a>. Any feedback you provide to VMware is subject to the terms at <a href="http://www.vmware.com/community_terms.html" target="_blank">www.vmware.com/community_terms.html</a>.</p>
-<p><strong>VMware, Inc.</strong>
-3401 Hillview Ave.
-Palo Alto, CA 94304</p>
-<p><a href="http://www.vmware.com" target="_blank">www.vmware.com</a></p>
+                        <h1 id="using-vsphere-integrated-containers-engine-with-vsphere-integrated-containers-registry-harbor">Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)</h1>
+<p>This example illustrates using a deployed Virtual Container Host (VCH) with Harbor as a private registry with the assumption that a VCH has been set up using either static IP or FQDN.  It also assumes there is access to standard Docker that has been updated with the CA certificate used to sign the Harbor instance&apos;s server certificate and server private key.</p>
+<h2 id="workflow">Workflow</h2>
+<ol>
+<li>Develop or obtain a docker container image on a computer or terminal using standard docker. Tag the image for Harbor and push the image to the server.</li>
+<li>Pull down the image from Harbor to a deployed VCH and use it.</li>
+</ol>
+<h2 id="push-a-container-image-to-harbor-using-standard-docker">Push a Container Image to Harbor Using Standard Docker</h2>
+<ol>
+<li>Pull the busybox container image from the docker hub to your machine, which you  have updated with the CA certificate earlier. See  <a href="../vic_installation/deploy_vic_with_harbor.html">Deploying vSphere Integrated Container Engine with vSphere Integrated Containers Registry (Harbor)</a> for more information on updating certificates.</li>
+<li>Tag the image for uploading to your Harbor registry and push the image up to it. </li>
+</ol>
+<p><strong>Important</strong> You must log onto the Harbor server before pushing the image up to it.</p>
+<pre><code>user@Devbox:~/mycerts$ docker pull busybox
+Using default tag: latest
+latest: Pulling from library/busybox
+
+56bec22e3559: Pull complete 
+Digest: sha256:digest
+Status: Downloaded newer image for busybox:latest
+user@Devbox:~/mycerts$ 
+user@Devbox:~/mycerts$ docker tag busybox &lt;Harbor FQDN or static
+IP&gt;/test/busybox
+
+user@Devbox:~/mycerts$ docker login &lt;Harbor FQDN or static IP&gt;
+Username: user
+Password: 
+Login Succeeded
+
+user@Devbox:~/mycerts$ docker push &lt;Harbor FQDN or static IP&gt;/test/busybox
+The push refers to a repository [&lt;Harbor FQDN or static IP&gt;/test/busybox]
+e88b3f82283b: Pushed 
+latest: digest: sha256:digest size: 527
+</code></pre><h2 id="pull-the-image-from-harbor-to-the-vch">Pull the Image from Harbor to the VCH</h2>
+<p>In another terminal, pull the image from Harbor to the VCH.</p>
+<pre><code>user@Devbox:~$ export DOCKER_HOST=tcp://&lt;Deployed VCH IP&gt;:2375
+user@Devbox:~$ export DOCKER_API_VERSION=1.23
+user@Devbox:~$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+
+user@Devbox:~$ docker pull &lt;Harbor FQDN or static IP&gt;/test/busybox
+Using default tag: latest
+Pulling from test/busybox
+Error: image test/busybox not found
+
+user@Devbox:~$ docker login &lt;Harbor FQDN or static IP&gt;
+Username: user
+Password: 
+Login Succeeded
+
+user@Devbox:~$ docker pull &lt;Harbor FQDN or static IP&gt;/test/busybox
+Using default tag: latest
+Pulling from test/busybox
+56bec22e3559: Pull complete 
+a3ed95caeb02: Pull complete 
+Digest: sha256:digest
+Status: Downloaded newer image for test/busybox:latest
+
+user@Devbox:~$ docker images
+REPOSITORY                                TAG        IMAGE ID      CREATED            SIZE
+&lt;Harbor FQDN or static IP&gt;/test/busybox   latest     e292aa76ad3b        5 weeks ago         1.093 MB
+user@Devbox:~$ 
+</code></pre><p>Note that the first attempt to pull the image fails with a &apos;not found&apos; error message. After you log into the Harbor server, the pull attempt succeeds.</p>
 
                     
                     </section>
@@ -341,8 +389,10 @@ Palo Alto, CA 94304</p>
         </div>
 
         
+        <a href="./using_registries_with_vic.html" class="navigation navigation-prev " aria-label="Previous page: Using Private Registry Servers with vSphere Integrated Containers Engine"><i class="fa fa-angle-left"></i></a>
         
-        <a href="./overview_of_vic_engine.html" class="navigation navigation-next navigation-unique" aria-label="Next page: Overview of vSphere Integrated Containers Engine For Container Application Developers"><i class="fa fa-angle-right"></i></a>
+        
+        <a href="./network_use_cases.html" class="navigation navigation-next " aria-label="Next page: Container Networking with vSphere Integrated Containers Engine"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

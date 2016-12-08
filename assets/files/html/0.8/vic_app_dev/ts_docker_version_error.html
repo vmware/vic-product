@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Docker Commands Fail with a Docker API Version Error | Developing Container Applications with VMware vSphere Integrated Containers Engine, version 0.8 Release Candidate 3</title>
+        <title>Docker Commands Fail with a Docker API Version Error | Developing Container Applications with VMware vSphere Integrated Containers 0.8</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -37,8 +37,10 @@
         
     
     
+    <link rel="next" href="./feedback.html" />
     
-    <link rel="prev" href="./network_use_cases.html" />
+    
+    <link rel="prev" href="./build_app_with_vic.html" />
     
 
         
@@ -47,11 +49,11 @@
         
         
     <div class="book"
-        data-level="8"
+        data-level="10"
         data-chapter-title="Docker Commands Fail with a Docker API Version Error"
         data-filepath="ts_docker_version_error.md"
         data-basepath="."
-        data-revision="Mon Nov 28 2016 19:09:48 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Thu Dec 08 2016 19:42:23 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -155,46 +157,127 @@
             
         </li>
     
-        <li class="chapter " data-level="6" data-path="using_insecure_registries_with_vic.html">
+        <li class="chapter " data-level="6" data-path="using_registries_with_vic.html">
             
                 
-                    <a href="./using_insecure_registries_with_vic.html">
+                    <a href="./using_registries_with_vic.html">
                 
                         <i class="fa fa-check"></i>
                         
                             <b>6.</b>
                         
-                        Using Insecure Private Registry Servers with vSphere Integrated Containers Engine
+                        Using Private Registry Servers with vSphere Integrated Containers Engine
                     </a>
             
             
         </li>
     
-        <li class="chapter " data-level="7" data-path="network_use_cases.html">
+        <li class="chapter " data-level="7" data-path="using_vic_with_harbor.html">
+            
+                
+                    <a href="./using_vic_with_harbor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="network_use_cases.html">
             
                 
                     <a href="./network_use_cases.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>7.</b>
+                            <b>8.</b>
                         
-                        Network Port Use Cases
+                        Container Networking with vSphere Integrated Containers Engine
                     </a>
             
             
         </li>
     
-        <li class="chapter active" data-level="8" data-path="ts_docker_version_error.html">
+        <li class="chapter " data-level="9" data-path="creating_containerized_app_with_vic.html">
+            
+                
+                    <a href="./creating_containerized_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        Creating a Containerized Application
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1" data-path="constraints_using_vic.html">
+            
+                
+                    <a href="./constraints_using_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.1.</b>
+                        
+                        Constraints of Using vSphere Integrated Containers Engine to Build Applications
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.2" data-path="build_app_with_vic.html">
+            
+                
+                    <a href="./build_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.2.</b>
+                        
+                        Example of Building an Application with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="10" data-path="ts_docker_version_error.html">
             
                 
                     <a href="./ts_docker_version_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>8.</b>
+                            <b>10.</b>
                         
                         Docker Commands Fail with a Docker API Version Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="feedback.html">
+            
+                
+                    <a href="./feedback.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        Send Documentation Feedback
                     </a>
             
             
@@ -223,7 +306,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="./" >Developing Container Applications with VMware vSphere Integrated Containers Engine, version 0.8 Release Candidate 3</a>
+        <a href="./" >Developing Container Applications with VMware vSphere Integrated Containers 0.8</a>
     </h1>
 </div>
 
@@ -236,17 +319,23 @@
                         <h1 id="docker-commands-fail-with-a-docker-api-version-error">Docker Commands Fail with a Docker API Version Error</h1>
 <p>After a successful deployment of a vSphere Integrated Containers Engine virtual container host (VCH), attempting to run a Docker command fails with a Docker version error.</p>
 <h2 id="problem">Problem</h2>
-<p>When you attempt to run a Docker command from a Docker client that is connecting to a VCH, the command fails with the error <code>Error response from daemon: client is newer than server (client API version: 1.24, server API version: 1.23)</code>.</p>
+<p>When you attempt to run a Docker command from a Docker client that is connecting to a VCH, the command fails with the following error: </p>
+<pre>Error response from daemon: client is newer than server 
+(client API version: <i>x.xx</i>, server API version: 1.23)</pre>
+
 <h2 id="cause">Cause</h2>
-<p>vSphere Integrated Containers Engine supports Docker 1.11, that includes version 1.23 of the Docker API. You are using version 1.12 of the Docker client, that uses version 1.24 of the Docker API, which is incompatible.</p>
+<p>This version of vSphere Integrated Containers Engine supports Docker 1.11, that includes version 1.23 of the Docker API. You are using a more recent version of the Docker client, that includes a version of the Docker API that is incompatible.</p>
 <h2 id="solution">Solution</h2>
 <ol>
-<li>Open a Docker client terminal.</li>
-<li><p>Set the Docker client API to the same version as is used by vSphere Integrated Containers Engine.</p>
-<pre>export DOCKER_API_VERSION=1.23</pre> </li>
+<li>Open a terminal on the system on which you run the Docker client.</li>
+<li><p>Set the Docker client API to the same version as the one that is used by vSphere Integrated Containers Engine.</p>
+ <pre>export DOCKER_API_VERSION=1.23</pre> 
+</li>
 <li><p>Check that your Docker client can now connect to the VCH by running a Docker command. </p>
-<pre>docker -H <i>virtual_container_host_address</i>:2376 --tls info</pre>
-
+<ul>
+<li>With TLS authentication: <pre>docker -H <i>virtual_container_host_address</i>:2376 --tls info</pre></li>
+<li>Without TLS authentication:<pre>docker -H <i>virtual_container_host_address</i>:2375 info</pre></li>
+</ul>
 <p>The <code>docker info</code> command should succeed and you should see information about the VCH.</p>
 </li>
 </ol>
@@ -260,8 +349,10 @@
         </div>
 
         
-        <a href="./network_use_cases.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Network Port Use Cases"><i class="fa fa-angle-left"></i></a>
+        <a href="./build_app_with_vic.html" class="navigation navigation-prev " aria-label="Previous page: Example of Building an Application with vSphere Integrated Containers Engine"><i class="fa fa-angle-left"></i></a>
         
+        
+        <a href="./feedback.html" class="navigation navigation-next " aria-label="Next page: Send Documentation Feedback"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

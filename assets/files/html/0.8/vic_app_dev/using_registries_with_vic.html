@@ -5,9 +5,9 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Introduction | Developing Container Applications with VMware vSphere Integrated Containers 0.8</title>
+        <title>Using Private Registry Servers with vSphere Integrated Containers Engine | Developing Container Applications with VMware vSphere Integrated Containers 0.8</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="Developing Container Applications with vSphere Integrated Containers Engine provides information about how to use VMware vSphere&amp;reg; Integrated Containers&amp;trade; Engine as the endpoint for Docker container application development.">
+        <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
         
         
@@ -37,8 +37,10 @@
         
     
     
-    <link rel="next" href="./overview_of_vic_engine.html" />
+    <link rel="next" href="./using_vic_with_harbor.html" />
     
+    
+    <link rel="prev" href="./using_volumes_with_vic.html" />
     
 
         
@@ -47,9 +49,9 @@
         
         
     <div class="book"
-        data-level="0"
-        data-chapter-title="Introduction"
-        data-filepath="README.md"
+        data-level="6"
+        data-chapter-title="Using Private Registry Servers with vSphere Integrated Containers Engine"
+        data-filepath="using_registries_with_vic.md"
         data-basepath="."
         data-revision="Thu Dec 08 2016 19:42:23 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
@@ -67,7 +69,7 @@
 
             
     
-        <li class="chapter active" data-level="0" data-path="index.html">
+        <li class="chapter " data-level="0" data-path="index.html">
             
                 
                     <a href="./index.html">
@@ -155,7 +157,7 @@
             
         </li>
     
-        <li class="chapter " data-level="6" data-path="using_registries_with_vic.html">
+        <li class="chapter active" data-level="6" data-path="using_registries_with_vic.html">
             
                 
                     <a href="./using_registries_with_vic.html">
@@ -314,23 +316,31 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="developing-container-applications-with-vsphere-integrated-containers-engine">Developing Container Applications with vSphere Integrated Containers Engine</h1>
-<p><em>Developing Container Applications with vSphere Integrated Containers Engine</em> provides information about how to use VMware vSphere&#xAE; Integrated Containers&#x2122; Engine as the endpoint for Docker container application development.</p>
-<p><strong>Product version: 0.8</strong></p>
-<h2 id="intended-audience">Intended Audience</h2>
-<p>This information is intended for container application developers whose Docker environment uses vSphere Integrated Containers Engine as its endpoint. Knowledge of <a href="https://en.wikipedia.org/wiki/Operating-system-level_virtualization" target="_blank">container technology</a> and <a href="https://docs.docker.com/" target="_blank">Docker</a> is assumed.</p>
-<h1 id="send-documentation-feedback">Send Documentation Feedback</h1>
-<p>Help us to improve the vSphere Integrated Containers documentation. </p>
+                        <h1 id="using-private-registry-servers-with-vsphere-integrated-containers-engine">Using Private Registry Servers with vSphere Integrated Containers Engine</h1>
+<p>If your development environment includes private registry servers for container images, you or the vSphere Administrator must correctly configure virtual container hosts (VCHs) to allow them to connect to the private registry servers.</p>
+<p>You can use vSphere Integrated Containers Engine with either secure or insecure private registry servers.</p>
+<h2 id="secure-private-registry-servers">Secure Private Registry Servers</h2>
+<p>If the private registry server is configured with TLS, the VCH must be able to validate the registry&apos;s certificate. If the registry&apos;s server certificate was signed by a custom CA, you must provide that CA to the VCH by using the <code>--registry-ca</code> option. If the registry server has a certificate signed by a public CA then it should function without any additional configuration.</p>
+<p>For information about how to configure a VCH to use private registry server CA certificates, see the section on <code>--registry-ca</code> in <a href="../vic_installation/vch_installer_options.html#registry-ca">VCH Deployment Options</a> in <em>vSphere Integrated Containers Engine Installation</em>. </p>
+<h2 id="insecure-private-registry-servers">Insecure Private Registry Servers</h2>
+<p>If you set up a private registry that does not use certificates, you or the vSphere administrator must deploy the VCH with the <code>vic-machine create --insecure-registry</code> option. Setting the <code>insecure-registry</code> option on a VCH informs that VCH that it is authorized to pull images from the designated insecure private registry server.</p>
+<p>If you authorize a VCH to connect to an insecure private registry server, the VCH attempts to access the registry server via HTTP if access via HTTPS fails. VCHs always use HTTPS when connecting to registry servers for which you have not authorized insecure access. Insecure private registries are not recommended in production environments.</p>
+<p>For information about how to use the <code>vic-machine create --insecure-registry</code> option, see the section on <code>insecure-registry</code> in <a href="../vic_installation/vch_installer_options.html#insecure-registry">VCH Deployment Options</a> in <em>vSphere Integrated Containers Engine Installation</em>. </p>
+<h2 id="pull-a-container-image-from-a-private-registry-server">Pull a Container Image from a Private Registry Server</h2>
+<p>To pull a container image from a private registry server, run the following Docker command. </p>
+<pre>docker -H <i>vch_address</i>:2376 --tls 
+pull <i>registry_server_address</i>/path/to/image/<i>image_name</i>:<i>image_version</i></pre>
+
+<p>If the private registry server listens for connections on a specific port, include the port number in the registry server URL.</p>
+<pre>docker -H <i>vch_address</i>:2376 --tls 
+pull <i>registry_server_address</i>:<i>port_number</i>/path/to/image/<i>image_name</i>:<i>image_version</i></pre>
+
+<p>These commands will only work in the following circumstances:</p>
 <ul>
-<li><a href="mailto:docfeedback@vmware.com?subject=vSphere Integrated Containers&amp;body=Please include the document name, HTML link, PDF page number, and section heading in your feedback. Thank you!" target="_blank">Send doc feedback to VMware</a></li>
-<li><a href="https://github.com/vmware/vic-product/issues" target="_blank">Submit a doc issue in Github</a></li>
+<li>The private registry server at <i>registry_server_address</i> is secured by CA certificates, and you or the vSphere Administrator passed the appropriate certificates to the VCH during deployment by using the <code>--registry-ca</code> option.</li>
+<li>The private registry server at <i>registry_server_address</i> is not secured by certificates, and you or the vSphere Administrator authorized access to this registry server by using the <code>--insecure-registry</code> option during VCH deployment.</li>
 </ul>
-<hr>
-<p>Copyright &#xA9; 2016 VMware, Inc. All rights reserved. <a href="http://pubs.vmware.com/copyright-trademark.html" target="_blank">Copyright and trademark information</a>. Any feedback you provide to VMware is subject to the terms at <a href="http://www.vmware.com/community_terms.html" target="_blank">www.vmware.com/community_terms.html</a>.</p>
-<p><strong>VMware, Inc.</strong>
-3401 Hillview Ave.
-Palo Alto, CA 94304</p>
-<p><a href="http://www.vmware.com" target="_blank">www.vmware.com</a></p>
+<p><strong>NOTE</strong>: In the examples, the Docker commands specify <code>--tls</code>. This is to specify that the connection between the Docker client and the VCH is secured by TLS. The level of security of the connection between the Docker client and the VCH is completely independent from the level of security of the connection between the VCH and the private registry server. The connection to the private registry server can be insecure when the connection between the client and the VCH is secure, and the reverse.</p>
 
                     
                     </section>
@@ -341,8 +351,10 @@ Palo Alto, CA 94304</p>
         </div>
 
         
+        <a href="./using_volumes_with_vic.html" class="navigation navigation-prev " aria-label="Previous page: Using Volumes with vSphere Integrated Containers Engine"><i class="fa fa-angle-left"></i></a>
         
-        <a href="./overview_of_vic_engine.html" class="navigation navigation-next navigation-unique" aria-label="Next page: Overview of vSphere Integrated Containers Engine For Container Application Developers"><i class="fa fa-angle-right"></i></a>
+        
+        <a href="./using_vic_with_harbor.html" class="navigation navigation-next " aria-label="Next page: Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

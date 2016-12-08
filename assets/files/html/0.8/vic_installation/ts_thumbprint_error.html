@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Certificate Verification Error | VMware vSphere Integrated Containers Engine Installation, version 0.8 Release Candidate 3</title>
+        <title>Certificate Verification Error | VMware vSphere Integrated Containers Engine 0.8 Installation</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -40,7 +40,7 @@
     <link rel="next" href="./ts_cli_argument_error.html" />
     
     
-    <link rel="prev" href="./ts_resource_pool_error.html" />
+    <link rel="prev" href="./troubleshoot_vic_install.html" />
     
 
         
@@ -49,11 +49,11 @@
         
         
     <div class="book"
-        data-level="5.2"
+        data-level="5.1"
         data-chapter-title="Certificate Verification Error"
         data-filepath="ts_thumbprint_error.md"
         data-basepath="."
-        data-revision="Mon Nov 28 2016 19:09:11 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Thu Dec 08 2016 19:41:39 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -118,16 +118,16 @@
             
         </li>
     
-        <li class="chapter " data-level="2" data-path="download_vic_engine.html">
+        <li class="chapter " data-level="2" data-path="download_vic.html">
             
                 
-                    <a href="./download_vic_engine.html">
+                    <a href="./download_vic.html">
                 
                         <i class="fa fa-check"></i>
                         
                             <b>2.</b>
                         
-                        Download vSphere Integrated Containers Engine
+                        Download vSphere Integrated Containers
                     </a>
             
             
@@ -194,7 +194,7 @@
                         
                             <b>3.2.</b>
                         
-                        Deploy a VCH to an ESXi Host
+                        Deploy a VCH to an ESXi Host with No vCenter Server
                     </a>
             
             
@@ -209,7 +209,7 @@
                         
                             <b>3.3.</b>
                         
-                        Deploy a VCH to a vCenter Server Cluster
+                        Deploy a VCH to a Basic vCenter Server Cluster
                     </a>
             
             
@@ -254,7 +254,22 @@
                         
                             <b>3.6.</b>
                         
-                        Examples of Deploying a VCH
+                        Advanced Examples of Deploying a VCH
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="deploy_vch_harbor.html">
+            
+                
+                    <a href="./deploy_vch_harbor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.7.</b>
+                        
+                        Deploy a VCH with vSphere Integrated Containers Registry (Harbor)
                     </a>
             
             
@@ -377,29 +392,14 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="5.1" data-path="ts_resource_pool_error.html">
-            
-                
-                    <a href="./ts_resource_pool_error.html">
-                
-                        <i class="fa fa-check"></i>
-                        
-                            <b>5.1.</b>
-                        
-                        Resource Pool Creation Error
-                    </a>
-            
-            
-        </li>
-    
-        <li class="chapter active" data-level="5.2" data-path="ts_thumbprint_error.html">
+        <li class="chapter active" data-level="5.1" data-path="ts_thumbprint_error.html">
             
                 
                     <a href="./ts_thumbprint_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.2.</b>
+                            <b>5.1.</b>
                         
                         Certificate Verification Error
                     </a>
@@ -407,29 +407,29 @@
             
         </li>
     
-        <li class="chapter " data-level="5.3" data-path="ts_cli_argument_error.html">
+        <li class="chapter " data-level="5.2" data-path="ts_cli_argument_error.html">
             
                 
                     <a href="./ts_cli_argument_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.3.</b>
+                            <b>5.2.</b>
                         
-                        Unknown or Non-Specified Argument Error or Incorrect User Name Error
+                        Missing Common Name Error When TLS Options Are Specified
                     </a>
             
             
         </li>
     
-        <li class="chapter " data-level="5.4" data-path="ts_firewall_error.html">
+        <li class="chapter " data-level="5.3" data-path="ts_firewall_error.html">
             
                 
                     <a href="./ts_firewall_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.4.</b>
+                            <b>5.3.</b>
                         
                         Firewall Validation Error
                     </a>
@@ -437,14 +437,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.5" data-path="ts_cname_mismatch.html">
+        <li class="chapter " data-level="5.4" data-path="ts_cname_mismatch.html">
             
                 
                     <a href="./ts_cname_mismatch.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.5.</b>
+                            <b>5.4.</b>
                         
                         Certificate cname Mismatch
                     </a>
@@ -452,14 +452,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.6" data-path="ts_ui_not_appearing.html">
+        <li class="chapter " data-level="5.5" data-path="ts_ui_not_appearing.html">
             
                 
                     <a href="./ts_ui_not_appearing.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.6.</b>
+                            <b>5.5.</b>
                         
                         Plug-In Does Not Appear in the vSphere Web Client
                     </a>
@@ -467,14 +467,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.7" data-path="ts_docker_version_error.html">
+        <li class="chapter " data-level="5.6" data-path="ts_docker_version_error.html">
             
                 
                     <a href="./ts_docker_version_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.7.</b>
+                            <b>5.6.</b>
                         
                         Docker API Version Error
                     </a>
@@ -484,6 +484,21 @@
     
 
             </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="feedback.html">
+            
+                
+                    <a href="./feedback.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        Send Documentation Feedback
+                    </a>
+            
             
         </li>
     
@@ -510,7 +525,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="./" >VMware vSphere Integrated Containers Engine Installation, version 0.8 Release Candidate 3</a>
+        <a href="./" >VMware vSphere Integrated Containers Engine 0.8 Installation</a>
     </h1>
 </div>
 
@@ -521,7 +536,7 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="vch-deployment-fails-with-a-certificate-verification-error">VCH Deployment Fails with a Certificate Verification Error</h1>
-<p>When you use <code>vic-machine create</code> to deploy a virtual container host (VCH), the installation fails with a certificate verification error.</p>
+<p>When you use <code>vic-machine create</code> to deploy a virtual container host (VCH), the installation fails with a certificate verification error, noting that it <code>failed to create validator</code>.</p>
 <h2 id="problem">Problem</h2>
 <p>Deployment of the VCH fails during the validation of the configuration that you provided: </p>
 <pre>
@@ -532,13 +547,20 @@ vic-machine-<i>platform</i>.exe failed: x509: certificate signed by unknown auth
 </pre>
 
 <h2 id="cause">Cause</h2>
-<p>The vCenter Server or ESXi host on which you are deploying the VCH uses untrusted certificates that have not been signed by a Certificate Authority (CA).</p>
+<p>The certificate on the vCenter Server or ESXi host that you specified in the <code>--target</code> option cannot be validated on the client system.</p>
 <h2 id="solution">Solution</h2>
-<p>If you cannot use trusted certificates:</p>
-<ol>
-<li>Copy the thumbprint of the untrusted certificate from the <code>vic-machine create</code> error message.</li>
-<li>Run <code>vic-machine create</code> again, specifying the certificate thumbprint in the <code>--thumbprint</code> option.</li>
+<p>If the certificate was signed by a certificate authority (CA), add that CA to the trusted roots for the client system.</p>
+<p>If the CA should not be generally trusted, or the certificate is self-signed:</p>
+<ul>
+<li>If the server is trusted and you did not specify the certificate thumbprint when you ran <code>vic-machine create</code>, specify the <code>--thumbprint</code> option, using the thumbprint from the error message.</li>
+<li>If the thumbprint that you specified in <code>--thumbprint</code> does not match the server certificate reported in the error message: <ol>
+<li>Remove the thumbprint from the <code>vic-machine create</code> command. 
+<strong>WARNING:</strong> A thumbprint mismatch could mean the server you have connected to is not the intended target and might have be spoofed.</li>
+<li>Validate that the change in server certificate is legitimate</li>
+<li>Re-run <code>vic-machine create</code>, specifying the new thumbprint in the <code>--thumbprint</code> option.</li>
 </ol>
+</li>
+</ul>
 
                     
                     </section>
@@ -549,10 +571,10 @@ vic-machine-<i>platform</i>.exe failed: x509: certificate signed by unknown auth
         </div>
 
         
-        <a href="./ts_resource_pool_error.html" class="navigation navigation-prev " aria-label="Previous page: Resource Pool Creation Error"><i class="fa fa-angle-left"></i></a>
+        <a href="./troubleshoot_vic_install.html" class="navigation navigation-prev " aria-label="Previous page: Troubleshooting vSphere Integrated Containers Engine Installation"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="./ts_cli_argument_error.html" class="navigation navigation-next " aria-label="Next page: Unknown or Non-Specified Argument Error or Incorrect User Name Error"><i class="fa fa-angle-right"></i></a>
+        <a href="./ts_cli_argument_error.html" class="navigation navigation-next " aria-label="Next page: Missing Common Name Error When TLS Options Are Specified"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

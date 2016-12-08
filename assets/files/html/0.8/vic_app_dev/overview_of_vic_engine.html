@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Overview of vSphere Integrated Containers Engine For Container Application Developers | Developing Container Applications with VMware vSphere Integrated Containers Engine, version 0.8 Release Candidate 3</title>
+        <title>Overview of vSphere Integrated Containers Engine For Container Application Developers | Developing Container Applications with VMware vSphere Integrated Containers 0.8</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -53,7 +53,7 @@
         data-chapter-title="Overview of vSphere Integrated Containers Engine For Container Application Developers"
         data-filepath="overview_of_vic_engine.md"
         data-basepath="."
-        data-revision="Mon Nov 28 2016 19:09:48 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Thu Dec 08 2016 19:42:23 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -157,46 +157,127 @@
             
         </li>
     
-        <li class="chapter " data-level="6" data-path="using_insecure_registries_with_vic.html">
+        <li class="chapter " data-level="6" data-path="using_registries_with_vic.html">
             
                 
-                    <a href="./using_insecure_registries_with_vic.html">
+                    <a href="./using_registries_with_vic.html">
                 
                         <i class="fa fa-check"></i>
                         
                             <b>6.</b>
                         
-                        Using Insecure Private Registry Servers with vSphere Integrated Containers Engine
+                        Using Private Registry Servers with vSphere Integrated Containers Engine
                     </a>
             
             
         </li>
     
-        <li class="chapter " data-level="7" data-path="network_use_cases.html">
+        <li class="chapter " data-level="7" data-path="using_vic_with_harbor.html">
+            
+                
+                    <a href="./using_vic_with_harbor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="network_use_cases.html">
             
                 
                     <a href="./network_use_cases.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>7.</b>
+                            <b>8.</b>
                         
-                        Network Port Use Cases
+                        Container Networking with vSphere Integrated Containers Engine
                     </a>
             
             
         </li>
     
-        <li class="chapter " data-level="8" data-path="ts_docker_version_error.html">
+        <li class="chapter " data-level="9" data-path="creating_containerized_app_with_vic.html">
+            
+                
+                    <a href="./creating_containerized_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        Creating a Containerized Application
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1" data-path="constraints_using_vic.html">
+            
+                
+                    <a href="./constraints_using_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.1.</b>
+                        
+                        Constraints of Using vSphere Integrated Containers Engine to Build Applications
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.2" data-path="build_app_with_vic.html">
+            
+                
+                    <a href="./build_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.2.</b>
+                        
+                        Example of Building an Application with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="ts_docker_version_error.html">
             
                 
                     <a href="./ts_docker_version_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>8.</b>
+                            <b>10.</b>
                         
                         Docker Commands Fail with a Docker API Version Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="feedback.html">
+            
+                
+                    <a href="./feedback.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        Send Documentation Feedback
                     </a>
             
             
@@ -225,7 +306,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="./" >Developing Container Applications with VMware vSphere Integrated Containers Engine, version 0.8 Release Candidate 3</a>
+        <a href="./" >Developing Container Applications with VMware vSphere Integrated Containers 0.8</a>
     </h1>
 </div>
 
@@ -236,7 +317,86 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="overview-of-vsphere-integrated-containers-engine-for-container-application-developers">Overview of vSphere Integrated Containers Engine For Container Application Developers</h1>
-<p>vSphere Integrated Containers Engine is a Docker interface for containers with a vSphere back-end. As a container developer, you can deploy, test, and run container processes in the same environment as  you would normally perform container operations. </p>
+<p>vSphere Integrated Containers Engine is container engine that is designed to integrate of all the packaging and runtime benefits of containers with the enterprise capabilities of a vSphere environment.  As a container developer, you can deploy, test, and run container processes in the same way as you would normally perform container operations. </p>
+<p>The information in this topic is intended for container developers. For an extended version of this information, see <a href="../vic_installation/introduction.html">Overview of vSphere Integrated Containers Engine for vSphere Administrators</a> in <em>vSphere Integrated Containers Engine Installation</em>. </p>
+<h2 id="differences-between-vsphere-integrated-containers-engine-and-a-classic-container-environment">Differences Between vSphere Integrated Containers Engine and a Classic Container Environment</h2>
+<p>The main differences between vSphere Integrated Containers Engine and a classic container environment are the following:</p>
+<ul>
+<li>vSphere, not Linux, is the container host:<ul>
+<li>Containers are spun up <em>as</em> VMs, not <em>in</em> VMs.</li>
+<li>Every container is fully isolated from the host and from the other containers.</li>
+<li>vSphere provides per-tenant dynamic resource limits within a vCenter Server cluster</li>
+</ul>
+</li>
+<li>vSphere, not Linux, is the infrastructure:<ul>
+<li>You can select vSphere networks that appear in the Docker client as container networks.</li>
+<li>Images, volumes, and container state are provisioned directly to VMFS.</li>
+</ul>
+</li>
+<li>vSphere is the control plane:<ul>
+<li>Use the Docker client to directly control selected elements of vSphere infrastructure.</li>
+<li>A container endpoint Service-as-a-Service presents as a service abstraction, not as IaaS</li>
+</ul>
+</li>
+</ul>
+<h2 id="what-does-vsphere-integrated-containers-engine-do">What Does vSphere Integrated Containers Engine Do?</h2>
+<p>vSphere Integrated Containers Engine allows the vSphere administrator to easily make the vSphere infrastructure accessible to you, the container application developer, so that you can provision container workloads into production.</p>
+<p><strong>Scenario 1: A Classic Container Environment</strong></p>
+<p>In a classic container environment: </p>
+<ul>
+<li>You raise a ticket and say, &quot;I need Docker&quot;. </li>
+<li>The vSphere administrator provisions a large Linux VM and sends you the IP address.</li>
+<li>You install Docker, patch the OS, configure in-guest network and storage virtualization, secure the guest, isolate the containers, package the containers efficiently, and manage upgrades and downtime. </li>
+</ul>
+<p>In this scenario, what the vSphere administrator has given you is similar to a nested hypervisor that you have to manage and which is opaque to them.</p>
+<p><strong>Scenario 2: vSphere Integrated Containers Engine</strong></p>
+<p>With vSphere Integrated Containers Engine: </p>
+<ul>
+<li>You raise a ticket and say, &quot;I need Docker&quot;. </li>
+<li>The vSphere administrator identifies datastores, networking, and compute on a cluster that you can use in your Docker environment. </li>
+<li>The vSphere administrator uses a utility called <code>vic-machine</code> to install a small appliance. The appliance represents an authorization for you to use the infrastructure that the vSphere administrator has identified, into which you can self-provision container workloads.</li>
+<li>The appliance runs a secure remote Docker API, that is the only access that you have to the vSphere infrastructure.</li>
+<li>Instead of sending you a Linux VM, the vSphere administrator sends you the IP address of the appliance, the port of the remote Docker API, and a certificate for secure access.</li>
+</ul>
+<p>In this scenario, the vSphere administrator has provided you with a service portal. This is better for you because you do not have to worry about isolation, patching, security, backup, and so on. It is better for the vSphere administrator because every container that you deploy is a container VM, that they can manage just like all of their other VMs.</p>
+<p>If you discover that you need more compute capacity, in Scenario 1, the vSphere administrator has to power down the VM and reconfigure it, or give you a new VM and let you deal with the clustering implications. Both of these solutions are disruptive to you. With vSphere Integrated Containers Engine in Scenario 2, the vSphere administrator can reconfigure the VCH in vSphere, or redeploy it with a new configuration in a way that is completely transparent to you.</p>
+<h2 id="vsphere-integrated-containers-engine-concepts">vSphere Integrated Containers Engine Concepts</h2>
+<p>The objective of vSphere Integrated Containers Engine is to take as much of vSphere as possible and layer whatever Docker capabilities are missing on top, reusing as much of Docker&#x2019;s own code as possible. The  result should not sacrifice the portability of the Docker image format and should be completely transparent to a Docker client. The following sections describe key concepts and components that make this possible.</p>
+<h3 id="container-vms">Container VMs</h3>
+<p>The container VMs that vSphere Integrated Containers Engine creates have all of the characteristics of software containers:</p>
+<ul>
+<li>An ephemeral storage layer with optionally attached persistent volumes.</li>
+<li>A custom Linux guest OS that is designed to be &quot;just a kernel&quot; and that needs images to be functional.</li>
+<li>A mechanism for persisting and attaching read-only binary image layers.</li>
+<li>A PID 1 guest agent <em>tether</em> extends the control plane into the container VM.</li>
+<li>Various well-defined methods of configuration and state ingress and egress</li>
+<li>Automatically configured to various network topologies.</li>
+</ul>
+<p>The provisioned container VM does not contain any OS container abstraction. </p>
+<ul>
+<li>The container VM boots from an ISO that contains the Photon Linux kernel. Note that container VMs do not run the full Photon OS.</li>
+<li>The container VM is configured with a container image that is mounted as a disk. </li>
+<li>Container image layers are represented as a read-only VMDK snapshot hierarchy on a vSphere datastore. At the top of this hierarchy is a read-write snapshot that stores ephemeral state. </li>
+<li>Container volumes are formatted VMDKs that are attached as disks and indexed on a datastore. </li>
+<li>Networks are distributed port groups that are attached as vNICs.</li>
+</ul>
+<p><a name="vch"></a></p>
+<h3 id="virtual-container-hosts">Virtual Container Hosts</h3>
+<p>A virtual container host (VCH) is the functional equivalent of a Linux VM that runs Docker, but with some significant benefits. A VCH represents the following elements:</p>
+<ul>
+<li>A clustered pool of resource into which to provision container VMs.</li>
+<li>A single-tenant container namespace.</li>
+<li>A secure API endpoint. </li>
+<li>Authorization to use and configure pre-approved virtual infrastructure.</li>
+</ul>
+<p>A VCH is functionally distinct from a traditional container host in the following ways:</p>
+<ul>
+<li>It naturally encapsulates clustering and dynamic scheduling by provisioning to vSphere targets.</li>
+<li>The resource constraints are dynamically configurable with no impact on the containers.</li>
+<li>Containers do not share a kernel.</li>
+<li>There is no local image cache. This is kept on a datastore in the cluster that the vSphere administrator specified when they deployed a VCH.</li>
+<li>There is no read-write shared storage</li>
+</ul>
 
                     
                     </section>
