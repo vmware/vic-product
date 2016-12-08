@@ -5,9 +5,9 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Introduction | Developing Container Applications with VMware vSphere Integrated Containers 0.8</title>
+        <title>Example of Building an Application with vSphere Integrated Containers Engine | Developing Container Applications with VMware vSphere Integrated Containers 0.8</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="Developing Container Applications with vSphere Integrated Containers Engine provides information about how to use VMware vSphere&amp;reg; Integrated Containers&amp;trade; Engine as the endpoint for Docker container application development.">
+        <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
         
         
@@ -37,8 +37,10 @@
         
     
     
-    <link rel="next" href="./overview_of_vic_engine.html" />
+    <link rel="next" href="./ts_docker_version_error.html" />
     
+    
+    <link rel="prev" href="./constraints_using_vic.html" />
     
 
         
@@ -47,9 +49,9 @@
         
         
     <div class="book"
-        data-level="0"
-        data-chapter-title="Introduction"
-        data-filepath="README.md"
+        data-level="9.2"
+        data-chapter-title="Example of Building an Application with vSphere Integrated Containers Engine"
+        data-filepath="build_app_with_vic.md"
         data-basepath="."
         data-revision="Thu Dec 08 2016 19:42:23 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
@@ -67,7 +69,7 @@
 
             
     
-        <li class="chapter active" data-level="0" data-path="index.html">
+        <li class="chapter " data-level="0" data-path="index.html">
             
                 
                     <a href="./index.html">
@@ -231,7 +233,7 @@
             
         </li>
     
-        <li class="chapter " data-level="9.2" data-path="build_app_with_vic.html">
+        <li class="chapter active" data-level="9.2" data-path="build_app_with_vic.html">
             
                 
                     <a href="./build_app_with_vic.html">
@@ -314,23 +316,131 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="developing-container-applications-with-vsphere-integrated-containers-engine">Developing Container Applications with vSphere Integrated Containers Engine</h1>
-<p><em>Developing Container Applications with vSphere Integrated Containers Engine</em> provides information about how to use VMware vSphere&#xAE; Integrated Containers&#x2122; Engine as the endpoint for Docker container application development.</p>
-<p><strong>Product version: 0.8</strong></p>
-<h2 id="intended-audience">Intended Audience</h2>
-<p>This information is intended for container application developers whose Docker environment uses vSphere Integrated Containers Engine as its endpoint. Knowledge of <a href="https://en.wikipedia.org/wiki/Operating-system-level_virtualization" target="_blank">container technology</a> and <a href="https://docs.docker.com/" target="_blank">Docker</a> is assumed.</p>
-<h1 id="send-documentation-feedback">Send Documentation Feedback</h1>
-<p>Help us to improve the vSphere Integrated Containers documentation. </p>
+                        <h1 id="example-of-building-an-application-with-vsphere-integrated-containers-engine">Example of Building an Application with vSphere Integrated Containers Engine</h1>
+<p>The example in this topic modifies the <a href="https://github.com/docker/example-voting-app" target="_blank">voting app</a> by Docker to illustrate how to work around the constraints that the current version of vSphere Integrated Containers Engine imposes. For information about the constraints, see <a href="constraints_using_vic.html">Constraints of Using vSphere Integrated Containers Engine to Build Applications</a>. </p>
+<p>This example focuses on how to modify the Docker Compose YML file from the voting app to make it work with vSphere Integrated Containers. It does not describe the general function or makeup of the voting app.  </p>
+<h2 id="getting-started">Getting Started</h2>
+<ol>
+<li>Clone the Docker voting app repository from <a href="https://github.com/docker/example-voting-app" target="_blank">https://github.com/docker/example-voting-app</a>.</li>
+<li>Open the YML file for the simple Docker voting app, <code>docker-compose-simple.yml</code>.</li>
+</ol>
+<pre>
+version: &quot;2&quot;
+
+services:
+  vote:
+    build: ./vote
+    command: python app.py
+    volumes:
+     - ./vote:/app
+    ports:
+      - &quot;5000:80&quot;
+
+  redis:
+    image: redis:alpine
+    ports: [&quot;6379&quot;]
+
+  worker:
+    build: ./worker
+
+  db:
+    image: postgres:9.4
+
+  result:
+    build: ./result
+    command: nodemon --debug server.js
+    volumes:
+      - ./result:/app
+    ports:
+      - &quot;5001:80&quot;
+      - &quot;5858:5858&quot;
+</pre>
+
+<p>This compose file uses two features that this version of vSphere Integrated Containers does not support:</p>
 <ul>
-<li><a href="mailto:docfeedback@vmware.com?subject=vSphere Integrated Containers&amp;body=Please include the document name, HTML link, PDF page number, and section heading in your feedback. Thank you!" target="_blank">Send doc feedback to VMware</a></li>
-<li><a href="https://github.com/vmware/vic-product/issues" target="_blank">Submit a doc issue in Github</a></li>
+<li>The <code>docker build</code> command</li>
+<li>Mapping of local folders to container volumes </li>
 </ul>
-<hr>
-<p>Copyright &#xA9; 2016 VMware, Inc. All rights reserved. <a href="http://pubs.vmware.com/copyright-trademark.html" target="_blank">Copyright and trademark information</a>. Any feedback you provide to VMware is subject to the terms at <a href="http://www.vmware.com/community_terms.html" target="_blank">www.vmware.com/community_terms.html</a>.</p>
-<p><strong>VMware, Inc.</strong>
-3401 Hillview Ave.
-Palo Alto, CA 94304</p>
-<p><a href="http://www.vmware.com" target="_blank">www.vmware.com</a></p>
+<p>To allow the voting app to work with vSphere Integrated Containers, you must modify it to work around these constraints. </p>
+<h2 id="modify-the-application">Modify the Application</h2>
+<p>This version of vSphere Integrated Containers Engine does not support the <code>docker build</code>, <code>tag</code>, <code>push</code> commands. Use regular Docker without vSphere Integrated Containers Engine to perform the steps in this section.</p>
+<p><strong>NOTE</strong>: It is possible to build and tag an image in one step. In this example, building and tagging are in separate steps.</p>
+<ol>
+<li><p>Build images for the different components of the application.</p>
+<pre>cd example-voting-app  
+docker build -t vote ./vote  
+docker build -t vote-worker ./worker  
+docker build -t vote-result ./result</pre>
+</li>
+<li><p>Tag the the images to upload them to your private registry or to your personal account on Docker Hub. </p>
+<p>This example uses a Docker Hub account. Replace <i>dockerhub_username</i> with your own account name in the commands below.</p>
+<pre>docker tag vote <i>dockerhub_username</i>/vote  
+docker tag vote-worker <i>dockerhub_username</i>/vote-worker  
+docker tag vote-result <i>dockerhub_username</i>/vote-result</pre>
+</li>
+<li><p>Push the images to the registry.</p>
+<pre>docker login 
+[Provide credentials] 
+docker push <i>dockerhub_username</i>/vote  
+docker push <i>dockerhub_username</i>/vote-worker  
+docker push <i>dockerhub_username</i>/vote-result</pre> 
+</li>
+<li><p>Open the <code>docker-compose-simple.yml</code> file in an editor and modify it to remove the operations that vSphere Integrated Containers does not support.</p>
+<ul>
+<li>Remove local folder mapping</li>
+<li>Remove all of the build directives</li>
+<li>Update <i>dockerhub_username</i> to your Docker Hub account name</li>
+<li>Save the modified file with the name <code>docker-compose.yml</code>.  </li>
+</ul>
+</li>
+</ol>
+<p>The example below shows the YML file after the modifications:</p>
+<pre>
+version: &quot;2&quot;
+
+services:
+  vote:
+    image: <i>dockerhub_username</i>/vote
+    command: python app.py
+    ports:
+      - &quot;5000:80&quot;
+
+  redis:
+    image: redis:alpine
+    ports: [&quot;6379&quot;]
+
+  worker:
+    image: <i>dockerhub_username</i>/vote-worker
+
+  db:
+    image: postgres:9.4
+
+  result:
+    image: <i>dockerhub_username</i>/vote-result
+    command: nodemon --debug server.js
+    ports:
+      - &quot;5001:80&quot;
+      - &quot;5858:5858&quot;
+</pre>
+
+<p>You can download the modified YML file from the vSphere Integrated Containers Engine repository on Github from <a href="https://github.com/vmware/vic/blob/master/demos/compose/voting-app" target="_blank">https://github.com/vmware/vic/blob/master/demos/compose/voting-app</a>. </p>
+<h2 id="deploy-the-application-to-a-vch">Deploy the Application to a VCH</h2>
+<p>The steps in this section make the following assumptions:</p>
+<ul>
+<li>You have deployed a virtual container host (VCH).</li>
+<li>You deployed the VCH with a volume store named <code>default</code> by specifying  <code>--volume-store datastore_name/path:default</code>.</li>
+<li>You deployed the VCH with the <code>--no-tls</code> option, to disable TLS authentication between the Docker client and the VCH.</li>
+<li>You are using Docker Compose 1.8.1.</li>
+</ul>
+<p>In the procedure below, run the commands from the <code>example-voting-app</code>  folder that contains the modified <code>docker-compose.yml</code> file.</p>
+<ol>
+<li><p>Run the <code>docker-compose</code> command.</p>
+ <pre>docker-compose -H <i>vch_address</i>:2375 up -d</pre>
+</li>
+<li><p>In a browser, go to <a href="http://*vch_address*:5000" target="_blank">http://*vch_address*:5000</a> and <a href="http://*vch_address*:5001" target="_blank">http://*vch_address*:5001</a> to verify that the Docker voting application is running.</p>
+<p>You can vote on port 5000 and see the results on port 5001.</p>
+</li>
+</ol>
 
                     
                     </section>
@@ -341,8 +451,10 @@ Palo Alto, CA 94304</p>
         </div>
 
         
+        <a href="./constraints_using_vic.html" class="navigation navigation-prev " aria-label="Previous page: Constraints of Using vSphere Integrated Containers Engine to Build Applications"><i class="fa fa-angle-left"></i></a>
         
-        <a href="./overview_of_vic_engine.html" class="navigation navigation-next navigation-unique" aria-label="Next page: Overview of vSphere Integrated Containers Engine For Container Application Developers"><i class="fa fa-angle-right"></i></a>
+        
+        <a href="./ts_docker_version_error.html" class="navigation navigation-next " aria-label="Next page: Docker Commands Fail with a Docker API Version Error"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

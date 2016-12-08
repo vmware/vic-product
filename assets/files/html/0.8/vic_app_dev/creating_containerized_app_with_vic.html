@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Using Insecure Private Registry Servers with vSphere Integrated Containers Engine | Developing Container Applications with VMware vSphere Integrated Containers Engine, version 0.8 Release Candidate 3</title>
+        <title>Creating a Containerized Application | Developing Container Applications with VMware vSphere Integrated Containers 0.8</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="./network_use_cases.html" />
+    <link rel="next" href="./constraints_using_vic.html" />
     
     
-    <link rel="prev" href="./using_volumes_with_vic.html" />
+    <link rel="prev" href="./network_use_cases.html" />
     
 
         
@@ -49,11 +49,11 @@
         
         
     <div class="book"
-        data-level="6"
-        data-chapter-title="Using Insecure Private Registry Servers with vSphere Integrated Containers Engine"
-        data-filepath="using_insecure_registries_with_vic.md"
+        data-level="9"
+        data-chapter-title="Creating a Containerized Application"
+        data-filepath="creating_containerized_app_with_vic.md"
         data-basepath="."
-        data-revision="Mon Nov 28 2016 19:09:48 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Thu Dec 08 2016 19:42:23 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -157,46 +157,127 @@
             
         </li>
     
-        <li class="chapter active" data-level="6" data-path="using_insecure_registries_with_vic.html">
+        <li class="chapter " data-level="6" data-path="using_registries_with_vic.html">
             
                 
-                    <a href="./using_insecure_registries_with_vic.html">
+                    <a href="./using_registries_with_vic.html">
                 
                         <i class="fa fa-check"></i>
                         
                             <b>6.</b>
                         
-                        Using Insecure Private Registry Servers with vSphere Integrated Containers Engine
+                        Using Private Registry Servers with vSphere Integrated Containers Engine
                     </a>
             
             
         </li>
     
-        <li class="chapter " data-level="7" data-path="network_use_cases.html">
+        <li class="chapter " data-level="7" data-path="using_vic_with_harbor.html">
+            
+                
+                    <a href="./using_vic_with_harbor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="network_use_cases.html">
             
                 
                     <a href="./network_use_cases.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>7.</b>
+                            <b>8.</b>
                         
-                        Network Port Use Cases
+                        Container Networking with vSphere Integrated Containers Engine
                     </a>
             
             
         </li>
     
-        <li class="chapter " data-level="8" data-path="ts_docker_version_error.html">
+        <li class="chapter active" data-level="9" data-path="creating_containerized_app_with_vic.html">
+            
+                
+                    <a href="./creating_containerized_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        Creating a Containerized Application
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1" data-path="constraints_using_vic.html">
+            
+                
+                    <a href="./constraints_using_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.1.</b>
+                        
+                        Constraints of Using vSphere Integrated Containers Engine to Build Applications
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.2" data-path="build_app_with_vic.html">
+            
+                
+                    <a href="./build_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.2.</b>
+                        
+                        Example of Building an Application with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="ts_docker_version_error.html">
             
                 
                     <a href="./ts_docker_version_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>8.</b>
+                            <b>10.</b>
                         
                         Docker Commands Fail with a Docker API Version Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="feedback.html">
+            
+                
+                    <a href="./feedback.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        Send Documentation Feedback
                     </a>
             
             
@@ -225,7 +306,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="./" >Developing Container Applications with VMware vSphere Integrated Containers Engine, version 0.8 Release Candidate 3</a>
+        <a href="./" >Developing Container Applications with VMware vSphere Integrated Containers 0.8</a>
     </h1>
 </div>
 
@@ -235,21 +316,12 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="using-insecure-private-registry-servers-with-vsphere-integrated-containers-engine">Using Insecure Private Registry Servers with vSphere Integrated Containers Engine</h1>
-<p>An insecure private registry server is a private registry server that is secured by self-signed certificates rather than by TLS.</p>
-<p>If your Docker environment stores Docker images in an insecure private registry server, you or the vSphere administrator must have set the <code>vic-machine  create --insecure-registry</code> option when creating the virtual container host (VCH). Setting the <code>insecure-registry</code> option on a VCH informs that VCH that it is permitted to pull images from the designated insecure registry server. </p>
-<p>For information about how to use the <code>vic-machine create --insecure-registry</code> option, see the section on <code>insecure-registry</code> in <a href="../vic_installation/vch_installer_options.html#registry">VCH Deployment Options</a> in <em>vSphere Integrated Containers Engine Installation</em>. </p>
-<h2 id="pull-a-container-image-from-an-insecure-private-registry-server">Pull a Container Image from an Insecure Private Registry Server</h2>
-<p>For simplicity, the examples in this topic assume that the VCHs implement TLS authentication with self-signed untrusted certificates, with no client verification.</p>
-<p>To pull a container image from an insecure private registry server, run the following Docker command. </p>
-<pre>docker -H <i>vch_address</i>:2376 --tls 
-pull <i>registry_server_address</i>/path/to/image/<i>image_name</i>:<i>image_version</i></pre>
-
-<p>If the private registry server listens for connections on a specific port, include the port number in the registry server URL.</p>
-<pre>docker -H <i>vch_address</i>:2376 --tls 
-pull <i>registry_server_address</i>:<i>port_number</i>/path/to/image/<i>image_name</i>:<i>image_version</i></pre>
-
-<p><strong>NOTE</strong>: The current builds of vSphere Integrated Containers do not yet support private registry servers that you secure by using TLS certificates.</p>
+                        <h1 id="creating-a-containerized-application-with-vsphere-integrated-containers-engine">Creating a Containerized Application with vSphere Integrated Containers Engine</h1>
+<p>The topics in this section provides guidelines for container developers who want to use vSphere Integrated Containers Engine to develop and deploy a containerized application. They include an example of using <a href="https://docs.docker.com/compose/" target="_blank">Docker Compose</a> with vSphere Integrated Containers Engine. </p>
+<ul>
+<li><a href="constraints_using_vic.html">Constraints of Using vSphere Integrated Containers Engine to Build Applications</a></li>
+<li><a href="build_app_with_vic.html">Example of Building an Application with vSphere Integrated Containers Engine</a></li>
+</ul>
 
                     
                     </section>
@@ -260,10 +332,10 @@ pull <i>registry_server_address</i>:<i>port_number</i>/path/to/image/<i>image_na
         </div>
 
         
-        <a href="./using_volumes_with_vic.html" class="navigation navigation-prev " aria-label="Previous page: Using Volumes with vSphere Integrated Containers Engine"><i class="fa fa-angle-left"></i></a>
+        <a href="./network_use_cases.html" class="navigation navigation-prev " aria-label="Previous page: Container Networking with vSphere Integrated Containers Engine"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="./network_use_cases.html" class="navigation navigation-next " aria-label="Next page: Network Port Use Cases"><i class="fa fa-angle-right"></i></a>
+        <a href="./constraints_using_vic.html" class="navigation navigation-next " aria-label="Next page: Constraints of Using vSphere Integrated Containers Engine to Build Applications"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

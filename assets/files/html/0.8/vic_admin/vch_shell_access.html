@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Access the VCH Admin Portal | VMware vSphere Integrated Containers Engine 0.8 for vSphere Administrators</title>
+        <title>Enable Shell Access to the VCH Endpoint VM | VMware vSphere Integrated Containers Engine 0.8 for vSphere Administrators</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="./browser_login.html" />
+    <link rel="next" href="./vch_ssh_access.html" />
     
     
-    <link rel="prev" href="./container_portlet_ui.html" />
+    <link rel="prev" href="./debug_vch.html" />
     
 
         
@@ -49,9 +49,9 @@
         
         
     <div class="book"
-        data-level="5"
-        data-chapter-title="Access the VCH Admin Portal"
-        data-filepath="access_vicadmin.md"
+        data-level="6.2.1"
+        data-chapter-title="Enable Shell Access to the VCH Endpoint VM"
+        data-filepath="vch_shell_access.md"
         data-basepath="."
         data-revision="Thu Dec 08 2016 19:42:05 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
@@ -244,7 +244,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="5" data-path="access_vicadmin.html">
+        <li class="chapter " data-level="5" data-path="access_vicadmin.html">
             
                 
                     <a href="./access_vicadmin.html">
@@ -357,7 +357,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="6.2.1" data-path="vch_shell_access.html">
+        <li class="chapter active" data-level="6.2.1" data-path="vch_shell_access.html">
             
                 
                     <a href="./vch_shell_access.html">
@@ -490,36 +490,44 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="access-the-administration-portal-for-a-vch">Access the Administration Portal for a VCH</h1>
-<p>vSphere Integrated Containers Engine provides a Web-based administration portal for virtual container hosts (VCHs), called VCH Admin.</p>
-<p>If you deployed the VCH with <code>--no-tls</code> or <code>--no-tlsverify</code>, you can only log in to VCH Admin by specifying the username and password of the ESXi host or vCenter Server on which you deployed the VCH. If you deployed the VCH with client and server authentication by using <code>--tls-cname</code> or by specifying a static IP address on the client network, you can use the generated <code>*.pfx</code> certificate to authenticate with the VCH Admin portal. For information about using the <code>*.pfx</code> certificate to log into VCH admin, see <a href="browser_login.html">Browser-Based Certificate Login</a> and <a href="cmdline_login.html">Command Line Certificate Login</a>.</p>
+                        <h1 id="enable-shell-access-to-the-vch-endpoint-vm">Enable shell access to the VCH Endpoint VM</h1>
+<p>You can use the <code>vic-machine debug</code> command to enable shell access to a VCH endpoint VM by setting a root password on the VM. Setting a root password enables access to the VCH endpoint VM via the VM console only. If you require SSH access to the VCH endoint VM, rather than just shell access, see <a href="vch_ssh_access.html">Authorize SSH Access to the VCH Endpoint VM</a>.  </p>
+<p><strong>IMPORTANT</strong>: Any changes that you make to a VCH by using <code>vic-machine debug</code> are non-persistent and are discarded if the VCH endpoint VM reboots.</p>
+<p>For descriptions of the options that <code>vic-machine debug</code> includes in addition to the <a href="common_vic_options.html">Common <code>vic-machine</code> Options</a> , see <a href="debug_vch_options.html">VCH Debug Options</a>.</p>
 <p><strong>Prerequisites</strong></p>
-<ul>
-<li>You deployed a VCH.</li>
-<li>Obtain the address of the VCH:<ul>
-<li>Copy the address from the output of <code>vic-machine create</code> or <code>vic-machine inspect</code>. </li>
-<li>If you deployed the VCH to vCenter Server, copy the address from the <strong>Summary</strong> tab for the vSphere Integrated Containers Engine endpoint VM in the vSphere Web Client.</li>
-<li>If you deployed the VCH to an ESXi host, copy the address from the <strong>Summary</strong> tab for the vSphere Integrated Containers Engine endpoint VM in the desktop vSphere Client.</li>
-</ul>
-</li>
-</ul>
+<p>You deployed a VCH.</p>
 <p><strong>Procedure</strong></p>
 <ol>
-<li><p>Go to https://<i>vch_address</i>:2378.</p>
-<p>If prompted about an insecure or not private connection, click Advanced and follow the prompts to proceed to the portal.   </p>
+<li>On the system on which you run <code>vic-machine</code>, navigate to the directory that contains the <code>vic-machine</code> utility.</li>
+<li><p>Run the <code>vic-machine debug</code> command. </p>
+<ul>
+<li><p>Specify the vSphere target and its credentials, either in the <code>--target</code> option or separately in the <code>--user</code> and <code>--password</code> options. </p>
+<p> The credentials that you provide must have the following privilege on the endpoint VM:<pre>Virtual machine.Guest Operations.Guest Operation Program Execution</pre></p>
 </li>
-<li><p>Enter the username and password for the vCenter Server instance or ESXi host.</p>
+<li>Specify the ID or name of the VCH to debug.</li>
+<li>Potentially provide the thumbprint of the vCenter Server or ESXi host certificate.</li>
+<li><p>Provide a password for the root user on the VCH endpoint VM by specifying the <code>--rootpw</code> option. Wrap the password in single quotes (Linux or Mac OS) or double quotes (Windows) if it includes shell characters such as <code>$</code>, <code>!</code> or <code>%</code>.</p>
+<pre>$ vic-machine-<i>operating_system</i> debug
+--target <i>vcenter_server_or_esxi_host_address</i>
+--user <i>vcenter_server_or_esxi_host_username</i>
+--password <i>vcenter_server_or_esxi_host_password</i>
+--id <i>vch_id</i>
+--thumbprint <i>certificate_thumbprint</i>
+--rootpw &apos;<i>new_p@ssword</i>&apos; 
+</pre>
+
+</li>
+</ul>
 </li>
 </ol>
 <p><strong>Result</strong></p>
-<p>The VCH Admin portal displays information about the VCH and the environment in which is running:</p>
-<ul>
-<li>Status information about the VCH, registry and Internet connections,  firewall configuration, and license. For information about these statuses and how to remedy error states, see the <a href="vicadmin_status_ref.html">VCH Status Reference</a>.</li>
-<li>The address of the Docker endpoint.</li>
-<li>The system time of the VCH. This is useful to know because clock skews between VCHs and client systems can cause TLS authentication to fail. For information about clock skews, see <a href="ts_clock_skew.html">Connections Fail with Certificate Errors when Using Full TLS Authentication with Trusted Certificates</a>. </li>
-<li>The remaining capacity of the datastore that you designated as the image store. If the VCH is unable to connect to vSphere, the datastore information is not displayed.</li>
-<li>Live logs and log bundles for different aspects of the VCH. For information about the logs, see <a href="log_bundles.html">Access vSphere Integrated Containers Engine Log Bundles</a>.</li>
-</ul>
+<p>The output of the <code>vic-machine debug</code> command includes confirmation that SSH access is enabled:</p>
+<pre>### Configuring VCH for debug ####
+[...]
+SSH to appliance:
+ssh root@<i>vch_address</i>
+[...]
+Completed successfully</pre>   
 
                     
                     </section>
@@ -530,10 +538,10 @@
         </div>
 
         
-        <a href="./container_portlet_ui.html" class="navigation navigation-prev " aria-label="Previous page: Find Container Information in the vSphere Web Client"><i class="fa fa-angle-left"></i></a>
+        <a href="./debug_vch.html" class="navigation navigation-prev " aria-label="Previous page: Debugging the VCH"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="./browser_login.html" class="navigation navigation-next " aria-label="Next page: Browser-Based Certificate Login"><i class="fa fa-angle-right"></i></a>
+        <a href="./vch_ssh_access.html" class="navigation navigation-next " aria-label="Next page: Authorize SSH Access to the VCH Endpoint VM"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

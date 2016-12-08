@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Access the VCH Admin Portal | VMware vSphere Integrated Containers Engine 0.8 for vSphere Administrators</title>
+        <title>Command Line Certificate Login | VMware vSphere Integrated Containers Engine 0.8 for vSphere Administrators</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="./browser_login.html" />
+    <link rel="next" href="./vicadmin_status_ref.html" />
     
     
-    <link rel="prev" href="./container_portlet_ui.html" />
+    <link rel="prev" href="./browser_login.html" />
     
 
         
@@ -49,9 +49,9 @@
         
         
     <div class="book"
-        data-level="5"
-        data-chapter-title="Access the VCH Admin Portal"
-        data-filepath="access_vicadmin.md"
+        data-level="5.2"
+        data-chapter-title="Command Line Certificate Login"
+        data-filepath="cmdline_login.md"
         data-basepath="."
         data-revision="Thu Dec 08 2016 19:42:05 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
@@ -244,7 +244,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="5" data-path="access_vicadmin.html">
+        <li class="chapter " data-level="5" data-path="access_vicadmin.html">
             
                 
                     <a href="./access_vicadmin.html">
@@ -275,7 +275,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5.2" data-path="cmdline_login.html">
+        <li class="chapter active" data-level="5.2" data-path="cmdline_login.html">
             
                 
                     <a href="./cmdline_login.html">
@@ -490,36 +490,37 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="access-the-administration-portal-for-a-vch">Access the Administration Portal for a VCH</h1>
-<p>vSphere Integrated Containers Engine provides a Web-based administration portal for virtual container hosts (VCHs), called VCH Admin.</p>
-<p>If you deployed the VCH with <code>--no-tls</code> or <code>--no-tlsverify</code>, you can only log in to VCH Admin by specifying the username and password of the ESXi host or vCenter Server on which you deployed the VCH. If you deployed the VCH with client and server authentication by using <code>--tls-cname</code> or by specifying a static IP address on the client network, you can use the generated <code>*.pfx</code> certificate to authenticate with the VCH Admin portal. For information about using the <code>*.pfx</code> certificate to log into VCH admin, see <a href="browser_login.html">Browser-Based Certificate Login</a> and <a href="cmdline_login.html">Command Line Certificate Login</a>.</p>
-<p><strong>Prerequisites</strong></p>
+                        <h1 id="command-line-certificate-login">Command Line Certificate Login</h1>
+<p>You can use certificate-based authentication with tools such as <code>curl</code> or <code>wget</code> to access the VCH Admin log server.</p>
+<h2 id="with-tls-client-authentication">With TLS Client Authentication</h2>
+<p>If you deployed the VCH with client authentication by using <code>--tls-cname</code> or by specifying a static IP address on the client network, you can point <code>curl</code> to the <code>cert.pem</code> and <code>key.pem</code> files for the VCH. The following example authenticates connections to the <code>port-layer.log</code> file.</p>
+<pre>
+curl https://<i>vch_address</i>:2378/logs/port-layer.log 
+--key ./<i>cert_folder</i>/key.pem 
+--certificate ./<i>cert_folder</i>/cert.pem
+</pre>
+
+
+<p><strong>NOTE</strong>: If your certificates are self-signed, you might also need to specify the <code>curl -k</code> flag.</p>
+<p>In the example above, <i>cert_folder</i> is either of the following locations:</p>
 <ul>
-<li>You deployed a VCH.</li>
-<li>Obtain the address of the VCH:<ul>
-<li>Copy the address from the output of <code>vic-machine create</code> or <code>vic-machine inspect</code>. </li>
-<li>If you deployed the VCH to vCenter Server, copy the address from the <strong>Summary</strong> tab for the vSphere Integrated Containers Engine endpoint VM in the vSphere Web Client.</li>
-<li>If you deployed the VCH to an ESXi host, copy the address from the <strong>Summary</strong> tab for the vSphere Integrated Containers Engine endpoint VM in the desktop vSphere Client.</li>
+<li>The folder with the same name as the VCH, in the directory from which you ran <code>vic-machine create</code>.</li>
+<li>A folder that you specified in the <code>vic-machine create --cert-path</code> option.</li>
 </ul>
-</li>
-</ul>
-<p><strong>Procedure</strong></p>
+<h2 id="without-client-authentication">Without Client Authentication</h2>
+<p>If you deployed the VCH without client authentication by using either of <code>--no-tls</code> or <code>--no-tlsverify</code>, you can use curl to access the logs but you must first authenticate connections to VCH Admin by using the  vSphere username and password. </p>
 <ol>
-<li><p>Go to https://<i>vch_address</i>:2378.</p>
-<p>If prompted about an insecure or not private connection, click Advanced and follow the prompts to proceed to the portal.   </p>
+<li><p>Log in to VCH Admin to gather an authentication cookie for subsequent access:</p>
+<pre>curl -sk https://<i>vch_address</i>:2378/authentication 
+-XPOST -F username=<i>vsphere_username</i> 
+-F password=<i>vsphere_password</i> 
+-D cookies_file
+</pre>
 </li>
-<li><p>Enter the username and password for the vCenter Server instance or ESXi host.</p>
-</li>
+<li><p>Use the cookie from Step 1 in a <code>curl</code> command to access the logs.</p>
+ <pre>curl -sk https://<i>vch_address</i>:2378/logs/port-layer.log 
+-b cookies_file</pre></li>
 </ol>
-<p><strong>Result</strong></p>
-<p>The VCH Admin portal displays information about the VCH and the environment in which is running:</p>
-<ul>
-<li>Status information about the VCH, registry and Internet connections,  firewall configuration, and license. For information about these statuses and how to remedy error states, see the <a href="vicadmin_status_ref.html">VCH Status Reference</a>.</li>
-<li>The address of the Docker endpoint.</li>
-<li>The system time of the VCH. This is useful to know because clock skews between VCHs and client systems can cause TLS authentication to fail. For information about clock skews, see <a href="ts_clock_skew.html">Connections Fail with Certificate Errors when Using Full TLS Authentication with Trusted Certificates</a>. </li>
-<li>The remaining capacity of the datastore that you designated as the image store. If the VCH is unable to connect to vSphere, the datastore information is not displayed.</li>
-<li>Live logs and log bundles for different aspects of the VCH. For information about the logs, see <a href="log_bundles.html">Access vSphere Integrated Containers Engine Log Bundles</a>.</li>
-</ul>
 
                     
                     </section>
@@ -530,10 +531,10 @@
         </div>
 
         
-        <a href="./container_portlet_ui.html" class="navigation navigation-prev " aria-label="Previous page: Find Container Information in the vSphere Web Client"><i class="fa fa-angle-left"></i></a>
+        <a href="./browser_login.html" class="navigation navigation-prev " aria-label="Previous page: Browser-Based Certificate Login"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="./browser_login.html" class="navigation navigation-next " aria-label="Next page: Browser-Based Certificate Login"><i class="fa fa-angle-right"></i></a>
+        <a href="./vicadmin_status_ref.html" class="navigation navigation-next " aria-label="Next page: VCH Admin Status Reference"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
