@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Docker Commands Fail with a Docker API Version Error | Developing Container Applications with VMware vSphere Integrated Containers 0.8</title>
+        <title>Default Volume Store Error | Developing Container Applications with VMware vSphere Integrated Containers 0.8</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="./ts_volume_store_error.html" />
+    <link rel="next" href="./ts_bridge_pool_mask_error.html" />
     
     
-    <link rel="prev" href="./build_app_with_vic.html" />
+    <link rel="prev" href="./ts_docker_version_error.html" />
     
 
         
@@ -49,9 +49,9 @@
         
         
     <div class="book"
-        data-level="10"
-        data-chapter-title="Docker Commands Fail with a Docker API Version Error"
-        data-filepath="ts_docker_version_error.md"
+        data-level="11"
+        data-chapter-title="Default Volume Store Error"
+        data-filepath="ts_volume_store_error.md"
         data-basepath="."
         data-revision="Thu Feb 23 2017 15:34:21 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
@@ -253,7 +253,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="10" data-path="ts_docker_version_error.html">
+        <li class="chapter " data-level="10" data-path="ts_docker_version_error.html">
             
                 
                     <a href="./ts_docker_version_error.html">
@@ -268,7 +268,7 @@
             
         </li>
     
-        <li class="chapter " data-level="11" data-path="ts_volume_store_error.html">
+        <li class="chapter active" data-level="11" data-path="ts_volume_store_error.html">
             
                 
                     <a href="./ts_volume_store_error.html">
@@ -346,29 +346,16 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="docker-commands-fail-with-a-docker-api-version-error">Docker Commands Fail with a Docker API Version Error</h1>
-<p>After a successful deployment of a vSphere Integrated Containers Engine virtual container host (VCH), attempting to run a Docker command fails with a Docker version error.</p>
+                        <h1 id="default-volume-store-error">Default Volume Store Error</h1>
+<p>When you create or run a container, the Docker operation fails with an error about a missing volume store.  </p>
 <h2 id="problem">Problem</h2>
-<p>When you attempt to run a Docker command from a Docker client that is connecting to a VCH, the command fails with the following error: </p>
-<pre>Error response from daemon: client is newer than server 
-(client API version: <i>x.xx</i>, server API version: 1.23)</pre>
-
-<h2 id="cause">Cause</h2>
-<p>This version of vSphere Integrated Containers Engine supports Docker 1.11, that includes version 1.23 of the Docker API. You are using a more recent version of the Docker client, that includes a version of the Docker API that is incompatible.</p>
+<p>Running the container fails with error:</p>
+<pre><code>docker: Error response from daemon: No volume store named (default) exists.
+</code></pre><h2 id="cause">Cause</h2>
+<p>By default, vic-machine create does not create a volume store when you or the vSphere administrator deploy a VCH. To run containers from images that use volumes, you or the vSphere administrator must specify a volume store named default when deploying the VCH.</p>
 <h2 id="solution">Solution</h2>
-<ol>
-<li>Open a terminal on the system on which you run the Docker client.</li>
-<li><p>Set the Docker client API to the same version as the one that is used by vSphere Integrated Containers Engine.</p>
- <pre>export DOCKER_API_VERSION=1.23</pre> 
-</li>
-<li><p>Check that your Docker client can now connect to the VCH by running a Docker command. </p>
-<ul>
-<li>With TLS authentication: <pre>docker -H <i>virtual_container_host_address</i>:2376 --tls info</pre></li>
-<li>Without TLS authentication:<pre>docker -H <i>virtual_container_host_address</i>:2375 info</pre></li>
-</ul>
-<p>The <code>docker info</code> command should succeed and you should see information about the VCH.</p>
-</li>
-</ol>
+<p>Deploy a VCH by using the <code>vic-machine create --volume-store</code> option to create a VCH with a volume store named <code>default</code>. See <code>--volume-store</code> in VCH Deployment Options and <a href="vch_installer_examples.md#volume-stores">Specify One or More Volume Stores</a> in Advanced Examples of Deploying a VCH in <em>vSphere Integrated Containers Installation</em>.</p>
+<p>Use <code>docker volume inspect</code> to get information about the volume. </p>
 
                     
                     </section>
@@ -379,10 +366,10 @@
         </div>
 
         
-        <a href="./build_app_with_vic.html" class="navigation navigation-prev " aria-label="Previous page: Example of Building an Application with vSphere Integrated Containers Engine"><i class="fa fa-angle-left"></i></a>
+        <a href="./ts_docker_version_error.html" class="navigation navigation-prev " aria-label="Previous page: Docker Commands Fail with a Docker API Version Error"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="./ts_volume_store_error.html" class="navigation navigation-next " aria-label="Next page: Default Volume Store Error"><i class="fa fa-angle-right"></i></a>
+        <a href="./ts_bridge_pool_mask_error.html" class="navigation navigation-next " aria-label="Next page: Bridge Pool Mask Error"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

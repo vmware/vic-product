@@ -37,7 +37,7 @@
         
     
     
-    <link rel="next" href="./deploy_vch_harbor.html" />
+    <link rel="next" href="./set_up_ops_user.html" />
     
     
     <link rel="prev" href="./vch_installer_options.html" />
@@ -53,7 +53,7 @@
         data-chapter-title="Advanced Examples of Deploying a VCH"
         data-filepath="vch_installer_examples.md"
         data-basepath="."
-        data-revision="Thu Dec 08 2016 19:41:39 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Thu Feb 23 2017 15:33:46 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -260,14 +260,29 @@
             
         </li>
     
-        <li class="chapter " data-level="3.7" data-path="deploy_vch_harbor.html">
+        <li class="chapter " data-level="3.7" data-path="set_up_ops_user.html">
+            
+                
+                    <a href="./set_up_ops_user.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.7.</b>
+                        
+                        Use Different User Accounts for VCH Deployment and Operation
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="deploy_vch_harbor.html">
             
                 
                     <a href="./deploy_vch_harbor.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>3.7.</b>
+                            <b>3.8.</b>
                         
                         Deploy a VCH with vSphere Integrated Containers Registry (Harbor)
                     </a>
@@ -392,14 +407,29 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="5.1" data-path="ts_thumbprint_error.html">
+        <li class="chapter " data-level="5.1" data-path="ts_vch_deployment_timeout.html">
+            
+                
+                    <a href="./ts_vch_deployment_timeout.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                        VCH Deployment Times Out
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="ts_thumbprint_error.html">
             
                 
                     <a href="./ts_thumbprint_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.1.</b>
+                            <b>5.2.</b>
                         
                         Certificate Verification Error
                     </a>
@@ -407,14 +437,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.2" data-path="ts_cli_argument_error.html">
+        <li class="chapter " data-level="5.3" data-path="ts_cli_argument_error.html">
             
                 
                     <a href="./ts_cli_argument_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.2.</b>
+                            <b>5.3.</b>
                         
                         Missing Common Name Error When TLS Options Are Specified
                     </a>
@@ -422,14 +452,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.3" data-path="ts_firewall_error.html">
+        <li class="chapter " data-level="5.4" data-path="ts_firewall_error.html">
             
                 
                     <a href="./ts_firewall_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.3.</b>
+                            <b>5.4.</b>
                         
                         Firewall Validation Error
                     </a>
@@ -437,14 +467,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.4" data-path="ts_cname_mismatch.html">
+        <li class="chapter " data-level="5.5" data-path="ts_cname_mismatch.html">
             
                 
                     <a href="./ts_cname_mismatch.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.4.</b>
+                            <b>5.5.</b>
                         
                         Certificate cname Mismatch
                     </a>
@@ -452,14 +482,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.5" data-path="ts_ui_not_appearing.html">
+        <li class="chapter " data-level="5.6" data-path="ts_ui_not_appearing.html">
             
                 
                     <a href="./ts_ui_not_appearing.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.5.</b>
+                            <b>5.6.</b>
                         
                         Plug-In Does Not Appear in the vSphere Web Client
                     </a>
@@ -467,16 +497,31 @@
             
         </li>
     
-        <li class="chapter " data-level="5.6" data-path="ts_docker_version_error.html">
+        <li class="chapter " data-level="5.7" data-path="ts_docker_version_error.html">
             
                 
                     <a href="./ts_docker_version_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.6.</b>
+                            <b>5.7.</b>
                         
                         Docker API Version Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8" data-path="ts_docker_api_check_error.html">
+            
+                
+                    <a href="./ts_docker_api_check_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.8.</b>
+                        
+                        I/O Timeout Error
                     </a>
             
             
@@ -853,15 +898,18 @@
 <p>When you deploy a VCH, you can use different vSphere user accounts for deployment and for operation. This allows you to run VCHs with lower levels of privileges than are required for deployment.</p>
 <p>This example deploys a VCH with the following configuration:</p>
 <ul>
-<li>Specifies the image store, cluster, bridge network, and name for the VCH.</li>
-<li>Specifies <i>vsphere_admin</i> in the <code>--target</code> option, to identify the user account with which to deploy the VCH.</li>
-<li>Specifies <i>vsphere_user</i> and its password in the <code>--ops-user</code> and <code>--ops-password</code> options, to identify the user account with which the VCH runs.</li>
+<li>Specifies the image store and name for the VCH.</li>
+<li>Specifies <i>vsphere_admin</i> in the <code>--target</code> option, to identify the user account with vSphere Administrator privileges with which to deploy the VCH.</li>
+<li>Specifies <i>vsphere_user</i> and its password in the <code>--ops-user</code> and <code>--ops-password</code> options, to identify the user account with which the VCH runs. The user account that you specify in <code>--ops-user</code> must  is different to the vSphere Administrator account that you use for deployment, and must exist before you deploy the VCH. </li>
+<li>Specifies a resource pool in which to deploy the VCH in the <code>--compute-resource</code> option.</li>
+<li>Specifies the full inventory paths to port groups in a network folder in the <code>--bridge-network</code> and <code>--bridge-network</code> options.</li>
 </ul>
 <pre>vic-machine-<i>operating_system</i> create
 --target <i>vsphere_admin</i>:<i>vsphere_admin_password</i>@<i>vcenter_server_address</i>/dc1
---compute-resource cluster1
+--compute-resource cluster1/VCH_pool
 --image-store datastore1
---bridge-network vch1-bridge
+--bridge-network <i>datacenter</i>/network/<i>network_folder</i>/vch1-bridge
+--container-network <i>datacenter</i>/network/<i>network_folder</i>/vic-containers:vic-container-network
 --name vch1
 --ops-user <i>vsphere_user</i>
 --ops-password <i>vsphere_user_password</i>
@@ -869,7 +917,7 @@
 --no-tlsverify
 </pre>
 
-<p>For more information about using custom server certificates, see <a href="vch_installer_options.html#ops-user">--ops-user</a> in VCH Deployment Options.</p>
+<p>For information about the permissions that the <code>--ops-user</code> account requires, and the permissions to set on the resource pool for the VCH and on the network folders, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>.</p>
 <p><a name="registry"></a></p>
 <h3 id="authorize-access-to-an-insecure-private-registry-server">Authorize Access to an Insecure Private Registry Server</h3>
 <p>To authorize connections from a VCH to an insecure private registry server, set the <code>insecure-registry</code> option. You can specify <code>insecure-registry</code> multiple times to allow connections from the VCH to multiple insecure private registry servers.</p>
@@ -905,7 +953,7 @@
         <a href="./vch_installer_options.html" class="navigation navigation-prev " aria-label="Previous page: VCH Deployment Options"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="./deploy_vch_harbor.html" class="navigation navigation-next " aria-label="Next page: Deploy a VCH with vSphere Integrated Containers Registry (Harbor)"><i class="fa fa-angle-right"></i></a>
+        <a href="./set_up_ops_user.html" class="navigation navigation-next " aria-label="Next page: Use Different User Accounts for VCH Deployment and Operation"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

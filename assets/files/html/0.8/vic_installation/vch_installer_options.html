@@ -53,7 +53,7 @@
         data-chapter-title="VCH Deployment Options"
         data-filepath="vch_installer_options.md"
         data-basepath="."
-        data-revision="Thu Dec 08 2016 19:41:39 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Thu Feb 23 2017 15:33:46 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -260,14 +260,29 @@
             
         </li>
     
-        <li class="chapter " data-level="3.7" data-path="deploy_vch_harbor.html">
+        <li class="chapter " data-level="3.7" data-path="set_up_ops_user.html">
+            
+                
+                    <a href="./set_up_ops_user.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.7.</b>
+                        
+                        Use Different User Accounts for VCH Deployment and Operation
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="deploy_vch_harbor.html">
             
                 
                     <a href="./deploy_vch_harbor.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>3.7.</b>
+                            <b>3.8.</b>
                         
                         Deploy a VCH with vSphere Integrated Containers Registry (Harbor)
                     </a>
@@ -392,14 +407,29 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="5.1" data-path="ts_thumbprint_error.html">
+        <li class="chapter " data-level="5.1" data-path="ts_vch_deployment_timeout.html">
+            
+                
+                    <a href="./ts_vch_deployment_timeout.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                        VCH Deployment Times Out
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="ts_thumbprint_error.html">
             
                 
                     <a href="./ts_thumbprint_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.1.</b>
+                            <b>5.2.</b>
                         
                         Certificate Verification Error
                     </a>
@@ -407,14 +437,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.2" data-path="ts_cli_argument_error.html">
+        <li class="chapter " data-level="5.3" data-path="ts_cli_argument_error.html">
             
                 
                     <a href="./ts_cli_argument_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.2.</b>
+                            <b>5.3.</b>
                         
                         Missing Common Name Error When TLS Options Are Specified
                     </a>
@@ -422,14 +452,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.3" data-path="ts_firewall_error.html">
+        <li class="chapter " data-level="5.4" data-path="ts_firewall_error.html">
             
                 
                     <a href="./ts_firewall_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.3.</b>
+                            <b>5.4.</b>
                         
                         Firewall Validation Error
                     </a>
@@ -437,14 +467,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.4" data-path="ts_cname_mismatch.html">
+        <li class="chapter " data-level="5.5" data-path="ts_cname_mismatch.html">
             
                 
                     <a href="./ts_cname_mismatch.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.4.</b>
+                            <b>5.5.</b>
                         
                         Certificate cname Mismatch
                     </a>
@@ -452,14 +482,14 @@
             
         </li>
     
-        <li class="chapter " data-level="5.5" data-path="ts_ui_not_appearing.html">
+        <li class="chapter " data-level="5.6" data-path="ts_ui_not_appearing.html">
             
                 
                     <a href="./ts_ui_not_appearing.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.5.</b>
+                            <b>5.6.</b>
                         
                         Plug-In Does Not Appear in the vSphere Web Client
                     </a>
@@ -467,16 +497,31 @@
             
         </li>
     
-        <li class="chapter " data-level="5.6" data-path="ts_docker_version_error.html">
+        <li class="chapter " data-level="5.7" data-path="ts_docker_version_error.html">
             
                 
                     <a href="./ts_docker_version_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>5.6.</b>
+                            <b>5.7.</b>
                         
                         Docker API Version Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8" data-path="ts_docker_api_check_error.html">
+            
+                
+                    <a href="./ts_docker_api_check_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.8.</b>
+                        
+                        I/O Timeout Error
                     </a>
             
             
@@ -564,9 +609,10 @@
 <ul>
 <li>If the target ESXi host is not managed by vCenter Server, provide the address of the ESXi host.<pre>--target <i>esxi_host_address</i></pre></li>
 <li>If the target ESXi host is managed by vCenter Server, or if you are deploying to a cluster, provide the address of vCenter Server.<pre>--target <i>vcenter_server_address</i></pre></li>
-<li><p>You can include the user name and password in the target URL. <pre>--target <i>vcenter_or_esxi_username</i>:<i>password</i>@<i>vcenter_or_esxi_address</i></pre></p>
+<li><p>You can include the user name and password in the target URL. If you are deploying a VCH on vCenter Server, specify the username for an account that has the Administrator role on that vCenter Server instance. <pre>--target <i>vcenter_or_esxi_username</i>:<i>password</i>@<i>vcenter_or_esxi_address</i></pre></p>
 <p>Wrap the user name or password in single quotes (Linux or Mac OS) or double quotes (Windows) if they include special characters.<pre>&apos;<i>vcenter_or_esxi_usern@me</i>&apos;:&apos;<i>p@ssword</i>&apos;@<i>vcenter_or_esxi_address</i></pre></p>
-<p>If you do not include the user name in the target URL, you must specify the <code>user</code> option. If you do not specify the <code>password</code> option or include the password in the target URL, <code>vic-machine create</code> prompts you to enter the password.</p>
+<p>If you do not include the user name in the target URL, you must specify the <code>user</code> option. If you do not specify the <code>password</code> option or include the password in the target URL, <code>vic-machine create</code> prompts you to enter the password. </p>
+<p>You can configure a VCH so that it uses a non-administrator account for post-deployment operations by specifying the <a href="#--ops-user"><code>--ops-user</code></a> option.</p>
 </li>
 <li><p>If you are deploying a VCH on a vCenter Server instance that includes more than one datacenter, include the datacenter name in the target URL. If you include an invalid datacenter name, <code>vic-machine create</code> fails and suggests the available datacenters that you can specify. </p>
 <pre>--target <i>vcenter_server_address</i>/<i>datacenter_name</i></pre>
@@ -585,7 +631,8 @@
 <p>Wrap the user name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes special characters.</p>
 <pre>--user &apos;<i>esxi_or_vcenter_server_usern@me</i>&apos;</pre>
 
-<p>You can also specify the username in the URL that you pass to <code>vic-machine create</code> in the <code>target</code> option, in which case the <code>user</code> option is not required.</p>
+<p>You can specify the username in the URL that you pass to <code>vic-machine create</code> in the <code>target</code> option, in which case the <code>user</code> option is not required. </p>
+<p>You can configure a VCH so that it uses a non-administrator account for post-deployment operations by specifying the <a href="#--ops-user"><code>--ops-user</code></a> option.</p>
 <h3 id="password"><code>--password</code></h3>
 <p>Short name: <code>-p</code></p>
 <p>The password for the user account on the vCenter Server on which you  are deploying the VCH, or the password for the ESXi host if you are deploying directly to an ESXi host. If not specified, <code>vic-machine</code> prompts you to enter the password during deployment.</p>
@@ -809,10 +856,13 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 </ul>
 <p>If you specify an invalid port group name, <code>vic-machine create</code> fails and suggests valid port groups.</p>
 <p>The <code>bridge-network</code> option is <strong>optional</strong> when you are deploying a VCH to an ESXi host with no vCenter Server. In this case, if you do not specify <code>bridge-network</code>, <code>vic-machine</code> creates a  virtual switch and a port group that each have the same name as the VCH. You can optionally specify this option to assign an existing port group for use as the bridge network for container VMs. You can also optionally specify this option to create a new virtual switch and port group that have a different name to the VCH.</p>
-<pre>--bridge-network <i>distributed_port_group_name</i></pre>
+<pre>--bridge-network <i>port_group_name</i></pre>
 
 <p>Wrap the port group name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes spaces.</p>
 <pre>--bridge-network &apos;<i>port group name</i>&apos;</pre>
+
+<p>If you intend to use the <a href="#ops-user"><code>--ops-user</code></a> option to use different user accounts for deployment and operation of the VCH, you must place the bridge network port group in a network folder that has the <code>Read-Only</code> role with propagation enabled. For more information about the requirements when using <code>--ops-user</code>, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>. If the port group is located in a network folder, include the full inventory path to the port group when you specify the <code>--bridge-network</code> option.</p>
+<pre>--bridge-network &apos;<i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i>&apos;</pre>
 
 <p>For information about how to specify a range of IP addresses for additional bridge networks, see <a href="#bridge-range"><code>bridge-network-range</code></a> in Advanced Networking Options.</p>
 <p><a name="client-network"></a></p>
@@ -883,6 +933,9 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 
 <p>Wrap the port group name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes spaces. The descriptive name cannot include spaces.</p>
 <pre>--container-network &apos;<i>port group name</i>&apos;:<i>container port group name</i></pre>
+
+<p>If you intend to use the <a href="#ops-user"><code>--ops-user</code></a> option to use different user accounts for deployment and operation of the VCH, you must place any container network port groups in a network folder that has the <code>Read-Only</code> role with propagation enabled. For more information about the requirements when using <code>--ops-user</code>, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>. If a port group is located in a network folder, include the full inventory path to the port group when you specify the <code>--container-network</code> option.</p>
+<pre>--container-network &apos;<i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i>&apos;:container_port _group_name</pre>
 
 <p><a name="deployment"></a></p>
 <h2 id="additional-deployment-options">Additional Deployment Options</h2>
@@ -1007,16 +1060,17 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 <h3 id="opsuser"><code>--ops-user</code></h3>
 <p>Short name: None</p>
 <p>A vSphere user account with which the VCH runs after deployment. Because deploying a VCH requires greater levels of permissions than running a VCH, you can configure a VCH so that it uses different user accounts for deployment and for operation. In this way, you can limit the day-to-day operation of a VCH to an account that does not have full administrator permissions on the target vCenter Server.</p>
-<p>If not specified, the VCH runs with the credentials with which you deploy the VCH, that you specify in either <code>--target</code> or <code>--user</code>.</p>
+<p>If not specified, the VCH runs with the vSphere Administrator credentials with which you deploy the VCH, that you specify in either <code>--target</code> or <code>--user</code>.</p>
 <pre>--ops-user <i>user_name</i></pre>
 
 <p>Wrap the user name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes special characters.</p>
 <pre>--ops-user &apos;<i>user_n@me</i>&apos;</pre>
 
+<p>The user account that you specify in <code>--ops-user</code> must exist before you deploy the VCH. For information about the permissions that the <code>--ops-user</code> account requires, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>.</p>
 <h3 id="opspassword"><code>--ops-password</code></h3>
 <p>Short name: None</p>
 <p>The password or token for the operations user that you specify in <code>--ops-user</code>.</p>
-<p>If not specified, the VCH runs with the credentials with which you deploy the VCH, that you specify in either <code>--target</code> or <code>--user</code>.</p>
+<p>If not specified, <code>vic-machine create</code> prompts you to enter the password for the <code>--ops-user</code> account.</p>
 <pre>--ops-password <i>password</i></pre>
 
 <p>Wrap the password in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes special characters.</p>
@@ -1221,6 +1275,7 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 <p>Additionally, deploying a VCH with a <code>debug</code> value of 3 or higher enables access to the VCH endpoint VM console by default, with a root password of <code>password</code>. This functionality enables you to perform targeted interactive diagnostics in environments in which a VCH endpoint VM failure occurs consistently and in a fashion that prevents <code>vic-machine debug</code> from functioning. </p>
 <p><strong>IMPORTANT</strong>: There is no provision for persistently changing the default root password. This configuration should not be used other than for debugging in a secured environment</p>
 <pre>--debug 1</pre>
+
                     
                     </section>
                 

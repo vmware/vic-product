@@ -53,7 +53,7 @@
         data-chapter-title="Supported Docker Commands"
         data-filepath="container_operations.md"
         data-basepath="."
-        data-revision="Thu Dec 08 2016 19:42:23 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Thu Feb 23 2017 15:34:21 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -268,14 +268,44 @@
             
         </li>
     
-        <li class="chapter " data-level="11" data-path="feedback.html">
+        <li class="chapter " data-level="11" data-path="ts_volume_store_error.html">
+            
+                
+                    <a href="./ts_volume_store_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        Default Volume Store Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12" data-path="ts_bridge_pool_mask_error.html">
+            
+                
+                    <a href="./ts_bridge_pool_mask_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.</b>
+                        
+                        Bridge Pool Mask Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="13" data-path="feedback.html">
             
                 
                     <a href="./feedback.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>11.</b>
+                            <b>13.</b>
                         
                         Send Documentation Feedback
                     </a>
@@ -317,7 +347,7 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="supported-docker-commands">Supported Docker Commands</h1>
-<p> vSphere Integrated Containers Engine supports Docker 1.11.2. The supported version of the Docker API is 1.23. If you are using a more recent version of the Docker client, see <a href="ts_docker_version_error.html">Docker Commands Fail with a Docker API Version Error</a>. </p>
+<p> vSphere Integrated Containers Engine 0.8 supports Docker 1.11.2. The supported version of the Docker API is 1.23. If you are using a more recent version of the Docker client, see <a href="ts_docker_version_error.html">Docker Commands Fail with a Docker API Version Error</a>. </p>
 <ul>
 <li><a href="#mgmt">Docker Management Commands</a></li>
 <li><a href="#image">Image Commands</a></li>
@@ -325,6 +355,7 @@
 <li><a href="#registry">Hub and Registry Commands</a></li>
 <li><a href="#network">Network and Connectivity Commands</a></li>
 <li><a href="#volume">Shared Data Volume Commands</a></li>
+<li><a href="#compose">Docker Compose Commands</a></li>
 <li><a href="#swarm">Swarm Commands</a></li>
 </ul>
 <p><a name="mgmt"></a></p>
@@ -470,7 +501,7 @@
 <td>No</td>
 </tr>
 <tr>
-<td>export</td>
+<td><code>export</code></td>
 <td><a href="https://docs.docker.com/engine/reference/commandline/export/" target="_blank">Export a container</a></td>
 <td>No</td>
 </tr>
@@ -497,7 +528,7 @@
 <tr>
 <td><code>ps</code></td>
 <td><a href="https://docs.docker.com/engine/reference/commandline/ps/" target="_blank">Show running containers</a></td>
-<td>Yes, vSphere Integrated Containers Engine supports only <code>-a/--all</code>, <code>--no-trunc</code>, and <code>-q/--quiet</code> options.</td>
+<td>Yes. Only supports the <code>-a/--all</code>, <code>--no-trunc</code>, and <code>-q/--quiet</code> options.</td>
 </tr>
 <tr>
 <td><code>rename</code></td>
@@ -614,7 +645,7 @@
 <tr>
 <td><code>network create</code></td>
 <td><a href="https://docs.docker.com/engine/reference/commandline/network_create/" target="_blank">Create a network</a></td>
-<td>Yes. See the use case to connect to an external network in <a href="network_use_cases.html">Container Networking with vSphere Integrated Containers Engine</a>. Bridge is also supported.</td>
+<td>Yes. See the use case to connect to an external network in <a href="network_use_cases.html">Container Networking with vSphere Integrated Containers Engine</a>. Bridge is also supported.<br><br>The <code>--label</code>, <code>--internal</code>, and <code>--ipam</code> options are currently not supported.</td>
 </tr>
 <tr>
 <td><code>network disconnect</code></td>
@@ -668,6 +699,141 @@
 <tr>
 <td><code>volume rm</code></td>
 <td><a href="https://docs.docker.com/engine/reference/commandline/volume_rm/" target="_blank">Remove or delete a volume</a></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><a name="compose"></a></p>
+<h2 id="docker-compose-commands">Docker Compose Commands</h2>
+<p>vSphere Integrated Containers Engine 0.8 supports Docker Compose version 1.10.</p>
+<p>For more information about using Docker Compose with vSphere Integrated Containers Engine, see <a href="creating_containerized_app_with_vic.html">Creating a Containerized Application with vSphere Integrated Containers Engine</a>.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Docker Reference</strong></th>
+<th><strong>Supported</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>build</code></td>
+<td><a href="https://docs.docker.com/compose/reference/build/" target="_blank">Build or rebuild service</a></td>
+<td>No. Depends on <code>docker build</code>.</td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td><a href="https://docs.docker.com/compose/reference/bundle/" target="_blank">Generate a Distributed Application Bundle (DAB) from the Compose file</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>config</code></td>
+<td><a href="https://docs.docker.com/compose/reference/config/" target="_blank">Validate and view the compose file</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><a href="https://docs.docker.com/compose/reference/create/" target="_blank">Create services</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>down</code></td>
+<td><a href="https://docs.docker.com/compose/reference/down/" target="_blank">Stop and remove containers, networks, images, and volumes</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>events</code></td>
+<td><a href="https://docs.docker.com/compose/reference/events/" target="_blank">Receive real time events from containers</a></td>
+<td>No. Depends on <code>docker events</code>.</td>
+</tr>
+<tr>
+<td><code>exec</code></td>
+<td><a href="https://docs.docker.com/compose/reference/exec/" target="_blank">Run commands in services</a></td>
+<td>No. Depends on <code>docker exec</code>.</td>
+</tr>
+<tr>
+<td><code>help</code></td>
+<td><a href="https://docs.docker.com/compose/reference/help/" target="_blank">Get help on a command</a></td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>kill</code></td>
+<td><a href="https://docs.docker.com/compose/reference/kill/" target="_blank">Kill containers</a></td>
+<td>No, but <code>docker kill</code> works.</td>
+</tr>
+<tr>
+<td><code>logs</code></td>
+<td><a href="https://docs.docker.com/compose/reference/logs/" target="_blank">View output from containers</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>pause</code></td>
+<td><a href="https://docs.docker.com/compose/reference/pause/" target="_blank">Pause services</a></td>
+<td>No. Depends on <code>docker pause</code>.</td>
+</tr>
+<tr>
+<td><code>port</code></td>
+<td><a href="https://docs.docker.com/compose/reference/port/" target="_blank">Print the public port for a port binding</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>ps</code></td>
+<td><a href="https://docs.docker.com/compose/reference/ps/" target="_blank">List containers</a></td>
+<td>No. Depends on <code>docker ps --filter</code>.</td>
+</tr>
+<tr>
+<td><code>pull</code></td>
+<td><a href="https://docs.docker.com/compose/reference/pull/" target="_blank">Pulls service images</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>push</code></td>
+<td><a href="https://docs.docker.com/compose/reference/push/" target="_blank">Pushes images for service</a></td>
+<td>No. Depends on <code>docker push</code></td>
+</tr>
+<tr>
+<td><code>restart</code></td>
+<td><a href="https://docs.docker.com/compose/reference/restart/" target="_blank">Restart services</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>rm</code></td>
+<td><a href="https://docs.docker.com/compose/reference/rm/" target="_blank">Remove stopped containers</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td><a href="https://docs.docker.com/compose/reference/run/" target="_blank">Run a one-off command</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>scale</code></td>
+<td><a href="https://docs.docker.com/compose/reference/scale/" target="_blank">Set number of containers for a service</a></td>
+<td>No. Depends on <code>docker ps --filter</code>.</td>
+</tr>
+<tr>
+<td><code>start</code></td>
+<td><a href="https://docs.docker.com/compose/reference/start/" target="_blank">Start services</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>stop</code></td>
+<td><a href="https://docs.docker.com/compose/reference/stop/" target="_blank">Stop services</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>unpause</code></td>
+<td><a href="https://docs.docker.com/compose/reference/unpause/" target="_blank">Unpause services</a></td>
+<td>No. Depends on <code>docker unpause</code>.</td>
+</tr>
+<tr>
+<td><code>up</code></td>
+<td><a href="">Create and start containers</a></td>
+<td>Conditionally supported. Does not work if there are orphaned containers. Depends on <code>docker rename</code> and <code>docker ps --filter</code>.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>Show the Docker-Compose version information</td>
 <td>Yes</td>
 </tr>
 </tbody>

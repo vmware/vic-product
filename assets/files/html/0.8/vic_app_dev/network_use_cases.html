@@ -53,7 +53,7 @@
         data-chapter-title="Container Networking with vSphere Integrated Containers Engine"
         data-filepath="network_use_cases.md"
         data-basepath="."
-        data-revision="Thu Dec 08 2016 19:42:23 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Thu Feb 23 2017 15:34:21 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -268,14 +268,44 @@
             
         </li>
     
-        <li class="chapter " data-level="11" data-path="feedback.html">
+        <li class="chapter " data-level="11" data-path="ts_volume_store_error.html">
+            
+                
+                    <a href="./ts_volume_store_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        Default Volume Store Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12" data-path="ts_bridge_pool_mask_error.html">
+            
+                
+                    <a href="./ts_bridge_pool_mask_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.</b>
+                        
+                        Bridge Pool Mask Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="13" data-path="feedback.html">
             
                 
                     <a href="./feedback.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>11.</b>
+                            <b>13.</b>
                         
                         Send Documentation Feedback
                     </a>
@@ -323,9 +353,8 @@
 </li>
 <li><p>For an overview of the networks that vSphere Integrated Containers Engine uses, see <a href="../vic_installation/networks.html">Networks Used by vSphere Integrated Containers Engine</a> in <em>vSphere Integrated Containers Engine Installation</em>.</p>
 </li>
-<li><h2 id="publish-a-container-port">Publish a Container Port</h2>
-</li>
 </ul>
+<h2 id="publish-a-container-port">Publish a Container Port</h2>
 <p>Connect a container to an external mapped port on the public network of the virtual container host (VCH):</p>
 <p><code>$ docker run -p 8080:80 --name test1 my_container my_app</code></p>
 <h3 id="result">Result</h3>

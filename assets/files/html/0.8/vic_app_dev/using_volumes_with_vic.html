@@ -53,7 +53,7 @@
         data-chapter-title="Using Volumes with vSphere Integrated Containers Engine"
         data-filepath="using_volumes_with_vic.md"
         data-basepath="."
-        data-revision="Thu Dec 08 2016 19:42:23 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Thu Feb 23 2017 15:34:21 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -268,14 +268,44 @@
             
         </li>
     
-        <li class="chapter " data-level="11" data-path="feedback.html">
+        <li class="chapter " data-level="11" data-path="ts_volume_store_error.html">
+            
+                
+                    <a href="./ts_volume_store_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        Default Volume Store Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12" data-path="ts_bridge_pool_mask_error.html">
+            
+                
+                    <a href="./ts_bridge_pool_mask_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.</b>
+                        
+                        Bridge Pool Mask Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="13" data-path="feedback.html">
             
                 
                     <a href="./feedback.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>11.</b>
+                            <b>13.</b>
                         
                         Send Documentation Feedback
                     </a>
@@ -318,7 +348,7 @@
                     
                         <h1 id="using-volumes-with-vsphere-integrated-containers-engine">Using Volumes with vSphere Integrated Containers Engine</h1>
 <p>vSphere Integrated Containers Engine supports the use of container volumes. </p>
-<p><strong>IMPORTANT</strong>: To use container volume capabilities with vSphere Integrated Containers Engine, you or the vSphere Administrator must configure the virtual container host (VCH) appropriately at the moment of deployment of the VCH. When you create or the vSphere Administrator creates a VCH, you or the Administrator must specify the datastore to use to store container volumes in the <code>vic-machine create --volume-store</code> option. You cannot currently add volume stores, and therefore volume capabilities, to a VCH after its initial deployment. For information about how to use the <code>vic-machine create --volume-store</code> option, see the section on <code>volume-store</code> in <a href="../vic_installation/vch_installer_options.html#volume-store">VCH Deployment Options</a> in <em>vSphere Integrated Containers Engine Installation</em>.  </p>
+<p><strong>IMPORTANT</strong>: To use container volume capabilities with vSphere Integrated Containers Engine, you or the vSphere administrator must configure the virtual container host (VCH) appropriately at the moment of deployment of the VCH. When you create or the vSphere administrator creates a VCH, you or the administrator must specify the datastore to use to store container volumes in the <code>vic-machine create --volume-store</code> option. You cannot currently add volume stores, and therefore volume capabilities, to a VCH after its initial deployment. For information about how to use the <code>vic-machine create --volume-store</code> option, see the section on <code>volume-store</code> in <a href="../vic_installation/vch_installer_options.html#volume-store">VCH Deployment Options</a> in <em>vSphere Integrated Containers Engine Installation</em>.  </p>
 <ul>
 <li><a href="#list_vs">Obtain the List of Available Volume Stores</a> </li>
 <li><a href="#list_vols">Obtain the List of Available Volumes</a></li>
@@ -357,12 +387,12 @@ vsphere        <i>volume_n</i></pre>
 <h2 id="create-a-volume-in-a-volume-store">Create a Volume in a Volume Store</h2>
 <p>When you use the <code>docker volume create</code> command to create a volume, you can optionally provide a name for the volume by specifying the <code>--name</code> option. If you do not specify <code>--name</code>, <code>docker volume create</code> assigns a random UUID to the volume.</p>
 <ul>
-<li><p>If you or the vSphere Administrator created the VCH with one or more volume stores, but none of the volume stores are named <code>default</code>, you must specify the name of an existing volume store in the <code>--opt VolumeStore</code> option. If you do not specify <code>--opt VolumeStore</code>, <code>docker volume create</code> searches for a volume store named <code>default</code>, and returns an error if no such volume store exists. </p>
+<li><p>If you or the vSphere administrator created the VCH with one or more volume stores, but none of the volume stores are named <code>default</code>, you must specify the name of an existing volume store in the <code>--opt VolumeStore</code> option. If you do not specify <code>--opt VolumeStore</code>, <code>docker volume create</code> searches for a volume store named <code>default</code>, and returns an error if no such volume store exists. </p>
 <pre>docker -H <i>virtual_container_host_address</i>:2376 --tls volume create 
 --opt VolumeStore=<i>volume_store_label</i> 
 --name <i>volume_name</i></pre>
 </li>
-<li><p>If you or the vSphere Administrator created the VCH with a volume store named <code>default</code>, you do not need to specify <code>--opt VolumeStore</code> in the <code>docker volume create</code> command. If you do not specify a volume store name, the <code>docker volume create</code> command automatically uses the <code>default</code> volume store if it exists.</p>
+<li><p>If you or the vSphere administrator created the VCH with a volume store named <code>default</code>, you do not need to specify <code>--opt VolumeStore</code> in the <code>docker volume create</code> command. If you do not specify a volume store name, the <code>docker volume create</code> command automatically uses the <code>default</code> volume store if it exists.</p>
 <pre>docker -H <i>virtual_container_host_address</i>:2376 --tls volume create 
 --name <i>volume_name</i></pre>
 </li>

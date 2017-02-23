@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Missing Common Name Error When TLS Options Are Specified | VMware vSphere Integrated Containers Engine 0.8 Installation</title>
+        <title>I/O Timeout Error | VMware vSphere Integrated Containers Engine 0.8 Installation</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="./ts_firewall_error.html" />
+    <link rel="next" href="./feedback.html" />
     
     
-    <link rel="prev" href="./ts_thumbprint_error.html" />
+    <link rel="prev" href="./ts_docker_version_error.html" />
     
 
         
@@ -49,9 +49,9 @@
         
         
     <div class="book"
-        data-level="5.3"
-        data-chapter-title="Missing Common Name Error When TLS Options Are Specified"
-        data-filepath="ts_cli_argument_error.md"
+        data-level="5.8"
+        data-chapter-title="I/O Timeout Error"
+        data-filepath="ts_docker_api_check_error.md"
         data-basepath="."
         data-revision="Thu Feb 23 2017 15:33:46 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
@@ -437,7 +437,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="5.3" data-path="ts_cli_argument_error.html">
+        <li class="chapter " data-level="5.3" data-path="ts_cli_argument_error.html">
             
                 
                     <a href="./ts_cli_argument_error.html">
@@ -512,7 +512,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5.8" data-path="ts_docker_api_check_error.html">
+        <li class="chapter active" data-level="5.8" data-path="ts_docker_api_check_error.html">
             
                 
                     <a href="./ts_docker_api_check_error.html">
@@ -580,50 +580,26 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="vch-deployment-fails-with-missing-common-name-error-even-when-tls-options-are-specified-correctly">VCH Deployment Fails with Missing Common Name Error Even When TLS Options Are Specified Correctly</h1>
-<p>If you deploy a virtual container host (VCH) and you have specified one of the <code>vic-machine create --tls-cname</code>, <code>--no-tlsverify</code>, or <code>--no-tls</code> options, or you set a static IP address on the client network, the deployment fails with an error about the certificate Common Name being missing.</p>
+                        <h1 id="vch-deployment-fails-with-an-io-timeout-error">VCH Deployment Fails with an I/O Timeout Error</h1>
+<p>When you use <code>vic-machine create</code> to deploy a virtual container host (VCH), deployment fails with an I/O timeout error.</p>
 <h2 id="problem">Problem</h2>
-<p>Deployment fails during the validation of the configuration that you provided, even if you did specify a TLS option or you set a static IP address on the client network. For example: </p>
-<pre>$ vic-machine-windows create 
---target &apos;Administrator@vsphere.local:<i>password</i>&apos;@<i>vcenter_server</i> 
---bridge-network vic bridge --no-tls
-### Installing VCH ####
-[...]
-Common Name must be provided when generating certificates for client
-authentication:
-[...]
-Create cannot continue: unable to generate certificates
---------------------
-vic-machine-windows.exe failed: provide Common Name for server certificate</pre>
-
-<p>If you include a TLS option at the beginning of the <code>vic-machine create</code> command rather than the end, you see the following error: </p>
-<pre>$ vic-machine-windows create 
---target &apos;Administrator@vsphere.local:<i>password</i>&apos;@<i>vcenter_server</i> 
- --no-tls
---bridge-network vic bridge
-### Installing VCH ####
-[...]
-Unknown argument: bridge
---------------------
-vic-machine-windows.exe failed: invalid CLI arguments
-</pre>
-
-
+<p>Deployment fails with the error <code>Connection failed with error: i/o timeout.</code></p>
 <h2 id="cause">Cause</h2>
-<p>String values that you provided for certain options contain spaces or special characters that you did not escape with quotations marks. The <code>vic-machine create</code> input validator validates the arguments that you provide only as far as the argument that includes the space or special character. If you specify the TLS option before the argument with the space or special character, <code>vic-machine create</code> throws the correct error message. However, if you specify the TLS option after the argument that includes the space or special character, the <code>vic-machine create</code> validator stops before it reaches the TLS option, and so throws the error about the missing Common Name.</p>
+<p>During deployment, <code>vic-machine</code> checks that the endpoint VM is reachable from Docker clients. If this check fails, <code>vic-machine create</code> fails with an error. This error can be caused by the Docker API being slow to start or because it has failed to start.</p>
 <h2 id="solution">Solution</h2>
-<p>Wrap any arguments that contain spaces or special characters in single quotation marks (&apos;) on Mac OS and Linux and in double quotation marks (&quot;)  on Windows. </p>
-<p>Option arguments that might require quotation marks include the following:</p>
+<p>The solution to choose depends on whether the API is slow to start or whether it failed to start.</p>
+<h3 id="docker-api-is-slow-to-start">Docker API is Slow to Start</h3>
+<p>Wait for a few minutes, then run the <code>docker info</code> command to test the responsiveness of the Docker API. </p>
+<p>If <code>docker info</code> succeeds, it shows information about the VCH, including confirmation that the storage driver is vSphere Integrated Containers. </p>
+<p><pre>Storage Driver: vSphere Integrated Containers <i>version</i> Backend Engine</pre> 
+This output means that the VCH is running correctly and can now accept Docker commands.</p>
+<p>If <code>docker info</code> times out, it means that the Docker API did not start.</p>
+<h3 id="docker-api-did-not-start">Docker API Did Not Start</h3>
+<p>If the Docker API was not responsive when you ran <code>docker info</code>, download the VCH log bundle and examine the logs to determine why the installation failed. Collecting the vSphere log bundle might also be useful for troubleshooting.</p>
 <ul>
-<li>User names and passwords in <code>--target</code>, or in <code>--user</code> and <code>--password</code></li>
-<li>Datacenter names in <code>--target</code></li>
-<li>VCH names in <code>--name</code></li>
-<li>Datastore names and paths in <code>--image-store</code> and <code>--volume-store</code></li>
-<li>Network and port group names in all networking options.</li>
-<li>Cluster and resource pool names in <code>--compute-resource</code></li>
-<li>Folder names in the paths for <code>--cert-path</code>, <code>--cert</code>, <code>--key</code>, <code>--appliance-iso</code>, and <code>--bootstrap-iso</code></li>
+<li>For information about how to download VCH logs by using the VCH Admin Portal, see <a href="../vic_admin/access_vicadmin.html">Access the VCH Admin Portal</a> in <em>vSphere Integrated Containers Engine Administration</em>.</li>
+<li>For information about how to collect VCH logs manually, see <a href="../vic_admin/log_bundles.html">Access vSphere Integrated Containers Engine Log Bundles</a> in <em>vSphere Integrated Containers Engine Administration</em>.</li>
 </ul>
-<p>For information about when to use quotation marks for different options, see the descriptions of those options in <a href="vch_installer_options.html">VCH Deployment Options</a>.</p>
 
                     
                     </section>
@@ -634,10 +610,10 @@ vic-machine-windows.exe failed: invalid CLI arguments
         </div>
 
         
-        <a href="./ts_thumbprint_error.html" class="navigation navigation-prev " aria-label="Previous page: Certificate Verification Error"><i class="fa fa-angle-left"></i></a>
+        <a href="./ts_docker_version_error.html" class="navigation navigation-prev " aria-label="Previous page: Docker API Version Error"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="./ts_firewall_error.html" class="navigation navigation-next " aria-label="Next page: Firewall Validation Error"><i class="fa fa-angle-right"></i></a>
+        <a href="./feedback.html" class="navigation navigation-next " aria-label="Next page: Send Documentation Feedback"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
