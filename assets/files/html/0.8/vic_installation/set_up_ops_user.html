@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Networks Used by vSphere Integrated Containers Engine · VMware vSphere Integrated Containers Engine 0.8 Installation</title>
+        <title>Use Different User Accounts for VCH Deployment and Operation · VMware vSphere Integrated Containers Engine 0.8 Installation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="download_vic.html" />
+    <link rel="next" href="deploy_vch_harbor.html" />
     
     
-    <link rel="prev" href="introduction.html" />
+    <link rel="prev" href="vch_installer_examples.html" />
     
 
     </head>
@@ -116,7 +116,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.2.1" data-path="networks.html">
+        <li class="chapter " data-level="1.2.1" data-path="networks.html">
             
                 <a href="networks.html">
             
@@ -258,7 +258,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4.7" data-path="set_up_ops_user.html">
+        <li class="chapter active" data-level="1.4.7" data-path="set_up_ops_user.html">
             
                 <a href="set_up_ops_user.html">
             
@@ -539,7 +539,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >Networks Used by vSphere Integrated Containers Engine</a>
+        <a href="." >Use Different User Accounts for VCH Deployment and Operation</a>
     </h1>
 </div>
 
@@ -554,47 +554,122 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="networks-used-by-vsphere-integrated-containers-engine">Networks Used by vSphere Integrated Containers Engine</h1>
-<p>You can configure networks on a virtual container host (VCH) that are tied into the vSphere infrastructure. You define which networks are available to a VCH when you deploy the VCH.</p>
-<p>Each network that a VCH uses is a port group on either a vCenter Server instance or ESXi host.</p>
-<p>This topic provides an overview of the different network types that virtual container hosts use.</p>
+                                <h1 id="use-different-user-accounts-for-vch-deployment-and-operation">Use Different User Accounts for VCH Deployment and Operation</h1>
+<p>A virtual container host (VCH) appliance requires the appropriate permissions in vSphere to perform various tasks during VCH operation. </p>
+<p>During deployment of a VCH, <code>vic-machine</code> uses the vSphere account that you specify in either of the <code>vic-machine create --user</code> or <code>--target</code> options for all deployment operations. Deployment of a VCH requires a user account with vSphere Administrator privileges. </p>
+<p>Day-to-day operation of a VCH requires fewer permissions than  deployment. You can configure a VCH so that it uses different user accounts for deployment and for operation by using the <code>vic-machine create --ops-user</code> and <code>--ops-password</code> options when you deploy the VCH. By specifying <code>--ops-user</code>, you can limit the post-deployment permissions of the VCH to only those vSphere operations that it needs. If you do not specify <code>--ops-user</code>, the VCH runs with full vSphere Administrator privileges.</p>
+<p>After deployment, a VCH must have permission to perform the following operations:</p>
 <ul>
-<li><a href="#highlevel">High-Level View of VCH Networking</a></li>
-<li><a href="#management">Management Network</a></li>
-<li><a href="#public">Public Network</a></li>
-<li><a href="#client">Client Network</a></li>
-<li><a href="#bridge">Bridge Network</a></li>
-<li><a href="#container">Container Networks</a></li>
+<li>Create, modify, and delete VMs within its resource pool</li>
+<li>Reconfigure the endpoint VM</li>
+<li>Validate host firewall configuration and system licenses</li>
 </ul>
-<p><a name="highlevel"></a></p>
-<h2 id="high-level-view-of-vch-networking">High-Level View of VCH Networking</h2>
-<p>The image below shows a high-level view of the networks that a VCH uses and how they connect to your vSphere environment and to the Docker environment that container developers use. </p>
-<p> <img src="graphics/vch_networking.png" alt="VCH Networking"></p>
-<p>The following sections describe each of the VCH network types, that are represented in the image by green elipses. The blue shapes represent   Docker objects, and the gray shapes represent vSphere. </p>
-<p><strong>IMPORTANT</strong>: A VCH supports a maximum of 3 distinct network interfaces. The bridge network requires its own port group, at least two of the public, client, and management networks must share a network interface and therefore a port group. Container networks do not go through the VCH, so they are not subject to this limitation. This limitation will be removed in a future release.</p>
-<p><a name="management"></a></p>
-<h2 id="management-network">Management Network</h2>
-<p>The network for communication between the VCH and vCenter Server and ESXi hosts. The VCH uses this network to provide the <code>attach</code> function of the Docker API.</p>
-<p><strong>IMPORTANT</strong>: Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network. Ideally, use separate networks for the management network and the container networks.</p>
-<p>You define the management network by setting the <code>--management-network</code> option when you run <code>vic-machine create</code>. For more detailed information about management networks, see the section on the <code>--management-network</code> option in <a href="vch_installer_options.html#management-network">VCH Deployment Options</a>.</p>
-<p><a name="public"></a></p>
-<h2 id="public-network">Public Network</h2>
-<p>The network that container VMs use to connect to the internet. Ports that containers expose with <code>docker create -p</code> when connected to the default bridge network are made available on the public interface of the VCH endpoint VM via network address translation (NAT), so that containers can publish network services.</p>
-<p>You define the public network by setting the <code>--public-network</code> option when you run <code>vic-machine create</code>. For  more detailed information about management networks, see the section on the <code>--public-network</code> option in <a href="vch_installer_options.html#public-network">VCH Deployment Options</a>.</p>
-<p><a name="client"></a></p>
-<h2 id="client-network">Client Network</h2>
-<p>The network on which the VCH endpoint VM makes the Docker API available to Docker clients. The client network isolates the Docker endpoints from the public network.</p>
-<p>You define the Docker management endpoint network by setting the <code>--client-network</code> option when you run <code>vic-machine create</code>. For  more detailed information about Docker management endpoint networks, see the section on the <code>--client-network</code> option in <a href="vch_installer_options.html#client-network">VCH Deployment Options</a>.</p>
-<p><a name="bridge"></a></p>
-<h2 id="bridge-network">Bridge Network</h2>
-<p>The network or networks that container VMs use to communicate with each other. Each VCH requires a unique bridge network. The bridge network is a port group on a distributed virtual switch.</p>
-<p><strong>IMPORTANT</strong>: Do not use the bridge network for any other VM workloads, or as a bridge for more than one VCH.</p>
-<p>You define the bridge networks by setting the <code>--bridge-network</code> option when you run <code>vic-machine create</code>.  For  more detailed information about bridge networks, see the section on the <code>--bridge-network</code> option in <a href="vch_installer_options.html#bridge">VCH Deployment Options</a>.</p>
-<p>Container application developers can also use <code>docker network create</code> to create additional bridge networks. These networks are represented by the User-Created Bridge Network in the image above. Additional bridge networks are created by IP address segregation and are not new port groups. You can define a range of IP addresses that additional bridge networks can use by defining the <code>bridge-network-range</code> option when you run <code>vic-machine create</code>. For  more detailed information about  how to set bridge network ranges, see the section on the <a href="vch_installer_options.html#bridge-range"><code>bridge-network-range</code> option</a>. </p>
-<p><a name="container"></a></p>
-<h2 id="container-networks">Container Networks</h2>
-<p>Container networks allow the vSphere administrator to make vSphere networks directly available to containers. This is done during deployment of a VCH by providing a mapping of the vSphere network name to an alias that is used inside the VCH endpoint VM. The mapped networks are then listed as available by the Docker API. Running <code>docker network ls</code> shows these networks, and container developers can attach them to containers in the normal way by using commands such as <code>docker run</code> or <code>create</code>, with the <code>--network=_mapped-network-name_</code> or <code>docker network connect</code>. The containers connected to container networks are connected directly to these networks, and traffic does not route though the VCH endpoint VM using NAT.</p>
-<p>You can share one network alias between multiple containers. For  more detailed information about setting up container networks, see the sections on the <code>container-network-xxx</code> options in <a href="vch_installer_options.html#container-network">Virtual Container Host Deployment Options</a>. </p>
+<p>When you deploy a VCH, a user account that you specify in <code>--ops-user</code> must have the correct privileges to allow the VCH to perform these operations. vSphere Integrated Containers Engine does not currently create the required roles, so to assign privileges to the <code>--ops-user</code> user account, you must manually create user roles in vSphere before you deploy the VCH. You assign  privileges to those roles, and assign the roles to the user account to use in <code>--ops-user</code>. </p>
+<p><strong>Procedure</strong></p>
+<ol>
+<li><p>In the vSphere Web Client, create a user group, for example <code>VIC Ops Users</code>, and add the appropriate user accounts to the user group.</p>
+<p>The best practice when assigning roles in vSphere is to assign the roles to user groups and then to add users to those groups, rather than assigning roles to the users directly.</p>
+</li>
+<li><p>Go to <strong>Administration</strong> &gt; <strong>Roles</strong> and create one role for each type of inventory object that VCHs need to access.</p>
+<p>It is possible to create a single role, but by creating multiple roles you keep the privileges of the VCH as granular as possible.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Role to Create</strong></th>
+<th><strong>Required Permissions</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VCH - vcenter</code></td>
+<td>Datastore &gt; Configure datastore</td>
+</tr>
+<tr>
+<td><code>VCH - datacenter</code></td>
+<td>Datastore &gt; Configure datastore<br>Datastore &gt; Low level file operations</td>
+</tr>
+<tr>
+<td><code>VCH - datastore</code></td>
+<td>Datastore &gt; AllocateSpace<br>Datastore &gt; Browse datastore <br>Datastore &gt; Configure datastore<br>Datastore &gt; Remove file<br>Datastore &gt; Low level file operations<br>Host &gt; Configuration &gt; System management</td>
+</tr>
+<tr>
+<td><code>VCH - network</code></td>
+<td>Network &gt; Assign network</td>
+</tr>
+<tr>
+<td><code>VCH - endpoint</code></td>
+<td>dvPort group &gt; Modify<br>dvPort group &gt; Policy operation<br>dvPort group &gt; Scope operation<br>vApp &gt; Add virtual machine<br>VirtualMachine &gt; Configuration &gt; Add new disk<br>VirtualMachine &gt; Configuration &gt; Advanced<br>VirtualMachine &gt; Configuration &gt; Add or Remove Device<br>VirtualMachine &gt; Configuration &gt; Remove disk<br>VirtualMachine &gt; Guest operations &gt; Guest operation program execution<br>VirtualMachine &gt; Interaction &gt; Device connection<br>VirtualMachine &gt; Interaction &gt; Power off<br>VirtualMachine &gt; Interaction &gt; Power on<br>VirtualMachine &gt; Inventory &gt; Create new<br>VirtualMachine &gt; Inventory &gt; Remove<br>VirtualMachine &gt; Inventory &gt; Register<br>VirtualMachine &gt; Inventory &gt; Unregister</td>
+</tr></tbody></table>
+
+<p>For information about how to create vSphere roles, see <a href="https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-5372F580-5C23-4E9C-8A4E-EF1B4DD9033E.html" target="_blank">vSphere Permissions and User Management Tasks</a> in the vSphere documentation. </p>
+</li>
+<li><p>Go to <strong>Networking</strong>, create a network folder, and place the distributed virtual switches that the VCHs will use for the bridge network and any container networks into that folder.</p>
+<p>The parent object of distributed virtual switches that the VCH uses  as the bridge network and container networks must be set to <code>Read-Only</code>, with <strong>Propagate to Children</strong> enabled. By placing distributed virtual switches in a network folder, you avoid setting an entire datacenter to <code>Read-Only</code>. This restriction only applies to the bridge network and container networks. When you specify the <code>vic-machine create --bridge-network</code> and <code>--container-network</code> options, include the full inventory path to the networks in the following format:<pre><i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i></pre></p>
+</li>
+<li><p>(Optional) Go to <strong>Hosts and Clusters</strong> and create a resource pool in which to deploy VCHs.</p>
+<p>By creating a resource pool for VCHs, you can set the correct permissons on just that resource pool rather than on an entire host or cluster. You specify this resource pool in the <code>vic-machine create --compute-resource</code> option when you deploy the VCH. For a more granular application of privileges, you can also apply the permissions directly to VCH vApps after deployment, rather than to a resource pool.</p>
+</li>
+<li><p>In each of the <strong>Hosts and Clusters</strong>, <strong>Storage</strong>, and <strong>Networking</strong> views, select inventory objects and assign the user group and the appropriate role to each one.</p>
+<table>
+<thead>
+<tr>
+<th>Inventory Object</th>
+<th>Role to Assign</th>
+<th>Propagate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Top-level vCenter Server instance</td>
+<td><code>VCH - vcenter</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Datacenters</td>
+<td><code>VCH - datacenter</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Clusters. All datastores in the cluster inherit permissions from the cluster.</td>
+<td><code>VCH - datastore</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Standalone VMware vSAN datastores</td>
+<td><code>VCH - datastore</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Standalone datastores</td>
+<td><code>VCH - datastore</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Network folders</td>
+<td><code>Read-only</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Port groups</td>
+<td><code>VCH - network</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Resource pools for VCHs</td>
+<td><code>VCH - endpoint</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>VCH vApps, for a very granular application of privileges</td>
+<td><code>VCH - endpoint</code></td>
+<td>Yes</td>
+</tr></tbody></table>
+
+<p>For information about how to assign permissions to objects in the vSphere Inventory, see <a href="https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-A0F6D9C2-CE72-4FE5-BAFC-309CFC519EC8.html" target="_blank">Add a Permission to an Inventory Object</a> in the vSphere documentation.</p>
+</li>
+</ol>
+<p><strong>What to do next</strong></p>
+<p>Use <code>vic-machine create --ops-user=&lt;user_account&gt;</code> to deploy VCHs that operate with restricted privileges. Ensure that the various vSphere inventory objects that you specify as arguments have the user group with the appropriate role. For an example of a <code>vic-machine</code> command with the <code>--ops-user</code> option, see the section <em>Specify Different User Accounts for VCH Deployment and Operation</em> <a href="vch_installer_examples.html#ops-user">Advanced Examples of Deploying a VCH</a>.</p>
 
                                 
                                 </section>
@@ -622,12 +697,12 @@
 
             
                 
-                <a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page: Overview of vSphere Integrated Containers Engine for vSphere Administrators">
+                <a href="vch_installer_examples.html" class="navigation navigation-prev " aria-label="Previous page: Advanced Examples of Deploying a VCH">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="download_vic.html" class="navigation navigation-next " aria-label="Next page: Download vSphere Integrated Containers">
+                <a href="deploy_vch_harbor.html" class="navigation navigation-next " aria-label="Next page: Deploy a VCH with vSphere Integrated Containers Registry (Harbor)">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -638,7 +713,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Networks Used by vSphere Integrated Containers Engine","level":"1.2.1","depth":2,"next":{"title":"Download vSphere Integrated Containers","level":"1.3","depth":1,"path":"download_vic.md","ref":"download_vic.md","articles":[{"title":"Contents of the vSphere Integrated Containers Engine Binaries","level":"1.3.1","depth":2,"path":"contents_of_vic_binaries.md","ref":"contents_of_vic_binaries.md","articles":[]}]},"previous":{"title":"Overview of vSphere Integrated Containers Engine for vSphere Administrators","level":"1.2","depth":1,"path":"introduction.md","ref":"introduction.md","articles":[{"title":"Networks Used by vSphere Integrated Containers Engine","level":"1.2.1","depth":2,"path":"networks.md","ref":"networks.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_  -  Last updated 2017-02-23","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers Engine 0.8 Installation","gitbook":"3.x.x"},"file":{"path":"networks.md","mtime":"2017-02-21T09:25:38.592Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-02-23T13:27:32.713Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Use Different User Accounts for VCH Deployment and Operation","level":"1.4.7","depth":2,"next":{"title":"Deploy a VCH with vSphere Integrated Containers Registry (Harbor)","level":"1.4.8","depth":2,"path":"deploy_vch_harbor.md","ref":"deploy_vch_harbor.md","articles":[]},"previous":{"title":"Advanced Examples of Deploying a VCH","level":"1.4.6","depth":2,"path":"vch_installer_examples.md","ref":"vch_installer_examples.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_  -  Last updated 2017-02-23","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers Engine 0.8 Installation","gitbook":"3.x.x"},"file":{"path":"set_up_ops_user.md","mtime":"2017-02-23T09:53:04.751Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-02-23T13:27:32.713Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
