@@ -1,0 +1,542 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Example of Building an Application with vSphere Integrated Containers Engine | Developing Container Applications with VMware vSphere Integrated Containers 0.9</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.6.7">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="./ts_docker_version_error.html" />
+    
+    
+    <link rel="prev" href="./constraints_using_vic.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book"
+        data-level="9.2"
+        data-chapter-title="Example of Building an Application with vSphere Integrated Containers Engine"
+        data-filepath="build_app_with_vic.md"
+        data-basepath="."
+        data-revision="Thu Mar 09 2017 18:02:57 GMT+0100 (W. Europe Standard Time)"
+        data-innerlanguage="">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="./index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="overview_of_vic_engine.html">
+            
+                
+                    <a href="./overview_of_vic_engine.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        Overview of vSphere Integrated Containers Engine For Container Application Developers
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="container_operations.html">
+            
+                
+                    <a href="./container_operations.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Supported Docker Commands
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="docker_compose_file_options.html">
+            
+                
+                    <a href="./docker_compose_file_options.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        Supported Docker Compose File Options
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="container_limitations.html">
+            
+                
+                    <a href="./container_limitations.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Use and Limitations of Containers in vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="obtain_vch.html">
+            
+                
+                    <a href="./obtain_vch.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        Obtain a VCH
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="using_volumes_with_vic.html">
+            
+                
+                    <a href="./using_volumes_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        Using Volumes with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="using_registries_with_vic.html">
+            
+                
+                    <a href="./using_registries_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        Using Private Registry Servers with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="using_vic_with_harbor.html">
+            
+                
+                    <a href="./using_vic_with_harbor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="network_use_cases.html">
+            
+                
+                    <a href="./network_use_cases.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        Container Networking with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9" data-path="creating_containerized_app_with_vic.html">
+            
+                
+                    <a href="./creating_containerized_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        Creating a Containerized Application
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1" data-path="constraints_using_vic.html">
+            
+                
+                    <a href="./constraints_using_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.1.</b>
+                        
+                        Constraints of Using vSphere Integrated Containers Engine to Build Applications
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="9.2" data-path="build_app_with_vic.html">
+            
+                
+                    <a href="./build_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.2.</b>
+                        
+                        Example of Building an Application with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="ts_docker_version_error.html">
+            
+                
+                    <a href="./ts_docker_version_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.</b>
+                        
+                        Docker Commands Fail with a Docker API Version Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="ts_volume_store_error.html">
+            
+                
+                    <a href="./ts_volume_store_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        Default Volume Store Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12" data-path="ts_bridge_pool_mask_error.html">
+            
+                
+                    <a href="./ts_bridge_pool_mask_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.</b>
+                        
+                        Bridge Pool Mask Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="13" data-path="feedback.html">
+            
+                
+                    <a href="./feedback.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>13.</b>
+                        
+                        Send Documentation Feedback
+                    </a>
+            
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="./" >Developing Container Applications with VMware vSphere Integrated Containers 0.9</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="example-of-building-an-application-with-vsphere-integrated-containers-engine">Example of Building an Application with vSphere Integrated Containers Engine</h1>
+<p>The example in this topic modifies the <a href="https://github.com/docker/example-voting-app" target="_blank">voting app</a> by Docker to illustrate how to work around the constraints that the current version of vSphere Integrated Containers Engine imposes. For information about the constraints, see <a href="constraints_using_vic.html">Constraints of Using vSphere Integrated Containers Engine to Build Applications</a>. </p>
+<p>This example focuses on how to modify the Docker Compose YML file from the voting app to make it work with vSphere Integrated Containers. It does not describe the general function or makeup of the voting app.  </p>
+<h2 id="getting-started">Getting Started</h2>
+<ol>
+<li>Clone the Docker voting app repository from <a href="https://github.com/docker/example-voting-app" target="_blank">https://github.com/docker/example-voting-app</a>.</li>
+<li>Open the YML file for the simple Docker voting app, <code>docker-compose-simple.yml</code>.</li>
+</ol>
+<pre>
+version: &quot;2&quot;
+
+services:
+  vote:
+    build: ./vote
+    command: python app.py
+    volumes:
+     - ./vote:/app
+    ports:
+      - &quot;5000:80&quot;
+
+  redis:
+    image: redis:alpine
+    ports: [&quot;6379&quot;]
+
+  worker:
+    build: ./worker
+
+  db:
+    image: postgres:9.4
+
+  result:
+    build: ./result
+    command: nodemon --debug server.js
+    volumes:
+      - ./result:/app
+    ports:
+      - &quot;5001:80&quot;
+      - &quot;5858:5858&quot;
+</pre>
+
+<p>This compose file uses two features that this version of vSphere Integrated Containers does not support:</p>
+<ul>
+<li>The <code>docker build</code> command</li>
+<li>Mapping of local folders to container volumes </li>
+</ul>
+<p>To allow the voting app to work with vSphere Integrated Containers, you must modify it to work around these constraints. </p>
+<h2 id="modify-the-application">Modify the Application</h2>
+<p>This version of vSphere Integrated Containers Engine does not support the <code>docker build</code>, <code>tag</code>, <code>push</code> commands. Use regular Docker without vSphere Integrated Containers Engine to perform the steps in this section.</p>
+<p><strong>NOTE</strong>: It is possible to build and tag an image in one step. In this example, building and tagging are in separate steps.</p>
+<ol>
+<li><p>Build images for the different components of the application.</p>
+<pre>cd example-voting-app  
+docker build -t vote ./vote  
+docker build -t vote-worker ./worker  
+docker build -t vote-result ./result</pre>
+</li>
+<li><p>Tag the the images to upload them to your private registry or to your personal account on Docker Hub. </p>
+<p>This example uses a Docker Hub account. Replace <i>dockerhub_username</i> with your own account name in the commands below.</p>
+<pre>docker tag vote <i>dockerhub_username</i>/vote  
+docker tag vote-worker <i>dockerhub_username</i>/vote-worker  
+docker tag vote-result <i>dockerhub_username</i>/vote-result</pre>
+</li>
+<li><p>Push the images to the registry.</p>
+<pre>docker login 
+[Provide credentials] 
+docker push <i>dockerhub_username</i>/vote  
+docker push <i>dockerhub_username</i>/vote-worker  
+docker push <i>dockerhub_username</i>/vote-result</pre> 
+</li>
+<li><p>Open the <code>docker-compose-simple.yml</code> file in an editor and modify it to remove the operations that vSphere Integrated Containers does not support.</p>
+<ul>
+<li>Remove local folder mapping</li>
+<li>Remove all of the build directives</li>
+<li>Update <i>dockerhub_username</i> to your Docker Hub account name</li>
+<li>Save the modified file with the name <code>docker-compose.yml</code>.  </li>
+</ul>
+</li>
+</ol>
+<p>The example below shows the YML file after the modifications:</p>
+<pre>
+version: &quot;2&quot;
+
+services:
+  vote:
+    image: <i>dockerhub_username</i>/vote
+    command: python app.py
+    ports:
+      - &quot;5000:80&quot;
+
+  redis:
+    image: redis:alpine
+    ports: [&quot;6379&quot;]
+
+  worker:
+    image: <i>dockerhub_username</i>/vote-worker
+
+  db:
+    image: postgres:9.4
+
+  result:
+    image: <i>dockerhub_username</i>/vote-result
+    command: nodemon --debug server.js
+    ports:
+      - &quot;5001:80&quot;
+      - &quot;5858:5858&quot;
+</pre>
+
+<p>You can download the modified YML file from the vSphere Integrated Containers Engine repository on Github from <a href="https://github.com/vmware/vic/blob/master/demos/compose/voting-app" target="_blank">https://github.com/vmware/vic/blob/master/demos/compose/voting-app</a>. </p>
+<h2 id="deploy-the-application-to-a-vch">Deploy the Application to a VCH</h2>
+<p>The steps in this section make the following assumptions:</p>
+<ul>
+<li>You have deployed a virtual container host (VCH).</li>
+<li>You deployed the VCH with a volume store named <code>default</code> by specifying  <code>--volume-store datastore_name/path:default</code>.</li>
+<li>You deployed the VCH with the <code>--no-tls</code> option, to disable TLS authentication between the Docker client and the VCH.</li>
+<li>You are using Docker Compose 1.8.1.</li>
+</ul>
+<p>In the procedure below, run the commands from the <code>example-voting-app</code>  folder that contains the modified <code>docker-compose.yml</code> file.</p>
+<ol>
+<li><p>Run the <code>docker-compose</code> command.</p>
+ <pre>docker-compose -H <i>vch_address</i>:2375 up -d</pre>
+</li>
+<li><p>In a browser, go to <a href="http://*vch_address*:5000" target="_blank">http://*vch_address*:5000</a> and <a href="http://*vch_address*:5001" target="_blank">http://*vch_address*:5001</a> to verify that the Docker voting application is running.</p>
+<p>You can vote on port 5000 and see the results on port 5001.</p>
+</li>
+</ol>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="./constraints_using_vic.html" class="navigation navigation-prev " aria-label="Previous page: Constraints of Using vSphere Integrated Containers Engine to Build Applications"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="./ts_docker_version_error.html" class="navigation navigation-next " aria-label="Next page: Docker Commands Fail with a Docker API Version Error"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="gitbook/app.js"></script>
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

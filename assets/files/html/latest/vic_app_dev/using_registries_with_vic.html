@@ -1,0 +1,442 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Using Private Registry Servers with vSphere Integrated Containers Engine | Developing Container Applications with VMware vSphere Integrated Containers 0.9</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.6.7">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="./using_vic_with_harbor.html" />
+    
+    
+    <link rel="prev" href="./using_volumes_with_vic.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book"
+        data-level="6"
+        data-chapter-title="Using Private Registry Servers with vSphere Integrated Containers Engine"
+        data-filepath="using_registries_with_vic.md"
+        data-basepath="."
+        data-revision="Thu Mar 09 2017 18:02:57 GMT+0100 (W. Europe Standard Time)"
+        data-innerlanguage="">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="./index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="overview_of_vic_engine.html">
+            
+                
+                    <a href="./overview_of_vic_engine.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        Overview of vSphere Integrated Containers Engine For Container Application Developers
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="container_operations.html">
+            
+                
+                    <a href="./container_operations.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Supported Docker Commands
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="docker_compose_file_options.html">
+            
+                
+                    <a href="./docker_compose_file_options.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        Supported Docker Compose File Options
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="container_limitations.html">
+            
+                
+                    <a href="./container_limitations.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Use and Limitations of Containers in vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="obtain_vch.html">
+            
+                
+                    <a href="./obtain_vch.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        Obtain a VCH
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="using_volumes_with_vic.html">
+            
+                
+                    <a href="./using_volumes_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        Using Volumes with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="6" data-path="using_registries_with_vic.html">
+            
+                
+                    <a href="./using_registries_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        Using Private Registry Servers with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="using_vic_with_harbor.html">
+            
+                
+                    <a href="./using_vic_with_harbor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="network_use_cases.html">
+            
+                
+                    <a href="./network_use_cases.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        Container Networking with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9" data-path="creating_containerized_app_with_vic.html">
+            
+                
+                    <a href="./creating_containerized_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        Creating a Containerized Application
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1" data-path="constraints_using_vic.html">
+            
+                
+                    <a href="./constraints_using_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.1.</b>
+                        
+                        Constraints of Using vSphere Integrated Containers Engine to Build Applications
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.2" data-path="build_app_with_vic.html">
+            
+                
+                    <a href="./build_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.2.</b>
+                        
+                        Example of Building an Application with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="ts_docker_version_error.html">
+            
+                
+                    <a href="./ts_docker_version_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.</b>
+                        
+                        Docker Commands Fail with a Docker API Version Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="ts_volume_store_error.html">
+            
+                
+                    <a href="./ts_volume_store_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        Default Volume Store Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12" data-path="ts_bridge_pool_mask_error.html">
+            
+                
+                    <a href="./ts_bridge_pool_mask_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.</b>
+                        
+                        Bridge Pool Mask Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="13" data-path="feedback.html">
+            
+                
+                    <a href="./feedback.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>13.</b>
+                        
+                        Send Documentation Feedback
+                    </a>
+            
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="./" >Developing Container Applications with VMware vSphere Integrated Containers 0.9</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="using-private-registry-servers-with-vsphere-integrated-containers-engine">Using Private Registry Servers with vSphere Integrated Containers Engine</h1>
+<p>If your development environment includes private registry servers for container images, you or the vSphere administrator must correctly configure virtual container hosts (VCHs) to allow them to connect to the private registry servers.</p>
+<p>You can use vSphere Integrated Containers Engine with either secure or insecure private registry servers.</p>
+<h2 id="secure-private-registry-servers">Secure Private Registry Servers</h2>
+<p>If the private registry server is configured with TLS, the VCH must be able to validate the registry&apos;s certificate. If the registry&apos;s server certificate was signed by a custom CA, you must provide that CA to the VCH by using the <code>--registry-ca</code> option. If the registry server has a certificate signed by a public CA then it should function without any additional configuration.</p>
+<p>For information about how to configure a VCH to use private registry server CA certificates, see the section on <code>--registry-ca</code> in <a href="../vic_installation/vch_installer_options.html#registry-ca">VCH Deployment Options</a> in <em>vSphere Integrated Containers Engine Installation</em>. </p>
+<h2 id="insecure-private-registry-servers">Insecure Private Registry Servers</h2>
+<p>If you set up a private registry that does not use certificates, you or the vSphere administrator must deploy the VCH with the <code>vic-machine create --insecure-registry</code> option. Setting the <code>insecure-registry</code> option on a VCH informs that VCH that it is authorized to pull images from the designated insecure private registry server.</p>
+<p>If you authorize a VCH to connect to an insecure private registry server, the VCH attempts to access the registry server via HTTP if access via HTTPS fails. VCHs always use HTTPS when connecting to registry servers for which you have not authorized insecure access. Insecure private registries are not recommended in production environments.</p>
+<p>For information about how to use the <code>vic-machine create --insecure-registry</code> option, see the section on <code>insecure-registry</code> in <a href="../vic_installation/vch_installer_options.html#insecure-registry">VCH Deployment Options</a> in <em>vSphere Integrated Containers Engine Installation</em>. </p>
+<h2 id="pull-a-container-image-from-a-private-registry-server">Pull a Container Image from a Private Registry Server</h2>
+<p>To pull a container image from a private registry server, run the following Docker command. </p>
+<pre>docker -H <i>vch_address</i>:2376 --tls 
+pull <i>registry_server_address</i>/path/to/image/<i>image_name</i>:<i>image_version</i></pre>
+
+<p>If the private registry server listens for connections on a specific port, include the port number in the registry server URL.</p>
+<pre>docker -H <i>vch_address</i>:2376 --tls 
+pull <i>registry_server_address</i>:<i>port_number</i>/path/to/image/<i>image_name</i>:<i>image_version</i></pre>
+
+<p>These commands will only work in the following circumstances:</p>
+<ul>
+<li>The private registry server at <i>registry_server_address</i> is secured by CA certificates, and you or the vSphere administrator passed the appropriate certificates to the VCH during deployment by using the <code>--registry-ca</code> option.</li>
+<li>The private registry server at <i>registry_server_address</i> is not secured by certificates, and you or the vSphere administrator authorized access to this registry server by using the <code>--insecure-registry</code> option during VCH deployment.</li>
+</ul>
+<p><strong>NOTE</strong>: In the examples, the Docker commands specify <code>--tls</code>. This is to specify that the connection between the Docker client and the VCH is secured by TLS. The level of security of the connection between the Docker client and the VCH is completely independent from the level of security of the connection between the VCH and the private registry server. The connection to the private registry server can be insecure when the connection between the client and the VCH is secure, and the reverse.</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="./using_volumes_with_vic.html" class="navigation navigation-prev " aria-label="Previous page: Using Volumes with vSphere Integrated Containers Engine"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="./using_vic_with_harbor.html" class="navigation navigation-next " aria-label="Next page: Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="gitbook/app.js"></script>
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>
