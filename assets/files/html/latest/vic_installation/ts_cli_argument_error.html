@@ -1,0 +1,674 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Missing Common Name Error When TLS Options Are Specified | VMware vSphere Integrated Containers Engine 0.9 Installation</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.6.7">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="./ts_firewall_error.html" />
+    
+    
+    <link rel="prev" href="./ts_thumbprint_error.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book"
+        data-level="5.3"
+        data-chapter-title="Missing Common Name Error When TLS Options Are Specified"
+        data-filepath="ts_cli_argument_error.md"
+        data-basepath="."
+        data-revision="Thu Mar 09 2017 18:02:14 GMT+0100 (W. Europe Standard Time)"
+        data-innerlanguage="">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="./index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="introduction.html">
+            
+                
+                    <a href="./introduction.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        Overview of vSphere Integrated Containers Engine for vSphere Administrators
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="networks.html">
+            
+                
+                    <a href="./networks.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        Networks Used by vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="download_vic.html">
+            
+                
+                    <a href="./download_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Download vSphere Integrated Containers
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="contents_of_vic_binaries.html">
+            
+                
+                    <a href="./contents_of_vic_binaries.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        Contents of the vSphere Integrated Containers Engine Binaries
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="deploy_vch.html">
+            
+                
+                    <a href="./deploy_vch.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Deploy VCHs
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="vic_installation_prereqs.html">
+            
+                
+                    <a href="./vic_installation_prereqs.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        Environment Prerequisites for VCH Deployment
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="deploy_vch_esxi.html">
+            
+                
+                    <a href="./deploy_vch_esxi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        Deploy a VCH to an ESXi Host with No vCenter Server
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="deploy_vch_vcenter.html">
+            
+                
+                    <a href="./deploy_vch_vcenter.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        Deploy a VCH to a Basic vCenter Server Cluster
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="verify_vch_deployment.html">
+            
+                
+                    <a href="./verify_vch_deployment.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.</b>
+                        
+                        Verify the Deployment of a VCH
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="vch_installer_options.html">
+            
+                
+                    <a href="./vch_installer_options.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.5.</b>
+                        
+                        VCH Deployment Options
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="vch_installer_examples.html">
+            
+                
+                    <a href="./vch_installer_examples.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.6.</b>
+                        
+                        Advanced Examples of Deploying a VCH
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="set_up_ops_user.html">
+            
+                
+                    <a href="./set_up_ops_user.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.7.</b>
+                        
+                        Use Different User Accounts for VCH Deployment and Operation
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="deploy_vch_harbor.html">
+            
+                
+                    <a href="./deploy_vch_harbor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.8.</b>
+                        
+                        Deploy a VCH with vSphere Integrated Containers Registry (Harbor)
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="install_vic_plugin.html">
+            
+                
+                    <a href="./install_vic_plugin.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        Installing the vSphere Web Client Plug-in
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1" data-path="plugin_vc_web.html">
+            
+                
+                    <a href="./plugin_vc_web.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.</b>
+                        
+                        vCenter Server For Windows with a Web Server
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="plugin_vc_no_web.html">
+            
+                
+                    <a href="./plugin_vc_no_web.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.</b>
+                        
+                        vCenter Server for Windows without a Web Server
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="plugin_vcsa_web.html">
+            
+                
+                    <a href="./plugin_vcsa_web.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.3.</b>
+                        
+                        vCenter Server Appliance with a Web Server
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="plugin_vcsa_no_web.html">
+            
+                
+                    <a href="./plugin_vcsa_no_web.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.4.</b>
+                        
+                        vCenter Server Appliance without a Web Server
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="plugin_verify_deployment.html">
+            
+                
+                    <a href="./plugin_verify_deployment.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.5.</b>
+                        
+                        Verify the Deployment of the Plug-In
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="troubleshoot_vic_install.html">
+            
+                
+                    <a href="./troubleshoot_vic_install.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        Troubleshooting vSphere Integrated Containers Engine Installation
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1" data-path="ts_vch_deployment_timeout.html">
+            
+                
+                    <a href="./ts_vch_deployment_timeout.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                        VCH Deployment Times Out
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="ts_thumbprint_error.html">
+            
+                
+                    <a href="./ts_thumbprint_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.2.</b>
+                        
+                        Certificate Verification Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="5.3" data-path="ts_cli_argument_error.html">
+            
+                
+                    <a href="./ts_cli_argument_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.3.</b>
+                        
+                        Missing Common Name Error When TLS Options Are Specified
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="ts_firewall_error.html">
+            
+                
+                    <a href="./ts_firewall_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.4.</b>
+                        
+                        Firewall Validation Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="ts_cname_mismatch.html">
+            
+                
+                    <a href="./ts_cname_mismatch.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.5.</b>
+                        
+                        Certificate cname Mismatch
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="ts_ui_not_appearing.html">
+            
+                
+                    <a href="./ts_ui_not_appearing.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.6.</b>
+                        
+                        Plug-In Does Not Appear in the vSphere Web Client
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7" data-path="ts_docker_version_error.html">
+            
+                
+                    <a href="./ts_docker_version_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.7.</b>
+                        
+                        Docker API Version Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8" data-path="ts_docker_api_check_error.html">
+            
+                
+                    <a href="./ts_docker_api_check_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.8.</b>
+                        
+                        Docker API Endpoint Check Failed Error
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="feedback.html">
+            
+                
+                    <a href="./feedback.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        Send Documentation Feedback
+                    </a>
+            
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="./" >VMware vSphere Integrated Containers Engine 0.9 Installation</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="vch-deployment-fails-with-missing-common-name-error-even-when-tls-options-are-specified-correctly">VCH Deployment Fails with Missing Common Name Error Even When TLS Options Are Specified Correctly</h1>
+<p>If you deploy a virtual container host (VCH) and you have specified one of the <code>vic-machine create --tls-cname</code>, <code>--no-tlsverify</code>, or <code>--no-tls</code> options, or you set a static IP address on the client network, the deployment fails with an error about the certificate Common Name being missing.</p>
+<h2 id="problem">Problem</h2>
+<p>Deployment fails during the validation of the configuration that you provided, even if you did specify a TLS option or you set a static IP address on the client network. For example: </p>
+<pre>$ vic-machine-windows create 
+--target &apos;Administrator@vsphere.local:<i>password</i>&apos;@<i>vcenter_server</i> 
+--bridge-network vic bridge --no-tls
+### Installing VCH ####
+[...]
+Common Name must be provided when generating certificates for client
+authentication:
+[...]
+Create cannot continue: unable to generate certificates
+--------------------
+vic-machine-windows.exe failed: provide Common Name for server certificate</pre>
+
+<p>If you include a TLS option at the beginning of the <code>vic-machine create</code> command rather than the end, you see the following error: </p>
+<pre>$ vic-machine-windows create 
+--target &apos;Administrator@vsphere.local:<i>password</i>&apos;@<i>vcenter_server</i> 
+ --no-tls
+--bridge-network vic bridge
+### Installing VCH ####
+[...]
+Unknown argument: bridge
+--------------------
+vic-machine-windows.exe failed: invalid CLI arguments
+</pre>
+
+
+<h2 id="cause">Cause</h2>
+<p>String values that you provided for certain options contain spaces or special characters that you did not escape with quotations marks. The <code>vic-machine create</code> input validator validates the arguments that you provide only as far as the argument that includes the space or special character. If you specify the TLS option before the argument with the space or special character, <code>vic-machine create</code> throws the correct error message. However, if you specify the TLS option after the argument that includes the space or special character, the <code>vic-machine create</code> validator stops before it reaches the TLS option, and so throws the error about the missing Common Name.</p>
+<h2 id="solution">Solution</h2>
+<p>Wrap any arguments that contain spaces or special characters in single quotation marks (&apos;) on Mac OS and Linux and in double quotation marks (&quot;)  on Windows. </p>
+<p>Option arguments that might require quotation marks include the following:</p>
+<ul>
+<li>User names and passwords in <code>--target</code>, or in <code>--user</code> and <code>--password</code></li>
+<li>Datacenter names in <code>--target</code></li>
+<li>VCH names in <code>--name</code></li>
+<li>Datastore names and paths in <code>--image-store</code> and <code>--volume-store</code></li>
+<li>Network and port group names in all networking options.</li>
+<li>Cluster and resource pool names in <code>--compute-resource</code></li>
+<li>Folder names in the paths for <code>--cert-path</code>, <code>--cert</code>, <code>--key</code>, <code>--appliance-iso</code>, and <code>--bootstrap-iso</code></li>
+</ul>
+<p>For information about when to use quotation marks for different options, see the descriptions of those options in <a href="vch_installer_options.html">VCH Deployment Options</a>.</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="./ts_thumbprint_error.html" class="navigation navigation-prev " aria-label="Previous page: Certificate Verification Error"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="./ts_firewall_error.html" class="navigation navigation-next " aria-label="Next page: Firewall Validation Error"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="gitbook/app.js"></script>
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

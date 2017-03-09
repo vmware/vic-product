@@ -1,0 +1,913 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Supported Docker Commands | Developing Container Applications with VMware vSphere Integrated Containers 0.9</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.6.7">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="./docker_compose_file_options.html" />
+    
+    
+    <link rel="prev" href="./overview_of_vic_engine.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book"
+        data-level="2"
+        data-chapter-title="Supported Docker Commands"
+        data-filepath="container_operations.md"
+        data-basepath="."
+        data-revision="Thu Mar 09 2017 18:02:57 GMT+0100 (W. Europe Standard Time)"
+        data-innerlanguage="">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="./index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="overview_of_vic_engine.html">
+            
+                
+                    <a href="./overview_of_vic_engine.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        Overview of vSphere Integrated Containers Engine For Container Application Developers
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="2" data-path="container_operations.html">
+            
+                
+                    <a href="./container_operations.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Supported Docker Commands
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="docker_compose_file_options.html">
+            
+                
+                    <a href="./docker_compose_file_options.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        Supported Docker Compose File Options
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="container_limitations.html">
+            
+                
+                    <a href="./container_limitations.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Use and Limitations of Containers in vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="obtain_vch.html">
+            
+                
+                    <a href="./obtain_vch.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        Obtain a VCH
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="using_volumes_with_vic.html">
+            
+                
+                    <a href="./using_volumes_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        Using Volumes with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="using_registries_with_vic.html">
+            
+                
+                    <a href="./using_registries_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        Using Private Registry Servers with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="using_vic_with_harbor.html">
+            
+                
+                    <a href="./using_vic_with_harbor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="network_use_cases.html">
+            
+                
+                    <a href="./network_use_cases.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        Container Networking with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9" data-path="creating_containerized_app_with_vic.html">
+            
+                
+                    <a href="./creating_containerized_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        Creating a Containerized Application
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1" data-path="constraints_using_vic.html">
+            
+                
+                    <a href="./constraints_using_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.1.</b>
+                        
+                        Constraints of Using vSphere Integrated Containers Engine to Build Applications
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.2" data-path="build_app_with_vic.html">
+            
+                
+                    <a href="./build_app_with_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.2.</b>
+                        
+                        Example of Building an Application with vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="ts_docker_version_error.html">
+            
+                
+                    <a href="./ts_docker_version_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.</b>
+                        
+                        Docker Commands Fail with a Docker API Version Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="ts_volume_store_error.html">
+            
+                
+                    <a href="./ts_volume_store_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        Default Volume Store Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12" data-path="ts_bridge_pool_mask_error.html">
+            
+                
+                    <a href="./ts_bridge_pool_mask_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.</b>
+                        
+                        Bridge Pool Mask Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="13" data-path="feedback.html">
+            
+                
+                    <a href="./feedback.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>13.</b>
+                        
+                        Send Documentation Feedback
+                    </a>
+            
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="./" >Developing Container Applications with VMware vSphere Integrated Containers 0.9</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="supported-docker-commands">Supported Docker Commands</h1>
+<p> vSphere Integrated Containers Engine 0.9 supports Docker 1.13. The supported version of the Docker API is 1.25. If you are using a more recent version of the Docker client, see <a href="ts_docker_version_error.html">Docker Commands Fail with a Docker API Version Error</a>. </p>
+<ul>
+<li><a href="#mgmt">Docker Management Commands</a></li>
+<li><a href="#image">Image Commands</a></li>
+<li><a href="#container">Container Commands</a></li>
+<li><a href="#registry">Hub and Registry Commands</a></li>
+<li><a href="#network">Network and Connectivity Commands</a></li>
+<li><a href="#volume">Shared Data Volume Commands</a></li>
+<li><a href="#compose">Docker Compose Commands</a></li>
+<li><a href="#swarm">Swarm Commands</a></li>
+</ul>
+<p><a name="mgmt"></a></p>
+<h2 id="docker-management-commands">Docker Management Commands</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Docker Reference</strong></th>
+<th><strong>Supported</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dockerd</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/dockerd/" target="_blank">Launch the Docker daemon</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/info/" target="_blank">Docker system information</a></td>
+<td>Yes. Provides Docker-specific data, basic capacity information, lists configured volume stores, and virtual container host information. Does not reveal vSphere datastore paths that might contain sensitive vSphere information.</td>
+</tr>
+<tr>
+<td><code>inspect</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/inspect/" target="_blank">Inspect a container or image</a></td>
+<td>Yes. Includes information about the container network.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/version/" target="_blank">Docker version information</a></td>
+<td>Yes. vSphere Integrated Containers Engine version provided.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="image"></a></p>
+<h2 id="image-commands">Image Commands</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Docker Reference</strong></th>
+<th><strong>Supported</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>build</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/build/" target="_blank">Build an image from a Dockerfile</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>commit</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/commit/" target="_blank">Create a new image from a container&#x2019;s changes</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>history</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/history/" target="_blank">Show the history of an image</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>images</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/images/" target="_blank">Images</a></td>
+<td>Yes. Supports <code>--filter</code>, <code>--no-trunc</code>, and <code>--quiet</code></td>
+</tr>
+<tr>
+<td><code>import</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/import/" target="_blank">Import the contents from a tarball to create a filesystem image</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>load</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/load/" target="_blank">Load an image from a tar archive or STDIN</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>rmi</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/rmi/" target="_blank">Remove a Docker image</a></td>
+<td>Yes. Does not yet support <code>tag</code> or <code>untag</code> operations, or any options.</td>
+</tr>
+<tr>
+<td><code>save</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/save/" target="_blank">Save images</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>tag</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/tag/" target="_blank">Tag an image into a repository</a></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><a name="container"></a></p>
+<h2 id="container-commands">Container Commands</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Docker Reference</strong></th>
+<th><strong>Supported</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>attach</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/attach/" target="_blank">Attach to a container</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>container list</code></td>
+<td><a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.22/#list-containers" target="_blank">List Containers</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>container resize</code></td>
+<td><a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#resize-a-container-tty" target="_blank">Resize a container</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>cp</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/cp/" target="_blank">Copy files or folders between a container and the local filesystem</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/create/" target="_blank">Create a container</a></td>
+<td>Yes. <br><code>--cpuset-cpus</code>in Docker specifies CPUs the container is allowed to use during execution (0-3, 0,1). In vSphere Integrated Containers Engine, this parameter specifies the number of virtual CPUs to allocate to the container VM. Minimum CPU count is 1, maximum is unlimited. Default is 2.<br><code>--ip</code> allows you to set a static IP on the container. By default, the virtual container host  manages the container IP.<br><code>--memory</code> Minimum memory is 512MB, maximum unlimited. If unspecified, default is 2GB. Supports the <code>--attach</code>, <code>--cpuset-cpus</code>,<code>--env</code>, <code>--ip</code>, <code>--memory</code>, <code>--interactive</code>, <code>--link</code>, <code>--label</code>, <code>--network</code>, <code>--tty</code>, and <code>--volume</code> options.</td>
+</tr>
+<tr>
+<td><code>diff</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/diff/" target="_blank">Inspect changes on a container&apos;s filesystem</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>events</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/events/" target="_blank">Get real time events from the server</a></td>
+<td>Yes. Supports passive Docker events for containers and images. Does not yet support events for volumes or networks.</td>
+</tr>
+<tr>
+<td><code>exec</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/exec/" target="_blank">Run a command in a running container</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>export</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/export/" target="_blank">Export a container</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>kill</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/kill/" target="_blank">Kill a running container</a></td>
+<td>Yes. Docker must wait for the container to shut down.</td>
+</tr>
+<tr>
+<td><code>logs</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/logs/" target="_blank">Get container logs</a></td>
+<td>Yes. Does not support <code>docker logs --timestamps</code> (<code>-t</code>) and <code>--since</code> options.</td>
+</tr>
+<tr>
+<td><code>pause</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/pause/" target="_blank">Pause processes in a container</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>port</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/port/" target="_blank">Obtain port data</a></td>
+<td>Yes. Displays port mapping data. <br>Supports mapping a random host port to the container when the host port is not specified.</td>
+</tr>
+<tr>
+<td><code>ps</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/ps/" target="_blank">Show running containers</a></td>
+<td>Yes. Supports the <code>-a/--all</code>, <code>-f/--filter</code>, <code>--no-trunc</code>, and <code>-q/--quiet</code> options. Filtering by network name is supported, but filtering by network ID is not supported.</td>
+</tr>
+<tr>
+<td><code>rename</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/rename/" target="_blank">Rename a container</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>restart</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/restart/" target="_blank">Restart a container</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>rm</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/rm/" target="_blank">Remove a container</a></td>
+<td>Yes. Removes associated anonymous and regular volumes. Supports the <code>--force</code> option and the <code>name</code> parameter.  <code>docker rm -v</code> and <code>docker rm -f</code> are not supported. To view volumes attached to a container that is removed, use <code>docker volume ls</code> and <code>docker volume inspect &lt;id&gt;</code>. If you continually invoke <code>docker create</code> to make more anonymous volumes, those volumes are left behind after each subsequent removal of that container.</td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/run/" target="_blank">Run a command in a new container</a></td>
+<td><a id="docker_run"></a>Yes. Supports container search by using prettyname-ID with <code>docker run --name</code>. Supports the <code>--detach</code>, <code>--detach-keys</code>, and <code>--dns</code> options.<br> Supports mapping a random host port to the container when the host port is not specified. <br>Supports running images from private and custom registries.<br><code>docker run --net=host</code> is not supported. You can specify a container network by using the <a href="../vic_installation/vch_installer_options.html#container-network"><code>--container-network</code> option</a> when you deploy a virtual container host.</td>
+</tr>
+<tr>
+<td><code>start</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/start/" target="_blank">Start a container</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>stats</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/stats/" target="_blank">Get container stats based on resource usage</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>stop</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/stop/" target="_blank">Stop a container</a></td>
+<td>Yes. Attempts to politely stop the container. If that fails, powers down the VM.</td>
+</tr>
+<tr>
+<td><code>top</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/top/" target="_blank">Display the running processes of a container</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>unpause</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/unpause/" target="_blank">Unpause processes within a container</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>update</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/update/" target="_blank">Update a container</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>wait</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/wait/" target="_blank">Wait for a container</a></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><a name="registry"></a></p>
+<h2 id="hub-and-registry-commands">Hub and Registry Commands</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Docker Reference</strong></th>
+<th><strong>Supported</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>login</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/login/" target="_blank">Log into a registry</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>logout</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/logout/" target="_blank">Log out from a registry</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>pull</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/pull/" target="_blank">Pull an image or repository from a registry</a></td>
+<td>Yes. Supports pulling from  secure or insecure public and private registries.</td>
+</tr>
+<tr>
+<td><code>push</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/push/" target="_blank">Push an image or a repository to a registry</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>search</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/search/" target="_blank">Search the Docker hub for images</a></td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p><a name="network"></a></p>
+<h2 id="network-and-connectivity-commands">Network and Connectivity Commands</h2>
+<p>For more information about network operations with vSphere Integrated Containers Engine, see <a href="network_use_cases.html">Container Networking with vSphere Integrated Containers Engine</a>.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Docker Reference</strong></th>
+<th><strong>Supported</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>network connect</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/network_connect/" target="_blank">Connect to a network</a></td>
+<td>Yes. Not supported for running containers.</td>
+</tr>
+<tr>
+<td><code>network create</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/network_create/" target="_blank">Create a network</a></td>
+<td>Yes. See the use case to connect to an external network in <a href="network_use_cases.html">Container Networking with vSphere Integrated Containers Engine</a>. Bridge is also supported.<br>The <code>--label</code>, <code>--internal</code>, and <code>--ipam</code> options are currently not supported.</td>
+</tr>
+<tr>
+<td><code>network disconnect</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/network_disconnect/" target="_blank">Disconnect a network</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>network inspect</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/network_inspect/" target="_blank">Inspect a network</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>network ls</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/network_ls/" target="_blank">List networks/</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>network rm</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/network_rm/" target="_blank">Remove a network</a></td>
+<td>Yes. Network name and network ID are supported.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="volume"></a></p>
+<h2 id="shared-data-volume-commands">Shared Data Volume Commands</h2>
+<p>For more information about volume operations with vSphere Integrated Containers Engine, see <a href="using_volumes_with_vic.html">Using Volumes with vSphere Integrated Containers Engine</a>.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Docker Reference</strong></th>
+<th><strong>Supported</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>volume create</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/volume_create/" target="_blank">Create a volume</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>volume inspect</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/volume_inspect/" target="_blank">Information about a volume</a></td>
+<td>Yes. Use with docker compose.</td>
+</tr>
+<tr>
+<td><code>volume ls</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/volume_ls/" target="_blank">List volumes</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>volume rm</code></td>
+<td><a href="https://docs.docker.com/engine/reference/commandline/volume_rm/" target="_blank">Remove or delete a volume</a></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><a name="compose"></a></p>
+<h2 id="docker-compose-commands">Docker Compose Commands</h2>
+<p>vSphere Integrated Containers Engine 0.9 supports Docker Compose version 1.9.0.</p>
+<p>For more information about using Docker Compose with vSphere Integrated Containers Engine, see <a href="creating_containerized_app_with_vic.html">Creating a Containerized Application with vSphere Integrated Containers Engine</a>.</p>
+<p>For information about Docker Compose file support, see <a href="docker_compose_file_options.html">Supported Docker Compose File Options</a>.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Docker Reference</strong></th>
+<th><strong>Supported</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>build</code></td>
+<td><a href="https://docs.docker.com/compose/reference/build/" target="_blank">Build or rebuild service</a></td>
+<td>No. Depends on <code>docker build</code>.</td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td><a href="https://docs.docker.com/compose/reference/bundle/" target="_blank">Generate a Distributed Application Bundle (DAB) from the Compose file</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>config</code></td>
+<td><a href="https://docs.docker.com/compose/reference/config/" target="_blank">Validate and view the compose file</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><a href="https://docs.docker.com/compose/reference/create/" target="_blank">Create services</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>down</code></td>
+<td><a href="https://docs.docker.com/compose/reference/down/" target="_blank">Stop and remove containers, networks, images, and volumes</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>events</code></td>
+<td><a href="https://docs.docker.com/compose/reference/events/" target="_blank">Receive real time events from containers</a></td>
+<td>No. Depends on <code>docker events</code>.</td>
+</tr>
+<tr>
+<td><code>exec</code></td>
+<td><a href="https://docs.docker.com/compose/reference/exec/" target="_blank">Run commands in services</a></td>
+<td>No. Depends on <code>docker exec</code>.</td>
+</tr>
+<tr>
+<td><code>help</code></td>
+<td><a href="https://docs.docker.com/compose/reference/help/" target="_blank">Get help on a command</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>kill</code></td>
+<td><a href="https://docs.docker.com/compose/reference/kill/" target="_blank">Kill containers</a></td>
+<td>No, but <code>docker kill</code> works.</td>
+</tr>
+<tr>
+<td><code>logs</code></td>
+<td><a href="https://docs.docker.com/compose/reference/logs/" target="_blank">View output from containers</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>pause</code></td>
+<td><a href="https://docs.docker.com/compose/reference/pause/" target="_blank">Pause services</a></td>
+<td>No. Depends on <code>docker pause</code>.</td>
+</tr>
+<tr>
+<td><code>port</code></td>
+<td><a href="https://docs.docker.com/compose/reference/port/" target="_blank">Print the public port for a port binding</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>ps</code></td>
+<td><a href="https://docs.docker.com/compose/reference/ps/" target="_blank">List containers</a></td>
+<td>No. Depends on <code>docker ps --filter</code>.</td>
+</tr>
+<tr>
+<td><code>pull</code></td>
+<td><a href="https://docs.docker.com/compose/reference/pull/" target="_blank">Pulls service images</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>push</code></td>
+<td><a href="https://docs.docker.com/compose/reference/push/" target="_blank">Pushes images for service</a></td>
+<td>No. Depends on <code>docker push</code></td>
+</tr>
+<tr>
+<td><code>restart</code></td>
+<td><a href="https://docs.docker.com/compose/reference/restart/" target="_blank">Restart services</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>rm</code></td>
+<td><a href="https://docs.docker.com/compose/reference/rm/" target="_blank">Remove stopped containers</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td><a href="https://docs.docker.com/compose/reference/run/" target="_blank">Run a one-off command</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>scale</code></td>
+<td><a href="https://docs.docker.com/compose/reference/scale/" target="_blank">Set number of containers for a service</a></td>
+<td>No. Depends on <code>docker ps --filter</code>.</td>
+</tr>
+<tr>
+<td><code>start</code></td>
+<td><a href="https://docs.docker.com/compose/reference/start/" target="_blank">Start services</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>stop</code></td>
+<td><a href="https://docs.docker.com/compose/reference/stop/" target="_blank">Stop services</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>unpause</code></td>
+<td><a href="https://docs.docker.com/compose/reference/unpause/" target="_blank">Unpause services</a></td>
+<td>No. Depends on <code>docker unpause</code>.</td>
+</tr>
+<tr>
+<td><code>up</code></td>
+<td><a href="">Create and start containers</a></td>
+<td>Conditionally supported. Does not work if there are orphaned containers. Depends on <code>docker rename</code> and <code>docker ps --filter</code>.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>Show Docker Compose version information</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><a name="swarm"></a></p>
+<h2 id="swarm-commands">Swarm Commands</h2>
+<p>This version of vSphere Integrated Containers Engine does not support Docker Swarm.</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="./overview_of_vic_engine.html" class="navigation navigation-prev " aria-label="Previous page: Overview of vSphere Integrated Containers Engine For Container Application Developers"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="./docker_compose_file_options.html" class="navigation navigation-next " aria-label="Next page: Supported Docker Compose File Options"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="gitbook/app.js"></script>
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>
