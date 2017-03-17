@@ -53,7 +53,7 @@
         data-chapter-title="Supported Docker Compose File Options"
         data-filepath="docker_compose_file_options.md"
         data-basepath="."
-        data-revision="Thu Mar 09 2017 18:02:57 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Fri Mar 17 2017 17:32:29 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -304,29 +304,14 @@
             
         </li>
     
-        <li class="chapter " data-level="12" data-path="ts_bridge_pool_mask_error.html">
-            
-                
-                    <a href="./ts_bridge_pool_mask_error.html">
-                
-                        <i class="fa fa-check"></i>
-                        
-                            <b>12.</b>
-                        
-                        Bridge Pool Mask Error
-                    </a>
-            
-            
-        </li>
-    
-        <li class="chapter " data-level="13" data-path="feedback.html">
+        <li class="chapter " data-level="12" data-path="feedback.html">
             
                 
                     <a href="./feedback.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>13.</b>
+                            <b>12.</b>
                         
                         Send Documentation Feedback
                     </a>
@@ -488,7 +473,7 @@
 </tr>
 <tr>
 <td><code>isolation</code></td>
-<td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#isolation" target="_blank">xxx</a></td>
+<td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#isolation" target="_blank">Specify isolation technology</a></td>
 <td>No. Depends on <code>docker run --isolation</code>.</td>
 </tr>
 <tr>
@@ -547,13 +532,38 @@
 <td>Yes</td>
 </tr>
 <tr>
+<td><code>security-opt</code></td>
+<td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#securityopt" target="_blank">Override the default labeling scheme for containers</a></td>
+<td>No. This option only applies to Windows containers, which vSphere Integrated Containers Engine does not support.</td>
+</tr>
+<tr>
+<td><code>stop-signal</code></td>
+<td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#stopsignal" target="_blank">Sets an alternative signal to stop the container.</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>stop-grace-period</code></td>
+<td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#stopgraceperiod" target="_blank">Specify how long to wait stopping a container</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>sysctls</code></td>
+<td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#sysctls" target="_blank">Kernel parameters to set in the container</a></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>ulimits</code></td>
+<td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#ulimits" target="_blank">Override the default ulimits for a container</a></td>
+<td>No</td>
+</tr>
+<tr>
 <td><code>userns_mode</code></td>
 <td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#usernsmode" target="_blank">Disables the user namespace</a></td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>volumes</code>,<code>volume_driver</code></td>
-<td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#volumes-volumedriver" target="_blank">xxx</a></td>
+<td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#volumes-volumedriver" target="_blank">Mount paths or named volumes</a></td>
 <td>Yes</td>
 </tr>
 <tr>
@@ -566,7 +576,38 @@
 <p> The following <a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#cpushares-cpuquota-cpuset-domainname-hostname-ipc-macaddress-memlimit-memswaplimit-memswappiness-oomscoreadj-privileged-readonly-restart-shmsize-stdinopen-tty-user-workingdir" target="_blank">Docker run options</a> are supported if their <a href="container_operations.html#docker_run"><code>docker run</code></a> counterpart is supported: <code>security_opt</code>, <code>stop_grace_period</code>, <code>stop_signal</code>, <code>sysctls</code>, <code>ulimits</code>, <code>userns_mode</code>, <code>cpu_shares</code>, <code>cpu_quota</code>, <code>cpuset</code>, <code>domainname</code>, <code>hostname</code>, <code>ipc</code>, <code>mac_address</code>, <code>mem_limit</code>, <code>memswap_limit</code>, <code>oom_score_adj</code>, <code>privileged</code>, <code>read_only</code>, <code>restart</code>, <code>shm_size</code>, <code>stdin_open</code>, <code>tty</code>, <code>user</code>, <code>working_dir</code>.</p>
 <p><a id="volume"></a></p>
 <h2 id="volume-configuration-options">Volume Configuration Options</h2>
-<p>vSphere Integrated Containers 0.9 does not support any volume configuration options, pending the implementation of shared volume support.</p>
+<p>NOTE: vSphere Integrated Containers 0.9 does not support shared volumes. You can use these options for containers that do not share volumes. </p>
+<table>
+<thead>
+<tr>
+<th><strong>Option</strong></th>
+<th><strong>Compose File Reference</strong></th>
+<th><strong>Supported</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>driver</code></td>
+<td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#driver" target="_blank">Specify driver to use for this volume</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>driver_opts</code></td>
+<td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#driveropts" target="_blank">Specify options to pass to the driver for this volume</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>labels</code></td>
+<td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#labels-1" target="_blank">Add metadata to containers</a></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>external</code></td>
+<td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#external" target="_blank">Specify that volume has been created outside of Compose</a></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
 <p><a id="network"></a></p>
 <h2 id="network-configuration-options">Network Configuration Options</h2>
 <table>
@@ -596,7 +637,7 @@
 <tr>
 <td><code>ipam</code></td>
 <td><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#ipam" target="_blank">Specify custom IPAM configuration</a></td>
-<td>No. Depends on <code>docker network create --ipam</code>.</td>
+<td>Yes</td>
 </tr>
 <tr>
 <td><code>internal</code></td>

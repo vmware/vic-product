@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Send Documentation Feedback | VMware vSphere Integrated Containers Engine 0.9 Installation</title>
+        <title>HTML5 on VCSA | VMware vSphere Integrated Containers Engine 0.9 Installation</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -37,8 +37,10 @@
         
     
     
+    <link rel="next" href="./plugin_h5_vc_web.html" />
     
-    <link rel="prev" href="./ts_docker_version_error.html" />
+    
+    <link rel="prev" href="./install_vic_plugin.html" />
     
 
         
@@ -47,9 +49,9 @@
         
         
     <div class="book"
-        data-level="6"
-        data-chapter-title="Send Documentation Feedback"
-        data-filepath="feedback.md"
+        data-level="4.1"
+        data-chapter-title="HTML5 on VCSA"
+        data-filepath="plugin_h5_vcsa.md"
         data-basepath="."
         data-revision="Fri Mar 17 2017 17:31:47 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
@@ -309,7 +311,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="4.1" data-path="plugin_h5_vcsa.html">
+        <li class="chapter active" data-level="4.1" data-path="plugin_h5_vcsa.html">
             
                 
                     <a href="./plugin_h5_vcsa.html">
@@ -575,7 +577,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="6" data-path="feedback.html">
+        <li class="chapter " data-level="6" data-path="feedback.html">
             
                 
                     <a href="./feedback.html">
@@ -623,13 +625,52 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="send-documentation-feedback">Send Documentation Feedback</h1>
-<p>Help us to improve the vSphere Integrated Containers documentation. </p>
+                        <h1 id="install-the-html5-plugin-on-a-vcenter-server-appliance">Install the HTML5 Plug-In on a vCenter Server Appliance</h1>
+<p>If you are running version 6.5 of the vCenter Server Appliance, you can install the HTML5 vSphere Client plug-in for vSphere Integrated Containers.</p>
+<p><strong>Prerequisites</strong></p>
+<p>Go to the vCenter Server Appliance Management Interface (VAMI) at https://<i>vcsa_address</i>:5480, click <strong>Access</strong>, and make sure that Bash Shell is enabled.</p>
+<p><strong>Procedure</strong></p>
+<ol>
+<li>On the system on which you have downloaded and unpacked vSphere Integrated Containers Engine, open the <code>/vic/ui/HTML5Client/configs</code> file in a text editor.</li>
+<li>Enter the IPv4 address or FQDN of the vCenter Server Appliance on which to install the plug-in. <pre>VCENTER_IP=&quot;<i>vcenter_server_address</i>&quot;</pre></li>
+<li>Save and close the <code>configs</code> file.</li>
+<li><p>(Optional) If you unpacked vSphere Integrated Containers Engine on a Windows system, open  the <code>/vic/ui/HTML5Client/install.sh</code> file in a text editor and point <code>PLUGIN_MANAGER_BIN</code> to the Windows UI executable.</p>
+<p>Before:</p>
+  <pre>if [[ $(echo $OS | grep -i &quot;darwin&quot;) ]] ; then
+    PLUGIN_MANAGER_BIN=&quot;../../vic-ui-darwin&quot;
+  else
+    PLUGIN_MANAGER_BIN=&quot;../../vic-ui-linux&quot;</pre>
+After:
+   <pre>if [[ $(echo $OS | grep -i &quot;darwin&quot;) ]] ; then
+    PLUGIN_MANAGER_BIN=&quot;../../vic-ui-darwin&quot;
+   else
+    PLUGIN_MANAGER_BIN=&quot;../../vic-ui-windows&quot;</pre>
+</li>
+<li><p>Open a command prompt, navigate to <code>/vic/ui/VCSA</code>, and run the installer.</p>
+<pre>./install.sh</pre>
+
 <ul>
-<li>Send doc feedback to VMware <a href="mailto:docfeedback@vmware.com?subject=vSphere Integrated Containers&amp;body=Please include the document name, HTML link, PDF page number, and section heading in your feedback. Thank you!" target="_blank">by email</a></li>
-<li>Submit an <a href="https://github.com/vmware/vic-product/issues" target="_blank">issue in Github</a></li>
-<li>Send us a message on <a href="https://vmwarecode.slack.com/messages/vic-doc" target="_blank">https://vmwarecode.slack.com/messages/vic-doc</a></li>
+<li>Make sure that <code>install.sh</code> is executable by running <code>chmod</code> before you run it.</li>
+<li>On Windows systems, run <code>install.sh</code> in a UNIX shell that supports SSH and SCP, for example Cygwyn or Git Bash. Do not use Windows 10 native Bash.</li>
 </ul>
+</li>
+<li><p>Enter the user name and password for the vCenter Server administrator account.</p>
+</li>
+<li><p>Enter the <code>root</code> password for the vCenter Server Appliance.</p>
+<p>The installer requires the <code>root</code> password of the vCenter Server Appliance three times: </p>
+<ul>
+<li>Once to check whether the Bash shell is enabled on the vCenter Server Appliance. If the Bash shell is not enabled, the installation fails.</li>
+<li>Once to copy the files to the appliance over SSH.</li>
+<li>Once to set the correct ownership on the files and folders.</li>
+</ul>
+</li>
+<li>When installation finishes, if you are logged into the HTML5 vSphere Client, log out then log back in again.</li>
+<li>When you have logged back in to the vSphere Client, select <strong>Home</strong>.</li>
+</ol>
+<p><strong>Result</strong></p>
+<p>The <strong>vSphere Integrated Containers</strong> icon should appear in the Inventories section.</p>
+<p><strong>What to Do Next</strong></p>
+<p>If the vSphere Integrated Containers icon does not appear in the <strong>Home</strong> view, restart the vSphere Client service. For instructions about how to restart the vSphere Client service, see <a href="ts_ui_not_appearing.html">vSphere Integrated Containers Plug-In Does Not Appear</a>.</p>
 
                     
                     </section>
@@ -640,8 +681,10 @@
         </div>
 
         
-        <a href="./ts_docker_version_error.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Docker Commands Fail with a Docker API Version Error"><i class="fa fa-angle-left"></i></a>
+        <a href="./install_vic_plugin.html" class="navigation navigation-prev " aria-label="Previous page: Installing the vSphere Client Plug-ins"><i class="fa fa-angle-left"></i></a>
         
+        
+        <a href="./plugin_h5_vc_web.html" class="navigation navigation-next " aria-label="Next page: HTML5 on Windows"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

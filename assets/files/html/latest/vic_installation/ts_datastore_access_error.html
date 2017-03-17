@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Send Documentation Feedback | VMware vSphere Integrated Containers Engine 0.9 Installation</title>
+        <title>VCH Deployment Fails with Error About No Single Host Being Able to Access All Datastores | VMware vSphere Integrated Containers Engine 0.9 Installation</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -37,8 +37,10 @@
         
     
     
+    <link rel="next" href="./ts_ui_not_appearing.html" />
     
-    <link rel="prev" href="./ts_docker_version_error.html" />
+    
+    <link rel="prev" href="./ts_docker_api_check_error.html" />
     
 
         
@@ -47,9 +49,9 @@
         
         
     <div class="book"
-        data-level="6"
-        data-chapter-title="Send Documentation Feedback"
-        data-filepath="feedback.md"
+        data-level="5.7"
+        data-chapter-title="VCH Deployment Fails with Error About No Single Host Being Able to Access All Datastores"
+        data-filepath="ts_datastore_access_error.md"
         data-basepath="."
         data-revision="Fri Mar 17 2017 17:31:47 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
@@ -525,7 +527,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5.7" data-path="ts_datastore_access_error.html">
+        <li class="chapter active" data-level="5.7" data-path="ts_datastore_access_error.html">
             
                 
                     <a href="./ts_datastore_access_error.html">
@@ -575,7 +577,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="6" data-path="feedback.html">
+        <li class="chapter " data-level="6" data-path="feedback.html">
             
                 
                     <a href="./feedback.html">
@@ -623,13 +625,24 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="send-documentation-feedback">Send Documentation Feedback</h1>
-<p>Help us to improve the vSphere Integrated Containers documentation. </p>
-<ul>
-<li>Send doc feedback to VMware <a href="mailto:docfeedback@vmware.com?subject=vSphere Integrated Containers&amp;body=Please include the document name, HTML link, PDF page number, and section heading in your feedback. Thank you!" target="_blank">by email</a></li>
-<li>Submit an <a href="https://github.com/vmware/vic-product/issues" target="_blank">issue in Github</a></li>
-<li>Send us a message on <a href="https://vmwarecode.slack.com/messages/vic-doc" target="_blank">https://vmwarecode.slack.com/messages/vic-doc</a></li>
-</ul>
+                        <h1 id="vch-deployment-with-a-shared-nfs-datastore-fails-with-an-error-about-no-single-host-being-able-to-access-all-datastores">VCH Deployment with a Shared NFS Datastore Fails with an Error About No Single Host Being Able to Access All Datastores</h1>
+<p>Deploying a virtual container host (VCH) to a cluster, and specifying a shared NFS datastore as the image store, fails with the error <code>No single host can access all of the requested datastores.</code> </p>
+<h2 id="problem">Problem</h2>
+<p>This error occurs even if all of the hosts in the cluster do appear to have access to the shared NFS datastore.</p>
+<h2 id="cause">Cause</h2>
+<p>VCHs require datastores to be writable. The shared NFS datastore is possibly mounted as read-only.</p>
+<h2 id="solution">Solution</h2>
+<p>To see whether a datastore is writable or read-only, consult  <code>mountInfo</code> in the Managed Object Browser (MOB) of the vCenter Server instance to which you are deploying the VCH. </p>
+<ol>
+<li>Go to https://<i>vcenter_server_address</i>/mob/.</li>
+<li>Click <strong>content</strong>.</li>
+<li>Click <strong>group-xx (Datacenters)</strong> in the <code>rootFolder</code> row.</li>
+<li>Click the managed object reference (MoRef) of your datacenter in the <code>childEntity</code> row.</li>
+<li>Click the MoRef of the shared NFS datastore in the <code>datastore</code> row.</li>
+<li>Click the <code>DatastoreHostMount</code> link in the <code>host</code> row.</li>
+<li>Click <strong><code>mountInfo</code></strong> and check the <code>accessMode</code> value.</li>
+<li>If the <code>accessMode</code> value is <code>readOnly</code>, unmount the datastore from vCenter Server and remount it with <code>readWrite</code> permissions.</li>
+</ol>
 
                     
                     </section>
@@ -640,8 +653,10 @@
         </div>
 
         
-        <a href="./ts_docker_version_error.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Docker Commands Fail with a Docker API Version Error"><i class="fa fa-angle-left"></i></a>
+        <a href="./ts_docker_api_check_error.html" class="navigation navigation-prev " aria-label="Previous page: VCH Deployment Fails with Docker API Endpoint Check Failed Error"><i class="fa fa-angle-left"></i></a>
         
+        
+        <a href="./ts_ui_not_appearing.html" class="navigation navigation-next " aria-label="Next page: Plug-In Does Not Appear"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
