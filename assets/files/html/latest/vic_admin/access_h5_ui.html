@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Command Line Certificate Login | VMware vSphere Integrated Containers Engine 0.9 for vSphere Administrators</title>
+        <title>Access the vSphere Integrated Containers View | VMware vSphere Integrated Containers Engine 0.9 for vSphere Administrators</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="./vicadmin_status_ref.html" />
+    <link rel="next" href="./vch_portlet_ui.html" />
     
     
-    <link rel="prev" href="./browser_login.html" />
+    <link rel="prev" href="./upgrade_h5_plugin.html" />
     
 
         
@@ -49,9 +49,9 @@
         
         
     <div class="book"
-        data-level="7.2"
-        data-chapter-title="Command Line Certificate Login"
-        data-filepath="cmdline_login.md"
+        data-level="4"
+        data-chapter-title="Access the vSphere Integrated Containers View"
+        data-filepath="access_h5_ui.md"
         data-basepath="."
         data-revision="Fri Mar 17 2017 19:15:51 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
@@ -286,7 +286,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4" data-path="access_h5_ui.html">
+        <li class="chapter active" data-level="4" data-path="access_h5_ui.html">
             
                 
                     <a href="./access_h5_ui.html">
@@ -362,7 +362,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="7.2" data-path="cmdline_login.html">
+        <li class="chapter " data-level="7.2" data-path="cmdline_login.html">
             
                 
                     <a href="./cmdline_login.html">
@@ -577,37 +577,22 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="command-line-certificate-login">Command Line Certificate Login</h1>
-<p>You can use certificate-based authentication with tools such as <code>curl</code> or <code>wget</code> to access the VCH Admin log server.</p>
-<h2 id="with-tls-client-authentication">With TLS Client Authentication</h2>
-<p>If you deployed the VCH with client authentication by using <code>--tls-cname</code> or by specifying a static IP address on the client network, you can point <code>curl</code> to the <code>cert.pem</code> and <code>key.pem</code> files for the VCH. The following example authenticates connections to the <code>port-layer.log</code> file.</p>
-<pre>
-curl https://<i>vch_address</i>:2378/logs/port-layer.log 
---key ./<i>cert_folder</i>/key.pem 
---certificate ./<i>cert_folder</i>/cert.pem
-</pre>
-
-
-<p><strong>NOTE</strong>: If your certificates are self-signed, you might also need to specify the <code>curl -k</code> flag.</p>
-<p>In the example above, <i>cert_folder</i> is either of the following locations:</p>
+                        <h1 id="access-the-vsphere-integrated-containers-view-in-the-html5-vsphere-client">Access the vSphere Integrated Containers View in the HTML5 vSphere Client</h1>
+<p>If you have installed the HTML5 plug-in for vSphere Integrated Containers, you can find information about your vSphere Integrated Containers deployment in the HTML5 vSphere Client.</p>
+<p><strong>IMPORTANT</strong>: Do not use the vSphere Client or to perform operations on virtual container host (VCH) appliances or container VMs. Specifically, using the vSphere Client to power off, power on, or delete VCH appliances or container VMs can cause vSphere Integrated Containers Engine to not function correctly. Always use <code>vic-machine</code> to perform operations on VCHs. Always use Docker commands to perform operations on containers.</p>
+<p><strong>Prerequisites</strong></p>
 <ul>
-<li>The folder with the same name as the VCH, in the directory from which you ran <code>vic-machine create</code>.</li>
-<li>A folder that you specified in the <code>vic-machine create --cert-path</code> option.</li>
+<li>You are running vCenter Server 6.5.</li>
+<li>You installed the HTML5 plug-in for vSphere Integrated Containers.</li>
 </ul>
-<h2 id="without-client-authentication">Without Client Authentication</h2>
-<p>If you deployed the VCH without client authentication by using either of <code>--no-tls</code> or <code>--no-tlsverify</code>, you can use curl to access the logs but you must first authenticate connections to VCH Admin by using the  vSphere username and password. </p>
+<p><strong>Procedure</strong></p>
 <ol>
-<li><p>Log in to VCH Admin to gather an authentication cookie for subsequent access:</p>
-<pre>curl -sk https://<i>vch_address</i>:2378/authentication 
--XPOST -F username=<i>vsphere_username</i> 
--F password=<i>vsphere_password</i> 
--D cookies_file
-</pre>
-</li>
-<li><p>Use the cookie from Step 1 in a <code>curl</code> command to access the logs.</p>
- <pre>curl -sk https://<i>vch_address</i>:2378/logs/port-layer.log 
--b cookies_file</pre></li>
+<li>Log in to the HTML5 vSphere Client and go to the <strong>Home</strong> page.</li>
+<li>Click <strong>vSphere Integrated Containers</strong>.</li>
 </ol>
+<p><strong>Result</strong></p>
+<p>The vSphere Integrated Containers view presents the number of VCHs and container VMs that you have deployed.</p>
+<p><strong>NOTE</strong>: More functionality will be added to the vSphere Integrated Containers view in future releases.</p>
 
                     
                     </section>
@@ -618,10 +603,10 @@ curl https://<i>vch_address</i>:2378/logs/port-layer.log
         </div>
 
         
-        <a href="./browser_login.html" class="navigation navigation-prev " aria-label="Previous page: Browser-Based Certificate Login"><i class="fa fa-angle-left"></i></a>
+        <a href="./upgrade_h5_plugin.html" class="navigation navigation-prev " aria-label="Previous page: Upgrade the HTML5 Plug-In"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="./vicadmin_status_ref.html" class="navigation navigation-next " aria-label="Next page: VCH Admin Status Reference"><i class="fa fa-angle-right"></i></a>
+        <a href="./vch_portlet_ui.html" class="navigation navigation-next " aria-label="Next page: Find VCH Information in the vSphere Web Client"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
