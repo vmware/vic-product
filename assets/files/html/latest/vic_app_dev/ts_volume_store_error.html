@@ -40,7 +40,7 @@
     <link rel="next" href="./feedback.html" />
     
     
-    <link rel="prev" href="./ts_docker_version_error.html" />
+    <link rel="prev" href="./build_app_with_vic.html" />
     
 
         
@@ -49,11 +49,11 @@
         
         
     <div class="book"
-        data-level="11"
+        data-level="10"
         data-chapter-title="Default Volume Store Error"
         data-filepath="ts_volume_store_error.md"
         data-basepath="."
-        data-revision="Fri Mar 17 2017 19:16:09 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Mon Mar 20 2017 11:53:46 GMT+0100 (W. Europe Standard Time)"
         data-innerlanguage="">
     
 
@@ -274,29 +274,14 @@
             
         </li>
     
-        <li class="chapter " data-level="10" data-path="ts_docker_version_error.html">
-            
-                
-                    <a href="./ts_docker_version_error.html">
-                
-                        <i class="fa fa-check"></i>
-                        
-                            <b>10.</b>
-                        
-                        Docker Commands Fail with a Docker API Version Error
-                    </a>
-            
-            
-        </li>
-    
-        <li class="chapter active" data-level="11" data-path="ts_volume_store_error.html">
+        <li class="chapter active" data-level="10" data-path="ts_volume_store_error.html">
             
                 
                     <a href="./ts_volume_store_error.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>11.</b>
+                            <b>10.</b>
                         
                         Default Volume Store Error
                     </a>
@@ -304,14 +289,14 @@
             
         </li>
     
-        <li class="chapter " data-level="12" data-path="feedback.html">
+        <li class="chapter " data-level="11" data-path="feedback.html">
             
                 
                     <a href="./feedback.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>12.</b>
+                            <b>11.</b>
                         
                         Send Documentation Feedback
                     </a>
@@ -360,7 +345,7 @@
 </code></pre><h2 id="cause">Cause</h2>
 <p>By default, vic-machine create does not create a volume store when you or the vSphere administrator deploy a VCH. To run containers from images that use volumes, you or the vSphere administrator must specify a volume store named default when deploying the VCH.</p>
 <h2 id="solution">Solution</h2>
-<p>Deploy a VCH by using the <code>vic-machine create --volume-store</code> option to create a VCH with a volume store named <code>default</code>. See <code>--volume-store</code> in VCH Deployment Options and <a href="vch_installer_examples.md#volume-stores">Specify One or More Volume Stores</a> in Advanced Examples of Deploying a VCH in <em>vSphere Integrated Containers Installation</em>.</p>
+<p>Deploy a VCH by using the <code>vic-machine create --volume-store</code> option to create a VCH with a volume store named <code>default</code>. See <code>--volume-store</code> in VCH Deployment Options and <a href="../vic_installation/vch_installer_examples.html#volume-stores">Specify Volume Stores</a> in Advanced Examples of Deploying a VCH in <em>vSphere Integrated Containers Installation</em>.</p>
 <p>Use <code>docker volume inspect</code> to get information about the volume. </p>
 
                     
@@ -372,7 +357,7 @@
         </div>
 
         
-        <a href="./ts_docker_version_error.html" class="navigation navigation-prev " aria-label="Previous page: Docker Commands Fail with a Docker API Version Error"><i class="fa fa-angle-left"></i></a>
+        <a href="./build_app_with_vic.html" class="navigation navigation-prev " aria-label="Previous page: Example of Building an Application with vSphere Integrated Containers Engine"><i class="fa fa-angle-left"></i></a>
         
         
         <a href="./feedback.html" class="navigation navigation-next " aria-label="Next page: Send Documentation Feedback"><i class="fa fa-angle-right"></i></a>
