@@ -2,7 +2,7 @@
 
 vSphere Integrated Containers Engine supports the use of container volumes. 
 
-**IMPORTANT**: To use container volume capabilities with vSphere Integrated Containers Engine, you or the vSphere administrator must configure the virtual container host (VCH) appropriately at the moment of deployment of the VCH. When you create or the vSphere administrator creates a VCH, you or the administrator must specify the datastore to use to store container volumes in the `vic-machine create --volume-store` option. You cannot currently add volume stores, and therefore volume capabilities, to a VCH after its initial deployment. For information about how to use the `vic-machine create --volume-store` option, see the section on `volume-store` in [VCH Deployment Options](../vic_vsphere_admin/vch_installer_options.md#volume-store) in *vSphere Integrated Containers Engine Installation*.  
+**IMPORTANT**: To use container volume capabilities with vSphere Integrated Containers Engine, you or the vSphere administrator must configure the virtual container host (VCH) appropriately at the moment of deployment of the VCH. When you create or the vSphere administrator creates a VCH, you or the administrator must specify the datastore to use to store container volumes in the `vic-machine create --volume-store` option. You cannot currently add volume stores, and therefore volume capabilities, to a VCH after its initial deployment. For information about how to use the `vic-machine create --volume-store` option, see the section on `volume-store` in [VCH Deployment Options](../vic_vsphere_admin/vch_installer_options.md#volume-store) in *vSphere Integrated Containers for vSphere Administrators*.  
 
 - [Obtain the List of Available Volume Stores](#list_vs) 
 - [Obtain the List of Available Volumes](#list_vols)
@@ -15,8 +15,7 @@ vSphere Integrated Containers Engine supports the use of container volumes.
 
 For simplicity, the examples in this topic assume that the VCHs implement TLS authentication with self-signed untrusted certificates, with no client verification.
 
-{#list_vs}
-## Obtain the List of Available Volume Stores ##
+## Obtain the List of Available Volume Stores {#list_vs}
 
 To obtain the list of volume stores that are available on a VCH, run `docker info`.
 
@@ -30,8 +29,7 @@ VolumeStores: <i>volume_store_1</i> <i>volume_store_2</i> ... <i>volume_store_n<
 vSphere Integrated Containers Backend Engine: RUNNING
 [...]</pre>
 
-{#list_vols}
-## Obtain the List of Available Volumes ##
+## Obtain the List of Available Volumes {#list_vols}
 
 To obtain a list of volumes that are available on a VCH, run `docker volume ls`.
 
@@ -43,8 +41,7 @@ vsphere        <i>volume_2</i>
 [...]          [...]
 vsphere        <i>volume_n</i></pre>
 
-{#create_vol}
-## Create a Volume in a Volume Store ##
+## Create a Volume in a Volume Store {#create_vol}
 
 When you use the `docker volume create` command to create a volume, you can optionally provide a name for the volume by specifying the `--name` option. If you do not specify `--name`, `docker volume create` assigns a random UUID to the volume.
 
@@ -84,15 +81,13 @@ In the examples above, Docker mounts the volume <code><i>volume_name</i></code> 
 
 **NOTE**: When using a vSphere Integrated Containers Engine VCH as your Docker endpoint, the storage driver is always the vSphere Integrated Containers Engine Backend Engine. If you specify the `docker volume create --driver` option an error stating that a bad driver has been selected will occur.
 
-{#image_volumes}
-## Creating Volumes from Images ##
+## Creating Volumes from Images {#image_volumes}
 
 Some images, for example, `mongo` or `redis:alpine`, contain volume bind information in their metadata. vSphere Integrated Containers Engine creates such volumes with the default parameters and treats them as anonymous volumes. vSphere Integrated Containers Engine treats all volume mount paths as unique, in the same way that Docker does. This should be kept in mind if you attempt to bind other volumes to the same location as anonymous or image volumes. A specified volume always takes priority over an anonymous volume.
 
 If you require an image volume with a different volume capacity to the default, create a named volume with the required capacity. You can mount that named volume to the location that the image metadata specifies. You can find the location by running `docker inspect image_name` and consulting the `Volumes` section of the output. The resulting container has the required storage capacity and the endpoint.  
 
-{#create_container}
-## Create a Container with a New Anonymous or Named Volume ##
+## Create a Container with a New Anonymous or Named Volume {#create_container}
 
 If you intend to create named or anonymous volumes by using `docker create -v` when creating containers, a volume store named `default` must exist in the VCH. 
 
@@ -125,8 +120,7 @@ The `docker create -v` example below performs the following actions:
 <pre>docker -H <i>virtual_container_host_address</i>:2376 --tls 
 create -v volume_1:/volumes busybox</pre>
 
-{#mount}
-## Mount an Existing Volume on a Container ##
+## Mount an Existing Volume on a Container {#mount}
 Mounting existing volumes on containers is subject to the following limitations:
 
 - vSphere Integrated Containers Engine currently supports mounting a volume on only one container at a time. 
@@ -157,14 +151,12 @@ docker attach container2
 [Perform container operations with the same volume that was 
 previously mounted to container1]</pre>
 
-{#inspect_vol}
-## Obtain Information About a Volume ##
+## Obtain Information About a Volume {#inspect_vol}
 To get information about a volume, run `docker volume inspect` and specify the name of the volume.
 <pre>docker -H <i>virtual_container_host_address</i>:2376 --tls 
 volume inspect <i>volume_name</i></pre>
 
-{#delete_vol}
-## Delete a Named Volume from a Volume Store ##
+## Delete a Named Volume from a Volume Store {#delete_vol}
 To delete a volume, run `docker volume rm` and specify the name of the volume to delete. 
 
 <pre>docker -H <i>virtual_container_host_address</i>:2376 --tls 

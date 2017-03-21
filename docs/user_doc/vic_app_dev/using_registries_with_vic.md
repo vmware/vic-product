@@ -8,7 +8,7 @@ You can use vSphere Integrated Containers Engine with either secure or insecure 
 
 If the private registry server is configured with TLS, the VCH must be able to validate the registry's certificate. If the registry's server certificate was signed by a custom CA, you must provide that CA to the VCH by using the `--registry-ca` option. If the registry server has a certificate signed by a public CA then it should function without any additional configuration.
 
-For information about how to configure a VCH to use private registry server CA certificates, see the section on `--registry-ca` in [VCH Deployment Options](../vic_vsphere_admin/vch_installer_options.md#registry-ca) in *vSphere Integrated Containers Engine Installation*. 
+For information about how to configure a VCH to use private registry server CA certificates, see the section on `--registry-ca` in [VCH Deployment Options](../vic_vsphere_admin/vch_installer_options.md#registry-ca) in *vSphere Integrated Containers for vSphere Administrators*. 
 
 ## Insecure Private Registry Servers ##
 
@@ -16,7 +16,7 @@ If you set up a private registry that does not use certificates, you or the vSph
 
 If you authorize a VCH to connect to an insecure private registry server, the VCH attempts to access the registry server via HTTP if access via HTTPS fails. VCHs always use HTTPS when connecting to registry servers for which you have not authorized insecure access. Insecure private registries are not recommended in production environments.
 
-For information about how to use the `vic-machine create --insecure-registry` option, see the section on `insecure-registry` in [VCH Deployment Options](../vic_vsphere_admin/vch_installer_options.md#insecure-registry) in *vSphere Integrated Containers Engine Installation*. 
+For information about how to use the `vic-machine create --insecure-registry` option, see the section on `insecure-registry` in [VCH Deployment Options](../vic_vsphere_admin/vch_installer_options.md#insecure-registry) in *vSphere Integrated Containers for vSphere Administrators*. 
 
 ## Pull a Container Image from a Private Registry Server ##
 

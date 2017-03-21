@@ -6,7 +6,7 @@ If you download a new version of vSphere Integrated Containers Engine, upgrade t
 
 - You deployed an older version of the vSphere Integrated Containers plug-in for the HTML5 vSphere Client.
 - You downloaded a new version of vSphere Integrated Containers Engine.
-- For information about updating the `configs` and `install.sh` files, and where to copy the <code>com.vmware.vic-<i>version</i>.zip</code> file, see [Install the HTML5 Plug-In on a vCenter Server Appliance](../vic_vsphere_admin/plugin_h5_vcsa.md) or [Install the HTML5 Plug-In on vCenter Server for Windows by Using a Web Server](../vic_vsphere_admin/plugin_h5_vc_web.md) in *vSphere Integrated Containers Engine Installation*.
+- For information about updating the `configs` and `install.sh` files, and where to copy the <code>com.vmware.vic-<i>version</i>.zip</code> file, see [Install the HTML5 Plug-In on a vCenter Server Appliance](plugin_h5_vcsa.md) or [Install the HTML5 Plug-In on vCenter Server for Windows by Using a Web Server](plugin_h5_vc_web.md).
 
 **Procedure**
 
