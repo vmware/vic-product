@@ -1,8 +1,8 @@
 # Supported Docker Compose File Options #
 
-vSphere Integrated Containers Engine 0.9 supports [Docker Compose file version 2 and 2.1](https://docs.docker.com/compose/compose-file/compose-file-v2/).
+vSphere Integrated Containers Engine 1.1 supports [Docker Compose file version 2 and 2.1](https://docs.docker.com/compose/compose-file/compose-file-v2/).
 
-This topic provides information about the Docker Compose file options that vSphere Integrated Containers Engine 0.9 supports.
+This topic provides information about the Docker Compose file options that vSphere Integrated Containers Engine 1.1 supports.
 
 - [Service Configuration Options](#service)
 - [Volume Configuration Options](#volume)
@@ -58,7 +58,7 @@ This topic provides information about the Docker Compose file options that vSphe
 
 ## Volume Configuration Options {#volume}
 
-NOTE: vSphere Integrated Containers 0.9 does not support shared volumes. You can use these options for containers that do not share volumes. 
+NOTE: vSphere Integrated Containers 1.1 does not support shared volumes. You can use these options for containers that do not share volumes. 
 
 | **Option** | **Compose File Reference** | **Supported** |
 | --- | --- | --- |

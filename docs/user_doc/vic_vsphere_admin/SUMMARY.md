@@ -59,3 +59,4 @@
   * [Plug-In Does Not Appear](ts_ui_not_appearing.md)
   * [Deleting or Inspecting a VCH Fails with an Error](ts_delete_inspect_error.md)
   * [Connections Fail with Certificate Errors when Using Full TLS Authentication with Trusted Certificates](ts_clock_skew.md)
+* [vSphere Integrated Containers Security Reference](security_reference.md)
