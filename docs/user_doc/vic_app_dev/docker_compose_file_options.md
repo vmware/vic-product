@@ -8,8 +8,7 @@ This topic provides information about the Docker Compose file options that vSphe
 - [Volume Configuration Options](#volume)
 - [Network Configuration Options](#network)
 
-{#service}
-## Service Configuration Options ##
+## Service Configuration Options {#service}
 
 | **Option** | **Compose File Reference** | **Supported** |
 | --- | --- | --- |
@@ -57,8 +56,7 @@ This topic provides information about the Docker Compose file options that vSphe
 
  The following [Docker run options](https://docs.docker.com/compose/compose-file/compose-file-v2/#cpushares-cpuquota-cpuset-domainname-hostname-ipc-macaddress-memlimit-memswaplimit-memswappiness-oomscoreadj-privileged-readonly-restart-shmsize-stdinopen-tty-user-workingdir) are supported if their [`docker run`](container_operations.md#docker_run) counterpart is supported: `security_opt`, `stop_grace_period`, `stop_signal`, `sysctls`, `ulimits`, `userns_mode`, `cpu_shares`, `cpu_quota`, `cpuset`, `domainname`, `hostname`, `ipc`, `mac_address`, `mem_limit`, `memswap_limit`, `oom_score_adj`, `privileged`, `read_only`, `restart`, `shm_size`, `stdin_open`, `tty`, `user`, `working_dir`.
 
-{#volume}
-## Volume Configuration Options ##
+## Volume Configuration Options {#volume}
 
 NOTE: vSphere Integrated Containers 0.9 does not support shared volumes. You can use these options for containers that do not share volumes. 
 
@@ -69,8 +67,7 @@ NOTE: vSphere Integrated Containers 0.9 does not support shared volumes. You can
 |`labels` | [Add metadata to containers](https://docs.docker.com/compose/compose-file/compose-file-v2/#labels-1) | Yes |
 |`external` | [Specify that volume has been created outside of Compose](https://docs.docker.com/compose/compose-file/compose-file-v2/#external) | Yes |
 
-{#network}
-## Network Configuration Options ##
+## Network Configuration Options {#network}
 
 | **Option** | **Compose File Reference** | **Supported** |
 | --- | --- | --- |

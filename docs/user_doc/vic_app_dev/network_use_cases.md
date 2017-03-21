@@ -4,7 +4,7 @@ This section presents some examples of how to perform container networking opera
 
 - For information about the default Docker networks, see https://docs.docker.com/engine/userguide/networking/.
 
-- For an overview of the networks that vSphere Integrated Containers Engine uses, see [Networks Used by vSphere Integrated Containers Engine](../vic_vsphere_admin/networks.md) in *vSphere Integrated Containers Engine Installation*.
+- For an overview of the networks that vSphere Integrated Containers Engine uses, see [Networks Used by vSphere Integrated Containers Engine](../vic_vsphere_admin/networks.md) in *vSphere Integrated Containers for vSphere Administrators*.
 
 ## Publish a Container Port
 

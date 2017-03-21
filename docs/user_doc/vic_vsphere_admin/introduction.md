@@ -16,13 +16,13 @@ This overview is intended for vSphere administrators who intend to use vSphere I
   - [The VCH Endpoint VM](#endpoint) 
   - [The vic-machine Utility](#vic-machine) 
 
-{#containers}
-## Introduction to Containers, Images and Volumes ##
+
+## Introduction to Containers, Images and Volumes {#containers}
 
 The word "container" is an overloaded one these days. When understanding containers and how they relate to vSphere Integrated Containers, it is helpful to distinguish the *runtime* aspect from the *packaging* aspect.
 
-{#runtime}
-### Runtime ###
+
+### Runtime {#runtime}
 
 At its most basic, a container is simply a sandbox in which a process can run. The sandbox isolates the process from other processes that are running on the same system. A container has a lifecycle which is typically tied to the lifecycle of the process that it is designed to run. If you start a container, it starts its main process and when that process ends, the container stops. The container might have access to some storage. It typically has an identity on a network.
 
@@ -34,8 +34,8 @@ Conceptually, a container represents many of the same capabilities as a VM. The 
 
 One of the most interesting facets of containers is how they deal with state. Any data that a container writes is non-persistent by default and is lost when that container is deleted. State, however, can persist beyond the lifespan of a container by attaching a *volume* to it or by sending it over a network. Binary dependencies that the container needs, such as OS libraries or application binaries, are encapsulated in *images* . Images are immutable.
 
-{#packaging}
-### Packaging ###
+
+### Packaging {#packaging}
 
 One of the most significant benefits of containers is that they allow you to package up the entire environment that an application needs and run it anywhere. You can go to Docker Hub, select from hundreds of thousands of applications and run that application anywhere that you have installed Docker on a compatible OS. The packaging encapsulates the binary dependencies, environment variables, volumes, and even the network configuration. 
 
@@ -45,8 +45,8 @@ The immutability of the image format means that you never modify an image, you a
 
 The main advantage of the image format is its portability. As long as you have a destination that is running a container engine, for example Docker, you can download and run an image on it. This portability is facilitated by a *registry*. A registry is a service that indexes and stores images. You can run your own private image registry that forms part of a development pipeline. You can *push* images to the registry from development, *pull* them into a test environment for verification, and then *pull* them into a production environment.
 
-{#whatis_vic}
-## What is vSphere Integrated Containers? ##
+
+## What is vSphere Integrated Containers? {#whatis_vic}
 
 vSphere Integrated Containers comprises the following major components:
 
@@ -72,8 +72,8 @@ vSphere Integrated Containers Engine allows you, the vSphere administrator, to p
 
 vSphere Integrated Containers Engine is designed to be the fastest and easiest way to provision any Linux-based workload to vSphere, if that workload can be serialized as a Docker image.
 
-{#what_vic_does}
-## What Does vSphere Integrated Containers Engine Do? ##
+
+## What Does vSphere Integrated Containers Engine Do? {#what_vic_does}
 
 vSphere Integrated Containers Engine gives you, the vSphere administrator, the tools to easily make your vSphere infrastructure accessible to users so that they can provision container workloads into production.
 
@@ -108,22 +108,22 @@ vSphere Integrated Containers Engine allows you to select and dictate the approp
 
 To summarize, vSphere Integrated Containers Engine gives you a mechanism that allows users to self-provision VMs as containers into your virtual infrastructure.
 
-{#whats_vic_for}
-## What Is vSphere Integrated Containers Engine For? ##
+
+## What Is vSphere Integrated Containers Engine For? {#whats_vic_for}
 
 vSphere Integrated Containers Engine currently offers a subset of the Docker API. It is designed to specifically address the provisioning of containers into production, solving many of the problems highlighted in [What Does vSphere Integrated Containers Engine Do?](#what_vic_does).
 
 vSphere Integrated Containers Engine exploits the portability of the Docker image format to present itself as an enterprise deployment target. Developers build containers on one system and push them to a registry. Containers are tested by another system and are approved for production. vSphere Integrated Containers Engine can then pull the containers out of the registry and deploy them to vSphere.
 
-{#concepts}
-## vSphere Integrated Containers Engine Concepts ##
+
+## vSphere Integrated Containers Engine Concepts {#concepts}
 
 If you consider a Venn diagram with "What vSphere Does" in one circle and "What Docker Does" in another, the overlap is significant. The objective of vSphere Integrated Containers Engine is to take as much of vSphere as possible and layer whatever Docker capabilities are missing on top, reusing as much of Docker's own code as possible. The  result should not sacrifice the portability of the Docker image format and should be completely transparent to a Docker client. The following sections describe key concepts and components that make this possible.
 
 ![vSphere Integrated Containers Engine components](graphics/vice-components.png)
 
-{#containervm}
-### Container VMs ###
+
+### Container VMs {#containervm}
 
 The container VMs that vSphere Integrated Containers Engine creates have all of the characteristics of software containers:
 
@@ -142,8 +142,8 @@ The provisioned container VM does not contain any OS container abstraction.
 - Container volumes are formatted VMDKs that are attached as disks and indexed on a datastore. 
 - Networks are distributed port groups that are attached as vNICs.
 
-{#vch}
-### Virtual Container Hosts ###
+
+### Virtual Container Hosts {#vch}
 
 A virtual container host (VCH) is the functional equivalent of a Linux VM that runs Docker, but with some significant benefits. A VCH represents the following elements:
 - A clustered pool of resource into which to provision container VMs.
@@ -165,8 +165,8 @@ A VCH is functionally distinct from a traditional container host in the followin
 
 A VCH is a multi-functional appliance that you deploy as a vApp in a vCenter Server cluster or as a resource pool on an ESXi host. The vApp or resource pool provides a useful visual parent-child relationship in the vSphere Web Client so that you can easily identify the container VMs that are provisioned into a VCH. You can also specify resource limits on the vApp. You can provision multiple VCHs onto a single ESXi host, into a vSphere resource pool, or into a vCenter Server cluster.
 
-{#endpoint}
-### The VCH Endpoint VM ###
+
+### The VCH Endpoint VM {#endpoint}
 
 The VCH endoint VM is the VM that runs inside the VCH vApp or resource pool. There is a 1:1 relationship between a VCH and a VCH endpoint VM. The VCH endpoint VM provides the following functions:
 
@@ -179,8 +179,8 @@ The VCH endoint VM is the VM that runs inside the VCH vApp or resource pool. The
 
 The lifecycle of the VCH endpoint VM is managed by a utility called `vic-machine`. 
 
-{#vic-machine}
-### The `vic-machine` Utility ###
+
+### The `vic-machine` Utility {#vic-machine}
 
 The `vic-machine` utility is a binary for Windows, Linux, and OSX that manages the lifecycle of VCHs. `vic-machine` has been designed for use by vSphere administrators. It takes pre-existing compute, network, storage and a vSphere user as input and creates a VCH as output. It has the following additional functions:
 

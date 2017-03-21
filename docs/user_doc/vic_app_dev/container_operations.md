@@ -11,8 +11,7 @@
 - [Docker Compose Commands](#compose)
 - [Swarm Commands](#swarm)
 
-{#mgmt}
-## Docker Management Commands ##
+## Docker Management Commands {#mgmt}
 
 | **Command** | **Docker Reference** | **Supported** |
 | --- | --- | --- |
@@ -21,8 +20,7 @@
 |`inspect`|[Inspect a container or image](https://docs.docker.com/engine/reference/commandline/inspect/)|Yes. Includes information about the container network.|
 |`version`|[Docker version information](https://docs.docker.com/engine/reference/commandline/version/)|Yes. vSphere Integrated Containers Engine version provided.|
 
-{#image}
-## Image Commands ##
+## Image Commands {#image}
 
 | **Command** | **Docker Reference** | **Supported** |
 | --- | --- | --- |
@@ -36,8 +34,7 @@
 |`save`|[Save images](https://docs.docker.com/engine/reference/commandline/save/)|No|
 |`tag`|[Tag an image into a repository](https://docs.docker.com/engine/reference/commandline/tag/)|Yes|
 
-{#container}
-## Container Commands ##
+## Container Commands {#container}
 
 | **Command** | **Docker Reference** | **Supported** |
 | --- | --- | --- |
@@ -67,8 +64,7 @@
 |`update`| [Update a container](https://docs.docker.com/engine/reference/commandline/update/)|No|
 |`wait`|[Wait for a container](https://docs.docker.com/engine/reference/commandline/wait/)|Yes|
 
-{#registry}
-## Hub and Registry Commands ##
+## Hub and Registry Commands {#registry}
 
 | **Command** | **Docker Reference** | **Supported** |
 | --- | --- | --- |
@@ -78,8 +74,7 @@
 |`push`|[Push an image or a repository to a registry](https://docs.docker.com/engine/reference/commandline/push/)|No|
 |`search`|[Search the Docker hub for images](https://docs.docker.com/engine/reference/commandline/search/)|No|
 
-{#network}
-## Network and Connectivity Commands ##
+## Network and Connectivity Commands {#network}
 
 For more information about network operations with vSphere Integrated Containers Engine, see [Container Networking with vSphere Integrated Containers Engine](network_use_cases.md).
 
@@ -92,8 +87,7 @@ For more information about network operations with vSphere Integrated Containers
 |`network ls`|[List networks/](https://docs.docker.com/engine/reference/commandline/network_ls/)|Yes|
 |`network rm`|[Remove a network](https://docs.docker.com/engine/reference/commandline/network_rm/)|Yes. Network name and network ID are supported.|
 
-{#volume}
-## Shared Data Volume Commands ##
+## Shared Data Volume Commands {#volume}
 
 For more information about volume operations with vSphere Integrated Containers Engine, see [Using Volumes with vSphere Integrated Containers Engine](using_volumes_with_vic.md).
 
@@ -104,8 +98,7 @@ For more information about volume operations with vSphere Integrated Containers 
 |`volume ls`|[List volumes](https://docs.docker.com/engine/reference/commandline/volume_ls/)|Yes|
 |`volume rm`|[Remove or delete a volume](https://docs.docker.com/engine/reference/commandline/volume_rm/)|Yes|
 
-{#compose}
-## Docker Compose Commands ##
+## Docker Compose Commands {#compose}
 
 vSphere Integrated Containers Engine 0.9 supports Docker Compose version 1.9.0.
 
@@ -140,8 +133,6 @@ For information about Docker Compose file support, see [Supported Docker Compose
 | `up`  | [Create and start containers]()  | Conditionally supported. Does not work if there are orphaned containers. Depends on `docker rename` and `docker ps --filter`.  |
 | `version`  | Show Docker Compose version information  | Yes  |
 
-
-{#swarm}
-## Swarm Commands ##
+## Swarm Commands {#swarm}
 
 This version of vSphere Integrated Containers Engine does not support Docker Swarm.

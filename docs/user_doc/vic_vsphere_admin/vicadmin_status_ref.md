@@ -76,7 +76,7 @@ VCH Admin checks that the firewall is correctly configured on an ESXi host on wh
 - If the **Firewall** status is unavailable: 
   - Check the **VCH Admin Server** log for references to network issues. 
   - Use the vSphere Web Client to remediate the management network issues as required.
-- If you see the error about port 2377, reconfigure the firewall on the ESXi host or hosts to allow  outbound connections on port 2377. For information about how to reconfigure the firewall on ESXi hosts, see [VCH Deployment Fails with Firewall Validation Error](../vic_vsphere_admin/ts_firewall_error.md) in *vSphere Integrated Containers Engine Installation*.
+- If you see the error about port 2377, reconfigure the firewall on the ESXi host or hosts to allow  outbound connections on port 2377. For information about how to reconfigure the firewall on ESXi hosts, see [VCH Deployment Fails with Firewall Validation Error](../vic_vsphere_admin/ts_firewall_error.md).
 
 
 ## License ##

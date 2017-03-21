@@ -8,7 +8,7 @@ This topic provides instructions for deploying a virtual container host (VCH) to
   * One datastore
   * The VM Network is present
   * You can use a nested ESXi host for this example
-* Verify that the ESXi host meets the requirements in [Environment Prerequisites for vSphere Integrated Containers Engine Installation](vic_installation_prereqs.md).
+* Verify that the ESXi host meets the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md).
 * Familiarize yourself with the vSphere Integrated Containers Engine binaries, as described in [Contents of the vSphere Integrated Containers Engine Binaries](contents_of_vic_binaries.md). 
 * Familiarize yourself with the options of the `vic-machine create` command described in [VCH Deployment Options](vch_installer_options.md).
 

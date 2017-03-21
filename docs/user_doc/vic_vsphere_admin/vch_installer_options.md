@@ -18,8 +18,8 @@ To allow you to fine-tune the deployment of VCHs, `vic-machine create` provides 
 - [Advanced Resource Management Options](#adv-mgmt)
 - [Other Advanced Options](#adv-other)
 
-{#vsphere}
-## vSphere Target Options ##
+
+## vSphere Target Options {#vsphere}
 
 The `create` command of the `vic-machine` utility requires you to provide information about where in your vSphere environment to deploy the VCH and the vCenter Server or ESXi user account to use.
 
@@ -102,8 +102,8 @@ If you do not specify the `--compute-resource` option and multiple possible reso
 * To deploy to a specific resource pool in a cluster, specify the names of the target cluster and the resource pool:<pre>--compute-resource <i>cluster_name</i>/<i>resource_pool_name</i></pre>
 * Wrap the resource names in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if they include spaces:<pre>--compute-resource '<i>cluster name</i>'/'<i>resource pool name</i>'</pre>
 
-{#thumbprint}
-### `--thumbprint` ###
+
+### `--thumbprint` {#thumbprint}
 
 Short name: None
 
@@ -115,8 +115,8 @@ To obtain the thumbprint of the vCenter Server or ESXi host certificate, run `vi
 
 <pre>--thumbprint <i>certificate_thumbprint</i></pre>
 
-{#security}
-## Security Options ##
+
+## Security Options {#security}
 
 As a convenience, `vic-machine create` provides the option of generating a client certificate, server certificate, and certificate authority (CA) as appropriate when you deploy a VCH. The generated certificates are functional, but they do not allow for fine control over aspects such as expiration, intermediate certificate authorities, and so on. To exercise fine control over the certificates used, obtain or generate custom certificates yourself before deploying a VCH. Use the [`--key`](#key), [`--cert`](#cert), and [`--tls-ca`](#tls-ca) options to pass the custom certificates to `vic-machine create`.
 
@@ -129,8 +129,8 @@ When using the Docker client, the client validates the server either by using CA
 - The IP address used to communicate with the server
 - A wildcard domain that matches all of the FQDNs in a specific subdomain. For an example of a domain wildcard, see [https://en.wikipedia.org/wiki/Wildcard_certificate#Example](https://en.wikipedia.org/wiki/Wildcard_certificate#Example).
 
-{#tls-cname}
-#### `--tls-cname` ####
+
+#### `--tls-cname` {#tls-cname}
 
 Short name: None
 
@@ -167,8 +167,8 @@ You must provide copies of the `cert.pem` and `key.pem` client certificate files
 <pre>--tls-cname vch-name.example.org</pre>
 <pre>--tls-cname *.example.org</pre>
 
-{#tls-ca}
-#### `--tls-ca` ####
+
+#### `--tls-ca` {#tls-ca}
 
 Short name: `--ca`
 
@@ -181,8 +181,8 @@ You can specify `--tls-ca` multiple times, to point `vic-machine create` to a fi
 ### Unrestricted access to the Docker API ###
 To deploy a VCH that does not restrict access to the Docker API,  use the `--no-tlsverify` option. 
 
-{#no-tlsverify}
-#### `--no-tlsverify` ####
+
+#### `--no-tlsverify` {#no-tlsverify}
 
 Short name: `--kv`
 
@@ -200,13 +200,13 @@ The `--no-tlsverify` option takes no arguments.
 
 <pre>--no-tlsverify</pre>
 
-{#registry}
-## Private Registry Options ##
+
+## Private Registry Options {#registry}
 
 If container developers need to access Docker images that are stored in private registry servers, you must configure VCHs to allow them to connect to the private registry servers when you deploy the VCHs. VCHs can connect to both secure and insecure private registry servers.
 
-{#registry-ca}
-### `--registry-ca` ###
+
+### `--registry-ca` {#registry-ca}
 
 Short name: `--rc`
 
@@ -218,8 +218,8 @@ The path to a CA certificate that can validate the registry's server certificate
 
 **NOTE**: The `--registry-ca` option appears in the extended help that you see by running <code>vic-machine-<i>os</i> create --extended-help</code> or <code>vic-machine-<i>os</i> create -x</code>.
 
-{#insecure-registry}
-### `--insecure-registry` ###
+
+### `--insecure-registry` {#insecure-registry}
 
 Short name: `--dir`
 
@@ -233,8 +233,8 @@ To permit pulling images from an insecure private registry, use the `--insecure-
 --insecure-registry <i>registry_URL_2</i>:<i>port_number</i>
 </pre>
 
-{#datastore}
-## Datastore Options ##
+
+## Datastore Options {#datastore}
 The `vic-machine` utility allows you to specify the datastore in which to store container image files, container VM files, and the files for the VCH. You can also specify datastores in which to create container volumes. 
 
 - vSphere Integrated Containers Engine fully supports VMware vSAN datastores. 
@@ -248,8 +248,8 @@ The `vic-machine` utility allows you to specify the datastore in which to store 
   may not work as intended.</pre> 
 - VCHs do not support datastore name changes. If a datastore changes name after you have deployed a VCH that uses that datastore, that VCH will no longer function.
 
-{#image}
-### `--image-store` ###
+
+### `--image-store` {#image}
 
 Short name: `-i`
 
@@ -285,8 +285,8 @@ By specifying the path to a datastore folder in the `--image-store` option, you 
 
 When container developers create containers, vSphere Integrated Containers Engine stores the files for container VMs at the top level of the image store, in folders that have the same name as the containers.
 
-{#volume-store}
-### `--volume-store` ###
+
+### `--volume-store` {#volume-store}
 
 Short name: `--vs`
 
@@ -327,8 +327,8 @@ If you specify an invalid datastore name, `vic-machine create` fails and suggest
 --volume-store <i>datastore_name</i>/<i>path</i>:<i>volume_store_label_n</i>
 </pre>
 
-{#networking}
-## Networking Options ##
+
+## Networking Options {#networking}
 The `vic-machine create` utility allows you to specify different networks for the different types of traffic between containers, the VCH, the external internet, and your vSphere environment. For information about the different networks that VCHs use, see [Networks Used by vSphere Integrated Containers Engine](networks.md).
 
 **IMPORTANT**: A VCH supports a maximum of 3 distinct network interfaces. Because the bridge network requires its own port group, at least two of the public, client, and management networks must share a network interface and therefore a port group. Container networks do not go through the VCH, so they are not subject to this limitation. This limitation will be removed in a future release.
@@ -343,8 +343,8 @@ When you specify different network interfaces for the different types of traffic
 Firewall must permit dst 2377/tcp outbound to the VCH management interface
 </pre>
 
-{#bridge}
-### `--bridge-network` ###
+
+### `--bridge-network` {#bridge}
 
 Short name: `-b`
 
@@ -352,7 +352,7 @@ A port group that container VMs use to communicate with each other.
 
 The `bridge-network` option is **mandatory** if you are deploying a VCH to vCenter Server.
 
-In a vCenter Server environment, before you run `vic-machine create`, you must create a distributed virtual switch and a port group. You must add the target ESXi host or hosts to the distributed virtual switch, and assign a VLAN ID to the port group, to ensure that the bridge network is isolated. For information about how to create a distributed virtual switch and port group, see [vCenter Server Network Requirements](vic_installation_prereqs.md#networkreqs) in *Environment Prerequisites for vSphere Integrated Containers Engine Installation*.
+In a vCenter Server environment, before you run `vic-machine create`, you must create a distributed virtual switch and a port group. You must add the target ESXi host or hosts to the distributed virtual switch, and assign a VLAN ID to the port group, to ensure that the bridge network is isolated. For information about how to create a distributed virtual switch and port group, see the section on vCenter Server Network Requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md#networkreqs).
 
 You pass the name of the port group to the `bridge-network` option. Each VCH requires its own port group. 
 
@@ -376,8 +376,8 @@ If you intend to use the [`--ops-user`](#ops-user) option to use different user 
 
 For information about how to specify a range of IP addresses for additional bridge networks, see [`bridge-network-range`](#bridge-range) in Advanced Networking Options.
 
-{#client-network}
-### `--client-network` ###
+
+### `--client-network` {#client-network}
 
 Short name: `--cln`
 
@@ -391,8 +391,8 @@ Wrap the port group name in single quotes (') on Mac OS and Linux and in double 
 
 <pre>--client-network '<i>port group name</i>'</pre>
 
-{#public-network}
-### `--public-network` ###
+
+### `--public-network` {#public-network}
 
 Short name: `--pn`
 
@@ -408,8 +408,8 @@ Wrap the network name in single quotes (') on Mac OS and Linux and in double quo
 
 <pre>--public-network '<i>port group name</i>'</pre>
 
-{#management-network}
-### `--management-network` ###
+
+### `--management-network` {#management-network}
 
 Short name: `--mn`
 
@@ -440,8 +440,8 @@ Wrap the network name in single quotes (') on Mac OS and Linux and in double quo
 
 <pre>--management-network '<i>port group name</i>'</pre>
 
-{#container-network}
-### `--container-network` ###
+
+### `--container-network` {#container-network}
 
 Short name: `--cn`
 
@@ -475,8 +475,8 @@ If you intend to use the [`--ops-user`](#ops-user) option to use different user 
 
 <pre>--container-network '<i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i>':container_port _group_name</i></pre>
 
-{#deployment}
-## Additional Deployment Options ##
+
+## Additional Deployment Options {#deployment}
 
 The `vic-machine` utility provides options to customize the VCH.
 
@@ -528,13 +528,13 @@ The timeout period for uploading the vSphere Integrated Containers Engine files 
 
 <pre>--timeout 5m0s</pre> 
 
-{#advanced}
-# Advanced Options #
+
+# Advanced Options {#advanced}
 
 The options in this section are exposed in the `vic-machine create` help if you run <code>vic-machine-<i>operating_system</i> create --extended-help</code>, or <code>vic-machine-<i>operating_system</i> create -x</code>. 
 
-{#adv-security}
-## Advanced Security Options ##
+
+## Advanced Security Options {#adv-security}
 
 The advanced security options allow you to customize the authentication of connections from Docker clients to VCHs.
 
@@ -560,8 +560,8 @@ A list of identifiers to record in certificates generated by vic-machine. If not
 
 <pre>--organization <i>organization_name</i></pre>
 
-{#cert}
-### `--cert` ###
+
+### `--cert` {#cert}
 
 Short name: none
 
@@ -587,8 +587,8 @@ Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double 
 --key '<i>path to key file</i>'/<i>key_file_name</i>.pem
 </pre> 
 
-{#key}
-### `--key` ###
+
+### `--key` {#key}
 
 Short name: none
 
@@ -604,8 +604,8 @@ Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double 
 --key '<i>path to key file</i>'/<i>key_file_name</i>.pem
 </pre>
 
-{#cert-path}
-### `--cert-path` ###
+
+### `--cert-path` {#cert-path}
 
 Short name: none
 
@@ -621,8 +621,8 @@ If `vic-machine create` does not find existing certificates with the standard na
 <pre>--cert-path '<i>path_to_certificate_folder</i>'
 </pre>
 
-{#no-tls}
-### `--no-tls` ###
+
+### `--no-tls` {#no-tls}
 
 Short name: `-k`
 
@@ -634,8 +634,8 @@ If you use the `no-tls` option, container developers connect Docker clients to t
 
 <pre>--no-tls</pre>
 
-{#ops-user}
-### `--ops-user` ###
+
+### `--ops-user` {#ops-user}
 
 Short name: None
 
@@ -666,8 +666,8 @@ Wrap the password in single quotes (') on Mac OS and Linux and in double quotes 
 <pre>--ops-password '<i>p@ssword</i>'</pre>
 
 
-{#static-ip}
-## Options for Specifying a Static IP Address for the VCH Endpoint VM ##
+
+## Options for Specifying a Static IP Address for the VCH Endpoint VM {#static-ip}
 
 You can specify a static IP address for the VCH endpoint VM on each of the client, public, and management networks. DHCP is used for the endpoint VM for any network on which you do not specify a static IP address.
 
@@ -742,8 +742,8 @@ In the following example, `--management-network-gateway` informs the VCH that it
 <pre>--management-network-gateway 192.168.3.0,192.168.128.0:192.168.2.1</pre>
 
 
-{#adv-container-net}
-## Options for Configuring a Non-DHCP Network for Container Traffic ##
+
+## Options for Configuring a Non-DHCP Network for Container Traffic {#adv-container-net}
 If the network that you specify in the `container-network` option does not support DHCP, you must specify the `container-network-gateway` option. You can optionally specify one or more DNS servers and a range of IP addresses for container VMs on the container network. 
 
 For information about the container network, see the section on the [`container-network` option](#container-network).
@@ -794,8 +794,8 @@ Wrap the port group name in single quotes (Linux or Mac OS) or double quotes (Wi
 
 <pre>--container-network-ip-range '<i>port group name</i>':192.168.100.0/24</pre>
 
-{#proxy}
-## Options to Configure VCHs to Use Proxy Servers ##
+
+## Options to Configure VCHs to Use Proxy Servers {#proxy}
 
 If access to the Internet or to your private image registries requires the use of a proxy server, you must configure a VCH to connect to the proxy server when you deploy it. The proxy is used only when pulling images, and not for any other purpose.
 
@@ -817,8 +817,8 @@ The address of the HTTP proxy server through which the VCH accesses image regist
 
 <pre>--http-proxy http://<i>proxy_server_address</i>:<i>port</i></pre>
 
-{#adv-mgmt}
-## Advanced Resource Management Options ##
+
+## Advanced Resource Management Options {#adv-mgmt}
 
 You can set limits on the memory and CPU shares and reservations on the VCH. For information about memory and CPU shares and reservations, see [Allocate Memory Resources](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-49D7217C-DB6C-41A6-86B3-7AFEB8BF575F.md), and [Allocate CPU Resources](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-6C9023B2-3A8F-48EB-8A36-44E3D14958F6.md) in the vSphere documentation.
 
@@ -874,11 +874,11 @@ The amount of memory for the VCH endpoint VM. The default is 2048MB. Set this op
 
 <pre>--endpoint-memory <i>amount_of_memory</i></pre>
 
-{#adv-other}
-## Other Advanced Options ##
 
-{#bridge-range}
-### `--bridge-network-range` ###
+## Other Advanced Options {#adv-other}
+
+
+### `--bridge-network-range` {#bridge-range}
 
 Short name: `--bnr`
 
@@ -939,8 +939,8 @@ Deploy the VCH appliance to a resource pool on vCenter Server rather than to a v
 
 <pre>--use-rp</pre>
 
-{#debug}
-### `--debug` ###
+
+### `--debug` {#debug}
 Short name: `-v`
 
 Deploy the VCH with a more verbose level of logging, for troubleshooting purposes. Specifying the `--debug` option increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting `--debug`, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. If not specified, the `debug` value is set to 0 and verbose logging is disabled. Provide a value of 1 or greater to increase the verbosity of the logging. Note that setting debug to a value greater than 1 can affect the behavior of `vic-machine create`. For example, setting `--debug` to 3 suppresses the restart of failed components.

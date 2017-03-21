@@ -1,12 +1,12 @@
-# Developing Container Applications with vSphere Integrated Containers  
+# vSphere Integrated Containers for Dev Ops Administrators
 
-*Developing Container Applications with vSphere Integrated Containers* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as the endpoint for Docker container application development.
+*vSphere Integrated Containers for Dev Ops Administrators* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as a Dev Ops administrator.
 
 **Product version: 1.1**
 
 ## Intended Audience
 
-This information is intended for container application developers whose Docker environment uses vSphere Integrated Containers as its endpoint. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is assumed.
+This information is intended for vSphere&reg; administrators who manage a vSphere Integrated Containers implementation in their vSphere environment. The information is written for experienced vSphere  administrators who are familiar with virtual machine technology and datacenter operations. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is useful.
 
 # Send Documentation Feedback #
 
@@ -20,8 +20,8 @@ Help us to improve the vSphere Integrated Containers documentation.
 
 Copyright &copy; 2017 VMware, Inc. All rights reserved. [Copyright and trademark information](http://pubs.vmware.com/copyright-trademark.html). Any feedback you provide to VMware is subject to the terms at [www.vmware.com/community_terms.html](http://www.vmware.com/community_terms.html).
 
-**VMware, Inc.**
-3401 Hillview Ave.
+**VMware, Inc.**<br>
+3401 Hillview Ave.<br>
 Palo Alto, CA 94304
 
 [www.vmware.com](http://www.vmware.com)
