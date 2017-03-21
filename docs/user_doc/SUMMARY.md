@@ -61,6 +61,8 @@
     * [Plug-In Does Not Appear](vic_vsphere_admin/ts_ui_not_appearing.md)
     * [Deleting or Inspecting a VCH Fails with an Error](vic_vsphere_admin/ts_delete_inspect_error.md)
     * [Connections Fail with Certificate Errors when Using Full TLS Authentication with Trusted Certificates](vic_vsphere_admin/ts_clock_skew.md)
+  
+* [vSphere Integrated Containers Security Reference](vic_vsphere_admin/security_reference.md)
 
 ## Dev Ops Administrators
 
