@@ -1,7 +1,7 @@
 # vSphere Integrated Containers
 
 vSphere Integrated Containers (VIC) is comprised of three main components -
-the [vSphere Integrated Containers Engine] (https://github.com/vmware/vic), [Harbor](https://github.com/vmware/harbor), and [Admiral](https://github.com/vmware/admiral) all of which are available as open source on github.
+the [vSphere Integrated Containers Engine](https://github.com/vmware/vic), [Harbor](https://github.com/vmware/harbor), and [Admiral](https://github.com/vmware/admiral) all of which are available as open source on github.
 
 The [VIC Engine] (https://github.com/vmware/vic) is a container runtime for vSphere, allowing developers familiar with Docker to develop in containers and deploy them alongside traditional VM-based workloads on vSphere clusters. These workloads can be managed through the vSphere UI in a way familiar to existing vSphere admins.
 
