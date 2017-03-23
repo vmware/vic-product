@@ -10,7 +10,4 @@ For information about the Flex-based vSphere Web Client and the HTML5 vSphere Cl
 * [Install the HTML5 Plug-In on a vCenter Server Appliance](plugin_h5_vcsa.md)
 * [Install the HTML5 Plug-In on vCenter Server for Windows by Using a Web Server](plugin_h5_vc_web.md)
 * [Install the Flex Plug-In on vCenter Server for Windows by Using a Web Server](plugin_vc_web.md)
-* [Install the Flex Plug-In on vCenter Server for Windows Without Access to a Web Server](plugin_vc_no_web.md)
 * [Install the Flex Plug-In on a vCenter Server Appliance by Using a Web Server](plugin_vcsa_web.md)
-* [Install the Flex Plug-In on a vCenter Server Appliance Without Access to a Web Server](plugin_vcsa_no_web.md)
-* [Verify the Deployment of the Flex Plug-In](plugin_verify_deployment.md)

@@ -1,4 +1,4 @@
-# VCH Administration #
+# Using `vic-machine` to Manage VCHs #
 
 The `vic-machine` utility provides commands that allow you to manage existing virtual container hosts (VCHs).
 

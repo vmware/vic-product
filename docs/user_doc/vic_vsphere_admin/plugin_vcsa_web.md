@@ -40,7 +40,3 @@ If you are running the vCenter Server Appliance 6.0 or 6.5, you can use a Web se
     - On Windows systems, run `install.sh` in a UNIX shell that supports SSH and SCP, for example Cygwyn or Git Bash. Do not use Windows 10 native Bash.
 9. Enter the user name and password for the vCenter Server administrator account.
 10. When installation finishes, if you are logged into the vSphere Web Client, log out then log back in again.
-
-**What to Do Next**
-
-Check that the deployment has succeeded by following the procedure in [Verify the Deployment of the Flex Plug-In](plugin_verify_deployment.md).
