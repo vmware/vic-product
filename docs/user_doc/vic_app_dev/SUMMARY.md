@@ -13,6 +13,6 @@
   * [Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)](using_vic_with_harbor.md) 
   * [Container Networking with vSphere Integrated Containers Engine](network_use_cases.md)
   * [Creating a Containerized Application](creating_containerized_app_with_vic.md)
-    * [Constraints of Using vSphere Integrated Containers Engine to Build Applications](constraints_using_vic.md)
+    * [Constraints of Using vSphere Integrated Containers Engine with Docker Compose](constraints_using_vic.md)
     * [Example of Building an Application with vSphere Integrated Containers Engine](build_app_with_vic.md)
   * [Default Volume Store Error](ts_volume_store_error.md)
