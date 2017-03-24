@@ -33,7 +33,7 @@ To use `docker-compose` with vSphere Integrated Containers and TLS, set the foll
 DOCKER_TLS_VERIFY=1
 DOCKER_CERT_PATH="<i>path to your cert files</i>"</pre>
 
-The certificate file path must lead to `CA.pem`, `client_key.pem`, and `client cert.pem`. You can run `docker-compose` with the following command:<pre>docker-compose -H <i>vch_address</i> -f up</pre>
+The certificate file path must lead to `CA.pem`, `client_key.pem`, and `client cert.pem`. You can run `docker-compose` with the following command:<pre>docker-compose -H <i>vch_address</i> up</pre>
 
 ## Unsupported Docker Features
 

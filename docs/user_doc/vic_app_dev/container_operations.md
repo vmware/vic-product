@@ -52,7 +52,7 @@
 |`pause`|[Pause processes in a container](https://docs.docker.com/engine/reference/commandline/pause/)|No|
 |`port`|[Obtain port data](https://docs.docker.com/engine/reference/commandline/port/)|Yes. Displays port mapping data. <br>Supports mapping a random host port to the container when the host port is not specified.|
 |`ps`|[Show running containers](https://docs.docker.com/engine/reference/commandline/ps/)|Yes. Supports the `-a/--all`, `-f/--filter`, `--no-trunc`, and `-q/--quiet` options. Filtering by network name is supported, but filtering by network ID is not supported.|
-|`rename`|[Rename a container](https://docs.docker.com/engine/reference/commandline/rename/)|Yes|
+|`rename`|[Rename a container](https://docs.docker.com/engine/reference/commandline/rename/)|Yes. Name resolution for renamed running containers is not supported, but if you restart the container the new name is resolved.|
 |`restart`|[Restart a container](https://docs.docker.com/engine/reference/commandline/restart/)|Yes|
 |`rm`|[Remove a container](https://docs.docker.com/engine/reference/commandline/rm/)|Yes. Removes associated anonymous and regular volumes. Supports the `--force` option and the `name` parameter.  Does not support `docker rm -v`. To view volumes attached to a container that is removed, use `docker volume ls` and `docker volume inspect <id>`. If you continually invoke `docker create` to make more anonymous volumes, those volumes are left behind after each subsequent removal of that container.|
 |`run`|[Run a command in a new container](https://docs.docker.com/engine/reference/commandline/run/)|{#docker_run}Yes. Supports container search by using prettyname-ID with `docker run --name`. Supports the `--detach`, `--detach-keys`, and `--dns` options.<br> Supports mapping a random host port to the container when the host port is not specified. <br>Supports running images from private and custom registries.<br>`docker run --net=host` is not supported. You can specify a container network by using the [`--container-network` option](../vic_vsphere_admin/vch_installer_options.md#container-network) when you deploy a virtual container host.|
@@ -130,7 +130,7 @@ For information about Docker Compose file support, see [Supported Docker Compose
 | `start`  | [Start services](https://docs.docker.com/compose/reference/start/)  | Yes  |
 | `stop`  | [Stop services](https://docs.docker.com/compose/reference/stop/)  | Yes  |
 | `unpause`  | [Unpause services](https://docs.docker.com/compose/reference/unpause/)  | No. Depends on `docker unpause`.  |
-| `up`  | [Create and start containers]()  | Conditionally supported. Does not work if there are orphaned containers. Depends on `docker ps --filter`.  |
+| `up`  | [Create and start containers]()  | Yes|
 | `version`  | Show Docker Compose version information  | Yes  |
 
 ## Swarm Commands {#swarm}
