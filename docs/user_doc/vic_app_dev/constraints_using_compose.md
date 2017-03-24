@@ -1,4 +1,4 @@
-# Constraints of Using vSphere Integrated Containers Engine to Build Applications #
+# Constraints of Using vSphere Integrated Containers Engine with Docker Compose #
 
 There are some constraints on the types of containerized applications that you can deploy with this release of vSphere Integrated Containers Engine. For the lists of Docker features that this release of vSphere Integrated Containers Engine supports and does not support, see [Use and Limitations of Containers in vSphere Integrated Containers Engine](container_limitations.md). 
 
@@ -8,7 +8,7 @@ This release of vSphere Integrated Containers Engine does not support  the `dock
 
 ## Sharing Configuration ##
 
-This release of vSphere Integrated Containers Engine does not support  data volume sharing or `docker copy`. As a consequence, providing configuration to a containerized application has some constraints. 
+This release of vSphere Integrated Containers Engine does not support data volume sharing or `docker cp`. As a consequence, providing configuration to a containerized application has some constraints. 
 
 An example of a configuration is the configuration files for a Web server. To pass configuration to a container when using vSphere Integrated Containers Engine, you can use the following workaround:
 

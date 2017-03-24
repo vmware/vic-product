@@ -27,7 +27,7 @@ This topic provides information about the Docker Compose file options that vSphe
 |`environment` |[Add environment variables](https://docs.docker.com/compose/compose-file/compose-file-v2/#environment)| Yes |
 |`expose` |[Expose ports without publishing them to the host machine](https://docs.docker.com/compose/compose-file/compose-file-v2/#expose) | No. Depends on `docker run --expose`.|
 |`extends` |[Extend another service](https://docs.docker.com/compose/compose-file/compose-file-v2/#extends)| Yes |
-|`external_links` |[Link to containers started outside this YML](https://docs.docker.com/compose/compose-file/compose-file-v2/#externallinks) | No. Depends on `docker rename`.|
+|`external_links` |[Link to containers started outside this YML](https://docs.docker.com/compose/compose-file/compose-file-v2/#externallinks) | Yes |
 |`extra_hosts` |[Add hostname mappings](https://docs.docker.com/compose/compose-file/compose-file-v2/#extrahosts) | No. Depends on `docker run --add-host`.|
 |`group_add` |[Specify additional groups for the user inside the container](https://docs.docker.com/compose/compose-file/compose-file-v2/#groupadd)| Yes |
 |`healthcheck` |[Check container health](https://docs.docker.com/compose/compose-file/compose-file-v2/#healthcheck) | No. Depends on `docker run --health-cmd`.|
@@ -75,6 +75,6 @@ NOTE: vSphere Integrated Containers 1.1 does not support shared volumes. You can
 |`driver_opts` | [Specify options to pass to the driver for this network](https://docs.docker.com/compose/compose-file/compose-file-v2/#driveropts-1) | No |
 |`enable_ipv6` | [Enables IPv6](https://docs.docker.com/compose/compose-file/compose-file-v2/#enableipv6) | No. vSphere Integrated Containers Engine does not support IPv6. |
 |`ipam`| [Specify custom IPAM configuration](https://docs.docker.com/compose/compose-file/compose-file-v2/#ipam) | Yes |
-|`internal` | [Create an externally isolated overlay network](https://docs.docker.com/compose/compose-file/compose-file-v2/#internal) | No. Depends on `docker network create --internal`.|
-|`labels` | [Add metadata to containers](https://docs.docker.com/compose/compose-file/compose-file-v2/#labels-2) | No. Depends on `docker network --label`. |
+|`internal` | [Create an externally isolated overlay network](https://docs.docker.com/compose/compose-file/compose-file-v2/#internal) | Yes|
+|`labels` | [Add metadata to containers](https://docs.docker.com/compose/compose-file/compose-file-v2/#labels-2) | Yes |
 |`external` | [Specify that network has been created outside of Compose](https://docs.docker.com/compose/compose-file/compose-file-v2/#external-1) | Yes |

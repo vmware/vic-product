@@ -42,7 +42,7 @@
 |`container list`|[List Containers](https://docs.docker.com/engine/reference/api/docker_remote_api_v1.22/#list-containers)|Yes|
 |`container resize`|[Resize a container](https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#resize-a-container-tty)|Yes|
 |`cp`|[Copy files or folders between a container and the local filesystem](https://docs.docker.com/engine/reference/commandline/cp/)|No|
-|`create`|[Create a container](https://docs.docker.com/engine/reference/commandline/create/)|Yes. <br>`--cpuset-cpus`in Docker specifies CPUs the container is allowed to use during execution (0-3, 0,1). In vSphere Integrated Containers Engine, this parameter specifies the number of virtual CPUs to allocate to the container VM. Minimum CPU count is 1, maximum is unlimited. Default is 2.<br>`--ip` allows you to set a static IP on the container. By default, the virtual container host  manages the container IP.<br>`--memory` Minimum memory is 512MB, maximum unlimited. If unspecified, default is 2GB. Supports the `--attach`, `--cpuset-cpus`,`--env`, `--ip`, `--memory`, `--interactive`, `--link`, `--label`, `--network`, `--tty`, and `--volume` options.|
+|`create`|[Create a container](https://docs.docker.com/engine/reference/commandline/create/)|Yes. <br>`--cpuset-cpus` in Docker specifies CPUs the container is allowed to use during execution (0-3, 0,1). In vSphere Integrated Containers Engine, this parameter specifies the number of virtual CPUs to allocate to the container VM. Minimum CPU count is 1, maximum is unlimited. Default is 2.<br>`--ip` allows you to set a static IP on the container. By default, the virtual container host  manages the container IP.<br> Minimum value for `--memory` is 512MB, maximum unlimited. If unspecified, the default is 2GB. Supports the `--attach`, `--cpuset-cpus`,`--env`, `--ip`, `--memory`, `--interactive`, `--link`, `--label`, `--network`, `--tty`, and `--volume` options.|
 |`diff`|[Inspect changes on a container's filesystem](https://docs.docker.com/engine/reference/commandline/diff/)|No|
 |`events`|[Get real time events from the server](https://docs.docker.com/engine/reference/commandline/events/)|Yes. Supports passive Docker events for containers and images. Does not yet support events for volumes or networks.|
 |`exec`|[Run a command in a running container](https://docs.docker.com/engine/reference/commandline/exec/)|No|
@@ -52,7 +52,7 @@
 |`pause`|[Pause processes in a container](https://docs.docker.com/engine/reference/commandline/pause/)|No|
 |`port`|[Obtain port data](https://docs.docker.com/engine/reference/commandline/port/)|Yes. Displays port mapping data. <br>Supports mapping a random host port to the container when the host port is not specified.|
 |`ps`|[Show running containers](https://docs.docker.com/engine/reference/commandline/ps/)|Yes. Supports the `-a/--all`, `-f/--filter`, `--no-trunc`, and `-q/--quiet` options. Filtering by network name is supported, but filtering by network ID is not supported.|
-|`rename`|[Rename a container](https://docs.docker.com/engine/reference/commandline/rename/)|No|
+|`rename`|[Rename a container](https://docs.docker.com/engine/reference/commandline/rename/)|Yes. Name resolution for renamed running containers is not supported, but if you restart the container the new name is resolved.|
 |`restart`|[Restart a container](https://docs.docker.com/engine/reference/commandline/restart/)|Yes|
 |`rm`|[Remove a container](https://docs.docker.com/engine/reference/commandline/rm/)|Yes. Removes associated anonymous and regular volumes. Supports the `--force` option and the `name` parameter.  Does not support `docker rm -v`. To view volumes attached to a container that is removed, use `docker volume ls` and `docker volume inspect <id>`. If you continually invoke `docker create` to make more anonymous volumes, those volumes are left behind after each subsequent removal of that container.|
 |`run`|[Run a command in a new container](https://docs.docker.com/engine/reference/commandline/run/)|{#docker_run}Yes. Supports container search by using prettyname-ID with `docker run --name`. Supports the `--detach`, `--detach-keys`, and `--dns` options.<br> Supports mapping a random host port to the container when the host port is not specified. <br>Supports running images from private and custom registries.<br>`docker run --net=host` is not supported. You can specify a container network by using the [`--container-network` option](../vic_vsphere_admin/vch_installer_options.md#container-network) when you deploy a virtual container host.|
@@ -81,7 +81,7 @@ For more information about network operations with vSphere Integrated Containers
 | **Command** | **Docker Reference** | **Supported** |
 | --- | --- | --- |
 |`network connect`|[Connect to a network](https://docs.docker.com/engine/reference/commandline/network_connect/)|Yes. Not supported for running containers.|
-|`network create`|[Create a network](https://docs.docker.com/engine/reference/commandline/network_create/)|Yes. See the use case to connect to an external network in [Container Networking with vSphere Integrated Containers Engine](network_use_cases.md). Bridge is also supported.<br>The `--label` and `--internal` options are currently not supported.|
+|`network create`|[Create a network](https://docs.docker.com/engine/reference/commandline/network_create/)|Yes. See the use case to connect a container to an external network in [Container Networking with vSphere Integrated Containers Engine](network_use_cases.md). Bridge is also supported.|
 |`network disconnect`|[Disconnect a network](https://docs.docker.com/engine/reference/commandline/network_disconnect/)|No|
 |`network inspect`|[Inspect a network](https://docs.docker.com/engine/reference/commandline/network_inspect/)|Yes|
 |`network ls`|[List networks/](https://docs.docker.com/engine/reference/commandline/network_ls/)|Yes|
@@ -109,7 +109,7 @@ For information about Docker Compose file support, see [Supported Docker Compose
 | **Command** | **Docker Reference** | **Supported** |
 | --- | --- | --- |
 | `build`  | [Build or rebuild service](https://docs.docker.com/compose/reference/build/)  | No. Depends on `docker build`.|
-| `bundle`  | [Generate a Distributed Application Bundle (DAB) from the Compose file](https://docs.docker.com/compose/reference/bundle/)| No |
+| `bundle`  | [Generate a Distributed Application Bundle (DAB) from the Compose file](https://docs.docker.com/compose/reference/bundle/)| Yes |
 | `config`  | [Validate and view the compose file](https://docs.docker.com/compose/reference/config/)  | Yes  |
 | `create`  | [Create services](https://docs.docker.com/compose/reference/create/)  | Yes  |
 | `down`  | [Stop and remove containers, networks, images, and volumes](https://docs.docker.com/compose/reference/down/)  | Yes  |
@@ -130,7 +130,7 @@ For information about Docker Compose file support, see [Supported Docker Compose
 | `start`  | [Start services](https://docs.docker.com/compose/reference/start/)  | Yes  |
 | `stop`  | [Stop services](https://docs.docker.com/compose/reference/stop/)  | Yes  |
 | `unpause`  | [Unpause services](https://docs.docker.com/compose/reference/unpause/)  | No. Depends on `docker unpause`.  |
-| `up`  | [Create and start containers]()  | Conditionally supported. Does not work if there are orphaned containers. Depends on `docker rename` and `docker ps --filter`.  |
+| `up`  | [Create and start containers]()  | Yes|
 | `version`  | Show Docker Compose version information  | Yes  |
 
 ## Swarm Commands {#swarm}
