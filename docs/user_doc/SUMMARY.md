@@ -68,6 +68,11 @@
 
   * [vSphere Integrated Containers for Dev Ops Administrators](vic_dev_ops/README.md)
     * [Overview of vSphere Integrated Containers Engine For Dev Ops Administrators](vic_dev_ops/overview_of_vic_devops.md)
+    * [Managing VCHs and Containers with vSphere Integrated Containers Management Portal](vic_dev_ops/using_management_portal.md)
+      * [Add Repositories to the vSphere Integrated Containers Management Portal](vic_dev_ops/add_repos_in_portal.md)
+      * [Add VCHs to the vSphere Integrated Containers Management Portal](vic_dev_ops/add_vchs_in_portal.md)
+      * [Provision Container VMs in the vSphere Integrated Containers Management Portal](vic_dev_ops/provision_containers_portal.md)
+      * [Manage Container VMs in the vSphere Integrated Containers Management Portal](vic_dev_ops/manage_containers_portal.md)
 
 ## Container App Developers
 
