@@ -8,7 +8,7 @@ You downloaded the OVA installer from the [official vSphere Integrated Container
 
 **Procedure**
 
-1. In the vSphere Web Client, right-click an object in the vCenter Server inventory, select **Deploy OVF template**, and navigate to OVA file.
+1. In the vSphere Web Client, right-click an object in the vCenter Server inventory, select **Deploy OVF template**, and navigate to the OVA file.
 2. Follow the installer prompts to perform basic configuration of the appliance and to select the vSphere resources for it to use. 
 
     - Accept or modify the appliance name
@@ -18,7 +18,7 @@ You downloaded the OVA installer from the [official vSphere Integrated Container
     - Disk format and destination datastore
     - Network that the appliance connects to
 
-3. On the **Customize template** page, under **Appliance Security**, set the root password for the appliance VM and optionally uncheck the **Permit Root Login checkbox**. 
+3. On the **Customize template** page, under **Appliance Security**, set the root password for the appliance VM and optionally uncheck the **Permit Root Login** checkbox. 
 
     Setting the root password for the appliance is mandatory.
 
@@ -42,7 +42,7 @@ You downloaded the OVA installer from the [official vSphere Integrated Container
 7. Expand **Admiral Configuration** to configure the deployment of vSphere Integrated Containers Management Portal. 
 
     - If you do not want to deploy vSphere Integrated Containers Management Portal, uncheck the **Deploy Admiral** check box.
-    - In the **Admiral Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Registry service.
+    - In the **Admiral Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Management Portal service.
     - To use custom certificates to authenticate connections to vSphere Integrated Containers Management Portal, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates.
 
 8. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
@@ -60,5 +60,5 @@ When the deployment completes, the appliance makes the vSphere Integrated Contai
 - Download the vSphere Integrated Containers Engine binaries
 - Install the vSphere Client plug-ins
 - Configure vSphere Integrated Containers Registry
-- Configure vSphere Integrated Containers Registry
+- Configure vSphere Integrated Containers Management Portal
 
