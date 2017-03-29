@@ -52,7 +52,7 @@ You downloaded the OVA installer from the [official vSphere Integrated Container
 When the deployment completes, the appliance makes the vSphere Integrated Containers services available:   
 - vSphere Integrated Containers Registry: https://<i>vm_address</i>:443
 - vSphere Integrated Containers Management Portal: https://<i>vm_address</i>:8282
-- vSphere Integrated Containers Engine download: https://<i>vm_address</i>:<i>port</i>
+- vSphere Integrated Containers Engine download: https://<i>vm_address</i>:9443
 - vSphere Integrated Containers client plug-in upload: https://<i>vm_address</i>:<i>port</i>
 
 **What to Do Next** 
