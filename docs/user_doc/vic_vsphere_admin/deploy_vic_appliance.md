@@ -49,16 +49,17 @@ You downloaded the OVA installer from the [official vSphere Integrated Container
 
 **Result**
 
-When the deployment completes, the appliance makes the vSphere Integrated Containers services available:   
-- vSphere Integrated Containers Registry: https://<i>vm_address</i>:443
-- vSphere Integrated Containers Management Portal: https://<i>vm_address</i>:8282
-- vSphere Integrated Containers Engine download: https://<i>vm_address</i>:9443
-- vSphere Integrated Containers client plug-in upload: https://<i>vm_address</i>:<i>port</i>
+When the deployment completes, the appliance makes the vSphere Integrated Containers services available on the following ports:   
+
+- vSphere Integrated Containers Engine download: https://<i>vic_appliance_address</i>:9443
+- vSphere Integrated Containers client plug-in upload: https://<i>vic_appliance_address</i>:9443
+- vSphere Integrated Containers Registry: https://<i>vic_appliance_address</i>:443
+- vSphere Integrated Containers Management Portal: https://<i>vic_appliance_address</i>:8282
 
 **What to Do Next** 
 
-- Download the vSphere Integrated Containers Engine binaries
-- Install the vSphere Client plug-ins
-- Configure vSphere Integrated Containers Registry
-- Configure vSphere Integrated Containers Management Portal
+- Install the vSphere Client plug-ins. For information about installing the plug-ins, see [Installing the vSphere Client Plug-ins](vic_vsphere_admin/install_vic_plugin.md).
+- Download the vSphere Integrated Containers Engine binaries, and start deploying virtual container hosts (VCHs). For information about deploying VCHs, see [Using vic-machine to Deploy VCHs](vic_vsphere_admin/deploy_vch.md).
+- Configure vSphere Integrated Containers Registry.
+- Configure vSphere Integrated Containers Management Portal.
 

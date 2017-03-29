@@ -5,7 +5,8 @@ This topic provides instructions for deploying a virtual container host (VCH) in
 The vCenter Server instance to which you deploy the VCH must match the specifications listed in the prerequisites.
 
 **Prerequisites**
-* Download and unpack the vSphere Integrated Containers Engine bundle. For information about where to obtain vSphere Integrated Containers Engine, see [Download vSphere Integrated Containers](download_vic.md).
+* Deploy the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
+* Download the vSphere Integrated Containers Engine bundle from https://<i>vic_appliance_address</i>:9443 and unpack it on your working machine.
 * Create or obtain a vCenter Server instance with the following configuration:
   * One datacenter
   * One cluster with two ESXi hosts and DRS enabled. You can use nested ESXi hosts for this example.

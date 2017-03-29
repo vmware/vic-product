@@ -1,4 +1,4 @@
-# Find VCH Information in the vSphere Client #
+# Find VCH Information in the vSphere Clients #
 
 After you have installed either or both of the HTML5 or Flex-based client plug-ins for vSphere Integrated Containers, you can find information about virtual container hosts (VCHs) in the HTML5 vSphere Client or the Flex-based vSphere Web Client.
 

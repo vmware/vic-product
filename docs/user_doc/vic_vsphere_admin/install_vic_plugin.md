@@ -2,12 +2,15 @@
 
 vSphere Integrated Containers provides two UI plug-ins for vSphere:
 
-- A basic Flex-based plug-in that adds information about virtual container hosts (VCHs) and container VMs in the Flex-based vSphere Web Client. You can install the plug-in either on a vCenter Server instance that runs on Windows, or on a vCenter Server Appliance. The basic plug-in works with the Flex-based vSphere Web Client for both vSphere 6.0 and 6.5.
-- An HTML5 plug-in with more complete functionality for the HTML5 vSphere Client. The HTML5 vSphere Client is only available with vSphere 6.5. You can deploy the HTML5 plug-in to a vCenter Server Appliance or a vCenter Server instance that runs on Windows, if that instance has access to a Web server. You cannot deploy the HTML5 plug-in to a vCenter Server instance on Windows that does not have access to a Web server.  
+- A basic Flex-based plug-in that adds information about virtual container hosts (VCHs) and container VMs in the Flex-based vSphere Web Client. The basic plug-in works with the Flex-based vSphere Web Client for both vSphere 6.0 and 6.5.
+- An HTML5 plug-in with more complete functionality for the HTML5 vSphere Client. The HTML5 vSphere Client is only available with vSphere 6.5. 
+
+You can deploy the plug-ins on a vCenter Server instance that runs on Windows, or on a vCenter Server Appliance.
 
 For information about the Flex-based vSphere Web Client and the HTML5 vSphere Client for vSphere 6.5, see [Introduction to the vSphere Client](https://pubs.vmware.com/vsphere-65/topic/com.vmware.wcsdk.pg.doc/GUID-3379D310-7802-4B62-8292-D11D928459FC.md) in the vSphere 6.5 documentation.
 
-* [Install the HTML5 Plug-In on a vCenter Server Appliance](plugin_h5_vcsa.md)
-* [Install the HTML5 Plug-In on vCenter Server for Windows by Using a Web Server](plugin_h5_vc_web.md)
-* [Install the Flex Plug-In on vCenter Server for Windows by Using a Web Server](plugin_vc_web.md)
-* [Install the Flex Plug-In on a vCenter Server Appliance by Using a Web Server](plugin_vcsa_web.md)
+* [Install the Client Plug-Ins on vCenter Server for Windows](vic_vsphere_admin/plugins_vc_windows.md)
+* [Install the Client Plug-Ins on a vCenter Server Appliance](vic_vsphere_admin/plugins_vcsa.md)
+* [Access the vSphere Integrated Containers View](vic_vsphere_admin/access_h5_ui.md)
+* [Find VCH Information in the vSphere Clients](vic_vsphere_admin/vch_portlet_ui.md)
+* [Find Container Information in the vSphere Clients](vic_vsphere_admin/container_portlet_ui.md)
