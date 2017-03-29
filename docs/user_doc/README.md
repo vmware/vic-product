@@ -6,7 +6,7 @@ The vSphere Integrated Containers Documentation provides information about how t
 
 ## Intended Audience
 
-This information is intended for anyone who wants to install, configure, and use vSphere Integrated Containers. The information is written for experienced VMware vSphere&reg; administrators who are familiar with virtual machine technology and datacenter operations. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is useful.
+This information is intended for VMware vSphere&reg; administrators who want to install and set up vSphere Integrated Containers. The information is written for experienced vSphere administrators who are familiar with virtual machine technology and datacenter operations. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is useful.
 
 # Send Documentation Feedback #
 

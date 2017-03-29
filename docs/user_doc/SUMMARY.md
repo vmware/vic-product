@@ -1,6 +1,7 @@
 # Summary
 
   * [Introduction](README.md)
+  * [Quick Start Links](vic_quickstart.md)
 
 ## vSphere Administrators
 
@@ -60,13 +61,12 @@
     * [Plug-In Does Not Appear](vic_vsphere_admin/ts_ui_not_appearing.md)
     * [Deleting or Inspecting a VCH Fails with an Error](vic_vsphere_admin/ts_delete_inspect_error.md)
     * [Connections Fail with Certificate Errors when Using Full TLS Authentication with Trusted Certificates](vic_vsphere_admin/ts_clock_skew.md)
-  
-* [vSphere Integrated Containers Security Reference](vic_vsphere_admin/security_reference.md)
+  * [vSphere Integrated Containers Security Reference](vic_vsphere_admin/security_reference.md)
 
-## Dev Ops Administrators
+## DevOps Administrators
 
-  * [vSphere Integrated Containers for Dev Ops Administrators](vic_dev_ops/README.md)
-    * [Overview of vSphere Integrated Containers Engine For Dev Ops Administrators](vic_dev_ops/overview_of_vic_devops.md)
+  * [vSphere Integrated Containers for DevOps Administrators](vic_dev_ops/README.md)
+    * [Overview of vSphere Integrated Containers Engine For DevOps Administrators](vic_dev_ops/overview_of_vic_devops.md)
     * [Managing VCHs and Containers with vSphere Integrated Containers Management Portal](vic_dev_ops/using_management_portal.md)
       * [Add Repositories to the vSphere Integrated Containers Management Portal](vic_dev_ops/add_repos_in_portal.md)
       * [Add VCHs to the vSphere Integrated Containers Management Portal](vic_dev_ops/add_vchs_in_portal.md)

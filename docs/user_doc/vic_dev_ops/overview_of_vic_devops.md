@@ -1,4 +1,4 @@
-# Overview of vSphere Integrated Containers Engine For Dev Ops Administrators  #
+# Overview of vSphere Integrated Containers Engine For DevOps Administrators  #
 
 vSphere Integrated Containers Engine is container engine that is designed to integrate of all the packaging and runtime benefits of containers with the enterprise capabilities of a vSphere environment.  As a container developer, you can deploy, test, and run container processes in the same way as you would normally perform container operations. 
 
