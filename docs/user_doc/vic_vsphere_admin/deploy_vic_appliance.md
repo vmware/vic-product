@@ -46,20 +46,13 @@ You downloaded the OVA installer from the [official vSphere Integrated Container
     - To use custom certificates to authenticate connections to vSphere Integrated Containers Management Portal, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates.
 
 8. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
+9. When the deployment completes, power on the appliance VM.
 
-**Result**
+**What to Do Next**
 
-When the deployment completes, the appliance makes the vSphere Integrated Containers services available on the following ports:   
+- Go to https://<i>vic_appliance_address</i>:9443, download the vSphere Integrated Containers Engine binaries, and start deploying virtual container hosts (VCHs). For information about deploying VCHs, see [Using vic-machine to Deploy VCHs](vic_vsphere_admin/deploy_vch.md).
+- Install the vSphere Client plug-ins for vSphere Integrated Containers. You do not need to download the client plug-in file. You pass the URL https://<i>vic_appliance_address</i>:9443 to the script that you run to install the vSphere Integrated Containers plug-ins. For information about installing the plug-ins, see [Installing the vSphere Client Plug-ins](vic_vsphere_admin/install_vic_plugin.md).
+- Log in to vSphere Integrated Containers Registry at https://<i>vic_appliance_address</i>:443
+- Log in to vSphere Integrated Containers Management Portal: https://<i>vic_appliance_address</i>:8282
 
-- vSphere Integrated Containers Engine download: https://<i>vic_appliance_address</i>:9443
-- vSphere Integrated Containers client plug-in upload: https://<i>vic_appliance_address</i>:9443
-- vSphere Integrated Containers Registry: https://<i>vic_appliance_address</i>:443
-- vSphere Integrated Containers Management Portal: https://<i>vic_appliance_address</i>:8282
-
-**What to Do Next** 
-
-- Install the vSphere Client plug-ins. For information about installing the plug-ins, see [Installing the vSphere Client Plug-ins](vic_vsphere_admin/install_vic_plugin.md).
-- Download the vSphere Integrated Containers Engine binaries, and start deploying virtual container hosts (VCHs). For information about deploying VCHs, see [Using vic-machine to Deploy VCHs](vic_vsphere_admin/deploy_vch.md).
-- Configure vSphere Integrated Containers Registry.
-- Configure vSphere Integrated Containers Management Portal.
-
+   
