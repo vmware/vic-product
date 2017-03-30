@@ -30,19 +30,19 @@ You downloaded the OVA installer from the [official vSphere Integrated Container
 
     Leave the networking properties blank to use DHCP.
 
-6. Expand **Harbor Configuration** to configure the deployment of vSphere Integrated Containers Registry. 
+6. Expand **Registry Configuration** to configure the deployment of vSphere Integrated Containers Registry. 
 
-    - If you do not want to deploy vSphere Integrated Containers Registry, uncheck the **Deploy Harbor** check box.
-    - In the **Harbor Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Registry service.
-    - In the **Harbor Admin Password** text box, set the password for the vSphere Integrated Containers Registry admin account.
+    - If you do not want to deploy vSphere Integrated Containers Registry, uncheck the **Deploy Registry** check box.
+    - In the **Registry Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Registry service.
+    - In the **Registry Admin Password** text box, set the password for the vSphere Integrated Containers Registry admin account.
     - In the **Database Password** text box, set the password for the root user of the MySQL database that vSphere Integrated Containers Registry uses.
     - Optionally check the **Garbage Collection** check box to enable garbage collection when the appliance boots.
     - To use custom certificates to authenticate connections to vSphere Integrated Containers Registry, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates. 
 
-7. Expand **Admiral Configuration** to configure the deployment of vSphere Integrated Containers Management Portal. 
+7. Expand **Management Portal Configuration** to configure the deployment of vSphere Integrated Containers Management Portal. 
 
-    - If you do not want to deploy vSphere Integrated Containers Management Portal, uncheck the **Deploy Admiral** check box.
-    - In the **Admiral Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Management Portal service.
+    - If you do not want to deploy vSphere Integrated Containers Management Portal, uncheck the **Deploy Management Portal** check box.
+    - In the **Management Portal Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Management Portal service.
     - To use custom certificates to authenticate connections to vSphere Integrated Containers Management Portal, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates.
 
 8. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
