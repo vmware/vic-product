@@ -29,7 +29,7 @@ You install the vSphere Client plug-ins for vSphere Integrated Containers by usi
 
 Verify the deployment of the plug-in.
 
-- If you installed the HTML5 plug-in, see [Access the vSphere Integrated Containers View in the HTML5 vSphere Client](vic_vsphere_admin/access_h5_ui.md).
-- If you installed the Flex plug-in, see [Find VCH Information in the vSphere Clients](vic_vsphere_admin/vch_portlet_ui.md).
+- If you installed the HTML5 plug-in, see [Access the vSphere Integrated Containers View in the HTML5 vSphere Client](access_h5_ui.md).
+- If you installed the Flex plug-in, see [Find VCH Information in the vSphere Clients](vch_portlet_ui.md).
 
 If the vSphere Integrated Containers plug-in does not appear, restart the vSphere Client service. For instructions about how to restart the vSphere Client service, see [vSphere Integrated Containers Plug-In Does Not Appear](ts_ui_not_appearing.md).
