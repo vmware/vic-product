@@ -1,12 +1,12 @@
-# vSphere Integrated Containers for Dev Ops Administrators
+# vSphere Integrated Containers for DevOps Administrators
 
-*vSphere Integrated Containers for Dev Ops Administrators* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as a Dev Ops administrator.
+*vSphere Integrated Containers for DevOps Administrators* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as a DevOps administrator.
 
 **Product version: 1.1**
 
 ## Intended Audience
 
-This information is intended for vSphere&reg; administrators who manage a vSphere Integrated Containers implementation in their vSphere environment. The information is written for experienced vSphere  administrators who are familiar with virtual machine technology and datacenter operations. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is useful.
+This information is intended for dev ops administrators who want to use vSphere Integrated Containers Registry to create and manage development projects, assign developers to projects, set up access to virtual container hosts (VCHs), and manage registries of container images. vSphere Integrated Containers Management Portal allows dev ops administrators to provision and manage containers and to manage the lifecycle of VCHs. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is useful.
 
 # Send Documentation Feedback #
 

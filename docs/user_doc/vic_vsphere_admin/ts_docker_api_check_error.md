@@ -36,5 +36,5 @@ If `docker info` times out, it means that the Docker API did not start.
 
 If the Docker API was not responsive when you ran `docker info`, download the VCH log bundle and examine the logs to determine why the installation failed. Collecting the vSphere log bundle might also be useful for troubleshooting.
 
-- For information about how to download VCH logs by using the VCH Admin Portal, see [Access the VCH Admin Portal](../vic_vsphere_admin/access_vicadmin.md) in *vSphere Integrated Containers Engine Administration*.
-- For information about how to collect VCH logs manually, see [Access vSphere Integrated Containers Engine Log Bundles](../vic_vsphere_admin/log_bundles.md) in *vSphere Integrated Containers Engine Administration*.
+- For information about how to download VCH logs by using the VCH Admin Portal, see [Access the VCH Admin Portal](access_vicadmin.md) in *vSphere Integrated Containers Engine Administration*.
+- For information about how to collect VCH logs manually, see [Access vSphere Integrated Containers Engine Log Bundles](log_bundles.md) in *vSphere Integrated Containers Engine Administration*.

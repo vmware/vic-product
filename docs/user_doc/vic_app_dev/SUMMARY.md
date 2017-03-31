@@ -10,7 +10,7 @@
   * [Obtain a VCH](obtain_vch.md)
   * [Using Volumes with vSphere Integrated Containers Engine](using_volumes_with_vic.md)
   * [Using Private Registry Servers with vSphere Integrated Containers Engine](using_registries_with_vic.md)
-  * [Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)](using_vic_with_harbor.md) 
+  * [Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry](using_vic_with_registry.md) 
   * [Container Networking with vSphere Integrated Containers Engine](network_use_cases.md)
   * [Creating a Containerized Application](creating_containerized_app_with_vic.md)
     * [Constraints of Using vSphere Integrated Containers Engine with Docker Compose](constraints_using_compose.md)

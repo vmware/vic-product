@@ -1,6 +1,7 @@
 # Summary
 
   * [Introduction](README.md)
+  * [Quick Start Links](vic_quickstart.md)
 
 ## vSphere Administrators
 
@@ -8,9 +9,17 @@
   * [Overview of vSphere Integrated Containers Engine for vSphere Administrators](vic_vsphere_admin/introduction.md)
     * [Interoperability with Other VMware Software](vic_vsphere_admin/interop.md)
     * [Networks Used by vSphere Integrated Containers Engine](vic_vsphere_admin/networks.md)
-  * [Download vSphere Integrated Containers](vic_vsphere_admin/download_vic.md)
-    * [Contents of the vSphere Integrated Containers Engine Binaries](vic_vsphere_admin/contents_of_vic_binaries.md)
+  * [Installing vSphere Integrated Containers](vic_vsphere_admin/installing_vic.md)
+    * [Download vSphere Integrated Containers](vic_vsphere_admin/download_vic.md) 
+    * [Deploy the vSphere Integrated Containers Appliance](vic_vsphere_admin/deploy_vic_appliance.md)
+    * [Installing the vSphere Client Plug-ins](vic_vsphere_admin/install_vic_plugin.md)
+      * [Install the Client Plug-Ins on vCenter Server for Windows](vic_vsphere_admin/plugins_vc_windows.md)
+      * [Install the Client Plug-Ins on a vCenter Server Appliance](vic_vsphere_admin/plugins_vcsa.md)
+      * [Access the vSphere Integrated Containers View](vic_vsphere_admin/access_h5_ui.md)
+      * [Find VCH Information in the vSphere Clients](vic_vsphere_admin/vch_portlet_ui.md)
+      * [Find Container Information in the vSphere Clients](vic_vsphere_admin/container_portlet_ui.md)
   * [Using vic-machine to Deploy VCHs](vic_vsphere_admin/deploy_vch.md)
+    * [Contents of the vSphere Integrated Containers Engine Binaries](vic_vsphere_admin/contents_of_vic_binaries.md)
     * [Environment Prerequisites for VCH Deployment](vic_vsphere_admin/vic_installation_prereqs.md)
     * [Deploy a VCH to an ESXi Host with No vCenter Server](vic_vsphere_admin/deploy_vch_esxi.md)
     * [Deploy a VCH to a Basic vCenter Server Cluster](vic_vsphere_admin/deploy_vch_vcenter.md)
@@ -18,19 +27,8 @@
     * [VCH Deployment Options](vic_vsphere_admin/vch_installer_options.md)
     * [Advanced Examples of Deploying a VCH](vic_vsphere_admin/vch_installer_examples.md)
     * [Use Different User Accounts for VCH Deployment and Operation](vic_vsphere_admin/set_up_ops_user.md)
-    * [Deploy a VCH with vSphere Integrated Containers Registry (Harbor)](vic_vsphere_admin/deploy_vch_harbor.md)
-  * [Installing the vSphere Client Plug-ins](vic_vsphere_admin/install_vic_plugin.md)
-    * [HTML5 on VCSA](vic_vsphere_admin/plugin_h5_vcsa.md)
-    * [HTML5 on Windows](vic_vsphere_admin/plugin_h5_vc_web.md)
-    * [Flex on Windows with a Web Server](vic_vsphere_admin/plugin_vc_web.md)
-    * [Flex on Windows Without a Web Server](vic_vsphere_admin/plugin_vc_no_web.md)
-    * [Flex on VCSA with a Web Server](vic_vsphere_admin/plugin_vcsa_web.md)
-    * [Flex on VCSA Without a Web Server](vic_vsphere_admin/plugin_vcsa_no_web.md)
-    * [Verify the Deployment of the Flex Plug-In](vic_vsphere_admin/plugin_verify_deployment.md)
-  * [VCH Administration](vic_vsphere_admin/vch_admin.md)
-    * [Access the vSphere Integrated Containers View](vic_vsphere_admin/access_h5_ui.md)
-    * [Find VCH Information in the vSphere Web Client](vic_vsphere_admin/vch_portlet_ui.md)
-    * [Find Container Information in the vSphere Web Client](vic_vsphere_admin/container_portlet_ui.md)
+    * [Deploy a VCH for Use with vSphere Integrated Containers Registry](vic_vsphere_admin/deploy_vch_registry.md)
+  * [Using vic-machine to Manage VCHs](vic_vsphere_admin/vch_admin.md)
     * [Obtain vic-machine Version Information](vic_vsphere_admin/vic_machine_version.md)
     * [Common vic-machine Options](vic_vsphere_admin/common_vic_options.md)
     * [List VCHs and Obtain Their IDs](vic_vsphere_admin/list_vch.md)
@@ -61,13 +59,12 @@
     * [Plug-In Does Not Appear](vic_vsphere_admin/ts_ui_not_appearing.md)
     * [Deleting or Inspecting a VCH Fails with an Error](vic_vsphere_admin/ts_delete_inspect_error.md)
     * [Connections Fail with Certificate Errors when Using Full TLS Authentication with Trusted Certificates](vic_vsphere_admin/ts_clock_skew.md)
-  
-* [vSphere Integrated Containers Security Reference](vic_vsphere_admin/security_reference.md)
+  * [vSphere Integrated Containers Security Reference](vic_vsphere_admin/security_reference.md)
 
-## Dev Ops Administrators
+## DevOps Administrators
 
-  * [vSphere Integrated Containers for Dev Ops Administrators](vic_dev_ops/README.md)
-    * [Overview of vSphere Integrated Containers Engine For Dev Ops Administrators](vic_dev_ops/overview_of_vic_devops.md)
+  * [vSphere Integrated Containers for DevOps Administrators](vic_dev_ops/README.md)
+    * [Overview of vSphere Integrated Containers Engine For DevOps Administrators](vic_dev_ops/overview_of_vic_devops.md)
     * [Managing VCHs and Containers with vSphere Integrated Containers Management Portal](vic_dev_ops/using_management_portal.md)
       * [Add Repositories to the vSphere Integrated Containers Management Portal](vic_dev_ops/add_repos_in_portal.md)
       * [Add VCHs to the vSphere Integrated Containers Management Portal](vic_dev_ops/add_vchs_in_portal.md)
@@ -84,7 +81,7 @@
   * [Obtain a VCH](vic_app_dev/obtain_vch.md)
   * [Using Volumes with vSphere Integrated Containers Engine](vic_app_dev/using_volumes_with_vic.md)
   * [Using Private Registry Servers with vSphere Integrated Containers Engine](vic_app_dev/using_registries_with_vic.md)
-  * [Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry (Harbor)](vic_app_dev/using_vic_with_harbor.md) 
+  * [Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry](vic_app_dev/using_vic_with_registry.md) 
   * [Container Networking with vSphere Integrated Containers Engine](vic_app_dev/network_use_cases.md)
   * [Creating a Containerized Application](vic_app_dev/creating_containerized_app_with_vic.md)
     * [Constraints of Using vSphere Integrated Containers Engine with Docker Compose](vic_app_dev/constraints_using_compose.md)

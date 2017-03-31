@@ -9,4 +9,4 @@ You use the vSphere Integrated Containers Engine `vic-machine` utility to deploy
 * [VCH Deployment Options](vch_installer_options.md)
 * [Advanced Examples of Deploying a VCH](vch_installer_examples.md)
 * [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md)
-* [Deploy a VCH with vSphere Integrated Containers Registry (Harbor)](deploy_vch_harbor.md)
+* [Deploy a VCH for Use with vSphere Integrated Containers Registry](deploy_vch_registry.md)
