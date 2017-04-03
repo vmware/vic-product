@@ -1,6 +1,6 @@
 # Using Private Registry Servers with vSphere Integrated Containers Engine #
 
-If your development environment includes private registry servers for container images, you or the vSphere administrator must correctly configure virtual container hosts (VCHs) to allow them to connect to the private registry servers.
+If your development environment uses private registry servers to store container images, you or the vSphere administrator must correctly configure virtual container hosts (VCHs) to allow them to connect to these private registry servers.
 
 You can use vSphere Integrated Containers Engine with either secure or insecure private registry servers.
 

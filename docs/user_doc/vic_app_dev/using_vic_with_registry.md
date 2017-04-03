@@ -1,11 +1,56 @@
-# Using vSphere Integrated Containers Engine with vSphere Integrated Containers Registry
+# Using vSphere Integrated Containers Engine and vSphere Integrated Containers Registry
 
-This example illustrates using a deployed virtual container host (VCH) with vSphere Integrated Containers Registry as a private registry with the assumption that a VCH has been set up using either static IP or FQDN.  It also assumes there is access to standard Docker that has been updated with the CA certificate used to sign the vSphere Integrated Containers Registry instance's server certificate and server private key.
+This example illustrates using a deployed virtual container host (VCH) with vSphere Integrated Containers Registry as a private registry with the assumption that a VCH has been set up using either static IP or FQDN. 
 
 ## Workflow
 
-1. Develop or obtain a docker container image on a computer or terminal using standard docker. Tag the image for vSphere Integrated Containers Registry and push the image to the server.
+1. Update your Docker client to use the vSphere Integrated Containers Registry certificate.
+2. Develop or obtain a docker container image on a computer or terminal using standard docker. Tag the image for vSphere Integrated Containers Registry and push the image to the server.
 2. Pull down the image from vSphere Integrated Containers Registry to a deployed VCH and use it.
+
+## Obtain the vSphere Integrated Containers Registry Certificate ##
+To use vSphere Integrated Containers Engine with vSphere Integrated Containers Registry, you must obtain the Registry certificate and pass it your Docker client. The vSphere administrator must also have configured your virtual container host (VCH) to use this certificate when they deployed it.
+
+If you did not provide a custom server certificate and private key for vSphere Integrated Containers Registry to the OVA installer when you deployed the vSphere Integrated Containers appliance, the Registry auto-generates a Certificate Authority (CA) certificate, a server certificate, and a server private key. Auto-generated CA certificate are available for download from the vSphere Integrated Containers Registry interface.
+
+The Docker client can look for CA certificates outside of the operating system's CA bundle folder if the new CA certificates are in the correct location. See [Verify repository client with certificates](https://docs.docker.com/engine/security/certificates/).
+
+Create the necessary folder, copy the CA cert file to the folder. Restart Docker, then verify that you can log onto the vSphere Integrated Containers Registry server.
+ 
+
+    user@Devbox:~/mycerts$ sudo su
+    [sudo] password for user: 
+    root@Devbox:/home/user/mycerts# mkdir -p /etc/docker/certs.d/<Registry FQDN>
+    root@Devbox:/home/user/mycerts# mkdir -p /etc/docker/certs.d/<Registry IP>
+    root@Devbox:/home/user/mycerts# cp ca.crt /etc/docker/certs.d/<Registry FQDN>/
+    root@Devbox:/home/user/mycerts# cp ca.crt /etc/docker/certs.d/<Registry IP>/
+    root@Devbox:/home/user/mycerts# exit
+    exit
+    user@Devbox:~/mycerts$ sudo systemctl daemon-reload
+    user@Devbox:~/mycerts$ sudo systemctl restart docker
+
+    user@Devbox:~$ docker logout <Registry FQDN>
+    Remove login credentials for <Registry FQDN>
+    user@Devbox:~$ docker logout <Registry IP>
+    Remove login credentials for <Registry IP>
+
+    user@Devbox:~$ docker login <Registry FQDN>
+    Username: user
+    Password: 
+    Login Succeeded
+
+    user@Devbox:~$ docker login <Registry IP>
+    Username: user
+    Password: 
+    Login Succeeded
+
+    user@Devbox:~$ docker logout <Registry FQDN>
+    Remove login credentials for <Registry FQDN>
+
+    user@Devbox:~$ docker logout <Registry IP>
+    Remove login credentials for <Registry IP>
+
+This example creates folders for both FQDN and IP in the docker cert folder and copies the CA cert to both folders. You can then log into vSphere Integrated Containers Registry from Docker using both FQDN and IP address.
 
 ## Push a Container Image to vSphere Integrated Containers Registry Using Standard Docker
 
@@ -22,16 +67,15 @@ This example illustrates using a deployed virtual container host (VCH) with vSph
     Digest: sha256:digest
     Status: Downloaded newer image for busybox:latest
     user@Devbox:~/mycerts$ 
-    user@Devbox:~/mycerts$ docker tag busybox <vSphere Integrated Containers Registry FQDN or static
-    IP>/test/busybox
+    user@Devbox:~/mycerts$ docker tag busybox <Registry FQDN or static IP>/test/busybox
 
-    user@Devbox:~/mycerts$ docker login <vSphere Integrated Containers Registry FQDN or static IP>
+    user@Devbox:~/mycerts$ docker login <Registry FQDN or static IP>
     Username: user
     Password: 
     Login Succeeded
 
-    user@Devbox:~/mycerts$ docker push <vSphere Integrated Containers Registry FQDN or static IP>/test/busybox
-    The push refers to a repository [<vSphere Integrated Containers Registry FQDN or static IP>/test/busybox]
+    user@Devbox:~/mycerts$ docker push <Registry FQDN or static IP>/test/busybox
+    The push refers to a repository [<Registry FQDN or static IP>/test/busybox]
     e88b3f82283b: Pushed 
     latest: digest: sha256:digest size: 527
 
