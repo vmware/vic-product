@@ -380,6 +380,9 @@ This example deploys a VCH with the following configuration:
 
 For information about the permissions that the `--ops-user` account requires, and the permissions to set on the resource pool for the VCH and on the network folders, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
 
+## Registry Server Examples {#}
+
+The examples in this section demonstrate how to configure a VCH to use
 
 ### Authorize Access to an Insecure Private Registry Server {#registry}
 

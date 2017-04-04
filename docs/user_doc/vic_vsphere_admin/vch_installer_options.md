@@ -227,11 +227,11 @@ You must use this option to allow a VCH to connect to vSphere Integrated Contain
 
 Short name: `--dir`
 
-An insecure private registry server is a private registry server for Docker images that does not provide TLS. The VCH cannot confirm the identity of the remote system that it is pulling images from and the communication is not encrypted. Insecure private registries are not recommended in production environments.  
+An insecure private registry server is a private registry server for Docker images that does not provide TLS. The VCH cannot confirm the identity of the remote system that it is pulling images from and the communication is not encrypted. Setting the `--insecure-registry` option on a VCH informs that VCH that it is authorized to pull images from the designated insecure private registry server. Insecure private registries are not recommended in production environments.
 
 If you authorize a VCH to connect to an insecure private registry server, the VCH attempts to access the registry server via HTTP if access via HTTPS fails. VCHs always use HTTPS when connecting to registry servers for which you have not authorized insecure access.
 
-To permit pulling images from an insecure private registry, use the `--insecure-registry` option. You can specify `--insecure-registry` multiple times if multiple insecure registries are permitted. If the registry server listens on a specific port, add the port number to the URL
+You can specify `--insecure-registry` multiple times if multiple insecure registries are permitted. If the registry server listens on a specific port, add the port number to the URL
 
 <pre>--insecure-registry <i>registry_URL_1</i>
 --insecure-registry <i>registry_URL_2</i>:<i>port_number</i>

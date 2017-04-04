@@ -75,18 +75,18 @@
 ## Container App Developers
 
 * [Developing Container Applications with vSphere Integrated Containers](vic_app_dev/README.md)
-  * [Overview of vSphere Integrated Containers Engine For Container Application Developers](vic_app_dev/overview_of_vic_appdev.md)
+  * [Overview](vic_app_dev/overview_of_vic_appdev.md)
   * [Supported Docker Commands](vic_app_dev/container_operations.md)
     * [Supported Docker Compose File Options](vic_app_dev/docker_compose_file_options.md)
-  * [Use and Limitations of Containers in vSphere Integrated Containers Engine](vic_app_dev/container_limitations.md)
+  * [Use and Limitations](vic_app_dev/container_limitations.md)
   * [Obtain a VCH](vic_app_dev/obtain_vch.md)
-  * [Using Volumes with vSphere Integrated Containers Engine](vic_app_dev/using_volumes_with_vic.md)
-  * [Using Private Registry Servers with vSphere Integrated Containers Engine](vic_app_dev/using_registries_with_vic.md)
-  * [Using vSphere Integrated Containers Engine and vSphere Integrated Containers Registry](vic_app_dev/using_vic_with_registry.md) 
-  * [Container Networking with vSphere Integrated Containers Engine](vic_app_dev/network_use_cases.md)
-  * [Creating a Containerized Application](vic_app_dev/creating_containerized_app_with_vic.md)
-    * [Constraints of Using vSphere Integrated Containers Engine with Docker Compose](vic_app_dev/constraints_using_compose.md)
-    * [Example of Building an Application with vSphere Integrated Containers Engine](vic_app_dev/build_app_with_vic.md)
+  * [Configure the Docker Client](vic_app_dev/configure_docker_client.md)
+  * [Building and Pushing Images](vic_app_dev/build_push_images.md)
+  * [Using Volumes](vic_app_dev/using_volumes_with_vic.md) 
+  * [Container Networking](vic_app_dev/network_use_cases.md)
+  * [Creating a Containerized App](vic_app_dev/creating_containerized_app_with_vic.md)
+    * [Docker Compose Constraints](vic_app_dev/constraints_using_compose.md)
+    * [Example of Building an App](vic_app_dev/build_app_with_vic.md)
   * [Default Volume Store Error](vic_app_dev/ts_volume_store_error.md)
 
 ## Feedback
