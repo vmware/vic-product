@@ -26,4 +26,4 @@ The output shows the status of the service that you specified, as well as the mo
 
 **What to Do Next**
 
-If the status is `inactive`, see [Restart the vSphere Integrated Containers Services](restart_services.md).
+If the status is `inactive (failed)` or `inactive (dead)`, see [Restart the vSphere Integrated Containers Services](restart_services.md).
