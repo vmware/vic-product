@@ -22,10 +22,6 @@ You downloaded the OVA installer from the [official vSphere Integrated Container
 
     Setting the root password for the appliance is mandatory.
 
-4. Expand **Email Settings** and optionally configure an email account from which to send password reset emails.  
-
-    If, after deployment, you configure vSphere Integrated Containers Registry to use LDAP authentication, the email settings are ignored.
-
 5. Expand **Networking Properties** and optionally configure a static IP address for the appliance VM. 
 
     Leave the networking properties blank to use DHCP.
