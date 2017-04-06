@@ -50,6 +50,8 @@
        * [VCH Upgrade Options](vic_vsphere_admin/upgrade_vch_options.md)
      * [Upgrade the HTML5 Plug-In](vic_vsphere_admin/upgrade_h5_plugin.md)
   * [Troubleshooting](vic_vsphere_admin/troubleshoot_vic.md)
+    * [Check Service Status](vic_vsphere_admin/service_status.md)
+    * [Restart Services](vic_vsphere_admin/restart_services.md)
     * [VCH Deployment Times Out](vic_vsphere_admin/ts_vch_deployment_timeout.md)
     * [Certificate Verification Error](vic_vsphere_admin/ts_thumbprint_error.md)
     * [Missing Common Name Error Even When TLS Options Are Specified Correctly](vic_vsphere_admin/ts_cli_argument_error.md)
