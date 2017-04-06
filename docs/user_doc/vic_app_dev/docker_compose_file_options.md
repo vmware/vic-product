@@ -40,11 +40,11 @@ This topic provides information about the Docker Compose file options that vSphe
 |`network_mode` |[Network mode (version 2)](https://docs.docker.com/compose/compose-file/compose-file-v2/#networkmode)| Yes |
 |`networks` |[Networks to join](https://docs.docker.com/compose/compose-file/compose-file-v2/#networks)| Yes |
 |`aliases` |[Aliases for this service on the network](https://docs.docker.com/compose/compose-file/compose-file-v2/#aliases)| Yes |
-|`ipv4_address`,`ipv6_address` |[Static IP address for containers](https://docs.docker.com/compose/compose-file/compose-file-v2/#ipv4address-ipv6address) | Yes for IPv4. vSphere Integrated Containers Engine does not support IPv6. |
+|`ipv4_address`,`ipv6_address` |[Static IP address for containers](https://docs.docker.com/compose/compose-file/compose-file-v2/#ipv4address-ipv6address) | Yes for IPv4. IPv6 is not supported. |
 |`link_local_ips` |[List of link-local IPs](https://docs.docker.com/compose/compose-file/compose-file-v2/#linklocalips) | No. Depends on `docker run --link-local-ip` |
 |`pid` |[Sets PID mode](https://docs.docker.com/compose/compose-file/compose-file-v2/#pid) | No. Depends on `docker run --pid`. |
 |`ports` |[Expose ports](https://docs.docker.com/compose/compose-file/compose-file-v2/#ports)| Yes |
-|`security-opt` |[Override the default labeling scheme for containers](https://docs.docker.com/compose/compose-file/compose-file-v2/#securityopt) | No. This option only applies to Windows containers, which vSphere Integrated Containers Engine does not support. |
+|`security-opt` |[Override the default labeling scheme for containers](https://docs.docker.com/compose/compose-file/compose-file-v2/#securityopt) | No. This option only applies to Windows containers, which are not supported. |
 |`stop-signal` |[Sets an alternative signal to stop the container.](https://docs.docker.com/compose/compose-file/compose-file-v2/#stopsignal) | Yes |
 |`stop-grace-period` |[Specify how long to wait stopping a container](https://docs.docker.com/compose/compose-file/compose-file-v2/#stopgraceperiod) | No |
 |`sysctls` |[Kernel parameters to set in the container](https://docs.docker.com/compose/compose-file/compose-file-v2/#sysctls) | No |
@@ -73,7 +73,7 @@ NOTE: vSphere Integrated Containers 1.1 does not support shared volumes. You can
 | --- | --- | --- |
 |`driver` | [Specify driver to use for this network](https://docs.docker.com/compose/compose-file/compose-file-v2/#driver-1) | Yes |
 |`driver_opts` | [Specify options to pass to the driver for this network](https://docs.docker.com/compose/compose-file/compose-file-v2/#driveropts-1) | No |
-|`enable_ipv6` | [Enables IPv6](https://docs.docker.com/compose/compose-file/compose-file-v2/#enableipv6) | No. vSphere Integrated Containers Engine does not support IPv6. |
+|`enable_ipv6` | [Enables IPv6](https://docs.docker.com/compose/compose-file/compose-file-v2/#enableipv6) | No. IPv6 is not supported. |
 |`ipam`| [Specify custom IPAM configuration](https://docs.docker.com/compose/compose-file/compose-file-v2/#ipam) | Yes |
 |`internal` | [Create an externally isolated overlay network](https://docs.docker.com/compose/compose-file/compose-file-v2/#internal) | Yes|
 |`labels` | [Add metadata to containers](https://docs.docker.com/compose/compose-file/compose-file-v2/#labels-2) | Yes |

@@ -50,7 +50,7 @@ To allow the voting app to work with vSphere Integrated Containers, you must mod
 
 ## Modify the Application ##
 
-This version of vSphere Integrated Containers Engine does not support the `docker build`, `tag`, `push` commands. Use regular Docker without vSphere Integrated Containers Engine to perform the steps in this section.
+This version of vSphere Integrated Containers Engine does not support the `docker build` or `push` commands. Use regular Docker to perform the steps in this section.
 
 **NOTE**: It is possible to build and tag an image in one step. In this example, building and tagging are in separate steps.
 
