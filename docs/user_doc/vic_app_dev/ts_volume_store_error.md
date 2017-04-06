@@ -9,7 +9,7 @@ Running the container fails with error:
 
 ## Cause
 
-By default, vic-machine create does not create a volume store when you or the vSphere administrator deploy a VCH. To run containers from images that use volumes, you or the vSphere administrator must specify a volume store named default when deploying the VCH.
+By default, vic-machine create does not create a volume store when the vSphere administrator deploys a VCH. To run containers from images that use volumes, the vSphere administrator must specify a volume store named default when they deploy the VCH.
 
 ## Solution
 
