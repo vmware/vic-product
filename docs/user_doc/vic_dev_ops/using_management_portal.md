@@ -1,4 +1,4 @@
-# Managing VCHs and Containers with vSphere Integrated Containers Management Portal #
+# Using vSphere Integrated Containers Management Portal to Manage Repositories, VCHs, and Containers #
 
 Wrapper topic. Include an introduction to VICMP here and link to the sub-topics.
 

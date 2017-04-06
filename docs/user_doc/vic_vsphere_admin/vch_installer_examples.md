@@ -19,8 +19,9 @@ This topic provides examples of the options of the `vic-machine create` command 
   - [Use Custom Server Certificates](#custom_cert)
   - [Specify Different User Accounts for VCH Deployment and Operation](#ops-user)
   - [Authorize Access to an Insecure Private Registry Server](#registry)
+  - [Authorize Access to Secure Registries and vSphere Integrated Containers Registry](#secureregistry)
 
-For simplicity, these examples use the `--force` option to disable the verification of the vCenter Server certificate, so the `--thumbprint` option is not specified. Similarly, all examples that do not relate explicitly to certificate use specify the `--tls-noverify` option.
+For simplicity, these examples use the `--force` option to disable the verification of the vCenter Server certificate, so the `--thumbprint` option is not specified. Similarly, all examples that do not relate explicitly to certificate use specify the `--no-tls` option.
 
 For detailed descriptions of all of the `vic-machine create` options, see [VCH Deployment Options](vch_installer_options.md).
 
@@ -52,7 +53,7 @@ This example deploys a VCH with the following configuration:
 --bridge-network vch1-bridge
 --name vch1
 --force
---no-tlsverify
+--no-tls
 </pre>
 
 
@@ -72,7 +73,7 @@ This example deploys a VCH with the following configuration:
 --compute-resource esxihost1.organization.company.com
 --name vch1
 --force
---no-tlsverify
+--no-tls
 </pre>
 
 
@@ -91,7 +92,7 @@ This example deploys a VCH with the following configuration:
 --image-store datastore1
 --name vch1
 --force
---no-tlsverify
+--no-tls
 </pre>
 
 
@@ -111,7 +112,7 @@ This example deploys a VCH with the following configuration:
 --bridge-network vch1-bridge
 --name vch1
 --force
---no-tlsverify
+--no-tls
 </pre>
 
 
@@ -137,7 +138,7 @@ This example deploys a VCH with the following configuration:
 --cpu-shares low
 --name vch1
 --force
---no-tlsverify
+--no-tls
 </pre>
 
 For more information about setting resource use limitations on VCHs, see the [Advanced Deployment Options](vch_installer_options.md#deployment) and [Advanced Resource Management Options](vch_installer_options.md#adv-mgmt) sections in VCH Deployment Options.
@@ -173,7 +174,7 @@ This example deploys a VCH with the following configuration:
 --client-network 'network 2'
 --name vch1
 --force
---no-tlsverify
+--no-tls
 </pre>
 
 For more information about the networking options, see the [Networking Options section](vch_installer_options.md#networking) in VCH Deployment Options.
@@ -238,7 +239,7 @@ This example deploys a VCH with the following configuration:
 --container-network-ip-range vic-containers:192.168.100.0/24
 --name vch1
 --force
---no-tlsverify
+--no-tls
 </pre>
 
 For more information about the container network options, see the [`--container-network`](vch_installer_options.md#container-network) and [Options for Configuring a Non-DHCP Network for Container Traffic](vch_installer_options.md#adv-container-net) sections in VCH Deployment Options.
@@ -261,7 +262,7 @@ This example deploys a VCH with the following configuration:
 --https-proxy https://<i>proxy_server_address</i>:<i>port</i>
 --name vch1
 --force
---no-tlsverify
+--no-tls
 </pre>
 
 
@@ -288,7 +289,7 @@ This example deploys a VCH with the following configuration:
 --volume-store 'datastore 2'/volumes:volume_store_2</i>
 --name vch1
 --force
---no-tlsverify
+--no-tls
 </pre>
 
 For more information about volume stores, see the [volume-store section](vch_installer_options.md#volume-store) in VCH Deployment Options. 
@@ -374,11 +375,14 @@ This example deploys a VCH with the following configuration:
 --ops-user <i>vsphere_user</i>
 --ops-password <i>vsphere_user_password</i>
 --force
---no-tlsverify
+--no-tls
 </pre>
 
 For information about the permissions that the `--ops-user` account requires, and the permissions to set on the resource pool for the VCH and on the network folders, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
 
+## Registry Server Examples {#}
+
+The examples in this section demonstrate how to configure a VCH to use a private registry server, for example vSphere Integrated Containers Registry.
 
 ### Authorize Access to an Insecure Private Registry Server {#registry}
 
@@ -399,7 +403,11 @@ This example deploys a VCH with the following configuration:
 --insecure-registry <i>registry_URL_2:5000</i>
 --name vch1
 --force
---no-tlsverify
+--no-tls
 </pre>
 
 For more information about configuring VCHs to connect to insecure private registry servers, see the section on the [`insecure-registry` option](vch_installer_options.md#insecure-registry) in VCH Deployment Options.
+
+### Authorize Access to Secure Registries and vSphere Integrated Containers Registry {#secureregistry}
+
+For an example of how to use `--registry-ca` to authorize access to vSphere Integrated Containers Registry or to another secure registry, see [Deploy a VCH for Use with vSphere Integrated Containers Registry](deploy_vch_registry.md).

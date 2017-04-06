@@ -1,75 +1,37 @@
-# Deploy a VCH with vSphere Integrated Containers Registry
+# Deploy a VCH for Use with vSphere Integrated Containers Registry
 
-This example uses vSphere Integrated Containers Engine 1.1.0, vSphere Integrated Containers Registry 0.5.0, and Ubuntu on the user machine. vSphere Integrated Containers Registry requires 60GB or more free space on your datastore.
+To use vSphere Integrated Containers Engine with vSphere Integrated Containers Registry, you must obtain the registry certificate and pass it to a virtual container host (VCH) when you create that VCH.
 
-If no server certificate and private key are provided during installation, vSphere Integrated Containers Registry will create a self-generated CA (certificate authority) certificate, a server certificate, and a server private key.  The self-generated CA certificate will be available for download from the vSphere Integrated Containers Registry web client.
+If you did not provide a custom server certificate and private key for the registry to the OVA installer when you deployed the vSphere Integrated Containers appliance, vSphere Integrated Containers Registry auto-generates a Certificate Authority (CA) certificate, a server certificate, and a server private key. You can download the auto-generated CA certificates from the vSphere Integrated Containers Registry interface.
 
-See the OVA installation guide for vSphere Integrated Containers Registry [vSphere Integrated Containers Registry docs](https://github.com/vmware/harbor/blob/master/docs/installation_guide_ova.md). vSphere Integrated Containers Registry requires both an IP address and FQDN (fully qualified domain name) for the server. A DHCP install method is available for debugging purposes, but it is not a recommended production deployment model.
+**Prerequisites**
 
-This example assumes a vSphere Integrated Containers Registry instance was installed without a server certificate or a private key and the CA cert downloaded using the vSphere Integrated Containers Registry instructions. For vSphere Integrated Containers Registry to work with vSphere Integrated Containers Engine you need to update standard docker with the vSphere Integrated Containers Registry CA cert and deploy a new VCH with the CA cert.
+- You selected the option to deploy vSphere Integrated Containers Registry when you deployed the vSphere Integrated Containers appliance.
+- You downloaded the vSphere Integrated Containers Engine bundle from the appliance.
 
-## Update the User Working Machine's Standard Docker with the vSphere Integrated Containers Registry CA Certificate
+**Procedure**
 
-Update the machine with standard Docker so it recognizes the CA certificate. Docker can look for additional CA certificates outside of the operating system's CA bundle folder if the new CA certificates are in the correct location. See [Verify repository client with certificates](https://docs.docker.com/engine/security/certificates/).
+1. Obtain the CA certificate of the registry instance or instances to use with this VCH.
 
-Create the necessary folder, copy the CA cert file to the folder. Restart Docker, then verify that you can log onto the vSphere Integrated Containers Registry server.
+   - If you deployed the registry with custom certificates, obtain the certificate from your certificate manager. 
+   - If you deployed the registry with auto-generated certificates, log in to the vSphere Integrated Containers Registry interface as `admin` user, select **admin** > **About**, and click the link to download the certificate.
+   - You can also obtain the certificate by using SCP to copy the certificate file from `/data/harbor/cert` in the vSphere Integrated Containers appliance VM.<pre>scp root@<i>vic_appliance_address</i>:/data/harbor/cert/ca.crt ./<i>destination_path</i></pre>
+2. Use `vic-machine create` to deploy a VCH, specifying the registry's CA certificate by using the [`--registry-ca`](vch_installer_options.md#registry-ca) option. 
 
-**Note** This example has Ubuntu-specific commands.
+    You can configure the VCH to connect to multiple registries by specifying `--registry-ca` multiple times.
 
-    user@Devbox:~/mycerts$ sudo su
-    [sudo] password for user: 
-    root@Devbox:/home/user/mycerts# mkdir -p /etc/docker/certs.d/<vSphere Integrated Containers Registry FQDN>
-    root@Devbox:/home/user/mycerts# mkdir -p /etc/docker/certs.d/<vSphere Integrated Containers Registry IP>
-    root@Devbox:/home/user/mycerts# cp ca.crt /etc/docker/certs.d/<vSphere Integrated Containers Registry FQDN>/
-    root@Devbox:/home/user/mycerts# cp ca.crt /etc/docker/certs.d/<vSphere Integrated Containers Registry IP>/
-    root@Devbox:/home/user/mycerts# exit
-    exit
-    user@Devbox:~/mycerts$ sudo systemctl daemon-reload
-    user@Devbox:~/mycerts$ sudo systemctl restart docker
+    For simplicity, this example installs a VCH with the `--no-tls` flag, so that container application developers do not need to use a TLS certificate to connect a Docker client to the VCH. However, the connection between the VCH and the registry still requires certificate authentication.<pre>vic-machine-<i>operating_system</i> create
+--target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
+--compute-resource cluster1
+--image-store datastore1
+--bridge-network vch1-bridge
+--name vch_registry
+--force
+--no-tlsverify
+--registry-ca=<i>cert_path</i>/ca.crt
+</pre>
+     
 
-    user@Devbox:~$ docker logout <vSphere Integrated Containers Registry FQDN>
-    Remove login credentials for <vSphere Integrated Containers Registry FQDN>
-    user@Devbox:~$ docker logout <vSphere Integrated Containers Registry IP>
-    Remove login credentials for <vSphere Integrated Containers Registry IP>
+**Result**
 
-    user@Devbox:~$ docker login <vSphere Integrated Containers Registry FQDN>
-    Username: user
-    Password: 
-    Login Succeeded
-
-    user@Devbox:~$ docker login <vSphere Integrated Containers Registry IP>
-    Username: user
-    Password: 
-    Login Succeeded
-
-    user@Devbox:~$ docker logout <vSphere Integrated Containers Registry FQDN>
-    Remove login credentials for <vSphere Integrated Containers Registry FQDN>
-
-    user@Devbox:~$ docker logout <vSphere Integrated Containers Registry IP>
-    Remove login credentials for <vSphere Integrated Containers Registry IP>
-
-This example creates folders for both FQDN and IP in the docker cert folder and copies the CA cert to both folders. You can then log into vSphere Integrated Containers Registry from Docker using both FQDN and IP address.
-
-## Install a VCH with the New CA Certificate
-
-Deploy a VCH and specify the CA cert with `--registry-ca` parameter in vic-machine.  This parameter is a list, and you can easily add multiple CA certs by specifying multiple `--registry-ca` parameters.
-
-For simplicity, this example installs a VCH with the `--no-tls` flag, so you do not need TLS from a docker CLI to the VCH. However, it does not imply that access to vSphere Integrated Containers Registry is performed without TLS.
-<pre>
-./vic-machine-linux create 
---target=<vCenter_IP> 
---image-store="vsanDatastore" 
---name=vic-docker 
---user=root 
---password=<vCenter_password> 
---compute-resource="/dc1/host/cluster1/Resources" 
---bridge-network DPortGroup 
---force 
---no-tls 
---registry-ca=ca.crt
-
- WARN[2016-11-11T11:46:37-08:00] Configuring without TLS 
-- all communications will be insecure
- ...
-
- INFO[2016-11-11T11:47:57-08:00] Installer completed successfully</pre>            
+The VCH has a copy of the registry certificate and can connect to this vSphere Integrated Containers Registry instance.

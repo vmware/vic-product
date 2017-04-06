@@ -10,7 +10,7 @@ vSphere administrators can use vSphere to view and manage virtual container host
 - Manually powering off container VMs can result in incorrect end-times for container opeations. Do not manually delete a contaienr VM. Use Docker commands to perform operations on container VMs.
 
 ## VMware vRealize&reg; Suite 
-You can use VMware vRealize Automation to provide a self-provisioning service for VCHs, by using the vRealize Automation interface or APIs to request VCHs. At the end of such a provisioning process, vRealize Automation can communicate the VCH endpoint VM address to the requester.
+Your organization could use VMware vRealize Automation to provide a self-provisioning service  for VCHs, by using the vRealize Automation interface or APIs to request VCHs. At the end of the provisioning process, vRealize Automation would communicate the VCH endpoint VM address to the requester. If you deploy VCHs with TLS authentication, `vic-machine create` generates a file named `vch_name.env`. The `env` file contains Docker environment variables that are specific to the VCH. vRealize Automation could potentially provide the `env` file at the end of a provisioning process for VCHs.
 
 ## VMware vSphere vMotion&reg;  
 

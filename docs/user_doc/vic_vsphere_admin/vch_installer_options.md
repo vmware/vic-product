@@ -203,14 +203,18 @@ The `--no-tlsverify` option takes no arguments.
 
 ## Private Registry Options {#registry}
 
-If container developers need to access Docker images that are stored in private registry servers, you must configure VCHs to allow them to connect to the private registry servers when you deploy the VCHs. VCHs can connect to both secure and insecure private registry servers.
+If you use vSphere Integrated Containers Registry, or if container developers need to access Docker images that are stored in other private registry servers, you must configure VCHs to allow them to connect to these private registry servers when you deploy the VCHs. VCHs can connect to both secure and insecure private registry servers.
 
 
 ### `--registry-ca` {#registry-ca}
 
 Short name: `--rc`
 
-The path to a CA certificate that can validate the registry's server certificate. You can specify `--registry-ca` multiple times to specify multiple CA certificates for different registries. The use of these certificates is independent of the client security options that you specify. For example, it is possible to disable TLS for client authentication by using `--no-tls`, and to use `--registry-ca` tospecify CA certificates to validate a private registry.
+The path to a CA certificate that can validate the server certificate of a private registry. You can specify `--registry-ca` multiple times to specify multiple CA certificates for different registries. This allows a VCH to connect to multiple registries. 
+
+The use of registry certificates is independent of the Docker client security options that you specify. For example, it is possible to use the `--no-tls` option to disable TLS authentication between Docker clients and the VCH, and to use the `--registry-ca` option to enable TLS authentication  between the VCH and a private registry. 
+
+You must use this option to allow a VCH to connect to vSphere Integrated Containers Registry. For information about how to obtain the CA certificate from vSphere Integrated Containers Registry, see [Deploy a VCH for Use with vSphere Integrated Containers Registry](deploy_vch_registry.md).
 
 <pre>--registry-ca <i>path_to_ca_cert_1</i>
 --registry-ca <i>path_to_ca_cert_2</i>
@@ -223,11 +227,11 @@ The path to a CA certificate that can validate the registry's server certificate
 
 Short name: `--dir`
 
-An insecure private registry server is a private registry server for Docker images that does not provide TLS. The VCH cannot confirm the identity of the remote system that it is pulling images from and the communication is not encrypted. Insecure private registries are not recommended in production environments.  
+An insecure private registry server is a private registry server for Docker images that does not provide TLS. The VCH cannot confirm the identity of the remote system that it is pulling images from and the communication is not encrypted. Setting the `--insecure-registry` option on a VCH informs that VCH that it is authorized to pull images from the designated insecure private registry server. Insecure private registries are not recommended in production environments.
 
 If you authorize a VCH to connect to an insecure private registry server, the VCH attempts to access the registry server via HTTP if access via HTTPS fails. VCHs always use HTTPS when connecting to registry servers for which you have not authorized insecure access.
 
-To permit pulling images from an insecure private registry, use the `--insecure-registry` option. You can specify `--insecure-registry` multiple times if multiple insecure registries are permitted. If the registry server listens on a specific port, add the port number to the URL
+You can specify `--insecure-registry` multiple times if multiple insecure registries are permitted. If the registry server listens on a specific port, add the port number to the URL
 
 <pre>--insecure-registry <i>registry_URL_1</i>
 --insecure-registry <i>registry_URL_2</i>:<i>port_number</i>
