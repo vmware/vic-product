@@ -1,14 +1,21 @@
 # Creating and Managing Projects #
 
-##Managing projects
-A project in vSphere Integrated Containers Registry contains all repositories of an application. No images can be pushed to vSphere Integrated Containers Registry before the project is created. RBAC is applied to a project. There are two types of projects in vSphere Integrated Containers Registry:  
+A project in vSphere Integrated Containers Registry contains all of the repositories of an application. You cannot push images to vSphere Integrated Containers Registry until you have created a project. 
 
-* **Public**: All users have the read privilege to a public project, it's convenient for you to share some repositories with others in this way.
-* **Private**: A private project can only be accessed by users with proper privileges.  
+RBAC is applied to a project. There are two types of projects in vSphere Integrated Containers Registry:  
 
-You can create a project after you signed in. Enabling the "Public" checkbox makes the project public.  
+* **Public**: All users have the read privilege to a public project, it's convenient for you to share some repositories with others in this way.  Users do not need to run `docker login` before pulling images under this project. 
+* **Private**: A private project can only be accessed by users with the appropriate privileges.  
 
-![create project](img/new_create_project.png)  
+**Procedure**
+
+1. Log in as `admin` user to the vSphere Integrated Containers Registry interface at https://<i>vic_appliance_address</i>:443.
+2. Click **Projects** on the left, then click the **+ Project** button.
+3. Provide a name for the project.
+4. (Optional) Check the **Public** check box to make the project public.
+5. Click **OK**.
+
+
 
 After the project is created, you can browse repositories, users and logs using the navigation tab.  
 
