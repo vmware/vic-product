@@ -8,10 +8,10 @@ If your container development environment uses vSphere Integrated Containers, yo
 
 ## Connecting to the VCH {#connectvch}
 
-How you connect to your virtual container host (VCH) depends on the security options with which you or the vSphere administrator deployed the VCH. 
+How you connect to your virtual container host (VCH) depends on the security options with which the vSphere administrator deployed the VCH. 
 
 - If the VCH implements any level of TLS authentication, you connect to the VCH at *vch_address*:2376 when you run Docker commands.
-- If the VCH implements mutual authentication between the Docker client and the VCH by using both client and server certificates, you must provide a client certificate to the Docker client so that the VCH can verify the client's identity. This configuration is commonly referred to as `tlsverify` in documentation about containers and Docker. You must obtain a copy of the client certificate that was either used or generated when you or the vSphere administrator deployed the VCH. You can provide the client certificate to the Docker client in either of the following ways:
+- If the VCH implements mutual authentication between the Docker client and the VCH by using both client and server certificates, you must provide a client certificate to the Docker client so that the VCH can verify the client's identity. This configuration is commonly referred to as `tlsverify` in documentation about containers and Docker. You must obtain a copy of the client certificate that was either used or generated when the vSphere administrator deployed the VCH. You can provide the client certificate to the Docker client in either of the following ways:
   - By using the `--tlsverify`, `--tlscert`, and `--tlskey` options when you run Docker commands. You must also add `--tlscacert` if the server certificate is signed by a custom Certificate Authority (CA). For example:<pre>docker -H <i>vch_address</i>:2376 
   --tlsverify 
   --tlscert=<i>path_to_client_cert</i>/cert.pem 
@@ -26,7 +26,7 @@ How you connect to your virtual container host (VCH) depends on the security opt
 
 ## Using Docker Environment Variables {#variables}
 
-If you or the vSphere administrator deploy VCHs with TLS authentication, `vic-machine create` generates a file named `vch_name.env`. The `env` file contains Docker environment variables that are specific to the VCH. You can use the `env` file to set environment variables in your Docker client. 
+If the vSphere administrator deploys the VCHs with TLS authentication, `vic-machine create` generates a file named `vch_name.env`. The `env` file contains Docker environment variables that are specific to the VCH. You can use the `env` file to set environment variables in your Docker client. 
 
 The contents of the `env` files are different depending on the level of authentication with which the VCH was deployed.
 
@@ -38,9 +38,11 @@ DOCKER_HOST=<i>vch_address</i>:2376</pre>
    <pre>DOCKER_HOST=<i>vch_address</i>:2376</pre>
 - No `env` file is generated if the VCH does not implement TLS authentication.
 
+For information about how to obtain the `env` file, see [Obtain a VCH](obtain_vch.md).
+
 ## Using vSphere Integrated Containers Registry {#registry}
 
-If your development environment uses vSphere Integrated Containers Registry or another private registry server that uses CA server certificates, you must pass the registry's CA certificate to the Docker client. You or the vSphere administrator must also have configured the VCH to access the registry. For information about how to obtain the CA certificate from vSphere Integrated Containers Registry and how to deploy a VCH so that it can access a private registry, see [Deploy a VCH for Use with vSphere Integrated Containers Registry](../vic_vsphere_admin/deploy_vch_registry.md).
+If your development environment uses vSphere Integrated Containers Registry or another private registry server that uses CA server certificates, you must pass the registry's CA certificate to the Docker client. The vSphere administrator must also have configured the VCH to access the registry. For information about how to obtain the CA certificate from vSphere Integrated Containers Registry and how to deploy a VCH so that it can access a private registry, see [Deploy a VCH for Use with vSphere Integrated Containers Registry](../vic_vsphere_admin/deploy_vch_registry.md).
 
 **NOTE**: The level of security of the connection between the Docker client and the VCH is independent from the level of security of the connection between the Docker client and the registry. Connections between the Docker client and the registry can be secure while connections between the Docker client and the VCH are insecure, and the reverse.
 

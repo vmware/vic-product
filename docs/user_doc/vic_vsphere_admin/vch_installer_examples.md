@@ -382,7 +382,7 @@ For information about the permissions that the `--ops-user` account requires, an
 
 ## Registry Server Examples {#}
 
-The examples in this section demonstrate how to configure a VCH to use
+The examples in this section demonstrate how to configure a VCH to use a private registry server, for example vSphere Integrated Containers Registry.
 
 ### Authorize Access to an Insecure Private Registry Server {#registry}
 
