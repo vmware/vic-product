@@ -18,7 +18,7 @@
 |`dockerd`|[Launch the Docker daemon](https://docs.docker.com/engine/reference/commandline/dockerd/)|No|
 |`info`|[Docker system information](https://docs.docker.com/engine/reference/commandline/info/)|Yes. Provides Docker-specific data, basic capacity information, lists configured volume stores, and virtual container host information. Does not reveal vSphere datastore paths that might contain sensitive vSphere information.|
 |`inspect`|[Inspect a container or image](https://docs.docker.com/engine/reference/commandline/inspect/)|Yes. Includes information about the container network.|
-|`version`|[Docker version information](https://docs.docker.com/engine/reference/commandline/version/)|Yes. vSphere Integrated Containers Engine version provided.|
+|`version`|[Docker version information](https://docs.docker.com/engine/reference/commandline/version/)|Yes|
 
 ## Image Commands {#image}
 

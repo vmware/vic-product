@@ -10,5 +10,5 @@ The installation process involves several steps.
   - Runs vSphere Integrated Containers Management Portal
   - Makes the vSphere Integrated Containers Engine binaries available for download
   - Hosts the vSphere Client plug-in packages for vCenter Server
-- Run the vSphere Integrated Containers Engine scripts to install the vSphere Client plug-ins on vCenter Server.
-- Run the vSphere Integrated Containers Engine command line utility, `vic-machine`, to deploy and manage virtual container hosts.
+- Run the scripts to install the vSphere Client plug-ins on vCenter Server.
+- Run the command line utility, `vic-machine`, to deploy and manage virtual container hosts.
