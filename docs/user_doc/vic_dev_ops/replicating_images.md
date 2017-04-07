@@ -24,15 +24,11 @@ To enable image replication, a policy must first be created. Click "Add New Poli
 
 **Note:** Set **"Verify Remote Cert"** to off according to the [installation guide](installation_guide_ova.md) if the destination uses a self-signed or untrusted certificate. 
 
-![browse project](img/new_create_policy.png)
-
 You can enable, disable or delete a policy in the policy list view. Only policies which are disabled can be edited. Only policies which are disabled and have no running jobs can be deleted. If a policy is disabled, the running jobs under it will be stopped.  
 
 Click on a policy, jobs belonging to this policy will be listed. A job represents the progress of replicating a repository to the remote instance.  
 
-![browse project](img/new_policy_list.png)
+###Managing Endpoints
+You can list, add, edit and delete destinations in the "Destination" tab. Only destinations which are not referenced by any policies can be edited.  
 
-##Searching projects and repositories
-Entering a keyword in the search field at the top lists all matching projects and repositories. The search result includes both public and private repositories you have access privilege to.  
-
-![browse project](img/new_search.png)
+![browse project](img/new_manage_destination.png)

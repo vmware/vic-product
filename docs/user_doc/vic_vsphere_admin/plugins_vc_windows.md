@@ -8,7 +8,7 @@ You install the vSphere Client plug-ins for vSphere Integrated Containers by usi
 **Prerequisites**
 
 - You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
-- Open a Web browser on a Windows system, go to https://<i>vic_appliance_address</i>:9443, and download and unpack the vSphere Integrated Containers Engine package. You must use a Windows system to run the script to install the plug-in on a vCenter Server instance that runs on Windows. For example, download the package to the Windows system on which vCenter Server is running. If you configured the vSphere Integrated Containers appliance to use a different port for the vSphere Integrated Containers Engine file server, replace 9443 with the appropriate port.
+- Open a Web browser on a Windows system, go to https://<i>vic_appliance_address</i>:9443, and download and unpack the vSphere Integrated Containers Engine package. You must use a Windows system to run the script to install the plug-in on a vCenter Server instance that runs on Windows. For example, download the package to the Windows system on which vCenter Server is running. If the vSphere Integrated Containers appliance uses a different port for the vSphere Integrated Containers Engine file server, replace 9443 with the appropriate port.
 - Copy the thumbprint of the Communications Server certificate from https://<i>vic_appliance_address</i>:<i>port</i>. For information about how to view the certificate thumbprint, see the documentation for your type of browser.
 
 **Procedure**
