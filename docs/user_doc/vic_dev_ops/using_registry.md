@@ -6,7 +6,7 @@ The sections below present the key features of vSphere Integrated Containers Reg
 
 - [Projects and Role-Based Access Control](#projects)
 - [User Authentication](#authentication)
-- [Policy Based Image Replication](#replication)
+- [Rule-Based Image Replication](#replication)
 - [Garbage Collection](#gc)
 - [Logging](#logging)
 
@@ -37,7 +37,7 @@ Immediately after you deploy vSphere Integrated Containers Registry, can you con
 
 For information about enabling LDAP authentication, see [Configure a Registry](configure_registry.md).
 
-## Policy Based Image Replication {#replication}
+## Rule Based Image Replication {#replication}
 
 You can set up multiple registries and replicate images between registry instances. Replicating images between registries helps with load balancing and high availability, and allows you to create multi-datacenter, hybrid, and multi-cloud setups. For information about image replication, see [Replicating Images](replicating_images.md).
 

@@ -31,6 +31,9 @@ The vSphere administrator enabled vSphere Integrated Containers Registry when th
    This option is not available if you use LDAP authentication. If you leave this option enabled, a link that allows unregistered users to sign up for an account appears on the vSphere Integrated Containers Registry login page. When self-registration is disabled, the link does not appear on the login page, and only users with the Administrator role can register new users.  
 
 6. Click **Save** to save the authentication settings.
+7. Click **Replication**, and optionally uncheck the **Verify Remote Cert** checkbox to disable verification of replication endpoint certificates. 
+
+    You must disable certificate verification if the remote registry uses a self-signed or an untrusted certificate. For example, disable certificate verification if the registry uses the default auto-generated certificates that vSphere Integrated Containers Registry created during the deployment of the vSphere Integrated Containers appliance.
 7. Click **Email** to set up a mail server, test the settings, and click **Save**.
 
    The mail server is used to send responses to users who request to reset their password.
