@@ -1,21 +1,18 @@
-# Provision Container VMs in the vSphere Integrated Containers Management Portal #
+# Provision Container VMs in the Management Portal #
 
-Document the procedure for provisioning containers here.
+**WORK-IN-PROGRESS**
 
-**Prerequisites**
+You can provision container VMs from the management portal. You can quick-provision containers by using default settings or you can customize your deployment by using the available settings.
 
-Do this first.
-
-**Procedure**
-
-1. Do this.
-2. Do that.
-3. Do something else.
-
-**Result**
-
-Done!
-
-**What to do Next**
-
-Do something else.
+When you create containers from the Containers page in the management portal, you can configure the following settings:
+- Basic configuration
+	- Image to be used
+	- Name of the container
+	- Custom commands
+	- Links
+- Network configuration
+	- Port bindings and ports publishing
+	- Hostname
+	- Network mode
+- Storage configuration
+	- 
