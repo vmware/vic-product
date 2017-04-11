@@ -32,3 +32,4 @@ Neither of the `vic-machine create` or `vic-machine delete` commands modify the 
 --deny
 </pre>
 
+**NOTE**: Setting the `vSPC` rule does not persist through an ESXi host reboot. If you reboot an ESXi host on which you ran `vic-machine-windows update firewall` to enable the rule, you must run `vic-machine-windows update firewall` again to reenable the rule.
