@@ -41,3 +41,11 @@ Forces `vic-machine upgrade` to ignore warnings and continue with the upgrade of
 If your vSphere environment uses untrusted, self-signed certificates, you can use the `--force` option to upgrade a VCH without providing the thumbprint of the vCenter Server or ESXi host in the `thumbprint` option. 
 
 <pre>--force</pre>
+
+### `--rollback` ###
+
+Short name: None
+
+Rolls an upgraded VCH back to its previous version, for example if upgrade failed. 
+
+<pre>--rollback</pre>

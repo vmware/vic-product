@@ -36,14 +36,32 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
 --thumbprint <i>certificate_thumbprint</i>
 --name <i>vch_name</i></pre>
 
-3. If the upgrade operation fails with error messages, run `vic-machine upgrade` again with the `--force` option.
+3. If the upgrade operation fails with error messages, run `vic-machine upgrade` again, specifying a timeout longer than 3 minutes in the `--timeout` option.
+
+     <pre>$ vic-machine-<i>operating_system</i> upgrade
+--target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+--thumbprint <i>certificate_thumbprint</i>
+--name <i>vch_name</i>
+--timeout 5m0s</pre>
+
+3. If the upgrade operation continues to fail with error messages, run `vic-machine upgrade` again with the `--force` option.
 
     If your vSphere environment uses untrusted, self-signed certificates, running `vic-machine upgrade` with the `--force` option allows you to omit the `--thumbprint` option.
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---name <i>cluster_name</i></i>
+--name <i>vch_name</i>
+--timeout 5m0s
 --force</pre>
+
+4. (Optional) To roll back an upgraded VCH to the previous version, or to revert a VCH that failed to upgrade, run `vic-machine upgrade` again with the `--rollback` option.
+
+     <pre>$ vic-machine-<i>operating_system</i> upgrade
+--target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+--name <i>vch_name</i>
+--force
+--rollback</pre>
+
 
 **Result**
 
