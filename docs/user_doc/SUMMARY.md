@@ -80,11 +80,16 @@
       * [Replicating Images](vic_dev_ops/replicating_images.md)
       * [Assign the Administrator Role](vic_dev_ops/assign_admin_role.md)
       * [Delete a Repository](vic_dev_ops/delete_repository_registry.md)
-    * [Manage Repositories, VCHs, and Containers](vic_dev_ops/using_management_portal.md)
-      * [Add Repositories to the vSphere Integrated Containers Management Portal](vic_dev_ops/add_repos_in_portal.md)
-      * [Add VCHs to the vSphere Integrated Containers Management Portal](vic_dev_ops/add_vchs_in_portal.md)
-      * [Provision Container VMs in the vSphere Integrated Containers Management Portal](vic_dev_ops/provision_containers_portal.md)
-      * [Manage Container VMs in the vSphere Integrated Containers Management Portal](vic_dev_ops/manage_containers_portal.md)
+      * [Pulling and Pushing Images](vic_dev_ops/push_pull_images.md)
+    * [View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal](vic_dev_ops/vchs_and_mgmt_portal.md)
+      * [Add Hosts with No TLS Authentication to the Management Portal](vic_dev_ops/add_vch_noTLS_in_portal.md)
+      * [Add Hosts with Server-Side TLS Authentication to the Management Portal](vic_dev_ops/add_vch_serversideTLS_in_portal.md)
+      * [Add Hosts with Full TLS Authentication to the Management Portal](vic_dev_ops/add_vch_fullTLS_in_portal.md)
+      * [Create and Manage Container Placements](vic_dev_ops/creating_placements.md)
+      * [Create New Networks for Provisioning Containers](vic_dev_ops/create_network.md)
+      * [Add Registries to the Management Portal](vic_dev_ops/add_repos_in_portal.md)
+      * [Provision Container VMs in the Management Portal](vic_dev_ops/provision_containers_portal.md)
+      * [Manage Container VMs in the Management Portal](vic_dev_ops/manage_containers_portal.md)
 
 ## Container App Developers
 
