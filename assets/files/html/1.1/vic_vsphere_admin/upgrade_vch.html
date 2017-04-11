@@ -1143,17 +1143,30 @@
             
         </li>
     
+        <li class="chapter " data-level="3.1.2.12" data-path="../vic_dev_ops/push_pull_images.md">
+            
+                <span>
+            
+                    
+                    Pulling and Pushing Images
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
         </li>
     
-        <li class="chapter " data-level="3.1.3" data-path="../vic_dev_ops/using_management_portal.html">
+        <li class="chapter " data-level="3.1.3" data-path="../vic_dev_ops/vchs_and_mgmt_portal.html">
             
-                <a href="../vic_dev_ops/using_management_portal.html">
+                <a href="../vic_dev_ops/vchs_and_mgmt_portal.html">
             
                     
-                    Manage Repositories, VCHs, and Containers
+                    View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal
             
                 </a>
             
@@ -1162,12 +1175,77 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.3.1" data-path="../vic_dev_ops/add_repos_in_portal.html">
+        <li class="chapter " data-level="3.1.3.1" data-path="../vic_dev_ops/add_vch_noTLS_in_portal.html">
+            
+                <a href="../vic_dev_ops/add_vch_noTLS_in_portal.html">
+            
+                    
+                    Add Hosts with No TLS Authentication to the Management Portal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.2" data-path="../vic_dev_ops/add_vch_serversideTLS_in_portal.html">
+            
+                <a href="../vic_dev_ops/add_vch_serversideTLS_in_portal.html">
+            
+                    
+                    Add Hosts with Server-Side TLS Authentication to the Management Portal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.3" data-path="../vic_dev_ops/add_vch_fullTLS_in_portal.html">
+            
+                <a href="../vic_dev_ops/add_vch_fullTLS_in_portal.html">
+            
+                    
+                    Add Hosts with Full TLS Authentication to the Management Portal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.4" data-path="../vic_dev_ops/creating_placements.html">
+            
+                <a href="../vic_dev_ops/creating_placements.html">
+            
+                    
+                    Create and Manage Container Placements
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5" data-path="../vic_dev_ops/create_network.html">
+            
+                <a href="../vic_dev_ops/create_network.html">
+            
+                    
+                    Create New Networks for Provisioning Containers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.6" data-path="../vic_dev_ops/add_repos_in_portal.html">
             
                 <a href="../vic_dev_ops/add_repos_in_portal.html">
             
                     
-                    Add Repositories to the vSphere Integrated Containers Management Portal
+                    Add Registries to the Management Portal
             
                 </a>
             
@@ -1175,25 +1253,26 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.3.2" data-path="../vic_dev_ops/add_vchs_in_portal.html">
-            
-                <a href="../vic_dev_ops/add_vchs_in_portal.html">
-            
-                    
-                    Add VCHs to the vSphere Integrated Containers Management Portal
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="3.1.3.3" data-path="../vic_dev_ops/provision_containers_portal.html">
+        <li class="chapter " data-level="3.1.3.7" data-path="../vic_dev_ops/provision_containers_portal.html">
             
                 <a href="../vic_dev_ops/provision_containers_portal.html">
             
                     
-                    Provision Container VMs in the vSphere Integrated Containers Management Portal
+                    Provisioning Container VMs in the Management Portal
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.3.7.1" data-path="../vic_dev_ops/configuring_links.html">
+            
+                <a href="../vic_dev_ops/configuring_links.html">
+            
+                    
+                    Configuring Links for Templates and Images
             
                 </a>
             
@@ -1201,16 +1280,34 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.3.4" data-path="../vic_dev_ops/manage_containers_portal.html">
+        <li class="chapter " data-level="3.1.3.7.2" data-path="../vic_dev_ops/configuring_health_checks.html">
             
-                <a href="../vic_dev_ops/manage_containers_portal.html">
+                <a href="../vic_dev_ops/configuring_health_checks.html">
             
                     
-                    Manage Container VMs in the vSphere Integrated Containers Management Portal
+                    Configuring Health Checks for Templates and Images
             
                 </a>
             
 
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.7.3" data-path="../vic_dev_ops/configuring_clusters.html">
+            
+                <a href="../vic_dev_ops/configuring_clusters.html">
+            
+                    
+                    Configuring Cluster Size and Scale
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -1530,12 +1627,28 @@
 </li>
 </ul>
 </li>
-<li><p>If the upgrade operation fails with error messages, run <code>vic-machine upgrade</code> again with the <code>--force</code> option.</p>
+<li><p>If the upgrade operation fails with error messages, run <code>vic-machine upgrade</code> again, specifying a timeout longer than 3 minutes in the <code>--timeout</code> option.</p>
+  <pre>$ vic-machine-<i>operating_system</i> upgrade
+--target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+--thumbprint <i>certificate_thumbprint</i>
+--name <i>vch_name</i>
+--timeout 5m0s</pre>
+</li>
+<li><p>If the upgrade operation continues to fail with error messages, run <code>vic-machine upgrade</code> again with the <code>--force</code> option.</p>
 <p> If your vSphere environment uses untrusted, self-signed certificates, running <code>vic-machine upgrade</code> with the <code>--force</code> option allows you to omit the <code>--thumbprint</code> option.</p>
   <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---name <i>cluster_name</i>
+--name <i>vch_name</i>
+--timeout 5m0s
 --force</pre>
+</li>
+<li><p>(Optional) To roll back an upgraded VCH to the previous version, or to revert a VCH that failed to upgrade, run <code>vic-machine upgrade</code> again with the <code>--rollback</code> option.</p>
+  <pre>$ vic-machine-<i>operating_system</i> upgrade
+--target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+--name <i>vch_name</i>
+--force
+--rollback</pre>
+
 
 </li>
 </ol>
@@ -1595,7 +1708,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Upgrade VCHs","level":"2.1.5.2","depth":3,"next":{"title":"VCH Upgrade Options","level":"2.1.5.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]},"previous":{"title":"Upgrade the Registry","level":"2.1.5.1","depth":3,"path":"vic_vsphere_admin/upgrade_registry.md","ref":"vic_vsphere_admin/upgrade_registry.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_vch.md","mtime":"2017-04-04T16:26:36.791Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-07T17:04:55.577Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Upgrade VCHs","level":"2.1.5.2","depth":3,"next":{"title":"VCH Upgrade Options","level":"2.1.5.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]},"previous":{"title":"Upgrade the Registry","level":"2.1.5.1","depth":3,"path":"vic_vsphere_admin/upgrade_registry.md","ref":"vic_vsphere_admin/upgrade_registry.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_vch.md","mtime":"2017-04-11T13:09:19.875Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-11T14:02:03.965Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
