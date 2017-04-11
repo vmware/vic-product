@@ -82,7 +82,10 @@
       * [Create and Manage Container Placements](vic_dev_ops/creating_placements.md)
       * [Create New Networks for Provisioning Containers](vic_dev_ops/create_network.md)
       * [Add Registries to the Management Portal](vic_dev_ops/add_repos_in_portal.md)
-      * [Provision Container VMs in the Management Portal](vic_dev_ops/provision_containers_portal.md)
+      * [Provisioning Container VMs in the Management Portal](vic_dev_ops/provision_containers_portal.md)
+       * [Configuring Links for Templates and Images](vic_dev_ops/configuring_links.md)
+       * [Configuring Health Checks for Templates and Images](vic_dev_ops/configuring_health_checks.md)
+       * [Configuring Cluster Size and Scale](vic_dev_ops/configuring_clusters.md)
       * [Manage Container VMs in the Management Portal](vic_dev_ops/manage_containers_portal.md)
 
 ## Container App Developers
