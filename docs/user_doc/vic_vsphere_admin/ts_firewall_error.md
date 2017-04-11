@@ -12,37 +12,13 @@ ESXi hosts communicate with the VCHs through port 2377 via Serial Over LAN. For 
 
 ## Solution ##
 
-Set a firewall ruleset on the ESXi host or hosts. In test environments, you can disable the firewall on the hosts.
+The `vic-machine` utility includes an `update firewall` command, that you can use to update the firewall to allow VCHs to connect to the appropriate ports. 
 
-### Set a Firewall Ruleset Manually 
-
-In production environments, if you are deploying to a standalone ESXi host, set a firewall ruleset on that ESXi host. If you are deploying to a cluster, set the firewall ruleset on all of the ESXi hosts in the cluster.
-
-**IMPORTANT**: Firewall rulesets that you set manually are not persistent. If you reboot the ESXi hosts, any firewall rules that you set are lost. You must recreate firewall rules each time you reboot a host.
-
-1. Use SSH to log in to each ESXi host as `root` user. 
-2. Follow the instructions in [VMware KB 2008226]( http://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=2008226) to add the following rule after the last rule in the file ```/etc/vmware/firewall/service.xml```.
-<pre>
-&lt;service id='<i>id_number</i>'&gt;
-  &lt;id&gt;vicoutgoing&lt;/id&gt;
-  &lt;rule id='0000'&gt;
-    &lt;direction&gt;outbound&lt;/direction&gt;
-    &lt;protocol&gt;tcp&lt;/protocol&gt;
-    &lt;port type='dst'&gt;2377&lt;/port&gt;
-  &lt;/rule&gt;
-  &lt;enabled&gt;true&lt;/enabled&gt;
-  &lt;required&gt;true&lt;/required&gt;
-&lt;/service&gt;
+<pre>vic-machine-windows update firewall 
+--target 'Administrator@vsphere.local':'<i>password</i>'@<i>vcenter_server_address</i>/dc1 
+--thumbprint <i>thumbprint</i> 
+--allow
 </pre>
 
-  
-  In this example, *id_number* is the number of the preceding ruleset in ```service.xml```, incremented by 1.
+**NOTE**: In test environments, you can disable the firewall on the hosts.
 
-### Disable the Firewall
-
-In test environments, you can disable the firewalls on the ESXi hosts instead of opening port 2377. 
- 
-1. Use SSH to log in to each ESXi host as `root` user. 
-2. Run the following command: 
-
-  ```$ esxcli network firewall set --enabled false``` 
