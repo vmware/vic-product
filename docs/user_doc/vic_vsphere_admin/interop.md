@@ -1,5 +1,5 @@
-# Interoperability of vSphere Integrated Containers Engine with Other VMware Software
-vSphere administrators can use vSphere to view and manage virtual container hosts (VCHs) and container VMs. vSphere Integrated Containers Engine works with the following vSphere features and VMware products. 
+# Interoperability of vSphere Integrated Containers with Other VMware Software
+vSphere administrators can use vSphere to view and manage virtual container hosts (VCHs) and container VMs. vSphere Integrated Containers works with the following vSphere features and VMware products. 
 
 ## Performing Operations on VCHs and Container VMs in vSphere ##
 
@@ -28,7 +28,7 @@ In a cluster with fully automated DRS, if you put a host into maintenance mode, 
 - If container VMs have active `docker attach` sessions, you cannot put the host into maintenance mode until the `attach` sessions end. 
 
 ## VMware vSAN&trade;
-VCHs maintain filesystem layers inherent in container images by mapping to discrete VMDK files, all of which can be housed in shared vSphere datastores, including vSAN, NFS, and iSCSI datastores.
+VCHs maintain file system layers inherent in container images by mapping to discrete VMDK files, all of which can be housed in shared vSphere datastores, including vSAN, NFS, and iSCSI datastores.
 
 ## Enhanced Linked Mode Environments
 You can deploy VCHs in Enhanced Linked Mode environments. Any vCenter Server instance in the Enhanced Linked Mode environment can access VCH and container VM information.
