@@ -21,12 +21,11 @@ You can use vMotion to move VCHs without needing to take the container VMs offli
 You can apply vSphere High Availability to clusters on which VCHs and container VMs run. If the host on which a VCH or container VMs are running goes offline, the VCH and container VMs migrate to another host in the cluster. VCHs restart on the new host immediately. Container VMs that were running before the migration must be restarted manually by using the `docker run --restart` command.
 
 ## Maintenance Mode ##
-Hosts with container VMs can enter maintenance mode without manual intervention, with these exceptions:
 
-- For a standalone ESXi host, you must power down VCHs and any container VMs before entering maintenance mode.
-- In a clustered vSphere environment with DRS set to automatic, DRS migrates VCHs to another host in the cluster before the host enters maintenance mode.
-- For a host with running container VMs, DRS migrates the container VMs to another host in the cluster before the host enters maintenance mode.
-- When you put a host into maintenance mode, vSphere Integrated Containers Engine powers off container VMs with open sessions. Container VMs that do not have open sessions are migrated to other hosts by vMotion. 
+In a cluster with fully automated DRS, if you put a host into maintenance mode, DRS migrates the VCHs and container VMs to another host in the cluster. Putting hosts into maintenance mode requires manual intervention in certain circumstances:
+
+- If VCHs and container VMs are running on a standalone ESXi host, you must power off the VCHs and container VMs before you put the host into maintenance mode.
+- If container VMs have active `docker attach` sessions, you cannot put the host into maintenance mode until the `attach` sessions end. 
 
 ## VMware vSAN&trade;
 VCHs maintain filesystem layers inherent in container images by mapping to discrete VMDK files, all of which can be housed in shared vSphere datastores, including vSAN, NFS, and iSCSI datastores.
