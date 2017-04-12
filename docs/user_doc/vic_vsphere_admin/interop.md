@@ -31,8 +31,8 @@ Hosts with container VMs can enter maintenance mode without manual intervention,
 ## VMware vSAN&trade;
 VCHs maintain filesystem layers inherent in container images by mapping to discrete VMDK files, all of which can be housed in shared vSphere datastores, including vSAN, NFS, and iSCSI datastores.
 
-## vCenter Linked Mode Environments
-You can deploy VCHs in vCenter Linked Mode environments.
+## Enhanced Linked Mode Environments
+You can deploy VCHs in Enhanced Linked Mode environments. Any vCenter Server instance in the Enhanced Linked Mode environment can access VCH and container VM information.
 
 ## vSphere Features Not Supported in This Release
 vSphere Integrated Containers Engine does not currently support the following vSphere features:
