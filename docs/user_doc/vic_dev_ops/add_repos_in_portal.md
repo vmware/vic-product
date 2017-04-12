@@ -1,6 +1,6 @@
 # Add Registries to the Management Portal #
 
-You can add multiple registries to gain access to both public and private images.
+You can add multiple registries to gain access to both public and private images. You can enable and disable the registries that you added. When you disable a registry, searching for templates and images in that registry is disabled. Even if you disable the default https://registry.hub.docker.com registry, you can still access the popular templates. To customize your popular templates, see the [https://github.com/vmware/admiral/wiki/Configuration-guide#customize-the-popular-templates-list](Customize the Popular Templates list) instruction.
 
 vSphere Integrated Containers can interact with both Docker Registry HTTP API V1 and V2 in the following manner:
 
@@ -16,14 +16,10 @@ Protocol | Description
 **Procedure**
 
 1. In the management portal, navigate to **Templates** > **Registries** and click **Add**.
-2. If you add a registry that requires certificate, configure the certificates to be used for authentication.
-	1. On the right, click **Credentials** and click **Add**.
-	2. In the **New Credential** dialog box, enter name and click the **Certificate** radio button.
-	3. In the **Public certificate** text box, enter the content of the *cert.pem* file.
-	4. In the **Private certificate** text box, enter the content of the *key.pem* file. 
+
 5. In the Add Registry dialog box, configure the registry settings.
 	1. As address, enter the IP or hostname of the registry and the port.
-    
+
     If you add Harbor, enter https://*hostname*:443.
 	2. Enter name for the registry.
 	3. Select the login credential and click **Verify**.
