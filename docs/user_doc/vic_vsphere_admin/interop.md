@@ -4,7 +4,7 @@ vSphere administrators can use vSphere to view and manage virtual container host
 ## Performing Operations on VCHs and Container VMs in vSphere ##
 
 - If you restart a VCH endpoint VM, it comes back up in the same state that it was in when it shut down. 
-- If you shut down the VCH vApp, the VCH endpoint VM and all of the container VMs that it manages power off. When you restart the vApp, only the VCH powers back on. Container VMs do not power back when you restart the vApp. This is consistent with standard Docker behavior.
+- If you shut down the VCH vApp, the VCH endpoint VM and all of the container VMs that it manages power off. When you restart the vApp, only the VCH powers back on. Container VMs do not power back on when you restart the vApp. This is consistent with standard Docker behavior.
 - If you use DHCP on the client network, the IP address of the VCH endpoint VM might change after a restart. Use `vic-machine inspect` to obtain the new IP address.
 - Do not manually delete a VCH vApp or VCH endpoint VM. Use `vic-machine delete` to delete VCHs.
 - Manually powering off container VMs can result in incorrect end-times for container operations. Do not manually delete a container VM. Use Docker commands to perform operations on container VMs.
