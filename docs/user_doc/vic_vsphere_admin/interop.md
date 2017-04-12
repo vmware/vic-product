@@ -18,7 +18,7 @@ You can use vMotion to move VCHs without needing to take the container VMs offli
 
 ## VMware vSphere High Availability ##
 
-You can apply vSphere High Availability to clusters on which VCHs and container VMs run. If the host on which a VCH or container VMs are running goes offline, the VCH and container VMs restart on another host in the cluster.
+You can apply vSphere High Availability to clusters on which VCHs and container VMs run. If the host on which a VCH or container VMs are running goes offline, the VCH and container VMs migrate to another host in the cluster. VCHs restart on the new host immediately. Container VMs that were running before the migration must be restarted manually by using the `docker run --restart` command.
 
 ## Maintenance Mode ##
 Hosts with container VMs can enter maintenance mode without manual intervention, with these exceptions:
