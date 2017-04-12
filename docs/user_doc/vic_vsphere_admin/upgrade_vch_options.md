@@ -46,6 +46,6 @@ If your vSphere environment uses untrusted, self-signed certificates, you can us
 
 Short name: None
 
-Rolls an upgraded VCH back to its previous version, for example if upgrade failed. 
+Rolls a VCH back to its previous version, for example if upgrade failed. Before starting the upgrade process, `vic-machine upgrade` takes a snapshot of the existing VCH. The upgrade process deletes older snapshots from any previous upgrades. The `--rollback` option reverts an upgraded VCH to the snapshot of the previous deployment. Because `vic-machine upgrade` only retains one snapshot, you can only use `--rollback` to revert the VCH to the version that immediately precedes the most recent upgrade.  
 
 <pre>--rollback</pre>
