@@ -45,7 +45,7 @@
       * [Authorize SSH Access](vic_vsphere_admin/vch_ssh_access.md) 
       * [VCH Debug Options](vic_vsphere_admin/debug_vch_options.md)
   * [Upgrading](vic_vsphere_admin/upgrading_vic.md)
-     * [Upgrade the Registry](vic_vsphere_admin/upgrade_registry.md)
+     * [Upgrade Registry](vic_vsphere_admin/upgrade_registry.md)
      * [Upgrade VCHs](vic_vsphere_admin/upgrade_vch.md)
        * [VCH Upgrade Options](vic_vsphere_admin/upgrade_vch_options.md)
      * [Upgrade the HTML5 Plug-In](vic_vsphere_admin/upgrade_h5_plugin.md)
