@@ -37,3 +37,7 @@ You have deployed a VCH that you no longer require.
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
 --name <i>vch_name</i></i>
 --force</pre>
+
+**What to Do Next**
+
+The `vic-machine delete` command does not modify the firewall. If you do not need to deploy or run further VCHs on the ESXi host or cluster, run `vic-machine update firewall --deny` to close port 2377 on the host or hosts. 

@@ -52,7 +52,7 @@ To be valid targets for VCHs and container VMs, ESXi hosts must have the followi
 
 These requirements apply to standalone ESXi hosts and to ESXi hosts in vCenter Server clusters.
 
-For information about how to open ports on ESXi hosts, see [VCH Deployment Fails with Firewall Validation Error](ts_firewall_error.md).
+For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 
 
 ## ESXi Host Storage Requirements for vCenter Server Clusters {#storage}
