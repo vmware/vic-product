@@ -43,9 +43,7 @@ You can set up multiple registries and replicate images between registry instanc
 
 ## Garbage Collection {#gc}
 
-You can configure vSphere Integrated Containers Registry to perform garbage collection whenever you restart the registry service. If you implement garbage collection, the registry recycles the storage space that is consumed by images that you have deleted. For more information about garbage collection, see [Delete a Repository](delete_repository_registry.md). See also [Garbage Collection](https://docs.docker.com/registry/garbage-collection/) in the Docker documentation.
-
-**IMPORTANT**: The option to activate garbage collection is only available when you deploy the vSphere Integrated Containers appliance. After you have deployed the appliance, you cannot retroactively enable or disable garbage collection.
+You can configure vSphere Integrated Containers Registry to perform garbage collection whenever you restart the registry service. If you implement garbage collection, the registry recycles the storage space that is consumed by images that you have deleted. For more information about garbage collection, see [Manage Repositories](vic_dev_ops/manage_repository_registry.md). See also [Garbage Collection](https://docs.docker.com/registry/garbage-collection/) in the Docker documentation.
 
 ## Logging {#logging}
 

@@ -2,7 +2,7 @@
 
 In vSphere Integrated Containers Registry, you group container image repositories in projects. A project contains all of the repositories that an application requires. You cannot push images to vSphere Integrated Containers Registry until you have created a project. 
 
-**NOTE**: The current version of vSphere Integrated Containers Engine does not support `docker push`. To push images to vSphere Integrated Containers Registry, use regular Docker. You can then pull the images from the registry to a vSphere Integrated Containers Engine virtual container host (VCH).
+**NOTE**: The current version of vSphere Integrated Containers Engine does not support `docker push`. To push images to vSphere Integrated Containers Registry, use a regular Docker client. You can then pull the images from the registry to a vSphere Integrated Containers Engine virtual container host (VCH).
 
 **Procedure**
 

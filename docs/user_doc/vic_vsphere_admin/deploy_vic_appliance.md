@@ -33,9 +33,8 @@ You downloaded the OVA installer from the [official vSphere Integrated Container
     - In the **Notary Port** text box, optionally change the port on which to publish the Docker Notary service for vSphere Integrated Containers Registry.
     - In the **Registry Admin Password** text box, set the password for the vSphere Integrated Containers Registry admin account.
     - In the **Database Password** text box, set the password for the root user of the MySQL database that vSphere Integrated Containers Registry uses.
-    - Optionally check the **Garbage Collection** check box to enable garbage collection when the appliance reboots. 
-    
-     **IMPORTANT**: The option to activate garbage collection is only available when you deploy the vSphere Integrated Containers appliance. After you have deployed the appliance, you cannot retroactively enable or disable garbage collection.
+    - Optionally check the **
+    -  Collection** check box to enable garbage collection when the appliance reboots. 
     - To use custom certificates to authenticate connections to vSphere Integrated Containers Registry, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates. 
 
 7. Expand **Management Portal Configuration** to configure the deployment of vSphere Integrated Containers Management Portal. 

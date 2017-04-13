@@ -2,7 +2,7 @@
 
 If you configured vSphere Integrated Containers Registry to use local user management rather than LDAP authentication, you must create user accounts before you can assign users to projects. 
 
-If the registry uses LDAP authentication, you do not need to create users manually. Users are automatically added to the registry by the LDAP service.
+If the registry uses LDAP authentication, you cannot create or register new users in the registry. The LDAP server manages users externally. However, users must log in at least once with their LDAP credentials in order to be added to the registry account system. After a user has logged in once, you can assign that user to projects.
 
 **Procedure**
 
@@ -12,7 +12,7 @@ If the registry uses LDAP authentication, you do not need to create users manual
 2. Expand **Administration** on the left, click **Users**, then click the **+ Users** button.
 3. Enter a user name, email address, and the user's full name.
 
-   The user name and email address must be unique in this registry instance. The email address and the user's full name are for use in password reminder emails.
+   The user name and email address must be unique in this registry instance. The email address and the user's full name are for use in email responses to password reset requests.
 5. Enter and confirm a password for the user.
 
    The password must contain at least 8 characters, with 1 lower case letter, 1 upper case letter, and 1 numeric character. Special characters are not currently permitted. If the passwords do not match or if they do not meet the password criteria, the **OK** button remains deactivated.

@@ -8,5 +8,4 @@ To set up image replication between registry instances, you create replication e
 
 * [Create Replication Endpoints](create_replication_endpoints.md)
 * [Create Replication Rules](create_replication_rules.md)
-* [Manage Replication Endpoints](manage_replication_endpoints.md)
-* [Manage Replication Rules](manage_replication_rules.md)
+* [Manage Replication Endpoints and Rules](manage_replication_endpoints.md)

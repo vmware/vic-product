@@ -4,7 +4,7 @@ When you first log in to a new vSphere Integrated Containers Registry instance, 
 
 **IMPORTANT**: The option to switch from local user management that uses a database to LDAP authentication is only available while the local database is empty. If you start to populate the database with users and projects, the option to switch to LDAP authentication is disabled. If you want to implement LDAP authentication, you must enable this option when you first log in to a new registry instance, before you create any projects or users. 
 
-With the exception of setting up LDAP authentication after you have already created projects or users, you can change any of the other settings at any time after the initial configuration. This includes changing from LDAP authentication back to local user management that uses a database. 
+With the exception of changing the authentication mode after you have already created projects or users, you can change any of the other settings at any time after the initial configuration.
 	
 **Prerequisites**
 
