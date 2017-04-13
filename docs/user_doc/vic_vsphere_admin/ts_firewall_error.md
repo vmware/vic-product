@@ -14,7 +14,7 @@ ESXi hosts communicate with the VCHs through port 2377 via Serial Over LAN. For 
 
 The `vic-machine` utility includes an `update firewall` command, that you can use to modify the firewall on the ESXi host or the ESXi hosts in a cluster. 
 
-You use `--allow` and `--deny` flags to enable and disable the `vSPC` ruleset. When enabled, the `vSPC` rule allows all outbound TCP traffic from the target host or hosts. If you disable the rule, you must configure the firewall via another method to allow outbound connections on port 2377 over TCP. If you do not enable the rule or configure the firewall, vSphere Integrated Containers does not function, and you cannot deploy VCHs.
+You use `--allow` and `--deny` flags to enable and disable a firewall rule named `vSPC`. When enabled, the `vSPC` rule allows all outbound TCP traffic from the target host or hosts. If you disable the rule, you must configure the firewall via another method to allow outbound connections on port 2377 over TCP. If you do not enable the rule or configure the firewall, vSphere Integrated Containers does not function, and you cannot deploy VCHs.
 
 Neither of the `vic-machine create` or `vic-machine delete` commands modify the firewall. You can run `vic-machine update firewall --allow` before you run `vic-machine create` and run `vic-machine update firewall --deny` after `vic-machine delete`. 
 
@@ -31,5 +31,3 @@ Neither of the `vic-machine create` or `vic-machine delete` commands modify the 
 --thumbprint <i>thumbprint</i> 
 --deny
 </pre>
-
-**NOTE**: Setting the `vSPC` rule does not persist through an ESXi host reboot. If you reboot an ESXi host on which you ran `vic-machine-windows update firewall` to enable the rule, you must run `vic-machine-windows update firewall` again to reenable the rule.
