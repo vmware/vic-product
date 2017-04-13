@@ -347,7 +347,7 @@ When you specify different network interfaces for the different types of traffic
 Firewall must permit dst 2377/tcp outbound to the VCH management interface
 </pre>
 
-For information about how to open port 2377, see [VCH Deployment Fails with Firewall Validation Error](ts_firewall_error.md).
+For information about how to open port 2377, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 
 ### `--bridge-network` {#bridge}
 
@@ -428,7 +428,7 @@ When you create a VCH, `vic-machine create` checks that the firewall on ESXi hos
 Firewall must permit dst 2377/tcp outbound to the VCH management interface
 </pre>
 
-For information about how to open port 2377, see [VCH Deployment Fails with Firewall Validation Error](ts_firewall_error.md).
+For information about how to open port 2377, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 
 **NOTE**: If the management network uses DHCP, `vic-machine` checks the firewall status of the management network before the VCH receives an IP address. It is therefore not possible to fully assess whether the firewall permits the IP address of the VCH. In this case, `vic-machine create` issues a warning. 
 
