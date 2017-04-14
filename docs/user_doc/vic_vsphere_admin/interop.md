@@ -4,10 +4,9 @@ vSphere administrators can use vSphere to view and manage virtual container host
 ## Performing Operations on VCHs and Container VMs in vSphere ##
 
 - If you restart a VCH endpoint VM, it comes back up in the same state that it was in when it shut down. 
-- If you shut down the VCH vApp, the VCH endpoint VM and all of the container VMs that it manages power off. When you restart the vApp, only the VCH powers back on. Container VMs do not power back on when you restart the vApp. This is consistent with standard Docker behavior.
 - If you use DHCP on the client network, the IP address of the VCH endpoint VM might change after a restart. Use `vic-machine inspect` to obtain the new IP address.
-- Do not manually delete a VCH vApp or VCH endpoint VM. Use `vic-machine delete` to delete VCHs.
-- Manually powering off container VMs can result in incorrect end-times for container operations. Do not manually delete a container VM. Use Docker commands to perform operations on container VMs.
+- Do not manually delete a VCH vApp, the VCH endpoint VM, or container VMs. Always use `vic-machine delete` to delete VCHs and use Docker commands to perform operations on container VMs.
+- Manually restarting container VMs, either individually or by manually restarting the VCH vApp, can result in incorrect end-times for container operations. Do not manually restart the vApp or container VMs. Always use Docker commands to perform operations on container VMs.
 
 ## VMware vRealize&reg; Suite 
 Your organization could use VMware vRealize Automation to provide a self-provisioning service  for VCHs, by using the vRealize Automation interface or APIs to request VCHs. At the end of the provisioning process, vRealize Automation would communicate the VCH endpoint VM address to the requester. If you deploy VCHs with TLS authentication, `vic-machine create` generates a file named `vch_name.env`. The `env` file contains Docker environment variables that are specific to the VCH. vRealize Automation could potentially provide the `env` file at the end of a provisioning process for VCHs.
