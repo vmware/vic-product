@@ -1,6 +1,6 @@
 # Enable shell access to the VCH Endpoint VM #
 
-You can use the `vic-machine debug` command to enable shell access to a VCH endpoint VM by setting a root password on the VM. Setting a root password enables access to the VCH endpoint VM via the VM console only. If you require SSH access to the VCH endoint VM, rather than just shell access, see [Authorize SSH Access to the VCH Endpoint VM](vch_ssh_access.md).  
+You can use the `vic-machine debug` command to enable shell access to a virtual container host (VCH) endpoint VM by setting a root password on the VM. Setting a root password enables access to the VCH endpoint VM via the VM console only. If you require SSH access to the VCH endoint VM, rather than just shell access, see [Authorize SSH Access to the VCH Endpoint VM](vch_ssh_access.md).  
 
 **IMPORTANT**: Any changes that you make to a VCH by using `vic-machine debug` are non-persistent and are discarded if the VCH endpoint VM reboots.
 
