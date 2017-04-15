@@ -4,9 +4,7 @@ You can use the `vic-machine debug` command to enable shell access to a virtual 
 
 **IMPORTANT**: Any changes that you make to a VCH by using `vic-machine debug` are non-persistent and are discarded if the VCH endpoint VM reboots.
 
-For descriptions of the options that `vic-machine debug` includes in addition to the [Common `vic-machine` Options](common_vic_options.md) , see [VCH Debug Options](debug_vch_options.md).
-
-
+For descriptions of the options that `vic-machine debug` includes in addition to the [Common `vic-machine` Options](common_vic_options.md), and for information about password expiry periods, see [VCH Debug Options](debug_vch_options.md).
 
 **Prerequisites**
 
@@ -42,3 +40,4 @@ SSH to appliance:
 ssh root@<i>vch_address</i>
 [...]
 Completed successfully</pre>   
+
