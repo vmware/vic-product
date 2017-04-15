@@ -4,7 +4,12 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
 **Prerequisites**
 
-You downloaded the OVA installer from the [official vSphere Integrated Containers downloads page on vmware.com](http://www.vmware.com/go/download-vic).
+- You downloaded the OVA installer from the [official vSphere Integrated Containers downloads page on vmware.com](http://www.vmware.com/go/download-vic).
+- Deploy the appliance to a vSphere environment that meets the minimum system requirements:
+
+   - 2 vCPUs
+   - 4GB memory
+   - 80GB free disk space
 
 **Procedure**
 
