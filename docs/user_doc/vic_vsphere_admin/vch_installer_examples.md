@@ -328,7 +328,7 @@ This example deploys a VCH with the following configuration:
 
 The Docker API for this VCH will be accessible at `https://dhcp-a-b-c.example.com:2376`.
 
-For more information about using auto-generated CA certificates, see the [Security Options section](vch_installer_options.md#security) in VCH Deployment Options.
+For more information about using auto-generated CA certificates, see the section [Restrict Access to the Docker API with Auto-Generated Certificates](vch_installer_options.md#restrict_auto) in VCH Deployment Options.
 
 
 ### Use Custom Server Certificates {#custom_cert}
@@ -351,7 +351,7 @@ This example deploys a VCH with the following configuration:
 --force
 </pre>
 
-For more information about using custom server certificates, see the [Advanced Security Options section](vch_installer_options.md#adv-security) in VCH Deployment Options.
+For more information about using custom server certificates, see the section [Restrict Access to the Docker API with Custom Certificates](vch_installer_options.md#restrict_custom) in VCH Deployment Options.
 
 ### Combine Custom Server Certificates and Auto-Generated Client Certificates {#certcombo}
 
