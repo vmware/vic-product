@@ -2,12 +2,14 @@
 
 vSphere Integrated Containers Engine provides log bundles that you can download from the VCH Admin portal for a virtual container host (VCH).
 
-You access the VCH Admin Portal at https://<i>vch_address</i>:2378.
+You access the VCH Admin Portal at https://<i>vch_address</i>:2378. For more information about the VCH Admin portal, see [Access the VCH Administration Portal](access_vicadmin.md).
 
-If the VCH is unable to connect to vSphere, logs that require a vSphere connection are disabled, and you see an error message. You can download the log bundle to troubleshoot the error.
+To aid in troubleshooting errors, you can download different log bundles:
 
-- The **Log Bundle** contains logs that relate specifically to the VCH that you created. 
-- The **Log Bundle with container logs** contains the logs for the VCH and also includes the logs regarding the containers that the VCH manages.
+- **Log Bundle** contains logs that relate specifically to the VCH that you created. 
+- **Log Bundle with container logs** contains the logs for the VCH and also includes the logs regarding the containers that the VCH manages.
+
+   **NOTE**: If the VCH is unable to connect to vSphere, logs that require a vSphere connection are disabled, and you see an error message. For information about accessing logs manually, see [Collecting Logs Manually](#manual) below.
 - Live logs (tail files) allow you to view the current status of how components are running.
   - **Docker Personality** is the interface to Docker. When configured with client certificate security, it reports unauthorized access attempts to the Docker server web page.
   - **Port Layer Service** is the interface to vSphere.
@@ -28,7 +30,7 @@ You can share the non-live version of the logs with administrators or VMware Sup
 
 Logs also include vic-machine commands used during VCH installation to help you resolve issues.
 
-## Collecting Logs Manually
+## Collecting Logs Manually {#manual}
 If the VCH Admin portal is offline, use `vic-machine debug` to enable SSH on the VCH and use `scp -r` to capture the logs from `/var/log/vic/`.
 
 ## Setting the Log Size Cap
