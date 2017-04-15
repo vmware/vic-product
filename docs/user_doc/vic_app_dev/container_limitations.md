@@ -14,11 +14,25 @@ This version of vSphere Integrated Containers Engine supports these features:
 - Port mapping
 - Network links/aliases
 
-## Limitations
+## Unsupported Docker Features
+
+This version of vSphere Integrated Containers Engine does not support these features:
+
+- Pulling images via image digest 
+- Sharing concurrent data volume between containers
+- Mapping a local host folder to a container volume
+- Mapping a local host file to a container
+- `docker push`
+- `docker build`
+- `docker cp`
+
+For limitations of using vSphere Integrated Containers with volumes, see [Using Volumes with vSphere Integrated Containers Engine](using_volumes_with_vic.md).
+
+## Limitations of vSphere Integrated Containers Engine
 vSphere Integrated Containers Engine includes these limitations:
 
 - Container VMs only support root user.
-- When you do not configure a `PATH` environment variable, or create a container from an image that does not supply a `PATH`, vSphere Integrated Containers Engine provides a default PATH.
+- If you do not configure a `PATH` environment variable, or if you create a container from an image that does not supply a `PATH`, vSphere Integrated Containers Engine provides a default `PATH`.
 - You can resolve the symbolic names of a container from within another container, except in the following cases:
 	- Aliases
 	- IPv6
@@ -34,17 +48,3 @@ DOCKER_TLS_VERIFY=1
 DOCKER_CERT_PATH="<i>path to your cert files</i>"</pre>
 
 The certificate file path must lead to `CA.pem`, `client_key.pem`, and `client cert.pem`. You can run `docker-compose` with the following command:<pre>docker-compose -H <i>vch_address</i> up</pre>
-
-## Unsupported Docker Features
-
-This version of vSphere Integrated Containers Engine does not support these features:
-
-- Pulling images via image digest 
-- Sharing concurrent data volume between containers
-- Mapping a local host folder to a container volume
-- Mapping a local host file to a container
-- `docker push`
-- `docker build`
-- `docker cp`
-
-For limitations of using vSphere Integrated Containers with volumes, see [Using Volumes with vSphere Integrated Containers Engine](using_volumes_with_vic.md).
