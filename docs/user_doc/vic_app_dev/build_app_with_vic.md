@@ -84,7 +84,7 @@ This version of vSphere Integrated Containers Engine does not support the `docke
     - Update <i>dockerhub_username</i> to your Docker Hub account name
     - Save the modified file with the name `docker-compose.yml`.  
 
-The example below shows the YML file after the modifications:
+The example below shows an excerpt of the YML file after the modifications:
  
 <pre>
 version: "2"
