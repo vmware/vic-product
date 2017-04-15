@@ -17,6 +17,7 @@ This topic provides examples of the options of the `vic-machine create` command 
 - [Security Examples](#security)
   - [Use Auto-Generated Trusted CA Certificates](#auto_cert)
   - [Use Custom Server Certificates](#custom_cert)
+  - [Combine Custom Server Certificates and Auto-Generated Client Certificates](#certcombo)
   - [Specify Different User Accounts for VCH Deployment and Operation](#ops-user)
   - [Authorize Access to an Insecure Private Registry Server](#registry)
   - [Authorize Access to Secure Registries and vSphere Integrated Containers Registry](#secureregistry)
@@ -352,6 +353,33 @@ This example deploys a VCH with the following configuration:
 
 For more information about using custom server certificates, see the [Advanced Security Options section](vch_installer_options.md#adv-security) in VCH Deployment Options.
 
+### Combine Custom Server Certificates and Auto-Generated Client Certificates {#certcombo}
+
+You can create a VCH so that it uses a custom certificate to authenticate with the VCH Admin portal and an auto-generated certificate to authenticate with Docker clients. Specifying the paths to the `key.pem` and `cert.pem` files in the `--key` and `--cert` options is sufficient if the certificate is signed by a CA that is trusted by the system on which you run `vic-machine` and that is also trusted by the users who connect to the VCH. However, if the certificate is signed by a CA that is not trusted by the system, the installer cannot validate the certificate chain and `vic-machine create` fails with a certificate validation warning: 
+<pre>
+Server certificate hostname doesn't match: 
+x509: cannot validate certificate for 10.17.109.182 because it doesn't contain any IP SANs
+</pre>
+
+In this case, if you specify the `--tls-cname` option to match the common name value of the server certificate, `vic-machine create` generates self-signed certificates for Docker client authentication and deployment of the VCH succeeds.
+
+This example deploys a VCH with the following configuration:
+
+- Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
+- Provides the paths relative to the current location of the `*.pem` files for the custom server certificate and key files.
+- Specifies the common name from the server certificate in the `--tls-cname` option.
+
+<pre>vic-machine-<i>operating_system</i> create
+--target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
+--compute-resource cluster1
+--image-store datastore1
+--bridge-network vch1-bridge
+--cert ../some/relative/path/<i>certificate_file</i>.pem
+--key ../some/relative/path/<i>key_file</i>.pem
+--tls-cname <i>cname_from_server_cert</i>
+--name vch1
+--force
+</pre>
 
 ### Specify Different User Accounts for VCH Deployment and Operation {#ops-user}
 
