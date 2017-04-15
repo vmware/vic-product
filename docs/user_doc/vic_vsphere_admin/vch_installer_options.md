@@ -375,9 +375,7 @@ Wrap the port group name in single quotes (') on Mac OS and Linux and in double 
 
 <pre>--bridge-network '<i>port group name</i>'</pre>
 
-If you intend to use the [`--ops-user`](#ops-user) option to use different user accounts for deployment and operation of the VCH, you must place the bridge network port group in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md). If the port group is located in a network folder, include the full inventory path to the port group when you specify the `--bridge-network` option.
-
-<pre>--bridge-network '<i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i>'</pre>
+If you intend to use the [`--ops-user`](#ops-user) option to use different user accounts for deployment and operation of the VCH, you must place the bridge network port group in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md). 
 
 For information about how to specify a range of IP addresses for additional bridge networks, see [`bridge-network-range`](#bridge-range) in Advanced Networking Options.
 
@@ -478,10 +476,7 @@ Wrap the port group name in single quotes (') on Mac OS and Linux and in double 
 
 <pre>--container-network '<i>port group name</i>':<i>container port group name</i></pre>
 
-If you intend to use the [`--ops-user`](#ops-user) option to use different user accounts for deployment and operation of the VCH, you must place any container network port groups in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md). If a port group is located in a network folder, include the full inventory path to the port group when you specify the `--container-network` option.
-
-<pre>--container-network '<i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i>':container_port _group_name</i></pre>
-
+If you intend to use the [`--ops-user`](#ops-user) option to use different user accounts for deployment and operation of the VCH, you must place any container network port groups in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
 
 ## Additional Deployment Options {#deployment}
 
