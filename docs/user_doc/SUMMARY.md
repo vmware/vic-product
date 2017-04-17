@@ -114,6 +114,7 @@
     * [Example of Building an App](vic_app_dev/build_app_with_vic.md)
   * [Default Volume Store Error](vic_app_dev/ts_volume_store_error.md)
 
-## Feedback
+## Resources
 
 * [Send Doc Feedback](vic_vsphere_admin/feedback.md)
+* [Printable PDFs](pdf.md)
