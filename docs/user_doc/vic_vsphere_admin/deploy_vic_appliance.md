@@ -9,7 +9,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
    - 2 vCPUs
    - 8GB RAM
-   - 80GB free disk space
+   - 80GB free disk space on the datastore
 
 **Procedure**
 
