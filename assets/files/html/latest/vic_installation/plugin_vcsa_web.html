@@ -1,0 +1,705 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Flex on VCSA with a Web Server | VMware vSphere Integrated Containers Engine 0.9 Installation</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.6.7">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="./plugin_vcsa_no_web.html" />
+    
+    
+    <link rel="prev" href="./plugin_vc_no_web.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book"
+        data-level="4.5"
+        data-chapter-title="Flex on VCSA with a Web Server"
+        data-filepath="plugin_vcsa_web.md"
+        data-basepath="."
+        data-revision="Mon Mar 20 2017 11:53:05 GMT+0100 (W. Europe Standard Time)"
+        data-innerlanguage="">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="./index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="introduction.html">
+            
+                
+                    <a href="./introduction.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        Overview of vSphere Integrated Containers Engine for vSphere Administrators
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="networks.html">
+            
+                
+                    <a href="./networks.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        Networks Used by vSphere Integrated Containers Engine
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="download_vic.html">
+            
+                
+                    <a href="./download_vic.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Download vSphere Integrated Containers
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="contents_of_vic_binaries.html">
+            
+                
+                    <a href="./contents_of_vic_binaries.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        Contents of the vSphere Integrated Containers Engine Binaries
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="deploy_vch.html">
+            
+                
+                    <a href="./deploy_vch.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Deploy VCHs
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="vic_installation_prereqs.html">
+            
+                
+                    <a href="./vic_installation_prereqs.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        Environment Prerequisites for VCH Deployment
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="deploy_vch_esxi.html">
+            
+                
+                    <a href="./deploy_vch_esxi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        Deploy a VCH to an ESXi Host with No vCenter Server
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="deploy_vch_vcenter.html">
+            
+                
+                    <a href="./deploy_vch_vcenter.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        Deploy a VCH to a Basic vCenter Server Cluster
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="verify_vch_deployment.html">
+            
+                
+                    <a href="./verify_vch_deployment.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.</b>
+                        
+                        Verify the Deployment of a VCH
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="vch_installer_options.html">
+            
+                
+                    <a href="./vch_installer_options.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.5.</b>
+                        
+                        VCH Deployment Options
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="vch_installer_examples.html">
+            
+                
+                    <a href="./vch_installer_examples.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.6.</b>
+                        
+                        Advanced Examples of Deploying a VCH
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="set_up_ops_user.html">
+            
+                
+                    <a href="./set_up_ops_user.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.7.</b>
+                        
+                        Use Different User Accounts for VCH Deployment and Operation
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="deploy_vch_harbor.html">
+            
+                
+                    <a href="./deploy_vch_harbor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.8.</b>
+                        
+                        Deploy a VCH with vSphere Integrated Containers Registry (Harbor)
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="install_vic_plugin.html">
+            
+                
+                    <a href="./install_vic_plugin.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        Installing the vSphere Client Plug-ins
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1" data-path="plugin_h5_vcsa.html">
+            
+                
+                    <a href="./plugin_h5_vcsa.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.</b>
+                        
+                        HTML5 on VCSA
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="plugin_h5_vc_web.html">
+            
+                
+                    <a href="./plugin_h5_vc_web.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.</b>
+                        
+                        HTML5 on Windows
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="plugin_vc_web.html">
+            
+                
+                    <a href="./plugin_vc_web.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.3.</b>
+                        
+                        Flex on Windows with a Web Server
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="plugin_vc_no_web.html">
+            
+                
+                    <a href="./plugin_vc_no_web.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.4.</b>
+                        
+                        Flex on Windows Without a Web Server
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="4.5" data-path="plugin_vcsa_web.html">
+            
+                
+                    <a href="./plugin_vcsa_web.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.5.</b>
+                        
+                        Flex on VCSA with a Web Server
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="plugin_vcsa_no_web.html">
+            
+                
+                    <a href="./plugin_vcsa_no_web.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.6.</b>
+                        
+                        Flex on VCSA Without a Web Server
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" data-path="plugin_verify_deployment.html">
+            
+                
+                    <a href="./plugin_verify_deployment.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.7.</b>
+                        
+                        Verify the Deployment of the Flex Plug-In
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="troubleshoot_vic_install.html">
+            
+                
+                    <a href="./troubleshoot_vic_install.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        Troubleshooting vSphere Integrated Containers Engine Installation
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1" data-path="ts_vch_deployment_timeout.html">
+            
+                
+                    <a href="./ts_vch_deployment_timeout.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                        VCH Deployment Times Out
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="ts_thumbprint_error.html">
+            
+                
+                    <a href="./ts_thumbprint_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.2.</b>
+                        
+                        VCH Deployment Fails with a Certificate Verification Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="ts_cli_argument_error.html">
+            
+                
+                    <a href="./ts_cli_argument_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.3.</b>
+                        
+                        VCH Deployment Fails with Missing Common Name Error Even When TLS Options Are Specified Correctly
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="ts_firewall_error.html">
+            
+                
+                    <a href="./ts_firewall_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.4.</b>
+                        
+                        VCH Deployment Fails with Firewall Validation Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="ts_cname_mismatch.html">
+            
+                
+                    <a href="./ts_cname_mismatch.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.5.</b>
+                        
+                        VCH Deployment Fails with Certificate cname Mismatch
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="ts_docker_api_check_error.html">
+            
+                
+                    <a href="./ts_docker_api_check_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.6.</b>
+                        
+                        VCH Deployment Fails with Docker API Endpoint Check Failed Error
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7" data-path="ts_datastore_access_error.html">
+            
+                
+                    <a href="./ts_datastore_access_error.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.7.</b>
+                        
+                        VCH Deployment Fails with Error About No Single Host Being Able to Access All Datastores
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8" data-path="ts_ui_not_appearing.html">
+            
+                
+                    <a href="./ts_ui_not_appearing.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.8.</b>
+                        
+                        Plug-In Does Not Appear
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="feedback.html">
+            
+                
+                    <a href="./feedback.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        Send Documentation Feedback
+                    </a>
+            
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="./" >VMware vSphere Integrated Containers Engine 0.9 Installation</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="install-the-flex-plugin-on-a-vcenter-server-appliance-by-using-a-web-server">Install the Flex Plug-In on a vCenter Server Appliance by Using a Web Server</h1>
+<p>If you are running the vCenter Server Appliance 6.0 or 6.5, you can use a Web server to host the Flex-based vSphere Web Client plug-in for vSphere Integrated Containers.</p>
+<p><strong>Prerequisites</strong></p>
+<ul>
+<li>You deployed at least one virtual container host (VCH) to a vCenter Server  Appliance instance.</li>
+<li>You are running a Web server that the vCenter Server Appliance can access over HTTPS.</li>
+<li>On the system on which the Web server is running, if you do not use port 443 for secure HTTP traffic, make sure that the appropriate port is open for both inbound and outbound connections.</li>
+<li>Go to the vCenter Server Appliance Management Interface (VAMI) at https://<i>vcsa_address</i>:5480, click <strong>Access</strong>, and make sure that Bash Shell is enabled.</li>
+</ul>
+<p><strong>Procedure</strong></p>
+<ol>
+<li>On the system on which you have downloaded and unpacked vSphere Integrated Containers Engine, open the <code>\vic\ui\vsphere-client-serenity\</code> folder.</li>
+<li>Upload the ZIP bundle for the Flex plug-in to your Web server.<pre>com.vmware.vic.ui-<i>version</i>.zip</pre></li>
+<li>Open the <code>/vic/ui/VCSA/configs</code> file in a text editor.</li>
+<li>Enter the IPv4 address or FQDN of the vCenter Server instance on which to install the plug-in.<pre>VCENTER_IP=&quot;<i>vcenter_server_address</i>&quot;</pre></li>
+<li><p>Enter the path to the folder on your Web server that contains the <code>com.vmware.vic.ui-version.zip</code> file. For example, if you saved the ZIP file on your Web server in a folder named <code>vsphere-plugins</code>, set one of the following URLs, depending on whether you use port 443 or a different port: <pre>SET vic_ui_host_url=&quot;https://<i>web_server_address</i>/vsphere-plugins&quot;</pre><pre>SET vic_ui_host_url=&quot;https://<i>web_server_address</i>:<i>port</i>/vsphere-plugins&quot;</pre></p>
+<p>   <strong>NOTE</strong>: Only include the path to the ZIP file. Do not include <code>com.vmware.vic.ui-version.zip</code> in the path. </p>
+</li>
+<li><p>Provide the SHA-1 thumbprint of the Web server.<pre>VIC_UI_HOST_THUMBPRINT=&quot;<i>thumbprint</i>&quot;</pre><strong>NOTE</strong>: Use colon delimitation in the thumbprint. Do not use space delimitation. </p>
+</li>
+<li>Save and close the <code>configs</code> file.</li>
+<li><p>(Optional) If you run <code>vic-machine</code> on a Windows system, open  the <code>vic_unpack_dir/vic/ui/VCSA/install.sh</code> file in a text editor and point <code>PLUGIN_MANAGER_BIN</code> to the Windows UI executable.</p>
+<p> Before:</p>
+  <pre>if [[ $(echo $OS | grep -i &quot;darwin&quot;) ]] ; then
+   PLUGIN_MANAGER_BIN=&quot;../../vic-ui-darwin&quot;
+  else
+   PLUGIN_MANAGER_BIN=&quot;../../vic-ui-linux&quot;</pre>
+ After:
+  <pre>if [[ $(echo $OS | grep -i &quot;darwin&quot;) ]] ; then
+   PLUGIN_MANAGER_BIN=&quot;../../vic-ui-darwin&quot;
+  else
+   PLUGIN_MANAGER_BIN=&quot;../../vic-ui-windows&quot;</pre>
+</li>
+<li><p>Open a command prompt, navigate to <code>vic_unpack_dir/vic/ui/VCSA</code>, and run the installer.
+<pre>./install.sh</pre></p>
+<ul>
+<li>Make sure that <code>install.sh</code> is executable by running <code>chmod</code> before you run it.</li>
+<li>On Windows systems, run <code>install.sh</code> in a UNIX shell that supports SSH and SCP, for example Cygwyn or Git Bash. Do not use Windows 10 native Bash.</li>
+</ul>
+</li>
+<li>Enter the user name and password for the vCenter Server administrator account.</li>
+<li>When installation finishes, if you are logged into the vSphere Web Client, log out then log back in again.</li>
+</ol>
+<p><strong>What to Do Next</strong></p>
+<p>Check that the deployment has succeeded by following the procedure in <a href="plugin_verify_deployment.html">Verify the Deployment of the Flex Plug-In</a>.</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="./plugin_vc_no_web.html" class="navigation navigation-prev " aria-label="Previous page: Flex on Windows Without a Web Server"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="./plugin_vcsa_no_web.html" class="navigation navigation-next " aria-label="Next page: Flex on VCSA Without a Web Server"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="gitbook/app.js"></script>
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>
