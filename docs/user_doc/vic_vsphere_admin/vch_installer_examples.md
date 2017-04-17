@@ -18,6 +18,7 @@ This topic provides examples of the options of the `vic-machine create` command 
   - [Use Auto-Generated Trusted CA Certificates](#auto_cert)
   - [Use Custom Server Certificates](#custom_cert)
   - [Specify Different User Accounts for VCH Deployment and Operation](#ops-user)
+- [Registry Server Examples](#regserv)
   - [Authorize Access to an Insecure Private Registry Server](#registry)
   - [Authorize Access to Secure Registries and vSphere Integrated Containers Registry](#secureregistry)
 
@@ -363,14 +364,14 @@ This example deploys a VCH with the following configuration:
 - Specifies <i>vsphere_admin</i> in the `--target` option, to identify the user account with vSphere Administrator privileges with which to deploy the VCH.
 - Specifies <i>vsphere_user</i> and its password in the `--ops-user` and `--ops-password` options, to identify the user account with which the VCH runs. The user account that you specify in `--ops-user` must  is different to the vSphere Administrator account that you use for deployment, and must exist before you deploy the VCH. 
 - Specifies a resource pool in which to deploy the VCH in the `--compute-resource` option.
-- Specifies the full inventory paths to port groups in a network folder in the `--bridge-network` and `--bridge-network` options.
+- Specifies the VCH port groups in the `--bridge-network` and `--container-network` options.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target <i>vsphere_admin</i>:<i>vsphere_admin_password</i>@<i>vcenter_server_address</i>/dc1
 --compute-resource cluster1/VCH_pool
 --image-store datastore1
---bridge-network <i>datacenter</i>/network/<i>network_folder</i>/vch1-bridge
---container-network <i>datacenter</i>/network/<i>network_folder</i>/vic-containers:vic-container-network
+--bridge-network vch1-bridge
+--container-network vic-containers:vic-container-network
 --name vch1
 --ops-user <i>vsphere_user</i>
 --ops-password <i>vsphere_user_password</i>
@@ -380,7 +381,7 @@ This example deploys a VCH with the following configuration:
 
 For information about the permissions that the `--ops-user` account requires, and the permissions to set on the resource pool for the VCH and on the network folders, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
 
-## Registry Server Examples {#}
+## Registry Server Examples {#regserv}
 
 The examples in this section demonstrate how to configure a VCH to use a private registry server, for example vSphere Integrated Containers Registry.
 

@@ -29,7 +29,7 @@ Short name: `-t`
 
 The IPv4 address, fully qualified domain name (FQDN), or URL of the ESXi host or vCenter Server instance on which you are deploying a VCH. This option is always **mandatory**.
 
-To facilitate IP address changes in your infrastructure, provide an FQDN whenever possible, rather than an IP address.
+To facilitate IP address changes in your infrastructure, provide an FQDN whenever possible, rather than an IP address. If `vic-machine create` cannot resolve the FQDN, it fails with an error.
 
 - If the target ESXi host is not managed by vCenter Server, provide the address of the ESXi host.<pre>--target <i>esxi_host_address</i></pre>
 - If the target ESXi host is managed by vCenter Server, or if you are deploying to a cluster, provide the address of vCenter Server.<pre>--target <i>vcenter_server_address</i></pre>
@@ -375,9 +375,7 @@ Wrap the port group name in single quotes (') on Mac OS and Linux and in double 
 
 <pre>--bridge-network '<i>port group name</i>'</pre>
 
-If you intend to use the [`--ops-user`](#ops-user) option to use different user accounts for deployment and operation of the VCH, you must place the bridge network port group in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md). If the port group is located in a network folder, include the full inventory path to the port group when you specify the `--bridge-network` option.
-
-<pre>--bridge-network '<i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i>'</pre>
+If you intend to use the [`--ops-user`](#ops-user) option to use different user accounts for deployment and operation of the VCH, you must place the bridge network port group in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md). 
 
 For information about how to specify a range of IP addresses for additional bridge networks, see [`bridge-network-range`](#bridge-range) in Advanced Networking Options.
 
@@ -478,10 +476,7 @@ Wrap the port group name in single quotes (') on Mac OS and Linux and in double 
 
 <pre>--container-network '<i>port group name</i>':<i>container port group name</i></pre>
 
-If you intend to use the [`--ops-user`](#ops-user) option to use different user accounts for deployment and operation of the VCH, you must place any container network port groups in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md). If a port group is located in a network folder, include the full inventory path to the port group when you specify the `--container-network` option.
-
-<pre>--container-network '<i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i>':container_port _group_name</i></pre>
-
+If you intend to use the [`--ops-user`](#ops-user) option to use different user accounts for deployment and operation of the VCH, you must place any container network port groups in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
 
 ## Additional Deployment Options {#deployment}
 
@@ -491,7 +486,7 @@ The `vic-machine` utility provides options to customize the VCH.
 
 Short name: `-n`
 
-A name for the VCH. If not specified, `vic-machine` sets the name of the VCH to `virtual-container-host`. If a VCH of the same name exists on the ESXi host or in the vCenter Server inventory, or if a folder of the same name exists in the target datastore, `vic-machine create` creates a folder named <code><i>vch_name</i>_1</code>
+A name for the VCH. If not specified, `vic-machine` sets the name of the VCH to `virtual-container-host`. If a VCH of the same name exists on the ESXi host or in the vCenter Server inventory, or if a folder of the same name exists in the target datastore, `vic-machine create` creates a folder named <code><i>vch_name</i>_1</code>. If the name that you provide contains unsupported characters, `vic-machine create` fails with an error.
  
 <pre>--name <i>vch_name</i></pre>
 
