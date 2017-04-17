@@ -1,4 +1,4 @@
-# Upgrading vSphere Integrated Containers Engine #
+# Upgrading vSphere Integrated Containers #
 
 If you have an existing deployment of vSphere Integrated Containers 1.0, you can upgrade its components to version 1.1.
 
