@@ -31,7 +31,6 @@ For limitations of using vSphere Integrated Containers with volumes, see [Using 
 ## Limitations of vSphere Integrated Containers Engine
 vSphere Integrated Containers Engine includes these limitations:
 
-- Container VMs only support root user.
 - If you do not configure a `PATH` environment variable, or if you create a container from an image that does not supply a `PATH`, vSphere Integrated Containers Engine provides a default `PATH`.
 - You can resolve the symbolic names of a container from within another container, except in the following cases:
 	- Aliases
