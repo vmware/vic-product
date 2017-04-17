@@ -8,7 +8,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 - Deploy the appliance to a vSphere environment that meets the minimum system requirements:
 
    - 2 vCPUs
-   - 4GB memory
+   - 8GB RAM
    - 80GB free disk space
 
 **Procedure**
