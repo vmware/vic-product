@@ -9,7 +9,7 @@ You install the vSphere Client plug-ins for vSphere Integrated Containers by usi
 
 - Go to the vCenter Server Appliance Management Interface (VAMI) at https://<i>vcsa_address</i>:5480, click **Access**, and make sure that Bash Shell is enabled.
 - You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
-- Go to https://<i>vic_appliance_address</i>:9443 and download and unpack the vSphere Integrated Containers Engine package. If you configured the vSphere Integrated Containers appliance to use a different port for the vSphere Integrated Containers Engine file server, replace 9443 with the appropriate port.
+- Go to https://<i>vic_appliance_address</i>:9443 and download and unpack the vSphere Integrated Containers Engine package. If the vSphere Integrated Containers appliance uses a different port for the vSphere Integrated Containers Engine file server, replace 9443 with the appropriate port.
 - Copy the thumbprint of the Communications Server certificate from https://<i>vic_appliance_address</i>:<i>port</i>. For information about how to view the certificate thumbprint, see the documentation for your type of browser.
 
 **Procedure**

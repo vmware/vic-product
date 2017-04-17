@@ -5,7 +5,7 @@ The current version of vSphere Integrated Containers Engine does not support `do
 - You use standard Docker to build, tag, and push a container image to a registry. 
 - You pull the image from the registry to a vSphere Integrated Containers virtual container host (VCH) to use it.
 
-This topic provides an example of pushing and pulling an image to and from vSphere Integrated Containers Registry. You can use a different private registry server. For simplicity, the example uses the standard `busybox` container image instead of building a new image. 
+This topic provides an example of pushing and pulling an image to and from vSphere Integrated Containers Registry. You can use a different private registry server. For simplicity, the example uses the `busybox` container image instead of building a new image. 
 
 **Prerequisites**
 - You have access to an image repository. For example, a project repository must exist in vSphere Integrated Containers Registry and you must have a user account that can access that project repository.
@@ -16,15 +16,15 @@ This topic provides an example of pushing and pulling an image to and from vSphe
 **Procedure**
 
 1. Pull the `busybox` container image from Docker Hub.<pre>docker pull busybox</pre>In a real-world scenario you would build a new container image rather than pulling the `busybox` image.
-2. Tag the image for uploading to the appropriate project repository in vSphere Integrated Containers Registry.<pre>docker tag busybox <i>registry_address</i>/<i>project_name</i>/busybox</pre>If vSphere Integrated Containers Registry listens for connections on a non-default port, include the port number in the registry address.
+2. Tag the image for uploading to the appropriate project repository in vSphere Integrated Containers Registry.<pre>docker tag busybox:1.26 <i>registry_address</i>/<i>project_name</i>/busybox:1.26 </pre>If vSphere Integrated Containers Registry listens for connections on a non-default port, include the port number in the registry address.
 3. Log in to vSphere Integrated Containers Registry.<pre>docker login <i>registry_address</i></pre>
-3. Push the image from the standard Docker host to vSphere Integrated Containers Registry.<pre>docker push <i>registry_address</i>/<i>project_name</i>/busybox</pre>
-5. Pull the image from vSphere Integrated Containers Registry into the VCH.<pre>docker -H <i>vch_address</i>:2375 pull <i>registry_address</i>/<i>project_name</i>/busybox</pre>
+3. Push the image from the standard Docker host to vSphere Integrated Containers Registry.<pre>docker push <i>registry_address</i>/<i>project_name</i>/busybox:1.26 </pre>
+5. Pull the image from vSphere Integrated Containers Registry into the VCH.<pre>docker -H <i>vch_address</i>:2375 pull <i>registry_address</i>/<i>project_name</i>/busybox:1.26 </pre>
 6. List the images that are running in your VCH.<pre>docker -H <i>vch_address</i>:2375 images</pre>
 
 **Result**
 
 The image that you pulled from vSphere Integrated Containers Registry appears in the list of images that are available in this VCH.
 <pre>
-REPOSITORY                              TAG           IMAGE ID            
-<i>registry_address</i>/<i>project_name</i>/busybox   latest        00f017a8c2a6</pre>
+REPOSITORY                                    TAG          IMAGE ID            
+<i>registry_address</i>/<i>project_name</i>/busybox    1.26         7e156d496c9f</pre>
