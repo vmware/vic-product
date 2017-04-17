@@ -5,6 +5,7 @@ If your container development environment uses vSphere Integrated Containers, yo
 - [Connecting to the VCH](#connectvch)
 - [Using Docker Environment Variables](#variables)
 - [Using vSphere Integrated Containers Registry](#registry)
+- [Using vSphere Integrated Containers Registry with Notary](#notary)
 
 ## Connecting to the VCH {#connectvch}
 
@@ -68,4 +69,27 @@ To pass the registry's CA certificate to a Docker client that is running on Wind
    - Click the up arrow in the task bar to show running tasks.
    - Right-click the Docker icon and select **Settings**.
    - Select **Reset** and click **Restart Docker**.
-5. Log in to the registry server.<pre>docker login <i>vch_address</i></pre>
+5. Log in to the registry server.<pre>docker login <i>registry_address</i></pre>
+
+## Using vSphere Integrated Containers Registry with Notary {#notary}
+
+vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement content trust by signing and verifying the images in the registry. For information about Docker Notary, see [Content trust in Docker](https://docs.docker.com/engine/security/trust/content_trust/) in the Docker documentation.
+
+To use the Docker Notary server from vSphere Integrated Containers Registry, you must pass the registry's CA certificate to your Docker client and set up Docker Content Trust. By default, the vSphere Integrated Containers Registry Notary server runs on port 4443 on the vSphere Integrated Containers appliance.
+
+1. If you are using a self-signed certificate, copy the CA root certificate to the Docker certificates folder.
+
+   To pass the certificate to the Docker client, follow the procedure in [Using vSphere Integrated Containers Registry](#registry) above.
+2. Copy the CA certificate to the Docker TLS service.
+
+    <pre>$ cp ca.crt ~/.docker/tls/<i>registry_ip</i>:4443/</pre>
+2. Enable Docker Content Trust by setting environment variables.
+
+    <pre>export DOCKER_CONTENT_TRUST=1
+export DOCKER_CONTENT_TRUST_SERVER=https://<i>registry_ip</i>:4443
+</pre>
+3. (Optional) Set an alias for Notary.
+
+    By default, the local directory for storing meta files for the Notary client is different from the folder for the Docker client. Set an alias to make it easier to use the Notary client to manipulate the keys and meta files that Docker Content Trust generates. 
+
+    <pre>alias notary="notary -s https//<i>registry_ip</i>:4443 -d ~/.docker/trust --tlscacert  /etc/docker/certs.d/<i>registry_ip</i>/ca.crt"</pre>
