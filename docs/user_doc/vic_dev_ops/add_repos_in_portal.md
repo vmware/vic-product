@@ -16,14 +16,10 @@ Protocol | Description
 **Procedure**
 
 1. In the management portal, navigate to **Templates** > **Registries** and click **Add**.
-2. If you add a registry that requires certificate, configure the certificates to be used for authentication.
-	1. On the right, click **Credentials** and click **Add**.
-	2. In the **New Credential** dialog box, enter name and click the **Certificate** radio button.
-	3. In the **Public certificate** text box, enter the content of the *cert.pem* file.
-	4. In the **Private certificate** text box, enter the content of the *key.pem* file. 
+
 5. In the Add Registry dialog box, configure the registry settings.
 	1. As address, enter the IP or hostname of the registry and the port.
-    
+
     If you add Harbor, enter https://*hostname*:443.
 	2. Enter name for the registry.
 	3. Select the login credential and click **Verify**.
