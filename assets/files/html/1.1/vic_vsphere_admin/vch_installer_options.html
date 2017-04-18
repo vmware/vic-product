@@ -1362,19 +1362,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.3.8" data-path="../vic_dev_ops/manage_containers_portal.html">
-            
-                <a href="../vic_dev_ops/manage_containers_portal.html">
-            
-                    
-                    Manage Container VMs in the Management Portal
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1595,7 +1582,7 @@
 
     
         
-        <li class="header">Feedback</li>
+        <li class="header">Resources</li>
         
         
     
@@ -1605,6 +1592,19 @@
             
                     
                     Send Doc Feedback
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../pdf.html">
+            
+                <a href="../pdf.html">
+            
+                    
+                    Printable PDFs
             
                 </a>
             
@@ -1665,11 +1665,10 @@
 <li><a href="#registry">Private Registry Options</a></li>
 <li><a href="#datastore">Datastore Options</a></li>
 <li><a href="#networking">Networking Options</a></li>
-<li><a href="#deployment">Additional Deployment Options</a></li>
+<li><a href="#deployment">General Deployment Options</a></li>
 </ul>
 <p>To allow you to fine-tune the deployment of VCHs, <code>vic-machine create</code> provides <a href="#advanced">Advanced Options</a>.</p>
 <ul>
-<li><a href="#adv-security">Advanced Security Options</a></li>
 <li><a href="#static-ip">Options for Specifying a Static IP Address for the VCH Endpoint VM</a></li>
 <li><a href="#adv-container-net">Options for Configuring a Non-DHCP Network for Container Traffic</a></li>
 <li><a href="#proxy">Options to Configure VCHs to Use Proxy Servers</a></li>
@@ -1681,7 +1680,7 @@
 <h3 id="-target"><code>--target</code></h3>
 <p>Short name: <code>-t</code></p>
 <p>The IPv4 address, fully qualified domain name (FQDN), or URL of the ESXi host or vCenter Server instance on which you are deploying a VCH. This option is always <strong>mandatory</strong>.</p>
-<p>To facilitate IP address changes in your infrastructure, provide an FQDN whenever possible, rather than an IP address.</p>
+<p>To facilitate IP address changes in your infrastructure, provide an FQDN whenever possible, rather than an IP address. If <code>vic-machine create</code> cannot resolve the FQDN, it fails with an error.</p>
 <ul>
 <li>If the target ESXi host is not managed by vCenter Server, provide the address of the ESXi host.<pre>--target <i>esxi_host_address</i></pre></li>
 <li>If the target ESXi host is managed by vCenter Server, or if you are deploying to a cluster, provide the address of vCenter Server.<pre>--target <i>vcenter_server_address</i></pre></li>
@@ -1743,10 +1742,17 @@
 <p>To obtain the thumbprint of the vCenter Server or ESXi host certificate, run <code>vic-machine create</code> without the specifying the <code>--thumbprint</code> or <code>--force</code> options. The deployment of the VCH fails, but the resulting error message includes the required certificate thumbprint. You can copy the thumbprint from the error message and run vic-machine create again, including the <code>--thumbprint</code> option. If you obtain the thumbprint by other means, use upper-case letters and colon delimitation rather than space delimitation when you specify <code>--thumbprint</code>.</p>
 <pre>--thumbprint <i>certificate_thumbprint</i></pre>
 
-
 <h2 id="security">Security Options </h2>
-<p>As a convenience, <code>vic-machine create</code> provides the option of generating a client certificate, server certificate, and certificate authority (CA) as appropriate when you deploy a VCH. The generated certificates are functional, but they do not allow for fine control over aspects such as expiration, intermediate certificate authorities, and so on. To exercise fine control over the certificates used, obtain or generate custom certificates yourself before deploying a VCH. Use the <a href="#key"><code>--key</code></a>, <a href="#cert"><code>--cert</code></a>, and <a href="#tls-ca"><code>--tls-ca</code></a> options to pass the custom certificates to <code>vic-machine create</code>.</p>
-<h3 id="restrict-access-to-the-docker-api">Restrict access to the Docker API</h3>
+<p>The security options that <code>vic-machine create</code> provides allow for 3 broad categories of security:</p>
+<ul>
+<li><a href="#restrict_auto">Restrict access to the Docker API with Auto-Generated Certificates</a></li>
+<li><a href="#restrict_custom">Restrict access to the Docker API with Custom Certificates</a></li>
+<li><a href="#unrestricted">Do Not Restrict Access to the Docker API</a></li>
+</ul>
+<p>You can also configure a VCH to <a href="#diff_users">use different user accounts for deployment and operation</a>.</p>
+<p><strong>NOTE</strong>: Certain options in this section are exposed in the <code>vic-machine create</code> help if you run <code>vic-machine create --extended-help</code>, or <code>vic-machine-operating_system create -x</code>.</p>
+<h3 id="restrict_auto">Restrict Access to the Docker API with Auto-Generated Certificates </h3>
+<p>As a convenience, <code>vic-machine create</code> provides the option of generating a client certificate, server certificate, and certificate authority (CA) as appropriate when you deploy a VCH. The generated certificates are functional, but they do not allow for fine control over aspects such as expiration, intermediate certificate authorities, and so on.</p>
 <p>vSphere Integrated Containers Engine authenticates Docker API clients by using client certificates. This configuration is commonly referred to as <code>tlsverify</code> in documentation about containers and Docker. A client certificate is accepted if it is signed by a CA that you provide by specifying one or more instances of the <code>--tls-ca</code> option. In the case of the certificates that <code>vic-machine create</code> generates, <code>vic-machine create</code> creates a CA and uses it to create and sign a single client certificate.</p>
 <p>When using the Docker client, the client validates the server either by using CAs that are present in the root certificate bundle of the client system, or that are provided explicitly by using the <code>--tlscacert</code> option when running Docker commands. As a part of this validation, the server certificate must explicitly state at least one of the following, and must match the name or address that the client uses to access the server:</p>
 <ul>
@@ -1756,7 +1762,7 @@
 </ul>
 <h4 id="tls-cname"><code>--tls-cname</code> </h4>
 <p>Short name: None</p>
-<p>The FQDN or IP address to embed in the generated server certificate. Specify an FQDN, IP address, or a domain wildcard. If you provide a  custom server certificate by using the <code>--cert</code> option, you can use <code>--tls-cname</code> as a sanity check to ensure that the certificate is valid for the deployment.</p>
+<p>The FQDN or IP address to embed in an auto-generated server certificate. Specify an FQDN, IP address, or a domain wildcard. If you provide a custom server certificate by using the <code>--cert</code> option, you can use <code>--tls-cname</code> as a sanity check to ensure that the certificate is valid for the deployment.</p>
 <p>If you do not specify <code>--tls-cname</code> but you do set a static address for the VCH on the client network interface, <code>vic-machine create</code> uses that  address for the Common Name, with the same results as if you had specified <code>--tls-cname=x.x.x.x</code>. For information about setting a static IP address on the client network, see <a href="#static-ip">Options for Specifying a Static IP Address for the VCH Endpoint VM</a>.</p>
 <p>When you specify the <code>--tls-cname</code> option, <code>vic-machine create</code> performs the following actions during the deployment of the VCH:</p>
 <ul>
@@ -1789,6 +1795,72 @@
 <pre>--tls-cname vch-name.example.org</pre>
 <pre>--tls-cname *.example.org</pre>
 
+<h4 id="cert-path"><code>--cert-path</code> </h4>
+<p>Short name: none</p>
+<p>By default <code>--cert-path</code> is a folder in the current directory, that takes its name from the VCH name that you specify in the <code>--name</code> option. <code>vic-machine create</code> checks in <code>--cert-path</code> for existing certificates with the standard names and uses those certificates if they are present:</p>
+<ul>
+<li><code>server-cert.pem</code> </li>
+<li><code>server-key.pem</code></li>
+<li><code>ca.pem</code></li>
+</ul>
+<p>If <code>vic-machine create</code> does not find existing certificates with the standard names in <code>--cert-path</code>, or if you do not specify certificates directly by using the <code>--cert</code>, <code>--key</code>, and <code>--tls-ca</code> options, <code>vic-machine create</code> generates certificates. Generated certificates are saved in the <code>--cert-path</code> folder with the standard names listed. <code>vic-machine create</code> additionally generates other certificates:</p>
+<ul>
+<li><code>cert.pem</code> and <code>key.pem</code> for client certificates, if required.</li>
+<li><code>ca-key.pem</code>, the private key for the certificate authority. </li>
+</ul>
+<pre>--cert-path &apos;<i>path_to_certificate_folder</i>&apos;
+</pre>
+
+<h4 id="-certificate-key-size"><code>--certificate-key-size</code></h4>
+<p>Short name: <code>--ksz</code></p>
+<p>The size of the key for <code>vic-machine create</code> to use when it creates auto-generated trusted certificates. You can optionally use <code>--certificate-key-size</code> if you specify <code>--tls-cname</code>. If not specified, <code>vic-machine create</code> creates keys with default size of 2048 bits. It is not recommended to use key sizes of less than 2048 bits. </p>
+<pre>--certificate-key-size 3072</pre>
+
+<h4 id="-organization"><code>--organization</code></h4>
+<p>Short name: None</p>
+<p>A list of identifiers to record in certificates generated by <code>vic-machine</code>. You can optionally use <code>--organization</code> if you specify <code>--tls-cname</code>. If not specified,<code>vic-machine create</code> uses the name of the VCH as the organization value.</p>
+<p><strong>NOTE</strong>: The <code>client-ip-address</code> is used for <code>CommonName</code> but not  for  <code>Organisation</code>.</p>
+<pre>--organization <i>organization_name</i></pre>
+
+<h3 id="restrict_custom">Restrict Access to the Docker API with Custom Certificates </h3>
+<p>To exercise fine control over the certificates that VCHs use, obtain or generate custom certificates yourself before you deploy a VCH. Use the <code>--key</code>, <code>--cert</code>, and <code>--tls-ca</code> options to pass the custom certificates to <code>vic-machine create</code>.</p>
+<h4 id="cert"><code>--cert</code> </h4>
+<p>Short name: none</p>
+<p>The path to a custom X.509 server certificate. This certificate identifies the VCH endpoint VM both to Docker clients and to browsers that connect to the VCH Admin portal.</p>
+<ul>
+<li>This certificate should have the following certificate usages:<ul>
+<li><code>KeyEncipherment</code></li>
+<li><code>DigitalSignature</code></li>
+<li><code>KeyAgreement</code></li>
+<li><code>ServerAuth</code></li>
+</ul>
+</li>
+<li>This option is mandatory if you use custom TLS certificates, rather than auto-generated certificates.</li>
+<li>Use this option in combination with the <code>--key</code> option, that provides the path to the private key file for the custom certificate.</li>
+<li>Include the names of the certificate and key files in the paths.</li>
+<li>If you use trusted custom certificates, container developers run Docker commands with the <code>--tlsverify</code>, <code>--tlscacert</code>, <code>--tlscert</code>, and <code>--tlskey</code> options.</li>
+</ul>
+<pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
+--key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
+</pre> 
+
+<p>Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.</p>
+<pre>--cert &apos;<i>path to certificate file</i>&apos;/<i>certificate_file_name</i>.pem 
+--key &apos;<i>path to key file</i>&apos;/<i>key_file_name</i>.pem
+</pre> 
+
+
+<h4 id="key"><code>--key</code> </h4>
+<p>Short name: none</p>
+<p>The path to the private key file to use with a custom server certificate. This option is mandatory if you specify the <code>--cert</code> option, that provides the path to a custom X.509 certificate file. Include the names of the certificate and key files in the paths. </p>
+<pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
+--key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
+</pre> 
+
+<p>Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.</p>
+<pre>--cert &apos;<i>path to certificate file</i>&apos;/<i>certificate_file_name</i>.pem 
+--key &apos;<i>path to key file</i>&apos;/<i>key_file_name</i>.pem
+</pre>
 
 <h4 id="tls-ca"><code>--tls-ca</code> </h4>
 <p>Short name: <code>--ca</code></p>
@@ -1796,11 +1868,11 @@
 <pre>--tls-ca <i>path_to_ca_file</i></pre>
 
 <p><strong>NOTE</strong>: The <code>--tls-ca</code> option appears in the extended help that you see by running <code>vic-machine-os create --extended-help</code> or <code>vic-machine-os create -x</code>.</p>
-<h3 id="unrestricted-access-to-the-docker-api">Unrestricted access to the Docker API</h3>
-<p>To deploy a VCH that does not restrict access to the Docker API,  use the <code>--no-tlsverify</code> option. </p>
+<h3 id="unrestricted">Do Not Restrict Access to the Docker API </h3>
+<p>To deploy a VCH that does not restrict access to the Docker API, use the <code>--no-tlsverify</code> option. To completely disable TLS authentication, use the <code>--no-tls</code> option.</p>
 <h4 id="no-tlsverify"><code>--no-tlsverify</code> </h4>
 <p>Short name: <code>--kv</code></p>
-<p>The <code>--no-tlsverify</code> option prevents the use of CAs for client authentication. You still require a server certificate if you use <code>--no-tlsverify</code>. You can supply a custom server certificate by using the  <a href="#cert"><code>--cert</code></a> and <a href="#key"><code>--key</code></a>  options. If you do not use <code>--cert</code> and <code>--key</code> to supply a custom server certificate, <code>vic-machine create</code> generates a self-signed server certificate.</p>
+<p>The <code>--no-tlsverify</code> option prevents the use of CAs for client authentication. You still require a server certificate if you use <code>--no-tlsverify</code>. You can still supply a custom server certificate by using the  <a href="#cert"><code>--cert</code></a> and <a href="#key"><code>--key</code></a>  options. If you do not use <code>--cert</code> and <code>--key</code> to supply a custom server certificate, <code>vic-machine create</code> generates a self-signed server certificate. If you specify <code>--no-tlsverify</code> there is no access control and the VCH is susceptible to man-in-the-middle attacks when connected to Docker clients. However, connections remain encrypted.</p>
 <p>When you specify the <code>--no-tlsverify</code> option, <code>vic-machine create</code> performs the following actions during the deployment of the VCH.</p>
 <ul>
 <li>Generates a self-signed server certificate if you do not specify <code>--cert</code> and <code>--key</code>.</li>
@@ -1810,6 +1882,32 @@
 <p>If you deploy a VCH with the <code>--no-tlsverify</code> option, container developers run Docker commands with the <code>--tls</code> option, and the <code>DOCKER_TLS_VERIFY</code> environment variable must not be set. Note that setting <code>DOCKER_TLS_VERIFY</code> to 0 or <code>false</code> has no effect. </p>
 <p>The <code>--no-tlsverify</code> option takes no arguments. </p>
 <pre>--no-tlsverify</pre>
+
+<h4 id="no-tls"><code>--no-tls</code> </h4>
+<p>Short name: <code>-k</code></p>
+<p>Disables TLS authentication of connections between the Docker client and the VCH. VCHs use neither client nor server certificates.</p>
+<p>Set the <code>no-tls</code> option if you do not require TLS authentication between the VCH and the Docker client. Any Docker client can connect to the VCH if you disable TLS authentication and connections are not encrypted. </p>
+<p>If you use the <code>no-tls</code> option, container developers connect Docker clients to the VCH via port 2375, instead of via port 2376.</p>
+<pre>--no-tls</pre>
+
+<h3 id="diff_users">Specify Different User Accounts for VCH Deployment and Operation </h3>
+<p>Because deploying a VCH requires greater levels of permissions than running a VCH, you can configure a VCH so that it uses different user accounts for deployment and for operation. In this way, you can limit the day-to-day operation of a VCH to an account that does not have full administrator permissions on the target vCenter Server.</p>
+<h4 id="ops-user"><code>--ops-user</code> </h4>
+<p>Short name: None</p>
+<p>A vSphere user account with which the VCH runs after deployment. If not specified, the VCH runs with the vSphere Administrator credentials with which you deploy the VCH, that you specify in either <code>--target</code> or <code>--user</code>.</p>
+<pre>--ops-user <i>user_name</i></pre>
+
+<p>Wrap the user name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes special characters.</p>
+<pre>--ops-user &apos;<i>user_n@me</i>&apos;</pre>
+
+<p>The user account that you specify in <code>--ops-user</code> must exist before you deploy the VCH. For information about the permissions that the <code>--ops-user</code> account requires, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>.</p>
+<h4 id="-ops-password"><code>--ops-password</code></h4>
+<p>Short name: None</p>
+<p>The password or token for the operations user that you specify in <code>--ops-user</code>. If not specified, <code>vic-machine create</code> prompts you to enter the password for the <code>--ops-user</code> account.</p>
+<pre>--ops-password <i>password</i></pre>
+
+<p>Wrap the password in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes special characters.</p>
+<pre>--ops-password &apos;<i>p@ssword</i>&apos;</pre>
 
 
 <h2 id="registry">Private Registry Options </h2>
@@ -1932,9 +2030,7 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 <p>Wrap the port group name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes spaces.</p>
 <pre>--bridge-network &apos;<i>port group name</i>&apos;</pre>
 
-<p>If you intend to use the <a href="#ops-user"><code>--ops-user</code></a> option to use different user accounts for deployment and operation of the VCH, you must place the bridge network port group in a network folder that has the <code>Read-Only</code> role with propagation enabled. For more information about the requirements when using <code>--ops-user</code>, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>. If the port group is located in a network folder, include the full inventory path to the port group when you specify the <code>--bridge-network</code> option.</p>
-<pre>--bridge-network &apos;<i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i>&apos;</pre>
-
+<p>If you intend to use the <a href="#ops-user"><code>--ops-user</code></a> option to use different user accounts for deployment and operation of the VCH, you must place the bridge network port group in a network folder that has the <code>Read-Only</code> role with propagation enabled. For more information about the requirements when using <code>--ops-user</code>, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>. </p>
 <p>For information about how to specify a range of IP addresses for additional bridge networks, see <a href="#bridge-range"><code>bridge-network-range</code></a> in Advanced Networking Options.</p>
 <h3 id="client-network"><code>--client-network</code> </h3>
 <p>Short name: <code>--cln</code></p>
@@ -2005,15 +2101,12 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 <p>Wrap the port group name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes spaces. The descriptive name cannot include spaces.</p>
 <pre>--container-network &apos;<i>port group name</i>&apos;:<i>container port group name</i></pre>
 
-<p>If you intend to use the <a href="#ops-user"><code>--ops-user</code></a> option to use different user accounts for deployment and operation of the VCH, you must place any container network port groups in a network folder that has the <code>Read-Only</code> role with propagation enabled. For more information about the requirements when using <code>--ops-user</code>, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>. If a port group is located in a network folder, include the full inventory path to the port group when you specify the <code>--container-network</code> option.</p>
-<pre>--container-network &apos;<i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i>&apos;:container_port _group_name</pre>
-
-
-<h2 id="deployment">Additional Deployment Options </h2>
+<p>If you intend to use the <a href="#ops-user"><code>--ops-user</code></a> option to use different user accounts for deployment and operation of the VCH, you must place any container network port groups in a network folder that has the <code>Read-Only</code> role with propagation enabled. For more information about the requirements when using <code>--ops-user</code>, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>.</p>
+<h2 id="deployment">General Deployment Options </h2>
 <p>The <code>vic-machine</code> utility provides options to customize the VCH.</p>
 <h3 id="-name"><code>--name</code></h3>
 <p>Short name: <code>-n</code></p>
-<p>A name for the VCH. If not specified, <code>vic-machine</code> sets the name of the VCH to <code>virtual-container-host</code>. If a VCH of the same name exists on the ESXi host or in the vCenter Server inventory, or if a folder of the same name exists in the target datastore, <code>vic-machine create</code> creates a folder named <code>vch_name_1</code></p>
+<p>A name for the VCH. If not specified, <code>vic-machine</code> sets the name of the VCH to <code>virtual-container-host</code>. If a VCH of the same name exists on the ESXi host or in the vCenter Server inventory, or if a folder of the same name exists in the target datastore, <code>vic-machine create</code> creates a folder named <code>vch_name_1</code>. If the name that you provide contains unsupported characters, <code>vic-machine create</code> fails with an error.</p>
 <pre>--name <i>vch_name</i></pre>
 
 <p>Wrap the name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes spaces.</p>
@@ -2031,7 +2124,7 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 
 <h3 id="-force"><code>--force</code></h3>
 <p>Short name: <code>-f</code></p>
-<p>Forces <code>vic-machine create</code> to ignore warnings and non-fatal errors and continue with the deployment of a VCH. Errors such as an incorrect compute resource still cause the installation to fail.</p>
+<p>Forces <code>vic-machine create</code> to ignore warnings and non-fatal errors and continue with the deployment of a VCH. Errors such as an incorrect compute resource still cause the deployment to fail.</p>
 <p>If your vSphere environment uses untrusted, self-signed certificates, you can use the <code>--force</code> option to deploy a VCH without providing the thumbprint of the vCenter Server or ESXi host in the <code>thumbprint</code> option. </p>
 <p><strong>IMPORTANT</strong> Running <code>vic-machine create</code> with the <code>--force</code> option rather than providing the certificate thumbprint is not recommended, because it permits man-in-the-middle attacks to go undetected.</p>
 <pre>--force</pre>
@@ -2044,110 +2137,6 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 
 <h1 id="advanced">Advanced Options </h1>
 <p>The options in this section are exposed in the <code>vic-machine create</code> help if you run <code>vic-machine-operating_system create --extended-help</code>, or <code>vic-machine-operating_system create -x</code>. </p>
-<h2 id="adv-security">Advanced Security Options </h2>
-<p>The advanced security options allow you to customize the authentication of connections from Docker clients to VCHs.</p>
-<ul>
-<li>Add optional information to auto-generated trusted TLS certificates by specifying the <code>--certificate-key-size</code>, and <code>--organization</code> options.</li>
-<li>Use custom server certificates by using the <code>--cert</code> and <code>--key</code> options.</li>
-<li>Disable TLS authentication completely by using the <code>--no-tls</code> option.</li>
-</ul>
-<h3 id="-certificate-key-size"><code>--certificate-key-size</code></h3>
-<p>Short name: <code>--ksz</code></p>
-<p>The size of the key for <code>vic-machine create</code> to use when it creates auto-generated trusted certificates. If not specified, <code>vic-machine create</code> creates keys with default size of 2048 bits. It is not recommended to use key sizes of less than 2048 bits.</p>
-<pre>--certificate-key-size 3072</pre>
-
-<h3 id="-organization"><code>--organization</code></h3>
-<p>Short name: None</p>
-<p>A list of identifiers to record in certificates generated by vic-machine. If not specified,<code>vic-machine create</code> uses the name of the VCH as the organization value.</p>
-<p><strong>NOTE</strong>: The <code>client-ip-address</code> is used for <code>CommonName</code> but not  for  <code>Organisation</code>.</p>
-<pre>--organization <i>organization_name</i></pre>
-
-
-<h3 id="cert"><code>--cert</code> </h3>
-<p>Short name: none</p>
-<p>The path to a custom X.509 server certificate. This certificate identifies the VCH endpoint VM both to Docker clients and to browsers  that connect to the VCH Admin portal.</p>
-<ul>
-<li>This certificate should have the following certificate usages:<ul>
-<li><code>KeyEncipherment</code></li>
-<li><code>DigitalSignature</code></li>
-<li><code>KeyAgreement</code></li>
-<li><code>ServerAuth</code></li>
-</ul>
-</li>
-<li>This option is mandatory if you use custom TLS certificates, rather than auto-generated certificates.</li>
-<li>Use this option in combination with the <code>--key</code> option, that provides the path to the private key file for the custom certificate.</li>
-<li>Include the names of the certificate and key files in the paths.</li>
-<li>If you use trusted custom certificates, container developers run Docker commands with the <code>--tlsverify</code>, <code>--tlscacert</code>, <code>--tlscert</code>, and <code>--tlskey</code> options.</li>
-</ul>
-<pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
---key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
-</pre> 
-
-<p>Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.</p>
-<pre>--cert &apos;<i>path to certificate file</i>&apos;/<i>certificate_file_name</i>.pem 
---key &apos;<i>path to key file</i>&apos;/<i>key_file_name</i>.pem
-</pre> 
-
-
-<h3 id="key"><code>--key</code> </h3>
-<p>Short name: none</p>
-<p>The path to the private key file to use with a custom server certificate. This option is mandatory if you specify the <code>--cert</code> option, that provides the path to a custom X.509 certificate file. Include the names of the certificate and key files in the paths. </p>
-<pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
---key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
-</pre> 
-
-<p>Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.</p>
-<pre>--cert &apos;<i>path to certificate file</i>&apos;/<i>certificate_file_name</i>.pem 
---key &apos;<i>path to key file</i>&apos;/<i>key_file_name</i>.pem
-</pre>
-
-
-<h3 id="cert-path"><code>--cert-path</code> </h3>
-<p>Short name: none</p>
-<p>By default <code>--cert-path</code> is a folder in the current directory, that takes its name from the VCH name that you specify in the <code>--name</code> option. <code>vic-machine create</code> checks in <code>--cert-path</code> for existing certificates with the standard names and uses those certificates if  they are present:</p>
-<ul>
-<li><code>server-cert.pem</code> </li>
-<li><code>server-key.pem</code></li>
-<li><code>ca.pem</code></li>
-</ul>
-<p>If <code>vic-machine create</code> does not find existing certificates with the standard names in <code>--cert-path</code>, or if you do not specify certificates directly by using the <code>--cert</code>, <code>--key</code>, and <code>--tls-ca</code> options, <code>vic-machine create</code> generates certificates. Generated certificates are saved in the <code>--cert-path</code> folder with the standard names listed. <code>vic-machine create</code> additionally generates other certificates:</p>
-<ul>
-<li><code>cert.pem</code> and <code>key.pem</code> for client certificates, if required.</li>
-<li><code>ca-key.pem</code>, the private key for the certificate authority. </li>
-</ul>
-<pre>--cert-path &apos;<i>path_to_certificate_folder</i>&apos;
-</pre>
-
-
-<h3 id="no-tls"><code>--no-tls</code> </h3>
-<p>Short name: <code>-k</code></p>
-<p>Disables TLS authentication of connections between the Docker client and  the VCH. </p>
-<p>Set the <code>no-tls</code> option if you do not require TLS authentication between the VCH and the Docker client. Any Docker client can connect to the VCH if you disable TLS authentication. </p>
-<p>If you use the <code>no-tls</code> option, container developers connect Docker clients to the VCH via port 2375, instead of via port 2376.</p>
-<pre>--no-tls</pre>
-
-
-<h3 id="ops-user"><code>--ops-user</code> </h3>
-<p>Short name: None</p>
-<p>A vSphere user account with which the VCH runs after deployment. Because deploying a VCH requires greater levels of permissions than running a VCH, you can configure a VCH so that it uses different user accounts for deployment and for operation. In this way, you can limit the day-to-day operation of a VCH to an account that does not have full administrator permissions on the target vCenter Server.</p>
-<p>If not specified, the VCH runs with the vSphere Administrator credentials with which you deploy the VCH, that you specify in either <code>--target</code> or <code>--user</code>.</p>
-<pre>--ops-user <i>user_name</i></pre>
-
-<p>Wrap the user name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes special characters.</p>
-<pre>--ops-user &apos;<i>user_n@me</i>&apos;</pre>
-
-<p>The user account that you specify in <code>--ops-user</code> must exist before you deploy the VCH. For information about the permissions that the <code>--ops-user</code> account requires, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>.</p>
-<h3 id="-ops-password"><code>--ops-password</code></h3>
-<p>Short name: None</p>
-<p>The password or token for the operations user that you specify in <code>--ops-user</code>.</p>
-<p>If not specified, <code>vic-machine create</code> prompts you to enter the password for the <code>--ops-user</code> account.</p>
-<pre>--ops-password <i>password</i></pre>
-
-<p>Wrap the password in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes special characters.</p>
-<pre>--ops-password &apos;<i>p@ssword</i>&apos;</pre>
-
-
-
 <h2 id="static-ip">Options for Specifying a Static IP Address for the VCH Endpoint VM </h2>
 <p>You can specify a static IP address for the VCH endpoint VM on each of the client, public, and management networks. DHCP is used for the endpoint VM for any network on which you do not specify a static IP address.</p>
 <p>To specify a static IP address for the endpoint VM on the client, public, or management network, you provide an IP address in the <code>client/public/management-network-ip</code> option. If you set a static IP address, you can optionally provide gateway addresses and specify one or more DNS server addresses.</p>
@@ -2333,10 +2322,16 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 
 <h3 id="debug"><code>--debug</code> </h3>
 <p>Short name: <code>-v</code></p>
-<p>Deploy the VCH with a more verbose level of logging, for troubleshooting purposes. Specifying the <code>--debug</code> option increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting <code>--debug</code>, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. If not specified, the <code>debug</code> value is set to 0 and verbose logging is disabled. Provide a value of 1 or greater to increase the verbosity of the logging. Note that setting debug to a value greater than 1 can affect the behavior of <code>vic-machine create</code>. For example, setting <code>--debug</code> to 3 suppresses the restart of failed components.</p>
-<p>Additionally, deploying a VCH with a <code>debug</code> value of 3 or higher enables access to the VCH endpoint VM console by default, with a root password of <code>password</code>. This functionality enables you to perform targeted interactive diagnostics in environments in which a VCH endpoint VM failure occurs consistently and in a fashion that prevents <code>vic-machine debug</code> from functioning. </p>
-<p><strong>IMPORTANT</strong>: There is no provision for persistently changing the default root password. This configuration should not be used other than for debugging in a secured environment</p>
-<pre>--debug 1</pre>
+<p>Deploy the VCH with more verbose levels of logging, and optionally modify the behavior of <code>vic-machine</code> for troubleshooting purposes. Specifying the <code>--debug</code> option increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting the <code>--debug</code> option, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. If not specified, the <code>--debug</code> value is set to 0 and verbose logging is disabled.</p>
+<p><strong>NOTE</strong>: Do not confuse the <code>vic-machine create --debug</code> option with the <code>vic-machine debug</code> command, that enables access to the VCH endpoint VM. For information about <code>vic-machine debug</code>, see <a href="debug_vch.html">Debugging the VCH</a>. </p>
+<p>When you specify <code>vic-machine create --debug</code>, you set a debugging level of 1, 2, or 3. Setting <code>--debug</code> to 2 or 3 changes the behavior of <code>vic-machine create</code> as well as increasing the level of verbosity of the logs:</p>
+<ul>
+<li><code>--debug 1</code> Provides extra verbosity in the logs, with no other changes to <code>vic-machine</code> behavior.</li>
+<li><code>--debug 2</code> Exposes servers on more interfaces, launches <code>pprof</code> in container VMs.</li>
+<li><code>--debug 3</code> Disables recovery logic and logs sensitive data. Disables the restart of failed components and prevents container VMs from shutting down. Logs environment details for user application, and collects application output in the log bundle.</li>
+</ul>
+<p>Additionally, deploying a VCH with a <code>--debug 3</code> enables SSH access to the VCH endpoint VM console by default, with a root password of <code>password</code>, without requiring you to run the <code>vic-machine debug</code> command. This functionality enables you to perform targeted interactive diagnostics in environments in which a VCH endpoint VM failure occurs consistently and in a fashion that prevents <code>vic-machine debug</code> from functioning. </p>
+<p><strong>IMPORTANT</strong>: There is no provision for persistently changing the default root password. Only use this configuration for debugging in a secured environment.</p>
 
                                 
                                 </section>
@@ -2380,7 +2375,7 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"VCH Deployment Options","level":"2.1.3.7","depth":3,"next":{"title":"Advanced Examples of Deploying a VCH","level":"2.1.3.8","depth":3,"path":"vic_vsphere_admin/vch_installer_examples.md","ref":"vic_vsphere_admin/vch_installer_examples.md","articles":[]},"previous":{"title":"Verify the Deployment of a VCH","level":"2.1.3.6","depth":3,"path":"vic_vsphere_admin/verify_vch_deployment.md","ref":"vic_vsphere_admin/verify_vch_deployment.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_installer_options.md","mtime":"2017-04-17T10:00:30.460Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-17T10:09:31.065Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"VCH Deployment Options","level":"2.1.3.7","depth":3,"next":{"title":"Advanced Examples of Deploying a VCH","level":"2.1.3.8","depth":3,"path":"vic_vsphere_admin/vch_installer_examples.md","ref":"vic_vsphere_admin/vch_installer_examples.md","articles":[]},"previous":{"title":"Verify the Deployment of a VCH","level":"2.1.3.6","depth":3,"path":"vic_vsphere_admin/verify_vch_deployment.md","ref":"vic_vsphere_admin/verify_vch_deployment.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_installer_options.md","mtime":"2017-04-18T09:32:03.714Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-18T12:49:11.928Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

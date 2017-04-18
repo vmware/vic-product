@@ -1362,19 +1362,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.3.8" data-path="../vic_dev_ops/manage_containers_portal.html">
-            
-                <a href="../vic_dev_ops/manage_containers_portal.html">
-            
-                    
-                    Manage Container VMs in the Management Portal
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1595,7 +1582,7 @@
 
     
         
-        <li class="header">Feedback</li>
+        <li class="header">Resources</li>
         
         
     
@@ -1605,6 +1592,19 @@
             
                     
                     Send Doc Feedback
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../pdf.html">
+            
+                <a href="../pdf.html">
+            
+                    
+                    Printable PDFs
             
                 </a>
             
@@ -1659,11 +1659,13 @@
                                 
                                 <h1 id="access-vsphere-integrated-containers-engine-log-bundles">Access vSphere Integrated Containers Engine Log Bundles</h1>
 <p>vSphere Integrated Containers Engine provides log bundles that you can download from the VCH Admin portal for a virtual container host (VCH).</p>
-<p>You access the VCH Admin Portal at https://<i>vch_address</i>:2378.</p>
-<p>If the VCH is unable to connect to vSphere, logs that require a vSphere connection are disabled, and you see an error message. You can download the log bundle to troubleshoot the error.</p>
+<p>You access the VCH Admin Portal at https://<i>vch_address</i>:2378. For more information about the VCH Admin portal, see <a href="access_vicadmin.html">Access the VCH Administration Portal</a>.</p>
+<p>To aid in troubleshooting errors, you can download different log bundles:</p>
 <ul>
-<li>The <strong>Log Bundle</strong> contains logs that relate specifically to the VCH that you created. </li>
-<li>The <strong>Log Bundle with container logs</strong> contains the logs for the VCH and also includes the logs regarding the containers that the VCH manages.</li>
+<li><strong>Log Bundle</strong> contains logs that relate specifically to the VCH that you created. </li>
+<li><p><strong>Log Bundle with container logs</strong> contains the logs for the VCH and also includes the logs regarding the containers that the VCH manages.</p>
+<p> <strong>NOTE</strong>: If the VCH is unable to connect to vSphere, logs that require a vSphere connection are disabled, and you see an error message. For information about accessing logs manually, see <a href="#manual">Collecting Logs Manually</a> below.</p>
+</li>
 <li><p>Live logs (tail files) allow you to view the current status of how components are running.</p>
 <ul>
 <li><strong>Docker Personality</strong> is the interface to Docker. When configured with client certificate security, it reports unauthorized access attempts to the Docker server web page.</li>
@@ -1682,15 +1684,16 @@
 </ul>
 <p>Live logs can help you to see information about current commands and changes as you make them. For example, when you are troubleshooting an issue, you can see whether your command worked or failed by looking at the live logs.</p>
 <p>You can share the non-live version of the logs with administrators or VMware Support to help you to resolve issues.</p>
-<p>Logs also include vic-machine commands used during VCH installation to help you resolve issues.</p>
-<h2 id="collecting-logs-manually">Collecting Logs Manually</h2>
+<p>Logs also include the <code>vic-machine</code> commands used during VCH deployment to help you resolve issues.</p>
+<h2 id="manual">Collecting Logs Manually </h2>
 <p>If the VCH Admin portal is offline, use <code>vic-machine debug</code> to enable SSH on the VCH and use <code>scp -r</code> to capture the logs from <code>/var/log/vic/</code>.</p>
 <h2 id="setting-the-log-size-cap">Setting the Log Size Cap</h2>
-<p>The log size cap is set at 20MB. If the size exceeds 20 MB, then vSphere Integrated Containers Engine compresses the files and saves a history of the last two rotations. These files are rotated:</p>
+<p>The log size cap is set at 20MB. If the size exceeds 20 MB, vSphere Integrated Containers Engine compresses the files and saves a history of the last two rotations. The following files are rotated:</p>
 <p><code>/var/log/vic/port-layer.log</code> <br>
 <code>/var/log/vic/init.log</code> <br>
 <code>/var/log/vic/docker-personality.log</code> <br>
 <code>/var/log/vic/vicadmin.log</code></p>
+<p>vSphere Integrated Containers Engine logs any errors that occur during log rotation.</p>
 
                                 
                                 </section>
@@ -1734,7 +1737,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Access Log Bundles","level":"2.1.4.7","depth":3,"next":{"title":"Debugging the VCH","level":"2.1.4.8","depth":3,"path":"vic_vsphere_admin/debug_vch.md","ref":"vic_vsphere_admin/debug_vch.md","articles":[{"title":"Enable Shell Access","level":"2.1.4.8.1","depth":4,"path":"vic_vsphere_admin/vch_shell_access.md","ref":"vic_vsphere_admin/vch_shell_access.md","articles":[]},{"title":"Authorize SSH Access","level":"2.1.4.8.2","depth":4,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]},{"title":"VCH Debug Options","level":"2.1.4.8.3","depth":4,"path":"vic_vsphere_admin/debug_vch_options.md","ref":"vic_vsphere_admin/debug_vch_options.md","articles":[]}]},"previous":{"title":"VCH Admin Status Reference","level":"2.1.4.6.3","depth":4,"path":"vic_vsphere_admin/vicadmin_status_ref.md","ref":"vic_vsphere_admin/vicadmin_status_ref.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/log_bundles.md","mtime":"2017-04-17T10:00:18.759Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-17T10:09:31.065Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Access Log Bundles","level":"2.1.4.7","depth":3,"next":{"title":"Debugging the VCH","level":"2.1.4.8","depth":3,"path":"vic_vsphere_admin/debug_vch.md","ref":"vic_vsphere_admin/debug_vch.md","articles":[{"title":"Enable Shell Access","level":"2.1.4.8.1","depth":4,"path":"vic_vsphere_admin/vch_shell_access.md","ref":"vic_vsphere_admin/vch_shell_access.md","articles":[]},{"title":"Authorize SSH Access","level":"2.1.4.8.2","depth":4,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]},{"title":"VCH Debug Options","level":"2.1.4.8.3","depth":4,"path":"vic_vsphere_admin/debug_vch_options.md","ref":"vic_vsphere_admin/debug_vch_options.md","articles":[]}]},"previous":{"title":"VCH Admin Status Reference","level":"2.1.4.6.3","depth":4,"path":"vic_vsphere_admin/vicadmin_status_ref.md","ref":"vic_vsphere_admin/vicadmin_status_ref.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/log_bundles.md","mtime":"2017-04-18T09:32:03.701Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-18T12:49:11.928Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

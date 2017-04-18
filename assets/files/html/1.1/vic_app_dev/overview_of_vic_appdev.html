@@ -1362,19 +1362,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.3.8" data-path="../vic_dev_ops/manage_containers_portal.html">
-            
-                <a href="../vic_dev_ops/manage_containers_portal.html">
-            
-                    
-                    Manage Container VMs in the Management Portal
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1595,7 +1582,7 @@
 
     
         
-        <li class="header">Feedback</li>
+        <li class="header">Resources</li>
         
         
     
@@ -1605,6 +1592,19 @@
             
                     
                     Send Doc Feedback
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../pdf.html">
+            
+                <a href="../pdf.html">
+            
+                    
+                    Printable PDFs
             
                 </a>
             
@@ -1657,11 +1657,18 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="overview-of-vsphere-integrated-containers-engine-for-container-application-developers">Overview of vSphere Integrated Containers Engine For Container Application Developers</h1>
-<p>vSphere Integrated Containers Engine is container engine that is designed to integrate of all the packaging and runtime benefits of containers with the enterprise capabilities of a vSphere environment.  As a container developer, you can deploy, test, and run container processes in the same way as you would normally perform container operations. </p>
-<p>The information in this topic is intended for container developers. For an extended version of this information, see <a href="../vic_vsphere_admin/introduction.html">Overview of vSphere Integrated Containers Engine for vSphere Administrators</a> in <em>vSphere Integrated Containers for vSphere Administrators</em>. </p>
-<h2 id="differences-between-vsphere-integrated-containers-engine-and-a-classic-container-environment">Differences Between vSphere Integrated Containers Engine and a Classic Container Environment</h2>
-<p>The main differences between vSphere Integrated Containers Engine and a classic container environment are the following:</p>
+                                <h1 id="overview-of-vsphere-integrated-containers-for-container-application-developers">Overview of vSphere Integrated Containers For Container Application Developers</h1>
+<p>vSphere Integrated Containers is designed to integrate of all the packaging and runtime benefits of containers with the enterprise capabilities of a vSphere environment.  As a container developer, you can deploy, test, and run container processes in the same way as you would normally perform container operations. </p>
+<p>The information in this topic is intended for container developers. For an extended version of this information, see <a href="../vic_vsphere_admin/introduction.html">Overview of vSphere Integrated Containers for vSphere Administrators</a> in <em>vSphere Integrated Containers for vSphere Administrators</em>. </p>
+<ul>
+<li><a href="#differences">Differences Between vSphere Integrated Containers and a Classic Container Environment</a></li>
+<li><a href="#whatisvic">What Does vSphere Integrated Containers Do?</a></li>
+<li><a href="#engine">What Is vSphere Integrated Containers Engine?</a></li>
+<li><a href="#whats_registry">What Is vSphere Integrated Containers Registry?</a></li>
+<li><a href="#whats_portal">What Is vSphere Integrated Containers Management Portal?</a></li>
+</ul>
+<h2 id="differences">Differences Between vSphere Integrated Containers and a Classic Container Environment </h2>
+<p>The main differences between vSphere Integrated Containers and a classic container environment are the following:</p>
 <ul>
 <li>vSphere, not Linux, is the container host:<ul>
 <li>Containers are spun up <em>as</em> VMs, not <em>in</em> VMs.</li>
@@ -1680,8 +1687,8 @@
 </ul>
 </li>
 </ul>
-<h2 id="what-does-vsphere-integrated-containers-engine-do">What Does vSphere Integrated Containers Engine Do?</h2>
-<p>vSphere Integrated Containers Engine allows the vSphere administrator to easily make the vSphere infrastructure accessible to you, the container application developer, so that you can provision container workloads into production.</p>
+<h2 id="whatisvic">What Does vSphere Integrated Containers Do? </h2>
+<p>vSphere Integrated Containers allows the vSphere administrator to easily make the vSphere infrastructure accessible to you, the container application developer, so that you can provision container workloads into production.</p>
 <p><strong>Scenario 1: A Classic Container Environment</strong></p>
 <p>In a classic container environment: </p>
 <ul>
@@ -1690,8 +1697,8 @@
 <li>You install Docker, patch the OS, configure in-guest network and storage virtualization, secure the guest, isolate the containers, package the containers efficiently, and manage upgrades and downtime. </li>
 </ul>
 <p>In this scenario, what the vSphere administrator has given you is similar to a nested hypervisor that you have to manage and which is opaque to them.</p>
-<p><strong>Scenario 2: vSphere Integrated Containers Engine</strong></p>
-<p>With vSphere Integrated Containers Engine: </p>
+<p><strong>Scenario 2: vSphere Integrated Containers</strong></p>
+<p>With vSphere Integrated Containers: </p>
 <ul>
 <li>You raise a ticket and say, &quot;I need Docker&quot;. </li>
 <li>The vSphere administrator identifies datastores, networking, and compute on a cluster that you can use in your Docker environment. </li>
@@ -1700,10 +1707,10 @@
 <li>Instead of sending you a Linux VM, the vSphere administrator sends you the IP address of the appliance, the port of the remote Docker API, and a certificate for secure access.</li>
 </ul>
 <p>In this scenario, the vSphere administrator has provided you with a service portal. This is better for you because you do not have to worry about isolation, patching, security, backup, and so on. It is better for the vSphere administrator because every container that you deploy is a container VM, that they can manage just like all of their other VMs.</p>
-<p>If you discover that you need more compute capacity, in Scenario 1, the vSphere administrator has to power down the VM and reconfigure it, or give you a new VM and let you deal with the clustering implications. Both of these solutions are disruptive to you. With vSphere Integrated Containers Engine in Scenario 2, the vSphere administrator can reconfigure the VCH in vSphere, or redeploy it with a new configuration in a way that is completely transparent to you.</p>
-<h2 id="vsphere-integrated-containers-engine-concepts">vSphere Integrated Containers Engine Concepts</h2>
+<p>If you discover that you need more compute capacity, in Scenario 1, the vSphere administrator has to power down the VM and reconfigure it, or give you a new VM and let you deal with the clustering implications. Both of these solutions are disruptive to you. With vSphere Integrated Containers  in Scenario 2, the vSphere administrator can reconfigure the VCH in vSphere, or redeploy it with a new configuration in a way that is completely transparent to you.</p>
+<h2 id="engine">What Is vSphere Integrated Containers Engine? </h2>
 <p>The objective of vSphere Integrated Containers Engine is to take as much of vSphere as possible and layer whatever Docker capabilities are missing on top, reusing as much of Docker&#x2019;s own code as possible. The  result should not sacrifice the portability of the Docker image format and should be completely transparent to a Docker client. The following sections describe key concepts and components that make this possible.</p>
-<h3 id="container-vms">Container VMs</h3>
+<h3 id="containervm">Container VMs </h3>
 <p>The container VMs that vSphere Integrated Containers Engine creates have all of the characteristics of software containers:</p>
 <ul>
 <li>An ephemeral storage layer with optionally attached persistent volumes.</li>
@@ -1721,8 +1728,7 @@
 <li>Container volumes are formatted VMDKs that are attached as disks and indexed on a datastore. </li>
 <li>Networks are distributed port groups that are attached as vNICs.</li>
 </ul>
-<p>{#vch}</p>
-<h3 id="virtual-container-hosts">Virtual Container Hosts</h3>
+<h3 id="vch">Virtual Container Hosts </h3>
 <p>A virtual container host (VCH) is the functional equivalent of a Linux VM that runs Docker, but with some significant benefits. A VCH represents the following elements:</p>
 <ul>
 <li>A clustered pool of resource into which to provision container VMs.</li>
@@ -1738,6 +1744,17 @@
 <li>There is no local image cache. This is kept on a datastore in the cluster that the vSphere administrator specified when they deployed a VCH.</li>
 <li>There is no read-write shared storage</li>
 </ul>
+<h2 id="whats_registry">What Is vSphere Integrated Containers Registry? </h2>
+<p>vSphere Integrated Containers Registry is an enterprise-class registry server that you can use to store and distribute container images. vSphere Integrated Containers Registry allows DevOps administrators to organize image repositories in projects, and to set up role-based access control to those projects to define which users can access which repositories. vSphere Integrated Containers Registry also provides rule-based replication of images between registries, implements Docker Content Trust, and provides detailed logging for project and user auditing.</p>
+<p>For a more detailed overview of vSphere Integrated Containers Registry, see <a href="../vic_dev_ops/using_registry.html">Managing Images, Projects, and Users with vSphere Integrated Containers Registry</a> in <em>vSphere Integrated Containers for DevOps Administrators</em>.</p>
+<h2 id="whats_portal">What Is vSphere Integrated Containers Management Portal? </h2>
+<p>vSphere Integrated Containers Management Portal is a highly scalable and very lightweight container management platform for deploying and managing container based applications. It is designed to have a small footprint and boot extremely quickly. vSphere Integrated Containers Management Portal is intended to provide DevOps administrators with automated deployment and lifecycle management of containers.</p>
+<ul>
+<li>Rule-based resource management, allowing DevOps administrators to set deployment preferences which let vSphere Integrated Containers Management Portal manage container placement.</li>
+<li>Live state updates that provide a live view of the container system.</li>
+<li>Multi-container template management, that enables logical multi-container application deployments.</li>
+</ul>
+<p>For a more information about vSphere Integrated Containers Management Portal, see <a href="../vic_dev_ops/vchs_and_mgmt_portal.html">View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal</a> in <em>vSphere Integrated Containers for DevOps Administrators</em>.</p>
 
                                 
                                 </section>
@@ -1781,7 +1798,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Overview for Developers","level":"4.1.1","depth":2,"next":{"title":"Supported Docker Commands","level":"4.1.2","depth":2,"path":"vic_app_dev/container_operations.md","ref":"vic_app_dev/container_operations.md","articles":[{"title":"Supported Docker Compose File Options","level":"4.1.2.1","depth":3,"path":"vic_app_dev/docker_compose_file_options.md","ref":"vic_app_dev/docker_compose_file_options.md","articles":[]}]},"previous":{"title":"Developing Container Applications with vSphere Integrated Containers","level":"4.1","depth":1,"path":"vic_app_dev/README.md","ref":"vic_app_dev/README.md","articles":[{"title":"Overview for Developers","level":"4.1.1","depth":2,"path":"vic_app_dev/overview_of_vic_appdev.md","ref":"vic_app_dev/overview_of_vic_appdev.md","articles":[]},{"title":"Supported Docker Commands","level":"4.1.2","depth":2,"path":"vic_app_dev/container_operations.md","ref":"vic_app_dev/container_operations.md","articles":[{"title":"Supported Docker Compose File Options","level":"4.1.2.1","depth":3,"path":"vic_app_dev/docker_compose_file_options.md","ref":"vic_app_dev/docker_compose_file_options.md","articles":[]}]},{"title":"Use and Limitations","level":"4.1.3","depth":2,"path":"vic_app_dev/container_limitations.md","ref":"vic_app_dev/container_limitations.md","articles":[]},{"title":"Obtain a VCH","level":"4.1.4","depth":2,"path":"vic_app_dev/obtain_vch.md","ref":"vic_app_dev/obtain_vch.md","articles":[]},{"title":"Configure the Docker Client","level":"4.1.5","depth":2,"path":"vic_app_dev/configure_docker_client.md","ref":"vic_app_dev/configure_docker_client.md","articles":[]},{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"path":"vic_app_dev/build_push_images.md","ref":"vic_app_dev/build_push_images.md","articles":[]},{"title":"Using Volumes","level":"4.1.7","depth":2,"path":"vic_app_dev/using_volumes_with_vic.md","ref":"vic_app_dev/using_volumes_with_vic.md","articles":[]},{"title":"Container Networking","level":"4.1.8","depth":2,"path":"vic_app_dev/network_use_cases.md","ref":"vic_app_dev/network_use_cases.md","articles":[]},{"title":"Creating a Containerized App","level":"4.1.9","depth":2,"path":"vic_app_dev/creating_containerized_app_with_vic.md","ref":"vic_app_dev/creating_containerized_app_with_vic.md","articles":[{"title":"Docker Compose Constraints","level":"4.1.9.1","depth":3,"path":"vic_app_dev/constraints_using_compose.md","ref":"vic_app_dev/constraints_using_compose.md","articles":[]},{"title":"Example of Building an App","level":"4.1.9.2","depth":3,"path":"vic_app_dev/build_app_with_vic.md","ref":"vic_app_dev/build_app_with_vic.md","articles":[]}]},{"title":"Default Volume Store Error","level":"4.1.10","depth":2,"path":"vic_app_dev/ts_volume_store_error.md","ref":"vic_app_dev/ts_volume_store_error.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/overview_of_vic_appdev.md","mtime":"2017-04-12T15:04:11.977Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-17T10:09:31.065Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Overview for Developers","level":"4.1.1","depth":2,"next":{"title":"Supported Docker Commands","level":"4.1.2","depth":2,"path":"vic_app_dev/container_operations.md","ref":"vic_app_dev/container_operations.md","articles":[{"title":"Supported Docker Compose File Options","level":"4.1.2.1","depth":3,"path":"vic_app_dev/docker_compose_file_options.md","ref":"vic_app_dev/docker_compose_file_options.md","articles":[]}]},"previous":{"title":"Developing Container Applications with vSphere Integrated Containers","level":"4.1","depth":1,"path":"vic_app_dev/README.md","ref":"vic_app_dev/README.md","articles":[{"title":"Overview for Developers","level":"4.1.1","depth":2,"path":"vic_app_dev/overview_of_vic_appdev.md","ref":"vic_app_dev/overview_of_vic_appdev.md","articles":[]},{"title":"Supported Docker Commands","level":"4.1.2","depth":2,"path":"vic_app_dev/container_operations.md","ref":"vic_app_dev/container_operations.md","articles":[{"title":"Supported Docker Compose File Options","level":"4.1.2.1","depth":3,"path":"vic_app_dev/docker_compose_file_options.md","ref":"vic_app_dev/docker_compose_file_options.md","articles":[]}]},{"title":"Use and Limitations","level":"4.1.3","depth":2,"path":"vic_app_dev/container_limitations.md","ref":"vic_app_dev/container_limitations.md","articles":[]},{"title":"Obtain a VCH","level":"4.1.4","depth":2,"path":"vic_app_dev/obtain_vch.md","ref":"vic_app_dev/obtain_vch.md","articles":[]},{"title":"Configure the Docker Client","level":"4.1.5","depth":2,"path":"vic_app_dev/configure_docker_client.md","ref":"vic_app_dev/configure_docker_client.md","articles":[]},{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"path":"vic_app_dev/build_push_images.md","ref":"vic_app_dev/build_push_images.md","articles":[]},{"title":"Using Volumes","level":"4.1.7","depth":2,"path":"vic_app_dev/using_volumes_with_vic.md","ref":"vic_app_dev/using_volumes_with_vic.md","articles":[]},{"title":"Container Networking","level":"4.1.8","depth":2,"path":"vic_app_dev/network_use_cases.md","ref":"vic_app_dev/network_use_cases.md","articles":[]},{"title":"Creating a Containerized App","level":"4.1.9","depth":2,"path":"vic_app_dev/creating_containerized_app_with_vic.md","ref":"vic_app_dev/creating_containerized_app_with_vic.md","articles":[{"title":"Docker Compose Constraints","level":"4.1.9.1","depth":3,"path":"vic_app_dev/constraints_using_compose.md","ref":"vic_app_dev/constraints_using_compose.md","articles":[]},{"title":"Example of Building an App","level":"4.1.9.2","depth":3,"path":"vic_app_dev/build_app_with_vic.md","ref":"vic_app_dev/build_app_with_vic.md","articles":[]}]},{"title":"Default Volume Store Error","level":"4.1.10","depth":2,"path":"vic_app_dev/ts_volume_store_error.md","ref":"vic_app_dev/ts_volume_store_error.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/overview_of_vic_appdev.md","mtime":"2017-04-18T12:25:30.617Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-18T12:49:11.928Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

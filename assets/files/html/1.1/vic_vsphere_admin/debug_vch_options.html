@@ -1362,19 +1362,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.3.8" data-path="../vic_dev_ops/manage_containers_portal.html">
-            
-                <a href="../vic_dev_ops/manage_containers_portal.html">
-            
-                    
-                    Manage Container VMs in the Management Portal
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1595,7 +1582,7 @@
 
     
         
-        <li class="header">Feedback</li>
+        <li class="header">Resources</li>
         
         
     
@@ -1605,6 +1592,19 @@
             
                     
                     Send Doc Feedback
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../pdf.html">
+            
+                <a href="../pdf.html">
+            
+                    
+                    Printable PDFs
             
                 </a>
             
@@ -1658,21 +1658,22 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="vch-debug-options">VCH Debug Options</h1>
-<p>The command line utility for vSphere Integrated Containers Engine, <code>vic-machine</code>, provides a <code>debug</code> command that allows you to enable SSH access to the virtual container host (VCH) endpoint VM, set a password for the root user account, and upload a key file for automatic public key authentication. </p>
+<p>The command line utility for vSphere Integrated Containers Engine, <code>vic-machine</code>, provides a <code>debug</code> command that allows you to enable VM console or SSH access to the virtual container host (VCH) endpoint VM, set a password for the root user account, and upload a key file for automatic public key authentication. </p>
 <p>If you authorize SSH access to the VCH endpoint VM, you can edit system configuration files that you cannot edit by running <code>vic-machine</code> commands.</p>
-<p><strong>NOTE</strong>: Modifications that you make to the configuration of the VCH endpoint VM do not persist if you reboot the VM.</p>
+<p><strong>IMPORTANT</strong>: If you set a password or enable shell access on a VCH endpoint VM, these changes do not persist if you reboot the VM. You must run <code>vic-machine debug</code> to reenable access and reset the password each time that the VCH endpoint VM reboots.</p>
 <p>The <code>vic-machine debug</code> command includes the following options in addition to the common options described in <a href="common_vic_options.html">Common <code>vic-machine</code> Options</a>.</p>
-<h3 id="-enable-ssh"><code>--enable-ssh</code></h3>
-<p>Short name: <code>--ssh</code></p>
-<p>Enable an SSH server in the VCH endpoint VM. The <code>sshd</code> service runs until the VCH endpoint VM reboots. The <code>--enable-ssh</code> takes no arguments.</p>
-<pre>--enable-ssh</pre>
-
 <h3 id="-rootpw"><code>--rootpw</code></h3>
 <p>Short name: <code>--pw</code></p>
-<p>Set a new password for the root user account on the VCH endpoint VM.</p>
-<p><strong>IMPORTANT</strong>: If you set a password for the VCH endpoint VM, this password does not persist if you reboot the VM. You must run vic-machine debug to reset the password each time that the VCH endpoint VM reboots.</p>
+<p>Set a new password for the root user account on the VCH endpoint VM. Setting a password on the VCH allows you to access the VCH by using the VM console. If you also set the <code>--enable-ssh</code> option, you can use this password to connect to the VCH by using SSH. </p>
+<p>When you use the password to log in to a VCH, you see the message that the password will expire in 0 days. To obtain a longer expiration period, use the Linux <code>passwd</code> command in the endpoint VM to set a new password. If you attempt to log in after the password has expired, you see a prompt to change the password, in which case you must run <code>vic-machine debug --rootpw</code> again. </p>
 <p>Wrap the password in single quotes (Linux or Mac OS) or double quotes (Windows) if it includes shell characters such as <code>$</code>, <code>!</code> or <code>%</code>.</p>
 <pre>--rootpw &apos;<i>new_p@ssword</i>&apos;</pre>
+
+<h3 id="-enable-ssh"><code>--enable-ssh</code></h3>
+<p>Short name: <code>--ssh</code></p>
+<p>Enable an SSH server in the VCH endpoint VM. The <code>sshd</code> service runs until the VCH endpoint VM reboots. The <code>--enable-ssh</code> takes no arguments. </p>
+<p>If you have already enabled SSH access but the password that you set has expired, and you then rerun <code>--enable-ssh</code> without specifying <code>--rootpw</code>, the password expiry is set to 1 day in the future and the password is preserved.</p>
+<pre>--enable-ssh</pre>
 
 <h3 id="-authorized-key"><code>--authorized-key</code></h3>
 <p>Short name: <code>--key</code></p>
@@ -1720,7 +1721,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"VCH Debug Options","level":"2.1.4.8.3","depth":4,"next":{"title":"Upgrading","level":"2.1.5","depth":2,"path":"vic_vsphere_admin/upgrading_vic.md","ref":"vic_vsphere_admin/upgrading_vic.md","articles":[{"title":"Upgrade Registry","level":"2.1.5.1","depth":3,"path":"vic_vsphere_admin/upgrade_registry.md","ref":"vic_vsphere_admin/upgrade_registry.md","articles":[]},{"title":"Upgrade VCHs","level":"2.1.5.2","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"2.1.5.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},{"title":"Upgrade the HTML5 Plug-In","level":"2.1.5.3","depth":3,"path":"vic_vsphere_admin/upgrade_h5_plugin.md","ref":"vic_vsphere_admin/upgrade_h5_plugin.md","articles":[]}]},"previous":{"title":"Authorize SSH Access","level":"2.1.4.8.2","depth":4,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/debug_vch_options.md","mtime":"2017-04-17T10:00:18.749Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-17T10:09:31.065Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"VCH Debug Options","level":"2.1.4.8.3","depth":4,"next":{"title":"Upgrading","level":"2.1.5","depth":2,"path":"vic_vsphere_admin/upgrading_vic.md","ref":"vic_vsphere_admin/upgrading_vic.md","articles":[{"title":"Upgrade Registry","level":"2.1.5.1","depth":3,"path":"vic_vsphere_admin/upgrade_registry.md","ref":"vic_vsphere_admin/upgrade_registry.md","articles":[]},{"title":"Upgrade VCHs","level":"2.1.5.2","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"2.1.5.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},{"title":"Upgrade the HTML5 Plug-In","level":"2.1.5.3","depth":3,"path":"vic_vsphere_admin/upgrade_h5_plugin.md","ref":"vic_vsphere_admin/upgrade_h5_plugin.md","articles":[]}]},"previous":{"title":"Authorize SSH Access","level":"2.1.4.8.2","depth":4,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/debug_vch_options.md","mtime":"2017-04-18T09:31:52.129Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-18T12:49:11.928Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -1362,19 +1362,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.3.8" data-path="../vic_dev_ops/manage_containers_portal.html">
-            
-                <a href="../vic_dev_ops/manage_containers_portal.html">
-            
-                    
-                    Manage Container VMs in the Management Portal
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1595,7 +1582,7 @@
 
     
         
-        <li class="header">Feedback</li>
+        <li class="header">Resources</li>
         
         
     
@@ -1605,6 +1592,19 @@
             
                     
                     Send Doc Feedback
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../pdf.html">
+            
+                <a href="../pdf.html">
+            
+                    
+                    Printable PDFs
             
                 </a>
             
@@ -1676,7 +1676,7 @@
 </li>
 <li><p>Use <code>vic-machine create</code> to deploy a VCH, specifying the registry&apos;s CA certificate by using the <a href="vch_installer_options.html#registry-ca"><code>--registry-ca</code></a> option. </p>
 <p> You can configure the VCH to connect to multiple registries by specifying <code>--registry-ca</code> multiple times.</p>
-<p> For simplicity, this example installs a VCH with the <code>--no-tls</code> flag, so that container application developers do not need to use a TLS certificate to connect a Docker client to the VCH. However, the connection between the VCH and the registry still requires certificate authentication.<pre>vic-machine-<i>operating_system</i> create
+<p> For simplicity, this example deploys a VCH with the <code>--no-tls</code> flag, so that container application developers do not need to use a TLS certificate to connect a Docker client to the VCH. However, the connection between the VCH and the registry still requires certificate authentication.<pre>vic-machine-<i>operating_system</i> create
 --target &apos;Administrator@vsphere.local&apos;:<i>password</i>@<i>vcenter_server_address</i>/dc1
 --compute-resource cluster1
 --image-store datastore1
@@ -1733,7 +1733,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Deploy a VCH for Use with vSphere Integrated Containers Registry","level":"2.1.3.9","depth":3,"next":{"title":"Use Different User Accounts for VCH Deployment and Operation","level":"2.1.3.10","depth":3,"path":"vic_vsphere_admin/set_up_ops_user.md","ref":"vic_vsphere_admin/set_up_ops_user.md","articles":[]},"previous":{"title":"Advanced Examples of Deploying a VCH","level":"2.1.3.8","depth":3,"path":"vic_vsphere_admin/vch_installer_examples.md","ref":"vic_vsphere_admin/vch_installer_examples.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/deploy_vch_registry.md","mtime":"2017-04-17T10:07:58.788Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-17T10:09:31.065Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Deploy a VCH for Use with vSphere Integrated Containers Registry","level":"2.1.3.9","depth":3,"next":{"title":"Use Different User Accounts for VCH Deployment and Operation","level":"2.1.3.10","depth":3,"path":"vic_vsphere_admin/set_up_ops_user.md","ref":"vic_vsphere_admin/set_up_ops_user.md","articles":[]},"previous":{"title":"Advanced Examples of Deploying a VCH","level":"2.1.3.8","depth":3,"path":"vic_vsphere_admin/vch_installer_examples.md","ref":"vic_vsphere_admin/vch_installer_examples.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/deploy_vch_registry.md","mtime":"2017-04-18T09:32:03.692Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-18T12:49:11.928Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -1362,19 +1362,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.3.8" data-path="manage_containers_portal.html">
-            
-                <a href="manage_containers_portal.html">
-            
-                    
-                    Manage Container VMs in the Management Portal
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1595,7 +1582,7 @@
 
     
         
-        <li class="header">Feedback</li>
+        <li class="header">Resources</li>
         
         
     
@@ -1605,6 +1592,19 @@
             
                     
                     Send Doc Feedback
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../pdf.html">
+            
+                <a href="../pdf.html">
+            
+                    
+                    Printable PDFs
             
                 </a>
             
@@ -1664,6 +1664,7 @@
 <li><a href="#projects">Projects and Role-Based Access Control</a></li>
 <li><a href="#authentication">User Authentication</a></li>
 <li><a href="#replication">Rule-Based Image Replication</a></li>
+<li><a href="#notary">Docker Content Trust</a></li>
 <li><a href="#gc">Garbage Collection</a></li>
 <li><a href="#logging">Logging</a></li>
 </ul>
@@ -1678,13 +1679,16 @@
 <h2 id="authentication">User Authentication </h2>
 <p>You can configure vSphere Integrated Containers Registry to use an existing LDAP or Active Domain service, or use local user management to authenticate and manage users.</p>
 <h3 id="local-user-management">Local User Management</h3>
-<p>You create user and manage user accounts locally in vSphere Integrated Containers Registry. User information is stored in a database that is embedded in vSphere Integrated Containers Registry. When you first deploy vSphere Integrated Containers Registry, the registry uses local user management by default. For information about creating local user accounts, see <a href="vic_dev_ops/creating_users_registry.md">Create Users</a>.</p>
+<p>You create user and manage user accounts locally in vSphere Integrated Containers Registry. User information is stored in a database that is embedded in vSphere Integrated Containers Registry. When you first deploy vSphere Integrated Containers Registry, the registry uses local user management by default. For information about creating local user accounts, see <a href="creating_users_registry.html">Create Users</a>.</p>
 <h3 id="ldap-authentication">LDAP Authentication</h3>
 <p>Immediately after you deploy vSphere Integrated Containers Registry, can you configure the registry to use an external LDAP or Active Directory server  to authenticate users. If you implement LDAP authentication, users whose credentials are stored by the external LDAP or Active Directory server can log in to vSphere Integrated Containers Registry directly. In this case, you do not need to create user accounts locally.</p>
 <p><strong>IMPORTANT</strong>: The option to switch from local user management to LDAP authentication is only available while the local database is empty. If you start to populate the database with users and projects, the option to switch to LDAP authentication is disabled. If you want to implement LDAP authentication, you must enable this option when you first log in to a new registry instance. </p>
 <p>For information about enabling LDAP authentication, see <a href="configure_registry.html">Configure a Registry</a>.</p>
 <h2 id="replication">Rule Based Image Replication </h2>
 <p>You can set up multiple registries and replicate images between registry instances. Replicating images between registries helps with load balancing and high availability, and allows you to create multi-datacenter, hybrid, and multi-cloud setups. For information about image replication, see <a href="replicating_images.html">Replicating Images</a>.</p>
+<h2 id="notary">Docker Content Trust </h2>
+<p>vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement Docker Content Trust by signing and verifying the images in the registry. For information about Docker Notary, see <a href="https://docs.docker.com/engine/security/trust/content_trust/" target="_blank">Content trust in Docker</a> in the Docker documentation. </p>
+<p>The Notary server runs by default. For information about how container developers use Docker Content Trust with vSphere Integrated Containers Registry, see <a href="vic_app_dev/configure_docker_client.html">Configure the Docker Client for Use with vSphere Integrated Containers</a> in <em>Developing Container Applications with vSphere Integrated Containers</em>.</p>
 <h2 id="gc">Garbage Collection </h2>
 <p>You can configure vSphere Integrated Containers Registry to perform garbage collection whenever you restart the registry service. If you implement garbage collection, the registry recycles the storage space that is consumed by images that you have deleted. For more information about garbage collection, see <a href="vic_dev_ops/manage_repository_registry.md">Manage Repositories</a>. See also <a href="https://docs.docker.com/registry/garbage-collection/" target="_blank">Garbage Collection</a> in the Docker documentation.</p>
 <h2 id="logging">Logging </h2>
@@ -1732,7 +1736,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Managing Images, Projects, Users","level":"3.1.2","depth":2,"next":{"title":"Configure a Registry","level":"3.1.2.1","depth":3,"path":"vic_dev_ops/configure_registry.md","ref":"vic_dev_ops/configure_registry.md","articles":[]},"previous":{"title":"Overview for DevOps Admins","level":"3.1.1","depth":2,"path":"vic_dev_ops/overview_of_vic_devops.md","ref":"vic_dev_ops/overview_of_vic_devops.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_dev_ops/using_registry.md","mtime":"2017-04-17T10:07:58.784Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-17T10:09:31.065Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Managing Images, Projects, Users","level":"3.1.2","depth":2,"next":{"title":"Configure a Registry","level":"3.1.2.1","depth":3,"path":"vic_dev_ops/configure_registry.md","ref":"vic_dev_ops/configure_registry.md","articles":[]},"previous":{"title":"Overview for DevOps Admins","level":"3.1.1","depth":2,"path":"vic_dev_ops/overview_of_vic_devops.md","ref":"vic_dev_ops/overview_of_vic_devops.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_dev_ops/using_registry.md","mtime":"2017-04-18T09:32:03.683Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-18T12:49:11.928Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

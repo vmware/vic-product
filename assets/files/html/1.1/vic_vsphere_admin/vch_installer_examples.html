@@ -1362,19 +1362,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.3.8" data-path="../vic_dev_ops/manage_containers_portal.html">
-            
-                <a href="../vic_dev_ops/manage_containers_portal.html">
-            
-                    
-                    Manage Container VMs in the Management Portal
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1595,7 +1582,7 @@
 
     
         
-        <li class="header">Feedback</li>
+        <li class="header">Resources</li>
         
         
     
@@ -1605,6 +1592,19 @@
             
                     
                     Send Doc Feedback
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../pdf.html">
+            
+                <a href="../pdf.html">
+            
+                    
+                    Printable PDFs
             
                 </a>
             
@@ -1679,7 +1679,11 @@
 <li><a href="#security">Security Examples</a><ul>
 <li><a href="#auto_cert">Use Auto-Generated Trusted CA Certificates</a></li>
 <li><a href="#custom_cert">Use Custom Server Certificates</a></li>
+<li><a href="#certcombo">Combine Custom Server Certificates and Auto-Generated Client Certificates</a></li>
 <li><a href="#ops-user">Specify Different User Accounts for VCH Deployment and Operation</a></li>
+</ul>
+</li>
+<li><a href="#regserv">Registry Server Examples</a><ul>
 <li><a href="#registry">Authorize Access to an Insecure Private Registry Server</a></li>
 <li><a href="#secureregistry">Authorize Access to Secure Registries and vSphere Integrated Containers Registry</a></li>
 </ul>
@@ -1940,7 +1944,7 @@
 </pre>
 
 <p>The Docker API for this VCH will be accessible at <code>https://dhcp-a-b-c.example.com:2376</code>.</p>
-<p>For more information about using auto-generated CA certificates, see the <a href="vch_installer_options.html#security">Security Options section</a> in VCH Deployment Options.</p>
+<p>For more information about using auto-generated CA certificates, see the section <a href="vch_installer_options.html#restrict_auto">Restrict Access to the Docker API with Auto-Generated Certificates</a> in VCH Deployment Options.</p>
 <h3 id="custom_cert">Use Custom Server Certificates </h3>
 <p>You can create a VCH that uses a custom server certificate, for example  a server certificate that has been signed by Verisign or another public root. You use the <code>--cert</code> and <code>--key</code> options to provide the paths to a custom X.509 certificate and its key when you deploy a VCH. The paths to the certificate and key files must be relative to the location from which you are running <code>vic-machine create</code>.</p>
 <p>This example deploys a VCH with the following configuration:</p>
@@ -1959,7 +1963,33 @@
 --force
 </pre>
 
-<p>For more information about using custom server certificates, see the <a href="vch_installer_options.html#adv-security">Advanced Security Options section</a> in VCH Deployment Options.</p>
+<p>For more information about using custom server certificates, see the section <a href="vch_installer_options.html#restrict_custom">Restrict Access to the Docker API with Custom Certificates</a> in VCH Deployment Options.</p>
+<h3 id="certcombo">Combine Custom Server Certificates and Auto-Generated Client Certificates </h3>
+<p>You can create a VCH so that it uses a custom certificate to authenticate with the VCH Admin portal and an auto-generated certificate to authenticate with Docker clients. Specifying the paths to the <code>key.pem</code> and <code>cert.pem</code> files in the <code>--key</code> and <code>--cert</code> options is sufficient if the certificate is signed by a CA that is trusted by the system on which you run <code>vic-machine</code> and that is also trusted by the users who connect to the VCH. However, if the certificate is signed by a CA that is not trusted by the system, the installer cannot validate the certificate chain and <code>vic-machine create</code> fails with a certificate validation warning: </p>
+<pre>
+Server certificate hostname doesn&apos;t match: 
+x509: cannot validate certificate for 10.17.109.182 because it doesn&apos;t contain any IP SANs
+</pre>
+
+<p>In this case, if you specify the <code>--tls-cname</code> option to match the common name value of the server certificate, <code>vic-machine create</code> generates self-signed certificates for Docker client authentication and deployment of the VCH succeeds.</p>
+<p>This example deploys a VCH with the following configuration:</p>
+<ul>
+<li>Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.</li>
+<li>Provides the paths relative to the current location of the <code>*.pem</code> files for the custom server certificate and key files.</li>
+<li>Specifies the common name from the server certificate in the <code>--tls-cname</code> option.</li>
+</ul>
+<pre>vic-machine-<i>operating_system</i> create
+--target &apos;Administrator@vsphere.local&apos;:<i>password</i>@<i>vcenter_server_address</i>/dc1
+--compute-resource cluster1
+--image-store datastore1
+--bridge-network vch1-bridge
+--cert ../some/relative/path/<i>certificate_file</i>.pem
+--key ../some/relative/path/<i>key_file</i>.pem
+--tls-cname <i>cname_from_server_cert</i>
+--name vch1
+--force
+</pre>
+
 <h3 id="ops-user">Specify Different User Accounts for VCH Deployment and Operation </h3>
 <p>When you deploy a VCH, you can use different vSphere user accounts for deployment and for operation. This allows you to run VCHs with lower levels of privileges than are required for deployment.</p>
 <p>This example deploys a VCH with the following configuration:</p>
@@ -1968,14 +1998,14 @@
 <li>Specifies <i>vsphere_admin</i> in the <code>--target</code> option, to identify the user account with vSphere Administrator privileges with which to deploy the VCH.</li>
 <li>Specifies <i>vsphere_user</i> and its password in the <code>--ops-user</code> and <code>--ops-password</code> options, to identify the user account with which the VCH runs. The user account that you specify in <code>--ops-user</code> must  is different to the vSphere Administrator account that you use for deployment, and must exist before you deploy the VCH. </li>
 <li>Specifies a resource pool in which to deploy the VCH in the <code>--compute-resource</code> option.</li>
-<li>Specifies the full inventory paths to port groups in a network folder in the <code>--bridge-network</code> and <code>--bridge-network</code> options.</li>
+<li>Specifies the VCH port groups in the <code>--bridge-network</code> and <code>--container-network</code> options.</li>
 </ul>
 <pre>vic-machine-<i>operating_system</i> create
 --target <i>vsphere_admin</i>:<i>vsphere_admin_password</i>@<i>vcenter_server_address</i>/dc1
 --compute-resource cluster1/VCH_pool
 --image-store datastore1
---bridge-network <i>datacenter</i>/network/<i>network_folder</i>/vch1-bridge
---container-network <i>datacenter</i>/network/<i>network_folder</i>/vic-containers:vic-container-network
+--bridge-network vch1-bridge
+--container-network vic-containers:vic-container-network
 --name vch1
 --ops-user <i>vsphere_user</i>
 --ops-password <i>vsphere_user_password</i>
@@ -1984,7 +2014,7 @@
 </pre>
 
 <p>For information about the permissions that the <code>--ops-user</code> account requires, and the permissions to set on the resource pool for the VCH and on the network folders, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>.</p>
-<h2 id="registry-server-examples-">Registry Server Examples {#}</h2>
+<h2 id="regserv">Registry Server Examples </h2>
 <p>The examples in this section demonstrate how to configure a VCH to use a private registry server, for example vSphere Integrated Containers Registry.</p>
 <h3 id="registry">Authorize Access to an Insecure Private Registry Server </h3>
 <p>To authorize connections from a VCH to an insecure private registry server, set the <code>insecure-registry</code> option. You can specify <code>insecure-registry</code> multiple times to allow connections from the VCH to multiple insecure private registry servers.</p>
@@ -2052,7 +2082,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Advanced Examples of Deploying a VCH","level":"2.1.3.8","depth":3,"next":{"title":"Deploy a VCH for Use with vSphere Integrated Containers Registry","level":"2.1.3.9","depth":3,"path":"vic_vsphere_admin/deploy_vch_registry.md","ref":"vic_vsphere_admin/deploy_vch_registry.md","articles":[]},"previous":{"title":"VCH Deployment Options","level":"2.1.3.7","depth":3,"path":"vic_vsphere_admin/vch_installer_options.md","ref":"vic_vsphere_admin/vch_installer_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_installer_examples.md","mtime":"2017-04-17T08:22:13.431Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-17T10:09:31.065Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Advanced Examples of Deploying a VCH","level":"2.1.3.8","depth":3,"next":{"title":"Deploy a VCH for Use with vSphere Integrated Containers Registry","level":"2.1.3.9","depth":3,"path":"vic_vsphere_admin/deploy_vch_registry.md","ref":"vic_vsphere_admin/deploy_vch_registry.md","articles":[]},"previous":{"title":"VCH Deployment Options","level":"2.1.3.7","depth":3,"path":"vic_vsphere_admin/vch_installer_options.md","ref":"vic_vsphere_admin/vch_installer_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_installer_examples.md","mtime":"2017-04-18T09:31:52.158Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-18T12:49:11.928Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
