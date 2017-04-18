@@ -9,7 +9,7 @@ If you deployed the VCH with `--no-tls` or `--no-tlsverify`, you can only log in
 - You deployed a VCH.
 - Obtain the address of the VCH:
   - Copy the address from the output of `vic-machine create` or `vic-machine inspect`. 
-  - If you deployed the VCH to vCenter Server, copy the address from the **Summary** tab for the endpoint VM in the vSphere Web Client.
+  - If you deployed the VCH to vCenter Server, copy the address from the **Summary** tab for the endpoint VM in the vSphere Client.
   - If you deployed the VCH to an ESXi host, copy the address from the **Summary** tab for the endpoint VM in the desktop vSphere Client.
 
 **Procedure**

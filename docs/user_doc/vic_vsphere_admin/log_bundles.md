@@ -28,7 +28,7 @@ Live logs can help you to see information about current commands and changes as 
 
 You can share the non-live version of the logs with administrators or VMware Support to help you to resolve issues.
 
-Logs also include vic-machine commands used during VCH installation to help you resolve issues.
+Logs also include the `vic-machine` commands used during VCH deployment to help you resolve issues.
 
 ## Collecting Logs Manually {#manual}
 If the VCH Admin portal is offline, use `vic-machine debug` to enable SSH on the VCH and use `scp -r` to capture the logs from `/var/log/vic/`.

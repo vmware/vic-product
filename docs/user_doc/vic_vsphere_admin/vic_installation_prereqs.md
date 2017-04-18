@@ -1,6 +1,6 @@
 # Environment Prerequisites for VCH Deployment #
 
-Before you install vSphere Integrated Containers Engine, you must ensure that your vSphere infrastructure meets the requirements.
+Before you deploy vSphere Integrated Containers Engine, you must ensure that your vSphere infrastructure meets the requirements.
 
 - [Supported Platforms for `vic-machine`](#platforms)
 - [Supported vSphere Configurations](#configs)
@@ -26,7 +26,7 @@ Other recent 64-bit OS versions should work but are untested.
 
 ## Supported vSphere Configurations {#configs}
 
-You can install vSphere Integrated Containers Engine in the following vSphere setups:
+You can deploy vSphere Integrated Containers Engine in the following vSphere setups:
 
 * vCenter Server 6.0 or 6.5, managing a cluster of ESXi 6.0 or 6.5 hosts, with VMware vSphere Distributed Resource Scheduler&trade; (DRS) enabled.
 * vCenter Server 6.0 or 6.5, managing one or more standalone ESXi 6.0 or 6.5 hosts.
@@ -41,7 +41,7 @@ Caveats and limitations:
 ## License Requirements {#license}
 vSphere Integrated Containers Engine requires a vSphere Enterprise Plus license.
 
-All of the ESXi hosts in a cluster require an appropriate license. Installation fails if your environment includes one or more ESXi hosts that have inadequate licenses. 
+All of the ESXi hosts in a cluster require an appropriate license. Deployment fails if your environment includes one or more ESXi hosts that have inadequate licenses. 
 
 
 ## ESXi Host Firewall Requirements {#firewall}

@@ -28,7 +28,7 @@ You can configure vSphere Integrated Containers Registry to use an existing LDAP
 
 ### Local User Management ###
 	
-You create user and manage user accounts locally in vSphere Integrated Containers Registry. User information is stored in a database that is embedded in vSphere Integrated Containers Registry. When you first deploy vSphere Integrated Containers Registry, the registry uses local user management by default. For information about creating local user accounts, see [Create Users](vic_dev_ops/creating_users_registry.md).
+You create user and manage user accounts locally in vSphere Integrated Containers Registry. User information is stored in a database that is embedded in vSphere Integrated Containers Registry. When you first deploy vSphere Integrated Containers Registry, the registry uses local user management by default. For information about creating local user accounts, see [Create Users](creating_users_registry.md).
 
 ### LDAP Authentication ###  
 
