@@ -1,6 +1,6 @@
 # VCH Deployment Fails with a Certificate Verification Error #
 
-When you use `vic-machine create` to deploy a virtual container host (VCH), the installation fails with a certificate verification error, noting that it `failed to create validator`.
+When you use `vic-machine create` to deploy a virtual container host (VCH), the deployment fails with a certificate verification error, noting that it `failed to create validator`.
 
 ## Problem ##
 Deployment of the VCH fails during the validation of the configuration that you provided: 
