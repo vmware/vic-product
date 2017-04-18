@@ -7,6 +7,7 @@ The sections below present the key features of vSphere Integrated Containers Reg
 - [Projects and Role-Based Access Control](#projects)
 - [User Authentication](#authentication)
 - [Rule-Based Image Replication](#replication)
+- [Docker Content Trust](#notary)
 - [Garbage Collection](#gc)
 - [Logging](#logging)
 
@@ -40,6 +41,13 @@ For information about enabling LDAP authentication, see [Configure a Registry](c
 ## Rule Based Image Replication {#replication}
 
 You can set up multiple registries and replicate images between registry instances. Replicating images between registries helps with load balancing and high availability, and allows you to create multi-datacenter, hybrid, and multi-cloud setups. For information about image replication, see [Replicating Images](replicating_images.md).
+
+
+## Docker Content Trust {#notary}
+
+vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement Docker Content Trust by signing and verifying the images in the registry. For information about Docker Notary, see [Content trust in Docker](https://docs.docker.com/engine/security/trust/content_trust/) in the Docker documentation. 
+
+The Notary server runs by default. For information about how container developers use Docker Content Trust with vSphere Integrated Containers Registry, see [Configure the Docker Client for Use with vSphere Integrated Containers](vic_app_dev/configure_docker_client.html) in *Developing Container Applications with vSphere Integrated Containers*.
 
 ## Garbage Collection {#gc}
 
