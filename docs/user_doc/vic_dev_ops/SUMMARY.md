@@ -30,4 +30,3 @@
        * [Configuring Links for Templates and Images](configuring_links.md)
        * [Configuring Health Checks for Templates and Images](configuring_health_checks.md)
        * [Configuring Cluster Size and Scale](configuring_clusters.md)
-      * [Manage Container VMs in the Management Portal](manage_containers_portal.md)
