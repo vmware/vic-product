@@ -86,7 +86,6 @@
        * [Configuring Links for Templates and Images](vic_dev_ops/configuring_links.md)
        * [Configuring Health Checks for Templates and Images](vic_dev_ops/configuring_health_checks.md)
        * [Configuring Cluster Size and Scale](vic_dev_ops/configuring_clusters.md)
-      * [Manage Container VMs in the Management Portal](vic_dev_ops/manage_containers_portal.md)
 
 ## Container App Developers
 
