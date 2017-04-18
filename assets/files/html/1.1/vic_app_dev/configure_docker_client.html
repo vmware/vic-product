@@ -1362,19 +1362,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.3.8" data-path="../vic_dev_ops/manage_containers_portal.html">
-            
-                <a href="../vic_dev_ops/manage_containers_portal.html">
-            
-                    
-                    Manage Container VMs in the Management Portal
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1676,6 +1663,7 @@
 <li><a href="#connectvch">Connecting to the VCH</a></li>
 <li><a href="#variables">Using Docker Environment Variables</a></li>
 <li><a href="#registry">Using vSphere Integrated Containers Registry</a></li>
+<li><a href="#notary">Using vSphere Integrated Containers Registry with Notary</a></li>
 </ul>
 <h2 id="connectvch">Connecting to the VCH </h2>
 <p>How you connect to your virtual container host (VCH) depends on the security options with which the vSphere administrator deployed the VCH. </p>
@@ -1731,7 +1719,24 @@ DOCKER_HOST=<i>vch_address</i>:2376</pre></li>
 <li>Select <strong>Reset</strong> and click <strong>Restart Docker</strong>.</li>
 </ul>
 </li>
-<li>Log in to the registry server.<pre>docker login <i>vch_address</i></pre></li>
+<li>Log in to the registry server.<pre>docker login <i>registry_address</i></pre></li>
+</ol>
+<h2 id="notary">Using vSphere Integrated Containers Registry with Notary </h2>
+<p>vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement content trust by signing and verifying the images in the registry. For information about Docker Notary, see <a href="https://docs.docker.com/engine/security/trust/content_trust/" target="_blank">Content trust in Docker</a> in the Docker documentation.</p>
+<p>To use the Docker Notary server from vSphere Integrated Containers Registry, you must pass the registry&apos;s CA certificate to your Docker client and set up Docker Content Trust. By default, the vSphere Integrated Containers Registry Notary server runs on port 4443 on the vSphere Integrated Containers appliance.</p>
+<ol>
+<li><p>If you are using a self-signed certificate, copy the CA root certificate to the Docker certificates folder.</p>
+<p>To pass the certificate to the Docker client, follow the procedure in <a href="#registry">Using vSphere Integrated Containers Registry</a> above.</p>
+</li>
+<li><p>If you are using a self-signed certificate, copy the CA certificate to the Docker TLS service.</p>
+ <pre>$ cp ca.crt ~/.docker/tls/<i>registry_ip</i>:4443/</pre></li>
+<li><p>Enable Docker Content Trust by setting environment variables.</p>
+ <pre>export DOCKER_CONTENT_TRUST=1
+export DOCKER_CONTENT_TRUST_SERVER=https://<i>registry_ip</i>:4443
+</pre></li>
+<li><p>(Optional) Set an alias for Notary.</p>
+<p> By default, the local directory for storing meta files for the Notary client is different from the folder for the Docker client. Set an alias to make it easier to use the Notary client to manipulate the keys and meta files that Docker Content Trust generates. </p>
+ <pre>alias notary=&quot;notary -s https//<i>registry_ip</i>:4443 -d ~/.docker/trust --tlscacert  /etc/docker/certs.d/<i>registry_ip</i>/ca.crt&quot;</pre></li>
 </ol>
 
                                 
@@ -1776,7 +1781,7 @@ DOCKER_HOST=<i>vch_address</i>:2376</pre></li>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configure the Docker Client","level":"4.1.5","depth":2,"next":{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"path":"vic_app_dev/build_push_images.md","ref":"vic_app_dev/build_push_images.md","articles":[]},"previous":{"title":"Obtain a VCH","level":"4.1.4","depth":2,"path":"vic_app_dev/obtain_vch.md","ref":"vic_app_dev/obtain_vch.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/configure_docker_client.md","mtime":"2017-04-17T14:10:03.800Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-17T14:10:18.489Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configure the Docker Client","level":"4.1.5","depth":2,"next":{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"path":"vic_app_dev/build_push_images.md","ref":"vic_app_dev/build_push_images.md","articles":[]},"previous":{"title":"Obtain a VCH","level":"4.1.4","depth":2,"path":"vic_app_dev/obtain_vch.md","ref":"vic_app_dev/obtain_vch.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/configure_docker_client.md","mtime":"2017-04-18T07:38:27.507Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-18T12:49:11.928Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

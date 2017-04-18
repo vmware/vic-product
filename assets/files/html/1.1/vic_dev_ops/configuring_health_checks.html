@@ -1362,19 +1362,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.3.8" data-path="manage_containers_portal.html">
-            
-                <a href="manage_containers_portal.html">
-            
-                    
-                    Manage Container VMs in the Management Portal
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1687,14 +1674,18 @@
 </tr>
 <tr>
 <td><strong>HTTP</strong></td>
-<td>If you select HTTP, you must provide an API to access and an HTTP method and version to use . The API is</td>
+<td>If you select HTTP, you must provide an API to access and an HTTP method and version to use. The API is relative and you do not need to enter the address of the container. You can also specify a timeout period for the operation and set health thresholds. For example, a healthy threshold of 2 means that two consecutive successful calls must occur for the container to be considered healthy and in the RUNNING status. An unhealthy threshold of 2 means that two unsuccessful calls must occur for the container to be considered unhealthy and in the ERROR status. For all the states in between the healthy and unhealthy thresholds, the container status is DEGRADED.</td>
+</tr>
+<tr>
+<td><strong>TCP connection</strong></td>
+<td>If you select TCP connection, you must only enter a port for the container. The health check attempts to establish a TCP connection with the container on the provided port. You can also specify a timeout value for the operation and set healthy or unhealthy thresholds as with HTTP. </td>
+</tr>
+<tr>
+<td><strong>Command</strong></td>
+<td>If you select Command, you must enter a command to be run on the container. The success of the health check is determined by the exit status of the command.</td>
 </tr>
 </tbody>
 </table>
-<p>relative and you do not need to enter the address of the container. You can also specify a timeout period for the
-operation and set health thresholds. For example, a healthy threshold of 2 means that two consecutive successful calls must occur for the container to be considered healthy and in the RUNNING status. An unhealthy threshold of 2 means that two unsuccessful calls must occur for the container to be considered unhealthy and in the ERROR status. For all the states in between the healthy and unhealthy thresholds, the container status is DEGRADED. 
-<strong>TCP connection</strong> | If you select TCP connection, you must only enter a port for the container. The health check attempts to establish a TCP connection with the container on the provided port. You can also specify a timeout value for the operation and set healthy or unhealthy thresholds as with HTTP. 
-<strong>Command</strong> | If you select Command, you must enter a command to be run on the container. The success of the health check is determined by the exit status of the command.  </p>
 
                                 
                                 </section>
@@ -1738,7 +1729,7 @@ operation and set health thresholds. For example, a healthy threshold of 2 means
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configuring Health Checks for Templates and Images","level":"3.1.3.7.2","depth":4,"next":{"title":"Configuring Cluster Size and Scale","level":"3.1.3.7.3","depth":4,"path":"vic_dev_ops/configuring_clusters.md","ref":"vic_dev_ops/configuring_clusters.md","articles":[]},"previous":{"title":"Configuring Links for Templates and Images","level":"3.1.3.7.1","depth":4,"path":"vic_dev_ops/configuring_links.md","ref":"vic_dev_ops/configuring_links.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_dev_ops/configuring_health_checks.md","mtime":"2017-04-17T14:10:03.831Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-17T14:10:18.489Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configuring Health Checks for Templates and Images","level":"3.1.3.7.2","depth":4,"next":{"title":"Configuring Cluster Size and Scale","level":"3.1.3.7.3","depth":4,"path":"vic_dev_ops/configuring_clusters.md","ref":"vic_dev_ops/configuring_clusters.md","articles":[]},"previous":{"title":"Configuring Links for Templates and Images","level":"3.1.3.7.1","depth":4,"path":"vic_dev_ops/configuring_links.md","ref":"vic_dev_ops/configuring_links.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_dev_ops/configuring_health_checks.md","mtime":"2017-04-18T08:01:51.906Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-18T12:49:11.928Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
