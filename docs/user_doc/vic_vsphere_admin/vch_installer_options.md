@@ -7,11 +7,10 @@ The command line utility for vSphere Integrated Containers Engine, `vic-machine`
 - [Private Registry Options](#registry)
 - [Datastore Options](#datastore)
 - [Networking Options](#networking)
-- [Additional Deployment Options](#deployment)
+- [General Deployment Options](#deployment)
 
 To allow you to fine-tune the deployment of VCHs, `vic-machine create` provides [Advanced Options](#advanced).
 
-- [Advanced Security Options](#adv-security)
 - [Options for Specifying a Static IP Address for the VCH Endpoint VM](#static-ip)
 - [Options for Configuring a Non-DHCP Network for Container Traffic](#adv-container-net)
 - [Options to Configure VCHs to Use Proxy Servers](#proxy)
@@ -115,12 +114,22 @@ To obtain the thumbprint of the vCenter Server or ESXi host certificate, run `vi
 
 <pre>--thumbprint <i>certificate_thumbprint</i></pre>
 
-
 ## Security Options {#security}
 
-As a convenience, `vic-machine create` provides the option of generating a client certificate, server certificate, and certificate authority (CA) as appropriate when you deploy a VCH. The generated certificates are functional, but they do not allow for fine control over aspects such as expiration, intermediate certificate authorities, and so on. To exercise fine control over the certificates used, obtain or generate custom certificates yourself before deploying a VCH. Use the [`--key`](#key), [`--cert`](#cert), and [`--tls-ca`](#tls-ca) options to pass the custom certificates to `vic-machine create`.
+The security options that `vic-machine create` provides allow for 3 broad categories of security:
 
-### Restrict access to the Docker API ###
+- [Restrict access to the Docker API with Auto-Generated Certificates](#restrict_auto)
+- [Restrict access to the Docker API with Custom Certificates](#restrict_custom)
+- [Do Not Restrict Access to the Docker API](#unrestricted)
+
+You can also configure a VCH to [use different user accounts for deployment and operation](#diff_users).
+
+**NOTE**: Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine-operating_system create -x`.
+
+### Restrict Access to the Docker API with Auto-Generated Certificates {#restrict_auto}
+
+As a convenience, `vic-machine create` provides the option of generating a client certificate, server certificate, and certificate authority (CA) as appropriate when you deploy a VCH. The generated certificates are functional, but they do not allow for fine control over aspects such as expiration, intermediate certificate authorities, and so on.
+
 vSphere Integrated Containers Engine authenticates Docker API clients by using client certificates. This configuration is commonly referred to as `tlsverify` in documentation about containers and Docker. A client certificate is accepted if it is signed by a CA that you provide by specifying one or more instances of the `--tls-ca` option. In the case of the certificates that `vic-machine create` generates, `vic-machine create` creates a CA and uses it to create and sign a single client certificate.
 
 When using the Docker client, the client validates the server either by using CAs that are present in the root certificate bundle of the client system, or that are provided explicitly by using the `--tlscacert` option when running Docker commands. As a part of this validation, the server certificate must explicitly state at least one of the following, and must match the name or address that the client uses to access the server:
@@ -129,12 +138,11 @@ When using the Docker client, the client validates the server either by using CA
 - The IP address used to communicate with the server
 - A wildcard domain that matches all of the FQDNs in a specific subdomain. For an example of a domain wildcard, see [https://en.wikipedia.org/wiki/Wildcard_certificate#Example](https://en.wikipedia.org/wiki/Wildcard_certificate#Example).
 
-
 #### `--tls-cname` {#tls-cname}
 
 Short name: None
 
-The FQDN or IP address to embed in the generated server certificate. Specify an FQDN, IP address, or a domain wildcard. If you provide a  custom server certificate by using the `--cert` option, you can use `--tls-cname` as a sanity check to ensure that the certificate is valid for the deployment.
+The FQDN or IP address to embed in an auto-generated server certificate. Specify an FQDN, IP address, or a domain wildcard. If you provide a custom server certificate by using the `--cert` option, you can use `--tls-cname` as a sanity check to ensure that the certificate is valid for the deployment.
 
 If you do not specify `--tls-cname` but you do set a static address for the VCH on the client network interface, `vic-machine create` uses that  address for the Common Name, with the same results as if you had specified `--tls-cname=x.x.x.x`. For information about setting a static IP address on the client network, see [Options for Specifying a Static IP Address for the VCH Endpoint VM](#static-ip).
 
@@ -167,6 +175,86 @@ You must provide copies of the `cert.pem` and `key.pem` client certificate files
 <pre>--tls-cname vch-name.example.org</pre>
 <pre>--tls-cname *.example.org</pre>
 
+#### `--cert-path` {#cert-path}
+
+Short name: none
+
+By default `--cert-path` is a folder in the current directory, that takes its name from the VCH name that you specify in the `--name` option. `vic-machine create` checks in `--cert-path` for existing certificates with the standard names and uses those certificates if they are present:
+* `server-cert.pem` 
+* `server-key.pem`
+* `ca.pem`
+
+If `vic-machine create` does not find existing certificates with the standard names in `--cert-path`, or if you do not specify certificates directly by using the `--cert`, `--key`, and `--tls-ca` options, `vic-machine create` generates certificates. Generated certificates are saved in the `--cert-path` folder with the standard names listed. `vic-machine create` additionally generates other certificates:
+* `cert.pem` and `key.pem` for client certificates, if required.
+* `ca-key.pem`, the private key for the certificate authority. 
+
+<pre>--cert-path '<i>path_to_certificate_folder</i>'
+</pre>
+
+#### `--certificate-key-size` ###
+
+Short name: `--ksz`
+
+The size of the key for `vic-machine create` to use when it creates auto-generated trusted certificates. You can optionally use `--certificate-key-size` if you specify `--tls-cname`. If not specified, `vic-machine create` creates keys with default size of 2048 bits. It is not recommended to use key sizes of less than 2048 bits. 
+
+<pre>--certificate-key-size 3072</pre>
+
+#### `--organization` ###
+
+Short name: None
+
+A list of identifiers to record in certificates generated by `vic-machine`. You can optionally use `--organization` if you specify `--tls-cname`. If not specified,`vic-machine create` uses the name of the VCH as the organization value.
+
+**NOTE**: The `client-ip-address` is used for `CommonName` but not  for  `Organisation`.
+
+<pre>--organization <i>organization_name</i></pre>
+
+### Restrict Access to the Docker API with Custom Certificates {#restrict_custom}
+
+To exercise fine control over the certificates that VCHs use, obtain or generate custom certificates yourself before you deploy a VCH. Use the `--key`, `--cert`, and `--tls-ca` options to pass the custom certificates to `vic-machine create`.
+
+#### `--cert` {#cert}
+
+Short name: none
+
+The path to a custom X.509 server certificate. This certificate identifies the VCH endpoint VM both to Docker clients and to browsers that connect to the VCH Admin portal.
+
+- This certificate should have the following certificate usages:
+  - `KeyEncipherment`
+  - `DigitalSignature`
+  - `KeyAgreement`
+  - `ServerAuth`
+- This option is mandatory if you use custom TLS certificates, rather than auto-generated certificates.
+- Use this option in combination with the `--key` option, that provides the path to the private key file for the custom certificate.
+- Include the names of the certificate and key files in the paths.
+- If you use trusted custom certificates, container developers run Docker commands with the `--tlsverify`, `--tlscacert`, `--tlscert`, and `--tlskey` options.
+
+<pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
+--key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
+</pre> 
+
+Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.
+
+<pre>--cert '<i>path to certificate file</i>'/<i>certificate_file_name</i>.pem 
+--key '<i>path to key file</i>'/<i>key_file_name</i>.pem
+</pre> 
+
+
+#### `--key` {#key}
+
+Short name: none
+
+The path to the private key file to use with a custom server certificate. This option is mandatory if you specify the `--cert` option, that provides the path to a custom X.509 certificate file. Include the names of the certificate and key files in the paths. 
+
+<pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
+--key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
+</pre> 
+
+Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.
+
+<pre>--cert '<i>path to certificate file</i>'/<i>certificate_file_name</i>.pem 
+--key '<i>path to key file</i>'/<i>key_file_name</i>.pem
+</pre>
 
 #### `--tls-ca` {#tls-ca}
 
@@ -178,15 +266,15 @@ You can specify `--tls-ca` multiple times, to point `vic-machine create` to a fi
 
 **NOTE**: The `--tls-ca` option appears in the extended help that you see by running <code>vic-machine-<i>os</i> create --extended-help</code> or <code>vic-machine-<i>os</i> create -x</code>.
 
-### Unrestricted access to the Docker API ###
-To deploy a VCH that does not restrict access to the Docker API,  use the `--no-tlsverify` option. 
 
+### Do Not Restrict Access to the Docker API {#unrestricted}
+To deploy a VCH that does not restrict access to the Docker API, use the `--no-tlsverify` option. To completely disable TLS authentication, use the `--no-tls` option.
 
 #### `--no-tlsverify` {#no-tlsverify}
 
 Short name: `--kv`
 
-The `--no-tlsverify` option prevents the use of CAs for client authentication. You still require a server certificate if you use `--no-tlsverify`. You can supply a custom server certificate by using the  [`--cert`](#cert) and [`--key`](#key)  options. If you do not use `--cert` and `--key` to supply a custom server certificate, `vic-machine create` generates a self-signed server certificate.
+The `--no-tlsverify` option prevents the use of CAs for client authentication. You still require a server certificate if you use `--no-tlsverify`. You can still supply a custom server certificate by using the  [`--cert`](#cert) and [`--key`](#key)  options. If you do not use `--cert` and `--key` to supply a custom server certificate, `vic-machine create` generates a self-signed server certificate. If you specify `--no-tlsverify` there is no access control and the VCH is susceptible to man-in-the-middle attacks when connected to Docker clients. However, connections remain encrypted.
 
 When you specify the `--no-tlsverify` option, `vic-machine create` performs the following actions during the deployment of the VCH.
 
@@ -199,6 +287,48 @@ If you deploy a VCH with the `--no-tlsverify` option, container developers run D
 The `--no-tlsverify` option takes no arguments. 
 
 <pre>--no-tlsverify</pre>
+
+#### `--no-tls` {#no-tls}
+
+Short name: `-k`
+
+Disables TLS authentication of connections between the Docker client and the VCH. VCHs use neither client nor server certificates.
+
+Set the `no-tls` option if you do not require TLS authentication between the VCH and the Docker client. Any Docker client can connect to the VCH if you disable TLS authentication and connections are not encrypted. 
+
+If you use the `no-tls` option, container developers connect Docker clients to the VCH via port 2375, instead of via port 2376.
+
+<pre>--no-tls</pre>
+
+### Specify Different User Accounts for VCH Deployment and Operation {#diff_users}
+
+Because deploying a VCH requires greater levels of permissions than running a VCH, you can configure a VCH so that it uses different user accounts for deployment and for operation. In this way, you can limit the day-to-day operation of a VCH to an account that does not have full administrator permissions on the target vCenter Server.
+
+#### `--ops-user` {#ops-user}
+
+Short name: None
+
+A vSphere user account with which the VCH runs after deployment. If not specified, the VCH runs with the vSphere Administrator credentials with which you deploy the VCH, that you specify in either `--target` or `--user`.
+
+<pre>--ops-user <i>user_name</i></pre>
+
+Wrap the user name in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes special characters.
+
+<pre>--ops-user '<i>user_n@me</i>'</pre>
+
+The user account that you specify in `--ops-user` must exist before you deploy the VCH. For information about the permissions that the `--ops-user` account requires, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
+
+#### `--ops-password` ###
+
+Short name: None
+
+The password or token for the operations user that you specify in `--ops-user`. If not specified, `vic-machine create` prompts you to enter the password for the `--ops-user` account.
+
+<pre>--ops-password <i>password</i></pre>
+
+Wrap the password in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes special characters.
+
+<pre>--ops-password '<i>p@ssword</i>'</pre>
 
 
 ## Private Registry Options {#registry}
@@ -478,7 +608,7 @@ Wrap the port group name in single quotes (') on Mac OS and Linux and in double 
 
 If you intend to use the [`--ops-user`](#ops-user) option to use different user accounts for deployment and operation of the VCH, you must place any container network port groups in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
 
-## Additional Deployment Options {#deployment}
+## General Deployment Options {#deployment}
 
 The `vic-machine` utility provides options to customize the VCH.
 
@@ -534,140 +664,6 @@ The timeout period for uploading the vSphere Integrated Containers Engine files 
 # Advanced Options {#advanced}
 
 The options in this section are exposed in the `vic-machine create` help if you run <code>vic-machine-<i>operating_system</i> create --extended-help</code>, or <code>vic-machine-<i>operating_system</i> create -x</code>. 
-
-
-## Advanced Security Options {#adv-security}
-
-The advanced security options allow you to customize the authentication of connections from Docker clients to VCHs.
-
-- Add optional information to auto-generated trusted TLS certificates by specifying the `--certificate-key-size`, and `--organization` options.
-- Use custom server certificates by using the `--cert` and `--key` options.
-- Disable TLS authentication completely by using the `--no-tls` option.
-
-### `--certificate-key-size` ###
-
-Short name: `--ksz`
-
-The size of the key for `vic-machine create` to use when it creates auto-generated trusted certificates. If not specified, `vic-machine create` creates keys with default size of 2048 bits. It is not recommended to use key sizes of less than 2048 bits.
-
-<pre>--certificate-key-size 3072</pre>
-
-### `--organization` ###
-
-Short name: None
-
-A list of identifiers to record in certificates generated by vic-machine. If not specified,`vic-machine create` uses the name of the VCH as the organization value.
-
-**NOTE**: The `client-ip-address` is used for `CommonName` but not  for  `Organisation`.
-
-<pre>--organization <i>organization_name</i></pre>
-
-
-### `--cert` {#cert}
-
-Short name: none
-
-The path to a custom X.509 server certificate. This certificate identifies the VCH endpoint VM both to Docker clients and to browsers  that connect to the VCH Admin portal.
-
-- This certificate should have the following certificate usages:
-  - `KeyEncipherment`
-  - `DigitalSignature`
-  - `KeyAgreement`
-  - `ServerAuth`
-- This option is mandatory if you use custom TLS certificates, rather than auto-generated certificates.
-- Use this option in combination with the `--key` option, that provides the path to the private key file for the custom certificate.
-- Include the names of the certificate and key files in the paths.
-- If you use trusted custom certificates, container developers run Docker commands with the `--tlsverify`, `--tlscacert`, `--tlscert`, and `--tlskey` options.
-
-<pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
---key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
-</pre> 
-
-Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.
-
-<pre>--cert '<i>path to certificate file</i>'/<i>certificate_file_name</i>.pem 
---key '<i>path to key file</i>'/<i>key_file_name</i>.pem
-</pre> 
-
-
-### `--key` {#key}
-
-Short name: none
-
-The path to the private key file to use with a custom server certificate. This option is mandatory if you specify the `--cert` option, that provides the path to a custom X.509 certificate file. Include the names of the certificate and key files in the paths. 
-
-<pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
---key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
-</pre> 
-
-Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.
-
-<pre>--cert '<i>path to certificate file</i>'/<i>certificate_file_name</i>.pem 
---key '<i>path to key file</i>'/<i>key_file_name</i>.pem
-</pre>
-
-
-### `--cert-path` {#cert-path}
-
-Short name: none
-
-By default `--cert-path` is a folder in the current directory, that takes its name from the VCH name that you specify in the `--name` option. `vic-machine create` checks in `--cert-path` for existing certificates with the standard names and uses those certificates if  they are present:
-* `server-cert.pem` 
-* `server-key.pem`
-* `ca.pem`
-
-If `vic-machine create` does not find existing certificates with the standard names in `--cert-path`, or if you do not specify certificates directly by using the `--cert`, `--key`, and `--tls-ca` options, `vic-machine create` generates certificates. Generated certificates are saved in the `--cert-path` folder with the standard names listed. `vic-machine create` additionally generates other certificates:
-* `cert.pem` and `key.pem` for client certificates, if required.
-* `ca-key.pem`, the private key for the certificate authority. 
-
-<pre>--cert-path '<i>path_to_certificate_folder</i>'
-</pre>
-
-
-### `--no-tls` {#no-tls}
-
-Short name: `-k`
-
-Disables TLS authentication of connections between the Docker client and  the VCH. 
-
-Set the `no-tls` option if you do not require TLS authentication between the VCH and the Docker client. Any Docker client can connect to the VCH if you disable TLS authentication. 
-
-If you use the `no-tls` option, container developers connect Docker clients to the VCH via port 2375, instead of via port 2376.
-
-<pre>--no-tls</pre>
-
-
-### `--ops-user` {#ops-user}
-
-Short name: None
-
-A vSphere user account with which the VCH runs after deployment. Because deploying a VCH requires greater levels of permissions than running a VCH, you can configure a VCH so that it uses different user accounts for deployment and for operation. In this way, you can limit the day-to-day operation of a VCH to an account that does not have full administrator permissions on the target vCenter Server.
-
-If not specified, the VCH runs with the vSphere Administrator credentials with which you deploy the VCH, that you specify in either `--target` or `--user`.
-
-<pre>--ops-user <i>user_name</i></pre>
-
-Wrap the user name in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes special characters.
-
-<pre>--ops-user '<i>user_n@me</i>'</pre>
-
-The user account that you specify in `--ops-user` must exist before you deploy the VCH. For information about the permissions that the `--ops-user` account requires, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
-
-### `--ops-password` ###
-
-Short name: None
-
-The password or token for the operations user that you specify in `--ops-user`.
- 
-If not specified, `vic-machine create` prompts you to enter the password for the `--ops-user` account.
-
-<pre>--ops-password <i>password</i></pre>
-
-Wrap the password in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes special characters.
-
-<pre>--ops-password '<i>p@ssword</i>'</pre>
-
-
 
 ## Options for Specifying a Static IP Address for the VCH Endpoint VM {#static-ip}
 
