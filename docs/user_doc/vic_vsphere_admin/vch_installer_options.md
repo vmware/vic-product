@@ -941,10 +941,16 @@ Deploy the VCH appliance to a resource pool on vCenter Server rather than to a v
 ### `--debug` {#debug}
 Short name: `-v`
 
-Deploy the VCH with a more verbose level of logging, for troubleshooting purposes. Specifying the `--debug` option increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting `--debug`, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. If not specified, the `debug` value is set to 0 and verbose logging is disabled. Provide a value of 1 or greater to increase the verbosity of the logging. Note that setting debug to a value greater than 1 can affect the behavior of `vic-machine create`. For example, setting `--debug` to 3 suppresses the restart of failed components.
+Deploy the VCH with more verbose levels of logging, and optionally modify the behavior of `vic-machine` for troubleshooting purposes. Specifying the `--debug` option increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting the `--debug` option, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. If not specified, the `--debug` value is set to 0 and verbose logging is disabled.
 
-Additionally, deploying a VCH with a `debug` value of 3 or higher enables access to the VCH endpoint VM console by default, with a root password of `password`. This functionality enables you to perform targeted interactive diagnostics in environments in which a VCH endpoint VM failure occurs consistently and in a fashion that prevents `vic-machine debug` from functioning. 
+**NOTE**: Do not confuse the `vic-machine create --debug` option with the `vic-machine debug` command, that enables access to the VCH endpoint VM. For information about `vic-machine debug`, see [Debugging the VCH](debug_vch.html). 
 
-**IMPORTANT**: There is no provision for persistently changing the default root password. This configuration should not be used other than for debugging in a secured environment
+When you specify `vic-machine create --debug`, you set a debugging level of 1, 2, or 3. Setting `--debug` to 2 or 3 changes the behavior of `vic-machine create` as well as increasing the level of verbosity of the logs:
 
-<pre>--debug 1</pre>
+- `--debug 1` Provides extra verbosity in the logs, with no other changes to `vic-machine` behavior.
+- `--debug 2` Exposes servers on more interfaces, launches `pprof` in container VMs.
+- `--debug 3` Disables recovery logic and logs sensitive data. Disables the restart of failed components and prevents container VMs from shutting down. Logs environment details for user application, and collects application output in the log bundle.
+
+Additionally, deploying a VCH with a `--debug 3` enables SSH access to the VCH endpoint VM console by default, with a root password of `password`, without requiring you to run the `vic-machine debug` command. This functionality enables you to perform targeted interactive diagnostics in environments in which a VCH endpoint VM failure occurs consistently and in a fashion that prevents `vic-machine debug` from functioning. 
+
+**IMPORTANT**: There is no provision for persistently changing the default root password. Only use this configuration for debugging in a secured environment.
