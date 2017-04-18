@@ -4,7 +4,13 @@ vSphere Integrated Containers is designed to integrate of all the packaging and 
 
 The information in this topic is intended for container developers. For an extended version of this information, see [Overview of vSphere Integrated Containers for vSphere Administrators](../vic_vsphere_admin/introduction.md) in *vSphere Integrated Containers for vSphere Administrators*. 
 
-## Differences Between vSphere Integrated Containers and a Classic Container Environment ##
+- [Differences Between vSphere Integrated Containers and a Classic Container Environment](#differences)
+- [What Does vSphere Integrated Containers Do?](#whatisvic)
+- [What Is vSphere Integrated Containers Engine?](#engine)
+- [What Is vSphere Integrated Containers Registry?](#whats_registry)
+- [What Is vSphere Integrated Containers Management Portal?](#whats_portal)
+
+## Differences Between vSphere Integrated Containers and a Classic Container Environment {#differences}
 
 The main differences between vSphere Integrated Containers and a classic container environment are the following:
 
@@ -19,7 +25,7 @@ The main differences between vSphere Integrated Containers and a classic contain
   - Use the Docker client to directly control selected elements of vSphere infrastructure.
   - A container endpoint Service-as-a-Service presents as a service abstraction, not as IaaS
 
-## What Does vSphere Integrated Containers Do? ##
+## What Does vSphere Integrated Containers Do? {#whatisvic}
 
 vSphere Integrated Containers allows the vSphere administrator to easily make the vSphere infrastructure accessible to you, the container application developer, so that you can provision container workloads into production.
 
@@ -47,11 +53,11 @@ In this scenario, the vSphere administrator has provided you with a service port
 
 If you discover that you need more compute capacity, in Scenario 1, the vSphere administrator has to power down the VM and reconfigure it, or give you a new VM and let you deal with the clustering implications. Both of these solutions are disruptive to you. With vSphere Integrated Containers  in Scenario 2, the vSphere administrator can reconfigure the VCH in vSphere, or redeploy it with a new configuration in a way that is completely transparent to you.
 
-## vSphere Integrated Containers Engine Concepts ##
+## What Is vSphere Integrated Containers Engine? {#engine}
 
 The objective of vSphere Integrated Containers Engine is to take as much of vSphere as possible and layer whatever Docker capabilities are missing on top, reusing as much of Docker’s own code as possible. The  result should not sacrifice the portability of the Docker image format and should be completely transparent to a Docker client. The following sections describe key concepts and components that make this possible.
 
-### Container VMs ###
+### Container VMs {#containervm}
 
 The container VMs that vSphere Integrated Containers Engine creates have all of the characteristics of software containers:
 
@@ -70,8 +76,7 @@ The provisioned container VM does not contain any OS container abstraction.
 - Container volumes are formatted VMDKs that are attached as disks and indexed on a datastore. 
 - Networks are distributed port groups that are attached as vNICs.
 
-{#vch}
-### Virtual Container Hosts ###
+### Virtual Container Hosts {#vch}
 
 A virtual container host (VCH) is the functional equivalent of a Linux VM that runs Docker, but with some significant benefits. A VCH represents the following elements:
 - A clustered pool of resource into which to provision container VMs.
