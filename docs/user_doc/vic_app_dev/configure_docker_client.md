@@ -80,7 +80,7 @@ To use the Docker Notary server from vSphere Integrated Containers Registry, you
 1. If you are using a self-signed certificate, copy the CA root certificate to the Docker certificates folder.
 
    To pass the certificate to the Docker client, follow the procedure in [Using vSphere Integrated Containers Registry](#registry) above.
-2. Copy the CA certificate to the Docker TLS service.
+2. If you are using a self-signed certificate, copy the CA certificate to the Docker TLS service.
 
     <pre>$ cp ca.crt ~/.docker/tls/<i>registry_ip</i>:4443/</pre>
 2. Enable Docker Content Trust by setting environment variables.
