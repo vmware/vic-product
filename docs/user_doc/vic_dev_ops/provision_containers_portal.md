@@ -28,6 +28,8 @@ When you create containers from the Containers page in the management portal, yo
 - Health checks
 - Logging
 
-[Configuring Links](vic_dev_ops/configuring_links.md)
-[Configuring Health Checks](vic_dev_ops/configuring_health_checks.md)
-[Configuring Cluster Size and Scale](vic_dev_ops/configuring_clusters.md)
+**Related topics**
+
+- [Configuring Links](vic_dev_ops/configuring_links.md)
+- [Configuring Health Checks](vic_dev_ops/configuring_health_checks.md)
+- [Configuring Cluster Size and Scale](vic_dev_ops/configuring_clusters.md)
