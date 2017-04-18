@@ -1,30 +1,27 @@
-# Creating and Managing Projects #
+# Create a Project in vSphere Integrated Containers Registry #
 
-##Managing projects
-A project in vSphere Integrated Containers Registry contains all repositories of an application. No images can be pushed to vSphere Integrated Containers Registry before the project is created. RBAC is applied to a project. There are two types of projects in vSphere Integrated Containers Registry:  
+In vSphere Integrated Containers Registry, you group container image repositories in projects. A project contains all of the repositories that an application requires. You cannot push images to vSphere Integrated Containers Registry until you have created a project. 
 
-* **Public**: All users have the read privilege to a public project, it's convenient for you to share some repositories with others in this way.
-* **Private**: A private project can only be accessed by users with proper privileges.  
+**NOTE**: The current version of vSphere Integrated Containers Engine does not support `docker push`. To push images to vSphere Integrated Containers Registry, use a regular Docker client. You can then pull the images from the registry to a vSphere Integrated Containers Engine virtual container host (VCH).
 
-You can create a project after you signed in. Enabling the "Public" checkbox makes the project public.  
+**Procedure**
 
-![create project](img/new_create_project.png)  
+1. Log in to the vSphere Integrated Containers Registry interface at https://<i>vic_appliance_address</i>:443.
 
-After the project is created, you can browse repositories, users and logs using the navigation tab.  
+   If the registry is configured so that only administrators can create projects, use the `admin` account, or an account with Administrator privileges. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Registry, replace 443 with the appropriate port.
+2. Click **Projects** on the left, then click the **+ Project** button.
+3. Provide a name for the project.
+4. (Optional) Check the **Public** check box to make the project public.
 
-![browse project](img/new_browse_project.png)  
+   If you set the project to **Public**, any user can pull images from this project. If you leave the project set to **Private**, only users who are members of the project can pull images. You can toggle projects from public to private, or the reverse, at any moment after you create the project.
+5. Click **OK**.
 
-All logs can be listed by clicking "Logs". You can apply a filter by username, or operations and dates under "Advanced Search".  
+**Result**
 
-![browse project](img/new_project_log.png)  
+When you create a new project, you are automatically assigned the Project Admin role for that project.
 
-##Managing members of a project 
-###Adding members
-You can add members with different roles to an existing project.  
+The project is added to the list of projects. You can browse existing projects by limiting the list to only display public projects, or filter the list by entering text in the **Filter** text box.
 
-![browse project](img/new_add_member.png)
+**What to Do Next**
 
-###Updating and removing members
-You can update or remove a member by clicking the icon on the right.  
-
-![browse project](img/new_remove_update_member.png)
+You can add users to the project, push images to the project, browse the repositories that the project contains, view the project logs, and set up image replication. 

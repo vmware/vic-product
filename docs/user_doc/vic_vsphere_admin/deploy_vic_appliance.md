@@ -4,7 +4,12 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
 **Prerequisites**
 
-You downloaded the OVA installer from the [official vSphere Integrated Containers downloads page on vmware.com](http://www.vmware.com/go/download-vic).
+- You downloaded the OVA installer from the [official vSphere Integrated Containers downloads page on vmware.com](http://www.vmware.com/go/download-vic).
+- Deploy the appliance to a vSphere environment that meets the minimum system requirements:
+
+   - 2 vCPUs
+   - 8GB RAM
+   - 80GB free disk space on the datastore
 
 **Procedure**
 
@@ -33,7 +38,8 @@ You downloaded the OVA installer from the [official vSphere Integrated Container
     - In the **Notary Port** text box, optionally change the port on which to publish the Docker Notary service for vSphere Integrated Containers Registry.
     - In the **Registry Admin Password** text box, set the password for the vSphere Integrated Containers Registry admin account.
     - In the **Database Password** text box, set the password for the root user of the MySQL database that vSphere Integrated Containers Registry uses.
-    - Optionally check the **Garbage Collection** check box to enable garbage collection when the appliance boots.
+    - Optionally check the **
+    -  Collection** check box to enable garbage collection when the appliance reboots. 
     - To use custom certificates to authenticate connections to vSphere Integrated Containers Registry, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates. 
 
 7. Expand **Management Portal Configuration** to configure the deployment of vSphere Integrated Containers Management Portal. 
@@ -50,9 +56,9 @@ You downloaded the OVA installer from the [official vSphere Integrated Container
 
 **What to Do Next**
 
-- Go to https://<i>vic_appliance_address</i>:9443, download the vSphere Integrated Containers Engine binaries, and start deploying virtual container hosts (VCHs). If you configured the vSphere Integrated Containers appliance to use a different port for the vSphere Integrated Containers Engine file server, replace 9443 with the appropriate port. For information about deploying VCHs, see [Using vic-machine to Deploy VCHs](deploy_vch.md).
+- Go to https://<i>vic_appliance_address</i>:9443, download the vSphere Integrated Containers Engine binaries, and start deploying virtual container hosts (VCHs). If the vSphere Integrated Containers appliance uses a different port for the vSphere Integrated Containers Engine file server, replace 9443 with the appropriate port. For information about deploying VCHs, see [Using vic-machine to Deploy VCHs](deploy_vch.md).
 - Install the vSphere Client plug-ins for vSphere Integrated Containers. You do not need to download the client plug-in file. You pass the URL https://<i>vic_appliance_address</i>:<i>port</i> to the script that you run to install the vSphere Integrated Containers plug-ins. For information about installing the plug-ins, see [Installing the vSphere Client Plug-ins](install_vic_plugin.md).
-- Log in to vSphere Integrated Containers Registry at https://<i>vic_appliance_address</i>:443. If you configured the vSphere Integrated Containers appliance to use a different port for vSphere Integrated Containers Registry, replace 443 with the appropriate port.
-- Log in to vSphere Integrated Containers Management Portal: https://<i>vic_appliance_address</i>:8282. If you configured the vSphere Integrated Containers appliance to use a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
+- Log in to vSphere Integrated Containers Registry at https://<i>vic_appliance_address</i>:443. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Registry, replace 443 with the appropriate port.
+- Log in to vSphere Integrated Containers Management Portal: https://<i>vic_appliance_address</i>:8282. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
 
    

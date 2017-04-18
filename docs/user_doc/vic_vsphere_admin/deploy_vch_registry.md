@@ -14,7 +14,7 @@ If you did not provide a custom server certificate and private key for the regis
 1. Obtain the CA certificate of the registry instance or instances to use with this VCH.
 
    - If you deployed the registry with custom certificates, obtain the certificate from your certificate manager. 
-   - If you deployed the registry with auto-generated certificates, log in to the vSphere Integrated Containers Registry interface as `admin` user, select **admin** > **About**, and click the link to download the certificate.
+   - If you deployed the registry with auto-generated certificates, log in to the vSphere Integrated Containers Registry interface as `admin` user, click the **admin** drop-down menu and click **Download Root Cert**.
    - You can also obtain the certificate by using SCP to copy the certificate file from `/data/harbor/cert` in the vSphere Integrated Containers appliance VM.<pre>scp root@<i>vic_appliance_address</i>:/data/harbor/cert/ca.crt ./<i>destination_path</i></pre>
 2. Use `vic-machine create` to deploy a VCH, specifying the registry's CA certificate by using the [`--registry-ca`](vch_installer_options.md#registry-ca) option. 
 

@@ -69,14 +69,14 @@ VCH Admin checks that the firewall is correctly configured on an ESXi host on wh
 - The firewall on the ESXi host on which the VCH is running no longer allows outbound connections on port 2377.
 
   - The firewall was switched off when the VCH was deployed. The firewall has been switched on since the deployment of the VCH.
-  - A firewall ruleset was applied to the ESXi host to allow outbound connections on port 2377. The ESXi host has been rebooted since the deployment of the VCH. Firewall rulesets are not retained when an ESXi host reboots.
+  - A firewall ruleset was applied manually to the ESXi host to allow outbound connections on port 2377. The ESXi host has been rebooted since the deployment of the VCH. Firewall rulesets are not retained when an ESXi host reboots.
 
 #### Solution ####
 
 - If the **Firewall** status is unavailable: 
   - Check the **VCH Admin Server** log for references to network issues. 
   - Use the vSphere Web Client to remediate the management network issues as required.
-- If you see the error about port 2377, reconfigure the firewall on the ESXi host or hosts to allow  outbound connections on port 2377. For information about how to reconfigure the firewall on ESXi hosts, see [VCH Deployment Fails with Firewall Validation Error](ts_firewall_error.md).
+- If you see the error about port 2377, run the `vic-machine update firewall` command on the ESXi host or hosts to allow outbound connections on port 2377. For information about how to run `vic-machine update firewall`, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 
 
 ## License ##
