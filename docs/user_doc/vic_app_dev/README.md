@@ -8,14 +8,6 @@
 
 This information is intended for container application developers whose Docker environment uses vSphere Integrated Containers. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is assumed.
 
-# Send Documentation Feedback #
-
-Help us to improve the vSphere Integrated Containers documentation. 
-
-- Send doc feedback to VMware <a href="mailto:docfeedback@vmware.com?subject=vSphere Integrated Containers&body=Please include the document name, HTML link, PDF page number, and section heading in your feedback. Thank you!">by email</a>
-- Submit an [issue in Github](https://github.com/vmware/vic-product/issues)
-- Send us a message on https://vmwarecode.slack.com/messages/vic-doc
-
 ----------
 
 Copyright &copy; 2017 VMware, Inc. All rights reserved. [Copyright and trademark information](http://pubs.vmware.com/copyright-trademark.html). Any feedback you provide to VMware is subject to the terms at [www.vmware.com/community_terms.html](http://www.vmware.com/community_terms.html).

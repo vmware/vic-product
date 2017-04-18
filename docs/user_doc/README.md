@@ -6,15 +6,11 @@ The vSphere Integrated Containers Documentation provides information about how t
 
 ## Intended Audience
 
-This information is intended for VMware vSphere&reg; administrators who want to install and set up vSphere Integrated Containers. The information is written for experienced vSphere administrators who are familiar with virtual machine technology and datacenter operations. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is useful.
+This information is intended for the following audiences:
 
-# Send Documentation Feedback #
-
-Help us to improve the vSphere Integrated Containers documentation. 
-
-- Send doc feedback to VMware <a href="mailto:docfeedback@vmware.com?subject=vSphere Integrated Containers&body=Please include the document name, HTML link, PDF page number, and section heading in your feedback. Thank you!">by email</a>
-- Submit an [issue in Github](https://github.com/vmware/vic-product/issues)
-- Send us a message on https://vmwarecode.slack.com/messages/vic-doc
+- VMware vSphere&reg; administrators who want to install and set up vSphere Integrated Containers. 
+- DevOps administrators who want to use vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal to manage container images, create development projects, and provision and manage containers.
+- Container application developers whose Docker environment uses vSphere Integrated Containers. 
 
 ----------
 
