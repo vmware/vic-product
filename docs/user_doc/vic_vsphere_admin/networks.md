@@ -18,7 +18,7 @@ This topic provides an overview of the different network types that virtual cont
 
 The image below shows a high-level view of the networks that a VCH uses and how they connect to your vSphere environment and to the Docker environment that container developers use. 
  
- ![VCH Networking](graphics/vch_networking.png)
+ ![VCH Networking](graphics/vic_networking.png)
 
 The following sections describe each of the VCH network types, that are represented in the image by green elipses. The blue shapes represent   Docker objects, and the gray shapes represent vSphere. 
 
@@ -27,7 +27,7 @@ The following sections describe each of the VCH network types, that are represen
 
 ## Management Network {#management}
 
-The network for communication between the VCH and vCenter Server and ESXi hosts. The VCH uses this network to provide the `attach` function of the Docker API.
+The network for communication between the VCH and vCenter Server, ESXi hosts, vSphere Integrated Containers Registry, and vSphere Integrated Containers Management Portal. The VCH uses this network to provide the `attach` function of the Docker API.
 
 **IMPORTANT**: Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network. Ideally, use separate networks for the management network and the container networks.
 
