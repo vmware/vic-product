@@ -356,7 +356,7 @@ For more information about using custom server certificates, see the section [Re
 
 ### Combine Custom Server Certificates and Auto-Generated Client Certificates {#certcombo}
 
-You can create a VCH so that it uses a custom certificate to authenticate with the VCH Admin portal and an auto-generated certificate to authenticate with Docker clients. Specifying the paths to the `key.pem` and `cert.pem` files in the `--key` and `--cert` options is sufficient if the certificate is signed by a CA that is trusted by the system on which you run `vic-machine` and that is also trusted by the users who connect to the VCH. However, if the certificate is signed by a CA that is not trusted by the system, the installer cannot validate the certificate chain and `vic-machine create` fails with a certificate validation warning: 
+You can create a VCH so that it uses a custom certificate to authenticate the VCH Admin portal and an auto-generated certificate to authenticate Docker clients. Specifying the paths to the `key.pem` and `cert.pem` files in the `--key` and `--cert` options is sufficient if the certificate is signed by a CA that is trusted by the system on which you run `vic-machine` and that is also trusted by the users who connect to the VCH. However, if the certificate is signed by a CA that is not trusted by the system, the installer cannot validate the certificate chain and `vic-machine create` fails with a certificate validation warning: 
 <pre>
 Server certificate hostname doesn't match: 
 x509: cannot validate certificate for 10.17.109.182 because it doesn't contain any IP SANs
@@ -368,7 +368,7 @@ This example deploys a VCH with the following configuration:
 
 - Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
 - Provides the paths relative to the current location of the `*.pem` files for the custom server certificate and key files.
-- Specifies the common name from the server certificate in the `--tls-cname` option.
+- Specifies the common name from the server certificate in the `--tls-cname` option. The `--tls-cname` option is used in this case to ensure that the certificate is valid for the resulting VCH, given the network configuration.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
