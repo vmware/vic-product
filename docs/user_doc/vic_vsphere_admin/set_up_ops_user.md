@@ -50,7 +50,26 @@ When you deploy a VCH, a user account that you specify in `--ops-user` must have
 </tr>
 <tr>
 <td><code>VCH - endpoint</code></td>
-<td>dvPort group &gt; Modify<br>dvPort group &gt; Policy operation<br>dvPort group &gt; Scope operation<br>vApp &gt; Add virtual machine<br>VirtualMachine &gt; Configuration &gt; Add new disk<br>VirtualMachine &gt; Configuration &gt; Advanced<br>VirtualMachine &gt; Configuration &gt; Add or Remove Device<br>VirtualMachine &gt; Configuration &gt; Remove disk<br>VirtualMachine &gt; Guest operations &gt; Guest operation program execution<br>VirtualMachine &gt; Interaction &gt; Device connection<br>VirtualMachine &gt; Interaction &gt; Power off<br>VirtualMachine &gt; Interaction &gt; Power on<br>VirtualMachine &gt; Inventory &gt; Create new<br>VirtualMachine &gt; Inventory &gt; Remove<br>VirtualMachine &gt; Inventory &gt; Register<br>VirtualMachine &gt; Inventory &gt; Unregister</td>
+<td><p>dvPort group &gt; Modify<br>
+  dvPort group &gt; Policy operation<br>
+  dvPort group &gt; Scope operation<br>
+  vApp &gt; Add virtual machine<br>
+  VirtualMachine &gt; Configuration &gt; Add existing disk<br>
+  VirtualMachine &gt; Configuration &gt; Add new disk<br>
+  VirtualMachine &gt; Configuration &gt; Add or remove device<br>
+  VirtualMachine &gt; Configuration &gt; Advanced<br>
+  VirtualMachine &gt; Configuration &gt; Modify device settings<br>
+  VirtualMachine &gt; Configuration &gt; Remove disk<br>
+  VirtualMachine &gt; Configuration &gt; Rename<br>
+  VirtualMachine &gt; Guest operations &gt; Guest operation program execution<br>
+  VirtualMachine &gt; Interaction &gt; Device connection<br>
+  VirtualMachine &gt; Interaction &gt; Power off<br>
+  VirtualMachine &gt; Interaction &gt; Power on<br>
+  VirtualMachine &gt; Inventory &gt; Create new<br>
+  VirtualMachine &gt; Inventory &gt; Remove<br>
+  VirtualMachine &gt; Inventory &gt; Register<br>
+  VirtualMachine &gt; Inventory &gt; Unregister</p>
+  </td>
 </tr></tbody></table>
 
    For information about how to create vSphere roles, see [vSphere Permissions and User Management Tasks](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-5372F580-5C23-4E9C-8A4E-EF1B4DD9033E.md) in the vSphere documentation. 
