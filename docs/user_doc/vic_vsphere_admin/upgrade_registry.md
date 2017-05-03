@@ -1,6 +1,6 @@
-# Upgrade vSphere Integrated Containers Registry #
+# Upgrade vSphere Integrated Containers Registry 0.5 to 1.1.x #
 
-If you deployed version 0.5 of vSphere Integrated Containers Registry (Harbor) with vSphere Integrated Containers 1.0, you can upgrade your existing installation to version 1.1.
+If you deployed version 0.5 of vSphere Integrated Containers Registry (Harbor) with vSphere Integrated Containers 1.0, you can upgrade your existing installation to version 1.1.x.
 
 **Prerequisites**
 
