@@ -5,6 +5,7 @@ If you deployed version 0.5 of vSphere Integrated Containers Registry (Harbor) w
 **Prerequisites**
 
 - You have a vSphere Integrated Containers Registry 0.5 installation that you deployed by using the official OVA installer from vSphere Integrated Containers 1.0.
+- Back up the previous appliance by using your usual backup tools.
 - Deploy the new vSphere Integrated Containers 1.1 appliance by using the OVA installer. For information about using the OVA installer, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md). 
 
    - Deploy the  1.1 appliance in a location in which it can access the VMDK files of the 0.5 appliance.

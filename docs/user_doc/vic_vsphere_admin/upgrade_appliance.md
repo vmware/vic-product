@@ -7,6 +7,7 @@ To upgrade an instance of vSphere Integrated Containers Registry 0.5 (Harbor) th
 **Prerequisites**
 
 - You have an existing vSphere Integrated Containers 1.1.x appliance that you deployed by using the official OVA installer.
+- Back up the previous appliance by using your usual backup tools.
 - Deploy the new version of the vSphere Integrated Containers appliance to a location in which it can access the VMDK files of the previous appliance. For information about using the OVA installer, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md). 
 
    **IMPORTANT**: In the **Registry Configuration** section of the installer, make sure that you provide the same passwords in the **Registry Admin Password** and **Database Password** as the previous appliance uses. 
