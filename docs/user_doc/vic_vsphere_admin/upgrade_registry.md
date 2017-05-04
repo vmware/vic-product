@@ -1,6 +1,6 @@
-# Upgrade vSphere Integrated Containers Registry #
+# Upgrade vSphere Integrated Containers Registry 0.5 to 1.1.x #
 
-If you deployed version 0.5 of vSphere Integrated Containers Registry (Harbor) with vSphere Integrated Containers 1.0, you can upgrade your existing installation to version 1.1.
+If you deployed version 0.5 of vSphere Integrated Containers Registry (Harbor) with vSphere Integrated Containers 1.0, you can upgrade your existing installation to version 1.1.x.
 
 **Prerequisites**
 
@@ -21,7 +21,7 @@ If you deployed version 0.5 of vSphere Integrated Containers Registry (Harbor) w
 
    **IMPORTANT**: Do not select **Power Off**.
 4. Right-click the new vSphere Integrated Containers 1.1 appliance, and select **Edit Settings**.
-5. Click the **New device** drop-down menu, select **Existing Hard Disk**, and click **Add**.
+5. Click the **New device** drop-down menu at the bottom of the Edit Settings wizard, select **Existing Hard Disk**, and click **Add**.
 6. Navigate to the VDMK files of the 0.5 appliance, select one of the VMDK files, and click **OK**.
 
     You can select either VMDK file. The order of selection is not important.
