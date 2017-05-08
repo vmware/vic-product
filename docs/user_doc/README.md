@@ -4,6 +4,8 @@ The vSphere Integrated Containers Documentation provides information about how t
 
 **Product version: 1.1**
 
+This documentation applies to all 1.1.x releases.
+
 ## Intended Audience
 
 This information is intended for the following audiences:
