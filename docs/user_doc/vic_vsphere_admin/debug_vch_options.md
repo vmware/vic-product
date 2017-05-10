@@ -14,7 +14,7 @@ Short name: `--pw`
 
 Set a new password for the root user account on the VCH endpoint VM. Setting a password on the VCH allows you to access the VCH by using the VM console. If you also set the `--enable-ssh` option, you can use this password to connect to the VCH by using SSH. 
 
-When you use the password to log in to a VCH, you see the message that the password will expire in 0 days. To obtain a longer expiration period, use the Linux `passwd` command in the endpoint VM to set a new password. If the password expires, the VCH does not revert to the default security configuration from before you ran `vic-machine debug`. If you attempt to log in after the password has expired, you see a prompt to change the password, and you can then log in. 
+When you use the password to log in to a VCH, you see the message that the password will expire in 0 days. To obtain a longer expiration period, use the Linux `passwd` command in the endpoint VM to set a new password. If the password expires, the VCH does not revert to the default security configuration from before you ran `vic-machine debug`. If you attempt to log in using an interactive password via the terminal or SSH, you see a prompt to change the password. If you are using an SSH key, you cannot log in until you either change the password or run `vic-machine debug` again.
 
 Wrap the password in single quotes (Linux or Mac OS) or double quotes (Windows) if it includes shell characters such as `$`, `!` or `%`.
 
