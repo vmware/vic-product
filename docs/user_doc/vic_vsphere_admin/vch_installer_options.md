@@ -776,11 +776,11 @@ Wrap the port group name in single quotes (Linux or Mac OS) or double quotes (Wi
 
 <pre>--container-network-dns '<i>port group name</i>':8.8.8.8</pre>
 
-### `--container-network-ip-range` ###
+### `--container-network-ip-range` {#container-network-ip-range}
 
 Short name: `--cnr`
 
-The range of IP addresses that container VMs can use if the network that you specify in the `container-network` option does not support DHCP. If you specify `--container-network-ip-range`, VCHs manage the addresses for containers within that range. The range that you specify must not be used by other computers or VMs on the network. If you specify `container-network-gateway` but do not specify `--container-network-ip-range`, the IP range for container VMs is the entire subnet that you specify in `--container-network-gateway`. 
+The range of IP addresses that container VMs can use if the network that you specify in the `container-network` option does not support DHCP. If you specify `--container-network-ip-range`, VCHs manage the addresses for containers within that range. The range that you specify must not be used by other computers or VMs on the network.  You must also specify `--container-network-ip-range` if container developers need to deploy containers with static IP addresses. If you specify `container-network-gateway` but do not specify `--container-network-ip-range`, the IP range for container VMs is the entire subnet that you specify in `--container-network-gateway`. 
 
 When you specify the container network IP range, you must use the port group that you specify in the `--container-network `option. If you specify `--container-network-ip-range` but you do not specify `--container-network`, or if you specify a different port group to the one that you specify in `--container-network`, `vic-machine create` fails with an error.
 

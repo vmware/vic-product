@@ -1,22 +1,32 @@
 # Container Networking with vSphere Integrated Containers Engine #
 
-This section presents some examples of how to perform container networking operations when using vSphere Integrated Containers Engine as your Docker endpoint.
+The following sections present examples of how to perform container networking operations when using vSphere Integrated Containers Engine as your Docker endpoint.
+
+- [Publish a Container Port](#port)
+- [Add Containers to a New Bridge Network](#newbridge)
+- [Bridged Containers with an Exposed Port](#bridgeport)
+- [Deploy Containers on Multiple Bridge Networks](#multibridge)
+- [Connect Containers to External Networks](#external)
+- [Deploy Containers That Use Multiple Container Networks](#multinet)
+- [Deploy a Container with a Static IP Address](#staticip)
+
+To perform certain networking operations on containers, your Docker environment and your virtual container hosts (VCHs) must be configured in a specific way.
 
 - For information about the default Docker networks, see https://docs.docker.com/engine/userguide/networking/.
-
 - For an overview of the networks that vSphere Integrated Containers Engine uses, see [Networks Used by vSphere Integrated Containers Engine](../vic_vsphere_admin/networks.md) in *vSphere Integrated Containers for vSphere Administrators*.
+- For information about the networking options with which vSphere administrators can deploy VCHs, see the sections in VCH Deployment Options on [Networking Options](../vic_vsphere_admin/vch_installer_options.md#networking) and [Options for Configuring a Non-DHCP Network for Container Traffic](../vic_vsphere_admin/vch_installer_options.md#adv-container-net) in *vSphere Integrated Containers for vSphere Administrators*.
+- For examples of how to deploy VCHs with different network configurations, see the section in Advanced Examples of Deploying a VCH on [Networking Examples](../vic_vsphere_admin/vch_installer_examples.md#networking) in *vSphere Integrated Containers for vSphere Administrators*.
 
-## Publish a Container Port
 
-Connect a container to an external mapped port on the public network of the virtual container host (VCH):
+## Publish a Container Port {#port}
+
+Connect a container to an external mapped port on the public network of the VCH:
 
 `$ docker run -p 8080:80 --name test1 my_container my_app`
 
-### Result
+**Result:**  You can access Port 80 on `test1` from the public network interface on the VCH at port 8080.
 
-You can access Port 80 on `test1` from the public network interface on the VCH at port 8080.
-
-## Add Containers to a New Bridge Network
+## Add Containers to a New Bridge Network {#newbridge}
 
 Create a new non-default bridge network and set up two containers on the network. Verify that the containers can locate and communicate with each other:
 
@@ -35,11 +45,9 @@ Create a new non-default bridge network and set up two containers on the network
     64 bytes from 172.18.0.2: seq=1 ttl=64 time=0.092 ms
     64 bytes from 172.18.0.2: seq=2 ttl=64 time=0.088 ms
 
-### Result
+**Result:**  The `server` and `client` containers can ping each other by name.
 
-The `server` and `client` containers can ping each other by name.
-
-## Bridged Containers with Exposed Port
+## Bridged Containers with an Exposed Port {#bridgeport}
 
 Connect two containers on a bridge network and set up one of the containers to publish a port via the VCH. Assume that `server_app` binds to port 5000.
 
@@ -70,10 +78,9 @@ Connect two containers on a bridge network and set up one of the containers to p
 
     Hello world!Connection closed by foreign host.
 
-### Result
-The `server` and `client` containers can ping each other by name. You can connect to  `server` on port 5000 from the `client` container and to port 5000 on the VCH public network.
+**Result:**  The `server` and `client` containers can ping each other by name. You can connect to  `server` on port 5000 from the `client` container and to port 5000 on the VCH public network.
 
-## Deploy Containers on Multiple Bridge Networks
+## Deploy Containers on Multiple Bridge Networks {#multibridge}
 
 Create containers on multiple bridge networks by mapping ports through the VCH. The VCH must have an IP address on the relevant bridge networks. To create bridge networks, use  `network create`.
 
@@ -90,11 +97,11 @@ Run a container that can reach both networks:
 
 	docker run -it --net net1 --net net2 --name n12 busybox
 
-### Result
+**Result:**  
 - `n1` and `n2` cannot communicate with each other
 - `n12` can communicate with both `n1` and `n2`
 
-## Connect Containers to External Networks
+## Connect Containers to External Networks {#external}
 
 Configure two external networks in vSphere:
 
@@ -178,11 +185,10 @@ Set up a server on the `vic-production` network:
 **NOTE:** You can also use `-p 80` or `-p 80:80` instead of
 `--expose=80`. If you try to map to different ports with `-p`, you get a configuration error.
 
-### Result
+**Result:**  The `server` container port is exposed on the external `vic-production` network.
 
-The `server` container port is exposed on the external `vic-production` network.
+## Deploy Containers That Use Multiple Container Networks {#multinet}
 
-## Deploy Containers That Use Multiple Container Networks
 Create multiple container networks by using `vic-machine create --container-network`. 
 
 **NOTE**: The networks known as container networks in vSphere Integrated Containers Engine terminology correspond to external networks in Docker terminology.
@@ -219,7 +225,12 @@ You also can create more bridge networks via the Docker API. These are all backe
     ab84ba2a326b pg2    external
     2df4101caac2 pg3    external
 
-### Result
+**Result:**  You can create containers with `--net mike` or `--net pg1` and be on the correct network. With Docker you can combine them and attach multiple networks.
 
-You can create containers with `--net mike` or `--net pg1` and be on the correct network. With Docker you can combine them and attach multiple networks.
+## Deploy a Container with a Static IP Address {#staticip}
 
+Deploy a container that has a static IP address on the container network. For you to be able to deploy containers with static IP addresses, the vSphere administrator must have specified the [`--container-network-ip-range`](../vic_vsphere_admin/vch_installer_options.md#container-network-ip-range) option when they deployed the VCH.
+
+<pre>$ docker network connect --ip <i>ip_address</i> container-net container1</pre>
+
+**Result:**  The container `container1` runs with the specified IP address on the `container-net` network.
