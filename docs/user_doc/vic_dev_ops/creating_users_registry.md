@@ -15,7 +15,7 @@ If the registry uses LDAP authentication, you cannot create or register new user
    The user name and email address must be unique in this registry instance. The email address and the user's full name are for use in email responses to password reset requests.
 5. Enter and confirm a password for the user.
 
-   The password must contain at least 8 characters, with 1 lower case letter, 1 upper case letter, and 1 numeric character. Special characters are not currently permitted. If the passwords do not match or if they do not meet the password criteria, the **OK** button remains deactivated.
+   The password must contain at least 8 characters, with at least 1 lower case letter, 1 upper case letter, and 1 numeric character. Special characters are permitted. If the passwords do not match or if they do not meet the password criteria, the **OK** button remains deactivated.
 6. When you have completed all of the required fields correctly, click **OK**.
 
    
