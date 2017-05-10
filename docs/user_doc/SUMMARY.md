@@ -1,11 +1,19 @@
 # Summary
 
-  * [Introduction](README.md)
-  * [Quick Start Links](vic_quickstart.md)
+## vSphere Integrated Containers 1.1
 
-## vSphere Administrators
 
-* [vSphere Integrated Containers for vSphere Administrators](vic_vsphere_admin/README.md)
+----
+
+
+* [Introduction](README.md)
+* [Quick Start Links](vic_quickstart.md)
+* 
+
+----
+
+
+* [vSphere Administrators](vic_vsphere_admin/README.md)
   * [Overview for vSphere Admins](vic_vsphere_admin/introduction.md)
     * [Interoperability](vic_vsphere_admin/interop.md)
     * [Networking](vic_vsphere_admin/networks.md)
@@ -66,9 +74,11 @@
     * [Certificate Errors when Using Full TLS Authentication with Trusted Certificates](vic_vsphere_admin/ts_clock_skew.md)
   * [Security Reference](vic_vsphere_admin/security_reference.md)
 
-## DevOps Administrators
 
-  * [vSphere Integrated Containers for DevOps Administrators](vic_dev_ops/README.md)
+----
+
+
+* [DevOps Administrators](vic_dev_ops/README.md)
     * [Overview for DevOps Admins](vic_dev_ops/overview_of_vic_devops.md)
     * [Managing Images, Projects, Users](vic_dev_ops/using_registry.md)
       * [Configure a Registry](vic_dev_ops/configure_registry.md)
@@ -97,9 +107,11 @@
        * [Configuring Health Checks for Templates and Images](vic_dev_ops/configuring_health_checks.md)
        * [Configuring Cluster Size and Scale](vic_dev_ops/configuring_clusters.md)
 
-## Container App Developers
 
-* [Developing Container Applications with vSphere Integrated Containers](vic_app_dev/README.md)
+----
+
+
+* [Container App Developers](vic_app_dev/README.md)
   * [Overview for Developers](vic_app_dev/overview_of_vic_appdev.md)
   * [Supported Docker Commands](vic_app_dev/container_operations.md)
     * [Supported Docker Compose File Options](vic_app_dev/docker_compose_file_options.md)
@@ -114,7 +126,9 @@
     * [Example of Building an App](vic_app_dev/build_app_with_vic.md)
   * [Default Volume Store Error](vic_app_dev/ts_volume_store_error.md)
 
-## Resources
+
+----
+
 
 * [Send Doc Feedback](vic_vsphere_admin/feedback.md)
 * [Printable PDFs](pdf.md)
