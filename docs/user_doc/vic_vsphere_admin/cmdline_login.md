@@ -4,7 +4,7 @@ You can use certificate-based authentication with tools such as `curl` or `wget`
 
 ## With TLS Client Authentication ##
 
-If you deployed the VCH with client authentication by specifying custom certificates in the `--key` and `--cert` options, by `--tls-cname` to auto-generate CA certificates, or by specifying a static IP address on the client network, you can point `curl` to the `cert.pem` and `key.pem` files for the VCH. The following example authenticates connections to the `port-layer.log` file.
+-If you deployed the VCH with client authentication by using `--tls-cname` or by specifying a static IP address on the client network, you can point `curl` to the `cert.pem` and `key.pem` files for the VCH. The following example authenticates connections to the `port-layer.log` file.
 
 <pre>
 curl https://<i>vch_address</i>:2378/logs/port-layer.log 

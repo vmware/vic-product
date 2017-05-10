@@ -124,7 +124,7 @@ The security options that `vic-machine create` provides allow for 3 broad catego
 
 You can also configure a VCH to [use different user accounts for deployment and operation](#diff_users).
 
-**NOTE**: Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine-operating_system create -x`.
+**NOTE**: Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
 
 ### Restrict Access to the Docker API with Auto-Generated Certificates {#restrict_auto}
 
@@ -246,6 +246,8 @@ Short name: none
 
 The path to the private key file to use with a custom server certificate. This option is mandatory if you specify the `--cert` option, that provides the path to a custom X.509 certificate file. Include the names of the certificate and key files in the paths. 
 
+**IMPORTANT**: The key must not be encrypted.
+
 <pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
 --key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
 </pre> 
@@ -274,7 +276,7 @@ To deploy a VCH that does not restrict access to the Docker API, use the `--no-t
 
 Short name: `--kv`
 
-The `--no-tlsverify` option prevents the use of CAs for client authentication. You still require a server certificate if you use `--no-tlsverify`. You can still supply a custom server certificate by using the  [`--cert`](#cert) and [`--key`](#key)  options. If you do not use `--cert` and `--key` to supply a custom server certificate, `vic-machine create` generates a self-signed server certificate. If you specify `--no-tlsverify` there is no access control and the VCH is susceptible to man-in-the-middle attacks when connected to Docker clients. However, connections remain encrypted.
+The `--no-tlsverify` option prevents the use of CAs for client authentication. You still require a server certificate if you use `--no-tlsverify`. You can still supply a custom server certificate by using the  [`--cert`](#cert) and [`--key`](#key)  options. If you do not use `--cert` and `--key` to supply a custom server certificate, `vic-machine create` generates a self-signed server certificate. If you specify `--no-tlsverify` there is no access control, however connections remain encrypted.
 
 When you specify the `--no-tlsverify` option, `vic-machine create` performs the following actions during the deployment of the VCH.
 
@@ -663,7 +665,7 @@ The timeout period for uploading the vSphere Integrated Containers Engine files 
 
 # Advanced Options {#advanced}
 
-The options in this section are exposed in the `vic-machine create` help if you run <code>vic-machine-<i>operating_system</i> create --extended-help</code>, or <code>vic-machine-<i>operating_system</i> create -x</code>. 
+The options in this section are exposed in the `vic-machine create` help if you run <code>vic-machine create --extended-help</code>, or <code>vic-machine create -x</code>. 
 
 ## Options for Specifying a Static IP Address for the VCH Endpoint VM {#static-ip}
 
