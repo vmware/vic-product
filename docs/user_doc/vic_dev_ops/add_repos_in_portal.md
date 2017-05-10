@@ -20,7 +20,7 @@ Protocol | Description
 5. In the Add Registry dialog box, configure the registry settings.
 	1. As address, enter the IP or hostname of the registry and the port.
 
-    If you add Harbor, enter https://*hostname*:443.
+    If you add the vSphere Integrated Containers Registry, enter https://*hostname*:443.
 	2. Enter name for the registry.
 	3. Select the login credential and click **Verify**.
 	4. If prompted to trust the registry certificate, click **OK**.
