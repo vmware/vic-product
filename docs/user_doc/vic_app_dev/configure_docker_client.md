@@ -49,6 +49,7 @@ If your development environment uses vSphere Integrated Containers Registry or a
 
 ### Docker on Linux ###
 
+<!--
 This example configures a Linux Docker client so that you can log into vSphere Integrated Containers Registry by using both its fully-qualified domain name (FQDN) and by using its IP address.
  
 1. Copy the certificate file to the Linux machine on which you run the Docker client.
@@ -56,6 +57,18 @@ This example configures a Linux Docker client so that you can log into vSphere I
 2. Create two subfolders in the Docker certificates folder, naming one with the registry's FQDN and one with the registry's IP address.<pre>$ mkdir -p /etc/docker/certs.d/<i>registry_fqdn</i></pre> <pre>$ mkdir -p /etc/docker/certs.d/<i>registry_ip</i></pre>
 3. Copy the registry's CA certificate into both folders.<pre>$ cp ca.crt /etc/docker/certs.d/<i>registry_fqdn</i>/</pre> <pre>$ cp ca.crt /etc/docker/certs.d/<i>registry_ip</i>/</pre>
 6. Open a new terminal and attempt to log in to the registry server by using both the FQDN and the IP address of the registry server.<pre>$ docker login <i>registry_fqdn</i></pre> <pre>$ docker login <i>registry_ip</pre>
+7. If the login fails with a certificate error, restart the Docker daemon.<pre>$ sudo systemctl daemon-reload</pre> <pre>$ sudo systemctl restart docker</pre>
+-->
+
+This example configures a Linux Docker client so that you can log into vSphere Integrated Containers Registry by using its IP address.
+
+**NOTE**: The current version of vSphere Integrated Containers uses the registry's IP address as the Subject Alternate Name when auto-generating certificates for vSphere Integrated Containers Registry. Consequently, when you run `docker login`, you must use the IP address of the registry rather than the FQDN. 
+ 
+1. Copy the certificate file to the Linux machine on which you run the Docker client.
+2. Switch to `sudo` user.<pre>$ sudo su</pre>
+2. Create a subfolder in the Docker certificates folder, using the registry's IP address as the folder name.<pre>$ mkdir -p /etc/docker/certs.d/<i>registry_ip</i></pre>
+3. Copy the registry's CA certificate into the folder.<pre>$ cp ca.crt /etc/docker/certs.d/<i>registry_ip</i>/</pre>
+6. Open a new terminal and attempt to log in to the registry server, specifying the IP address of the registry server.<pre>$ docker login <i>registry_ip</pre>
 7. If the login fails with a certificate error, restart the Docker daemon.<pre>$ sudo systemctl daemon-reload</pre> <pre>$ sudo systemctl restart docker</pre>
 
 ### Docker on Windows ###
@@ -69,7 +82,7 @@ To pass the registry's CA certificate to a Docker client that is running on Wind
    - Click the up arrow in the task bar to show running tasks.
    - Right-click the Docker icon and select **Settings**.
    - Select **Reset** and click **Restart Docker**.
-5. Log in to the registry server.<pre>docker login <i>registry_address</i></pre>
+5. Log in to the registry server.<pre>docker login <i>registry_ip</i></pre>
 
 ## Using vSphere Integrated Containers Registry with Notary {#notary}
 
