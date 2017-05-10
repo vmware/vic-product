@@ -5,7 +5,7 @@ You can view live stats and manage the hosts in your environment after you add y
 - For hosts with only server-side TLS authentication, connect over HTTPS with no credentials.
 - For hosts with full TLS authentication, connect over HTTPS by using a client certificate.
 
-Use registries to store and distribute images. You can configure multiple registries to gain access to both public and private images. You must manually add Harbor as a registry. JFrog Artifactory is also supported.
+Use registries to store and distribute images. You can configure multiple registries to gain access to both public and private images. You must manually add the vSphere Integrated Containers Registry as a registry. JFrog Artifactory is also supported.
 
 - [Add Hosts with Server-Side TLS Authentication to the Management Portal](add_vch_serversideTLS_in_portal.md)
 - [Add Hosts with Full TLS Authentication to the Management Portal](add_vch_fullTLS_in_portal.md)
