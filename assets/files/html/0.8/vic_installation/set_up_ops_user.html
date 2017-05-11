@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Use Different User Accounts for VCH Deployment and Operation | VMware vSphere Integrated Containers Engine 0.8 Installation</title>
+        <title>Use Different User Accounts for VCH Deployment and Operation | Version 0.8</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -53,7 +53,7 @@
         data-chapter-title="Use Different User Accounts for VCH Deployment and Operation"
         data-filepath="set_up_ops_user.md"
         data-basepath="."
-        data-revision="Thu Feb 23 2017 15:33:46 GMT+0100 (W. Europe Standard Time)"
+        data-revision="Thu May 11 2017 09:49:00 GMT+0200 (W. Europe Daylight Time)"
         data-innerlanguage="">
     
 
@@ -76,7 +76,7 @@
                 
                         <i class="fa fa-check"></i>
                         
-                        Introduction
+                        Version 0.8
                     </a>
             
             
@@ -570,7 +570,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="./" >VMware vSphere Integrated Containers Engine 0.8 Installation</a>
+        <a href="./" >Version 0.8</a>
     </h1>
 </div>
 
@@ -633,7 +633,7 @@
 <p>The parent object of distributed virtual switches that the VCH uses  as the bridge network and container networks must be set to <code>Read-Only</code>, with <strong>Propagate to Children</strong> enabled. By placing distributed virtual switches in a network folder, you avoid setting an entire datacenter to <code>Read-Only</code>. This restriction only applies to the bridge network and container networks. When you specify the <code>vic-machine create --bridge-network</code> and <code>--container-network</code> options, include the full inventory path to the networks in the following format:<pre><i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i></pre></p>
 </li>
 <li><p>(Optional) Go to <strong>Hosts and Clusters</strong> and create a resource pool in which to deploy VCHs.</p>
-<p>By creating a resource pool for VCHs, you can set the correct permissons on just that resource pool rather than on an entire host or cluster. You specify this resource pool in the <code>vic-machine create --compute-resource</code> option when you deploy the VCH. For a more granular application of privileges, you can also apply the permissions directly to VCH vApps after deployment, rather than to a resource pool.</p>
+<p>By creating a resource pool for VCHs, you can set the correct permissions on just that resource pool rather than on an entire host or cluster. You specify this resource pool in the <code>vic-machine create --compute-resource</code> option when you deploy the VCH. For a more granular application of privileges, you can also apply the permissions directly to VCH vApps after deployment, rather than to a resource pool.</p>
 </li>
 <li><p>In each of the <strong>Hosts and Clusters</strong>, <strong>Storage</strong>, and <strong>Networking</strong> views, select inventory objects and assign the user group and the appropriate role to each one.</p>
 <table>
