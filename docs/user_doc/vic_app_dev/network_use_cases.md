@@ -229,7 +229,7 @@ You also can create more bridge networks via the Docker API. These are all backe
 
 ## Deploy a Container with a Static IP Address {#staticip}
 
-Deploy a container that has a static IP address on the container network. For you to be able to deploy containers with static IP addresses, the vSphere administrator must have specified the [`--container-network-ip-range`](../vic_vsphere_admin/vch_installer_options.md#container-network-ip-range) option when they deployed the VCH. The IP address that you specify in `docker network connect --ip` must be within the specified range. If you do not specify --ip, the VCH acts as a DHCP server and assigns an IP address from the range that the vSphere administrator specified in `--container-network-ip-range`.
+Deploy a container that has a static IP address on the container network. For you to be able to deploy containers with static IP addresses, the vSphere administrator must have specified the [`--container-network-ip-range`](../vic_vsphere_admin/vch_installer_options.md#container-network-ip-range) option when they deployed the VCH. The IP address that you specify in `docker network connect --ip` must be within the specified range. If you do not specify `--ip`, the VCH assigns an IP address from the range that the vSphere administrator specified in `--container-network-ip-range`.
 
 <pre>$ docker network connect --ip <i>ip_address</i> container-net container1</pre>
 
