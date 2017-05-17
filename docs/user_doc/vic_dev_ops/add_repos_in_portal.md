@@ -6,7 +6,7 @@ vSphere Integrated Containers can interact with both Docker Registry HTTP API V1
 
 Protocol | Description
 ------------ | -------------
-**V1 over HTTP (unsecured, plain HTTP registry)** | You can freely search this kind of registry, but you must manually configure each Docker host with the `--insecure-registry` flag to provision containers based on images from insecure registries. You must restart the Docker daemon after setting the property.
+**V1 over HTTP (unsecured, plain HTTP registry)** | You can freely search this kind of registry, but you must manually configure each Docker host or virtual container host with the `--insecure-registry` flag to provision containers based on images from insecure registries. You must restart the Docker daemon after setting the property.
 **V1 over HTTPS** | Use behind a reverse proxy, such as NGINX. The standard implementation is available through open source at https://github.com/docker/docker-registry.
 **V2 over HTTPS** | The standard implementation is open sourced at https://github.com/docker/distribution.
 **V2 over HTTPS with basic authentication** | The standard implementation is open sourced at https://github.com/docker/distribution.
