@@ -80,7 +80,7 @@ For more information about network operations with vSphere Integrated Containers
 
 | **Command** | **Docker Reference** | **Supported** |
 | --- | --- | --- |
-|`network connect`|[Connect to a network](https://docs.docker.com/engine/reference/commandline/network_connect/)|Yes, since 1.0. Not supported for running containers.<br><br>You can specify the `--ip` option to assign a static IP address to a container. If you do not specify `--ip`, the VCH assigns an IP address from the provided range of addresses for the container network.|
+|`network connect`|[Connect to a network](https://docs.docker.com/engine/reference/commandline/network_connect/)|Yes, since 1.0. Not supported for running containers.<br><br>You can specify the `--ip` option to assign a static IP address to a container. If you do not specify `--ip`, the VCH assigns an IP address from the provided range of addresses for the container network. Using the `--ip` option on container networks with DHCP enabled is not supported.|
 |`network create`|[Create a network](https://docs.docker.com/engine/reference/commandline/network_create/)|Yes, since 1.1. See the use case to connect a container to an external network in [Container Networking with vSphere Integrated Containers Engine](network_use_cases.md). Bridge is also supported.|
 |`network disconnect`|[Disconnect a network](https://docs.docker.com/engine/reference/commandline/network_disconnect/)|No|
 |`network inspect`|[Inspect a network](https://docs.docker.com/engine/reference/commandline/network_inspect/)|Yes, since 1.0|
