@@ -2,7 +2,7 @@
 
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
-* [vSphere Integrated Containers for vSphere Administrators](README.md)
+* [vSphere Administrators](README.md)
   * [Overview for vSphere Admins](introduction.md)
     * [Interoperability](interop.md)
     * [Networking](networks.md)

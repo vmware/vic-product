@@ -2,7 +2,7 @@
 
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
-* [Developing Container Applications with vSphere Integrated Containers](README.md)
+* [Container App Developers](README.md)
   * [Overview for Developers](overview_of_vic_appdev.md)
   * [Supported Docker Commands](container_operations.md)
     * [Supported Docker Compose File Options](docker_compose_file_options.md)
