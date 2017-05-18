@@ -16,7 +16,7 @@ If you have a previous 1.1.x installation of the HTML5 vSphere Client plug-in fo
 **Procedure**
 
 1. Connect as root user to the vCenter Server Appliance by using SSH.<pre>ssh root@<i>vcsa_address</i></pre>
-4. Use `curl` to copy the new vSphere Integrated Containers Engine binaries from the file server in the upgraded vSphere Integrated Containers appliance to the vCenter Server Appliance.<pre>curl -k https://<i>upgraded_vic_appliance_address</i>:9443/vic_1.1.x.tar.gz -o vic_1.1.x.tar.gz</pre>NOTE: Update `vic_1.1.x` to the appropriate version in the command above.: Update `vic_1.1.x` to the appropriate version in the command above.
+4. Use `curl` to copy the new vSphere Integrated Containers Engine binaries from the file server in the upgraded vSphere Integrated Containers appliance to the vCenter Server Appliance.<pre>curl -k https://<i>upgraded_vic_appliance_address</i>:9443/vic_1.1.x.tar.gz -o vic_1.1.x.tar.gz</pre>**NOTE**: Update `vic_1.1.x` to the appropriate version in the command above and in the next step.
 5. Unpack the vSphere Integrated Containers binaries.<pre>tar -zxf vic_1.1.x.tar.gz</pre>
 5. Use a text editor to set the vCenter Server address in the `/vic/ui/VCSA/configs` file.<pre>VCENTER_IP="<i>vcsa_address</i>"</pre>
 
