@@ -409,7 +409,7 @@ The examples in this section demonstrate how to configure a VCH to use a private
 
 ### Authorize Access to an Insecure Private Registry Server {#registry}
 
-To authorize connections from a VCH to a private registry server without verifying the certificate of that registry, set the `insecure-registry` option. If you authorize a VCH to connect to an insecure private registry server, the VCH attempts to access the registry server via HTTP if access via HTTPS fails. VCHs always use HTTPS when connecting to registry servers for which you have not authorized insecure access. You can specify `insecure-registry` multiple times to allow connections from the VCH to multiple insecure private registry servers.
+To authorize connections from a VCH to a private registry server without verifying the certificate of that registry, set the `insecure-registry` option. You can specify `insecure-registry` multiple times to allow connections from the VCH to multiple insecure private registry servers.
 
 This example deploys a VCH with the following configuration:
 
