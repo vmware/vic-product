@@ -35,14 +35,14 @@ You define the management network by setting the `--management-network` option w
 
 
 ## Public Network  {#public}
-The network that container VMs use to connect to the internet. Ports that containers expose with `docker create -p` when connected to the default bridge network are made available on the public interface of the VCH endpoint VM via network address translation (NAT), so that containers can publish network services. vSphere Integrated Containers Registry must be able to access VCHs either over the public network or over the management network.
+The network that container VMs use to connect to the internet. Ports that containers expose with `docker create -p` when connected to the default bridge network are made available on the public interface of the VCH endpoint VM via network address translation (NAT), so that containers can publish network services. VCHs must be able to access vSphere Integrated Containers Registry either over the public network or over the management network.
 
 You define the public network by setting the `--public-network` option when you run `vic-machine create`. For  more detailed information about management networks, see the section on the `--public-network` option in [VCH Deployment Options](vch_installer_options.md#public-network).
 
 
 ## Client Network {#client}
 
-The network on which the VCH endpoint VM makes the Docker API available to Docker clients. The client network isolates the Docker endpoints from the public network. vSphere Integrated Containers Registry can access VCHs over the client network, but it is recommended to connect registries either to the public network or to the management network. vSphere Integrated Containers Management Portal requires a connection to the client network. 
+The network on which the VCH endpoint VM makes the Docker API available to Docker clients. The client network isolates the Docker endpoints from the public network. VCHs can access vSphere Integrated Containers Registry over the client network, but it is recommended to connect to registries either over the public network or over the management network. vSphere Integrated Containers Management Portal requires a connection to the client network. 
 
 You define the Docker management endpoint network by setting the `--client-network` option when you run `vic-machine create`. For  more detailed information about Docker management endpoint networks, see the section on the `--client-network` option in [VCH Deployment Options](vch_installer_options.md#client-network).
 
