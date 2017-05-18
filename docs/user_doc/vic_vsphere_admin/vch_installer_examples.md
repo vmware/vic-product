@@ -409,7 +409,7 @@ The examples in this section demonstrate how to configure a VCH to use a private
 
 ### Authorize Access to an Insecure Private Registry Server {#registry}
 
-To authorize connections from a VCH to an insecure private registry server, set the `insecure-registry` option. You can specify `insecure-registry` multiple times to allow connections from the VCH to multiple insecure private registry servers.
+To authorize connections from a VCH to a private registry server without verifying the certificate of that registry, set the `insecure-registry` option. You can specify `insecure-registry` multiple times to allow connections from the VCH to multiple insecure private registry servers.
 
 This example deploys a VCH with the following configuration:
 
@@ -429,7 +429,7 @@ This example deploys a VCH with the following configuration:
 --no-tls
 </pre>
 
-For more information about configuring VCHs to connect to insecure private registry servers, see the section on the [`insecure-registry` option](vch_installer_options.md#insecure-registry) in VCH Deployment Options.
+For more information about configuring VCHs to allow connections to insecure private registry servers, see the section on the [`insecure-registry` option](vch_installer_options.md#insecure-registry) in VCH Deployment Options.
 
 ### Authorize Access to Secure Registries and vSphere Integrated Containers Registry {#secureregistry}
 
