@@ -91,6 +91,8 @@
 
     
         
+        <li class="header">vSphere Integrated Containers 1.1</li>
+        
         
     
         <li class="chapter " data-level="1.1" data-path="../">
@@ -122,7 +124,7 @@
 
     
         
-        <li class="header">vSphere Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -131,7 +133,7 @@
                 <a href="./">
             
                     
-                    vSphere Integrated Containers for vSphere Administrators
+                    vSphere Administrators
             
                 </a>
             
@@ -709,12 +711,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.5.1" data-path="upgrade_registry.html">
+        <li class="chapter " data-level="2.1.5.1" data-path="upgrade_appliance.html">
             
-                <a href="upgrade_registry.html">
+                <a href="upgrade_appliance.html">
             
                     
-                    Upgrade Registry
+                    Upgrade the Appliance
             
                 </a>
             
@@ -754,12 +756,38 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.5.3" data-path="upgrade_h5_plugin.html">
+        <li class="chapter " data-level="2.1.5.3" data-path="upgrade_h5_plugin_windows.html">
             
-                <a href="upgrade_h5_plugin.html">
+                <a href="upgrade_h5_plugin_windows.html">
             
                     
-                    Upgrade the HTML5 Plug-In
+                    Upgrade Plug-In on Windows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.4" data-path="upgrade_h5_plugin_vcsa.html">
+            
+                <a href="upgrade_h5_plugin_vcsa.html">
+            
+                    
+                    Upgrade Plug-In VCSA
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.5" data-path="upgrade_registry.html">
+            
+                <a href="upgrade_registry.html">
+            
+                    
+                    Upgrade 0.5 Registry
             
                 </a>
             
@@ -968,7 +996,7 @@
 
     
         
-        <li class="header">DevOps Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -977,7 +1005,7 @@
                 <a href="../vic_dev_ops/">
             
                     
-                    vSphere Integrated Containers for DevOps Administrators
+                    DevOps Administrators
             
                 </a>
             
@@ -1375,7 +1403,7 @@
 
     
         
-        <li class="header">Container App Developers</li>
+        <li class="divider"></li>
         
         
     
@@ -1384,7 +1412,7 @@
                 <a href="../vic_app_dev/">
             
                     
-                    Developing Container Applications with vSphere Integrated Containers
+                    Container App Developers
             
                 </a>
             
@@ -1582,7 +1610,7 @@
 
     
         
-        <li class="header">Resources</li>
+        <li class="divider"></li>
         
         
     
@@ -1750,7 +1778,7 @@
 <li><a href="#unrestricted">Do Not Restrict Access to the Docker API</a></li>
 </ul>
 <p>You can also configure a VCH to <a href="#diff_users">use different user accounts for deployment and operation</a>.</p>
-<p><strong>NOTE</strong>: Certain options in this section are exposed in the <code>vic-machine create</code> help if you run <code>vic-machine create --extended-help</code>, or <code>vic-machine-operating_system create -x</code>.</p>
+<p><strong>NOTE</strong>: Certain options in this section are exposed in the <code>vic-machine create</code> help if you run <code>vic-machine create --extended-help</code>, or <code>vic-machine create -x</code>.</p>
 <h3 id="restrict_auto">Restrict Access to the Docker API with Auto-Generated Certificates </h3>
 <p>As a convenience, <code>vic-machine create</code> provides the option of generating a client certificate, server certificate, and certificate authority (CA) as appropriate when you deploy a VCH. The generated certificates are functional, but they do not allow for fine control over aspects such as expiration, intermediate certificate authorities, and so on.</p>
 <p>vSphere Integrated Containers Engine authenticates Docker API clients by using client certificates. This configuration is commonly referred to as <code>tlsverify</code> in documentation about containers and Docker. A client certificate is accepted if it is signed by a CA that you provide by specifying one or more instances of the <code>--tls-ca</code> option. In the case of the certificates that <code>vic-machine create</code> generates, <code>vic-machine create</code> creates a CA and uses it to create and sign a single client certificate.</p>
@@ -1853,6 +1881,7 @@
 <h4 id="key"><code>--key</code> </h4>
 <p>Short name: none</p>
 <p>The path to the private key file to use with a custom server certificate. This option is mandatory if you specify the <code>--cert</code> option, that provides the path to a custom X.509 certificate file. Include the names of the certificate and key files in the paths. </p>
+<p><strong>IMPORTANT</strong>: The key must not be encrypted.</p>
 <pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
 --key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
 </pre> 
@@ -1872,7 +1901,7 @@
 <p>To deploy a VCH that does not restrict access to the Docker API, use the <code>--no-tlsverify</code> option. To completely disable TLS authentication, use the <code>--no-tls</code> option.</p>
 <h4 id="no-tlsverify"><code>--no-tlsverify</code> </h4>
 <p>Short name: <code>--kv</code></p>
-<p>The <code>--no-tlsverify</code> option prevents the use of CAs for client authentication. You still require a server certificate if you use <code>--no-tlsverify</code>. You can still supply a custom server certificate by using the  <a href="#cert"><code>--cert</code></a> and <a href="#key"><code>--key</code></a>  options. If you do not use <code>--cert</code> and <code>--key</code> to supply a custom server certificate, <code>vic-machine create</code> generates a self-signed server certificate. If you specify <code>--no-tlsverify</code> there is no access control and the VCH is susceptible to man-in-the-middle attacks when connected to Docker clients. However, connections remain encrypted.</p>
+<p>The <code>--no-tlsverify</code> option prevents the use of CAs for client authentication. You still require a server certificate if you use <code>--no-tlsverify</code>. You can still supply a custom server certificate by using the  <a href="#cert"><code>--cert</code></a> and <a href="#key"><code>--key</code></a>  options. If you do not use <code>--cert</code> and <code>--key</code> to supply a custom server certificate, <code>vic-machine create</code> generates a self-signed server certificate. If you specify <code>--no-tlsverify</code> there is no access control, however connections remain encrypted.</p>
 <p>When you specify the <code>--no-tlsverify</code> option, <code>vic-machine create</code> performs the following actions during the deployment of the VCH.</p>
 <ul>
 <li>Generates a self-signed server certificate if you do not specify <code>--cert</code> and <code>--key</code>.</li>
@@ -1924,7 +1953,7 @@
 <p><strong>NOTE</strong>: The <code>--registry-ca</code> option appears in the extended help that you see by running <code>vic-machine-os create --extended-help</code> or <code>vic-machine-os create -x</code>.</p>
 <h3 id="insecure-registry"><code>--insecure-registry</code> </h3>
 <p>Short name: <code>--dir</code></p>
-<p>An insecure private registry server is a private registry server for Docker images that does not provide TLS. The VCH cannot confirm the identity of the remote system that it is pulling images from and the communication is not encrypted. Setting the <code>--insecure-registry</code> option on a VCH informs that VCH that it is authorized to pull images from the designated insecure private registry server. Insecure private registries are not recommended in production environments.</p>
+<p>If you set the <code>--insecure-registry</code> option, the VCH does not verify the certificate of that registry when it pulls images. Insecure private registries are not recommended in production environments.</p>
 <p>If you authorize a VCH to connect to an insecure private registry server, the VCH attempts to access the registry server via HTTP if access via HTTPS fails. VCHs always use HTTPS when connecting to registry servers for which you have not authorized insecure access.</p>
 <p>You can specify <code>--insecure-registry</code> multiple times if multiple insecure registries are permitted. If the registry server listens on a specific port, add the port number to the URL</p>
 <pre>--insecure-registry <i>registry_URL_1</i>
@@ -2136,7 +2165,7 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 
 
 <h1 id="advanced">Advanced Options </h1>
-<p>The options in this section are exposed in the <code>vic-machine create</code> help if you run <code>vic-machine-operating_system create --extended-help</code>, or <code>vic-machine-operating_system create -x</code>. </p>
+<p>The options in this section are exposed in the <code>vic-machine create</code> help if you run <code>vic-machine create --extended-help</code>, or <code>vic-machine create -x</code>. </p>
 <h2 id="static-ip">Options for Specifying a Static IP Address for the VCH Endpoint VM </h2>
 <p>You can specify a static IP address for the VCH endpoint VM on each of the client, public, and management networks. DHCP is used for the endpoint VM for any network on which you do not specify a static IP address.</p>
 <p>To specify a static IP address for the endpoint VM on the client, public, or management network, you provide an IP address in the <code>client/public/management-network-ip</code> option. If you set a static IP address, you can optionally provide gateway addresses and specify one or more DNS server addresses.</p>
@@ -2218,9 +2247,9 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 <p>Wrap the port group name in single quotes (Linux or Mac OS) or double quotes (Windows) if it includes spaces.</p>
 <pre>--container-network-dns &apos;<i>port group name</i>&apos;:8.8.8.8</pre>
 
-<h3 id="-container-network-ip-range"><code>--container-network-ip-range</code></h3>
+<h3 id="container-network-ip-range"><code>--container-network-ip-range</code> </h3>
 <p>Short name: <code>--cnr</code></p>
-<p>The range of IP addresses that container VMs can use if the network that you specify in the <code>container-network</code> option does not support DHCP. If you specify <code>--container-network-ip-range</code>, VCHs manage the addresses for containers within that range. The range that you specify must not be used by other computers or VMs on the network. If you specify <code>container-network-gateway</code> but do not specify <code>--container-network-ip-range</code>, the IP range for container VMs is the entire subnet that you specify in <code>--container-network-gateway</code>. </p>
+<p>The range of IP addresses that container VMs can use if the network that you specify in the <code>container-network</code> option does not support DHCP. If you specify <code>--container-network-ip-range</code>, VCHs manage the addresses for containers within that range. The range that you specify must not be used by other computers or VMs on the network.  You must also specify <code>--container-network-ip-range</code> if container developers need to deploy containers with static IP addresses. If you specify <code>container-network-gateway</code> but do not specify <code>--container-network-ip-range</code>, the IP range for container VMs is the entire subnet that you specify in <code>--container-network-gateway</code>. </p>
 <p>When you specify the container network IP range, you must use the port group that you specify in the <code>--container-network</code>option. If you specify <code>--container-network-ip-range</code> but you do not specify <code>--container-network</code>, or if you specify a different port group to the one that you specify in <code>--container-network</code>, <code>vic-machine create</code> fails with an error.</p>
 <pre>--container-network-ip-range <i>port_group_name</i>:192.168.100.2-192.168.100.254</pre>
 
@@ -2375,7 +2404,7 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"VCH Deployment Options","level":"2.1.3.7","depth":3,"next":{"title":"Advanced Examples of Deploying a VCH","level":"2.1.3.8","depth":3,"path":"vic_vsphere_admin/vch_installer_examples.md","ref":"vic_vsphere_admin/vch_installer_examples.md","articles":[]},"previous":{"title":"Verify the Deployment of a VCH","level":"2.1.3.6","depth":3,"path":"vic_vsphere_admin/verify_vch_deployment.md","ref":"vic_vsphere_admin/verify_vch_deployment.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_installer_options.md","mtime":"2017-05-01T11:07:57.636Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-02T09:51:28.298Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"VCH Deployment Options","level":"2.1.3.7","depth":3,"next":{"title":"Advanced Examples of Deploying a VCH","level":"2.1.3.8","depth":3,"path":"vic_vsphere_admin/vch_installer_examples.md","ref":"vic_vsphere_admin/vch_installer_examples.md","articles":[]},"previous":{"title":"Verify the Deployment of a VCH","level":"2.1.3.6","depth":3,"path":"vic_vsphere_admin/verify_vch_deployment.md","ref":"vic_vsphere_admin/verify_vch_deployment.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_installer_options.md","mtime":"2017-05-18T16:45:12.007Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-18T16:48:14.838Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -91,6 +91,8 @@
 
     
         
+        <li class="header">vSphere Integrated Containers 1.1</li>
+        
         
     
         <li class="chapter " data-level="1.1" data-path="../">
@@ -122,7 +124,7 @@
 
     
         
-        <li class="header">vSphere Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -131,7 +133,7 @@
                 <a href="./">
             
                     
-                    vSphere Integrated Containers for vSphere Administrators
+                    vSphere Administrators
             
                 </a>
             
@@ -709,12 +711,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.5.1" data-path="upgrade_registry.html">
+        <li class="chapter " data-level="2.1.5.1" data-path="upgrade_appliance.html">
             
-                <a href="upgrade_registry.html">
+                <a href="upgrade_appliance.html">
             
                     
-                    Upgrade Registry
+                    Upgrade the Appliance
             
                 </a>
             
@@ -754,12 +756,38 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.5.3" data-path="upgrade_h5_plugin.html">
+        <li class="chapter " data-level="2.1.5.3" data-path="upgrade_h5_plugin_windows.html">
             
-                <a href="upgrade_h5_plugin.html">
+                <a href="upgrade_h5_plugin_windows.html">
             
                     
-                    Upgrade the HTML5 Plug-In
+                    Upgrade Plug-In on Windows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.4" data-path="upgrade_h5_plugin_vcsa.html">
+            
+                <a href="upgrade_h5_plugin_vcsa.html">
+            
+                    
+                    Upgrade Plug-In VCSA
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.5" data-path="upgrade_registry.html">
+            
+                <a href="upgrade_registry.html">
+            
+                    
+                    Upgrade 0.5 Registry
             
                 </a>
             
@@ -968,7 +996,7 @@
 
     
         
-        <li class="header">DevOps Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -977,7 +1005,7 @@
                 <a href="../vic_dev_ops/">
             
                     
-                    vSphere Integrated Containers for DevOps Administrators
+                    DevOps Administrators
             
                 </a>
             
@@ -1375,7 +1403,7 @@
 
     
         
-        <li class="header">Container App Developers</li>
+        <li class="divider"></li>
         
         
     
@@ -1384,7 +1412,7 @@
                 <a href="../vic_app_dev/">
             
                     
-                    Developing Container Applications with vSphere Integrated Containers
+                    Container App Developers
             
                 </a>
             
@@ -1582,7 +1610,7 @@
 
     
         
-        <li class="header">Resources</li>
+        <li class="divider"></li>
         
         
     
@@ -1688,6 +1716,7 @@
 </li>
 <li><p>Expand <strong>Networking Properties</strong> and optionally configure a static IP address for the appliance VM. </p>
 <p> Leave the networking properties blank to use DHCP.</p>
+<p> <strong>IMPORTANT</strong>: If you set a static IP address for the appliance, use spaces to separate DNS servers. Do not use comma separation for DNS servers.</p>
 </li>
 <li><p>Expand <strong>Registry Configuration</strong> to configure the deployment of vSphere Integrated Containers Registry. </p>
 <ul>
@@ -1696,8 +1725,7 @@
 <li>In the <strong>Notary Port</strong> text box, optionally change the port on which to publish the Docker Notary service for vSphere Integrated Containers Registry.</li>
 <li>In the <strong>Registry Admin Password</strong> text box, set the password for the vSphere Integrated Containers Registry admin account.</li>
 <li>In the <strong>Database Password</strong> text box, set the password for the root user of the MySQL database that vSphere Integrated Containers Registry uses.</li>
-<li>Optionally check the **</li>
-<li>Collection** check box to enable garbage collection when the appliance reboots. </li>
+<li>Optionally check the <strong>Garbage Collection</strong> check box to enable garbage collection when the appliance reboots. </li>
 <li>To use custom certificates to authenticate connections to vSphere Integrated Containers Registry, optionally paste the content of the appropriate certificate and key files in the <strong>SSL Cert</strong> and <strong>SSL Cert Key</strong> text boxes. Leave the text boxes blank to use auto-generated certificates. </li>
 </ul>
 </li>
@@ -1719,7 +1747,7 @@
 </ol>
 <p><strong>What to Do Next</strong></p>
 <ul>
-<li>Go to https://<i>vic_appliance_address</i>:9443, download the vSphere Integrated Containers Engine binaries, and start deploying virtual container hosts (VCHs). If the vSphere Integrated Containers appliance uses a different port for the vSphere Integrated Containers Engine file server, replace 9443 with the appropriate port. For information about deploying VCHs, see <a href="deploy_vch.html">Using vic-machine to Deploy VCHs</a>.</li>
+<li>Go to https://<i>vic_appliance_address</i>:9443, download the vSphere Integrated Containers Engine binaries bundle, vic_1.1.x.tar.gz, and start deploying virtual container hosts (VCHs). If the vSphere Integrated Containers appliance uses a different port for the vSphere Integrated Containers Engine file server, replace 9443 with the appropriate port. For information about deploying VCHs, see <a href="deploy_vch.html">Using vic-machine to Deploy VCHs</a>.</li>
 <li>Install the vSphere Client plug-ins for vSphere Integrated Containers. You do not need to download the client plug-in file. You pass the URL https://<i>vic_appliance_address</i>:<i>port</i> to the script that you run to install the vSphere Integrated Containers plug-ins. For information about installing the plug-ins, see <a href="install_vic_plugin.html">Installing the vSphere Client Plug-ins</a>.</li>
 <li>Log in to vSphere Integrated Containers Registry at https://<i>vic_appliance_address</i>:443. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Registry, replace 443 with the appropriate port.</li>
 <li>Log in to vSphere Integrated Containers Management Portal: https://<i>vic_appliance_address</i>:8282. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.</li>
@@ -1767,7 +1795,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Deploy the Appliance","level":"2.1.2.2","depth":3,"next":{"title":"Installing the Plug-ins","level":"2.1.2.3","depth":3,"path":"vic_vsphere_admin/install_vic_plugin.md","ref":"vic_vsphere_admin/install_vic_plugin.md","articles":[{"title":"vCenter Server for Windows","level":"2.1.2.3.1","depth":4,"path":"vic_vsphere_admin/plugins_vc_windows.md","ref":"vic_vsphere_admin/plugins_vc_windows.md","articles":[]},{"title":"vCenter Server Appliance","level":"2.1.2.3.2","depth":4,"path":"vic_vsphere_admin/plugins_vcsa.md","ref":"vic_vsphere_admin/plugins_vcsa.md","articles":[]},{"title":"Access the vSphere Integrated Containers View","level":"2.1.2.3.3","depth":4,"path":"vic_vsphere_admin/access_h5_ui.md","ref":"vic_vsphere_admin/access_h5_ui.md","articles":[]},{"title":"Find VCH Information","level":"2.1.2.3.4","depth":4,"path":"vic_vsphere_admin/vch_portlet_ui.md","ref":"vic_vsphere_admin/vch_portlet_ui.md","articles":[]},{"title":"Find Container Information","level":"2.1.2.3.5","depth":4,"path":"vic_vsphere_admin/container_portlet_ui.md","ref":"vic_vsphere_admin/container_portlet_ui.md","articles":[]}]},"previous":{"title":"Download","level":"2.1.2.1","depth":3,"path":"vic_vsphere_admin/download_vic.md","ref":"vic_vsphere_admin/download_vic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/deploy_vic_appliance.md","mtime":"2017-04-26T14:03:33.980Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-02T09:51:28.298Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Deploy the Appliance","level":"2.1.2.2","depth":3,"next":{"title":"Installing the Plug-ins","level":"2.1.2.3","depth":3,"path":"vic_vsphere_admin/install_vic_plugin.md","ref":"vic_vsphere_admin/install_vic_plugin.md","articles":[{"title":"vCenter Server for Windows","level":"2.1.2.3.1","depth":4,"path":"vic_vsphere_admin/plugins_vc_windows.md","ref":"vic_vsphere_admin/plugins_vc_windows.md","articles":[]},{"title":"vCenter Server Appliance","level":"2.1.2.3.2","depth":4,"path":"vic_vsphere_admin/plugins_vcsa.md","ref":"vic_vsphere_admin/plugins_vcsa.md","articles":[]},{"title":"Access the vSphere Integrated Containers View","level":"2.1.2.3.3","depth":4,"path":"vic_vsphere_admin/access_h5_ui.md","ref":"vic_vsphere_admin/access_h5_ui.md","articles":[]},{"title":"Find VCH Information","level":"2.1.2.3.4","depth":4,"path":"vic_vsphere_admin/vch_portlet_ui.md","ref":"vic_vsphere_admin/vch_portlet_ui.md","articles":[]},{"title":"Find Container Information","level":"2.1.2.3.5","depth":4,"path":"vic_vsphere_admin/container_portlet_ui.md","ref":"vic_vsphere_admin/container_portlet_ui.md","articles":[]}]},"previous":{"title":"Download","level":"2.1.2.1","depth":3,"path":"vic_vsphere_admin/download_vic.md","ref":"vic_vsphere_admin/download_vic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/deploy_vic_appliance.md","mtime":"2017-05-18T16:45:11.972Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-18T16:48:14.838Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

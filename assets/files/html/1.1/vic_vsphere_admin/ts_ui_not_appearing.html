@@ -91,6 +91,8 @@
 
     
         
+        <li class="header">vSphere Integrated Containers 1.1</li>
+        
         
     
         <li class="chapter " data-level="1.1" data-path="../">
@@ -122,7 +124,7 @@
 
     
         
-        <li class="header">vSphere Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -131,7 +133,7 @@
                 <a href="./">
             
                     
-                    vSphere Integrated Containers for vSphere Administrators
+                    vSphere Administrators
             
                 </a>
             
@@ -709,12 +711,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.5.1" data-path="upgrade_registry.html">
+        <li class="chapter " data-level="2.1.5.1" data-path="upgrade_appliance.html">
             
-                <a href="upgrade_registry.html">
+                <a href="upgrade_appliance.html">
             
                     
-                    Upgrade Registry
+                    Upgrade the Appliance
             
                 </a>
             
@@ -754,12 +756,38 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.5.3" data-path="upgrade_h5_plugin.html">
+        <li class="chapter " data-level="2.1.5.3" data-path="upgrade_h5_plugin_windows.html">
             
-                <a href="upgrade_h5_plugin.html">
+                <a href="upgrade_h5_plugin_windows.html">
             
                     
-                    Upgrade the HTML5 Plug-In
+                    Upgrade Plug-In on Windows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.4" data-path="upgrade_h5_plugin_vcsa.html">
+            
+                <a href="upgrade_h5_plugin_vcsa.html">
+            
+                    
+                    Upgrade Plug-In VCSA
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.5" data-path="upgrade_registry.html">
+            
+                <a href="upgrade_registry.html">
+            
+                    
+                    Upgrade 0.5 Registry
             
                 </a>
             
@@ -968,7 +996,7 @@
 
     
         
-        <li class="header">DevOps Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -977,7 +1005,7 @@
                 <a href="../vic_dev_ops/">
             
                     
-                    vSphere Integrated Containers for DevOps Administrators
+                    DevOps Administrators
             
                 </a>
             
@@ -1375,7 +1403,7 @@
 
     
         
-        <li class="header">Container App Developers</li>
+        <li class="divider"></li>
         
         
     
@@ -1384,7 +1412,7 @@
                 <a href="../vic_app_dev/">
             
                     
-                    Developing Container Applications with vSphere Integrated Containers
+                    Container App Developers
             
                 </a>
             
@@ -1582,7 +1610,7 @@
 
     
         
-        <li class="header">Resources</li>
+        <li class="divider"></li>
         
         
     
@@ -1660,45 +1688,37 @@
                                 <h1 id="vsphere-integrated-containers-plug-in-does-not-appear">vSphere Integrated Containers Plug-In Does Not Appear</h1>
 <p>After you have installed either of the HTML5 or Flex-based plug-ins for vSphere Integrated Containers, the plug-ins do not appear in the HTML5 vSphere Client or the Flex-based vSphere Web Client.</p>
 <h2 id="problem">Problem</h2>
-<p>The UI plug-in installer reported success, but the plug-in does not appear in the client. Logging out of the client and logging back in again does not resolve the issue.</p>
+<p>The UI plug-in installer reported success, but the plug-ins do not appear in the client. Logging out of the client and logging back in again does not resolve the issue.</p>
 <h2 id="cause">Cause</h2>
 <ul>
-<li>If a previous attempt at installing the vSphere Integrated Containers plug-in failed, the failed installation state is retained in the client cache.</li>
-<li>You installed a new version of the vSphere Integrated Containers plug-in that has the same version number as the previous version, for example a hot patch.</li>
+<li>If a previous attempt at installing the vSphere Integrated Containers plug-ins failed, the failed installation state is retained in the client cache.</li>
+<li>You installed a new version of the vSphere Integrated Containers plug-ins that has the same version number as the previous version, for example a hot patch.</li>
 </ul>
 <h2 id="solution">Solution</h2>
 <p>Restart the client service.</p>
-<h3 id="restart-the-html5-or-flex-client-on-vsphere-65-on-windows">Restart the HTML5 or Flex Client on vSphere 6.5 on Windows</h3>
+<h3 id="restart-the-html5-client-on-vcenter-server-on-windows">Restart the HTML5 Client on vCenter Server on Windows</h3>
 <ol>
-<li>Log into the Flex-based vSphere Web Client.</li>
-<li>Go to <strong>Home</strong> &gt; <strong>System Configuration</strong> &gt; <strong>Services</strong>.</li>
-<li><p>Select the service for either the HTML5 or Flex client:</p>
-<ul>
-<li>HTML5: <strong>VMware vSphere Client</strong>.</li>
-<li>Flex: <strong>VMware vSphere Web Client</strong></li>
-</ul>
-</li>
-<li>Click the <strong>Restart</strong> button.</li>
+<li>Log into the Windows system on which vCenter Server is running.</li>
+<li>Open a command prompt as Administrator.</li>
+<li>Use the <code>service-control</code> command-line utility to stop and then restart the vSphere Client service.<pre>&quot;C:\Program Files\VMware\vCenter Server\bin\service-control&quot; --stop vsphere-ui</pre><pre>&quot;C:\Program Files\VMware\vCenter Server\bin\service-control&quot; --start vsphere-ui</pre></li>
 </ol>
-<h3 id="restart-the-flex-client-on-vcenter-server-60-on-windows">Restart the Flex Client on vCenter Server 6.0 on Windows</h3>
+<h3 id="restart-the-flex-client-on-vcenter-server-on-windows">Restart the Flex Client on vCenter Server on Windows</h3>
 <ol>
-<li>Open Server Manager on the Windows system on which vCenter Server is running.</li>
-<li>Select <strong>Configuration</strong> &gt; <strong>Services</strong>.</li>
-<li>Select <strong>VMware vSphere Web Client</strong> and click <strong>Restart</strong>.</li>
+<li>Log into the Windows system on which vCenter Server is running.</li>
+<li>Open a command prompt as Administrator.</li>
+<li>Use the <code>service-control</code> command-line utility to stop and then restart the vSphere Client service.<pre>&quot;C:\Program Files\VMware\vCenter Server\bin\service-control&quot; --stop vspherewebclientsvc</pre><pre>&quot;C:\Program Files\VMware\vCenter Server\bin\service-control&quot; --start vspherewebclientsvc</pre></li>
+</ol>
+<h3 id="restart-the-html5-client-on-a-vcenter-server-appliance">Restart the HTML5 Client on a vCenter Server Appliance</h3>
+<ol>
+<li>Use SSH to log in to the vCenter Server Appliance as <code>root</code>.</li>
+<li>Use the <code>service-control</code> command-line utility to stop the vSphere Client service.<pre>service-control --stop vsphere-ui</pre></li>
+<li>Restart the vSphere Client service.<pre>service-control --start vsphere-ui</pre></li>
 </ol>
 <h3 id="restart-the-flex-client-on-a-vcenter-server-appliance">Restart the Flex Client on a vCenter Server Appliance</h3>
 <ol>
 <li>Use SSH to log in to the vCenter Server Appliance as <code>root</code>.</li>
-<li>Stop the vSphere Web Client service by running one of the following commands.<ul>
-<li>vCenter Server 6.0: <pre>service vsphere-client stop</pre></li>
-<li>vCenter Server 6.5: <pre>service-control --stop vsphere-client</pre></li>
-</ul>
-</li>
-<li>Restart the vSphere Web Client service by running one of the following commands.<ul>
-<li>vCenter Server 6.0:<pre>service vsphere-client start</pre></li>
-<li>vCenter Server 6.5: <pre>service-control --start vsphere-client</pre></li>
-</ul>
-</li>
+<li>Use the <code>service-control</code> command-line utility to stop the vSphere Web Client service.<pre>service vsphere-client stop</pre></li>
+<li>Restart the vSphere Web Client service.<pre>service-control --start vsphere-client</pre></li>
 </ol>
 
                                 
@@ -1743,7 +1763,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Plug-In Does Not Appear","level":"2.1.6.10","depth":3,"next":{"title":"Deleting or Inspecting a VCH Fails","level":"2.1.6.11","depth":3,"path":"vic_vsphere_admin/ts_delete_inspect_error.md","ref":"vic_vsphere_admin/ts_delete_inspect_error.md","articles":[]},"previous":{"title":"No Single Host Can Access All Datastores","level":"2.1.6.9","depth":3,"path":"vic_vsphere_admin/ts_datastore_access_error.md","ref":"vic_vsphere_admin/ts_datastore_access_error.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/ts_ui_not_appearing.md","mtime":"2017-04-26T14:03:34.372Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-02T09:51:28.298Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Plug-In Does Not Appear","level":"2.1.6.10","depth":3,"next":{"title":"Deleting or Inspecting a VCH Fails","level":"2.1.6.11","depth":3,"path":"vic_vsphere_admin/ts_delete_inspect_error.md","ref":"vic_vsphere_admin/ts_delete_inspect_error.md","articles":[]},"previous":{"title":"No Single Host Can Access All Datastores","level":"2.1.6.9","depth":3,"path":"vic_vsphere_admin/ts_datastore_access_error.md","ref":"vic_vsphere_admin/ts_datastore_access_error.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/ts_ui_not_appearing.md","mtime":"2017-05-18T16:45:11.990Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-18T16:48:14.838Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

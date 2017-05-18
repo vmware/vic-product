@@ -61,7 +61,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="upgrade_registry.html" />
+    <link rel="next" href="upgrade_appliance.html" />
     
     
     <link rel="prev" href="debug_vch_options.html" />
@@ -90,6 +90,8 @@
     
 
     
+        
+        <li class="header">vSphere Integrated Containers 1.1</li>
         
         
     
@@ -122,7 +124,7 @@
 
     
         
-        <li class="header">vSphere Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -131,7 +133,7 @@
                 <a href="./">
             
                     
-                    vSphere Integrated Containers for vSphere Administrators
+                    vSphere Administrators
             
                 </a>
             
@@ -709,12 +711,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.5.1" data-path="upgrade_registry.html">
+        <li class="chapter " data-level="2.1.5.1" data-path="upgrade_appliance.html">
             
-                <a href="upgrade_registry.html">
+                <a href="upgrade_appliance.html">
             
                     
-                    Upgrade Registry
+                    Upgrade the Appliance
             
                 </a>
             
@@ -754,12 +756,38 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.5.3" data-path="upgrade_h5_plugin.html">
+        <li class="chapter " data-level="2.1.5.3" data-path="upgrade_h5_plugin_windows.html">
             
-                <a href="upgrade_h5_plugin.html">
+                <a href="upgrade_h5_plugin_windows.html">
             
                     
-                    Upgrade the HTML5 Plug-In
+                    Upgrade Plug-In on Windows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.4" data-path="upgrade_h5_plugin_vcsa.html">
+            
+                <a href="upgrade_h5_plugin_vcsa.html">
+            
+                    
+                    Upgrade Plug-In VCSA
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.5" data-path="upgrade_registry.html">
+            
+                <a href="upgrade_registry.html">
+            
+                    
+                    Upgrade 0.5 Registry
             
                 </a>
             
@@ -968,7 +996,7 @@
 
     
         
-        <li class="header">DevOps Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -977,7 +1005,7 @@
                 <a href="../vic_dev_ops/">
             
                     
-                    vSphere Integrated Containers for DevOps Administrators
+                    DevOps Administrators
             
                 </a>
             
@@ -1375,7 +1403,7 @@
 
     
         
-        <li class="header">Container App Developers</li>
+        <li class="divider"></li>
         
         
     
@@ -1384,7 +1412,7 @@
                 <a href="../vic_app_dev/">
             
                     
-                    Developing Container Applications with vSphere Integrated Containers
+                    Container App Developers
             
                 </a>
             
@@ -1582,7 +1610,7 @@
 
     
         
-        <li class="header">Resources</li>
+        <li class="divider"></li>
         
         
     
@@ -1658,17 +1686,21 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="upgrading-vsphere-integrated-containers">Upgrading vSphere Integrated Containers</h1>
-<p>If you have an existing deployment of vSphere Integrated Containers 1.0, you can upgrade its components to version 1.1.</p>
+<p>If you have an existing deployment of vSphere Integrated Containers, you can upgrade its components to a 1.1.x release.</p>
 <ul>
-<li>You can upgrade vSphere Integrated Containers Registry from version 0.5 to version 1.1.</li>
-<li>To upgrade vSphere Integrated Containers Engine from 0.8 or later to 1.1, upgrade your virtual container hosts (VCHs) individually.</li>
-<li>There is no upgrade for the Flex-based vSphere Web Client plug-in for vSphere Integrated Containers 1.0. Use the plug-in for the HTML5 vSphere Client, which is new in 1.1. </li>
+<li>You can upgrade the vSphere Integrated Containers appliance from version 1.1.x to a later 1.1.y update release. Upgrading the appliance upgrades both vSphere Integrated Containers Registry and vSphere Integrated Containers Management portal, and allows you to download the new version of vSphere Integrated Containers Engine.</li>
+<li>To upgrade vSphere Integrated Containers Engine from 0.8 or later to a 1.1.x release, you upgrade the virtual container hosts (VCHs) individually.</li>
+<li>You can upgrade vSphere Integrated Containers Registry from version 0.5 to version 1.1.x.</li>
+<li>You can upgrade the HTML5 vSphere Client plug-in from version 1.1.x to a later 1.1.y update release.</li>
+<li>vSphere Integrated Containers 1.0 did not officially support vSphere Integrated Containers Management Portal. You cannot upgrade an instance of vSphere Integrated Containers Management Portal (Admiral) that predates version 1.1.0 to version 1.1.x. </li>
 </ul>
-<p>vSphere Integrated Containers 1.0 did not officially support vSphere Integrated Containers Management Portal. You cannot upgrade an existing instance of vSphere Integrated Containers Management Portal to version 1.1.</p>
+<p><strong>NOTE</strong>: No new development work is planned for the plug-in for the Flex-based vSphere Web Client. In this and future releases, only the HTML5 vSphere Client will be updated. This release adds no new features to the Flex plug-in. If you installed the Flex plug-in with a previous release of vSphere Integrated Containers, there is no upgrade to perform.</p>
 <ul>
-<li><a href="upgrade_registry.html">Upgrade vSphere Integrated Containers Registry</a></li>
+<li><a href="upgrade_appliance.html">Upgrade the vSphere Integrated Containers Appliance</a></li>
 <li><a href="upgrade_vch.html">Upgrade a VCH</a></li>
-<li><a href="upgrade_h5_plugin.html">Upgrade the HTML5 vSphere Client Plug-In</a></li>
+<li><a href="upgrade_h5_plugin_windows.html">Upgrade the HTML5 vSphere Client Plug-In on vCenter Server for Windows</a></li>
+<li><a href="upgrade_h5_plugin_vcsa.html">Upgrade the HTML5 vSphere Client Plug-In on a vCenter Server Appliance</a></li>
+<li><a href="upgrade_registry.html">Upgrade vSphere Integrated Containers Registry 0.5 to 1.1.x</a></li>
 </ul>
 
                                 
@@ -1702,7 +1734,7 @@
                 </a>
                 
                 
-                <a href="upgrade_registry.html" class="navigation navigation-next " aria-label="Next page: Upgrade Registry">
+                <a href="upgrade_appliance.html" class="navigation navigation-next " aria-label="Next page: Upgrade the Appliance">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1713,7 +1745,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Upgrading","level":"2.1.5","depth":2,"next":{"title":"Upgrade Registry","level":"2.1.5.1","depth":3,"path":"vic_vsphere_admin/upgrade_registry.md","ref":"vic_vsphere_admin/upgrade_registry.md","articles":[]},"previous":{"title":"VCH Debug Options","level":"2.1.4.8.3","depth":4,"path":"vic_vsphere_admin/debug_vch_options.md","ref":"vic_vsphere_admin/debug_vch_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrading_vic.md","mtime":"2017-04-26T14:03:34.421Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-02T09:51:28.298Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Upgrading","level":"2.1.5","depth":2,"next":{"title":"Upgrade the Appliance","level":"2.1.5.1","depth":3,"path":"vic_vsphere_admin/upgrade_appliance.md","ref":"vic_vsphere_admin/upgrade_appliance.md","articles":[]},"previous":{"title":"VCH Debug Options","level":"2.1.4.8.3","depth":4,"path":"vic_vsphere_admin/debug_vch_options.md","ref":"vic_vsphere_admin/debug_vch_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrading_vic.md","mtime":"2017-05-18T16:45:12.001Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-18T16:48:14.838Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
