@@ -77,4 +77,7 @@ During the upgrade process, `vic-machine upgrade` performs the following operati
 
 **What to Do Next**
 
-[Upgrade the HTML5 vSphere Client Plug-In](upgrade_h5_plugin.md).
+Upgrade the HTML5 vSphere Client plug-in:
+
+- [Upgrade the HTML5 vSphere Client Plug-In on vCenter Server for Windows](upgrade_h5_plugin_windows.md)
+- [Upgrade the HTML5 vSphere Client Plug-In on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md)
