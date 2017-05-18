@@ -93,7 +93,7 @@ For more information about volume operations with vSphere Integrated Containers 
 
 | **Command** | **Docker Reference** | **Supported** |
 | --- | --- | --- |
-|`volume create`|[Create a volume](https://docs.docker.com/engine/reference/commandline/volume_create/)|Yes, since 1.0|
+|`volume create`|[Create a volume](https://docs.docker.com/engine/reference/commandline/volume_create/)|Yes, since 1.0. Supports the `--opt Capacity` and `--opt VolumeStore` options, and ignores any other options that you might specify. Currently only supports `ext4` file systems for volume stores. |
 |`volume inspect`|[Information about a volume](https://docs.docker.com/engine/reference/commandline/volume_inspect/)|Yes, since 1.0|
 |`volume ls`|[List volumes](https://docs.docker.com/engine/reference/commandline/volume_ls/)|Yes, since 1.0|
 |`volume rm`|[Remove or delete a volume](https://docs.docker.com/engine/reference/commandline/volume_rm/)|Yes, since 1.0|

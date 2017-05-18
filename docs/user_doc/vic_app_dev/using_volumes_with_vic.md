@@ -2,7 +2,7 @@
 
 vSphere Integrated Containers Engine supports the use of container volumes. 
 
-**IMPORTANT**: To use container volume capabilities with vSphere Integrated Containers Engine, the vSphere administrator must configure the virtual container host (VCH) appropriately at the moment of deployment of the VCH. When the vSphere administrator creates a VCH, the administrator must specify the datastore to use to store container volumes in the `vic-machine create --volume-store` option. You cannot currently add volume stores, and therefore volume capabilities, to a VCH after its initial deployment. For information about how to use the `vic-machine create --volume-store` option, see the section on `volume-store` in [VCH Deployment Options](../vic_vsphere_admin/vch_installer_options.md#volume-store) in *vSphere Integrated Containers for vSphere Administrators*.  
+**IMPORTANT**: To use container volume capabilities with vSphere Integrated Containers Engine, the vSphere administrator must configure the virtual container host (VCH) appropriately at the moment of deployment of the VCH. When the vSphere administrator creates a VCH, they must specify the datastore to use to store container volumes in the `vic-machine create --volume-store` option. You cannot currently add volume stores, and therefore volume capabilities, to a VCH after its initial deployment. For information about how to use the `vic-machine create --volume-store` option, see the section on `volume-store` in [VCH Deployment Options](../vic_vsphere_admin/vch_installer_options.md#volume-store) in *vSphere Integrated Containers for vSphere Administrators*.  
 
 - [Obtain the List of Available Volume Stores](#list_vs) 
 - [Obtain the List of Available Volumes](#list_vols)
@@ -13,7 +13,7 @@ vSphere Integrated Containers Engine supports the use of container volumes.
 - [Obtain Information About a Volume](#inspect_vol) 
 - [Delete a Named Volume from a Volume Store](#delete_vol) 
 
-For simplicity, the examples in this topic assume that the VCHs implement TLS authentication with self-signed untrusted certificates, with no client verification.
+For simplicity, the examples in this topic assume that the VCHs implement TLS authentication with self-signed server certificates, with no client verification.
 
 ## Obtain the List of Available Volume Stores {#list_vs}
 
@@ -69,6 +69,8 @@ When you use the `docker volume create` command to create a volume, you can opti
   --opt VolumeStore=<i>volume_store_label</i> 
   --opt Capacity=10GB
   --name <i>volume_name</i></pre>
+
+- vSphere Integrated Containers Engine currently only supports `ext4` file systems for volumes.
 
 After you create a volume by using `docker volume create`, you can mount that volume in a container by running either of the following commands:
 
