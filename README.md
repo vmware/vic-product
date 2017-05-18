@@ -11,6 +11,9 @@ The [VIC Engine](https://github.com/vmware/vic) is a container runtime for vSphe
 
 With these three capabilities, VIC enables VMware customers to deliver a production ready container solution to their developers and app teams. By leveraging their existing SDDC, customers can now run container-based applications alongside existing virtual machine based workloads in production without having to build out a separate, specialized container infrastructure stack. As an added benefit for customers and partners, VIC is modular. So if your organization already has a container registry in production, you can use that registry with the other components of vSphere Integrated Containers.
 
+## Demo
+See the 3 products in action in this step by step [demo](https://www.youtube.com/watch?v=EyN71qe_iWs) 
+
 ## Installing
 Please refer to the [documentation](https://github.com/vmware/vic-product/tree/master/docs/setup/beta) for installing and testing VIC
 
