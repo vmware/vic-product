@@ -2,7 +2,7 @@
 
 You can configure networks on a virtual container host (VCH) that are tied into the vSphere infrastructure. You define which networks are available to a VCH when you deploy the VCH.
 
-Each network that a VCH uses is a port group on either a vCenter Server instance or ESXi host.
+Each network that a VCH uses is a port group on either a vCenter Server instance or ESXi host. You can deploy VCHs on NSX networks.
 
 This topic provides an overview of the different network types that virtual container hosts use.
 
