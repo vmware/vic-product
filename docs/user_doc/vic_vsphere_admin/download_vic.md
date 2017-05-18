@@ -16,7 +16,7 @@ You can obtain open source builds of vSphere Integrated Containers Engine, vSphe
    * [vSphere Integrated Containers Engine](https://github.com/vmware/vic/releases)
    * [vSphere Integrated Containers Registry](https://github.com/vmware/harbor/releases)
    * [vSphere Integrated Containers Portal](https://github.com/vmware/admiral/releases)
- * Download built [vSphere Integrated Containers Engine binaries](https://console.cloud.google.com/storage/browser/vic-engine-releases/). Builds usually happen after every successful merge into the source code. These builds have been minimally tested for integration. 
+ * Download built [vSphere Integrated Containers Engine binaries](https://storage.googleapis.com/vic-engine-builds/). Builds usually happen after every successful merge into the source code. These builds have been minimally tested for integration. 
  * Build the latest source version of the vSphere Integrated Containers components:
    * [vSphere Integrated Containers Engine](https://github.com/vmware/vic/blob/master/README.md#building)
    * [vSphere Integrated Containers Registry](https://github.com/vmware/harbor/blob/master/README.md)
