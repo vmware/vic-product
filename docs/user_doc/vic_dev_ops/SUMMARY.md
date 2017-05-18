@@ -2,7 +2,7 @@
 
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
-  * [vSphere Integrated Containers for DevOps Administrators](README.md)
+* [DevOps Administrators](README.md)
     * [Overview for DevOps Admins](overview_of_vic_devops.md)
     * [Managing Images, Projects, Users](using_registry.md)
       * [Configure a Registry](configure_registry.md)
