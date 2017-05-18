@@ -35,8 +35,6 @@ You can apply vSphere High Availability to clusters on which VCHs and container 
 
 You can deploy the vSphere Integrated Containers appliance on an NSX network. VCHs require distributed port groups and a bridge network. You can deploy VCHs to NSX networks if those networks are configured to provide distributed port groups. You can use NSX networks for the management, bridge, public, and container networks. 
 
-vSphere Integrated Containers does not support VMware NSX-T.
-
 ## Maintenance Mode {#maintmode}
 
 In a cluster with fully automated DRS, if you put a host into maintenance mode, DRS migrates the VCHs and container VMs to another host in the cluster. Putting hosts into maintenance mode requires manual intervention in certain circumstances:
