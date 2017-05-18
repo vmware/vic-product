@@ -16,7 +16,7 @@ You install the vSphere Client plug-ins for vSphere Integrated Containers by log
 **Procedure**
 
 1. Connect as root user to the vCenter Server Appliance by using SSH.<pre>ssh root@<i>vcsa_address</i></pre>
-4. Use `curl` to copy the vSphere Integrated Containers Engine binaries from the vSphere Integrated Containers appliance file server to the vCenter Server Appliance.<pre>curl -k https://<i>vic_appliance_address</i>:9443/vic_1.1.1.tar.gz -o vic_1.1.1.tar.gz</pre>
+4. Use `curl` to copy the vSphere Integrated Containers Engine binaries from the vSphere Integrated Containers appliance file server to the vCenter Server Appliance.<pre>curl -k https://<i>vic_appliance_address</i>:9443/vic_1.1.1.tar.gz -o vic_1.1.1.tar.gz</pre>**NOTE**: Update `vic_1.1.x` to the appropriate version in the command above.
 5. Unpack the vSphere Integrated Containers binaries.<pre>tar -zxf vic_1.1.1.tar.gz</pre>
 5. Use a text editor to set the vCenter Server address in the `/vic/ui/VCSA/configs` file.<pre>VCENTER_IP="<i>vcsa_address</i>"</pre>
 
