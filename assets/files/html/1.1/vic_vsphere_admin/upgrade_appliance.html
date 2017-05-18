@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Upgrade the HTML5 Plug-In · VMware vSphere Integrated Containers 1.1 Documentation</title>
+        <title>Upgrade the Appliance · VMware vSphere Integrated Containers 1.1 Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="troubleshoot_vic.html" />
+    <link rel="next" href="upgrade_vch.html" />
     
     
-    <link rel="prev" href="upgrade_vch_options.html" />
+    <link rel="prev" href="upgrading_vic.html" />
     
 
     </head>
@@ -90,6 +90,8 @@
     
 
     
+        
+        <li class="header">vSphere Integrated Containers 1.1</li>
         
         
     
@@ -122,7 +124,7 @@
 
     
         
-        <li class="header">vSphere Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -131,7 +133,7 @@
                 <a href="./">
             
                     
-                    vSphere Integrated Containers for vSphere Administrators
+                    vSphere Administrators
             
                 </a>
             
@@ -709,12 +711,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.5.1" data-path="upgrade_registry.html">
+        <li class="chapter active" data-level="2.1.5.1" data-path="upgrade_appliance.html">
             
-                <a href="upgrade_registry.html">
+                <a href="upgrade_appliance.html">
             
                     
-                    Upgrade Registry
+                    Upgrade the Appliance
             
                 </a>
             
@@ -754,12 +756,38 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.1.5.3" data-path="upgrade_h5_plugin.html">
+        <li class="chapter " data-level="2.1.5.3" data-path="upgrade_h5_plugin_windows.html">
             
-                <a href="upgrade_h5_plugin.html">
+                <a href="upgrade_h5_plugin_windows.html">
             
                     
-                    Upgrade the HTML5 Plug-In
+                    Upgrade Plug-In on Windows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.4" data-path="upgrade_h5_plugin_vcsa.html">
+            
+                <a href="upgrade_h5_plugin_vcsa.html">
+            
+                    
+                    Upgrade Plug-In VCSA
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.5" data-path="upgrade_registry.html">
+            
+                <a href="upgrade_registry.html">
+            
+                    
+                    Upgrade 0.5 Registry
             
                 </a>
             
@@ -968,7 +996,7 @@
 
     
         
-        <li class="header">DevOps Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -977,7 +1005,7 @@
                 <a href="../vic_dev_ops/">
             
                     
-                    vSphere Integrated Containers for DevOps Administrators
+                    DevOps Administrators
             
                 </a>
             
@@ -1375,7 +1403,7 @@
 
     
         
-        <li class="header">Container App Developers</li>
+        <li class="divider"></li>
         
         
     
@@ -1384,7 +1412,7 @@
                 <a href="../vic_app_dev/">
             
                     
-                    Developing Container Applications with vSphere Integrated Containers
+                    Container App Developers
             
                 </a>
             
@@ -1582,7 +1610,7 @@
 
     
         
-        <li class="header">Resources</li>
+        <li class="divider"></li>
         
         
     
@@ -1642,7 +1670,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Upgrade the HTML5 Plug-In</a>
+        <a href=".." >Upgrade the Appliance</a>
     </h1>
 </div>
 
@@ -1657,29 +1685,38 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="upgrade-the-html5-vsphere-client-plug-in">Upgrade the HTML5 vSphere Client Plug-In</h1>
-<p>If you have a previous installation of the HTML5 vSphere Client plug-in for vSphere Integrated Containers and you download a new version of vSphere Integrated Containers Engine, you must upgrade the HTML5 plug-in.</p>
-<p><strong>NOTE</strong>: No new development work is planned for the plug-in for the Flex-based vSphere Web Client. In this and future releases, only the HTML5 vSphere Client will be updated. This release adds no new features to the Flex plug-in. If you installed the Flex plug-in with vSphere Integrated Containers 1.0, there is no upgrade to perform. </p>
-<p>The plug-in for the HTML5 vSphere Client is new in vSphere Integrated Containers 1.1. This procedure describes how to upgrade the HTML5 plug-in from version 1.1 to a later 1.x release. For information about installing the HTML5 plug-in for the first time, see <a href="plugin_h5_vcsa.md">Install the HTML5 Plug-In on a vCenter Server Appliance</a> or <a href="plugin_h5_vc_web.md">Install the HTML5 Plug-In on vCenter Server for Windows by Using a Web Server</a>.</p>
+                                <h1 id="upgrade-the-vsphere-integrated-containers-appliance">Upgrade the vSphere Integrated Containers Appliance</h1>
+<p>If you deployed a 1.1.x version of the vSphere Integrated Containers appliance, you can upgrade your existing installation to a later 1.1.y update release.</p>
+<p>To upgrade an instance of vSphere Integrated Containers Registry 0.5 (Harbor) that you deployed with vSphere Integrated Containers 1.0, see <a href="upgrade_registry.html">Upgrade vSphere Integrated Containers Registry 0.5 to 1.1.x</a>.</p>
 <p><strong>Prerequisites</strong></p>
 <ul>
-<li>You deployed an older version of the vSphere Integrated Containers plug-in for the HTML5 vSphere Client.</li>
-<li>You downloaded a new version of vSphere Integrated Containers Engine.</li>
-<li>For information about how to update the <code>configs</code> and <code>install.sh</code> files, see <a href="plugin_h5_vcsa.md">Install the HTML5 Plug-In on a vCenter Server Appliance</a> or <a href="plugin_h5_vc_web.md">Install the HTML5 Plug-In on vCenter Server for Windows by Using a Web Server</a>.</li>
+<li>You have an existing vSphere Integrated Containers 1.1.x appliance that you deployed by using the official OVA installer.</li>
+<li>Back up the previous appliance by using your usual backup tools.</li>
+<li><p>Deploy the new version of the vSphere Integrated Containers appliance to a location in which it can access the VMDK files of the previous appliance. For information about using the OVA installer, see <a href="deploy_vic_appliance.html">Deploy the vSphere Integrated Containers Appliance</a>. </p>
+<p> <strong>IMPORTANT</strong>: In the <strong>Registry Configuration</strong> section of the installer, make sure that you provide the same passwords in the <strong>Registry Admin Password</strong> and <strong>Database Password</strong> as the previous appliance uses. </p>
+</li>
+<li><p>Log in to a vSphere Web Client instance from which you can access both versions of the vSphere Integrated Containers appliance. If you use vSphere 6.5, log in to the Flex-based vSphere Web Client, not the HTML5 vSphere Client.</p>
+</li>
 </ul>
 <p><strong>Procedure</strong></p>
 <ol>
-<li>If you run vCenter Server on Windows, copy the new version of the <code>com.vmware.vic-version.zip</code> file to the appropriate location on your Web server.</li>
-<li><p>Update the new version of the <code>configs</code> file.</p>
-<ul>
-<li>vCenter Server Appliance: <code>vic/ui/HTML5Client/configs</code></li>
-<li>vCenter Server on Windows: <code>vic/ui/vCenterForWindows/configs</code></li>
-</ul>
+<li><p>Shut down both of the previous and new vSphere Integrated Containers appliances by selecting <strong>Shut Down Guest OS</strong>.</p>
+<p><strong>IMPORTANT</strong>: Do not select <strong>Power Off</strong>.</p>
 </li>
-<li>(Optional) If you are upgrading the plug-in on a vCenter Server Appliance and you are working on a Windows system, update the <code>vic/ui/HTML5Client/install.sh</code> file to point <code>PLUGIN_MANAGER_BIN</code> to the Windows UI executable. </li>
-<li>Run the <code>vic/ui/HTML5Client/upgrade.sh</code> or <code>vic/ui/vCenterForWindows/upgrade.bat</code> script. </li>
-<li>When the upgrade finishes, if you are logged into the vSphere Client, log out then log back in again.</li>
+<li>Right-click the previous vSphere Integrated Containers appliance, and select <strong>Edit Settings</strong>.</li>
+<li><p>Hover your mouse over <strong>Hard disk 2</strong>, click the <strong>Remove</strong> button, and click <strong>OK</strong>.</p>
+<p>Hard disk 2 is the larger of the two disks.</p>
+<p><strong>IMPORTANT</strong>: Do not check the <strong>Delete files from this datastore</strong> checkbox.</p>
+</li>
+<li>Right-click the new vSphere Integrated Containers appliance, and select <strong>Edit Settings</strong>.</li>
+<li>Hover your mouse over <strong>Hard disk 2</strong>, click the <strong>Remove</strong> button, and check the <strong>Delete files from this datastore</strong> checkbox.</li>
+<li>Click the <strong>New device</strong> drop-down menu at the bottom of the Edit Settings wizard, select <strong>Existing Hard Disk</strong>, and click <strong>Add</strong>.</li>
+<li>Navigate to the VDMK files of the previous appliance, select the VMDK file with the file name that ends in <code>_1</code>, and click <strong>OK</strong>.</li>
+<li>Click <strong>OK</strong> again to update the VM settings.</li>
+<li>Power on the new appliance to complete the upgrade.</li>
 </ol>
+<p><strong>What to Do Next</strong></p>
+<p>Log into the new versions of vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal to verify that the data from your previous vSphere Integrated Containers installation has migrated successfully.</p>
 
                                 
                                 </section>
@@ -1707,12 +1744,12 @@
 
             
                 
-                <a href="upgrade_vch_options.html" class="navigation navigation-prev " aria-label="Previous page: VCH Upgrade Options">
+                <a href="upgrading_vic.html" class="navigation navigation-prev " aria-label="Previous page: Upgrading">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="troubleshoot_vic.html" class="navigation navigation-next " aria-label="Next page: Troubleshooting vSphere Integrated Containers">
+                <a href="upgrade_vch.html" class="navigation navigation-next " aria-label="Next page: Upgrade VCHs">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1723,7 +1760,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Upgrade the HTML5 Plug-In","level":"2.1.5.3","depth":3,"next":{"title":"Troubleshooting vSphere Integrated Containers","level":"2.1.6","depth":2,"path":"vic_vsphere_admin/troubleshoot_vic.md","ref":"vic_vsphere_admin/troubleshoot_vic.md","articles":[{"title":"Check Service Status","level":"2.1.6.1","depth":3,"path":"vic_vsphere_admin/service_status.md","ref":"vic_vsphere_admin/service_status.md","articles":[]},{"title":"Restart Services","level":"2.1.6.2","depth":3,"path":"vic_vsphere_admin/restart_services.md","ref":"vic_vsphere_admin/restart_services.md","articles":[]},{"title":"VCH Deployment Times Out","level":"2.1.6.3","depth":3,"path":"vic_vsphere_admin/ts_vch_deployment_timeout.md","ref":"vic_vsphere_admin/ts_vch_deployment_timeout.md","articles":[]},{"title":"Certificate Verification Error","level":"2.1.6.4","depth":3,"path":"vic_vsphere_admin/ts_thumbprint_error.md","ref":"vic_vsphere_admin/ts_thumbprint_error.md","articles":[]},{"title":"Missing Common Name Error Even When TLS Options Are Specified Correctly","level":"2.1.6.5","depth":3,"path":"vic_vsphere_admin/ts_cli_argument_error.md","ref":"vic_vsphere_admin/ts_cli_argument_error.md","articles":[]},{"title":"Firewall Validation Error","level":"2.1.6.6","depth":3,"path":"vic_vsphere_admin/ts_firewall_error.md","ref":"vic_vsphere_admin/ts_firewall_error.md","articles":[]},{"title":"Certificate cname Mismatch","level":"2.1.6.7","depth":3,"path":"vic_vsphere_admin/ts_cname_mismatch.md","ref":"vic_vsphere_admin/ts_cname_mismatch.md","articles":[]},{"title":"Docker API Endpoint Check Failed Error","level":"2.1.6.8","depth":3,"path":"vic_vsphere_admin/ts_docker_api_check_error.md","ref":"vic_vsphere_admin/ts_docker_api_check_error.md","articles":[]},{"title":"No Single Host Can Access All Datastores","level":"2.1.6.9","depth":3,"path":"vic_vsphere_admin/ts_datastore_access_error.md","ref":"vic_vsphere_admin/ts_datastore_access_error.md","articles":[]},{"title":"Plug-In Does Not Appear","level":"2.1.6.10","depth":3,"path":"vic_vsphere_admin/ts_ui_not_appearing.md","ref":"vic_vsphere_admin/ts_ui_not_appearing.md","articles":[]},{"title":"Deleting or Inspecting a VCH Fails","level":"2.1.6.11","depth":3,"path":"vic_vsphere_admin/ts_delete_inspect_error.md","ref":"vic_vsphere_admin/ts_delete_inspect_error.md","articles":[]},{"title":"Certificate Errors when Using Full TLS Authentication with Trusted Certificates","level":"2.1.6.12","depth":3,"path":"vic_vsphere_admin/ts_clock_skew.md","ref":"vic_vsphere_admin/ts_clock_skew.md","articles":[]}]},"previous":{"title":"VCH Upgrade Options","level":"2.1.5.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_h5_plugin.md","mtime":"2017-04-26T14:03:34.389Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-02T09:51:28.298Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Upgrade the Appliance","level":"2.1.5.1","depth":3,"next":{"title":"Upgrade VCHs","level":"2.1.5.2","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"2.1.5.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},"previous":{"title":"Upgrading","level":"2.1.5","depth":2,"path":"vic_vsphere_admin/upgrading_vic.md","ref":"vic_vsphere_admin/upgrading_vic.md","articles":[{"title":"Upgrade the Appliance","level":"2.1.5.1","depth":3,"path":"vic_vsphere_admin/upgrade_appliance.md","ref":"vic_vsphere_admin/upgrade_appliance.md","articles":[]},{"title":"Upgrade VCHs","level":"2.1.5.2","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"2.1.5.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},{"title":"Upgrade Plug-In on Windows","level":"2.1.5.3","depth":3,"path":"vic_vsphere_admin/upgrade_h5_plugin_windows.md","ref":"vic_vsphere_admin/upgrade_h5_plugin_windows.md","articles":[]},{"title":"Upgrade Plug-In VCSA","level":"2.1.5.4","depth":3,"path":"vic_vsphere_admin/upgrade_h5_plugin_vcsa.md","ref":"vic_vsphere_admin/upgrade_h5_plugin_vcsa.md","articles":[]},{"title":"Upgrade 0.5 Registry","level":"2.1.5.5","depth":3,"path":"vic_vsphere_admin/upgrade_registry.md","ref":"vic_vsphere_admin/upgrade_registry.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_appliance.md","mtime":"2017-05-18T16:45:11.992Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-18T16:48:14.838Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

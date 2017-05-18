@@ -91,6 +91,8 @@
 
     
         
+        <li class="header">vSphere Integrated Containers 1.1</li>
+        
         
     
         <li class="chapter " data-level="1.1" data-path="../">
@@ -122,7 +124,7 @@
 
     
         
-        <li class="header">vSphere Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -131,7 +133,7 @@
                 <a href="../vic_vsphere_admin/">
             
                     
-                    vSphere Integrated Containers for vSphere Administrators
+                    vSphere Administrators
             
                 </a>
             
@@ -709,12 +711,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.5.1" data-path="../vic_vsphere_admin/upgrade_registry.html">
+        <li class="chapter " data-level="2.1.5.1" data-path="../vic_vsphere_admin/upgrade_appliance.html">
             
-                <a href="../vic_vsphere_admin/upgrade_registry.html">
+                <a href="../vic_vsphere_admin/upgrade_appliance.html">
             
                     
-                    Upgrade Registry
+                    Upgrade the Appliance
             
                 </a>
             
@@ -754,12 +756,38 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.5.3" data-path="../vic_vsphere_admin/upgrade_h5_plugin.html">
+        <li class="chapter " data-level="2.1.5.3" data-path="../vic_vsphere_admin/upgrade_h5_plugin_windows.html">
             
-                <a href="../vic_vsphere_admin/upgrade_h5_plugin.html">
+                <a href="../vic_vsphere_admin/upgrade_h5_plugin_windows.html">
             
                     
-                    Upgrade the HTML5 Plug-In
+                    Upgrade Plug-In on Windows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.4" data-path="../vic_vsphere_admin/upgrade_h5_plugin_vcsa.html">
+            
+                <a href="../vic_vsphere_admin/upgrade_h5_plugin_vcsa.html">
+            
+                    
+                    Upgrade Plug-In VCSA
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.5" data-path="../vic_vsphere_admin/upgrade_registry.html">
+            
+                <a href="../vic_vsphere_admin/upgrade_registry.html">
+            
+                    
+                    Upgrade 0.5 Registry
             
                 </a>
             
@@ -968,7 +996,7 @@
 
     
         
-        <li class="header">DevOps Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -977,7 +1005,7 @@
                 <a href="../vic_dev_ops/">
             
                     
-                    vSphere Integrated Containers for DevOps Administrators
+                    DevOps Administrators
             
                 </a>
             
@@ -1375,7 +1403,7 @@
 
     
         
-        <li class="header">Container App Developers</li>
+        <li class="divider"></li>
         
         
     
@@ -1384,7 +1412,7 @@
                 <a href="./">
             
                     
-                    Developing Container Applications with vSphere Integrated Containers
+                    Container App Developers
             
                 </a>
             
@@ -1582,7 +1610,7 @@
 
     
         
-        <li class="header">Resources</li>
+        <li class="divider"></li>
         
         
     
@@ -1658,19 +1686,28 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="container-networking-with-vsphere-integrated-containers-engine">Container Networking with vSphere Integrated Containers Engine</h1>
-<p>This section presents some examples of how to perform container networking operations when using vSphere Integrated Containers Engine as your Docker endpoint.</p>
+<p>The following sections present examples of how to perform container networking operations when using vSphere Integrated Containers Engine as your Docker endpoint.</p>
 <ul>
-<li><p>For information about the default Docker networks, see <a href="https://docs.docker.com/engine/userguide/networking/" target="_blank">https://docs.docker.com/engine/userguide/networking/</a>.</p>
-</li>
-<li><p>For an overview of the networks that vSphere Integrated Containers Engine uses, see <a href="../vic_vsphere_admin/networks.html">Networks Used by vSphere Integrated Containers Engine</a> in <em>vSphere Integrated Containers for vSphere Administrators</em>.</p>
-</li>
+<li><a href="#port">Publish a Container Port</a></li>
+<li><a href="#newbridge">Add Containers to a New Bridge Network</a></li>
+<li><a href="#bridgeport">Bridged Containers with an Exposed Port</a></li>
+<li><a href="#multibridge">Deploy Containers on Multiple Bridge Networks</a></li>
+<li><a href="#external">Connect Containers to External Networks</a></li>
+<li><a href="#multinet">Deploy Containers That Use Multiple Container Networks</a></li>
+<li><a href="#staticip">Deploy a Container with a Static IP Address</a></li>
 </ul>
-<h2 id="publish-a-container-port">Publish a Container Port</h2>
-<p>Connect a container to an external mapped port on the public network of the virtual container host (VCH):</p>
+<p>To perform certain networking operations on containers, your Docker environment and your virtual container hosts (VCHs) must be configured in a specific way.</p>
+<ul>
+<li>For information about the default Docker networks, see <a href="https://docs.docker.com/engine/userguide/networking/" target="_blank">https://docs.docker.com/engine/userguide/networking/</a>.</li>
+<li>For an overview of the networks that vSphere Integrated Containers Engine uses, see <a href="../vic_vsphere_admin/networks.html">Networks Used by vSphere Integrated Containers Engine</a> in <em>vSphere Integrated Containers for vSphere Administrators</em>.</li>
+<li>For information about the networking options with which vSphere administrators can deploy VCHs, see the sections in VCH Deployment Options on <a href="../vic_vsphere_admin/vch_installer_options.html#networking">Networking Options</a> and <a href="../vic_vsphere_admin/vch_installer_options.html#adv-container-net">Options for Configuring a Non-DHCP Network for Container Traffic</a> in <em>vSphere Integrated Containers for vSphere Administrators</em>.</li>
+<li>For examples of how to deploy VCHs with different network configurations, see the section in Advanced Examples of Deploying a VCH on <a href="../vic_vsphere_admin/vch_installer_examples.html#networking">Networking Examples</a> in <em>vSphere Integrated Containers for vSphere Administrators</em>.</li>
+</ul>
+<h2 id="port">Publish a Container Port </h2>
+<p>Connect a container to an external mapped port on the public network of the VCH:</p>
 <p><code>$ docker run -p 8080:80 --name test1 my_container my_app</code></p>
-<h3 id="result">Result</h3>
-<p>You can access Port 80 on <code>test1</code> from the public network interface on the VCH at port 8080.</p>
-<h2 id="add-containers-to-a-new-bridge-network">Add Containers to a New Bridge Network</h2>
+<p><strong>Result:</strong>  You can access Port 80 on <code>test1</code> from the public network interface on the VCH at port 8080.</p>
+<h2 id="newbridge">Add Containers to a New Bridge Network </h2>
 <p>Create a new non-default bridge network and set up two containers on the network. Verify that the containers can locate and communicate with each other:</p>
 <pre><code>$ docker network create -d bridge my-bridge-network
 $ docker network ls
@@ -1686,9 +1723,8 @@ PING server (172.18.0.2): 56 data bytes
 64 bytes from 172.18.0.2: seq=0 ttl=64 time=0.073 ms
 64 bytes from 172.18.0.2: seq=1 ttl=64 time=0.092 ms
 64 bytes from 172.18.0.2: seq=2 ttl=64 time=0.088 ms
-</code></pre><h3 id="result">Result</h3>
-<p>The <code>server</code> and <code>client</code> containers can ping each other by name.</p>
-<h2 id="bridged-containers-with-exposed-port">Bridged Containers with Exposed Port</h2>
+</code></pre><p><strong>Result:</strong>  The <code>server</code> and <code>client</code> containers can ping each other by name.</p>
+<h2 id="bridgeport">Bridged Containers with an Exposed Port </h2>
 <p>Connect two containers on a bridge network and set up one of the containers to publish a port via the VCH. Assume that <code>server_app</code> binds to port 5000.</p>
 <pre><code>$ docker network create -d bridge my-bridge-network
 $ docker network ls
@@ -1715,9 +1751,8 @@ Escape character is &apos;^]&apos;.
 GET /
 
 Hello world!Connection closed by foreign host.
-</code></pre><h3 id="result">Result</h3>
-<p>The <code>server</code> and <code>client</code> containers can ping each other by name. You can connect to  <code>server</code> on port 5000 from the <code>client</code> container and to port 5000 on the VCH public network.</p>
-<h2 id="deploy-containers-on-multiple-bridge-networks">Deploy Containers on Multiple Bridge Networks</h2>
+</code></pre><p><strong>Result:</strong>  The <code>server</code> and <code>client</code> containers can ping each other by name. You can connect to  <code>server</code> on port 5000 from the <code>client</code> container and to port 5000 on the VCH public network.</p>
+<h2 id="multibridge">Deploy Containers on Multiple Bridge Networks </h2>
 <p>Create containers on multiple bridge networks by mapping ports through the VCH. The VCH must have an IP address on the relevant bridge networks. To create bridge networks, use  <code>network create</code>.</p>
 <p>Run a container that is connected to two networks:</p>
 <p> <code>docker run -it --net net1 --net net2 busybox</code></p>
@@ -1726,12 +1761,12 @@ Hello world!Connection closed by foreign host.
 docker run -it --net net2 --name n2 busybox
 </code></pre><p>Run a container that can reach both networks:</p>
 <pre><code>docker run -it --net net1 --net net2 --name n12 busybox
-</code></pre><h3 id="result">Result</h3>
+</code></pre><p><strong>Result:</strong>  </p>
 <ul>
 <li><code>n1</code> and <code>n2</code> cannot communicate with each other</li>
 <li><code>n12</code> can communicate with both <code>n1</code> and <code>n2</code></li>
 </ul>
-<h2 id="connect-containers-to-external-networks">Connect Containers to External Networks</h2>
+<h2 id="external">Connect Containers to External Networks </h2>
 <p>Configure two external networks in vSphere:</p>
 <ul>
 <li><code>default-external</code> is <code>10.2.0.0/16</code> with gateway <code>10.2.0.1</code>  </li>
@@ -1803,9 +1838,8 @@ GET /
 Hello world!Connection closed by foreign host.
 </code></pre><p><strong>NOTE:</strong> You can also use <code>-p 80</code> or <code>-p 80:80</code> instead of
 <code>--expose=80</code>. If you try to map to different ports with <code>-p</code>, you get a configuration error.</p>
-<h3 id="result">Result</h3>
-<p>The <code>server</code> container port is exposed on the external <code>vic-production</code> network.</p>
-<h2 id="deploy-containers-that-use-multiple-container-networks">Deploy Containers That Use Multiple Container Networks</h2>
+<p><strong>Result:</strong>  The <code>server</code> container port is exposed on the external <code>vic-production</code> network.</p>
+<h2 id="multinet">Deploy Containers That Use Multiple Container Networks </h2>
 <p>Create multiple container networks by using <code>vic-machine create --container-network</code>. </p>
 <p><strong>NOTE</strong>: The networks known as container networks in vSphere Integrated Containers Engine terminology correspond to external networks in Docker terminology.</p>
 <p>Example:</p>
@@ -1832,8 +1866,12 @@ NETWORK ID   NAME   DRIVER
 95a91e11b1a8 pg1    external
 ab84ba2a326b pg2    external
 2df4101caac2 pg3    external
-</code></pre><h3 id="result">Result</h3>
-<p>You can create containers with <code>--net mike</code> or <code>--net pg1</code> and be on the correct network. With Docker you can combine them and attach multiple networks.</p>
+</code></pre><p><strong>Result:</strong>  You can create containers with <code>--net mike</code> or <code>--net pg1</code> and be on the correct network. With Docker you can combine them and attach multiple networks.</p>
+<h2 id="staticip">Deploy a Container with a Static IP Address </h2>
+<p>Deploy a container that has a static IP address on the container network. For you to be able to deploy containers with static IP addresses, the vSphere administrator must have specified the <a href="../vic_vsphere_admin/vch_installer_options.html#container-network-ip-range"><code>--container-network-ip-range</code></a> option when they deployed the VCH. The IP address that you specify in <code>docker network connect --ip</code> must be within the specified range. If you do not specify <code>--ip</code>, the VCH assigns an IP address from the range that the vSphere administrator specified in <code>--container-network-ip-range</code>.</p>
+<pre>$ docker network connect --ip <i>ip_address</i> container-net container1</pre>
+
+<p><strong>Result:</strong>  The container <code>container1</code> runs with the specified IP address on the <code>container-net</code> network.</p>
 
                                 
                                 </section>
@@ -1877,7 +1915,7 @@ ab84ba2a326b pg2    external
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Container Networking","level":"4.1.8","depth":2,"next":{"title":"Creating a Containerized App","level":"4.1.9","depth":2,"path":"vic_app_dev/creating_containerized_app_with_vic.md","ref":"vic_app_dev/creating_containerized_app_with_vic.md","articles":[{"title":"Docker Compose Constraints","level":"4.1.9.1","depth":3,"path":"vic_app_dev/constraints_using_compose.md","ref":"vic_app_dev/constraints_using_compose.md","articles":[]},{"title":"Example of Building an App","level":"4.1.9.2","depth":3,"path":"vic_app_dev/build_app_with_vic.md","ref":"vic_app_dev/build_app_with_vic.md","articles":[]}]},"previous":{"title":"Using Volumes","level":"4.1.7","depth":2,"path":"vic_app_dev/using_volumes_with_vic.md","ref":"vic_app_dev/using_volumes_with_vic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/network_use_cases.md","mtime":"2017-04-18T07:19:25.914Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-18T12:49:11.928Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Container Networking","level":"4.1.8","depth":2,"next":{"title":"Creating a Containerized App","level":"4.1.9","depth":2,"path":"vic_app_dev/creating_containerized_app_with_vic.md","ref":"vic_app_dev/creating_containerized_app_with_vic.md","articles":[{"title":"Docker Compose Constraints","level":"4.1.9.1","depth":3,"path":"vic_app_dev/constraints_using_compose.md","ref":"vic_app_dev/constraints_using_compose.md","articles":[]},{"title":"Example of Building an App","level":"4.1.9.2","depth":3,"path":"vic_app_dev/build_app_with_vic.md","ref":"vic_app_dev/build_app_with_vic.md","articles":[]}]},"previous":{"title":"Using Volumes","level":"4.1.7","depth":2,"path":"vic_app_dev/using_volumes_with_vic.md","ref":"vic_app_dev/using_volumes_with_vic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/network_use_cases.md","mtime":"2017-05-18T16:45:11.944Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-18T16:48:14.838Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

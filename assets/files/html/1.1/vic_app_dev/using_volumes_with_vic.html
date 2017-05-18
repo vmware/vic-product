@@ -91,6 +91,8 @@
 
     
         
+        <li class="header">vSphere Integrated Containers 1.1</li>
+        
         
     
         <li class="chapter " data-level="1.1" data-path="../">
@@ -122,7 +124,7 @@
 
     
         
-        <li class="header">vSphere Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -131,7 +133,7 @@
                 <a href="../vic_vsphere_admin/">
             
                     
-                    vSphere Integrated Containers for vSphere Administrators
+                    vSphere Administrators
             
                 </a>
             
@@ -709,12 +711,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.5.1" data-path="../vic_vsphere_admin/upgrade_registry.html">
+        <li class="chapter " data-level="2.1.5.1" data-path="../vic_vsphere_admin/upgrade_appliance.html">
             
-                <a href="../vic_vsphere_admin/upgrade_registry.html">
+                <a href="../vic_vsphere_admin/upgrade_appliance.html">
             
                     
-                    Upgrade Registry
+                    Upgrade the Appliance
             
                 </a>
             
@@ -754,12 +756,38 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.5.3" data-path="../vic_vsphere_admin/upgrade_h5_plugin.html">
+        <li class="chapter " data-level="2.1.5.3" data-path="../vic_vsphere_admin/upgrade_h5_plugin_windows.html">
             
-                <a href="../vic_vsphere_admin/upgrade_h5_plugin.html">
+                <a href="../vic_vsphere_admin/upgrade_h5_plugin_windows.html">
             
                     
-                    Upgrade the HTML5 Plug-In
+                    Upgrade Plug-In on Windows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.4" data-path="../vic_vsphere_admin/upgrade_h5_plugin_vcsa.html">
+            
+                <a href="../vic_vsphere_admin/upgrade_h5_plugin_vcsa.html">
+            
+                    
+                    Upgrade Plug-In VCSA
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.5" data-path="../vic_vsphere_admin/upgrade_registry.html">
+            
+                <a href="../vic_vsphere_admin/upgrade_registry.html">
+            
+                    
+                    Upgrade 0.5 Registry
             
                 </a>
             
@@ -968,7 +996,7 @@
 
     
         
-        <li class="header">DevOps Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -977,7 +1005,7 @@
                 <a href="../vic_dev_ops/">
             
                     
-                    vSphere Integrated Containers for DevOps Administrators
+                    DevOps Administrators
             
                 </a>
             
@@ -1375,7 +1403,7 @@
 
     
         
-        <li class="header">Container App Developers</li>
+        <li class="divider"></li>
         
         
     
@@ -1384,7 +1412,7 @@
                 <a href="./">
             
                     
-                    Developing Container Applications with vSphere Integrated Containers
+                    Container App Developers
             
                 </a>
             
@@ -1582,7 +1610,7 @@
 
     
         
-        <li class="header">Resources</li>
+        <li class="divider"></li>
         
         
     
@@ -1659,7 +1687,7 @@
                                 
                                 <h1 id="using-volumes-with-vsphere-integrated-containers-engine">Using Volumes with vSphere Integrated Containers Engine</h1>
 <p>vSphere Integrated Containers Engine supports the use of container volumes. </p>
-<p><strong>IMPORTANT</strong>: To use container volume capabilities with vSphere Integrated Containers Engine, the vSphere administrator must configure the virtual container host (VCH) appropriately at the moment of deployment of the VCH. When the vSphere administrator creates a VCH, the administrator must specify the datastore to use to store container volumes in the <code>vic-machine create --volume-store</code> option. You cannot currently add volume stores, and therefore volume capabilities, to a VCH after its initial deployment. For information about how to use the <code>vic-machine create --volume-store</code> option, see the section on <code>volume-store</code> in <a href="../vic_vsphere_admin/vch_installer_options.html#volume-store">VCH Deployment Options</a> in <em>vSphere Integrated Containers for vSphere Administrators</em>.  </p>
+<p><strong>IMPORTANT</strong>: To use container volume capabilities with vSphere Integrated Containers Engine, the vSphere administrator must configure the virtual container host (VCH) appropriately at the moment of deployment of the VCH. When the vSphere administrator creates a VCH, they must specify the datastore to use to store container volumes in the <code>vic-machine create --volume-store</code> option. You cannot currently add volume stores, and therefore volume capabilities, to a VCH after its initial deployment. For information about how to use the <code>vic-machine create --volume-store</code> option, see the section on <code>volume-store</code> in <a href="../vic_vsphere_admin/vch_installer_options.html#volume-store">VCH Deployment Options</a> in <em>vSphere Integrated Containers for vSphere Administrators</em>.  </p>
 <ul>
 <li><a href="#list_vs">Obtain the List of Available Volume Stores</a> </li>
 <li><a href="#list_vols">Obtain the List of Available Volumes</a></li>
@@ -1670,7 +1698,7 @@
 <li><a href="#inspect_vol">Obtain Information About a Volume</a> </li>
 <li><a href="#delete_vol">Delete a Named Volume from a Volume Store</a> </li>
 </ul>
-<p>For simplicity, the examples in this topic assume that the VCHs implement TLS authentication with self-signed untrusted certificates, with no client verification.</p>
+<p>For simplicity, the examples in this topic assume that the VCHs implement TLS authentication with self-signed server certificates, with no client verification.</p>
 <h2 id="list_vs">Obtain the List of Available Volume Stores </h2>
 <p>To obtain the list of volume stores that are available on a VCH, run <code>docker info</code>.</p>
 <pre>docker -H <i>virtual_container_host_address</i>:2376 --tls info</pre>
@@ -1715,7 +1743,8 @@ vsphere        <i>volume_n</i></pre>
 --opt VolumeStore=<i>volume_store_label</i> 
 --opt Capacity=10GB
 --name <i>volume_name</i></pre>
-
+</li>
+<li><p>vSphere Integrated Containers Engine currently only supports <code>ext4</code> file systems for volumes.</p>
 </li>
 </ul>
 <p>After you create a volume by using <code>docker volume create</code>, you can mount that volume in a container by running either of the following commands:</p>
@@ -1842,7 +1871,7 @@ volume rm <i>volume_name</i></pre>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Using Volumes","level":"4.1.7","depth":2,"next":{"title":"Container Networking","level":"4.1.8","depth":2,"path":"vic_app_dev/network_use_cases.md","ref":"vic_app_dev/network_use_cases.md","articles":[]},"previous":{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"path":"vic_app_dev/build_push_images.md","ref":"vic_app_dev/build_push_images.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/using_volumes_with_vic.md","mtime":"2017-04-18T07:19:25.943Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-18T12:49:11.928Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Using Volumes","level":"4.1.7","depth":2,"next":{"title":"Container Networking","level":"4.1.8","depth":2,"path":"vic_app_dev/network_use_cases.md","ref":"vic_app_dev/network_use_cases.md","articles":[]},"previous":{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"path":"vic_app_dev/build_push_images.md","ref":"vic_app_dev/build_push_images.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/using_volumes_with_vic.md","mtime":"2017-05-18T16:45:11.946Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-18T16:48:14.838Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

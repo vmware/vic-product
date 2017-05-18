@@ -91,6 +91,8 @@
 
     
         
+        <li class="header">vSphere Integrated Containers 1.1</li>
+        
         
     
         <li class="chapter " data-level="1.1" data-path="../">
@@ -122,7 +124,7 @@
 
     
         
-        <li class="header">vSphere Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -131,7 +133,7 @@
                 <a href="../vic_vsphere_admin/">
             
                     
-                    vSphere Integrated Containers for vSphere Administrators
+                    vSphere Administrators
             
                 </a>
             
@@ -709,12 +711,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.5.1" data-path="../vic_vsphere_admin/upgrade_registry.html">
+        <li class="chapter " data-level="2.1.5.1" data-path="../vic_vsphere_admin/upgrade_appliance.html">
             
-                <a href="../vic_vsphere_admin/upgrade_registry.html">
+                <a href="../vic_vsphere_admin/upgrade_appliance.html">
             
                     
-                    Upgrade Registry
+                    Upgrade the Appliance
             
                 </a>
             
@@ -754,12 +756,38 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.5.3" data-path="../vic_vsphere_admin/upgrade_h5_plugin.html">
+        <li class="chapter " data-level="2.1.5.3" data-path="../vic_vsphere_admin/upgrade_h5_plugin_windows.html">
             
-                <a href="../vic_vsphere_admin/upgrade_h5_plugin.html">
+                <a href="../vic_vsphere_admin/upgrade_h5_plugin_windows.html">
             
                     
-                    Upgrade the HTML5 Plug-In
+                    Upgrade Plug-In on Windows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.4" data-path="../vic_vsphere_admin/upgrade_h5_plugin_vcsa.html">
+            
+                <a href="../vic_vsphere_admin/upgrade_h5_plugin_vcsa.html">
+            
+                    
+                    Upgrade Plug-In VCSA
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.5" data-path="../vic_vsphere_admin/upgrade_registry.html">
+            
+                <a href="../vic_vsphere_admin/upgrade_registry.html">
+            
+                    
+                    Upgrade 0.5 Registry
             
                 </a>
             
@@ -968,7 +996,7 @@
 
     
         
-        <li class="header">DevOps Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -977,7 +1005,7 @@
                 <a href="../vic_dev_ops/">
             
                     
-                    vSphere Integrated Containers for DevOps Administrators
+                    DevOps Administrators
             
                 </a>
             
@@ -1375,7 +1403,7 @@
 
     
         
-        <li class="header">Container App Developers</li>
+        <li class="divider"></li>
         
         
     
@@ -1384,7 +1412,7 @@
                 <a href="./">
             
                     
-                    Developing Container Applications with vSphere Integrated Containers
+                    Container App Developers
             
                 </a>
             
@@ -1582,7 +1610,7 @@
 
     
         
-        <li class="header">Resources</li>
+        <li class="divider"></li>
         
         
     
@@ -1698,13 +1726,24 @@ DOCKER_HOST=<i>vch_address</i>:2376</pre></li>
 <p>If your development environment uses vSphere Integrated Containers Registry or another private registry server that uses CA server certificates, you must pass the registry&apos;s CA certificate to the Docker client. The vSphere administrator must also have configured the VCH to access the registry. For information about how to obtain the CA certificate from vSphere Integrated Containers Registry and how to deploy a VCH so that it can access a private registry, see <a href="../vic_vsphere_admin/deploy_vch_registry.html">Deploy a VCH for Use with vSphere Integrated Containers Registry</a>.</p>
 <p><strong>NOTE</strong>: The level of security of the connection between the Docker client and the VCH is independent from the level of security of the connection between the Docker client and the registry. Connections between the Docker client and the registry can be secure while connections between the Docker client and the VCH are insecure, and the reverse.</p>
 <h3 id="docker-on-linux">Docker on Linux</h3>
-<p>This example configures a Linux Docker client so that you can log into vSphere Integrated Containers Registry by using both its fully-qualified domain name (FQDN) and by using its IP address.</p>
+<!--
+This example configures a Linux Docker client so that you can log into vSphere Integrated Containers Registry by using both its fully-qualified domain name (FQDN) and by using its IP address.
+
+1. Copy the certificate file to the Linux machine on which you run the Docker client.
+2. Switch to `sudo` user.<pre>$ sudo su</pre>
+2. Create two subfolders in the Docker certificates folder, naming one with the registry's FQDN and one with the registry's IP address.<pre>$ mkdir -p /etc/docker/certs.d/<i>registry_fqdn</i></pre> <pre>$ mkdir -p /etc/docker/certs.d/<i>registry_ip</i></pre>
+3. Copy the registry's CA certificate into both folders.<pre>$ cp ca.crt /etc/docker/certs.d/<i>registry_fqdn</i>/</pre> <pre>$ cp ca.crt /etc/docker/certs.d/<i>registry_ip</i>/</pre>
+6. Open a new terminal and attempt to log in to the registry server by using both the FQDN and the IP address of the registry server.<pre>$ docker login <i>registry_fqdn</i></pre> <pre>$ docker login <i>registry_ip</pre>
+7. If the login fails with a certificate error, restart the Docker daemon.<pre>$ sudo systemctl daemon-reload</pre> <pre>$ sudo systemctl restart docker</pre>
+-->
+<p>This example configures a Linux Docker client so that you can log into vSphere Integrated Containers Registry by using its IP address.</p>
+<p><strong>NOTE</strong>: The current version of vSphere Integrated Containers uses the registry&apos;s IP address as the Subject Alternate Name when auto-generating certificates for vSphere Integrated Containers Registry. Consequently, when you run <code>docker login</code>, you must use the IP address of the registry rather than the FQDN. </p>
 <ol>
 <li>Copy the certificate file to the Linux machine on which you run the Docker client.</li>
 <li>Switch to <code>sudo</code> user.<pre>$ sudo su</pre></li>
-<li>Create two subfolders in the Docker certificates folder, naming one with the registry&apos;s FQDN and one with the registry&apos;s IP address.<pre>$ mkdir -p /etc/docker/certs.d/<i>registry_fqdn</i></pre> <pre>$ mkdir -p /etc/docker/certs.d/<i>registry_ip</i></pre></li>
-<li>Copy the registry&apos;s CA certificate into both folders.<pre>$ cp ca.crt /etc/docker/certs.d/<i>registry_fqdn</i>/</pre> <pre>$ cp ca.crt /etc/docker/certs.d/<i>registry_ip</i>/</pre></li>
-<li>Open a new terminal and attempt to log in to the registry server by using both the FQDN and the IP address of the registry server.<pre>$ docker login <i>registry_fqdn</i></pre> <pre>$ docker login <i>registry_ip</i></pre></li>
+<li>Create a subfolder in the Docker certificates folder, using the registry&apos;s IP address as the folder name.<pre>$ mkdir -p /etc/docker/certs.d/<i>registry_ip</i></pre></li>
+<li>Copy the registry&apos;s CA certificate into the folder.<pre>$ cp ca.crt /etc/docker/certs.d/<i>registry_ip</i>/</pre></li>
+<li>Open a new terminal and attempt to log in to the registry server, specifying the IP address of the registry server.<pre>$ docker login <i>registry_ip</i></pre></li>
 <li>If the login fails with a certificate error, restart the Docker daemon.<pre>$ sudo systemctl daemon-reload</pre> <pre>$ sudo systemctl restart docker</pre></li>
 </ol>
 <h3 id="docker-on-windows">Docker on Windows</h3>
@@ -1719,7 +1758,7 @@ DOCKER_HOST=<i>vch_address</i>:2376</pre></li>
 <li>Select <strong>Reset</strong> and click <strong>Restart Docker</strong>.</li>
 </ul>
 </li>
-<li>Log in to the registry server.<pre>docker login <i>registry_address</i></pre></li>
+<li>Log in to the registry server.<pre>docker login <i>registry_ip</i></pre></li>
 </ol>
 <h2 id="notary">Using vSphere Integrated Containers Registry with Notary </h2>
 <p>vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement content trust by signing and verifying the images in the registry. For information about Docker Notary, see <a href="https://docs.docker.com/engine/security/trust/content_trust/" target="_blank">Content trust in Docker</a> in the Docker documentation.</p>
@@ -1781,7 +1820,7 @@ export DOCKER_CONTENT_TRUST_SERVER=https://<i>registry_ip</i>:4443
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configure the Docker Client","level":"4.1.5","depth":2,"next":{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"path":"vic_app_dev/build_push_images.md","ref":"vic_app_dev/build_push_images.md","articles":[]},"previous":{"title":"Obtain a VCH","level":"4.1.4","depth":2,"path":"vic_app_dev/obtain_vch.md","ref":"vic_app_dev/obtain_vch.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/configure_docker_client.md","mtime":"2017-04-18T07:38:27.507Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-18T12:49:11.928Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configure the Docker Client","level":"4.1.5","depth":2,"next":{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"path":"vic_app_dev/build_push_images.md","ref":"vic_app_dev/build_push_images.md","articles":[]},"previous":{"title":"Obtain a VCH","level":"4.1.4","depth":2,"path":"vic_app_dev/obtain_vch.md","ref":"vic_app_dev/obtain_vch.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/configure_docker_client.md","mtime":"2017-05-18T16:45:11.939Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-18T16:48:14.838Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

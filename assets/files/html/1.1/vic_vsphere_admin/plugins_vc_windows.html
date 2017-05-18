@@ -91,6 +91,8 @@
 
     
         
+        <li class="header">vSphere Integrated Containers 1.1</li>
+        
         
     
         <li class="chapter " data-level="1.1" data-path="../">
@@ -122,7 +124,7 @@
 
     
         
-        <li class="header">vSphere Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -131,7 +133,7 @@
                 <a href="./">
             
                     
-                    vSphere Integrated Containers for vSphere Administrators
+                    vSphere Administrators
             
                 </a>
             
@@ -709,12 +711,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.5.1" data-path="upgrade_registry.html">
+        <li class="chapter " data-level="2.1.5.1" data-path="upgrade_appliance.html">
             
-                <a href="upgrade_registry.html">
+                <a href="upgrade_appliance.html">
             
                     
-                    Upgrade Registry
+                    Upgrade the Appliance
             
                 </a>
             
@@ -754,12 +756,38 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.5.3" data-path="upgrade_h5_plugin.html">
+        <li class="chapter " data-level="2.1.5.3" data-path="upgrade_h5_plugin_windows.html">
             
-                <a href="upgrade_h5_plugin.html">
+                <a href="upgrade_h5_plugin_windows.html">
             
                     
-                    Upgrade the HTML5 Plug-In
+                    Upgrade Plug-In on Windows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.4" data-path="upgrade_h5_plugin_vcsa.html">
+            
+                <a href="upgrade_h5_plugin_vcsa.html">
+            
+                    
+                    Upgrade Plug-In VCSA
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.5" data-path="upgrade_registry.html">
+            
+                <a href="upgrade_registry.html">
+            
+                    
+                    Upgrade 0.5 Registry
             
                 </a>
             
@@ -968,7 +996,7 @@
 
     
         
-        <li class="header">DevOps Administrators</li>
+        <li class="divider"></li>
         
         
     
@@ -977,7 +1005,7 @@
                 <a href="../vic_dev_ops/">
             
                     
-                    vSphere Integrated Containers for DevOps Administrators
+                    DevOps Administrators
             
                 </a>
             
@@ -1375,7 +1403,7 @@
 
     
         
-        <li class="header">Container App Developers</li>
+        <li class="divider"></li>
         
         
     
@@ -1384,7 +1412,7 @@
                 <a href="../vic_app_dev/">
             
                     
-                    Developing Container Applications with vSphere Integrated Containers
+                    Container App Developers
             
                 </a>
             
@@ -1582,7 +1610,7 @@
 
     
         
-        <li class="header">Resources</li>
+        <li class="divider"></li>
         
         
     
@@ -1658,40 +1686,38 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="install-the-client-plug-ins-on-vcenter-server-for-windows">Install the Client Plug-Ins on vCenter Server for Windows</h1>
-<p>You install the vSphere Client plug-ins for vSphere Integrated Containers by using the Web server that runs in the vSphere Integrated Containers appliance.</p>
+<p>You install the vSphere Client plug-ins for vSphere Integrated Containers by logging in to the Windows system on which vCenter Server runs and running a script. The script registers an extension with vCenter Server, and instructs vCenter Server to download the plug-in files from the file server in the vSphere Integrated Containers appliance.</p>
 <ul>
 <li>You can install the the Flex-based vSphere Web Client plug-in on vCenter Server 6.0 or 6.5.</li>
 <li>You can install the the HTML5 vSphere Client plug-in on vCenter Server 6.5.</li>
 </ul>
 <p><strong>Prerequisites</strong></p>
 <ul>
+<li>The vCenter Server instance on which to install the plug-in runs on Windows. If you are running a vCenter Server appliance instance, see <a href="plugins_vcsa.html">Install the Client Plug-Ins on a vCenter Server Appliance</a>.</li>
 <li>You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see <a href="deploy_vic_appliance.html">Deploy the vSphere Integrated Containers Appliance</a>.</li>
-<li>Open a Web browser on a Windows system, go to https://<i>vic_appliance_address</i>:9443, and download and unpack the vSphere Integrated Containers Engine package. You must use a Windows system to run the script to install the plug-in on a vCenter Server instance that runs on Windows. For example, download the package to the Windows system on which vCenter Server is running. If the vSphere Integrated Containers appliance uses a different port for the vSphere Integrated Containers Engine file server, replace 9443 with the appropriate port.</li>
-<li>Copy the thumbprint of the Communications Server certificate from https://<i>vic_appliance_address</i>:<i>port</i>. For information about how to view the certificate thumbprint, see the documentation for your type of browser.</li>
+<li>Log in to the Windows system on which vCenter Server is running. You must perform all of the steps in this procedure on this Windows system.</li>
+<li>Go to https://<i>vic_appliance_address</i>:9443 in a Web browser, download the vSphere Integrated Containers Engine package, <code>vic_1.1.x.tar.gz</code>, and unpack it on the Desktop. </li>
 </ul>
+<p><strong>NOTE</strong>: If the vSphere Integrated Containers appliance uses a different port for the file server, replace 9443 with the appropriate port in the prerequisites above and in the procedure below.</p>
 <p><strong>Procedure</strong></p>
 <ol>
-<li>On the Windows system on which you have downloaded and unpacked vSphere Integrated Containers Engine, open the <code>\vic\ui\vCenterForWindows\configs</code> file in a text editor.</li>
+<li>Open a command prompt as Administrator and run the following command to obtain the SHA-1 thumprint of the file server that is running in the vSphere Integrated Containers appliance.<pre>echo | &quot;%VMWARE_OPENSSL_BIN%&quot; s_client -connect <i>vic_appliance_address</i>:9443 | &quot;%VMWARE_OPENSSL_BIN%&quot; x509 -fingerprint -sha1 -noout</pre></li>
+<li>Open the <code>\vic\ui\vCenterForWindows\configs</code> file in a text editor.<pre>notepad %USERPROFILE%\Desktop\vic\ui\vCenterForWindows\configs</pre></li>
 <li>Enter the IPv4 address or FQDN of the vCenter Server instance on which to install the plug-in.<pre>SET target_vcenter_ip=<i>vcenter_server_address</i></pre></li>
-<li>Enter the URL on which the vSphere Integrated Containers appliance publishes the client plug-in bundle. <pre>SET vic_ui_host_url=https://<i>vic_appliance_address</i>:<i>port</i></pre></li>
-<li>Provide the SHA-1 thumbprint of the Web server.<pre>SET vic_ui_host_thumbprint=<i>thumbprint</i></pre><strong>NOTE</strong>: Use colon delimitation in the thumbprint. Do not use space delimitation. </li>
-<li>Specify the version of the plug-in to install.<ul>
-<li>To install the plug-in for the HTML5 vSphere Client, leave the vCenter Server version set to <code>6.5</code>.</li>
-<li>To install the plug-in for the Flex-based vSphere Web Client, set the vCenter Server version to <code>6.0</code>.<pre>SET target_vc_version=6.0</pre><strong>NOTE</strong>: When installing the Flex-based plug-in, you must set the version to <code>6.0</code> even if you are running vCenter Server 6.5.</li>
-</ul>
-</li>
+<li>Enter the URL of the vSphere Integrated Containers appliance file server. <pre>SET vic_ui_host_url=https://<i>vic_appliance_address</i>:9443/</pre></li>
+<li>Copy the SHA-1 thumbprint of the file server that you obtained in step 1 and paste it into the <code>configs</code> file.<pre>SET vic_ui_host_thumbprint=<i>thumbprint</i></pre><strong>NOTE</strong>: Use colon delimitation in the thumbprint. Do not use space delimitation. </li>
+<li>Save the <code>configs</code> file.</li>
+<li>Run the installer, entering the user name and password for the vCenter Server administrator account when prompted.<pre>%USERPROFILE%\Desktop\vic\ui\vCenterForWindows\install.bat</pre>This first run of the script installs the HTML5 client.</li>
+<li>When the installation finishes, stop and restart the HTML5 vSphere Client service.<pre>&quot;C:\Program Files\VMware\vCenter Server\bin\service-control&quot; --stop vsphere-ui</pre><pre>&quot;C:\Program Files\VMware\vCenter Server\bin\service-control&quot; --start vsphere-ui</pre></li>
+<li>To install the plug-in for the Flex-based vSphere Web Client, reopen the <code>configs</code> file and set the target version to <code>6.0</code>.<pre>SET target_vc_version=6.0</pre></li>
 <li>Save and close the <code>configs</code> file.</li>
-<li>Open a Windows command prompt, navigate to <code>\vic\ui\vCenterForWindows</code>, and run the installer.<pre>install.bat</pre></li>
-<li>Enter the user name and password for the vCenter Server administrator account.</li>
-<li>When installation finishes, if you are logged into the vSphere Web Client, log out then log back in again.</li>
+<li>Run the installer again, entering the user name and password for the vCenter Server administrator account when prompted.<pre>%USERPROFILE%\Desktop\vic\ui\vCenterForWindows\install.bat</pre></li>
+<li>When the installation finishes, stop and restart the vSphere Web Client service.<pre>&quot;C:\Program Files\VMware\vCenter Server\bin\service-control&quot; --stop vspherewebclientsvc</pre><pre>&quot;C:\Program Files\VMware\vCenter Server\bin\service-control&quot; --start vspherewebclientsvc</pre>
+
+</li>
 </ol>
 <p><strong>What to Do Next</strong></p>
-<p>Verify the deployment of the plug-in.</p>
-<ul>
-<li>If you installed the HTML5 plug-in, see <a href="access_h5_ui.html">Access the vSphere Integrated Containers View in the HTML5 vSphere Client</a>.</li>
-<li>If you installed the Flex plug-in, see <a href="vch_portlet_ui.html">Find VCH Information in the vSphere Clients</a>.</li>
-</ul>
-<p>If the vSphere Integrated Containers plug-in does not appear, restart the vSphere Client service. For instructions about how to restart the vSphere Client service, see <a href="ts_ui_not_appearing.html">vSphere Integrated Containers Plug-In Does Not Appear</a>.</p>
+<p>To verify the deployment of the plug-in, see <a href="access_h5_ui.html">Access the vSphere Integrated Containers View in the HTML5 vSphere Client</a>, <a href="vch_portlet_ui.html">Find VCH Information in the vSphere Clients</a>, and <a href="container_portlet_ui.html">Find Container Information in the vSphere Clients</a>.</p>
 
                                 
                                 </section>
@@ -1735,7 +1761,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"vCenter Server for Windows","level":"2.1.2.3.1","depth":4,"next":{"title":"vCenter Server Appliance","level":"2.1.2.3.2","depth":4,"path":"vic_vsphere_admin/plugins_vcsa.md","ref":"vic_vsphere_admin/plugins_vcsa.md","articles":[]},"previous":{"title":"Installing the Plug-ins","level":"2.1.2.3","depth":3,"path":"vic_vsphere_admin/install_vic_plugin.md","ref":"vic_vsphere_admin/install_vic_plugin.md","articles":[{"title":"vCenter Server for Windows","level":"2.1.2.3.1","depth":4,"path":"vic_vsphere_admin/plugins_vc_windows.md","ref":"vic_vsphere_admin/plugins_vc_windows.md","articles":[]},{"title":"vCenter Server Appliance","level":"2.1.2.3.2","depth":4,"path":"vic_vsphere_admin/plugins_vcsa.md","ref":"vic_vsphere_admin/plugins_vcsa.md","articles":[]},{"title":"Access the vSphere Integrated Containers View","level":"2.1.2.3.3","depth":4,"path":"vic_vsphere_admin/access_h5_ui.md","ref":"vic_vsphere_admin/access_h5_ui.md","articles":[]},{"title":"Find VCH Information","level":"2.1.2.3.4","depth":4,"path":"vic_vsphere_admin/vch_portlet_ui.md","ref":"vic_vsphere_admin/vch_portlet_ui.md","articles":[]},{"title":"Find Container Information","level":"2.1.2.3.5","depth":4,"path":"vic_vsphere_admin/container_portlet_ui.md","ref":"vic_vsphere_admin/container_portlet_ui.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/plugins_vc_windows.md","mtime":"2017-04-26T14:03:34.245Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-02T09:51:28.298Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"vCenter Server for Windows","level":"2.1.2.3.1","depth":4,"next":{"title":"vCenter Server Appliance","level":"2.1.2.3.2","depth":4,"path":"vic_vsphere_admin/plugins_vcsa.md","ref":"vic_vsphere_admin/plugins_vcsa.md","articles":[]},"previous":{"title":"Installing the Plug-ins","level":"2.1.2.3","depth":3,"path":"vic_vsphere_admin/install_vic_plugin.md","ref":"vic_vsphere_admin/install_vic_plugin.md","articles":[{"title":"vCenter Server for Windows","level":"2.1.2.3.1","depth":4,"path":"vic_vsphere_admin/plugins_vc_windows.md","ref":"vic_vsphere_admin/plugins_vc_windows.md","articles":[]},{"title":"vCenter Server Appliance","level":"2.1.2.3.2","depth":4,"path":"vic_vsphere_admin/plugins_vcsa.md","ref":"vic_vsphere_admin/plugins_vcsa.md","articles":[]},{"title":"Access the vSphere Integrated Containers View","level":"2.1.2.3.3","depth":4,"path":"vic_vsphere_admin/access_h5_ui.md","ref":"vic_vsphere_admin/access_h5_ui.md","articles":[]},{"title":"Find VCH Information","level":"2.1.2.3.4","depth":4,"path":"vic_vsphere_admin/vch_portlet_ui.md","ref":"vic_vsphere_admin/vch_portlet_ui.md","articles":[]},{"title":"Find Container Information","level":"2.1.2.3.5","depth":4,"path":"vic_vsphere_admin/container_portlet_ui.md","ref":"vic_vsphere_admin/container_portlet_ui.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/plugins_vc_windows.md","mtime":"2017-05-18T16:45:11.980Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-18T16:48:14.838Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
