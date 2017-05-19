@@ -29,7 +29,7 @@ After you have deployed a virtual container host (VCH), you can verify the deplo
 1.  Pull a Docker container image into the VCH, for example, the `BusyBox` container.<pre>docker -H <i>vch_address</i>:2376 --tls pull busybox</pre>
 1. View the container image files in the vSphere Web Client or vSphere Client.
 
-    - vCenter Server: Go to **Storage**, select the datastore that you designated as the image store, and click **Manage** > **Files**. 
+    - vCenter Server: Go to **Storage**, right-click the datastore that you designated as the image store, and select **Browse Files**. 
     - ESXi host: Click the **Summary** tab for the ESXi host, right-click the datastore that you designated as the image store, and select **Browse Datastore**. 
 
     vSphere Integrated Containers Engine creates a folder a folder that has the same name as the VCH, that contains a folder named `VIC` in which to store container image files.
