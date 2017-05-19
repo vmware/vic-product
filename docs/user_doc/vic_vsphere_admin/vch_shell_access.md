@@ -18,7 +18,7 @@ You deployed a VCH.
       
        The credentials that you provide must have the following privilege on the endpoint VM:<pre>Virtual machine.Guest Operations.Guest Operation Program Execution</pre>
     - Specify the ID or name of the VCH to debug.
-    - Potentially provide the thumbprint of the vCenter Server or ESXi host certificate.
+    - Potentially provide the thumbprint of the vCenter Server or ESXi host certificate. Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
     - Provide a password for the root user on the VCH endpoint VM by specifying the `--rootpw` option. Wrap the password in single quotes (Linux or Mac OS) or double quotes (Windows) if it includes shell characters such as `$`, `!` or `%`.
 
     <pre>$ vic-machine-<i>operating_system</i> debug

@@ -44,5 +44,7 @@ The `vic-machine update firewall` command in these examples specifies the follow
 - The address of the vCenter Server instance and datacenter, or the ESXi host, on which to deploy the VCH in the `--target` option.  
 - The user name and password for the vCenter Server instance or ESXi host in the `--user` and `--password` options. 
 - In the case of a vCenter Server cluster, the name of the cluster in the `--compute-resource` option.
-- The thumbprint of the vCenter Server or ESXi host certificate in the `--thumbprint` option, if they use untrusted, self-signed certificates.
+- The thumbprint of the vCenter Server or ESXi host certificate in the `--thumbprint` option, if they use untrusted, self-signed certificates. 
+
+     **NOTE**: Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
 - The `--allow` option to open the port.
