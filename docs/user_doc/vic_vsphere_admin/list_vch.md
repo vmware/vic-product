@@ -22,7 +22,9 @@ You have deployed a VCH. If you have not deployed a VCH, `vic-machine ls` return
    - You must specify the username and optionally the password, either in the `--target` option or separately in the `--user` and `--password` options. 
    - If your vSphere environment uses untrusted, self-signed certificates, you must also specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. To obtain the thumbprint of the vCenter Server or ESXi host certificate, run `vic-machine` without the specifying the `--thumbprint` option. The listing of the VCHs fails, but the resulting error message includes the required certificate thumbprint. You can copy the thumbprint from the error message and run `vic-machine` again, including the `--thumbprint` option.
 
-    <pre>$ vic-machine-<i>operating_system</i> ls
+    **NOTE**: If you obtain the thumbprint by other means, use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
+
+  <pre>$ vic-machine-<i>operating_system</i> ls
 --target <i>esxi_host_address</i>
 --user root
 --password <i>esxi_host_password</i>

@@ -26,3 +26,5 @@ If the CA should not be generally trusted, or the certificate is self-signed:
     **WARNING:** A thumbprint mismatch could mean the server you have connected to is not the intended target and might have be spoofed.
     2. Validate that the change in server certificate is legitimate
     3. Re-run `vic-machine create`, specifying the new thumbprint in the `--thumbprint` option.
+
+       **NOTE**: Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
