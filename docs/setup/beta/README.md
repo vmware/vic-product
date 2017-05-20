@@ -1,7 +1,7 @@
 
 This page is intended to guide you through setting up a complete vSphere Integrated Containers (VIC) stack.
 
-##Components Overview
+## Components Overview
 
 VIC is comprised of three major components:
 
@@ -11,11 +11,11 @@ VIC is comprised of three major components:
 
 The setup architecture that is described in this page may change for future releases.
 
-##vSphere pre-requisites
+## vSphere pre-requisites
 
 Before you start, make sure you have a vSphere environment that satisfy [these requirements](https://vmware.github.io/vic/assets/files/html/vic_installation/vic_installation_prereqs.html).
 
-###The client machine  
+### The client machine  
 
 To setup VIC you only need a working vSphere environment as well as a client machine from where you will install and then interact with all the VIC components. The client machine plays the following roles:
 
@@ -24,7 +24,7 @@ To setup VIC you only need a working vSphere environment as well as a client mac
 - A Docker client to exercise VIC Engine and to deploy Admiral on top of the Virtual Container Host we will deploy.
 - A Web browser to manage the components that require UI interaction.
 
-##Setup instructions
+## Setup instructions
 
 These instructions will guide you through the process of setting up vSphere Integrated Containers (all three components) and deploy various sample containers to exercise the behaviour of the solution.
 
@@ -42,7 +42,7 @@ These instructions will guide you through the process of setting up vSphere Inte
 
 - [Known Issues and Limitations](known-issues-limitations.md)
 
-##Outcome
+## Outcome
 
 If you (strictly) follow the instructions above the diagram below outlines the end result you are going to achieve.
 
