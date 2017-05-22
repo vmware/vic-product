@@ -19,9 +19,14 @@ You install the vSphere Client plug-ins for vSphere Integrated Containers by log
 1. Open a command prompt as Administrator and run the following command to obtain the SHA-1 thumprint of the file server that is running in the vSphere Integrated Containers appliance.<pre>echo | "%VMWARE_OPENSSL_BIN%" s_client -connect <i>vic_appliance_address</i>:9443 | "%VMWARE_OPENSSL_BIN%" x509 -fingerprint -sha1 -noout</pre>
 2. Open the `\vic\ui\vCenterForWindows\configs` file in a text editor.<pre>notepad %USERPROFILE%\Desktop\vic\ui\vCenterForWindows\configs</pre>
 3. Enter the IPv4 address or FQDN of the vCenter Server instance on which to install the plug-in.<pre>SET target_vcenter_ip=<i>vcenter_server_address</i></pre>
-4. Enter the URL of the vSphere Integrated Containers appliance file server. <pre>SET vic_ui_host_url=https://<i>vic_appliance_address</i>:9443/</pre>
+4. Enter the URL of the vSphere Integrated Containers appliance file server. <pre>SET vic_ui_host_url=https://<i>vic_appliance_address</i>:9443/</pre>You must enter the full URL and include the closing forward slash (`/`) after the port number. 
 6. Copy the SHA-1 thumbprint of the file server that you obtained in step 1 and paste it into the `configs` file.<pre>SET vic_ui_host_thumbprint=<i>thumbprint</i></pre>**NOTE**: Use colon delimitation in the thumbprint. Do not use space delimitation. 
 7. Save the `configs` file.
+8. Open the `\vic\ui\vCenterForWindows\install.bat` file in a text editor.<pre>notepad %USERPROFILE%\Desktop\vic\ui\vCenterForWindows\install.bat</pre>
+9. Insert a missing `v` character before `%version%.zip` in the following line and save the `install.bat` file:
+
+    - Before: `SET PLUGIN_URL=%vic_ui_host_url%%key%-%version%.zip`
+    - After: `SET PLUGIN_URL=%vic_ui_host_url%%key%-v%version%.zip`
 8. Run the installer, entering the user name and password for the vCenter Server administrator account when prompted.<pre>%USERPROFILE%\Desktop\vic\ui\vCenterForWindows\install.bat</pre>This first run of the script installs the HTML5 client.
 9. When the installation finishes, stop and restart the HTML5 vSphere Client service.<pre>"C:\Program Files\VMware\vCenter Server\bin\service-control" --stop vsphere-ui</pre>
 <pre>"C:\Program Files\VMware\vCenter Server\bin\service-control" --start vsphere-ui</pre>

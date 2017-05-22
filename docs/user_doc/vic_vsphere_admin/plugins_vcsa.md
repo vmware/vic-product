@@ -21,7 +21,7 @@ You install the vSphere Client plug-ins for vSphere Integrated Containers by log
 5. Use a text editor to set the vCenter Server address in the `/vic/ui/VCSA/configs` file.<pre>VCENTER_IP="<i>vcsa_address</i>"</pre>
 
    Alternatively, you can use a utility such as `sed` to update the `configs` file:<pre>sed -i 's#^\(VCENTER_IP=\).*$#\1"<i>vcsa_address</i>"#' ~/vic/ui/*/configs</pre>
-6. Set the address of the vSphere Integrated Containers appliance file server in the `/vic/ui/VCSA/configs` file.<pre>VIC_UI_HOST_URL="https://<i>vic_appliance_address</i>:9443/"</pre>
+6. Set the URL of the vSphere Integrated Containers appliance file server in the `/vic/ui/VCSA/configs` file.<pre>VIC_UI_HOST_URL="https://<i>vic_appliance_address</i>:9443/"</pre>You must enter the full URL and include the closing forward slash (`/`) after the port number. 
 
    Alternatively, you can use `sed`:<pre>sed -i 's#^\(VIC_UI_HOST_URL=\).*$#\1"https://<i>vic_appliance_address</i>:9443"#' ~/vic/ui/*/configs</pre>
 7. Obtain the thumbprint of the vSphere Integrated Containers appliance file server certificate.<pre>echo | openssl s_client -connect <i>vic_appliance_address</i>:9443 | openssl x509 -fingerprint -sha1 -noout</pre>
