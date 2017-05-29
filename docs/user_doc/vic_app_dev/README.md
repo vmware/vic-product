@@ -12,7 +12,7 @@ This information is intended for container application developers whose Docker e
 
 ----------
 
-Copyright &copy; 2017 VMware, Inc. All rights reserved. [Copyright and trademark information](http://pubs.vmware.com/copyright-trademark.html). Any feedback you provide to VMware is subject to the terms at [www.vmware.com/community_terms.html](http://www.vmware.com/community_terms.html).
+Copyright &copy; 2016, 2017 VMware, Inc. All rights reserved. [Copyright and trademark information](http://pubs.vmware.com/copyright-trademark.html). Any feedback you provide to VMware is subject to the terms at [www.vmware.com/community_terms.html](http://www.vmware.com/community_terms.html).
 
 **VMware, Inc.**
 3401 Hillview Ave.
