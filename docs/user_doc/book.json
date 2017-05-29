@@ -2,7 +2,13 @@
 
 	"title": "VMware vSphere Integrated Containers 1.1 Documentation",
         "gitbook": "3.x.x",
-        "plugins": ["expandable-chapters"],
+        "plugins": ["expandable-chapters", "edit-link"],
+        "pluginsConfig": {
+            "edit-link": {
+                "base": "https://github.com/vmware/vic-product/tree/master/docs/user_doc",
+                "label": "Edit this Page"
+            }
+        },
 	"pdf": {
 		"headerTemplate": "_TITLE_",
 		"footerTemplate": "_PAGENUM_"
