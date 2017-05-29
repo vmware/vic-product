@@ -1,6 +1,6 @@
 # Install the Client Plug-Ins on vCenter Server for Windows #
 
-You install the vSphere Client plug-ins for vSphere Integrated Containers by logging in to the Windows system on which vCenter Server runs and running a script. The script registers an extension with vCenter Server, and instructs vCenter Server to download the plug-in files from the file server in the vSphere Integrated Containers appliance.
+To install the vSphere Client plug-ins for vSphere Integrated Containers, you log in to the Windows system on which vCenter Server runs and run a script. The script registers an extension with vCenter Server, and instructs vCenter Server to download the plug-in files from the file server in the vSphere Integrated Containers appliance.
 
 - You can install the the Flex-based vSphere Web Client plug-in on vCenter Server 6.0 or 6.5.
 - You can install the the HTML5 vSphere Client plug-in on vCenter Server 6.5.
