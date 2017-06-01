@@ -1,7 +1,7 @@
 ---
 workspace:
   base: /go
-  path: src/github.com/supervised-io/catalog
+  path: src/github.com/vmware/vic-product
 
 pipeline:
   dinv-build:
