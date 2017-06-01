@@ -12,10 +12,25 @@ pipeline:
     commands:
       - docker ps
       - apk add --update bash git
-      - dinv/ci.sh
+      - dinv/ci.sh build
     when:
       branch: master
       repo: vmware/vic-product
+      event: [push, pull_request, tag, deployment]
+
+  dinv-push:
+    environment:
+      DOCKER_HOST: tcp://127.0.0.1:2375
+    image: docker:latest
+    pull: true
+    commands:
+      - docker ps
+      - apk add --update bash git
+      - dinv/ci.sh push
+    when:
+      branch: master
+      repo: vmware/vic-product
+      event: [push, tag, deployment]
 
 services:
   dind:
