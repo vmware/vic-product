@@ -5,7 +5,7 @@
 #    or: ./build.sh ci-linter-1.6
 #        to only build ci-linter-1.6
 
-namespace="frapposelli"
+namespace="vmware"
 
 readlink=$(type -p greadlink readlink | head -1)
 cd "$(dirname "$(${readlink} -f "$BASH_SOURCE")")"
