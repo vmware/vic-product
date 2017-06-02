@@ -2,8 +2,6 @@
 
 You use the vSphere Integrated Containers Engine `vic-machine` utility to deploy virtual container hosts. 
 
-This is a demonstration. I really must delete this later. Another comment from Alex.
-
 * [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md)
 * [Deploy a VCH to an ESXi Host with No vCenter Server](deploy_vch_esxi.md)
 * [Deploy a VCH to a Basic vCenter Server Cluster](deploy_vch_vcenter.md)
