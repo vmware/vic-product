@@ -252,7 +252,7 @@ var ContributorService = (function () {
     ContributorService.prototype.getContributors = function () {
         // do work to merge three http calls into one observable.
         return Observable_1.Observable.forkJoin([
-            this.http.get('https://api.github.com/repos/vmware/lightwave/contributors')
+            this.http.get('https://api.github.com/repos/vmware/vic-product/contributors')
                 .map(function (res) { return res.json(); })
         ])
             .map(function (data) {
