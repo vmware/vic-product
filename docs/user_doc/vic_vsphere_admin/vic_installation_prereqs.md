@@ -86,8 +86,8 @@ The following network requirements apply to the deployment of VCHs to vCenter Se
 
 For information about bridge networks and container networks, see the [`--bridge-network`](vch_installer_options.md#bridge) and [`--container-network`](vch_installer_options.md#container-network) options in *VCH Deployment Options*. 
 
-For information about how to create a distributed virtual switch and a port group, see [Create a vSphere Distributed Switch](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.md) in the vSphere  documentation. 
+For information about how to create a distributed virtual switch and a port group, see [Create a vSphere Distributed Switch](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere  documentation. 
 
-For information about how to add hosts to a distributed virtual switch, see [Add Hosts to a vSphere Distributed Switch](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.md) in the vSphere  documentation.
+For information about how to add hosts to a distributed virtual switch, see [Add Hosts to a vSphere Distributed Switch](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
 
 For information about how to assign a VLAN ID to a port group, see [VMware KB 1003825](https://kb.vmware.com/kb/1003825). For more information about private VLAN, see [VMware KB 1010691](https://kb.vmware.com/kb/1010691).
