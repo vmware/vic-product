@@ -38,7 +38,7 @@ To facilitate IP address changes in your infrastructure, provide an FQDN wheneve
   
   If you do not include the user name in the target URL, you must specify the `user` option. If you do not specify the `password` option or include the password in the target URL, `vic-machine create` prompts you to enter the password.
 
-  You can configure a VCH so that it uses a non-administrator account for post-deployment operations by specifying the [`--ops-user`](#--ops-user) option. 
+  You can configure a VCH so that it uses a non-administrator account for post-deployment operations by specifying the [`--ops-user`](#ops-user) option. 
 
 - If you are deploying a VCH on a vCenter Server instance that includes more than one datacenter, include the datacenter name in the target URL. If you include an invalid datacenter name, `vic-machine create` fails and suggests the available datacenters that you can specify. 
 
@@ -822,7 +822,7 @@ The address of the HTTP proxy server through which the VCH accesses image regist
 
 ## Advanced Resource Management Options {#adv-mgmt}
 
-You can set limits on the memory and CPU shares and reservations on the VCH. For information about memory and CPU shares and reservations, see [Allocate Memory Resources](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-49D7217C-DB6C-41A6-86B3-7AFEB8BF575F.md), and [Allocate CPU Resources](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-6C9023B2-3A8F-48EB-8A36-44E3D14958F6.md) in the vSphere documentation.
+You can set limits on the memory and CPU shares and reservations on the VCH. For information about memory and CPU shares and reservations, see [Allocate Memory Resources](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-49D7217C-DB6C-41A6-86B3-7AFEB8BF575F.html), and [Allocate CPU Resources](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-6C9023B2-3A8F-48EB-8A36-44E3D14958F6.html) in the vSphere documentation.
 
 ### `--memory-reservation` ###
 

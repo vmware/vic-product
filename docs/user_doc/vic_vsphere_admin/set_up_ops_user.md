@@ -72,7 +72,7 @@ When you deploy a VCH, a user account that you specify in `--ops-user` must have
   </td>
 </tr></tbody></table>
 
-   For information about how to create vSphere roles, see [vSphere Permissions and User Management Tasks](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-5372F580-5C23-4E9C-8A4E-EF1B4DD9033E.md) in the vSphere documentation. 
+   For information about how to create vSphere roles, see [vSphere Permissions and User Management Tasks](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-5372F580-5C23-4E9C-8A4E-EF1B4DD9033E.html) in the vSphere documentation. 
 
 3. Go to **Networking**, create a network folder, and place the distributed virtual switches that the VCHs will use for the bridge network and any container networks into that folder.
 
@@ -139,7 +139,7 @@ When you deploy a VCH, a user account that you specify in `--ops-user` must have
 <td>Yes</td>
 </tr></tbody></table>
 
-   For information about how to assign permissions to objects in the vSphere Inventory, see [Add a Permission to an Inventory Object](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-A0F6D9C2-CE72-4FE5-BAFC-309CFC519EC8.md) in the vSphere documentation.
+   For information about how to assign permissions to objects in the vSphere Inventory, see [Add a Permission to an Inventory Object](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-A0F6D9C2-CE72-4FE5-BAFC-309CFC519EC8.html) in the vSphere documentation.
 
 **What to do next**
 
