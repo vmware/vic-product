@@ -15,9 +15,9 @@ With these three capabilities, VIC enables VMware customers to deliver a product
 See the 3 products in action in this step by step [demo](https://www.youtube.com/watch?v=EyN71qe_iWs) 
 
 ## Installing
-Please refer to the [documentation](https://github.com/vmware/vic-product/tree/master/docs/setup/beta) for installing and testing VIC
+Please refer to the [documentation](https://vmware.github.io/vic-product/#documentation) and this [video] (https://www.youtube.com/watch?v=7WRFhJLZHJI)for installing and testing VIC. 
 
-***Note that each of the components have varying degrees of functional completeness and are not yet GA quality code. As such, there are various caveats and known issues around usage, the majority of which will have been documented***
+
 
 ## Contributing to vSphere Integrated Containers
 
