@@ -74,11 +74,11 @@ func main() {
 
 	var ovf environment
 
-	var ips string
+	var info string
 
 	err = xml.Unmarshal([]byte(ovfEnv), &ovf)
 	if err != nil {
-		ips = fmt.Sprintf("error: %s\n", err.Error())
+		info = fmt.Sprintf("error: %s\n", err.Error())
 	}
 
 	iface, err := net.InterfaceByName("eth0")
@@ -96,14 +96,22 @@ func main() {
 			continue
 		}
 		if strings.ToLower(ovf.Properties["registry.deploy"]) == "true" {
-			ips = fmt.Sprintf("%sAccess the Container Registry at:\nhttps://%s:%s\n", ips, ip.String(), ovf.Properties["registry.port"])
+			info = fmt.Sprintf("%sAccess the Container Registry at:\nhttps://%s:%s\n", info, ip.String(), ovf.Properties["registry.port"])
 		}
 		if strings.ToLower(ovf.Properties["management_portal.deploy"]) == "true" {
-			ips = fmt.Sprintf("%sAccess the Container Management Portal at:\nhttps://%s:%s\n", ips, ip.String(), ovf.Properties["management_portal.port"])
+			info = fmt.Sprintf("%sAccess the Container Management Portal at:\nhttps://%s:%s\n", info, ip.String(), ovf.Properties["management_portal.port"])
+		}
+		if port, ok := ovf.Properties["fileserver.port"]; ok {
+			info = fmt.Sprintf("%sAccess the fileserver at:\nhttps://%s:%s\n", info, ip.String(), port)
+		}
+		if port, ok := ovf.Properties["engine_installer.port"]; ok {
+			info = fmt.Sprintf("%sAccess the Demo VCH Installer at:\nhttps://%s:%s\n", info, ip.String(), port)
 		}
 	}
 
-	bottompanel := ui.NewPar(ips)
+	info = fmt.Sprintf("%s\nAccess the VIC Product Documentation at:\nhttps://vmware.github.io/vic-product/#documentation", info)
+
+	bottompanel := ui.NewPar(info)
 	bottompanel.Height = ui.TermHeight()/2 + 1
 	bottompanel.Width = ui.TermWidth()
 	bottompanel.TextFgColor = ui.ColorBlack
