@@ -15,7 +15,7 @@ With these three capabilities, VIC enables VMware customers to deliver a product
 See the 3 products in action in this step by step [demo](https://www.youtube.com/watch?v=EyN71qe_iWs) 
 
 ## Installing
-Please refer to the [documentation](https://vmware.github.io/vic-product/#documentation) and this [video] (https://www.youtube.com/watch?v=7WRFhJLZHJI) for installing and testing VIC. 
+Please refer to the [documentation](https://vmware.github.io/vic-product/#documentation) and this [video](https://www.youtube.com/watch?v=7WRFhJLZHJI) for installing and testing VIC. 
 
 
 

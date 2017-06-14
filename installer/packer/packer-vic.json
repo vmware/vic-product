@@ -97,22 +97,22 @@
     },
     {
       "type": "file",
-      "source": "../../bin/ovfenv",
+      "source": "../bin/ovfenv",
       "destination": "/usr/bin/ovfenv"
     },
     {
       "type": "file",
-      "source": "../../bin/vic-ova-ui",
+      "source": "../bin/vic-ova-ui",
       "destination": "/usr/bin/vic-ova-ui"
     },
     {
       "type": "file",
-      "source": "../../bin/ova-webserver",
+      "source": "../bin/ova-webserver",
       "destination": "/usr/local/bin/ova-webserver"
     },
     {
       "type": "file",
-      "source": "../../bin/ova-engine-installer",
+      "source": "../bin/ova-engine-installer",
       "destination": "/usr/local/bin/ova-engine-installer"
     },
     {
