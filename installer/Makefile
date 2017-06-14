@@ -145,6 +145,10 @@ $(GVT): vendor/manifest
 	@echo building $(GVT)...
 	@$(GO) build $(RACE) -o $(GVT) ./vendor/github.com/FiloSottile/gvt
 
+vendor: $(GVT)
+	  @echo restoring vendor
+		  $(GVT) restore
+
 clean:
 	@echo removing binaries
 	@rm -rf $(BIN)/*
