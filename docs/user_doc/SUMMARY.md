@@ -132,4 +132,4 @@
 
 
 * [Send Doc Feedback](vic_vsphere_admin/feedback.md)
-* [Printable PDFs](pdf.md)
+* [Download PDF](pdf.md)
