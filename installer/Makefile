@@ -23,6 +23,7 @@ RM ?= rm
 CP ?= cp
 
 VER :=$(shell git describe --abbrev=0 --tags)
+REV :=$(shell git rev-parse --short=8 HEAD)
 
 BASE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
