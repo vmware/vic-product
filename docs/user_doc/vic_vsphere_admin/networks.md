@@ -18,7 +18,7 @@ This topic provides an overview of the different network types that virtual cont
 
 The image below shows a high-level view of the networks that a VCH uses and how they connect to your vSphere environment, to vSphere Integrated Containers Registry and Management Portal, and to the Docker environment. 
  
- ![VCH Networking](graphics/network-diagram-sized.png)
+ ![VCH Networking](graphics/network-diagram-document-hires.png)
 
 The following sections describe each of the VCH network types.
 
