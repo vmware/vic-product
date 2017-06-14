@@ -10,7 +10,7 @@
 # The secrets file is in our local git repo.  Ask mhagen for access.
 ---
 clone:
-  path: github.com/vmware/vic
+  path: github.com/vmware/vic-product
   tags: true
 
 build:
@@ -29,4 +29,5 @@ build:
       BUILD_ADMIRAL_REVISION: v1.1.0
       BUILD_VICENGINE_REVISION: 1.1.0
     commands:
-      - make ova-release
+      - echo 'TODO: Enable ova-relase'
+#      - make ova-release
