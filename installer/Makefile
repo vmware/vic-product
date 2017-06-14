@@ -30,6 +30,10 @@ PHOTON_ISO := https://storage.googleapis.com/vic-product-ova-build-deps/photon-1
 PHOTON_ISO_SHA1SUM := c4c6cb94c261b162e7dac60fdffa96ddb5836d66
 
 BIN ?= bin
+GVT ?= $(GOPATH)/bin/gvt$(BIN_ARCH)
+
+export GOPATH ?= $(shell echo $(CURDIR) | sed -e 's,/src/.*,,')
+
 
 .PHONY: ova-release ova-debug vagrant-local
 
@@ -135,6 +139,11 @@ vagrant-local: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
 			-var 'build_harbor_revision=$(BUILD_HARBOR_REVISION)' \
 			-var 'build_harbor_dev_revision=$(BUILD_HARBOR_DEV_REVISION)' \
 			--on-error=abort packer-vic.json
+
+# utility targets
+$(GVT): vendor/manifest
+	@echo building $(GVT)...
+	@$(GO) build $(RACE) -o $(GVT) ./vendor/github.com/FiloSottile/gvt
 
 clean:
 	@echo removing binaries

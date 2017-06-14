@@ -4,7 +4,7 @@ This directory will host all the code that is going to be part of the VIC unifie
 
 It is currently under heavy development and not suitable for any use except for development, this file will be updated to reflect the status of the installer as development progresses.
 
-### Usage
+## Usage
 
 ```
 esxcli system settings advanced set -o /Net/GuestIPHack -i 1
@@ -14,7 +14,7 @@ esxcli network firewall set --enabled false
 The machine that is running Packer (make ova-release) must be reachable from the launched VM and
 have `ovftool` installed
 
-#### Build bundle and OVA
+### Build bundle and OVA
 
 First, we have to set the revisions of the components we want to bundle in the OVA:
 
@@ -48,9 +48,19 @@ docker run -it --net=host -v ~/go/src/github.com/vmware/vic/bin:/test-bin \
   vi://root:password@192.168.1.20
 ```
 
-### Troubleshooting
+## Vendor
 
-#### ova-release failed
+To build the installer dependencies, ensure `GOPATH` is set, then issue the following.
+``
+$ make gvt vendor
+``
+
+This will install the [gvt](https://github.com/FiloSottile/gvt) utility and retrieve the build dependencies via `gvt restore`
+
+
+## Troubleshooting
+
+### ova-release failed
 
 ```
 2017/03/16 10:26:25 packer: 2017/03/16 10:26:25 starting remote command: test -e
