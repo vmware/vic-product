@@ -18,9 +18,17 @@ set -euf -o pipefail
 
 DRONE_BUILD_NUMBER="${DRONE_BUILD_NUMBER:-}"
 BUILD_VICENGINE_REVISION="${BUILD_VICENGINE_REVISION:-}"
+PACKER_ESX_HOST="${PACKER_ESX_HOST:-}"
+PACKER_USER="${PACKER_USER:-}"
+PACKER_PASSWORD="${PACKER_PASSWORD:-}"
 ADMIRAL=""
 VICENGINE=""
 HARBOR=""
+
+if [ -z "${PACKER_ESX_HOST}" ] || [ -z "${PACKER_USER}" ] || [ -z "${PACKER_PASSWORD}" ]; then
+  echo "Required Packer environment variables not set"
+  exit 1
+fi
 
 function usage() {
     echo "Usage: $0" 1>&2

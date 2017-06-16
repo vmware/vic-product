@@ -22,6 +22,13 @@ The build script accepts files in `packer/scripts`, URLs, or revisions and autom
 required environment variables. `BUILD_VICENGINE_REVISION` is required for UI plugin even if using
 file or URL.
 
+Export required values
+```
+export PACKER_ESX_HOST=1.1.1.1
+export PACKER_USER=root
+export PACKER_PASSWORD=password
+```
+
 If called without any values, `build.sh` will get the latest build for each component
 ```
 export BUILD_VICENGINE_REVISION=1.1.1
