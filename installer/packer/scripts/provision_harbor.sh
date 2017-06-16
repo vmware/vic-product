@@ -14,19 +14,27 @@
 # limitations under the License.
 set -euf -o pipefail
 
-BUILD_HARBOR_REVISION="${BUILD_HARBOR_REVISION:-dev}"
-
 # Download Build
 HARBOR_FILE=""
 HARBOR_URL=""
 
+# Use file if specified, otherwise download
 set +u
-if [ -z "${BUILD_HARBOR_DEV_REVISION}" ]; then
+if [ -n "${BUILD_HARBOR_FILE}" ]; then
+  HARBOR_FILE=${BUILD_HARBOR_FILE}
+  HARBOR_URL=${PACKER_HTTP_ADDR}/${HARBOR_FILE}
+  echo "Using Packer served Harbor file: ${HARBOR_URL}"
+elif [ -n "${BUILD_HARBOR_URL}" ]; then
+  HARBOR_FILE="$(basename ${BUILD_HARBOR_URL})"
+  HARBOR_URL=${BUILD_HARBOR_URL}
+  echo "Using Harbor URL: ${HARBOR_URL}"
+elif [ -n "${BUILD_HARBOR_REVISION}" ]; then
   HARBOR_FILE="harbor-offline-installer-${BUILD_HARBOR_REVISION}.tgz"
-  HARBOR_URL="https://storage.googleapis.com/harbor-dev-builds/${HARBOR_FILE}"
-else
-  HARBOR_FILE="harbor-offline-installer-${BUILD_HARBOR_DEV_REVISION}.tgz"
   HARBOR_URL="https://storage.googleapis.com/harbor-builds/${HARBOR_FILE}"
+  echo "Using Harbor URL: ${HARBOR_URL}"
+else
+  echo "Harbor version not set"
+  exit 1
 fi
 set -u
 

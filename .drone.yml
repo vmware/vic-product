@@ -1,3 +1,9 @@
+# After any change to this file you MUST re-sign and checkin the .drone.yml.sig
+# When you are ready to submit a pull request, you must regenerate .drone.yml.sig for the vmware/vic repo:
+# $ export DRONE_SERVER=https://ci.vcna.io
+# $ export DRONE_TOKEN=<token>
+# $ drone sign vmware/vic
+# The secrets file is in our local git repo.  Ask mhagen for access.
 ---
 workspace:
   base: /go
@@ -37,3 +43,58 @@ services:
     image: docker:dind
     privileged: true
     pull: true
+
+pipeline:
+	clone:
+		path: github.com/vmware/vic-product
+		tags: true
+
+  unified-ova-build:
+    image: $${TEST_BUILD_IMAGE=gcr.io/eminent-nation-87317/vic-integration-test:1.32}
+    pull: true
+    environment:
+      BIN: bin
+      GOPATH: /drone
+      SHELL: /bin/bash
+      PACKER_ESX_HOST: builds-25.vcna.io
+      PACKER_USER: root
+      PACKER_PASSWORD: vmware1
+			BUILD_VICENGINE_REVISION: 1.1.1
+    commands:
+			- installer/scripts/build.sh
+
+	bundle:
+    image: harbor.ci.drone.local/library/golang:1.8
+    pull: true
+		commands:
+			- mkdir bundle
+      - cp bin/vic-*.ova bundle
+      - ls -al bundle
+
+  publish-gcs-builds:
+    image: maplain/drone-gcs:latest
+    pull: true
+    source: bundle
+    target: vic-product-ova-builds
+    acl:
+      - allUsers:READER
+    cache_control: public,max-age=3600
+    when:
+      repo: vmware/vic-product
+      event: [ push ]
+      branch: [ master, releases/* ]
+      status: success
+
+  publish-gcs-releases:
+    image: maplain/drone-gcs:latest
+    pull: true
+    source: bundle
+    target: vic-product-ova-releases
+    acl:
+      - allUsers:READER
+    cache_control: public,max-age=3600
+    when:
+      repo: vmware/vic-product
+      event: [ push, tag ]
+      branch: [ refs/tags/* ]
+      status: success

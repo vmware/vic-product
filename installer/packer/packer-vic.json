@@ -6,9 +6,13 @@
     "remote_username": "",
     "remote_password": "",
     "root_password": "2RQrZ83i79N6szpvZNX6",
-    "build_vicengine_revision": "",
+    "build_vicengine_revision": "{{env `BUILD_VICENGINE_REVISION`}}",
+    "build_vicengine_file": "{{env `BUILD_VICENGINE_FILE`}}",
+    "build_vicengine_url": "{{env `BUILD_VICENGINE_URL`}}",
     "build_admiral_revision": "dev",
-    "build_harbor_revision": "dev"
+    "build_harbor_revision": "{{env `BUILD_HARBOR_REVISION`}}",
+    "build_harbor_file": "{{env `BUILD_HARBOR_FILE`}}",
+    "build_harbor_url": "{{env `BUILD_HARBOR_URL`}}"
   },
   "builders": [
     {
@@ -212,7 +216,8 @@
     {
       "type": "shell",
       "environment_vars": ["BUILD_HARBOR_REVISION={{user `build_harbor_revision`}}",
-                           "BUILD_HARBOR_DEV_REVISION={{user `build_harbor_dev_revision`}}"],
+                           "BUILD_HARBOR_FILE={{user `build_harbor_file`}}",
+                           "BUILD_HARBOR_URL={{user `build_harbor_url`}}"],
       "script": "scripts/provision_harbor.sh"
     },
     {
@@ -263,7 +268,8 @@
     {
       "type": "shell",
       "environment_vars": ["BUILD_VICENGINE_REVISION={{user `build_vicengine_revision`}}",
-                           "BUILD_VICENGINE_DEV_REVISION={{user `build_vicengine_dev_revision`}}"],
+                           "BUILD_VICENGINE_FILE={{user `build_vicengine_file`}}",
+                           "BUILD_VICENGINE_URL={{user `build_vicengine_url`}}"],
       "script": "scripts/provision_fileserver.sh"
     },
     {
