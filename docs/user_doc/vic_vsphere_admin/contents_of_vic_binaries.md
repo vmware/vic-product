@@ -1,6 +1,6 @@
 # Contents of the vSphere Integrated Containers Engine Binaries 
 
-After you download and unpack a vSphere Integrated Containers Engine binary bundle, you obtain following files:
+You download vSphere Integrated Containers Engine binaries from https://<i>vic_appliance_address</i>:9443. When you unpack the vSphere Integrated Containers Engine binary bundle, you obtain following files:
 
 | **File** | **Description** |
 | --- | --- |
