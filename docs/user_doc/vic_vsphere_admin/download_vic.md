@@ -8,9 +8,9 @@ To obtain the latest official release of vSphere Integrated Containers, go to th
 
 Full support of vSphere Integrated Containers requires the vSphere Enterprise Plus license. To make a support request, contact [VMware Global Support](https://www.vmware.com/support/product-support-centers.html). 
 
-## Open Source Builds of the vSphere Integrated Containers Components ##
+## Open Source Builds of vSphere Integrated Containers ##
 
-You can obtain open source builds of vSphere Integrated Containers Engine, vSphere Integrated Containers Portal, and vSphere Integrated Containers Registry that have different levels of stability.
+You can obtain open source builds of vSphere Integrated Containers Engine, vSphere Integrated Containers Portal, and vSphere Integrated Containers Registry, that have different levels of stability.
 
  * Download tagged open source software (OSS) versions of the vSphere Integrated Containers components that have been tested and released to the open source community, but that might not reflect the most up-to-date version of the code: 
    * [vSphere Integrated Containers Engine](https://github.com/vmware/vic/releases)

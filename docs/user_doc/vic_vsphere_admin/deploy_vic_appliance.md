@@ -57,9 +57,13 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
 **What to Do Next**
 
-- Go to https://<i>vic_appliance_address</i>:9443, download the vSphere Integrated Containers Engine binaries bundle, vic_1.1.x.tar.gz, and start deploying virtual container hosts (VCHs). If the vSphere Integrated Containers appliance uses a different port for the vSphere Integrated Containers Engine file server, replace 9443 with the appropriate port. For information about deploying VCHs, see [Using vic-machine to Deploy VCHs](deploy_vch.md).
-- Install the vSphere Client plug-ins for vSphere Integrated Containers. You do not need to download the client plug-in file. You pass the URL https://<i>vic_appliance_address</i>:<i>port</i> to the script that you run to install the vSphere Integrated Containers plug-ins. For information about installing the plug-ins, see [Installing the vSphere Client Plug-ins](install_vic_plugin.md).
-- Log in to vSphere Integrated Containers Registry at https://<i>vic_appliance_address</i>:443. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Registry, replace 443 with the appropriate port.
-- Log in to vSphere Integrated Containers Management Portal: https://<i>vic_appliance_address</i>:8282. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
+- Go to the file server that runs in the vSphere Integrated Containers appliance at https://<i>vic_appliance_address</i>:9443. If the vSphere Integrated Containers appliance uses a different port for the vSphere Integrated Containers Engine file server, replace 9443 with the appropriate port. 
+- Download the vSphere Integrated Containers Engine binaries bundle, `vic_1.1.x.tar.gz`, from the file server. Unpack the bundle and start deploying virtual container hosts (VCHs). For information about deploying VCHs, see [Using vic-machine to Deploy VCHs](deploy_vch.md). 
+- Install the vSphere Client plug-ins for vSphere Integrated Containers.  
+
+  **NOTE**: Do not download the client plug-in files, `com.vmware.vic-v1.1.x.zip` and `com.vmware.vic.ui-v1.1.x.zip`, directly from the file server. You install the vSphere Integrated Containers plug-ins by running a script that pulls these files from the file server. For information about installing the plug-ins, see [Installing the vSphere Client Plug-ins](install_vic_plugin.md).
+
+- Log in to vSphere Integrated Containers Registry at https://<i>vic_appliance_address</i>:443. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Registry, replace 443 with the appropriate port. For information about how to use vSphere Integrated Containers Registry, see [Managing Images, Projects, and Users with vSphere Integrated Containers Registry](../vic_dev_ops/using_registry.md).
+- Log in to vSphere Integrated Containers Management Portal: https://<i>vic_appliance_address</i>:8282. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port. For information about how to use vSphere Integrated Containers Management Portal, see [View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal](../vic_dev_ops/vchs_and_mgmt_portal.md).
 
    
