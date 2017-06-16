@@ -1,8 +1,7 @@
-# Troubleshooting vSphere Integrated Containers Engine Administration #
+# Troubleshooting vSphere Integrated Containers #
 
-This information provides solutions for common problems that you might encounter when working with vSphere Integrated Containers.
-* [Check the Status of the vSphere Integrated Containers Services](service_status.md)
-* [Restart the vSphere Integrated Containers Services](restart_services.md)
+This section provides solutions for common problems that you might encounter during operation.
+
 * [VCH Deployment Times Out](ts_vch_deployment_timeout.md)
 * [VCH Deployment Fails with a Certificate Verification Error](ts_thumbprint_error.md)
 * [VCH Deployment Fails with Missing Common Name Error Even When TLS Options Are Specified Correctly](ts_cli_argument_error.md)
