@@ -16,13 +16,54 @@ have `ovftool` installed
 
 ### Build bundle and OVA
 
-First, we have to set the revisions of the components we want to bundle in the OVA:
+#### Build script
+
+The build script accepts files in `packer/scripts`, URLs, or revisions and automatically sets
+required environment variables. `BUILD_VICENGINE_REVISION` is required for UI plugin even if using
+file or URL.
+
+Export required values
+```
+export PACKER_ESX_HOST=1.1.1.1
+export PACKER_USER=root
+export PACKER_PASSWORD=password
+```
+
+If called without any values, `build.sh` will get the latest build for each component
+```
+export BUILD_VICENGINE_REVISION=1.1.1
+./scripts/build.sh
+```
+
+Build with files `packer/scripts/harbor.tgz` and `packer/scripts/vic.tar.gz` and Admiral tag
+`vic_dev`.
+```
+export BUILD_VICENGINE_REVISION=1.1.1
+./scripts/build.sh --harbor harbor.tgz --vicengine vic.tar.gz
+```
+
+Build with URLs and Admiral tag v1.1.1
+```
+export BUILD_VICENGINE_REVISION=1.1.1
+./scripts/build.sh --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic.tar.gz
+```
+
+#### Manual
+
+First, we have to set the revisions of the components we want to bundle in the OVA.
+Specifying a file takes precedence, then URL, then revision.
 
 ```
-export BUILD_VICENGINE_REVISION=1.1.1      # Required (https://console.cloud.google.com/storage/browser/vic-engine-releases) if using dev build, this is used for UI plugin version
-export BUILD_VICENGINE_DEV_REVISION=10000  # Optional, (https://console.cloud.google.com/storage/browser/vic-engine-builds)
-export BUILD_HARBOR_REVISION=v1.1.1        # Optional, defaults to dev (https://console.cloud.google.com/storage/browser/harbor-dev-builds)
-export BUILD_ADMIRAL_REVISION=v1.1.1       # Optional, defaults to vic_dev tag (https://hub.docker.com/r/vmware/admiral/tags/)
+export BUILD_VICENGINE_REVISION=1.1.1                      # Required (https://console.cloud.google.com/storage/browser/vic-engine-releases)
+                                                           # If specifying file or URL, REVISION is used for setting UI plugin version
+export BUILD_VICENGINE_FILE=vic_10000.tar.gz               # Optional, file in `packer/scripts` export
+export BUILD_VICENGINE_URL=https://example.com/vic.tar.gz  # Optional, URL to download
+
+export BUILD_HARBOR_REVISION=v1.1.1                     # Optional, defaults to dev (https://console.cloud.google.com/storage/browser/harbor-builds)
+export BUILD_HARBOR_FILE=harbor-offline-installer.tgz   # Optional, file in `packer/scripts`
+export BUILD_HARBOR_URL=https://example.com/harbor.tgz  # Optional, URL to download
+
+export BUILD_ADMIRAL_REVISION=v1.1.1  # Optional, defaults to vic_dev tag (https://hub.docker.com/r/vmware/admiral/tags/)
 ```
 
 Then set the required env vars for the build environment and make the release:

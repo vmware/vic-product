@@ -17,26 +17,35 @@ set -euf -o pipefail
 FILES_DIR="/opt/vmware/fileserver/files"
 
 mkdir -p /etc/vmware/fileserver  # Fileserver config scripts
-mkdir -p $FILES_DIR              # Files to serve
+mkdir -p ${FILES_DIR}            # Files to serve
 
-[[ x$BUILD_VICENGINE_REVISION == "x" ]] && ( echo "VIC Engine build not set, failing"; exit 1 )
+if [ -z "${BUILD_VICENGINE_REVISION}" ]; then
+  echo "VIC Engine build must be set"
+  exit 1
+fi
 
-# Download Build
 cd /var/tmp
 VIC_ENGINE_FILE=""
 VIC_ENGINE_URL=""
 
+# Use file if specified, otherwise download
 set +u
-if [ -z "${BUILD_VICENGINE_DEV_REVISION}" ]; then
+if [ -n "${BUILD_VICENGINE_FILE}" ]; then
+  echo "Using Packer served VIC Engine file: ${BUILD_VICENGINE_FILE}"
+  VIC_ENGINE_FILE=${BUILD_VICENGINE_FILE}
+  VIC_ENGINE_URL=${PACKER_HTTP_ADDR}/${VIC_ENGINE_FILE}
+elif [ -n ${BUILD_VICENGINE_URL} ]; then
+  VIC_ENGINE_FILE="$(basename ${BUILD_VICENGINE_URL})"
+  VIC_ENGINE_URL=${BUILD_VICENGINE_URL}
+  echo "Using VIC Engine URL: ${VIC_ENGINE_URL}"
+else
   VIC_ENGINE_FILE="vic_${BUILD_VICENGINE_REVISION}.tar.gz"
   VIC_ENGINE_URL="https://storage.googleapis.com/vic-engine-releases/${VIC_ENGINE_FILE}"
-else
-  VIC_ENGINE_FILE="vic_${BUILD_VICENGINE_DEV_REVISION}.tar.gz"
-  VIC_ENGINE_URL="https://storage.googleapis.com/vic-engine-builds/${VIC_ENGINE_FILE}"
+  echo "Using VIC Engine URL: ${VIC_ENGINE_URL}"
 fi
 set -u
 
 echo "Downloading VIC Engine ${VIC_ENGINE_FILE}: ${VIC_ENGINE_URL}"
 curl -LO ${VIC_ENGINE_URL}
-tar xfz ${VIC_ENGINE_FILE} -C $FILES_DIR vic/ui/vsphere-client-serenity/com.vmware.vic.ui-v${BUILD_VICENGINE_REVISION}.zip vic/ui/plugin-packages/com.vmware.vic-v${BUILD_VICENGINE_REVISION}.zip --strip-components=3
-mv ${VIC_ENGINE_FILE} $FILES_DIR
+tar xzf ${VIC_ENGINE_FILE} -C ${FILES_DIR} vic/ui/vsphere-client-serenity/com.vmware.vic.ui-v${BUILD_VICENGINE_REVISION}.zip vic/ui/plugin-packages/com.vmware.vic-v${BUILD_VICENGINE_REVISION}.zip --strip-components=3
+mv ${VIC_ENGINE_FILE} ${FILES_DIR}

@@ -22,7 +22,6 @@ SED ?= sed
 RM ?= rm
 CP ?= cp
 
-VER :=$(shell git describe --abbrev=0 --tags)
 REV :=$(shell git rev-parse --short=8 HEAD)
 
 BASE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -99,7 +98,7 @@ ova-release: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
 	@echo rebuilding OVF manifest...
 	@cd $(BASE_DIR)packer/vic/vic && $(RM) vic.mf && $(SHA256SUM) --tag * | $(SED) s/SHA256\ \(/SHA256\(/ > vic.mf
 	@echo packaging OVA...
-	@$(OVFTOOL) -st=ovf -tt=ova $(BASE_DIR)packer/vic/vic/vic.ovf $(BASE_DIR)$(BIN)/vic-$(VER)-$(REV).ova
+	@$(OVFTOOL) -st=ovf -tt=ova $(BASE_DIR)packer/vic/vic/vic.ovf $(BASE_DIR)$(BIN)/vic-$(REV).ova
 	@echo cleaning packer directory...
 	@cd $(BASE_DIR)packer && $(RM) -rf vic
 
@@ -123,7 +122,7 @@ ova-debug: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
 	@echo rebuilding OVF manifest...
 	cd $(BASE_DIR)packer/vic/vic && $(RM) vic.mf && $(SHA256SUM) --tag * | $(SED) s/SHA256\ \(/SHA256\(/ > vic.mf
 	@echo packaging OVA...
-	$(OVFTOOL) -st=ovf -tt=ova $(BASE_DIR)packer/vic/vic/vic.ovf $(BASE_DIR)$(BIN)/vic-$(VER)-$(REV).ova
+	$(OVFTOOL) -st=ovf -tt=ova $(BASE_DIR)packer/vic/vic/vic.ovf $(BASE_DIR)$(BIN)/vic-$(REV).ova
 	@echo cleaning packer directory...
 	cd $(BASE_DIR)packer && $(RM) -rf vic
 
