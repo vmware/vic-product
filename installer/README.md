@@ -18,8 +18,9 @@ have `ovftool` installed
 
 #### Build script
 
-The build script accepts files in `packer/scripts`, URLs, or revisions and automatically sets required environment variables.
-`BUILD_VICENGINE_REVISION` is required for UI plugin even if using file or URL.
+The build script accepts files in `packer/scripts`, URLs, or revisions and automatically sets
+required environment variables. `BUILD_VICENGINE_REVISION` is required for UI plugin even if using
+file or URL.
 
 If called without any values, `build.sh` will get the latest build for each component
 ```
@@ -46,17 +47,16 @@ First, we have to set the revisions of the components we want to bundle in the O
 Specifying a file takes precedence, then URL, then revision.
 
 ```
-export BUILD_VICENGINE_REVISION=1.1.1      # Required (https://console.cloud.google.com/storage/browser/vic-engine-releases) if specifying file or URL, this is used for UI plugin version
-export BUILD_VICENGINE_FILE=vic_10000.tar.gz  # Optional, file in `packer/scripts` export
-BUILD_VICENGINE_URL=https://storage.googleapis.com/vic-engine-releases/vic.tar.gz  #
-Optional, URL to download
+export BUILD_VICENGINE_REVISION=1.1.1               # Required (https://console.cloud.google.com/storage/browser/vic-engine-releases) if specifying file or URL, this is used for UI plugin version
+export BUILD_VICENGINE_FILE=vic_10000.tar.gz        # Optional, file in `packer/scripts` export
+BUILD_VICENGINE_URL=https://example.com/vic.tar.gz  # Optional, URL to download
 
-export BUILD_HARBOR_REVISION=v1.1.1        # Optional, defaults to dev (https://console.cloud.google.com/storage/browser/harbor-builds)
-export BUILD_HARBOR_FILE=harbor-offline-installer.tgz  # Optional, file in `packer/scripts`
-export BUILD_HARBOR_URL=https://storage.googleapis.com/harbor-builds/harbor.tgz  # Optional, URL to
+export BUILD_HARBOR_REVISION=v1.1.1                     # Optional, defaults to dev (https://console.cloud.google.com/storage/browser/harbor-builds)
+export BUILD_HARBOR_FILE=harbor-offline-installer.tgz   # Optional, file in `packer/scripts`
+export BUILD_HARBOR_URL=https://example.com/harbor.tgz  # Optional, URL to
 download
 
-export BUILD_ADMIRAL_REVISION=v1.1.1       # Optional, defaults to vic_dev tag (https://hub.docker.com/r/vmware/admiral/tags/)
+export BUILD_ADMIRAL_REVISION=v1.1.1  # Optional, defaults to vic_dev tag (https://hub.docker.com/r/vmware/admiral/tags/)
 ```
 
 Then set the required env vars for the build environment and make the release:
