@@ -18,7 +18,7 @@ This topic provides an overview of the different network types that virtual cont
 
 The image below shows a high-level view of the networks that a VCH uses and how they connect to your vSphere environment, to vSphere Integrated Containers Registry and Management Portal, and to the Docker environment. 
  
- ![VCH Networking](graphics/network-diagram-document-hires.png)
+ ![VCH Networking](graphics/vic_networking.png)
 
 The following sections describe each of the VCH network types.
 
@@ -27,7 +27,7 @@ The following sections describe each of the VCH network types.
 
 ## Management Network {#management}
 
-The network for communication between the VCH, vCenter Server, and ESXi hosts. The VCH uses this network to provide the `attach` function of the Docker API. VCHs must be able to access vSphere Integrated Containers Registry either over the management network or over the public network.
+The network for communication between the VCH, vCenter Server, and ESXi hosts. The VCH uses this network to provide the `attach` function of the Docker API. 
 
 **IMPORTANT**: Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network. Ideally, use separate networks for the management network and the container networks.
 
@@ -35,14 +35,14 @@ You define the management network by setting the `--management-network` option w
 
 
 ## Public Network  {#public}
-The network that container VMs use to connect to the internet. Ports that containers expose with `docker create -p` when connected to the default bridge network are made available on the public interface of the VCH endpoint VM via network address translation (NAT), so that containers can publish network services. VCHs must be able to access vSphere Integrated Containers Registry either over the public network or over the management network.
+The network that container VMs use to connect to the internet. Ports that containers expose with `docker create -p` when connected to the default bridge network are made available on the public interface of the VCH endpoint VM via network address translation (NAT), so that containers can publish network services. 
 
 You define the public network by setting the `--public-network` option when you run `vic-machine create`. For  more detailed information about management networks, see the section on the `--public-network` option in [VCH Deployment Options](vch_installer_options.md#public-network).
 
 
 ## Client Network {#client}
 
-The network on which the VCH endpoint VM makes the Docker API available to Docker clients. The client network isolates the Docker endpoints from the public network. VCHs can access vSphere Integrated Containers Registry over the client network, but it is recommended to connect to registries either over the public network or over the management network. vSphere Integrated Containers Management Portal requires a connection to the client network. 
+The network on which the VCH endpoint VM makes the Docker API available to Docker clients. The client network isolates the Docker endpoints from the public network. VCHs can access vSphere Integrated Containers Registry over the client network, but it is recommended to connect to registries either over the public network or over the management network. vSphere Integrated Containers Management Portal and vSphere Integrated Containers Registry require a connection to the client network. 
 
 You define the Docker management endpoint network by setting the `--client-network` option when you run `vic-machine create`. For  more detailed information about Docker management endpoint networks, see the section on the `--client-network` option in [VCH Deployment Options](vch_installer_options.md#client-network).
 
