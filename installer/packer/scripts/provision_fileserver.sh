@@ -19,7 +19,6 @@ FILES_DIR="/opt/vmware/fileserver/files"
 mkdir -p /etc/vmware/fileserver  # Fileserver config scripts
 mkdir -p ${FILES_DIR}            # Files to serve
 
-echo $(env | grep BUILD)
 if [ -z "${BUILD_VICENGINE_REVISION}" ]; then
   echo "VIC Engine build must be set"
   exit 1

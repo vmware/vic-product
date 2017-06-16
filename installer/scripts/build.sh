@@ -14,7 +14,13 @@
 # limitations under the License.
 
 # exit on failure and configure debug, include util functions
-set -e && [ -n "$DEBUG" ] && set -x
+set -euf -o pipefail
+
+DRONE_BUILD_NUMBER="${DRONE_BUILD_NUMBER:-}"
+BUILD_VICENGINE_REVISION="${BUILD_VICENGINE_REVISION:-}"
+ADMIRAL=""
+VICENGINE=""
+HARBOR=""
 
 function usage() {
     echo "Usage: $0" 1>&2
@@ -59,6 +65,8 @@ function setenv() {
   fi
 }
 
+
+
 if [ -n "${ADMIRAL}" ]; then
   setenv ADMIRAL
 fi
@@ -87,12 +95,15 @@ if [ -z "${BUILD_VICENGINE_REVISION}" ]; then
   exit 1
 fi
 
-echo $(env | grep BUILD)
-echo $(env | grep PACKER)
-
 make ova-release
 
-OUTFILE=$(ls -al bin | grep "\.ova" | cut -d ' ' -f 9)
+OUTFILE=bin/$(ls -al bin | grep "\.ova" | cut -d ' ' -f 9)
+
+if [ -n "${DRONE_BUILD_NUMBER}" ]; then
+  TMP=$(echo ${OUTFILE} | sed "s/-/-${DRONE_BUILD_NUMBER}-/")
+  mv ${OUTFILE} ${TMP}
+  OUTFILE=${TMP}
+fi
 
 shasum -a 256 $OUTFILE
 shasum -a 1 $OUTFILE
