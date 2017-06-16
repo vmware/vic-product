@@ -590,7 +590,11 @@ You can optionally specify one or more container networks. Container networks al
 
 **IMPORTANT**: For security reasons, whenever possible, use separate port groups for the container network and the management network.
 
-To specify a container network, you provide the name of a port group for the container VMs to use, and an optional descriptive name for the container network for use by Docker.  If you do not specify a descriptive name, Docker uses the vSphere network name. If you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups.
+To specify a container network, you provide the name of a port group for the container VMs to use, and an optional descriptive name for the container network for use by Docker.  If you do not specify a descriptive name, Docker uses the vSphere network name. 
+
+**IMPORTANT**:  The descriptive name is optional unless the port group name contains spaces. If the port group name contains spaces, you must specify a descriptive name.  The descriptive name cannot contain spaces.
+
+If you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups.
 
 - You can specify a vSphere network as the container network.
 - The port group must exist before you run `vic-machine create`. 
