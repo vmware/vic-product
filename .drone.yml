@@ -32,8 +32,6 @@ pipeline:
     commands:
       - docker ps
       - apk add --update bash git
-      - pwd
-      - ls -al
       - dinv/ci.sh push
     when:
       branch: master
