@@ -45,9 +45,9 @@ services:
     pull: true
 
 pipeline:
-	clone:
-		path: github.com/vmware/vic-product
-		tags: true
+  clone:
+    path: github.com/vmware/vic-product
+    tags: true
 
   unified-ova-build:
     image: $${TEST_BUILD_IMAGE=gcr.io/eminent-nation-87317/vic-integration-test:1.32}
@@ -59,15 +59,15 @@ pipeline:
       PACKER_ESX_HOST: builds-25.vcna.io
       PACKER_USER: root
       PACKER_PASSWORD: vmware1
-			BUILD_VICENGINE_REVISION: 1.1.1
+      BUILD_VICENGINE_REVISION: 1.1.1
     commands:
-			- installer/scripts/build.sh
+      - installer/scripts/build.sh
 
-	bundle:
+  bundle:
     image: harbor.ci.drone.local/library/golang:1.8
     pull: true
-		commands:
-			- mkdir bundle
+    commands:
+      - mkdir bundle
       - cp bin/vic-*.ova bundle
       - ls -al bundle
 
