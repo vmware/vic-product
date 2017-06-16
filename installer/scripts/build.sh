@@ -73,8 +73,6 @@ function setenv() {
   fi
 }
 
-
-
 if [ -n "${ADMIRAL}" ]; then
   setenv ADMIRAL
 fi
