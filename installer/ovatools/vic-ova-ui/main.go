@@ -109,24 +109,17 @@ func main() {
 		}
 	}
 
-	info = fmt.Sprintf("%s\nAccess the VIC Product Documentation at:\nhttps://vmware.github.io/vic-product/#documentation", info)
+	info = fmt.Sprintf("%s\nAccess the VIC Product Documentation at:\nhttps://vmware.github.io/vic-product/#documentation\n", info)
 
-	bottompanel := ui.NewPar(info)
-	bottompanel.Height = ui.TermHeight()/2 + 1
-	bottompanel.Width = ui.TermWidth()
-	bottompanel.TextFgColor = ui.ColorBlack
-	bottompanel.TextBgColor = blue
-	bottompanel.Y = ui.TermHeight() / 2
-	bottompanel.X = 0
-	bottompanel.Bg = blue
-	bottompanel.BorderFg = ui.ColorWhite
-	bottompanel.BorderBg = blue
-	bottompanel.BorderTop = false
-	bottompanel.PaddingTop = 1
-	bottompanel.PaddingLeft = 4
+	netstat := &NetworkStatus{
+		down:     "[DOWN](fg-red)",
+		up:       "[UP](bg-green)",
+		ovfProps: ovf.Properties,
+	}
+	info = fmt.Sprintf("%s\nNetwork Status:\n\tDNS: %s\n\tIP:%s\n\tGateway:%s\n", info, netstat.GetDNSStatus(), netstat.GetIPStatus(), netstat.GetGatewayStatus())
 
 	toppanel := ui.NewPar(fmt.Sprintf("VMware vSphere Integrated Containers %s\n\n%s\n%s", version.GetBuild().ShortVersion(), getCPUs(), getMemory()))
-	toppanel.Height = ui.TermHeight()/2 + 1
+	toppanel.Height = ui.TermHeight()/3 + 1
 	toppanel.Width = ui.TermWidth()
 	toppanel.TextFgColor = ui.ColorWhite
 	toppanel.Y = 0
@@ -138,6 +131,20 @@ func main() {
 	toppanel.BorderBottom = false
 	toppanel.PaddingTop = 4
 	toppanel.PaddingLeft = 4
+
+	bottompanel := ui.NewPar(info)
+	bottompanel.Height = 2*ui.TermHeight()/3 + 1
+	bottompanel.Width = ui.TermWidth()
+	bottompanel.TextFgColor = ui.ColorBlack
+	bottompanel.TextBgColor = blue
+	bottompanel.Y = ui.TermHeight() / 3
+	bottompanel.X = 0
+	bottompanel.Bg = blue
+	bottompanel.BorderFg = ui.ColorWhite
+	bottompanel.BorderBg = blue
+	bottompanel.BorderTop = false
+	bottompanel.PaddingTop = 1
+	bottompanel.PaddingLeft = 4
 
 	ui.Handle("/sys/kbd/q", func(ui.Event) {
 		ui.StopLoop()
