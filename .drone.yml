@@ -8,8 +8,13 @@
 workspace:
   base: /go
   path: src/github.com/vmware/vic-product
-
+    
 pipeline:
+  clone:
+    image: plugins/git
+    tags: true
+    recursive: false
+
   dinv-build:
     environment:
       DOCKER_HOST: tcp://127.0.0.1:2375
@@ -38,63 +43,65 @@ pipeline:
       repo: vmware/vic-product
       event: [push, tag, deployment]
 
+# pipeline:
+#   clone:
+#     image: plugins/git
+#     tags: true
+#     recursive: false
+
+#   unified-ova-build:
+#     image: harbor.ci.drone.local/library/vic-integration-test:1.32
+#     pull: true
+#     environment:
+#       BIN: bin
+#       GOPATH: /go
+#       SHELL: /bin/bash
+#       PACKER_ESX_HOST: builds-25.vcna.io
+#       PACKER_USER: root
+#       PACKER_PASSWORD: vmware1
+#       BUILD_VICENGINE_REVISION: 1.1.1
+#     commands:
+#       - cd installer/
+#       - scripts/build.sh
+
+#   bundle:
+#     image: harbor.ci.drone.local/library/golang:1.8
+#     pull: true
+#     commands:
+#       - mkdir bundle
+#       - cp bin/vic-*.ova bundle
+#       - ls -al bundle
+
+#   publish-gcs-builds:
+#     image: maplain/drone-gcs:latest
+#     pull: true
+#     source: bundle
+#     target: vic-product-ova-builds
+#     acl:
+#       - allUsers:READER
+#     cache_control: public,max-age=3600
+#     when:
+#       repo: vmware/vic-product
+#       event: [ push ]
+#       branch: [ master, releases/* ]
+#       status: success
+
+#   publish-gcs-releases:
+#     image: maplain/drone-gcs:latest
+#     pull: true
+#     source: bundle
+#     target: vic-product-ova-releases
+#     acl:
+#       - allUsers:READER
+#     cache_control: public,max-age=3600
+#     when:
+#       repo: vmware/vic-product
+#       event: [ push, tag ]
+#       branch: [ refs/tags/* ]
+#       status: success
+
 services:
   dind:
     image: docker:dind
     privileged: true
     pull: true
-
-pipeline:
-  clone:
-    path: github.com/vmware/vic-product
-    tags: true
-
-  unified-ova-build:
-    image: $${TEST_BUILD_IMAGE=gcr.io/eminent-nation-87317/vic-integration-test:1.32}
-    pull: true
-    environment:
-      BIN: bin
-      GOPATH: /drone
-      SHELL: /bin/bash
-      PACKER_ESX_HOST: builds-25.vcna.io
-      PACKER_USER: root
-      PACKER_PASSWORD: vmware1
-      BUILD_VICENGINE_REVISION: 1.1.1
-    commands:
-      - installer/scripts/build.sh
-
-  bundle:
-    image: harbor.ci.drone.local/library/golang:1.8
-    pull: true
-    commands:
-      - mkdir bundle
-      - cp bin/vic-*.ova bundle
-      - ls -al bundle
-
-  publish-gcs-builds:
-    image: maplain/drone-gcs:latest
-    pull: true
-    source: bundle
-    target: vic-product-ova-builds
-    acl:
-      - allUsers:READER
-    cache_control: public,max-age=3600
-    when:
-      repo: vmware/vic-product
-      event: [ push ]
-      branch: [ master, releases/* ]
-      status: success
-
-  publish-gcs-releases:
-    image: maplain/drone-gcs:latest
-    pull: true
-    source: bundle
-    target: vic-product-ova-releases
-    acl:
-      - allUsers:READER
-    cache_control: public,max-age=3600
-    when:
-      repo: vmware/vic-product
-      event: [ push, tag ]
-      branch: [ refs/tags/* ]
-      status: success
