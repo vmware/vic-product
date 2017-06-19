@@ -100,16 +100,16 @@ This example deploys a VCH with the following configuration:
 
 ### Deploy to a Resource Pool in a vCenter Server Cluster {#rp_cluster}
 
-To deploy a VCH in a resource pool in a vCenter Server cluster, you specify the names of the cluster and resource pool in the `compute-resource` option.
+To deploy a VCH in a resource pool in a vCenter Server cluster, you specify the resource pool in the `compute-resource` option.
 
 This example deploys a VCH with the following configuration:
 
 - Specifies the user name, password, datacenter, image store, bridge network, and name for the VCH.
-- Designates `rp 1` in cluster `cluster 1` as the resource pool in which to place the VCH. Note that the resource pool and cluster names are wrapped in quotes, because they contain spaces. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system.
+- Designates `rp 1` as the resource pool in which to place the VCH. In this example, the resource pool name `rp 1` is unique across all hosts and clusters, so you only need to specify the resource pool name.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
---compute-resource 'cluster 1'/'rp 1'
+--compute-resource 'rp 1'
 --image-store datastore1
 --bridge-network vch1-bridge
 --name vch1
@@ -117,6 +117,19 @@ This example deploys a VCH with the following configuration:
 --no-tls
 </pre>
 
+If the name of the resource pool is not unique across all clusters, for example if two clusters each contain a resource pool named `rp 1`, you must specify the full path to the resource pool in the `compute-resource` option, in the format <i>cluster_name</i>/Resources/<i>resource_pool_name</i>.
+
+<pre>vic-machine-<i>operating_system</i> create
+--target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
+--compute-resource 'cluster 1'/Resources/'rp 1'
+--image-store datastore1
+--bridge-network vch1-bridge
+--name vch1
+--force
+--no-tls
+</pre>
+
+Note that the resource pool and cluster names in these examples are wrapped in quotes, because they contain spaces. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system.
 
 ### Set Limits on Resource Use {#customized}
 
