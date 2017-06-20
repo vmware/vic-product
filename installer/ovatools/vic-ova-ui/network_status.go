@@ -55,7 +55,7 @@ func (nstat *NetworkStatus) GetGatewayStatus() string {
 
 func (nstat *NetworkStatus) addressPresenceHelper(expectedAddresses []string, command string) string {
 	if len(expectedAddresses) == 0 {
-		return nstat.up
+		return "DHCP"
 	}
 
 	out, err := exec.Command("/bin/bash", "-c", command).Output()

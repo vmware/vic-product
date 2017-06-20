@@ -110,16 +110,10 @@ func main() {
 	}
 
 	info = fmt.Sprintf("%s\nAccess the VIC Product Documentation at:\nhttps://vmware.github.io/vic-product/#documentation\n", info)
-
-	netstat := &NetworkStatus{
-		down:     "[DOWN](fg-red)",
-		up:       "[UP](bg-green)",
-		ovfProps: ovf.Properties,
-	}
-	info = fmt.Sprintf("%s\nNetwork Status:\n\tDNS: %s\n\tIP:%s\n\tGateway:%s\n", info, netstat.GetDNSStatus(), netstat.GetIPStatus(), netstat.GetGatewayStatus())
+	info = fmt.Sprintf("%s\n\n\n\n\t\t\t\t\t\tPress the right arrow key to view network status...", info)
 
 	toppanel := ui.NewPar(fmt.Sprintf("VMware vSphere Integrated Containers %s\n\n%s\n%s", version.GetBuild().ShortVersion(), getCPUs(), getMemory()))
-	toppanel.Height = ui.TermHeight()/3 + 1
+	toppanel.Height = ui.TermHeight()/2 + 1
 	toppanel.Width = ui.TermWidth()
 	toppanel.TextFgColor = ui.ColorWhite
 	toppanel.Y = 0
@@ -133,11 +127,11 @@ func main() {
 	toppanel.PaddingLeft = 4
 
 	bottompanel := ui.NewPar(info)
-	bottompanel.Height = 2*ui.TermHeight()/3 + 1
+	bottompanel.Height = ui.TermHeight()/2 + 1
 	bottompanel.Width = ui.TermWidth()
 	bottompanel.TextFgColor = ui.ColorBlack
 	bottompanel.TextBgColor = blue
-	bottompanel.Y = ui.TermHeight() / 3
+	bottompanel.Y = ui.TermHeight() / 2
 	bottompanel.X = 0
 	bottompanel.Bg = blue
 	bottompanel.BorderFg = ui.ColorWhite
@@ -146,8 +140,40 @@ func main() {
 	bottompanel.PaddingTop = 1
 	bottompanel.PaddingLeft = 4
 
+	netstat := &NetworkStatus{
+		down:     "[DOWN](bg-red)",
+		up:       "[UP](bg-green)",
+		ovfProps: ovf.Properties,
+	}
+
+	netInto := fmt.Sprintf("Network Status:\n\nDNS: %s\n\nIP: %s\n\nGateway: %s\n", netstat.GetDNSStatus(), netstat.GetIPStatus(), netstat.GetGatewayStatus())
+	netInto = fmt.Sprintf("%s\n\n\n\n\n\n\n\nPress the left arrow key to view service info...", netInto)
+
+	// yellow := ui.ColorRGB(4, 4, 1)
+	networkPanel := ui.NewPar(netInto)
+	networkPanel.Height = ui.TermHeight()/2 + 1
+	networkPanel.Width = ui.TermWidth()
+	networkPanel.TextFgColor = ui.ColorBlack
+	networkPanel.TextBgColor = ui.ColorWhite
+	networkPanel.X = 0
+	networkPanel.Y = ui.TermHeight() / 2
+	networkPanel.Bg = ui.ColorWhite
+	networkPanel.BorderBg = ui.ColorWhite
+	networkPanel.BorderFg = ui.ColorBlack
+	networkPanel.BorderTop = false
+	networkPanel.PaddingTop = 1
+	networkPanel.PaddingLeft = 4
+
 	ui.Handle("/sys/kbd/q", func(ui.Event) {
 		ui.StopLoop()
+	})
+
+	ui.Handle("/sys/kbd/<left>", func(ui.Event) {
+		ui.Render(toppanel, bottompanel)
+	})
+
+	ui.Handle("/sys/kbd/<right>", func(ui.Event) {
+		ui.Render(toppanel, networkPanel)
 	})
 
 	ui.Render(toppanel, bottompanel)

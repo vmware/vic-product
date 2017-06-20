@@ -83,14 +83,6 @@
 			"notests": true
 		},
 		{
-			"importpath": "github.com/stretchr/testify/assert",
-			"repository": "https://github.com/stretchr/testify",
-			"vcs": "",
-			"revision": "9f9027faeb0dad515336ed2f28317f9f8f527ab4",
-			"branch": "master",
-			"path": "/assert"
-		},
-		{
 			"importpath": "github.com/vmware/vmw-guestinfo",
 			"repository": "https://github.com/vmware/vmw-guestinfo",
 			"vcs": "git",
