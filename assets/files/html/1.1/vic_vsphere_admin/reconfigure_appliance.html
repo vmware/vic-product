@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>VCH Upgrade Options · VMware vSphere Integrated Containers 1.1 Documentation</title>
+        <title>Reconfigure the Appliance · VMware vSphere Integrated Containers 1.1 Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="upgrade_h5_plugin_windows.html" />
+    <link rel="next" href="service_status.html" />
     
     
-    <link rel="prev" href="upgrade_vch.html" />
+    <link rel="prev" href="manage_appliance.html" />
     
 
     </head>
@@ -506,7 +506,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="2.1.4.2.1" data-path="upgrade_vch_options.html">
+        <li class="chapter " data-level="2.1.4.2.1" data-path="upgrade_vch_options.html">
             
                 <a href="upgrade_vch_options.html">
             
@@ -582,7 +582,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.5.1" data-path="reconfigure_appliance.html">
+        <li class="chapter active" data-level="2.1.5.1" data-path="reconfigure_appliance.html">
             
                 <a href="reconfigure_appliance.html">
             
@@ -1702,7 +1702,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >VCH Upgrade Options</a>
+        <a href=".." >Reconfigure the Appliance</a>
     </h1>
 </div>
 
@@ -1717,37 +1717,42 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="vch-upgrade-options">VCH Upgrade Options</h1>
-<p>The command line utility for vSphere Integrated Containers Engine, <code>vic-machine</code>, provides an <code>upgrade</code> command that allows you to upgrade virtual container hosts (VCHs) to a newer version. </p>
-<p>The <code>vic-machine upgrade</code> command includes the following options in addition to the common options described in <a href="common_vic_options.html">Common <code>vic-machine</code> Options</a>.</p>
-<h3 id="-appliance-iso"><code>--appliance-iso</code></h3>
-<p>Short name: <code>--ai</code></p>
-<p>The path to the new version of the ISO image from which to upgrade the VCH appliance. Set this option if you have moved the <code>appliance.iso</code> file to a folder that is not the folder that contains the <code>vic-machine</code> binary or is not the folder from which you are running <code>vic-machine</code>. Include the name of the ISO file in the path.</p>
-<p><strong>NOTE</strong>: Do not use the <code>--appliance-iso</code> option to point <code>vic-machine</code> to an <code>--appliance-iso</code> file that is of a different version to the version of <code>vic-machine</code> that you are running.</p>
-<pre>--appliance-iso <i>path_to_ISO_file</i>/<i>ISO_file_name</i>.iso</pre>
-
-<p>Wrap the folder names in the path in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.</p>
-<pre>--appliance-iso &apos;<i>path to ISO file</i>&apos;/appliance.iso</pre>
-
-<h3 id="-bootstrap-iso"><code>--bootstrap-iso</code></h3>
-<p>Short name: <code>--bi</code></p>
-<p>The path to the new version of the ISO image from which to upgrade the container VMs that the VCH manages. Set this option if you have moved the <code>bootstrap.iso</code> file to a folder that is not the folder that contains the <code>vic-machine</code> binary or is not the folder from which you are running <code>vic-machine</code>. Include the name of the ISO file in the path.</p>
-<p><strong>NOTE</strong>: Do not use the <code>--bootstrap-iso</code> option to point <code>vic-machine</code> to a <code>--bootstrap-iso</code> file that is of a different version to the version of <code>vic-machine</code> that you are running.</p>
-<pre>--bootstrap-iso <i>path_to_ISO_file</i>/bootstrap.iso</pre>
-
-<p>Wrap the folder names in the path in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.</p>
-<pre>--bootstrap-iso &apos;<i>path to ISO file</i>&apos;/<i>ISO_file_name</i>.iso</pre>
-
-<h3 id="-force"><code>--force</code></h3>
-<p>Short name: <code>-f</code></p>
-<p>Forces <code>vic-machine upgrade</code> to ignore warnings and continue with the upgrade of a VCH. Errors such as an incorrect compute resource still cause the upgrade to fail. </p>
-<p>If your vSphere environment uses untrusted, self-signed certificates, you can use the <code>--force</code> option to upgrade a VCH without providing the thumbprint of the vCenter Server or ESXi host in the <code>thumbprint</code> option. </p>
-<pre>--force</pre>
-
-<h3 id="-rollback"><code>--rollback</code></h3>
-<p>Short name: None</p>
-<p>Rolls a VCH back to its previous version, for example if upgrade failed. Before starting the upgrade process, <code>vic-machine upgrade</code> takes a snapshot of the existing VCH. The upgrade process deletes older snapshots from any previous upgrades. The <code>--rollback</code> option reverts an upgraded VCH to the snapshot of the previous deployment. Because <code>vic-machine upgrade</code> only retains one snapshot, you can only use <code>--rollback</code> to revert the VCH to the version that immediately precedes the most recent upgrade.  </p>
-<pre>--rollback</pre>
+                                <h1 id="reconfigure-the-vsphere-integrated-containers-appliance">Reconfigure the vSphere Integrated Containers Appliance</h1>
+<p>After you have deployed the vSphere Integrated Containers appliance, you can reconfigure the settings that you provided to the OVA installer during deployment. You can also reconfigure the appliance VM itself, for example to expand the amount of storage for vSphere Integrated Containers Registry, or to increase memory and processing power.</p>
+<p><strong>Prerequisites</strong></p>
+<ul>
+<li>Log in to a vSphere Web Client instance for the vCenter Server instance on which the vSphere Integrated Containers appliance is running.</li>
+<li>If you use vSphere 6.5, log in to the Flex-based vSphere Web Client, not the HTML5 vSphere Client.</li>
+</ul>
+<p><strong>Procedure</strong></p>
+<ol>
+<li><p>Shut down the vSphere Integrated Containers appliance by selecting <strong>Shut Down Guest OS</strong>.</p>
+<p><strong>IMPORTANT</strong>: Do not select <strong>Power Off</strong>.</p>
+</li>
+<li>Right-click the new vSphere Integrated Containers appliance, and select <strong>Edit Settings</strong>.</li>
+<li><p>In the <strong>Virtual Hardware</strong> tab, reconfigure the appliance VM as necessary.</p>
+<ul>
+<li>Increase the number of CPUs</li>
+<li>Increase the amount of RAM</li>
+<li>Increase the size of hard disk 2 to expand the storage for vSphere Integrated Containers Registry</li>
+</ul>
+</li>
+<li><p>Click <strong>vApp Options</strong> to modify the settings that you provided when you used the OVA installer to deploy the appliance.</p>
+<ul>
+<li>In <strong>Appliance Security</strong>, update the password for the appliance root account, enable or disable SSH log in.</li>
+<li>Reconfigure <strong>Networking Properties</strong> to set a static IP address, update the network configuration, or remove all settings to enable DHCP.</li>
+<li>Reconfigure <strong>Registry Configuration</strong> to enable or disable vSphere Integrated Containers Registry, change the ports on which the registry publishes services, update the admin and database passwords, enable or disable garbage collection, or update the certificate and key.</li>
+<li>Reconfigure <strong>Management Portal Configuration</strong> to enable or disable vSphere Integrated Containers Management Portal, change the port on which the portal publishes services, or update the certificate and key.</li>
+<li>Reconfigure <strong>File Server Configuration</strong> to change the port on which the file server publishes the vSphere Integrated Containers Engine download, or update the certificate and key.</li>
+</ul>
+<p><strong>NOTE</strong>: It is not recommended to modify the <strong>Deployment</strong> and <strong>Authoring</strong> settings.</p>
+</li>
+<li><p>Click <strong>OK</strong> to close the Edit Settings window.</p>
+</li>
+<li>Power on the vSphere Integrated Containers appliance to complete the reconfiguration.</li>
+</ol>
+<p><strong>Result</strong></p>
+<p>When the appliance powers on, the new settings are automatically applied.</p>
 
                                 
                                 </section>
@@ -1775,12 +1780,12 @@
 
             
                 
-                <a href="upgrade_vch.html" class="navigation navigation-prev " aria-label="Previous page: Upgrade VCHs">
+                <a href="manage_appliance.html" class="navigation navigation-prev " aria-label="Previous page: Managing the Appliance">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="upgrade_h5_plugin_windows.html" class="navigation navigation-next " aria-label="Next page: Upgrade Plug-In on Windows">
+                <a href="service_status.html" class="navigation navigation-next " aria-label="Next page: Check Service Status">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1791,7 +1796,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"VCH Upgrade Options","level":"2.1.4.2.1","depth":4,"next":{"title":"Upgrade Plug-In on Windows","level":"2.1.4.3","depth":3,"path":"vic_vsphere_admin/upgrade_h5_plugin_windows.md","ref":"vic_vsphere_admin/upgrade_h5_plugin_windows.md","articles":[]},"previous":{"title":"Upgrade VCHs","level":"2.1.4.2","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"2.1.4.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/blob/1.1-docs/docs/user_doc/"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_vch_options.md","mtime":"2017-06-20T13:00:39.120Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-20T13:01:10.752Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Reconfigure the Appliance","level":"2.1.5.1","depth":3,"next":{"title":"Check Service Status","level":"2.1.5.2","depth":3,"path":"vic_vsphere_admin/service_status.md","ref":"vic_vsphere_admin/service_status.md","articles":[]},"previous":{"title":"Managing the Appliance","level":"2.1.5","depth":2,"path":"vic_vsphere_admin/manage_appliance.md","ref":"vic_vsphere_admin/manage_appliance.md","articles":[{"title":"Reconfigure the Appliance","level":"2.1.5.1","depth":3,"path":"vic_vsphere_admin/reconfigure_appliance.md","ref":"vic_vsphere_admin/reconfigure_appliance.md","articles":[]},{"title":"Check Service Status","level":"2.1.5.2","depth":3,"path":"vic_vsphere_admin/service_status.md","ref":"vic_vsphere_admin/service_status.md","articles":[]},{"title":"Restart Services","level":"2.1.5.3","depth":3,"path":"vic_vsphere_admin/restart_services.md","ref":"vic_vsphere_admin/restart_services.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/blob/1.1-docs/docs/user_doc/"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/reconfigure_appliance.md","mtime":"2017-06-20T13:00:39.084Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-20T13:01:10.752Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

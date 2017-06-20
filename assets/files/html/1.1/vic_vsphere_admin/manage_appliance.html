@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>VCH Upgrade Options · VMware vSphere Integrated Containers 1.1 Documentation</title>
+        <title>Managing the Appliance · VMware vSphere Integrated Containers 1.1 Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="upgrade_h5_plugin_windows.html" />
+    <link rel="next" href="reconfigure_appliance.html" />
     
     
-    <link rel="prev" href="upgrade_vch.html" />
+    <link rel="prev" href="upgrade_registry.html" />
     
 
     </head>
@@ -506,7 +506,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="2.1.4.2.1" data-path="upgrade_vch_options.html">
+        <li class="chapter " data-level="2.1.4.2.1" data-path="upgrade_vch_options.html">
             
                 <a href="upgrade_vch_options.html">
             
@@ -568,7 +568,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.5" data-path="manage_appliance.html">
+        <li class="chapter active" data-level="2.1.5" data-path="manage_appliance.html">
             
                 <a href="manage_appliance.html">
             
@@ -1702,7 +1702,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >VCH Upgrade Options</a>
+        <a href=".." >Managing the Appliance</a>
     </h1>
 </div>
 
@@ -1717,37 +1717,13 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="vch-upgrade-options">VCH Upgrade Options</h1>
-<p>The command line utility for vSphere Integrated Containers Engine, <code>vic-machine</code>, provides an <code>upgrade</code> command that allows you to upgrade virtual container hosts (VCHs) to a newer version. </p>
-<p>The <code>vic-machine upgrade</code> command includes the following options in addition to the common options described in <a href="common_vic_options.html">Common <code>vic-machine</code> Options</a>.</p>
-<h3 id="-appliance-iso"><code>--appliance-iso</code></h3>
-<p>Short name: <code>--ai</code></p>
-<p>The path to the new version of the ISO image from which to upgrade the VCH appliance. Set this option if you have moved the <code>appliance.iso</code> file to a folder that is not the folder that contains the <code>vic-machine</code> binary or is not the folder from which you are running <code>vic-machine</code>. Include the name of the ISO file in the path.</p>
-<p><strong>NOTE</strong>: Do not use the <code>--appliance-iso</code> option to point <code>vic-machine</code> to an <code>--appliance-iso</code> file that is of a different version to the version of <code>vic-machine</code> that you are running.</p>
-<pre>--appliance-iso <i>path_to_ISO_file</i>/<i>ISO_file_name</i>.iso</pre>
-
-<p>Wrap the folder names in the path in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.</p>
-<pre>--appliance-iso &apos;<i>path to ISO file</i>&apos;/appliance.iso</pre>
-
-<h3 id="-bootstrap-iso"><code>--bootstrap-iso</code></h3>
-<p>Short name: <code>--bi</code></p>
-<p>The path to the new version of the ISO image from which to upgrade the container VMs that the VCH manages. Set this option if you have moved the <code>bootstrap.iso</code> file to a folder that is not the folder that contains the <code>vic-machine</code> binary or is not the folder from which you are running <code>vic-machine</code>. Include the name of the ISO file in the path.</p>
-<p><strong>NOTE</strong>: Do not use the <code>--bootstrap-iso</code> option to point <code>vic-machine</code> to a <code>--bootstrap-iso</code> file that is of a different version to the version of <code>vic-machine</code> that you are running.</p>
-<pre>--bootstrap-iso <i>path_to_ISO_file</i>/bootstrap.iso</pre>
-
-<p>Wrap the folder names in the path in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.</p>
-<pre>--bootstrap-iso &apos;<i>path to ISO file</i>&apos;/<i>ISO_file_name</i>.iso</pre>
-
-<h3 id="-force"><code>--force</code></h3>
-<p>Short name: <code>-f</code></p>
-<p>Forces <code>vic-machine upgrade</code> to ignore warnings and continue with the upgrade of a VCH. Errors such as an incorrect compute resource still cause the upgrade to fail. </p>
-<p>If your vSphere environment uses untrusted, self-signed certificates, you can use the <code>--force</code> option to upgrade a VCH without providing the thumbprint of the vCenter Server or ESXi host in the <code>thumbprint</code> option. </p>
-<pre>--force</pre>
-
-<h3 id="-rollback"><code>--rollback</code></h3>
-<p>Short name: None</p>
-<p>Rolls a VCH back to its previous version, for example if upgrade failed. Before starting the upgrade process, <code>vic-machine upgrade</code> takes a snapshot of the existing VCH. The upgrade process deletes older snapshots from any previous upgrades. The <code>--rollback</code> option reverts an upgraded VCH to the snapshot of the previous deployment. Because <code>vic-machine upgrade</code> only retains one snapshot, you can only use <code>--rollback</code> to revert the VCH to the version that immediately precedes the most recent upgrade.  </p>
-<pre>--rollback</pre>
+                                <h1 id="manage-the-vsphere-integrated-containers-appliance">Manage the vSphere Integrated Containers Appliance</h1>
+<p>This section provides information about how to manage your vSphere Integrated Containers appliance.</p>
+<ul>
+<li><a href="reconfigure_appliance.html">Reconfigure the vSphere Integrated Containers Appliance</a></li>
+<li><a href="service_status.html">Check the Status of the vSphere Integrated Containers Services</a></li>
+<li><a href="restart_services.html">Restart the vSphere Integrated Containers Services</a></li>
+</ul>
 
                                 
                                 </section>
@@ -1775,12 +1751,12 @@
 
             
                 
-                <a href="upgrade_vch.html" class="navigation navigation-prev " aria-label="Previous page: Upgrade VCHs">
+                <a href="upgrade_registry.html" class="navigation navigation-prev " aria-label="Previous page: Upgrade 0.5 Registry">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="upgrade_h5_plugin_windows.html" class="navigation navigation-next " aria-label="Next page: Upgrade Plug-In on Windows">
+                <a href="reconfigure_appliance.html" class="navigation navigation-next " aria-label="Next page: Reconfigure the Appliance">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1791,7 +1767,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"VCH Upgrade Options","level":"2.1.4.2.1","depth":4,"next":{"title":"Upgrade Plug-In on Windows","level":"2.1.4.3","depth":3,"path":"vic_vsphere_admin/upgrade_h5_plugin_windows.md","ref":"vic_vsphere_admin/upgrade_h5_plugin_windows.md","articles":[]},"previous":{"title":"Upgrade VCHs","level":"2.1.4.2","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"2.1.4.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/blob/1.1-docs/docs/user_doc/"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_vch_options.md","mtime":"2017-06-20T13:00:39.120Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-20T13:01:10.752Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Managing the Appliance","level":"2.1.5","depth":2,"next":{"title":"Reconfigure the Appliance","level":"2.1.5.1","depth":3,"path":"vic_vsphere_admin/reconfigure_appliance.md","ref":"vic_vsphere_admin/reconfigure_appliance.md","articles":[]},"previous":{"title":"Upgrade 0.5 Registry","level":"2.1.4.5","depth":3,"path":"vic_vsphere_admin/upgrade_registry.md","ref":"vic_vsphere_admin/upgrade_registry.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/blob/1.1-docs/docs/user_doc/"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.1 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/manage_appliance.md","mtime":"2017-06-20T13:00:39.070Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-20T13:01:10.752Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
