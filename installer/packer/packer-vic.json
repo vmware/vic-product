@@ -326,15 +326,6 @@
     },
     {
       "type": "shell",
-      "only": ["vagrant-local"],
-      "script": "scripts/vagrant.sh"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/system_settings.sh"
-    },
-    {
-      "type": "shell",
       "environment_vars":[
         "BUILD_KOVD_REVISION={{user `build_kovd_revision`}}"
       ],
@@ -359,6 +350,15 @@
       "type": "file",
       "source": "scripts/systemd/kov/kov.service",
       "destination": "/usr/lib/systemd/system/kov.service"
+    },
+    {
+      "type": "shell",
+      "only": ["vagrant-local"],
+      "script": "scripts/vagrant.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/system_settings.sh"
     }
   ],
     "post-processors": [
