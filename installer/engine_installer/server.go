@@ -30,6 +30,7 @@ import (
 
 	"github.com/vmware/vic/pkg/certificate"
 	"github.com/vmware/vic/pkg/trace"
+	"github.com/vmware/vic-product/installer/tagvm"
 )
 
 const (
@@ -67,7 +68,7 @@ func Init(conf *config) {
 func main() {
 	Init(&c)
 
-	log.Infoln("starting installer-egine")
+	log.Infoln("starting installer-engine")
 
 	mux := http.NewServeMux()
 
@@ -141,6 +142,11 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 			html.CreateCommand = strings.Join(engineInstaller.CreateCommand, " ")
 
 			renderTemplate(resp, "html/exec.html", html)
+
+			// assume target is the ip of vc
+			url := []string{"https://", engineInstaller.User, ":", engineInstaller.Password, "@", engineInstaller.Target}
+			tagvm.Run(strings.Join(url, ""), engineInstaller.validator.Session)
+			log.Debugf("finished tagging ova vm")
 		}
 	} else {
 		renderTemplate(resp, "html/auth.html", nil)
