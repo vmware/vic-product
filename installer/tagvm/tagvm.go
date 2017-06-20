@@ -27,8 +27,8 @@ import (
 )
 
 const (
-	ovaCategory = "OVA Category"
-	ovaTag      = "OVA VM"
+	ovaCategory = "VsphereIntegratedContainers"
+	ovaTag      = "ProductVM"
 )
 
 func setupClient(target *string) (*rest.RestClient, bool) {
