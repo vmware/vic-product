@@ -9,4 +9,4 @@ The `vic-machine` utility provides commands that allow you to manage existing vi
   * [Delete a VCH](remove_vch.md)
   * [Debugging the VCH](debug_vch.md)
   * [Access the VCH Admin Portal](access_vicadmin.md)
-  * [Access Log Bundles](vic_vsphere_admin/log_bundles.md)
+  * [Access Log Bundles](log_bundles.md)
