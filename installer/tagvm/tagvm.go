@@ -24,7 +24,6 @@ import (
 	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/vsphere/guest"
 	"github.com/vmware/vic/pkg/vsphere/session"
-	"strings"
 )
 
 const (
@@ -35,9 +34,9 @@ const (
 	ProductVMDescription	= "Product VM"
 )
 
-func setupClient(target *string, insecure bool) (*tags.RestClient, error) {
-	endpoint, err := url.Parse(*target)
-	client := tags.NewClient(endpoint, insecure)
+func setupClient(sess *session.Session) (*tags.RestClient, error) {
+	endpoint, err := url.Parse(sess.Service)
+	client := tags.NewClient(endpoint, sess.Insecure)
 	err = client.Login()
 	if err != nil {
 		log.Debugf("failed to connect rest API for %s", errors.ErrorStack(err))
@@ -62,7 +61,7 @@ func createProductVMtag(client *tags.RestClient) (string, error) {
 	return *tagId, nil
 }
 
-func attachTag(client *tags.RestClient, sess *session.Session, tagId string, ctx context.Context) error {
+func attachTag(ctx context.Context, client *tags.RestClient, sess *session.Session, tagId string) error {
 	if tagId == "" || sess == nil {
 		return errors.Errorf("failed to attach product vm tag")
 	}
@@ -83,9 +82,7 @@ func attachTag(client *tags.RestClient, sess *session.Session, tagId string, ctx
 
 // Run takes in a url and session and tag the ova vm.
 func Run(ctx context.Context, sess *session.Session) error {
-	// trim the sdk path
-	target := strings.TrimPrefix(sess.Service, "/")
-	client, err := setupClient(&target, sess.Insecure)
+	client, err := setupClient(sess)
 	if err != nil {
 		return err
 	}
@@ -95,7 +92,7 @@ func Run(ctx context.Context, sess *session.Session) error {
 		return err
 	}
 
-	err = attachTag(client, sess, tagId, ctx)
+	err = attachTag(ctx, client, sess, tagId)
 	if err != nil {
 		return err
 	}
