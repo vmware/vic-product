@@ -34,7 +34,7 @@ if [ -n "${BUILD_VICENGINE_FILE}" ]; then
   echo "Using Packer served VIC Engine file: ${BUILD_VICENGINE_FILE}"
   VIC_ENGINE_FILE=${BUILD_VICENGINE_FILE}
   VIC_ENGINE_URL=${PACKER_HTTP_ADDR}/${VIC_ENGINE_FILE}
-elif [ -n ${BUILD_VICENGINE_URL} ]; then
+elif [ -n "${BUILD_VICENGINE_URL}" ]; then
   VIC_ENGINE_FILE="$(basename ${BUILD_VICENGINE_URL})"
   VIC_ENGINE_URL=${BUILD_VICENGINE_URL}
   echo "Using VIC Engine URL: ${VIC_ENGINE_URL}"
