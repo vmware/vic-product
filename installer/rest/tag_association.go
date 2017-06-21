@@ -17,6 +17,7 @@ package rest
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 
 	log "github.com/sirupsen/logrus"
 
@@ -61,10 +62,10 @@ func (c *RestClient) AttachTagToObject(tagId string, objId string, objType strin
 	log.Debugf("Attach Tag %s to object id: %s, type: %s", tagId, objId, objType)
 
 	spec := c.getAssociationSpec(&tagId, &objId, &objType)
-	_, _, status, err := c.call("POST", fmt.Sprintf("%s?~action=attach", TagAssociationURL), *spec, nil)
+	_, _, status, err := c.call(http.MethodPost, fmt.Sprintf("%s?~action=attach", TagAssociationURL), *spec, nil)
 
 	log.Debugf("Get status code: %d", status)
-	if status != 200 || err != nil {
+	if status != http.StatusOK || err != nil {
 		log.Debugf("Attach tag failed with status code: %d, error message: %s", status, errors.ErrorStack(err))
 		return errors.Errorf("Get unexpected status code: %d", status)
 	}
@@ -75,10 +76,10 @@ func (c *RestClient) DetachTagFromObject(tagId string, objId string, objType str
 	log.Debugf("Detach Tag %s to object id: %s, type: %s", tagId, objId, objType)
 
 	spec := c.getAssociationSpec(&tagId, &objId, &objType)
-	_, _, status, err := c.call("POST", fmt.Sprintf("%s?~action=detach", TagAssociationURL), *spec, nil)
+	_, _, status, err := c.call(http.MethodPost, fmt.Sprintf("%s?~action=detach", TagAssociationURL), *spec, nil)
 
 	log.Debugf("Get status code: %d", status)
-	if status != 200 || err != nil {
+	if status != http.StatusOK || err != nil {
 		log.Debugf("Detach tag failed with status code: %d, error message: %s", status, errors.ErrorStack(err))
 		return errors.Errorf("Get unexpected status code: %d", status)
 	}
@@ -89,10 +90,10 @@ func (c *RestClient) ListAttachedTags(objId string, objType string) ([]string, e
 	log.Debugf("List attached tags of object id: %s, type: %s", objId, objType)
 
 	spec := c.getAssociationSpec(nil, &objId, &objType)
-	stream, _, status, err := c.call("POST", fmt.Sprintf("%s?~action=list-attached-tags", TagAssociationURL), *spec, nil)
+	stream, _, status, err := c.call(http.MethodPost, fmt.Sprintf("%s?~action=list-attached-tags", TagAssociationURL), *spec, nil)
 
 	log.Debugf("Get status code: %d", status)
-	if status != 200 || err != nil {
+	if status != http.StatusOK || err != nil {
 		log.Debugf("Detach tag failed with status code: %d, error message: %s", status, errors.ErrorStack(err))
 		return nil, errors.Errorf("Get unexpected status code: %d", status)
 	}
@@ -114,10 +115,10 @@ func (c *RestClient) ListAttachedObjects(tagId string) ([]AssociatedObject, erro
 
 	spec := c.getAssociationSpec(&tagId, nil, nil)
 	log.Debugf("List attached objects for tag %v", *spec)
-	//	stream, _, status, err := c.call("POST", fmt.Sprintf("%s?~action=list-attached-objects", TagAssociationURL), *spec, nil)
-	stream, _, status, err := c.call("POST", fmt.Sprintf("%s?~action=list-attached-objects", TagAssociationURL), *spec, nil)
+
+	stream, _, status, err := c.call(http.MethodPost, fmt.Sprintf("%s?~action=list-attached-objects", TagAssociationURL), *spec, nil)
 	log.Debugf("Get status code: %d", status)
-	if status != 200 || err != nil {
+	if status != http.StatusOK || err != nil {
 		log.Debugf("List object failed with status code: %d, error message: %s", status, errors.ErrorStack(err))
 		return nil, errors.Errorf("Get unexpected status code: %d", status)
 	}

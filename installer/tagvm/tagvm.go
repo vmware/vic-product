@@ -60,34 +60,37 @@ func createOVAtag(client *rest.RestClient) (*string, *string) {
 	return categoryId, tagId
 }
 
-func attachTag(client *rest.RestClient, sess *session.Session, categoryId *string, tagId *string) {
+func attachTag(client *rest.RestClient, sess *session.Session, categoryId *string, tagId *string) error {
 	if categoryId == nil || tagId == nil || sess == nil {
-		log.Debug("failed to attach ova vm tag")
-		return
+		return errors.Errorf("failed to attach ova vm tag")
 	}
 
 	ctx := context.Background()
 	vm, err := guest.GetSelf(ctx, sess)
 	if err != nil {
-		log.Debugf("failed to get ova vm : %s", errors.ErrorStack(err))
-		return
+		return errors.Errorf("failed to get ova vm : %s", errors.ErrorStack(err))
 	}
 
 	err = client.AttachTagToObject(*tagId, vm.Reference().Value, vm.Reference().Type)
 	if err != nil {
-		log.Debugf("failed to apply the tag on ova vm : %s", errors.ErrorStack(err))
+		return errors.Errorf("failed to apply the tag on ova vm : %s", errors.ErrorStack(err))
 	}
+
 	log.Debugf("successfully attached the ova tag")
+	return nil
 }
 
 // given a url and session, run tag code
-func Run(target string, sess *session.Session) {
+func Run(target string, sess *session.Session) error {
+	var err error
 
 	client, restAccessible := setupClient(&target)
 	if restAccessible {
 		categoryId, tagId := createOVAtag(client)
-		attachTag(client, sess, categoryId, tagId)
+		err = attachTag(client, sess, categoryId, tagId)
 	} else {
-		log.Debugf("rest API is not accessible, cannot tag ova vm")
+		err = errors.Errorf("Tagging VicProduct VM failed: rest API is not accessible, trusted content is not available")
 	}
+
+	return err
 }

@@ -49,6 +49,7 @@ type EngineInstaller struct {
 	Password        string `json:"password"`
 	Name            string `json:"name"`
 	Thumbprint      string `json:"thumbprint"`
+	Feeback		string `json:"feedback"`
 	CreateCommand   []string
 	validator       *validate.Validator
 }
@@ -69,6 +70,7 @@ type ExecHTMLOptions struct {
 	Password        string
 	Name            string
 	Thumbprint      string
+	Feedback	string
 	CreateCommand   string
 }
 

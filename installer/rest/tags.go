@@ -20,6 +20,7 @@ import (
 	"io"
 	"regexp"
 	"strings"
+	"net/http"
 
 	log "github.com/sirupsen/logrus"
 
@@ -65,8 +66,8 @@ func (c *RestClient) CreateTagIfNotExist(name string, description string, catego
 				return &tagObjs[0].Id, nil
 			} else {
 				// should not happen
-				log.Debugf("Failed to create tag for it's exsited, but could not query back. Please check system")
-				return nil, errors.Errorf("Failed to create tag for it's exsited, but could not query back. Please check system")
+				log.Debugf("Failed to create tag for it's existed, but could not query back. Please check system")
+				return nil, errors.Errorf("Failed to create tag for it's existed, but could not query back. Please check system")
 			}
 		} else {
 			log.Debugf("Failed to create inventory category for %s", errors.ErrorStack(err))
@@ -91,10 +92,10 @@ func (c *RestClient) DeleteTagIfNoObjectAttached(id string) error {
 
 func (c *RestClient) CreateTag(spec *TagCreateSpec) (*string, error) {
 	log.Debugf("Create Tag %v", spec)
-	stream, _, status, err := c.call("POST", TagURL, spec, nil)
+	stream, _, status, err := c.call(http.MethodPost, TagURL, spec, nil)
 
 	log.Debugf("Get status code: %d", status)
-	if status != 200 || err != nil {
+	if status != http.StatusOK || err != nil {
 		log.Debugf("Create tag failed with status code: %d, error message: %s", status, errors.ErrorStack(err))
 		return nil, errors.Errorf("Status code: %d, error: %s", status, err)
 	}
@@ -114,9 +115,9 @@ func (c *RestClient) CreateTag(spec *TagCreateSpec) (*string, error) {
 func (c *RestClient) GetTag(id string) (*Tag, error) {
 	log.Debugf("Get tag %s", id)
 
-	stream, _, status, err := c.call("GET", fmt.Sprintf("%s/id:%s", TagURL, id), nil, nil)
+	stream, _, status, err := c.call(http.MethodGet, fmt.Sprintf("%s/id:%s", TagURL, id), nil, nil)
 
-	if status != 200 || err != nil {
+	if status != http.StatusOK || err != nil {
 		log.Debugf("Get tag failed with status code: %s, error message: %s", status, errors.ErrorStack(err))
 		return nil, errors.Errorf("Status code: %d, error: %s", status, err)
 	}
@@ -136,9 +137,9 @@ func (c *RestClient) GetTag(id string) (*Tag, error) {
 func (c *RestClient) DeleteTag(id string) error {
 	log.Debugf("Delete tag %s", id)
 
-	_, _, status, err := c.call("DELETE", fmt.Sprintf("%s/id:%s", TagURL, id), nil, nil)
+	_, _, status, err := c.call(http.MethodDelete, fmt.Sprintf("%s/id:%s", TagURL, id), nil, nil)
 
-	if status != 200 || err != nil {
+	if status != http.StatusOK || err != nil {
 		log.Debugf("Delete tag failed with status code: %s, error message: %s", status, errors.ErrorStack(err))
 		return errors.Errorf("Status code: %d, error: %s", status, err)
 	}
@@ -148,9 +149,9 @@ func (c *RestClient) DeleteTag(id string) error {
 func (c *RestClient) ListTags() ([]string, error) {
 	log.Debugf("List all tags")
 
-	stream, _, status, err := c.call("GET", TagURL, nil, nil)
+	stream, _, status, err := c.call(http.MethodGet, TagURL, nil, nil)
 
-	if status != 200 || err != nil {
+	if status != http.StatusOK || err != nil {
 		log.Debugf("Get tags failed with status code: %s, error message: %s", status, errors.ErrorStack(err))
 		return nil, errors.Errorf("Status code: %d, error: %s", status, err)
 	}
@@ -165,9 +166,9 @@ func (c *RestClient) ListTagsForCategory(id string) ([]string, error) {
 		CId string `json:"category_id"`
 	}
 	spec := PostCategory{id}
-	stream, _, status, err := c.call("POST", fmt.Sprintf("%s/id:%s?~action=list-tags-for-category", TagURL, id), spec, nil)
+	stream, _, status, err := c.call(http.MethodPost, fmt.Sprintf("%s/id:%s?~action=list-tags-for-category", TagURL, id), spec, nil)
 
-	if status != 200 || err != nil {
+	if status != http.StatusOK || err != nil {
 		log.Debugf("List tags for category failed with status code: %s, error message: %s", status, errors.ErrorStack(err))
 		return nil, errors.Errorf("Status code: %d, error: %s", status, err)
 	}

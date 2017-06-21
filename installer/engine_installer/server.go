@@ -141,12 +141,15 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 			html.Thumbprint = engineInstaller.Thumbprint
 			html.CreateCommand = strings.Join(engineInstaller.CreateCommand, " ")
 
-			renderTemplate(resp, "html/exec.html", html)
-
 			// assume target is the ip of vc
 			url := []string{"https://", engineInstaller.User, ":", engineInstaller.Password, "@", engineInstaller.Target}
-			tagvm.Run(strings.Join(url, ""), engineInstaller.validator.Session)
-			log.Debugf("finished tagging ova vm")
+			if err := tagvm.Run(strings.Join(url, ""), engineInstaller.validator.Session); err != nil {
+				html.Feedback = err.Error()
+			} else {
+				html.Feedback = "Successfully tagged VicProduct VM, trusted content is available"
+			}
+
+			renderTemplate(resp, "html/exec.html", html)
 		}
 	} else {
 		renderTemplate(resp, "html/auth.html", nil)

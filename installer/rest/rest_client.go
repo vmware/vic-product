@@ -73,10 +73,9 @@ func (c *RestClient) encodeData(data interface{}) (*bytes.Buffer, error) {
 }
 
 func (c *RestClient) call(method, path string, data interface{}, headers map[string][]string) (io.ReadCloser, http.Header, int, error) {
-	//	log.Debugf("%s: %s, headers: %+v", method, path, headers)
 	params, err := c.encodeData(data)
 	if err != nil {
-		return nil, nil, -1, errors.Trace(err)
+		return nil, nil, http.StatusBadRequest, errors.Trace(err)
 	}
 
 	if data != nil {
@@ -87,7 +86,7 @@ func (c *RestClient) call(method, path string, data interface{}, headers map[str
 	}
 
 	body, hdr, statusCode, err := c.clientRequest(method, path, params, headers)
-	if statusCode == 401 && strings.Contains(err.Error(), "This method requires authentication") {
+	if statusCode == http.StatusUnauthorized && strings.Contains(err.Error(), "This method requires authentication") {
 		c.Login()
 		log.Debugf("Rerun request after login")
 		return c.clientRequest(method, path, params, headers)
@@ -97,22 +96,18 @@ func (c *RestClient) call(method, path string, data interface{}, headers map[str
 }
 
 func (c *RestClient) clientRequest(method, path string, in io.Reader, headers map[string][]string) (io.ReadCloser, http.Header, int, error) {
-	expectedPayload := (method == "POST" || method == "PUT")
+	expectedPayload := (method == http.MethodPost || method == http.MethodPut)
 	if expectedPayload && in == nil {
 		in = bytes.NewReader([]byte{})
 	}
 
 	req, err := http.NewRequest(method, fmt.Sprintf("%s%s", RestPrefix, path), in)
 	if err != nil {
-		return nil, nil, -1, errors.Trace(err)
+		return nil, nil, http.StatusBadRequest, errors.Trace(err)
 	}
 
 	req.URL.Host = c.host
 	req.URL.Scheme = c.scheme
-
-	//if c.cookies != nil {
-	//	req.AddCookie(c.cookies[0])
-	//}
 
 	if c.sessId != nil {
 		req.Header.Set("vmware-api-session-id", *c.sessId)
@@ -134,7 +129,7 @@ func (c *RestClient) clientRequest(method, path string, in io.Reader, headers ma
 }
 
 func (c *RestClient) handleResponse(resp *http.Response, err error) (io.ReadCloser, http.Header, int, error) {
-	statusCode := -1
+	statusCode := http.StatusBadRequest
 	if resp != nil {
 		statusCode = resp.StatusCode
 	}
@@ -145,7 +140,7 @@ func (c *RestClient) handleResponse(resp *http.Response, err error) (io.ReadClos
 		return nil, nil, statusCode, errors.Errorf("An error occurred trying to connect: %v", errors.ErrorStack(err))
 	}
 
-	if statusCode < 200 || statusCode >= 400 {
+	if statusCode < http.StatusOK || statusCode >= http.StatusBadRequest {
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			return nil, nil, statusCode, errors.Trace(err)
@@ -164,7 +159,7 @@ func (c *RestClient) Login() error {
 	log.Debugf("Login to %s through rest API.", c.host)
 	targetUrl := c.endpoint.String() + "/com/vmware/cis/session"
 
-	request, err := http.NewRequest("POST", targetUrl, nil)
+	request, err := http.NewRequest(http.MethodPost, targetUrl, nil)
 	request.Header.Set("vmware-use-header-authn", "request")
 	password, _ := c.endpoint.User.Password()
 	request.SetBasicAuth(c.endpoint.User.Username(), password)
@@ -180,12 +175,10 @@ func (c *RestClient) Login() error {
 	if resp == nil {
 		return errors.New("Response is nil in Login.")
 	}
-	if resp.StatusCode != 200 {
+	if resp.StatusCode != http.StatusOK {
 		body, _ := ioutil.ReadAll(resp.Body)
 		return errors.Errorf("Login failed for %s", bytes.TrimSpace(body))
 	}
-
-	//c.cookies = resp.Cookies()
 
 	type RespValue struct {
 		Value string
