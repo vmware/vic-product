@@ -343,7 +343,7 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
       <System>
         <vssd:ElementName>Virtual Hardware Family</vssd:ElementName>
         <vssd:InstanceID>0</vssd:InstanceID>
-        <vssd:VirtualSystemType>vmx-09</vssd:VirtualSystemType>
+        <vssd:VirtualSystemType>vmx-11</vssd:VirtualSystemType>
       </System>
       <Item>
         <rasd:AllocationUnits>hertz * 10^6</rasd:AllocationUnits>
@@ -371,9 +371,10 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
       </Item>
       <Item>
         <rasd:Address xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">0</rasd:Address>
-        <rasd:ElementName xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">SCSI Controller 0  - lsilogic</rasd:ElementName>
+        <rasd:Description xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">SCSI Controller</rasd:Description>
+        <rasd:ElementName xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">SCSI Controller 0</rasd:ElementName>
         <rasd:InstanceID xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">4</rasd:InstanceID>
-        <rasd:ResourceSubType>lsilogic</rasd:ResourceSubType>
+        <rasd:ResourceSubType>VirtualSCSI</rasd:ResourceSubType>
         <rasd:ResourceType>6</rasd:ResourceType>
       </Item>
       <Item>
