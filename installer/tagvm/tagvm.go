@@ -20,77 +20,85 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/vmware/vic-product/installer/rest"
+	"github.com/vmware/vic-product/installer/tags"
 	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/vsphere/guest"
 	"github.com/vmware/vic/pkg/vsphere/session"
+	"strings"
 )
 
 const (
-	ovaCategory = "VsphereIntegratedContainers"
-	ovaTag      = "ProductVM"
+	VicProductCategory 	= "VsphereIntegratedContainers1"
+	VicProductDescription 	= "VIC product"
+	VicProductType		= "VirtualMachine"
+	ProductVMTag      	= "ProductVM"
+	ProductVMDescription	= "Product VM"
 )
 
-func setupClient(target *string) (*rest.RestClient, bool) {
+func setupClient(target *string, insecure bool) (*tags.RestClient, error) {
 	endpoint, err := url.Parse(*target)
-	client := rest.NewClient(endpoint, true)
+	client := tags.NewClient(endpoint, insecure)
 	err = client.Login()
 	if err != nil {
 		log.Debugf("failed to connect rest API for %s", errors.ErrorStack(err))
-		return client, false
-	} else {
-		return client, true
+		return client, errors.Errorf("Rest is not accessible")
 	}
+
+	return client, nil
 }
 
-func createOVAtag(client *rest.RestClient) (*string, *string) {
+func createProductVMtag(client *tags.RestClient) (string, error) {
 	// create category first, then create tag
-	categoryId, err := client.CreateCategoryIfNotExist(ovaCategory, "OVA", "VirtualMachine", false)
+	categoryId, err := client.CreateCategoryIfNotExist(VicProductCategory, VicProductDescription, VicProductType, false)
 	if err != nil {
-		log.Debugf("failed to create ova category: %s", errors.ErrorStack(err))
-		return nil, nil
+		return "", errors.Errorf("failed to create vic product category: %s", errors.ErrorStack(err))
 	}
 
-	tagId, err := client.CreateTagIfNotExist(ovaTag, "OVA tag", *categoryId)
+	tagId, err := client.CreateTagIfNotExist(ProductVMTag, ProductVMDescription, *categoryId)
 	if err != nil {
-		log.Debugf("failed to create ova vm tag: %s", errors.ErrorStack(err))
-		return nil, nil
+		return "", errors.Errorf("failed to create product vm tag: %s", errors.ErrorStack(err))
 	}
 
-	return categoryId, tagId
+	return *tagId, nil
 }
 
-func attachTag(client *rest.RestClient, sess *session.Session, categoryId *string, tagId *string) error {
-	if categoryId == nil || tagId == nil || sess == nil {
-		return errors.Errorf("failed to attach ova vm tag")
+func attachTag(client *tags.RestClient, sess *session.Session, tagId string, ctx context.Context) error {
+	if tagId == "" || sess == nil {
+		return errors.Errorf("failed to attach product vm tag")
 	}
 
-	ctx := context.Background()
 	vm, err := guest.GetSelf(ctx, sess)
 	if err != nil {
-		return errors.Errorf("failed to get ova vm : %s", errors.ErrorStack(err))
+		return errors.Errorf("failed to get product vm : %s", errors.ErrorStack(err))
 	}
 
-	err = client.AttachTagToObject(*tagId, vm.Reference().Value, vm.Reference().Type)
+	err = client.AttachTagToObject(tagId, vm.Reference().Value, vm.Reference().Type)
 	if err != nil {
-		return errors.Errorf("failed to apply the tag on ova vm : %s", errors.ErrorStack(err))
+		return errors.Errorf("failed to apply the tag on product vm : %s", errors.ErrorStack(err))
 	}
 
-	log.Debugf("successfully attached the ova tag")
+	log.Debugf("successfully attached the product tag")
 	return nil
 }
 
-// given a url and session, run tag code
-func Run(target string, sess *session.Session) error {
-	var err error
-
-	client, restAccessible := setupClient(&target)
-	if restAccessible {
-		categoryId, tagId := createOVAtag(client)
-		err = attachTag(client, sess, categoryId, tagId)
-	} else {
-		err = errors.Errorf("Tagging VicProduct VM failed: rest API is not accessible, trusted content is not available")
+// Run takes in a url and session and tag the ova vm.
+func Run(ctx context.Context, sess *session.Session) error {
+	// trim the sdk path
+	target := strings.TrimPrefix(sess.Service, "/")
+	client, err := setupClient(&target, sess.Insecure)
+	if err != nil {
+		return err
 	}
 
-	return err
+	tagId, err := createProductVMtag(client)
+	if err != nil {
+		return err
+	}
+
+	err = attachTag(client, sess, tagId, ctx)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

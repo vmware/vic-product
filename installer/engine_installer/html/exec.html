@@ -33,8 +33,7 @@
           "user": $("[name='user']").val(),
           "password": $("[name='password']").val(),
           "thumbprint": $("[name='thumbprint']").val(),
-          "name": $("[name='name']").val(),
-          "feedback": $("[name='feedback']").val()
+          "name": $("[name='name']").val()
         };
         $.ajax({
         	    type: "post", url: "/cmd", contentType: "application/json", data: JSON.stringify(data),

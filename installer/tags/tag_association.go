@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package rest
+package tags
 
 import (
 	"encoding/json"
@@ -58,6 +58,9 @@ func (c *RestClient) getAssociationSpec(tagId *string, objId *string, objType *s
 	return &spec
 }
 
+// AttachTagToObject assigns the tag to the given object.
+// If the object already has the tag, it's a no op and no error is thrown.
+// If any parameter is invalid or the associable type of the tag doesn't match object type, an error is thrown.
 func (c *RestClient) AttachTagToObject(tagId string, objId string, objType string) error {
 	log.Debugf("Attach Tag %s to object id: %s, type: %s", tagId, objId, objType)
 
@@ -72,6 +75,9 @@ func (c *RestClient) AttachTagToObject(tagId string, objId string, objType strin
 	return nil
 }
 
+// DetachTagFromObject detaches the tag to the given object.
+// If object doesn't have the tag, it's a no op and no error is thrown.
+// If any parameter is invalid or the tag doesn't match object type, an error is thrown.
 func (c *RestClient) DetachTagFromObject(tagId string, objId string, objType string) error {
 	log.Debugf("Detach Tag %s to object id: %s, type: %s", tagId, objId, objType)
 
@@ -86,6 +92,7 @@ func (c *RestClient) DetachTagFromObject(tagId string, objId string, objType str
 	return nil
 }
 
+// ListAttachedTags lists all tags that have been attached to the given object.
 func (c *RestClient) ListAttachedTags(objId string, objType string) ([]string, error) {
 	log.Debugf("List attached tags of object id: %s, type: %s", objId, objType)
 
@@ -110,6 +117,7 @@ func (c *RestClient) ListAttachedTags(objId string, objType string) ([]string, e
 	return pTag.Value, nil
 }
 
+// ListAttachedObjects lists all objects that have been tagged with the given tag.
 func (c *RestClient) ListAttachedObjects(tagId string) ([]AssociatedObject, error) {
 	log.Debugf("List attached objects of tag: %s", tagId)
 

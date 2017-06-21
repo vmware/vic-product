@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package rest
+package tags
 
 import (
 	"encoding/json"
@@ -49,6 +49,9 @@ type Category struct {
 	UsedBy          []string `json:"used_by"`
 }
 
+// CreateCategoryIfNotExist takes in specs needed and query for the category first.
+// If the given category has been created, it returns the category id and no error.
+// Otherwise it creates the category and returns the category id and any error encountered.
 func (c *RestClient) CreateCategoryIfNotExist(name string, description string, categoryType string, multiValue bool) (*string, error) {
 	categories, err := c.GetCategoriesByName(name)
 	if err != nil {
@@ -89,6 +92,8 @@ func (c *RestClient) CreateCategoryIfNotExist(name string, description string, c
 	return nil, errors.Errorf("Failed to create inventory for it's existed, but could not query back. Please check system")
 }
 
+// CreateCategory takes in a CategoryCreateSpec pointer and calls VCloud API to create it.
+// If a category with the same name has been created already, a bad request status code is returned.
 func (c *RestClient) CreateCategory(spec *CategoryCreateSpec) (*string, error) {
 	log.Debugf("Create category %v", spec)
 	stream, _, status, err := c.call(http.MethodPost, CategoryURL, spec, nil)
@@ -111,6 +116,8 @@ func (c *RestClient) CreateCategory(spec *CategoryCreateSpec) (*string, error) {
 	return &(pId.Value), nil
 }
 
+// GetCategory makes call to get information about the category based on id.
+// If the category id is invalid or client doesn't have the permission, an error is thrown.
 func (c *RestClient) GetCategory(id string) (*Category, error) {
 	log.Debugf("Get category %s", id)
 
@@ -133,6 +140,8 @@ func (c *RestClient) GetCategory(id string) (*Category, error) {
 	return &(pCategory.Value), nil
 }
 
+// DeleteCategory makes call to delete the category based on id.
+// If the category id is invalid or client doesn't have the permission, an error is thrown.
 func (c *RestClient) DeleteCategory(id string) error {
 	log.Debugf("Delete category %s", id)
 
@@ -145,6 +154,7 @@ func (c *RestClient) DeleteCategory(id string) error {
 	return nil
 }
 
+// ListCategory makes call to list all the existing categories.
 func (c *RestClient) ListCategories() ([]string, error) {
 	log.Debugf("List all categories")
 
@@ -167,6 +177,8 @@ func (c *RestClient) ListCategories() ([]string, error) {
 	return pCategories.Value, nil
 }
 
+// GetCategoriesByName gets all the existing categories and compare their name with the name given.
+// All categories that matches the given name are returned.
 func (c *RestClient) GetCategoriesByName(name string) ([]Category, error) {
 	log.Debugf("Get category %s", name)
 	categoryIds, err := c.ListCategories()

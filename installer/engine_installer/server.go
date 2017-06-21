@@ -16,6 +16,7 @@ package main
 
 import (
 	"crypto/tls"
+	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -31,6 +32,7 @@ import (
 	"github.com/vmware/vic/pkg/certificate"
 	"github.com/vmware/vic/pkg/trace"
 	"github.com/vmware/vic-product/installer/tagvm"
+	"github.com/vmware/vic/pkg/errors"
 )
 
 const (
@@ -141,12 +143,11 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 			html.Thumbprint = engineInstaller.Thumbprint
 			html.CreateCommand = strings.Join(engineInstaller.CreateCommand, " ")
 
-			// assume target is the ip of vc
-			url := []string{"https://", engineInstaller.User, ":", engineInstaller.Password, "@", engineInstaller.Target}
-			if err := tagvm.Run(strings.Join(url, ""), engineInstaller.validator.Session); err != nil {
-				html.Feedback = err.Error()
-			} else {
-				html.Feedback = "Successfully tagged VicProduct VM, trusted content is available"
+
+			ctx := context.TODO()
+			if err := tagvm.Run(ctx, engineInstaller.validator.Session); err != nil {
+				log.Debug(errors.ErrorStack(err))
+				html.TaggingStatus = fmt.Sprintf("Failed to locate productVM, trusted content is not available")
 			}
 
 			renderTemplate(resp, "html/exec.html", html)

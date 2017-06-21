@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package rest
+package tags
 
 import (
 	"bytes"
@@ -44,6 +44,7 @@ type RestClient struct {
 	sessId   *string
 }
 
+// NewClient creates and returns a new RestClient based on specs given.
 func NewClient(u *url.URL, insecure bool) *RestClient {
 	log.Debugf("Create rest client")
 	u.Path = RestPrefix
@@ -155,6 +156,8 @@ func (c *RestClient) handleResponse(resp *http.Response, err error) (io.ReadClos
 	return resp.Body, resp.Header, statusCode, nil
 }
 
+// Login starts a session with the VCloud Suite API and saves the session id in the client.
+// If session fails to connect, an error is thrown.
 func (c *RestClient) Login() error {
 	log.Debugf("Login to %s through rest API.", c.host)
 	targetUrl := c.endpoint.String() + "/com/vmware/cis/session"

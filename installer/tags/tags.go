@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package rest
+package tags
 
 import (
 	"encoding/json"
@@ -49,6 +49,9 @@ type Tag struct {
 	UsedBy      []string `json:"used_by"`
 }
 
+// CreateTagIfNotExist takes in specs needed and query for the tag first.
+// If the given tag has been created, it returns the tag id and no error.
+// Otherwise it creates the tag and returns the tag id and any error encountered.
 func (c *RestClient) CreateTagIfNotExist(name string, description string, categoryId string) (*string, error) {
 	tagCreate := TagCreate{categoryId, description, name}
 	spec := TagCreateSpec{tagCreate}
@@ -78,6 +81,8 @@ func (c *RestClient) CreateTagIfNotExist(name string, description string, catego
 	return id, nil
 }
 
+// DeleteTagIfNoObjectAttached checks to see if any objects are attached with this tag.
+// If so, an error is thrown. Otherwise it deletes the tag and return any error encountered.
 func (c *RestClient) DeleteTagIfNoObjectAttached(id string) error {
 	objs, err := c.ListAttachedObjects(id)
 	if err != nil {
@@ -90,6 +95,8 @@ func (c *RestClient) DeleteTagIfNoObjectAttached(id string) error {
 	return c.DeleteTag(id)
 }
 
+// CreateTag takes in a TagCreateSpec pointer and calls VCloud API to create it.
+// If a tag with the same name has been created in the category already, a bad request status code is returned.
 func (c *RestClient) CreateTag(spec *TagCreateSpec) (*string, error) {
 	log.Debugf("Create Tag %v", spec)
 	stream, _, status, err := c.call(http.MethodPost, TagURL, spec, nil)
@@ -112,6 +119,8 @@ func (c *RestClient) CreateTag(spec *TagCreateSpec) (*string, error) {
 	return &(pId.Value), nil
 }
 
+// GetTag makes call to get information about the tag based on given id.
+// If the tag id is invalid or client doesn't have the permission, an error is thrown.
 func (c *RestClient) GetTag(id string) (*Tag, error) {
 	log.Debugf("Get tag %s", id)
 
@@ -134,6 +143,8 @@ func (c *RestClient) GetTag(id string) (*Tag, error) {
 	return &(pTag.Value), nil
 }
 
+// DeleteTag makes call to delete the tag based on id.
+// If the tag id is invalid or client doesn't have the permission, an error is thrown.
 func (c *RestClient) DeleteTag(id string) error {
 	log.Debugf("Delete tag %s", id)
 
@@ -146,6 +157,7 @@ func (c *RestClient) DeleteTag(id string) error {
 	return nil
 }
 
+// ListTags makes call to list all the existing tags in all categories.
 func (c *RestClient) ListTags() ([]string, error) {
 	log.Debugf("List all tags")
 
@@ -159,6 +171,8 @@ func (c *RestClient) ListTags() ([]string, error) {
 	return c.handleTagIdList(stream)
 }
 
+// ListTags makes call to list all the existing tags in the given category.
+// If category id is invalid, an error is thrown.
 func (c *RestClient) ListTagsForCategory(id string) ([]string, error) {
 	log.Debugf("List tags for category: %s", id)
 
@@ -189,7 +203,8 @@ func (c *RestClient) handleTagIdList(stream io.ReadCloser) ([]string, error) {
 	return pTags.Value, nil
 }
 
-// Get tag through tag name and category id
+// GetTagByNameForCategory gets tag through tag name and category id.
+// If either parameter is invalid, an error is thrown.
 func (c *RestClient) GetTagByNameForCategory(name string, id string) ([]Tag, error) {
 	log.Debugf("Get tag %s for category %s", name, id)
 	tagIds, err := c.ListTagsForCategory(id)
@@ -212,7 +227,7 @@ func (c *RestClient) GetTagByNameForCategory(name string, id string) ([]Tag, err
 	return tags, nil
 }
 
-// Get attached tags through tag name pattern
+// GetAttachedTagsByNamePattern gets attached tags through tag name pattern
 func (c *RestClient) GetAttachedTagsByNamePattern(namePattern string, objId string, objType string) ([]Tag, error) {
 	tagIds, err := c.ListAttachedTags(objId, objType)
 	if err != nil {
