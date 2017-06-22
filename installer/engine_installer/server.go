@@ -15,6 +15,7 @@
 package main
 
 import (
+	"context"
 	"crypto/tls"
 	"encoding/json"
 	"flag"
@@ -28,7 +29,9 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
+	"github.com/vmware/vic-product/installer/tagvm"
 	"github.com/vmware/vic/pkg/certificate"
+	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/trace"
 )
 
@@ -67,7 +70,7 @@ func Init(conf *config) {
 func main() {
 	Init(&c)
 
-	log.Infoln("starting installer-egine")
+	log.Infoln("starting installer-engine")
 
 	mux := http.NewServeMux()
 
@@ -139,6 +142,12 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 			html.Name = engineInstaller.Name
 			html.Thumbprint = engineInstaller.Thumbprint
 			html.CreateCommand = strings.Join(engineInstaller.CreateCommand, " ")
+
+			ctx := context.TODO()
+			if err := tagvm.Run(ctx, engineInstaller.validator.Session); err != nil {
+				log.Debug(errors.ErrorStack(err))
+				html.TaggingStatus = fmt.Sprintf("Failed to locate productVM, trusted content is not available")
+			}
 
 			renderTemplate(resp, "html/exec.html", html)
 		}

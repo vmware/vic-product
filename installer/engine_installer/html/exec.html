@@ -59,6 +59,18 @@
       });
     });
     </script>
+
+    <!--Display or hide tagging status -->
+    <script>
+        function checkTaggingStatus() {
+            var status = {{.TaggingStatus}};
+            var x = document.getElementById("taggingStatus");
+            if (status == "") {
+                x.style.display = "none";
+            }
+        }
+        window.onload = function() {checkTaggingStatus()}
+    </script>
   </head>
 
   <body id="body" class="page-community layout-community">
@@ -78,6 +90,14 @@
 
     <div class="main-container">
       <main class="content-area">
+
+        <div class="alert alert-warning" id="taggingStatus">
+          <div class="alert-item">
+            <span class="alert-text">
+                {{.TaggingStatus}}
+            </span>
+          </div>
+        </div>
 
         <section class="community-top-section">
           <h1 id="community">Default VCH Installer</h1>
