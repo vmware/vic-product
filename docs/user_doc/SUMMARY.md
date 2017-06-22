@@ -8,7 +8,6 @@
 
 * [Introduction](README.md)
 * [Quick Start Links](vic_quickstart.md)
-* 
 
 ----
 
@@ -77,6 +76,11 @@
     * [Certificate Errors when Using Full TLS Authentication with Trusted Certificates](vic_vsphere_admin/ts_clock_skew.md)
   * [Security Reference](vic_vsphere_admin/security_reference.md)
 
+
+----
+
+* [Cloud Administrators](vic_cloud_admin/README.md)
+   * [Overview for Cloud Admins](vic_cloud_admin/overview_of_vic_cloudadmin.md)
 
 ----
 
