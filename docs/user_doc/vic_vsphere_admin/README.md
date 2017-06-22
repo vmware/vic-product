@@ -2,9 +2,9 @@
 
 *vSphere Integrated Containers for vSphere Administrators* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as a vSphere administrator.
 
-**Product version: 1.1**
+**Product version: 1.2**
 
-This documentation applies to all 1.1.x releases.
+This documentation applies to all 1.2.x releases.
 
 ## Intended Audience
 
