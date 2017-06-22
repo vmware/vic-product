@@ -12,6 +12,7 @@ Full support of vSphere Integrated Containers requires the vSphere Enterprise Pl
 
 You can obtain open source builds of vSphere Integrated Containers Engine, vSphere Integrated Containers Portal, and vSphere Integrated Containers Registry, that have different levels of stability.
 
+ * Download recent builds of the [vSphere Integrated Containers OVA installer](https://console.cloud.google.com/storage/browser/vic-product-ova-builds). Builds happen approximately weekly. You need a Google account to access these builds. 
  * Download tagged open source software (OSS) versions of the vSphere Integrated Containers components that have been tested and released to the open source community, but that might not reflect the most up-to-date version of the code: 
    * [vSphere Integrated Containers Engine](https://github.com/vmware/vic/releases)
    * [vSphere Integrated Containers Registry](https://github.com/vmware/harbor/releases)
