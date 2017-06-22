@@ -1,6 +1,6 @@
 # Supported Docker Commands
 
- vSphere Integrated Containers Engine 1.1 supports Docker 1.13. The supported version of the Docker API is 1.25. 
+ vSphere Integrated Containers Engine 1.2 supports Docker 1.13. The supported version of the Docker API is 1.25. 
 
 - [Docker Management Commands](#mgmt)
 - [Image Commands](#image)
