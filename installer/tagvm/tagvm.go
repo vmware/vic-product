@@ -27,11 +27,11 @@ import (
 )
 
 const (
-	VicProductCategory 	= "VsphereIntegratedContainers1"
-	VicProductDescription 	= "VIC product"
-	VicProductType		= "VirtualMachine"
-	ProductVMTag      	= "ProductVM"
-	ProductVMDescription	= "Product VM"
+	VicProductCategory    = "VsphereIntegratedContainers"
+	VicProductDescription = "VIC product"
+	VicProductType        = "VirtualMachine"
+	ProductVMTag          = "ProductVM"
+	ProductVMDescription  = "Product VM"
 )
 
 func setupClient(sess *session.Session) (*tags.RestClient, error) {

@@ -18,9 +18,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"net/http"
 	"regexp"
 	"strings"
-	"net/http"
 
 	log "github.com/sirupsen/logrus"
 

@@ -17,8 +17,8 @@ package tags
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
 	"net/http"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 
