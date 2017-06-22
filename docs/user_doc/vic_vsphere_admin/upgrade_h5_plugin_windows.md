@@ -1,16 +1,16 @@
 # Upgrade the HTML5 vSphere Client Plug-In on vCenter Server for Windows #
 
-If you have a previous 1.1.x installation of the HTML5 vSphere Client plug-in for vSphere Integrated Containers and you download a newer 1.1.y version of vSphere Integrated Containers, you must upgrade the HTML5 plug-in. This procedure describes how to upgrade an existing HTML5 plug-in for vCenter Server on Windows.
+If you have a previous 1.1.x installation of the HTML5 vSphere Client plug-in for vSphere Integrated Containers, you must upgrade the HTML5 plug-in. This procedure describes how to upgrade an existing HTML5 plug-in for vCenter Server on Windows.
 
 **NOTE**: No new development work is planned for the plug-in for the Flex-based vSphere Web Client. In this and future releases, only the HTML5 vSphere Client will be updated. This release adds no new features to the Flex plug-in. If you installed the Flex plug-in with a previous release of vSphere Integrated Containers, there is no upgrade to perform. 
 
 **Prerequisites**
 
 - You are upgrading the HTML5 plug-in on a vCenter Server instance that runs on Windows. If you are running a vCenter Server appliance instance, see [Upgrade the HTML5 vSphere Client Plug-In on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md).
-- You deployed an older version of the vSphere Integrated Containers plug-in for the HTML5 vSphere Client with a previous version of vSphere Integrated Containers 1.1.x. For information about installing the HTML5 plug-in for the first time, see [Install the Client Plug-Ins on vCenter Server for Windows](plugins_vc_windows.md).
-- You upgraded an existing vSphere Integrated Containers 1.1.x appliance to a newer 1.1.y version. For information about upgrading the vSphere Integrated Containers appliance, see [Upgrade the vSphere Integrated Containers Appliance](upgrade_appliance.md).
+- You deployed the vSphere Integrated Containers plug-in for the HTML5 vSphere Client with a previous version of vSphere Integrated Containers 1.1.x. For information about installing the HTML5 plug-in for the first time, see [Install the Client Plug-Ins on vCenter Server for Windows](plugins_vc_windows.md).
+- You upgraded an existing vSphere Integrated Containers 1.2.x appliance to a newer 1.2.y version. For information about upgrading the vSphere Integrated Containers appliance, see [Upgrade the vSphere Integrated Containers Appliance](upgrade_appliance.md).
 - Log in to the Windows system on which vCenter Server is running. You must perform all of the steps in this procedure on this Windows system.
-- Go to https://<i>upgraded_vic_appliance_address</i>:9443 in a Web browser, download the new version of the vSphere Integrated Containers Engine package, `vic_1.1.y.tar.gz`, and unpack it on the Desktop. 
+- Go to https://<i>upgraded_vic_appliance_address</i>:9443 in a Web browser, download the new version of the vSphere Integrated Containers Engine package, `vic_1.2.y.tar.gz`, and unpack it on the Desktop. 
 
 **NOTE**: If the upgraded vSphere Integrated Containers appliance uses a different port for the file server, replace 9443 with the appropriate port in the prerequisites above and in the procedure below.
 

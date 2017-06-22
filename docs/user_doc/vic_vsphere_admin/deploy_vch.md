@@ -1,6 +1,6 @@
 # Using `vic-machine` to Deploy Virtual Container Hosts #
 
-After you deploy the vSphere Integrated Containers appliance, you can download the vSphere Integrated Containers Engine binaries, `vic_1.1.x-version.tar.gz`, from https://<i>vic_appliance_address</i>:9443. The vSphere Integrated Containers Engine binaries include the `vic-machine` utility, that you use to deploy virtual container hosts (VCHs). 
+After you deploy the vSphere Integrated Containers appliance, you can download the vSphere Integrated Containers Engine binaries, `vic_1.2.x-version.tar.gz`, from https://<i>vic_appliance_address</i>:9443. The vSphere Integrated Containers Engine binaries include the `vic-machine` utility, that you use to deploy virtual container hosts (VCHs). 
 
 * [Contents of the vSphere Integrated Containers Engine Binaries](contents_of_vic_binaries.md)
 * [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md)
