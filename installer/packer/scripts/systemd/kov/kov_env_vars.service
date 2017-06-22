@@ -1,13 +1,13 @@
 [Unit]
 Description=Kubernetes on Vsphere
 Documentation=https://github.com/vmware/kov
-After=systemd-networkd.service systemd-resolved.service network.service admiral_startup.service fileserver_startup.service admiral.service engine_installer_startup.service
-Requires=docker.service
-Wants=network.service
+After=network-online.target admiral_startup.service fileserver_startup.service admiral.service engine_installer_startup.service
+Requires=docker.service admiral_startup.service fileserver_startup.service admiral.service engine_installer_startup.service
+Wants=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/etc/vmware/kov/configure_kov_env_var.sh
+ExecStart=/etc/vmware/kov/configure_kov_env_vars.sh
 
 [Install]
 WantedBy=multi-user.target
