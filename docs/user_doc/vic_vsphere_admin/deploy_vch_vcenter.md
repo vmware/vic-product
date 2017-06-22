@@ -6,7 +6,7 @@ The vCenter Server instance to which you deploy the VCH must match the specifica
 
 **Prerequisites**
 * Deploy the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
-* Download the vSphere Integrated Containers Engine bundle, `vic_1.1.x-version.tar.gz`, from https://<i>vic_appliance_address</i>:9443 and unpack it on your working machine. If you configured the appliance to use a different port for the file server, replace 9443 with the appropriate port.
+* Download the vSphere Integrated Containers Engine bundle, `vic_1.2.x-version.tar.gz`, from https://<i>vic_appliance_address</i>:9443 and unpack it on your working machine. If you configured the appliance to use a different port for the file server, replace 9443 with the appropriate port.
 * Create or obtain a vCenter Server instance with the following configuration:
   * One datacenter
   * One cluster with two ESXi hosts and DRS enabled. You can use nested ESXi hosts for this example.

@@ -1,8 +1,8 @@
 # Upgrade the vSphere Integrated Containers Appliance # 
 
-If you deployed a 1.1.x version of the vSphere Integrated Containers appliance, you can upgrade your existing installation to a later 1.1.y update release.
+If you deployed a 1.1.x version of the vSphere Integrated Containers appliance, you can upgrade your existing installation to 1.2.x.
 
-To upgrade an instance of vSphere Integrated Containers Registry 0.5 (Harbor) that you deployed with vSphere Integrated Containers 1.0, see [Upgrade vSphere Integrated Containers Registry 0.5 to 1.1.x](upgrade_registry.md).
+To upgrade an instance of vSphere Integrated Containers Registry 0.5 (Harbor) that you deployed with vSphere Integrated Containers 1.0, see [Upgrade vSphere Integrated Containers Registry 0.5 to 1.2.x](upgrade_registry.md).
 
 **Prerequisites**
 

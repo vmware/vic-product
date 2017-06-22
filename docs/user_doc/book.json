@@ -1,6 +1,6 @@
 {
 
-	"title": "VMware vSphere Integrated Containers 1.1 Documentation",
+	"title": "VMware vSphere Integrated Containers 1.2 Documentation",
         "gitbook": "3.x.x",
         "plugins": ["expandable-chapters", "edit-link"],
         "pluginsConfig": {
