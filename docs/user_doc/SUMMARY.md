@@ -19,6 +19,7 @@
   * [Installation](vic_vsphere_admin/installing_vic.md)
     * [Download](vic_vsphere_admin/download_vic.md) 
     * [Deploy the Appliance](vic_vsphere_admin/deploy_vic_appliance.md)
+    * [Deploy a Demo VCH](vic_vsphere_admin/deploy_demo_vch.md)
     * [Installing the Plug-ins](vic_vsphere_admin/install_vic_plugin.md)
       * [vCenter Server for Windows](vic_vsphere_admin/plugins_vc_windows.md)
       * [vCenter Server Appliance](vic_vsphere_admin/plugins_vcsa.md)
