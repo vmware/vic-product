@@ -16,7 +16,7 @@ To install the vSphere Client plug-ins for vSphere Integrated Containers, you lo
 
 **Procedure**
 
-1. Open a command prompt as Administrator and run the following command to obtain the SHA-1 thumbprint of the file server that is running in the vSphere Integrated Containers appliance.<pre>echo | "%VMWARE_OPENSSL_BIN%" s_client -connect <i>vic_appliance_address</i>:9443 | "%VMWARE_OPENSSL_BIN%" x509 -fingerprint -sha1 -noout</pre>
+1. Open a command prompt as Administrator and run the following command to obtain the SHA-1 thumbprint of the file server that is running in the vSphere Integrated Containers appliance.<pre>echo | "%VMWARE_OPENSSL_BIN%" s_client -connect <i>vic_appliance_address</i>:9443 | "%VMWARE_OPENSSL_BIN%" x509 -fingerprint -sha1 -noout</pre>Do not include the HTTPS prefix in <i>vic_appliance_address</i>:9443.
 2. Open the `\vic\ui\vCenterForWindows\configs` file in a text editor.<pre>notepad %USERPROFILE%\Desktop\vic\ui\vCenterForWindows\configs</pre>
 3. Enter the IPv4 address or FQDN of the vCenter Server instance on which to install the plug-in.<pre>SET target_vcenter_ip=<i>vcenter_server_address</i></pre>
 4. Enter the URL of the vSphere Integrated Containers appliance file server. <pre>SET vic_ui_host_url=https://<i>vic_appliance_address</i>:9443/</pre>You must enter the full URL and include the closing forward slash (`/`) after the port number. 
