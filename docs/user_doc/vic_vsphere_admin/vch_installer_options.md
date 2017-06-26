@@ -438,6 +438,8 @@ If you are deploying the VCH to a vCenter Server cluster, the datastore that you
 
 The label that you specify is the volume store name that Docker uses. For example, the volume store label appears in the information for a VCH when container developers run `docker info`. Container developers specify the volume store label in the <code>docker volume create --opt VolumeStore=<i>volume_store_label</i></code> option when they create a volume.
 
+**IMPORTANT**: The volume store label must be unique.
+
 If you specify an invalid datastore name, `vic-machine create` fails and suggests valid datastores. 
 
 **IMPORTANT** If you do not specify the `volume-store` option, no  volume store is created and container developers cannot use the `docker volume create` or `docker create -v` commands.
