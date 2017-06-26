@@ -59,18 +59,6 @@
       });
     });
     </script>
-
-    <!--Display or hide tagging status -->
-    <script>
-        function checkFeedback() {
-            var status = {{.Feedback}};
-            var x = document.getElementById("feedback");
-            if (status == "") {
-                x.style.display = "none";
-            }
-        }
-        window.onload = function() {checkFeedback()}
-    </script>
   </head>
 
   <body id="body" class="page-community layout-community">
@@ -91,13 +79,15 @@
     <div class="main-container">
       <main class="content-area">
 
-        <div class="alert alert-warning" id="feedback">
+        {{ if .FeedbackPresent }}
+        <div class="alert alert-warning">
           <div class="alert-item">
             <span class="alert-text">
                 {{.Feedback}}
             </span>
           </div>
         </div>
+        {{ end }}
 
         <section class="community-top-section">
           <h1 id="community">Default VCH Installer</h1>

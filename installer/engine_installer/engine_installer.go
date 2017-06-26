@@ -70,6 +70,7 @@ type ExecHTMLOptions struct {
 	Name            string
 	Thumbprint      string
 	Feedback	string
+	FeedbackPresent bool
 	CreateCommand   string
 }
 
