@@ -144,8 +144,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 			html.CreateCommand = strings.Join(engineInstaller.CreateCommand, " ")
 
 			html.Feedback = startInitializationServices()
-			html.FeedbackPresent = html.Feedback != ""
-
+			
 			renderTemplate(resp, "html/exec.html", html)
 		}
 	} else {
