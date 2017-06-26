@@ -143,11 +143,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 			html.Thumbprint = engineInstaller.Thumbprint
 			html.CreateCommand = strings.Join(engineInstaller.CreateCommand, " ")
 
-			ctx := context.TODO()
-			if err := tagvm.Run(ctx, engineInstaller.validator.Session); err != nil {
-				log.Debug(errors.ErrorStack(err))
-				html.TaggingStatus = fmt.Sprintf("Failed to locate productVM, trusted content is not available")
-			}
+			html.Feedback = startInitializationServices()
 
 			renderTemplate(resp, "html/exec.html", html)
 		}
@@ -199,4 +195,17 @@ func parseCmdArgs(resp http.ResponseWriter, req *http.Request) {
 		resp.WriteHeader(http.StatusOK)
 		resp.Write([]byte(strings.Join(engineInstaller.CreateCommand, " ")))
 	}
+}
+
+// error messages from each services is concatenated, return "" if no errors.
+func startInitializationServices() string {
+	var errorMsg []string
+
+	ctx := context.TODO()
+	if err := tagvm.Run(ctx, engineInstaller.validator.Session); err != nil {
+		log.Debug(errors.ErrorStack(err))
+		errorMsg = append(errorMsg, "Failed to locate productVM, trusted content is not available")
+	}
+	
+	return strings.Join(errorMsg, "\n")
 }

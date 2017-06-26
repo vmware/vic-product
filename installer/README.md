@@ -92,6 +92,8 @@ docker run -it --net=host -v ~/go/src/github.com/vmware/vic/bin:/test-bin \
   vi://root:password@192.168.1.20
 ```
 
+To enable all initialization services, it is required to log in to ```https://<OVA IP>:1337``` after OVA is deployed on a VC.
+
 ## Vendor
 
 To build the installer dependencies, ensure `GOPATH` is set, then issue the following.

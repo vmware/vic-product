@@ -69,7 +69,7 @@ type ExecHTMLOptions struct {
 	Password        string
 	Name            string
 	Thumbprint      string
-	TaggingStatus   string
+	Feedback	string
 	CreateCommand   string
 }
 
