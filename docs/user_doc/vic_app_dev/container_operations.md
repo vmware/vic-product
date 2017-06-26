@@ -48,7 +48,7 @@
 |`exec`|[Run a command in a running container](https://docs.docker.com/engine/reference/commandline/exec/)|Yes, since 1.2|
 |`export`|[Export a container](https://docs.docker.com/engine/reference/commandline/export/)|No|
 |`kill`|[Kill a running container](https://docs.docker.com/engine/reference/commandline/kill/)|Yes, since 1.0. Docker must wait for the container to shut down.|
-|`logs`|[Get container logs](https://docs.docker.com/engine/reference/commandline/logs/)|Yes, since 1.0. Does not support `docker logs --timestamps` (`-t`) and `--since` options.|
+|`logs`|[Get container logs](https://docs.docker.com/engine/reference/commandline/logs/)|Yes, since 1.0. Supports `--since` since 1.2. Does not support `--timestamps` (`-t`). |
 |`pause`|[Pause processes in a container](https://docs.docker.com/engine/reference/commandline/pause/)|No|
 |`port`|[Obtain port data](https://docs.docker.com/engine/reference/commandline/port/)|Yes, since 1.0. Displays port mapping data. <br>Supports mapping a random host port to the container when the host port is not specified.|
 |`ps`|[Show running containers](https://docs.docker.com/engine/reference/commandline/ps/)|Yes, since 1.0. Supports the `-a/--all`, `-f/--filter`, `--no-trunc`, and `-q/--quiet` options. Filtering by network name is supported, but filtering by network ID is not supported.|
