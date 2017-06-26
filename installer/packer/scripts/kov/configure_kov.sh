@@ -23,7 +23,7 @@ admin=$(ovfenv -k cluster_manager.admin)
 # Files under this directory will be served by a file server
 FILES_DIR="/opt/vmware/fileserver/files"
 CERT_FILES_DIR="certs"
-mkdir $FILES_DIR/$CERT_FILES_DIR
+mkdir -p $FILES_DIR/$CERT_FILES_DIR
 
 if [ ${deploy,,} != "true" ]; then
   echo "Not configuring KOV and disabling startup"
@@ -98,8 +98,13 @@ function genCert {
 
   echo "Copy CA certificate and Admin keypair to $FILES_DIR/$CERT_FILES_DIR and bundle them with kov_cli"
   cp $admin_key $admin_cert $ca_cert $FILES_DIR/$CERT_FILES_DIR
-  [[ x$BUILD_KOV_CLI_REVISION == "x" ]] && ( echo "KOV cli revision not set, failing"; exit 1 )
-  ( cd $FILES_DIR && tar xzvf kov_$BUILD_KOV_CLI_REVISION.tar.gz && tar czvf kov_$BUILD_KOV_CLI_REVISION bin/ $CERT_FILES_DIR )
+  cd $FILES_DIR
+  set +f
+  kov_target=$(ls kov_*.tar.gz)
+  set -f
+  tar xzvf $kov_target
+  tar czvf $kov_target bin $CERT_FILES_DIR
+  rm -rf bin $CERT_FILES_DIR
 
   echo "self-signed" > $flag
   echo "Copy CA certificate to $ca_download_dir"

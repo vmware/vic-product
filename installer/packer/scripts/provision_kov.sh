@@ -15,24 +15,31 @@
 set -euf -o pipefail
 
 KOV_CONF_DIR="/etc/vmware/kov"
+KOV_DATA_DIR="/data/kov"
 KOV_ENV_DIR="/usr/lib/systemd/user-environment-generators"
 mkdir -p $KOV_CONF_DIR
+mkdir -p $KOV_DATA_DIR
 mkdir -p $KOV_ENV_DIR
 
 [[ x$BUILD_KOVD_REVISION == "x" ]] && ( echo "Kovd build not set, failing"; exit 1 )
+echo $BUILD_KOVD_REVISION > $KOV_CONF_DIR/kovd_revision
 
 set +u
 KOVD_FILE="kovd_${BUILD_KOVD_REVISION}"
+KOV_VMDK="base_${BULID_KOVD_REVISION}.vmdk"
 KOVD_BUCKET="kovd-releases"
 if [ ${BUILD_KOVD_REVISION} = "dev" ]; then
     KOVD_BUCKET="kovd-builds"
 fi
 KOVD_URL="https://storage.googleapis.com/${KOVD_BUCKET}/kovd/${KOVD_FILE}"
+KOV_VMDK_URL="https://storage.googleapis.com/${KOVD_BUCKET}/vmdk/${KOV_VMDK}"
 set -u
 
 echo "Downloading Kovd ${KOVD_FILE}: ${KOVD_URL}"
 curl -o /usr/bin/kovd ${KOVD_URL}
 chmod +x /usr/bin/kovd
+echo "Downloading Kov vmdk ${KOV_VMDK}: ${KOV_VMDK_URL}"
+curl -o ${KOV_DATA_DIR}/${KOV_VMDK} ${KOV_VMDK_URL}
 
 # kovd assumes kubectl exists
 # Provision kubectl
