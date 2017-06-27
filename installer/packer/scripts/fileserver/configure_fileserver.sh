@@ -16,10 +16,9 @@ set -euf -o pipefail
 
 umask 077
 data_dir="/opt/vmware/fileserver"
-conf_dir="/etc/vmware/fileserver"
-cert_dir="${conf_dir}/cert"
+cert_dir="${data_dir}/cert"
 script_dir=/etc/vmware
-flag=${conf_dir}/cert_gen_type
+flag=${data_dir}/cert_gen_type
 
 cert="${cert_dir}/server.crt"
 key="${cert_dir}/server.key"
@@ -28,8 +27,7 @@ ca_cert="${cert_dir}/ca.crt"
 ca_key="${cert_dir}/ca.key"
 ext=${cert_dir}/extfile.cnf
 
-
-ca_download_dir=${conf_dir}/ca_download
+ca_download_dir=${data_dir}/ca_download
 mkdir -p {${cert_dir},${ca_download_dir}}
 
 port=$(ovfenv -k fileserver.port)
@@ -63,7 +61,35 @@ function genCert {
   echo "self-signed" > $flag
   echo "Copy CA certificate to $ca_download_dir"
   cp $ca_cert $ca_download_dir/
-  $script_dir/set_guestinfo.sh -f $ca_cert "admiral.ca"
+}
+
+function updateConfigFiles {
+  ui_dir="${data_dir}/files"
+  tar_gz=`ls ${ui_dir}/vic*.tar.gz`
+
+  # untar vic package to tmp dir
+  tar -zxf "${tar_gz}" -C /tmp
+
+  # get certificate thumbprint
+  if [ $(cat $flag) = "customized" ]; then
+    echo "Customized certificate"
+    tp=`openssl x509 -fingerprint -noout -in "${cert}" | awk -F= '{print $2}'`
+  else
+    tp=`openssl x509 -fingerprint -noout -in "${ca_cert}" | awk -F= '{print $2}'`
+  fi
+
+  # replace configs files
+  lconfig=/tmp/vic/ui/VCSA/configs
+  wconfig=/tmp/vic/ui/vCenterForWindows/configs
+
+  sed -i -e s/VIC_UI_HOST_THUMBPRINT=\"\"/VIC_UI_HOST_THUMBPRINT=\"${tp}\"/g $lconfig
+  sed -i -e s/vic_ui_host_thumbprint=/vic_ui_host_thumbprint=${tp}/g $wconfig
+
+  sed -i -e s/VIC_UI_HOST_URL=\"\"/VIC_UI_HOST_URL=\"${hostname}\"/g $lconfig
+  sed -i -e s/vic_ui_host_url=NOURL/vic_ui_host_url=${hostname}/g $wconfig
+
+  # tar all files again
+  tar zcf $tar_gz -C /tmp/tmp vic
 }
 
 function secure {
@@ -142,3 +168,6 @@ fi
 secure
 
 iptables -w -A INPUT -j ACCEPT -p tcp --dport $port
+
+# Update configurations
+updateConfigFiles
