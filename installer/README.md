@@ -167,3 +167,46 @@ the VM has an IP address ready
 
 Solution: Disable firewall on the build machine. The launched VM is unable to get the kickstart file
 from your build machine.
+
+#### Unable to find available VNC port between 5900 and 6000
+
+With `export PACKER_LOG=1`, you can see following message
+```
+==> ova-release: Starting HTTP server on port 8098
+2017/06/27 02:58:00 ui: ==> ova-release: Starting HTTP server on port 8098
+2017/06/27 02:58:00 packer: 2017/06/27 02:58:00 Looking for available port between 5900 and 6000
+2017/06/27 02:58:00 packer: 2017/06/27 02:58:00 opening new ssh session
+2017/06/27 02:58:00 packer: 2017/06/27 02:58:00 starting remote command: esxcli --formatter csv network ip connection list
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address :::22, port 22 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address 0.0.0.0:22, port 22 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address fd01:0:101:2601:0:a:0:ca7:427, port 427 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address fd01:0:101:2601:0:17ff:febd:4c8c:427, port 427 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address fe80:2::17ff:febd:4c8c:427, port 427 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address x.x.x.x:427, port 427 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address 0.0.0.0:443, port 443 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address :::443, port 443 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address 0.0.0.0:80, port 80 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address :::80, port 80 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address :::9080, port 9080 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address :::8000, port 8000 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address :::902, port 902 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address 0.0.0.0:902, port 902 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 ESXi listening on address :::8300, port 8300 unavailable for VNC
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Trying address: x.x.x.x:5900...
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Timeout connecting to: x.x.x.x:5900 (check firewall rules)
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Trying address: x.x.x.x:5901...
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Timeout connecting to: x.x.x.x:5901 (check firewall rules)
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Trying address: x.x.x.x:5902...
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Timeout connecting to: x.x.x.x:5902 (check firewall rules)
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Trying address: x.x.x.x:5903...
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Timeout connecting to: x.x.x.x:5903 (check firewall rules)
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Trying address: x.x.x.x:5904...
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Timeout connecting to: x.x.x.x:5904 (check firewall rules)
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Trying address: x.x.x.x:5905...
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Timeout connecting to: x.x.x.x:5905 (check firewall rules)
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Trying address: x.x.x.x:5906...
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Timeout connecting to: x.x.x.x:5906 (check firewall rules)
+2017/06/27 02:58:01 packer: 2017/06/27 02:58:01 Trying address: x.x.x.x:5907...
+```
+
+Solution: If firewall is disabled already, set a reasonable timeout for VNC port connection `export PACKER_ESXI_VNC_PROBE_TIMEOUT=30s` or even longer.
