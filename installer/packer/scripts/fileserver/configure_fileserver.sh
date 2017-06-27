@@ -65,7 +65,7 @@ function genCert {
 
 function updateConfigFiles {
   ui_dir="${data_dir}/files"
-  tar_gz=`ls ${ui_dir}/vic*.tar.gz`
+  tar_gz=`find "${ui_dir}" -name "vic*.tar.gz"`
 
   # untar vic package to tmp dir
   tar -zxf "${tar_gz}" -C /tmp
@@ -89,7 +89,8 @@ function updateConfigFiles {
   sed -i -e s/vic_ui_host_url=NOURL/vic_ui_host_url=${hostname}/g $wconfig
 
   # tar all files again
-  tar zcf $tar_gz -C /tmp/tmp vic
+  tar zcf $tar_gz -C /tmp vic
+  rm -rf /tmp/vic
 }
 
 function secure {
