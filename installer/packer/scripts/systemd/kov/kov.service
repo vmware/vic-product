@@ -14,7 +14,7 @@ Delegate=yes
 KillMode=process
 Restart=on-abnormal
 ExecStartPre=/etc/vmware/kov/configure_kov.sh
-ExecStart=/usr/bin/kovd --tls-port=${KOVD_EXPOSED_PORT} --tls-host=0.0.0.0 --tls-certificate ${KOVD_CERT_LOCATION} --tls-certificate-key ${KOVD_KEY_LOCATION} --base-image-path ${KOV_VMDK_LOCATION} --data-dir ${KOVD_DATA_DIR}
+ExecStart=/usr/bin/kovd --tls-port=${KOVD_EXPOSED_PORT} --tls-host=0.0.0.0 --tls-certificate ${KOVD_CERT_LOCATION} --tls-key ${KOVD_KEY_LOCATION} --base-image-path ${KOV_VMDK_LOCATION} --data-dir ${KOVD_DATA_DIR}
 LimitNOFILE=infinity
 LimitNPROC=infinity
 LimitCORE=infinity
