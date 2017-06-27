@@ -1,0 +1,2552 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>VCH Deployment Options · VMware vSphere Integrated Containers 1.2 Documentation</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="vch_installer_examples.html" />
+    
+    
+    <link rel="prev" href="verify_vch_deployment.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">vSphere Integrated Containers 1.2</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../vic_quickstart.html">
+            
+                <a href="../vic_quickstart.html">
+            
+                    
+                    Quick Start Links
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    vSphere Administrators
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="introduction.html">
+            
+                <a href="introduction.html">
+            
+                    
+                    Overview for vSphere Admins
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1.1" data-path="interop.html">
+            
+                <a href="interop.html">
+            
+                    
+                    Interoperability
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.1.2" data-path="networks.html">
+            
+                <a href="networks.html">
+            
+                    
+                    Networking
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="installing_vic.html">
+            
+                <a href="installing_vic.html">
+            
+                    
+                    Installation
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.2.1" data-path="download_vic.html">
+            
+                <a href="download_vic.html">
+            
+                    
+                    Download
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.2" data-path="deploy_vic_appliance.html">
+            
+                <a href="deploy_vic_appliance.html">
+            
+                    
+                    Deploy the Appliance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.3" data-path="open_ports_on_hosts.html">
+            
+                <a href="open_ports_on_hosts.html">
+            
+                    
+                    Open the Required Ports on ESXi Hosts
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.4" data-path="deploy_demo_vch.html">
+            
+                <a href="deploy_demo_vch.html">
+            
+                    
+                    Deploy a Demo VCH
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.5" data-path="install_vic_plugin.html">
+            
+                <a href="install_vic_plugin.html">
+            
+                    
+                    Installing the Plug-ins
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.2.5.1" data-path="plugins_vc_windows.html">
+            
+                <a href="plugins_vc_windows.html">
+            
+                    
+                    vCenter Server for Windows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.5.2" data-path="plugins_vcsa.html">
+            
+                <a href="plugins_vcsa.html">
+            
+                    
+                    vCenter Server Appliance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.5.3" data-path="access_h5_ui.html">
+            
+                <a href="access_h5_ui.html">
+            
+                    
+                    Access the vSphere Integrated Containers View
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.5.4" data-path="vch_portlet_ui.html">
+            
+                <a href="vch_portlet_ui.html">
+            
+                    
+                    Find VCH Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.5.5" data-path="container_portlet_ui.html">
+            
+                <a href="container_portlet_ui.html">
+            
+                    
+                    Find Container Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3" data-path="deploy_vch.html">
+            
+                <a href="deploy_vch.html">
+            
+                    
+                    Deploy VCHs
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.3.1" data-path="contents_of_vic_binaries.html">
+            
+                <a href="contents_of_vic_binaries.html">
+            
+                    
+                    Contents of the vSphere Integrated Containers Engine Binaries
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.2" data-path="vic_installation_prereqs.html">
+            
+                <a href="vic_installation_prereqs.html">
+            
+                    
+                    Environment Prerequisites for VCH Deployment
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.3" data-path="deploy_vch_esxi.html">
+            
+                <a href="deploy_vch_esxi.html">
+            
+                    
+                    Deploy a VCH to an ESXi Host with No vCenter Server
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.4" data-path="deploy_vch_vcenter.html">
+            
+                <a href="deploy_vch_vcenter.html">
+            
+                    
+                    Deploy a VCH to a Basic vCenter Server Cluster
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.5" data-path="verify_vch_deployment.html">
+            
+                <a href="verify_vch_deployment.html">
+            
+                    
+                    Verify the Deployment of a VCH
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.1.3.6" data-path="vch_installer_options.html">
+            
+                <a href="vch_installer_options.html">
+            
+                    
+                    VCH Deployment Options
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.7" data-path="vch_installer_examples.html">
+            
+                <a href="vch_installer_examples.html">
+            
+                    
+                    Advanced Examples of Deploying a VCH
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.8" data-path="deploy_vch_registry.html">
+            
+                <a href="deploy_vch_registry.html">
+            
+                    
+                    Deploy a VCH for Use with vSphere Integrated Containers Registry
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3.9" data-path="set_up_ops_user.html">
+            
+                <a href="set_up_ops_user.html">
+            
+                    
+                    Use Different User Accounts for VCH Deployment and Operation
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.4" data-path="deploy_kubernetes_cluster.html">
+            
+                <a href="deploy_kubernetes_cluster.html">
+            
+                    
+                    Deploy a Kubernetes Cluster
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5" data-path="upgrading_vic.html">
+            
+                <a href="upgrading_vic.html">
+            
+                    
+                    Upgrading
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.5.1" data-path="upgrade_appliance.html">
+            
+                <a href="upgrade_appliance.html">
+            
+                    
+                    Upgrade the Appliance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.2" data-path="upgrade_vch.html">
+            
+                <a href="upgrade_vch.html">
+            
+                    
+                    Upgrade VCHs
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.5.2.1" data-path="upgrade_vch_options.html">
+            
+                <a href="upgrade_vch_options.html">
+            
+                    
+                    VCH Upgrade Options
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.3" data-path="upgrade_h5_plugin_windows.html">
+            
+                <a href="upgrade_h5_plugin_windows.html">
+            
+                    
+                    Upgrade Plug-In on Windows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.4" data-path="upgrade_h5_plugin_vcsa.html">
+            
+                <a href="upgrade_h5_plugin_vcsa.html">
+            
+                    
+                    Upgrade Plug-In VCSA
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5.5" data-path="upgrade_registry.html">
+            
+                <a href="upgrade_registry.html">
+            
+                    
+                    Upgrade 0.5 Registry
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.6" data-path="manage_appliance.html">
+            
+                <a href="manage_appliance.html">
+            
+                    
+                    Managing the Appliance
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.6.1" data-path="reconfigure_appliance.html">
+            
+                <a href="reconfigure_appliance.html">
+            
+                    
+                    Reconfigure the Appliance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.6.2" data-path="service_status.html">
+            
+                <a href="service_status.html">
+            
+                    
+                    Check Service Status
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.6.3" data-path="restart_services.html">
+            
+                <a href="restart_services.html">
+            
+                    
+                    Restart Services
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.7" data-path="vch_admin.html">
+            
+                <a href="vch_admin.html">
+            
+                    
+                    Managing VCHs
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.7.1" data-path="vic_machine_version.html">
+            
+                <a href="vic_machine_version.html">
+            
+                    
+                    Obtain Version Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.7.2" data-path="common_vic_options.html">
+            
+                <a href="common_vic_options.html">
+            
+                    
+                    Common Options
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.7.3" data-path="list_vch.html">
+            
+                <a href="list_vch.html">
+            
+                    
+                    List VCHs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.7.4" data-path="inspect_vch.html">
+            
+                <a href="inspect_vch.html">
+            
+                    
+                    Obtain VCH Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.7.5" data-path="remove_vch.html">
+            
+                <a href="remove_vch.html">
+            
+                    
+                    Delete a VCH
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.7.5.1" data-path="delete_vch_options.html">
+            
+                <a href="delete_vch_options.html">
+            
+                    
+                    VCH Delete Options
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.7.6" data-path="debug_vch.html">
+            
+                <a href="debug_vch.html">
+            
+                    
+                    Debugging the VCH
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.7.6.1" data-path="vch_shell_access.html">
+            
+                <a href="vch_shell_access.html">
+            
+                    
+                    Enable Shell Access
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.7.6.2" data-path="vch_ssh_access.html">
+            
+                <a href="vch_ssh_access.html">
+            
+                    
+                    Authorize SSH Access
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.7.6.3" data-path="debug_vch_options.html">
+            
+                <a href="debug_vch_options.html">
+            
+                    
+                    VCH Debug Options
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.7.7" data-path="access_vicadmin.html">
+            
+                <a href="access_vicadmin.html">
+            
+                    
+                    Access the VCH Admin Portal
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.7.7.1" data-path="browser_login.html">
+            
+                <a href="browser_login.html">
+            
+                    
+                    Browser-Based Certificate Login
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.7.7.2" data-path="cmdline_login.html">
+            
+                <a href="cmdline_login.html">
+            
+                    
+                    Command Line Certificate Login
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.7.7.3" data-path="vicadmin_status_ref.html">
+            
+                <a href="vicadmin_status_ref.html">
+            
+                    
+                    VCH Admin Status Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.7.8" data-path="log_bundles.html">
+            
+                <a href="log_bundles.html">
+            
+                    
+                    Access Log Bundles
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8" data-path="troubleshoot_vic.html">
+            
+                <a href="troubleshoot_vic.html">
+            
+                    
+                    Troubleshooting
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.8.1" data-path="ts_vch_deployment_timeout.html">
+            
+                <a href="ts_vch_deployment_timeout.html">
+            
+                    
+                    VCH Deployment Times Out
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.2" data-path="ts_thumbprint_error.html">
+            
+                <a href="ts_thumbprint_error.html">
+            
+                    
+                    Certificate Verification Error
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.3" data-path="ts_cli_argument_error.html">
+            
+                <a href="ts_cli_argument_error.html">
+            
+                    
+                    Missing Common Name Error Even When TLS Options Are Specified Correctly
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.4" data-path="ts_firewall_error.html">
+            
+                <a href="ts_firewall_error.html">
+            
+                    
+                    Firewall Validation Error
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.5" data-path="ts_cname_mismatch.html">
+            
+                <a href="ts_cname_mismatch.html">
+            
+                    
+                    Certificate cname Mismatch
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.6" data-path="ts_docker_api_check_error.html">
+            
+                <a href="ts_docker_api_check_error.html">
+            
+                    
+                    Docker API Endpoint Check Failed Error
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.7" data-path="ts_datastore_access_error.html">
+            
+                <a href="ts_datastore_access_error.html">
+            
+                    
+                    No Single Host Can Access All Datastores
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.8" data-path="ts_ui_not_appearing.html">
+            
+                <a href="ts_ui_not_appearing.html">
+            
+                    
+                    Plug-In Does Not Appear
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.9" data-path="ts_delete_inspect_error.html">
+            
+                <a href="ts_delete_inspect_error.html">
+            
+                    
+                    Deleting or Inspecting a VCH Fails
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.10" data-path="ts_clock_skew.html">
+            
+                <a href="ts_clock_skew.html">
+            
+                    
+                    Certificate Errors when Using Full TLS Authentication with Trusted Certificates
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.9" data-path="security_reference.html">
+            
+                <a href="security_reference.html">
+            
+                    
+                    Security Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../vic_cloud_admin/">
+            
+                <a href="../vic_cloud_admin/">
+            
+                    
+                    Cloud Administrators
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../vic_cloud_admin/overview_of_vic_cloudadmin.html">
+            
+                <a href="../vic_cloud_admin/overview_of_vic_cloudadmin.html">
+            
+                    
+                    Overview for Cloud Admins
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../vic_dev_ops/">
+            
+                <a href="../vic_dev_ops/">
+            
+                    
+                    DevOps Administrators
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.1" data-path="../vic_dev_ops/overview_of_vic_devops.html">
+            
+                <a href="../vic_dev_ops/overview_of_vic_devops.html">
+            
+                    
+                    Overview for DevOps Admins
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2" data-path="../vic_dev_ops/using_registry.html">
+            
+                <a href="../vic_dev_ops/using_registry.html">
+            
+                    
+                    Managing Images, Projects, Users
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.2.1" data-path="../vic_dev_ops/configure_registry.html">
+            
+                <a href="../vic_dev_ops/configure_registry.html">
+            
+                    
+                    Configure a Registry
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2.2" data-path="../vic_dev_ops/creating_users_registry.html">
+            
+                <a href="../vic_dev_ops/creating_users_registry.html">
+            
+                    
+                    Create Users
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2.3" data-path="../vic_dev_ops/assign_admin_role.html">
+            
+                <a href="../vic_dev_ops/assign_admin_role.html">
+            
+                    
+                    Assign the Administrator Role
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2.4" data-path="../vic_dev_ops/creating_projects_registry.html">
+            
+                <a href="../vic_dev_ops/creating_projects_registry.html">
+            
+                    
+                    Create a Project
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.2.4.1" data-path="../vic_dev_ops/add_users_registry.html">
+            
+                <a href="../vic_dev_ops/add_users_registry.html">
+            
+                    
+                    Assign Users to a Project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2.4.2" data-path="../vic_dev_ops/manage_project_members.html">
+            
+                <a href="../vic_dev_ops/manage_project_members.html">
+            
+                    
+                    Manage Project Members
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2.4.3" data-path="../vic_dev_ops/manage_projects.html">
+            
+                <a href="../vic_dev_ops/manage_projects.html">
+            
+                    
+                    Manage Projects
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2.4.4" data-path="../vic_dev_ops/access_project_logs.html">
+            
+                <a href="../vic_dev_ops/access_project_logs.html">
+            
+                    
+                    Access Project Logs
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2.5" data-path="../vic_app_dev/build_push_images.html">
+            
+                <a href="../vic_app_dev/build_push_images.html">
+            
+                    
+                    Building and Pushing Images
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2.6" data-path="../vic_dev_ops/manage_repository_registry.html">
+            
+                <a href="../vic_dev_ops/manage_repository_registry.html">
+            
+                    
+                    Manage Repositories
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2.7" data-path="../vic_dev_ops/replicating_images.html">
+            
+                <a href="../vic_dev_ops/replicating_images.html">
+            
+                    
+                    Replicating Images
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.2.7.1" data-path="../vic_dev_ops/create_replication_endpoints.html">
+            
+                <a href="../vic_dev_ops/create_replication_endpoints.html">
+            
+                    
+                    Create Replication Endpoints
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2.7.2" data-path="../vic_dev_ops/create_replication_rules.html">
+            
+                <a href="../vic_dev_ops/create_replication_rules.html">
+            
+                    
+                    Create Replication Rules
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2.7.3" data-path="../vic_dev_ops/manage_replication_endpoints.html">
+            
+                <a href="../vic_dev_ops/manage_replication_endpoints.html">
+            
+                    
+                    Manage Replication Endpoints
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3" data-path="../vic_dev_ops/vchs_and_mgmt_portal.html">
+            
+                <a href="../vic_dev_ops/vchs_and_mgmt_portal.html">
+            
+                    
+                    View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.3.1" data-path="../vic_dev_ops/add_vch_noTLS_in_portal.html">
+            
+                <a href="../vic_dev_ops/add_vch_noTLS_in_portal.html">
+            
+                    
+                    Add Hosts with No TLS Authentication to the Management Portal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.2" data-path="../vic_dev_ops/add_vch_serversideTLS_in_portal.html">
+            
+                <a href="../vic_dev_ops/add_vch_serversideTLS_in_portal.html">
+            
+                    
+                    Add Hosts with Server-Side TLS Authentication to the Management Portal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.3" data-path="../vic_dev_ops/add_vch_fullTLS_in_portal.html">
+            
+                <a href="../vic_dev_ops/add_vch_fullTLS_in_portal.html">
+            
+                    
+                    Add Hosts with Full TLS Authentication to the Management Portal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.4" data-path="../vic_dev_ops/creating_placements.html">
+            
+                <a href="../vic_dev_ops/creating_placements.html">
+            
+                    
+                    Create and Manage Container Placements
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.5" data-path="../vic_dev_ops/create_network.html">
+            
+                <a href="../vic_dev_ops/create_network.html">
+            
+                    
+                    Create New Networks for Provisioning Containers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.6" data-path="../vic_dev_ops/add_repos_in_portal.html">
+            
+                <a href="../vic_dev_ops/add_repos_in_portal.html">
+            
+                    
+                    Add Registries to the Management Portal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.7" data-path="../vic_dev_ops/provision_containers_portal.html">
+            
+                <a href="../vic_dev_ops/provision_containers_portal.html">
+            
+                    
+                    Provisioning Container VMs in the Management Portal
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.3.7.1" data-path="../vic_dev_ops/configuring_links.html">
+            
+                <a href="../vic_dev_ops/configuring_links.html">
+            
+                    
+                    Configuring Links for Templates and Images
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.7.2" data-path="../vic_dev_ops/configuring_health_checks.html">
+            
+                <a href="../vic_dev_ops/configuring_health_checks.html">
+            
+                    
+                    Configuring Health Checks for Templates and Images
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.7.3" data-path="../vic_dev_ops/configuring_clusters.html">
+            
+                <a href="../vic_dev_ops/configuring_clusters.html">
+            
+                    
+                    Configuring Cluster Size and Scale
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../vic_app_dev/">
+            
+                <a href="../vic_app_dev/">
+            
+                    
+                    Container App Developers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1.1" data-path="../vic_app_dev/overview_of_vic_appdev.html">
+            
+                <a href="../vic_app_dev/overview_of_vic_appdev.html">
+            
+                    
+                    Overview for Developers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.2" data-path="../vic_app_dev/container_operations.html">
+            
+                <a href="../vic_app_dev/container_operations.html">
+            
+                    
+                    Supported Docker Commands
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1.2.1" data-path="../vic_app_dev/docker_compose_file_options.html">
+            
+                <a href="../vic_app_dev/docker_compose_file_options.html">
+            
+                    
+                    Supported Docker Compose File Options
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.3" data-path="../vic_app_dev/container_limitations.html">
+            
+                <a href="../vic_app_dev/container_limitations.html">
+            
+                    
+                    Use and Limitations
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.4" data-path="../vic_app_dev/obtain_vch.html">
+            
+                <a href="../vic_app_dev/obtain_vch.html">
+            
+                    
+                    Obtain a VCH
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.5" data-path="../vic_app_dev/configure_docker_client.html">
+            
+                <a href="../vic_app_dev/configure_docker_client.html">
+            
+                    
+                    Configure the Docker Client
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.6" data-path="../vic_app_dev/build_push_images.html">
+            
+                <a href="../vic_app_dev/build_push_images.html">
+            
+                    
+                    Building and Pushing Images
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.7" data-path="../vic_app_dev/using_volumes_with_vic.html">
+            
+                <a href="../vic_app_dev/using_volumes_with_vic.html">
+            
+                    
+                    Using Volumes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.8" data-path="../vic_app_dev/network_use_cases.html">
+            
+                <a href="../vic_app_dev/network_use_cases.html">
+            
+                    
+                    Container Networking
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.9" data-path="../vic_app_dev/creating_containerized_app_with_vic.html">
+            
+                <a href="../vic_app_dev/creating_containerized_app_with_vic.html">
+            
+                    
+                    Creating a Containerized App
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1.9.1" data-path="../vic_app_dev/constraints_using_compose.html">
+            
+                <a href="../vic_app_dev/constraints_using_compose.html">
+            
+                    
+                    Docker Compose Constraints
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.9.2" data-path="../vic_app_dev/build_app_with_vic.html">
+            
+                <a href="../vic_app_dev/build_app_with_vic.html">
+            
+                    
+                    Example of Building an App
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.10" data-path="../vic_app_dev/ts_volume_store_error.html">
+            
+                <a href="../vic_app_dev/ts_volume_store_error.html">
+            
+                    
+                    Default Volume Store Error
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="feedback.html">
+            
+                <a href="feedback.html">
+            
+                    
+                    Send Doc Feedback
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.2" data-path="../pdf.html">
+            
+                <a href="../pdf.html">
+            
+                    
+                    Download PDF
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >VCH Deployment Options</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="vch-deployment-options">VCH Deployment Options</h1>
+<p>The command line utility for vSphere Integrated Containers Engine, <code>vic-machine</code>, provides a <code>create</code> command with options that allow you to customize the deployment of virtual container hosts (VCHs) to correspond to your vSphere environment.</p>
+<ul>
+<li><a href="#vsphere">vSphere Target Options</a></li>
+<li><a href="#security">Security Options</a></li>
+<li><a href="#registry">Private Registry Options</a></li>
+<li><a href="#datastore">Datastore Options</a></li>
+<li><a href="#networking">Networking Options</a></li>
+<li><a href="#deployment">General Deployment Options</a></li>
+</ul>
+<p>To allow you to fine-tune the deployment of VCHs, <code>vic-machine create</code> provides <a href="#advanced">Advanced Options</a>.</p>
+<ul>
+<li><a href="#static-ip">Options for Specifying a Static IP Address for the VCH Endpoint VM</a></li>
+<li><a href="#adv-container-net">Options for Configuring a Non-DHCP Network for Container Traffic</a></li>
+<li><a href="#proxy">Options to Configure VCHs to Use Proxy Servers</a></li>
+<li><a href="#adv-mgmt">Advanced Resource Management Options</a></li>
+<li><a href="#adv-other">Other Advanced Options</a></li>
+</ul>
+<h2 id="vsphere">vSphere Target Options </h2>
+<p>The <code>create</code> command of the <code>vic-machine</code> utility requires you to provide information about where in your vSphere environment to deploy the VCH and the vCenter Server or ESXi user account to use.</p>
+<h3 id="-target"><code>--target</code></h3>
+<p>Short name: <code>-t</code></p>
+<p>The IPv4 address, fully qualified domain name (FQDN), or URL of the ESXi host or vCenter Server instance on which you are deploying a VCH. This option is always <strong>mandatory</strong>.</p>
+<p>To facilitate IP address changes in your infrastructure, provide an FQDN whenever possible, rather than an IP address. If <code>vic-machine create</code> cannot resolve the FQDN, it fails with an error.</p>
+<ul>
+<li>If the target ESXi host is not managed by vCenter Server, provide the address of the ESXi host.<pre>--target <i>esxi_host_address</i></pre></li>
+<li>If the target ESXi host is managed by vCenter Server, or if you are deploying to a cluster, provide the address of vCenter Server.<pre>--target <i>vcenter_server_address</i></pre></li>
+<li><p>You can include the user name and password in the target URL. If you are deploying a VCH on vCenter Server, specify the username for an account that has the Administrator role on that vCenter Server instance. <pre>--target <i>vcenter_or_esxi_username</i>:<i>password</i>@<i>vcenter_or_esxi_address</i></pre></p>
+<p>Wrap the user name or password in single quotes (Linux or Mac OS) or double quotes (Windows) if they include special characters.<pre>&apos;<i>vcenter_or_esxi_usern@me</i>&apos;:&apos;<i>p@ssword</i>&apos;@<i>vcenter_or_esxi_address</i></pre></p>
+<p>If you do not include the user name in the target URL, you must specify the <code>user</code> option. If you do not specify the <code>password</code> option or include the password in the target URL, <code>vic-machine create</code> prompts you to enter the password.</p>
+<p>You can configure a VCH so that it uses a non-administrator account for post-deployment operations by specifying the <a href="#ops-user"><code>--ops-user</code></a> option. </p>
+</li>
+<li><p>If you are deploying a VCH on a vCenter Server instance that includes more than one datacenter, include the datacenter name in the target URL. If you include an invalid datacenter name, <code>vic-machine create</code> fails and suggests the available datacenters that you can specify. </p>
+<pre>--target <i>vcenter_server_address</i>/<i>datacenter_name</i></pre>
+
+<p>Wrap the datacenter name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes spaces.</p>
+<pre>--target <i>vcenter_server_address</i>/&apos;<i>datacenter name</i>&apos;</pre>
+
+</li>
+</ul>
+<h3 id="-user"><code>--user</code></h3>
+<p>Short name: <code>-u</code></p>
+<p>The username for the ESXi host or vCenter Server instance on which you are deploying a VCH.</p>
+<p>If you are deploying a VCH on vCenter Server, specify a username for an account that has the Administrator role on that vCenter Server instance. </p>
+<pre>--user <i>esxi_or_vcenter_server_username</i></pre>
+
+<p>Wrap the user name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes special characters.</p>
+<pre>--user &apos;<i>esxi_or_vcenter_server_usern@me</i>&apos;</pre>
+
+<p>You can specify the username in the URL that you pass to <code>vic-machine create</code> in the <code>target</code> option, in which case the <code>user</code> option is not required.</p>
+<p>You can configure a VCH so that it uses a non-administrator account for post-deployment operations by specifying the <a href="#--ops-user"><code>--ops-user</code></a> option.</p>
+<h3 id="-password"><code>--password</code></h3>
+<p>Short name: <code>-p</code></p>
+<p>The password for the user account on the vCenter Server on which you  are deploying the VCH, or the password for the ESXi host if you are deploying directly to an ESXi host. If not specified, <code>vic-machine</code> prompts you to enter the password during deployment.</p>
+<pre>--password <i>esxi_host_or_vcenter_server_password</i></pre>
+
+<p>Wrap the password in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes special characters.</p>
+<pre>--password &apos;<i>esxi_host_or_vcenter_server_p@ssword</i>&apos;</pre>
+
+<p>You can also specify the username and password in the URL that you pass to <code>vic-machine create</code> in the <code>target</code> option, in which case the <code>password</code> option is not required.</p>
+<h3 id="-compute-resource"><code>--compute-resource</code></h3>
+<p>Short name: <code>-r</code></p>
+<p>The host, cluster, or resource pool in which to deploy the VCH. </p>
+<p>If the vCenter Server instance on which you are deploying a VCH only includes a single instance of a standalone host or cluster, <code>vic-machine create</code> automatically detects and uses those resources. In this case, you do not need to specify a compute resource when you run <code>vic-machine create</code>. If you are deploying the VCH directly to an ESXi host and you do not use <code>--compute-resource</code> to specify a resource pool, <code>vic-machine create</code> automatically uses the default resource pool. </p>
+<p>You specify the <code>--compute-resource</code> option in the following circumstances:</p>
+<ul>
+<li>A vCenter Server instance includes multiple instances of standalone hosts or clusters, or a mixture of standalone hosts and clusters.</li>
+<li>You want to deploy the VCH to a specific resource pool in your environment. </li>
+</ul>
+<p>If you do not specify the <code>--compute-resource</code> option and multiple possible resources exist, or if you specify an invalid resource name, <code>vic-machine create</code> fails and suggests valid targets for <code>--compute-resource</code> in the failure message. </p>
+<ul>
+<li>To deploy to a specific resource pool on an ESXi host that is not managed by vCenter Server, specify the name of the resource pool: <pre>--compute-resource  <i>resource_pool_name</i></pre></li>
+<li>To deploy to a vCenter Server instance that has multiple standalone hosts that are not part of a cluster, specify the IPv4 address or fully qualified domain name (FQDN) of the target host:<pre>--compute-resource <i>host_address</i></pre></li>
+<li>To deploy to a vCenter Server with multiple clusters, specify the name of the target cluster: <pre>--compute-resource <i>cluster_name</i></pre></li>
+<li>To deploy to a specific resource pool on a standalone host that is managed by vCenter Server, or to a specific resource pool in a cluster, if the resource pool name is unique across all hosts and clusters, specify the name of the resource pool:<pre>--compute-resource <i>resource_pool_name</i></pre></li>
+<li>To deploy to a specific resource pool on a standalone host that is managed by vCenter Server, if the resource pool name is not unique across all hosts, specify the IPv4 address or FQDN of the target host and name of the resource pool:<pre>--compute-resource <i>host_name</i>/<i>resource_pool_name</i></pre></li>
+<li>To deploy to a specific resource pool in a cluster, if the resource pool name is not unique across all clusters, specify the full path to the resource pool:<pre>--compute-resource <i>cluster_name</i>/Resources/<i>resource_pool_name</i></pre></li>
+<li>Wrap resource names in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if they include spaces:<pre>--compute-resource &apos;<i>resource pool name</i>&apos;</pre><pre>--compute-resource &apos;<i>cluster name</i>&apos;/Resources/&apos;<i>resource pool name</i>&apos;</pre></li>
+</ul>
+<h3 id="thumbprint"><code>--thumbprint</code> </h3>
+<p>Short name: None</p>
+<p>The thumbprint of the vCenter Server or ESXi host certificate. Specify this option if your vSphere environment uses untrusted, self-signed certificates. If your vSphere environment uses trusted certificates that are signed by a known Certificate Authority (CA), you do not need to specify the <code>--thumbprint</code> option.</p>
+<p><strong>NOTE</strong> If your vSphere environment uses untrusted, self-signed certificates, you can run <code>vic-machine create</code> without the <code>--thumbprint</code> option by using the <code>--force</code> option. However, running <code>vic-machine create</code> with the <code>--force</code> option rather than providing the certificate thumbprint is not recommended, because it permits man-in-the-middle attacks to go undetected.</p>
+<p>To obtain the thumbprint of the vCenter Server or ESXi host certificate, run <code>vic-machine create</code> without the specifying the <code>--thumbprint</code> or <code>--force</code> options. The deployment of the VCH fails, but the resulting error message includes the required certificate thumbprint. You can copy the thumbprint from the error message and run vic-machine create again, including the <code>--thumbprint</code> option. </p>
+<p><strong>NOTE</strong>: If you obtain the thumbprint by other means, use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.</p>
+<pre>--thumbprint <i>certificate_thumbprint</i></pre>
+
+<h2 id="security">Security Options </h2>
+<p>The security options that <code>vic-machine create</code> provides allow for 3 broad categories of security:</p>
+<ul>
+<li><a href="#restrict_auto">Restrict access to the Docker API with Auto-Generated Certificates</a></li>
+<li><a href="#restrict_custom">Restrict access to the Docker API with Custom Certificates</a></li>
+<li><a href="#unrestricted">Do Not Restrict Access to the Docker API</a></li>
+</ul>
+<p>You can also configure a VCH to <a href="#diff_users">use different user accounts for deployment and operation</a>.</p>
+<p><strong>NOTE</strong>: Certain options in this section are exposed in the <code>vic-machine create</code> help if you run <code>vic-machine create --extended-help</code>, or <code>vic-machine create -x</code>.</p>
+<h3 id="restrict_auto">Restrict Access to the Docker API with Auto-Generated Certificates </h3>
+<p>As a convenience, <code>vic-machine create</code> provides the option of generating a client certificate, server certificate, and certificate authority (CA) as appropriate when you deploy a VCH. The generated certificates are functional, but they do not allow for fine control over aspects such as expiration, intermediate certificate authorities, and so on.</p>
+<p>vSphere Integrated Containers Engine authenticates Docker API clients by using client certificates. This configuration is commonly referred to as <code>tlsverify</code> in documentation about containers and Docker. A client certificate is accepted if it is signed by a CA that you provide by specifying one or more instances of the <code>--tls-ca</code> option. In the case of the certificates that <code>vic-machine create</code> generates, <code>vic-machine create</code> creates a CA and uses it to create and sign a single client certificate.</p>
+<p>When using the Docker client, the client validates the server either by using CAs that are present in the root certificate bundle of the client system, or that are provided explicitly by using the <code>--tlscacert</code> option when running Docker commands. As a part of this validation, the server certificate must explicitly state at least one of the following, and must match the name or address that the client uses to access the server:</p>
+<ul>
+<li>The FQDN used to communicate with the server</li>
+<li>The IP address used to communicate with the server</li>
+<li>A wildcard domain that matches all of the FQDNs in a specific subdomain. For an example of a domain wildcard, see <a href="https://en.wikipedia.org/wiki/Wildcard_certificate#Example" target="_blank">https://en.wikipedia.org/wiki/Wildcard_certificate#Example</a>.</li>
+</ul>
+<h4 id="tls-cname"><code>--tls-cname</code> </h4>
+<p>Short name: None</p>
+<p>The FQDN or IP address to embed in an auto-generated server certificate. Specify an FQDN, IP address, or a domain wildcard. If you provide a custom server certificate by using the <code>--cert</code> option, you can use <code>--tls-cname</code> as a sanity check to ensure that the certificate is valid for the deployment.</p>
+<p>If you do not specify <code>--tls-cname</code> but you do set a static address for the VCH on the client network interface, <code>vic-machine create</code> uses that  address for the Common Name, with the same results as if you had specified <code>--tls-cname=x.x.x.x</code>. For information about setting a static IP address on the client network, see <a href="#static-ip">Options for Specifying a Static IP Address for the VCH Endpoint VM</a>.</p>
+<p>When you specify the <code>--tls-cname</code> option, <code>vic-machine create</code> performs the following actions during the deployment of the VCH:</p>
+<ul>
+<li>Checks for an existing certificate in either a folder that has the same name as the VCH that you are deploying, or in a location that you specify in the <a href="#cert-path"><code>--cert-path</code></a> option. If a valid certificate exists that includes the same Common Name attribute as the one that you specify in <code>--tls-cname</code>, <code>vic-machine create</code> reuses it. Reusing certificates allows you to delete and recreate VCHs for which you have already distributed the certificates to container developers.</li>
+<li>If certificates are present in the certificate folder that include a different Common Name attribute to the one that you specify in <code>--tls-cname</code>, <code>vic-machine create</code> fails.  </li>
+<li>If a certificate folder does not exist, <code>vic-machine create</code> creates a folder with the same name as the VCH, or creates a folder in the location that you specify in the <code>--cert-path</code> option. </li>
+<li>If valid certificates do not already exist, <code>vic-machine create</code> creates the following trusted CA, server, and client certificate/key pairs in the certificate folder:<ul>
+<li><code>ca.pem</code></li>
+<li><code>ca-key.pem</code></li>
+<li><code>cert.pem</code></li>
+<li><code>key.pem</code></li>
+<li><code>server-cert.pem</code></li>
+<li><code>server-key.pem</code></li>
+</ul>
+</li>
+<li>Creates a browser-friendly PFX client certificate, <code>cert.pfx</code>, to use to authenticate connections to the VCH Admin portal for the VCH.</li>
+</ul>
+<p><strong>NOTE</strong>: The folder and file permissions for the generated certificate and key are readable only by the user who created them.</p>
+<p>Running <code>vic-machine create</code> with the <code>--tls-cname</code> option also creates an environment file named <code>vch_name.env</code>, that contains Docker environment variables that container developers can use to configure their Docker client environment:</p>
+<ul>
+<li>Activates TLS client verification.<pre>DOCKER_TLS_VERIFY=1</pre></li>
+<li>The path to the client certificates.<pre>DOCKER_CERT_PATH=<i>path_to_certs</i></pre></li>
+<li>The address of the VCH.<pre>DOCKER_HOST=<i>vch_address</i>:2376</pre></li>
+</ul>
+<p>You must provide copies of the <code>cert.pem</code> and <code>key.pem</code> client certificate files and the environment file to container developers so that they can connect Docker clients to the VCH. If you deploy the VCH with the <code>--tls-cname</code> option, container developers must configure the client appropriately with one of the following options:</p>
+<ul>
+<li>By using the following <code>tlsverify</code>, <code>tlscert</code>, and <code>tlskey</code> Docker options, adding <code>tlscacert</code> if a custom CA was used to sign the server certificate.</li>
+<li>By setting <code>DOCKER_CERT_PATH=/path/to/client/cert.pem</code> and <code>DOCKER_TLS_VERIFY=1</code>.</li>
+</ul>
+<pre>--tls-cname vch-name.example.org</pre>
+<pre>--tls-cname *.example.org</pre>
+
+<h4 id="cert-path"><code>--cert-path</code> </h4>
+<p>Short name: none</p>
+<p>By default <code>--cert-path</code> is a folder in the current directory, that takes its name from the VCH name that you specify in the <code>--name</code> option. <code>vic-machine create</code> checks in <code>--cert-path</code> for existing certificates with the standard names and uses those certificates if they are present:</p>
+<ul>
+<li><code>server-cert.pem</code> </li>
+<li><code>server-key.pem</code></li>
+<li><code>ca.pem</code></li>
+</ul>
+<p>If <code>vic-machine create</code> does not find existing certificates with the standard names in <code>--cert-path</code>, or if you do not specify certificates directly by using the <code>--cert</code>, <code>--key</code>, and <code>--tls-ca</code> options, <code>vic-machine create</code> generates certificates. Generated certificates are saved in the <code>--cert-path</code> folder with the standard names listed. <code>vic-machine create</code> additionally generates other certificates:</p>
+<ul>
+<li><code>cert.pem</code> and <code>key.pem</code> for client certificates, if required.</li>
+<li><code>ca-key.pem</code>, the private key for the certificate authority. </li>
+</ul>
+<pre>--cert-path &apos;<i>path_to_certificate_folder</i>&apos;
+</pre>
+
+<h4 id="-certificate-key-size"><code>--certificate-key-size</code></h4>
+<p>Short name: <code>--ksz</code></p>
+<p>The size of the key for <code>vic-machine create</code> to use when it creates auto-generated trusted certificates. You can optionally use <code>--certificate-key-size</code> if you specify <code>--tls-cname</code>. If not specified, <code>vic-machine create</code> creates keys with default size of 2048 bits. It is not recommended to use key sizes of less than 2048 bits. </p>
+<pre>--certificate-key-size 3072</pre>
+
+<h4 id="-organization"><code>--organization</code></h4>
+<p>Short name: None</p>
+<p>A list of identifiers to record in certificates generated by <code>vic-machine</code>. You can optionally use <code>--organization</code> if you specify <code>--tls-cname</code>. If not specified,<code>vic-machine create</code> uses the name of the VCH as the organization value.</p>
+<p><strong>NOTE</strong>: The <code>client-ip-address</code> is used for <code>CommonName</code> but not  for  <code>Organisation</code>.</p>
+<pre>--organization <i>organization_name</i></pre>
+
+<h3 id="restrict_custom">Restrict Access to the Docker API with Custom Certificates </h3>
+<p>To exercise fine control over the certificates that VCHs use, obtain or generate custom certificates yourself before you deploy a VCH. Use the <code>--key</code>, <code>--cert</code>, and <code>--tls-ca</code> options to pass the custom certificates to <code>vic-machine create</code>.</p>
+<h4 id="cert"><code>--cert</code> </h4>
+<p>Short name: none</p>
+<p>The path to a custom X.509 server certificate. This certificate identifies the VCH endpoint VM both to Docker clients and to browsers that connect to the VCH Admin portal.</p>
+<ul>
+<li>This certificate should have the following certificate usages:<ul>
+<li><code>KeyEncipherment</code></li>
+<li><code>DigitalSignature</code></li>
+<li><code>KeyAgreement</code></li>
+<li><code>ServerAuth</code></li>
+</ul>
+</li>
+<li>This option is mandatory if you use custom TLS certificates, rather than auto-generated certificates.</li>
+<li>Use this option in combination with the <code>--key</code> option, that provides the path to the private key file for the custom certificate.</li>
+<li>Include the names of the certificate and key files in the paths.</li>
+<li>If you use trusted custom certificates, container developers run Docker commands with the <code>--tlsverify</code>, <code>--tlscacert</code>, <code>--tlscert</code>, and <code>--tlskey</code> options.</li>
+</ul>
+<pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
+--key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
+</pre> 
+
+<p>Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.</p>
+<pre>--cert &apos;<i>path to certificate file</i>&apos;/<i>certificate_file_name</i>.pem 
+--key &apos;<i>path to key file</i>&apos;/<i>key_file_name</i>.pem
+</pre> 
+
+
+<h4 id="key"><code>--key</code> </h4>
+<p>Short name: none</p>
+<p>The path to the private key file to use with a custom server certificate. This option is mandatory if you specify the <code>--cert</code> option, that provides the path to a custom X.509 certificate file. Include the names of the certificate and key files in the paths. </p>
+<p><strong>IMPORTANT</strong>: The key must not be encrypted.</p>
+<pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
+--key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
+</pre> 
+
+<p>Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.</p>
+<pre>--cert &apos;<i>path to certificate file</i>&apos;/<i>certificate_file_name</i>.pem 
+--key &apos;<i>path to key file</i>&apos;/<i>key_file_name</i>.pem
+</pre>
+
+<h4 id="tls-ca"><code>--tls-ca</code> </h4>
+<p>Short name: <code>--ca</code></p>
+<p>You can specify <code>--tls-ca</code> multiple times, to point <code>vic-machine create</code> to a file that contains the public portion of a CA. <code>vic-machine create</code> uses these CAs to validate client certificates that are offered as credentials for Docker API access. This does not need to be the same CA that you use to sign the server certificate.</p>
+<pre>--tls-ca <i>path_to_ca_file</i></pre>
+
+<p><strong>NOTE</strong>: The <code>--tls-ca</code> option appears in the extended help that you see by running <code>vic-machine-os create --extended-help</code> or <code>vic-machine-os create -x</code>.</p>
+<h3 id="unrestricted">Do Not Restrict Access to the Docker API </h3>
+<p>To deploy a VCH that does not restrict access to the Docker API, use the <code>--no-tlsverify</code> option. To completely disable TLS authentication, use the <code>--no-tls</code> option.</p>
+<h4 id="no-tlsverify"><code>--no-tlsverify</code> </h4>
+<p>Short name: <code>--kv</code></p>
+<p>The <code>--no-tlsverify</code> option prevents the use of CAs for client authentication. You still require a server certificate if you use <code>--no-tlsverify</code>. You can still supply a custom server certificate by using the  <a href="#cert"><code>--cert</code></a> and <a href="#key"><code>--key</code></a>  options. If you do not use <code>--cert</code> and <code>--key</code> to supply a custom server certificate, <code>vic-machine create</code> generates a self-signed server certificate. If you specify <code>--no-tlsverify</code> there is no access control, however connections remain encrypted.</p>
+<p>When you specify the <code>--no-tlsverify</code> option, <code>vic-machine create</code> performs the following actions during the deployment of the VCH.</p>
+<ul>
+<li>Generates a self-signed server certificate if you do not specify <code>--cert</code> and <code>--key</code>.</li>
+<li>Creates a folder with the same name as the VCH in the location in which you run <code>vic-machine create</code>.</li>
+<li>Creates an environment file named <code>vch_name.env</code> in that folder, that contains the <code>DOCKER_HOST=vch_address</code> environment variable, that you can provide to container developers to use to set up their Docker client environment.</li>
+</ul>
+<p>If you deploy a VCH with the <code>--no-tlsverify</code> option, container developers run Docker commands with the <code>--tls</code> option, and the <code>DOCKER_TLS_VERIFY</code> environment variable must not be set. Note that setting <code>DOCKER_TLS_VERIFY</code> to 0 or <code>false</code> has no effect. </p>
+<p>The <code>--no-tlsverify</code> option takes no arguments. </p>
+<pre>--no-tlsverify</pre>
+
+<h4 id="no-tls"><code>--no-tls</code> </h4>
+<p>Short name: <code>-k</code></p>
+<p>Disables TLS authentication of connections between the Docker client and the VCH. VCHs use neither client nor server certificates.</p>
+<p>Set the <code>no-tls</code> option if you do not require TLS authentication between the VCH and the Docker client. Any Docker client can connect to the VCH if you disable TLS authentication and connections are not encrypted. </p>
+<p>If you use the <code>no-tls</code> option, container developers connect Docker clients to the VCH via port 2375, instead of via port 2376.</p>
+<pre>--no-tls</pre>
+
+<h3 id="diff_users">Specify Different User Accounts for VCH Deployment and Operation </h3>
+<p>Because deploying a VCH requires greater levels of permissions than running a VCH, you can configure a VCH so that it uses different user accounts for deployment and for operation. In this way, you can limit the day-to-day operation of a VCH to an account that does not have full administrator permissions on the target vCenter Server.</p>
+<h4 id="ops-user"><code>--ops-user</code> </h4>
+<p>Short name: None</p>
+<p>A vSphere user account with which the VCH runs after deployment. If not specified, the VCH runs with the vSphere Administrator credentials with which you deploy the VCH, that you specify in either <code>--target</code> or <code>--user</code>.</p>
+<pre>--ops-user <i>user_name</i></pre>
+
+<p>Wrap the user name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes special characters.</p>
+<pre>--ops-user &apos;<i>user_n@me</i>&apos;</pre>
+
+<p>The user account that you specify in <code>--ops-user</code> must exist before you deploy the VCH. For information about the permissions that the <code>--ops-user</code> account requires, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>.</p>
+<h4 id="-ops-password"><code>--ops-password</code></h4>
+<p>Short name: None</p>
+<p>The password or token for the operations user that you specify in <code>--ops-user</code>. If not specified, <code>vic-machine create</code> prompts you to enter the password for the <code>--ops-user</code> account.</p>
+<pre>--ops-password <i>password</i></pre>
+
+<p>Wrap the password in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes special characters.</p>
+<pre>--ops-password &apos;<i>p@ssword</i>&apos;</pre>
+
+
+<h2 id="registry">Private Registry Options </h2>
+<p>If you use vSphere Integrated Containers Registry, or if container developers need to access Docker images that are stored in other private registry servers, you must configure VCHs to allow them to connect to these private registry servers when you deploy the VCHs. VCHs can connect to both secure and insecure private registry servers.</p>
+<h3 id="registry-ca"><code>--registry-ca</code> </h3>
+<p>Short name: <code>--rc</code></p>
+<p>The path to a CA certificate that can validate the server certificate of a private registry. You can specify <code>--registry-ca</code> multiple times to specify multiple CA certificates for different registries. This allows a VCH to connect to multiple registries. </p>
+<p>The use of registry certificates is independent of the Docker client security options that you specify. For example, it is possible to use the <code>--no-tls</code> option to disable TLS authentication between Docker clients and the VCH, and to use the <code>--registry-ca</code> option to enable TLS authentication  between the VCH and a private registry. </p>
+<p>You must use this option to allow a VCH to connect to vSphere Integrated Containers Registry. For information about how to obtain the CA certificate from vSphere Integrated Containers Registry, see <a href="deploy_vch_registry.html">Deploy a VCH for Use with vSphere Integrated Containers Registry</a>.</p>
+<pre>--registry-ca <i>path_to_ca_cert_1</i>
+--registry-ca <i>path_to_ca_cert_2</i>
+</pre>
+
+<p><strong>NOTE</strong>: The <code>--registry-ca</code> option appears in the extended help that you see by running <code>vic-machine-os create --extended-help</code> or <code>vic-machine-os create -x</code>.</p>
+<h3 id="insecure-registry"><code>--insecure-registry</code> </h3>
+<p>Short name: <code>--dir</code></p>
+<p>If you set the <code>--insecure-registry</code> option, the VCH does not verify the certificate of that registry when it pulls images. Insecure private registries are not recommended in production environments.</p>
+<p>If you authorize a VCH to connect to an insecure private registry server, the VCH attempts to access the registry server via HTTP if access via HTTPS fails. VCHs always use HTTPS when connecting to registry servers for which you have not authorized insecure access.</p>
+<p>You can specify <code>--insecure-registry</code> multiple times if multiple insecure registries are permitted. If the registry server listens on a specific port, add the port number to the URL</p>
+<pre>--insecure-registry <i>registry_URL_1</i>
+--insecure-registry <i>registry_URL_2</i>:<i>port_number</i>
+</pre>
+
+
+<h2 id="datastore">Datastore Options </h2>
+<p>The <code>vic-machine</code> utility allows you to specify the datastore in which to store container image files, container VM files, and the files for the VCH. You can also specify datastores in which to create container volumes. </p>
+<ul>
+<li>vSphere Integrated Containers Engine fully supports VMware vSAN datastores. </li>
+<li>vSphere Integrated Containers Engine supports all alphanumeric characters, hyphens, and underscores in datastore paths and datastore names, but no other special characters.</li>
+<li>If you specify different datastores in the different datastore options, and if no single host in a cluster can access all of those datastores, <code>vic-machine create</code> fails with an error.<pre>No single host can access all of the requested datastores. 
+Installation cannot continue.</pre></li>
+<li>If you specify different datastores in the different datastore options, and if only one host in a cluster can access all of them, <code>vic-machine create</code> succeeds with a warning.<pre>Only one host can access all of the image/container/volume datastores. 
+This may be a point of contention/performance degradation and HA/DRS 
+may not work as intended.</pre> </li>
+<li>VCHs do not support datastore name changes. If a datastore changes name after you have deployed a VCH that uses that datastore, that VCH will no longer function.</li>
+</ul>
+<h3 id="image"><code>--image-store</code> </h3>
+<p>Short name: <code>-i</code></p>
+<p>The datastore in which to store container image files, container VM files, and the files for the VCH. The <code>--image-store</code> option is <strong>mandatory</strong> if there is more than one datastore in your vSphere environment. If there is only one datastore in your vSphere environment, the <code>--image-store</code> option is not required. </p>
+<p>If you do not specify the <code>--image-store</code> option and multiple possible datastores exist, or if you specify an invalid datastore name, <code>vic-machine create</code> fails and suggests valid datastores in the failure message. </p>
+<p>If you are deploying the VCH to a vCenter Server cluster, the datastore that you designate in the <code>image-store</code> option must be shared by at least two ESXi hosts in the cluster. Using non-shared datastores is possible, but limits the use of vSphere features such as vSphere vMotion&#xAE; and VMware vSphere Distributed Resource Scheduler&#x2122; (DRS).</p>
+<p>To specify a whole datastore as the image store, specify the datastore name in the <code>--image-store</code> option:</p>
+<pre>--image-store <i>datastore_name</i></pre>
+
+<p>If you designate a whole datastore as the image store, <code>vic-machine</code> creates the following set of folders in the target datastore: </p>
+<ul>
+<li><code>datastore_name/VIC/vch_uuid/images</code>, in which to store all of the container images that you pull into the VCH.</li>
+<li><code>datastore_name/vch_name</code>, that contains the VM files for the VCH.</li>
+<li><code>datastore_name/vch_name/kvstores</code>, a key-value store folder for the VCH.</li>
+</ul>
+<p>You can specify a datastore folder to use as the image store by specifying a path in the <code>--image-store</code> option&lt;/code&gt;: </p>
+<pre>--image-store <i>datastore_name</i>/<i>path</i></pre> 
+
+<p>If the folder that you specify in <code>/path</code> does not already exist, <code>vic-machine create</code> creates it. Wrap the datastore name and path in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if they include spaces:  <pre>--image-store &apos;<i>datastore name</i>&apos;/&apos;<i>datastore path</i>&apos;</pre>  </p>
+<p>If you designate a datastore folder as the image store, <code>vic-machine</code> creates the following set of folders in the target datastore:</p>
+<ul>
+<li><code>datastore_name/path/VIC/vcu_uuid/images</code>, in which to store all of the container images that you pull into the VCH. </li>
+<li><code>datastore_name/vch_name</code>, that contains the VM files for the VCH. This is the same as if you specified a datastore as the image store.</li>
+<li><code>datastore_name/vch_name/kvstores</code>, a key-value store folder for the VCH. This is the same as if you specified a datastore as the image store.</li>
+</ul>
+<p>By specifying the path to a datastore folder in the <code>--image-store</code> option, you can designate the same datastore folder as the image store for multiple VCHs. In this way, <code>vic-machine create</code> creates only one <code>VIC</code> folder in the datastore, at the path that you specify. The <code>VIC</code> folder contains one <code>vch_uuid/images</code> folder for each VCH that you deploy. By creating one <code>vch_uuid/images</code> folder for each VCH, vSphere Integrated Containers Engine limits the potential for conflicts of image use between VCHs, even if you share the same image store folder between multiple hosts.</p>
+<p>When container developers create containers, vSphere Integrated Containers Engine stores the files for container VMs at the top level of the image store, in folders that have the same name as the containers.</p>
+<h3 id="volume-store"><code>--volume-store</code> </h3>
+<p>Short name: <code>--vs</code></p>
+<p>The datastore in which to create volumes when container developers use the <code>docker volume create</code> or <code>docker create -v</code> commands. When you specify the <code>volume-store</code> option, you  provide the name of the target datastore and a label for the volume store. You can optionally provide a path to a specific folder in the datastore in which to create the volume store. If the folders that you specify in the path do not already exist on the datastore, <code>vic-machine create</code> creates the appropriate folder structure. </p>
+<p>The <code>vic-machine create</code> creates command creates the <code>volumes</code> folder independently from the folders for VCH files so that you can share volumes between VCHs. If you delete a VCH, any volumes that the VCH managed will remain available in the volume store unless you specify the <code>--force</code> option when you delete the VCH. You can then assign an existing volume store that already contains data to a newly created VCH. </p>
+<p><strong>IMPORTANT</strong>: If multiple VCHs will use the same datastore for their volume stores, specify a different datastore folder for each VCH. Do not designate the same datastore folder as the volume store for multiple VCHs.</p>
+<p>If you are deploying the VCH to a vCenter Server cluster, the datastore that you designate in the <code>volume-store</code> option should be shared by at least two ESXi hosts in the cluster. Using non-shared datastores is possible and <code>vic-machine create</code> succeeds, but it issues a warning that this configuration limits the use of vSphere features such as vSphere vMotion and DRS.</p>
+<p>The label that you specify is the volume store name that Docker uses. For example, the volume store label appears in the information for a VCH when container developers run <code>docker info</code>. Container developers specify the volume store label in the <code>docker volume create --opt VolumeStore=volume_store_label</code> option when they create a volume.</p>
+<p>If you specify an invalid datastore name, <code>vic-machine create</code> fails and suggests valid datastores. </p>
+<p><strong>IMPORTANT</strong> If you do not specify the <code>volume-store</code> option, no  volume store is created and container developers cannot use the <code>docker volume create</code> or <code>docker create -v</code> commands.</p>
+<ul>
+<li><p>If you only require one volume store, you can set the volume store label to <code>default</code>. If you set the volume store label to <code>default</code>, container developers do not need to specify the <code>--opt VolumeStore=volume_store_label</code> option when they run <code>docker volume create</code>. </p>
+<p><strong>NOTE</strong>: If container developers intend to use <code>docker create -v</code> to create containers that are attached to anonymous or named volumes, you must create a volume store with a label of <code>default</code>.</p>
+<pre>--volume-store <i>datastore_name</i>:default</pre>
+</li>
+<li><p>If you specify the target datastore and the volume store label, <code>vic-machine create</code> creates a folder named <code>VIC/volumes</code> at the top level of the target datastore. Any volumes that container developers create will appear in the <code>VIC/volumes</code> folder. </p>
+<pre>--volume-store <i>datastore_name</i>:<i>volume_store_label</i></pre></li>
+<li><p>If you specify the target datastore, a datastore path, and the volume store label, <code>vic-machine create</code> creates a folder named <code>volumes</code> in the location that you specify in the datastore path. Any volumes that container developers create will appear in the <code>path/volumes</code> folder.</p>
+<pre>--volume-store <i>datastore_name</i>/<i>datastore_path</i>:<i>volume_store_label</i></pre></li>
+<li><p>Wrap the datastore name and path in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if they include spaces. The volume store label cannot include spaces.</p>
+<pre>--volume-store &apos;<i>datastore name</i>&apos;/&apos;<i>datastore path</i>&apos;:<i>volume_store_label</i></pre></li>
+<li><p>You can specify the <code>volume-store</code> option multiple times, to create multiple volume stores for the VCH.</p>
+<pre>--volume-store <i>datastore_name</i>/path:<i>volume_store_label_1</i>
+--volume-store <i>datastore_name</i>/<i>path</i>:<i>volume_store_label_2</i>
+[...]
+--volume-store <i>datastore_name</i>/<i>path</i>:<i>volume_store_label_n</i>
+</pre>
+
+
+</li>
+</ul>
+<h2 id="networking">Networking Options </h2>
+<p>The <code>vic-machine create</code> utility allows you to specify different networks for the different types of traffic between containers, the VCH, the external internet, and your vSphere environment. For information about the different networks that VCHs use, see <a href="networks.html">Networks Used by vSphere Integrated Containers Engine</a>.</p>
+<p><strong>IMPORTANT</strong>: A VCH supports a maximum of 3 distinct network interfaces. Because the bridge network requires its own port group, at least two of the public, client, and management networks must share a network interface and therefore a port group. Container networks do not go through the VCH, so they are not subject to this limitation. This limitation will be removed in a future release.</p>
+<p>By default, <code>vic-machine create</code> obtains IP addresses for VCH endpoint VMs by using DHCP. For information about how to specify a static IP address for the VCH endpoint VM on the client, public, and management networks, see <a href="#static-ip">Specify a Static IP Address for the VCH Endpoint VM</a> in Advanced Options.</p>
+<p>If your network access is controlled by a proxy server, see <a href="#proxy">Options to Configure VCHs to Use Proxy Servers</a> in Advanced Options. </p>
+<p>When you specify different network interfaces for the different types of traffic, <code>vic-machine create</code> checks that the firewalls on the ESXi hosts allow connections to port 2377 from those networks. If access to port 2377 on one or more ESXi hosts is subject to IP address restrictions, and if those restrictions block access to the network interfaces that you specify, <code>vic-machine create</code> fails with a firewall configuration error:</p>
+<pre>Firewall configuration incorrect due to allowed IP restrictions on hosts: 
+&quot;/ha-datacenter/host/localhost.localdomain/localhost.localdomain&quot; 
+Firewall must permit dst 2377/tcp outbound to the VCH management interface
+</pre>
+
+<p>For information about how to open port 2377, see <a href="open_ports_on_hosts.html">Open the Required Ports on ESXi Hosts</a>.</p>
+<h3 id="bridge"><code>--bridge-network</code> </h3>
+<p>Short name: <code>-b</code></p>
+<p>A port group that container VMs use to communicate with each other. </p>
+<p>The <code>bridge-network</code> option is <strong>mandatory</strong> if you are deploying a VCH to vCenter Server.</p>
+<p>In a vCenter Server environment, before you run <code>vic-machine create</code>, you must create a distributed virtual switch and a port group. You must add the target ESXi host or hosts to the distributed virtual switch, and assign a VLAN ID to the port group, to ensure that the bridge network is isolated. For information about how to create a distributed virtual switch and port group, see the section on vCenter Server Network Requirements in <a href="vic_installation_prereqs.html#networkreqs">Environment Prerequisites for VCH Deployment</a>.</p>
+<p>You pass the name of the port group to the <code>bridge-network</code> option. Each VCH requires its own port group. </p>
+<p><strong>IMPORTANT</strong> </p>
+<ul>
+<li>Do not assign the same <code>bridge-network</code> port group to multiple VCHs. Sharing a port group between VCHs might result in multiple container VMs being assigned the same IP address. </li>
+<li>Do not use the <code>bridge-network</code> port group as the target for any of the other <code>vic-machine create</code> networking options.</li>
+</ul>
+<p>If you specify an invalid port group name, <code>vic-machine create</code> fails and suggests valid port groups.</p>
+<p>The <code>bridge-network</code> option is <strong>optional</strong> when you are deploying a VCH to an ESXi host with no vCenter Server. In this case, if you do not specify <code>bridge-network</code>, <code>vic-machine</code> creates a  virtual switch and a port group that each have the same name as the VCH. You can optionally specify this option to assign an existing port group for use as the bridge network for container VMs. You can also optionally specify this option to create a new virtual switch and port group that have a different name to the VCH.</p>
+<pre>--bridge-network <i>port_group_name</i></pre>
+
+<p>Wrap the port group name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes spaces.</p>
+<pre>--bridge-network &apos;<i>port group name</i>&apos;</pre>
+
+<p>If you intend to use the <a href="#ops-user"><code>--ops-user</code></a> option to use different user accounts for deployment and operation of the VCH, you must place the bridge network port group in a network folder that has the <code>Read-Only</code> role with propagation enabled. For more information about the requirements when using <code>--ops-user</code>, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>. </p>
+<p>For information about how to specify a range of IP addresses for additional bridge networks, see <a href="#bridge-range"><code>bridge-network-range</code></a> in Advanced Networking Options.</p>
+<h3 id="client-network"><code>--client-network</code> </h3>
+<p>Short name: <code>--cln</code></p>
+<p>A port group on which the VCH will make the Docker API available to Docker clients. Docker clients use this network to issue Docker API requests to the VCH.</p>
+<p>If not specified, the VCH uses the public network for client traffic. If you specify an invalid port group name, <code>vic-machine create</code> fails and suggests valid port groups.</p>
+<pre>--client-network <i>port_group_name</i></pre>
+
+<p>Wrap the port group name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes spaces.</p>
+<pre>--client-network &apos;<i>port group name</i>&apos;</pre>
+
+
+<h3 id="public-network"><code>--public-network</code> </h3>
+<p>Short name: <code>--pn</code></p>
+<p>A port group for containers to use to connect to the Internet. VCHs use the public network to pull container images, for example from <a href="https://hub.docker.com/" target="_blank">https://hub.docker.com/</a>. Containers that use use port mapping expose network services on the public interface. </p>
+<p><strong>NOTE</strong>: vSphere Integrated Containers Engine adds a new capability to Docker that allows you to directly map containers to a network by using the <code>--container-network</code> option. This is the recommended way to deploy container services.</p>
+<p>If not specified, containers use the VM Network for public network traffic. If you specify an invalid port group name, <code>vic-machine create</code> fails and suggests valid port groups.</p>
+<pre>--public-network <i>port_group</i></pre>
+
+<p>Wrap the network name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes spaces.</p>
+<pre>--public-network &apos;<i>port group name</i>&apos;</pre>
+
+
+<h3 id="management-network"><code>--management-network</code> </h3>
+<p>Short name: <code>--mn</code></p>
+<p>A port group that the VCH uses to communicate with vCenter Server and ESXi hosts. Container VMs use this network to communicate with the VCH. </p>
+<p><strong>IMPORTANT</strong>: Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network.</p>
+<p>When you create a VCH, <code>vic-machine create</code> checks that the firewall on ESXi hosts allows connections to port 2377 from the management network of the VCH. If access to port 2377 on ESXi hosts is subject to IP address restrictions, and if those restrictions block access to the management network interface, <code>vic-machine create</code> fails with a firewall configuration error:</p>
+<pre>Firewall configuration incorrect due to allowed IP restrictions on hosts: 
+&quot;/ha-datacenter/host/localhost.localdomain/localhost.localdomain&quot; 
+Firewall must permit dst 2377/tcp outbound to the VCH management interface
+</pre>
+
+<p>For information about how to open port 2377, see <a href="open_ports_on_hosts.html">Open the Required Ports on ESXi Hosts</a>.</p>
+<p><strong>NOTE</strong>: If the management network uses DHCP, <code>vic-machine</code> checks the firewall status of the management network before the VCH receives an IP address. It is therefore not possible to fully assess whether the firewall permits the IP address of the VCH. In this case, <code>vic-machine create</code> issues a warning. </p>
+<pre>Unable to fully verify firewall configuration due to DHCP use on management network 
+VCH management interface IP assigned by DHCP must be permitted by allowed IP settings 
+Firewall allowed IP configuration may prevent required connection on hosts: 
+&quot;/ha-datacenter/host/localhost.localdomain/localhost.localdomain&quot; 
+Firewall must permit dst 2377/tcp outbound to the VCH management interface
+</pre>
+
+<p>If not specified, the VCH uses the public network for management traffic. If you specify an invalid port group name, <code>vic-machine create</code> fails and suggests valid port groups.</p>
+<pre>--management-network <i>port_group_name</i></pre>
+
+<p>Wrap the network name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes spaces.</p>
+<pre>--management-network &apos;<i>port group name</i>&apos;</pre>
+
+
+<h3 id="container-network"><code>--container-network</code> </h3>
+<p>Short name: <code>--cn</code></p>
+<p>A port group for container VMs to use for external communication when container developers  run <code>docker run</code> or <code>docker create</code> with the <code>--net</code> option. </p>
+<p>You can optionally specify one or more container networks. Container networks allow containers to directly attach to a network without having to route through the VCH via network address translation (NAT). Container networks that you add by using the <code>--container-network</code> option appear when you run the <code>docker network ls</code> command. These networks are available for use by containers. Containers that use these networks are directly attached to the container network, and do not go through the VCH or share the public IP of the VCH.</p>
+<p><strong>IMPORTANT</strong>: For security reasons, whenever possible, use separate port groups for the container network and the management network.</p>
+<p>To specify a container network, you provide the name of a port group for the container VMs to use, and an optional descriptive name for the container network for use by Docker.  If you do not specify a descriptive name, Docker uses the vSphere network name. </p>
+<p><strong>IMPORTANT</strong>:  The descriptive name is optional unless the port group name contains spaces. If the port group name contains spaces, you must specify a descriptive name.  The descriptive name cannot contain spaces.</p>
+<p>If you specify an invalid port group name, <code>vic-machine create</code> fails and suggests valid port groups.</p>
+<ul>
+<li>You can specify a vSphere network as the container network.</li>
+<li>The port group must exist before you run <code>vic-machine create</code>. </li>
+<li>You cannot use the same port group as you use for the bridge network. </li>
+<li>You can create the port group on the same distributed virtual switch as the port group that you use for the bridge network.</li>
+<li>If the port group that you specify in the <code>container-network</code> option does not support DHCP, see <a href="#adv-container-net">Options for Configuring a Non-DHCP Network for Container Traffic</a> in Advanced Options. </li>
+<li>The descriptive name appears under <code>Networks</code> when you run <code>docker info</code> or <code>docker network ls</code> on the deployed VCH.</li>
+<li>Container developers use the descriptive name in the <code>--net</code> option when they run <code>docker run</code> or <code>docker create</code>.</li>
+</ul>
+<p>You can specify <code>--container-network</code> multiple times to add multiple vSphere networks to Docker.</p>
+<p>If you do not specify <code>--container-network</code>, or if you deploy containers that do not use a container network, the containers&apos; network services are still be available via port mapping through the VCH, by using NAT through the public interface of the VCH.</p>
+<pre>--container-network <i>port_group_name</i>:<i>container_port _group_name</i></pre>
+
+<p>Wrap the port group name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes spaces. The descriptive name cannot include spaces.</p>
+<pre>--container-network &apos;<i>port group name</i>&apos;:<i>container port group name</i></pre>
+
+<p>If you intend to use the <a href="#ops-user"><code>--ops-user</code></a> option to use different user accounts for deployment and operation of the VCH, you must place any container network port groups in a network folder that has the <code>Read-Only</code> role with propagation enabled. For more information about the requirements when using <code>--ops-user</code>, see <a href="set_up_ops_user.html">Use Different User Accounts for VCH Deployment and Operation</a>.</p>
+<h2 id="deployment">General Deployment Options </h2>
+<p>The <code>vic-machine</code> utility provides options to customize the VCH.</p>
+<h3 id="-name"><code>--name</code></h3>
+<p>Short name: <code>-n</code></p>
+<p>A name for the VCH. If not specified, <code>vic-machine</code> sets the name of the VCH to <code>virtual-container-host</code>. If a VCH of the same name exists on the ESXi host or in the vCenter Server inventory, or if a folder of the same name exists in the target datastore, <code>vic-machine create</code> creates a folder named <code>vch_name_1</code>. If the name that you provide contains unsupported characters, <code>vic-machine create</code> fails with an error.</p>
+<pre>--name <i>vch_name</i></pre>
+
+<p>Wrap the name in single quotes (&apos;) on Mac OS and Linux and in double quotes (&quot;) on Windows if it includes spaces.</p>
+<pre>--name &apos;<i>vch name</i>&apos;</pre>
+
+<h3 id="-memory"><code>--memory</code></h3>
+<p>Short name: <code>--mem</code></p>
+<p>Limit the amount of memory that is available for use by the VCH vApp in vCenter Server, or for the VCH resource pool on an ESXi host. This limit also applies to the container VMs that run in the VCH vApp or resource pool. Specify the memory limit value in MB. If not specified, <code>vic-machine create</code> sets the limit to 0 (unlimited).</p>
+<pre>--memory 1024</pre>
+
+<h3 id="-cpu"><code>--cpu</code></h3>
+<p>Short name: None</p>
+<p>Limit the amount of CPU capacity that is available for use by the VCH vApp in vCenter Server, or for the VCH resource pool on an ESXi host. This limit also applies to the container VMs that run in the VCH vApp or resource pool. Specify the CPU limit value in MHz. If not specified, <code>vic-machine create</code> sets the limit to 0 (unlimited).</p>
+<pre>--cpu 1024</pre>
+
+<h3 id="-force"><code>--force</code></h3>
+<p>Short name: <code>-f</code></p>
+<p>Forces <code>vic-machine create</code> to ignore warnings and non-fatal errors and continue with the deployment of a VCH. Errors such as an incorrect compute resource still cause the deployment to fail.</p>
+<p>If your vSphere environment uses untrusted, self-signed certificates, you can use the <code>--force</code> option to deploy a VCH without providing the thumbprint of the vCenter Server or ESXi host in the <code>thumbprint</code> option. </p>
+<p><strong>IMPORTANT</strong> Running <code>vic-machine create</code> with the <code>--force</code> option rather than providing the certificate thumbprint is not recommended, because it permits man-in-the-middle attacks to go undetected.</p>
+<pre>--force</pre>
+
+<h3 id="-timeout"><code>--timeout</code></h3>
+<p>Short name: none</p>
+<p>The timeout period for uploading the vSphere Integrated Containers Engine files and ISOs to the ESXi host, and for powering on the VCH. Specify a value in the format <code>XmYs</code> if the default timeout of 3m0s is insufficient.</p>
+<pre>--timeout 5m0s</pre> 
+
+
+<h1 id="advanced">Advanced Options </h1>
+<p>The options in this section are exposed in the <code>vic-machine create</code> help if you run <code>vic-machine create --extended-help</code>, or <code>vic-machine create -x</code>. </p>
+<h2 id="static-ip">Options for Specifying a Static IP Address for the VCH Endpoint VM </h2>
+<p>You can specify a static IP address for the VCH endpoint VM on each of the client, public, and management networks. DHCP is used for the endpoint VM for any network on which you do not specify a static IP address.</p>
+<p>To specify a static IP address for the endpoint VM on the client, public, or management network, you provide an IP address in the <code>client/public/management-network-ip</code> option. If you set a static IP address, you can optionally provide gateway addresses and specify one or more DNS server addresses.</p>
+<h3 id="-dns-server"><code>--dns-server</code></h3>
+<p>Short name: None</p>
+<p>A DNS server for the VCH endpoint VM to use on the client, public, or management networks. You can specify <code>dns-server</code> multiple times, to configure multiple DNS servers.  </p>
+<ul>
+<li>If you specify <code>dns-server</code>, <code>vic-machine create</code> always uses the <code>--dns-server</code> setting for all three of the client, public, and management networks.</li>
+<li>If you do not specify <code>dns-server</code> and you specify a static IP address for the endpoint VM on all three of the client, public, and management networks, <code>vic-machine create</code> uses the Google public DNS service. </li>
+<li>If you do not specify <code>dns-server</code> and you use a mixture of static IP addresses and DHCP for the client, public, and management networks, <code>vic-machine create</code> uses the DNS servers that DHCP provides.</li>
+<li>If you do not specify <code>dns-server</code> and you use DHCP for all of the client, public, and management networks, <code>vic-machine create</code> uses the DNS servers that DHCP provides.</li>
+</ul>
+<pre>--dns-server=172.16.10.10
+--dns-server=172.16.10.11
+</pre>
+
+<h3 id="-client-network-ip---public-network-ip---management-network-ip"><code>--client-network-ip</code>, <code>--public-network-ip</code>, <code>--management-network-ip</code></h3>
+<p>Short name: None</p>
+<p>A static IP address for the VCH endpoint VM on the public, client, or management network. </p>
+<p>You specify a static IP address for the endpoint VM on the public, client, or management networks by using the <code>--public/client/management-network-ip</code> options. If you set a static IP address for the endpoint VM on the public network, you must specify a corresponding gateway address by using the <code>--public-network-gateway</code> option. If the management and client networks are L2 adjacent to their gateways, you do not need to specify the gateway for those networks.</p>
+<ul>
+<li>You can only specify one static IP address on a given port group. If more than one of the client, public, or management networks share a port group, you can only specify a static IP address on one of those networks. All of the networks that share that port group use the IP address that you specify. </li>
+<li>If either of the client or management networks shares a port group with the public network, you can only specify a static IP address on the public network.</li>
+<li>If either or both of the client or management networks do not use the same port group as the public network, you can specify a static IP address for the endpoint VM on those networks by using <code>--client-network-ip</code> or <code>--management-network-ip</code>, or both. In this case, you must specify a corresponding gateway address by using <code>client/management-network-gateway</code>. </li>
+<li>If the client and management networks both use the same port group, and the public network does not use that port group, you can set a static IP address for the endpoint VM on either or both of the client and management networks.</li>
+<li><p>If you assign a static IP address to the VCH endpoint VM on the client network by setting the <code>--client-network-ip</code> option, and you do not specify one of the TLS options, <code>vic-machine create</code> uses this address as the Common Name with which to auto-generate trusted CA certificates. If you do not specify <code>--tls-cname</code>, <code>--no-tls</code> or <code>--no-tlsverify</code>, two-way TLS authentication with trusted certificates is implemented by default when you deploy the VCH with a static IP address on the client network. If you assign a static IP address to the endpoint VM on the client network, <code>vic-machine create</code> creates the same certificate and environment variable files as described in the <a href="#tls-cname"><code>--tls-cname</code> option</a>.</p>
+<p><strong>IMPORTANT</strong>: If the client network shares a port group with the public network you cannot set a static IP address for the endpoint VM on the client network. To assign a static IP address to the endpoint VM you must set a static IP address on the public network by using the <code>--public-network-ip</code> option. In this case, <code>vic-machine create</code> uses the public network IP address as the Common Name with which to auto-generate trusted CA certificates, in the same way as it would for the client network.</p>
+</li>
+<li><p>If you do not specify an IP address for the endpoint VM on a given network, <code>vic-machine create</code> uses DHCP to obtain an IP address for the endpoint VM on that network.</p>
+</li>
+</ul>
+<p>You specify addresses as IPv4 addresses with a network mask.</p>
+<pre>--public-network-ip 192.168.X.N/24
+--management-network-ip 192.168.Y.N/24
+--client-network-ip 192.168.Z.N/24
+</pre>
+
+<p>You can also specify addresses as resolvable FQDNs.</p>
+<pre>--public-network-ip=vch27-team-a.internal.domain.com
+--management-network-ip=vch27-team-b.internal.domain.com
+--client-network-ip=vch27-team-c.internal.domain.com
+</pre>
+
+<h3 id="-client-network-gateway---public-network-gateway---management-network-gateway"><code>--client-network-gateway</code>, <code>--public-network-gateway</code>, <code>--management-network-gateway</code></h3>
+<p>Short name: None</p>
+<p>The gateway to use if you use <code>--public/client/management-network-ip</code> to specify a static IP address for the VCH endpoint VM on the public, client, or management networks. If you specify a static IP address on the public network, you must specify a gateway by using the <code>--public-network-gateway</code> option. If the management and client networks are L2 adjacent to their gateways, you do not need to specify the gateway for those networks.</p>
+<p>You specify gateway addresses as IP addresses without a network mask.</p>
+<pre>--public-network-gateway 192.168.X.1</pre>
+
+<p>The default route for the VCH endpoint VM is always on the public network. As a consequence, if you specify a static IP address on either of the management or client networks and those networks are not L2 adjacent to their gateways, you must specify the routing destination for those networks in the <code>--management-network-gateway</code> and <code>--client-network-gateway</code> options. You specify the routing destination or destinations in a comma-separated list, with the address of the gateway separated from the routing destinations by a colon (:).</p>
+<pre>--management-network-gateway <i>routing_destination_1</i>,
+<i>routing_destination_2</i>:<i>gateway_address</i></pre>
+<pre>--client-network-gateway <i>routing_destination_1</i>,
+<i>routing_destination_2</i>:<i>gateway_address</i></pre>
+
+<p>In the following example, <code>--management-network-gateway</code> informs the VCH that it can reach all of the vSphere management endoints that are in the ranges 192.168.3.0-255 and 192.168.128.0-192.168.131.255 by sending packets to the gateway at 192.168.2.1. Ensure that the address ranges that you specify include all of the systems that will connect to this VCH instance. </p>
+<pre>--management-network-gateway 192.168.3.0,192.168.128.0:192.168.2.1</pre>
+
+
+
+<h2 id="adv-container-net">Options for Configuring a Non-DHCP Network for Container Traffic </h2>
+<p>If the network that you specify in the <code>container-network</code> option does not support DHCP, you must specify the <code>container-network-gateway</code> option. You can optionally specify one or more DNS servers and a range of IP addresses for container VMs on the container network. </p>
+<p>For information about the container network, see the section on the <a href="#container-network"><code>container-network</code> option</a>.</p>
+<h3 id="-container-network-gateway"><code>--container-network-gateway</code></h3>
+<p>Short name: <code>--cng</code></p>
+<p>The gateway for the subnet of the container network. This option is required if the network that you specify in the <code>--container-network</code> option does not support DHCP. Specify the gateway in the format <code>container_network:subnet</code>. If you specify this option, it is recommended that you also specify the  <code>--container-network-dns</code> option.</p>
+<p>When you specify the container network gateway, you must use the port group that you specify in the <code>--container-network</code> option. If you specify <code>--container-network-gateway</code> but you do not specify <code>--container-network</code>, or if you specify a different port group to the one that you specify in <code>--container-network</code>, <code>vic-machine create</code> fails with an error.</p>
+<pre>--container-network-gateway <i>port_group_name</i>:<i>gateway_ip_address</i>/<i>subnet_mask</i></pre>
+
+<p>Wrap the port group name in single quotes (Linux or Mac OS) or double quotes (Windows) if it includes spaces.</p>
+<pre>--container-network-gateway &apos;<i>port group name</i>&apos;:<i>gateway_ip_address</i>/<i>subnet_mask</i></pre>
+
+<h3 id="-container-network-dns"><code>--container-network-dns</code></h3>
+<p>Short name: <code>--cnd</code></p>
+<p>The address of the DNS server for the container network. This option is recommended if the network that you specify in the <code>--container-network</code> option does not support DHCP. </p>
+<p>When you specify the container network DNS server, you must use the  port group that you specify in the <code>--container-network</code> option. You can specify <code>--container-network-dns</code> multiple times, to configure multiple DNS servers. If you specify <code>--container-network-dns</code> but you do not specify <code>--container-network</code>, or if you specify a different port group to the one that you specify in <code>--container-network</code>, <code>vic-machine create</code> fails with an error.</p>
+<pre>--container-network-dns <i>port_group_name</i>:8.8.8.8</pre>
+
+<p>Wrap the port group name in single quotes (Linux or Mac OS) or double quotes (Windows) if it includes spaces.</p>
+<pre>--container-network-dns &apos;<i>port group name</i>&apos;:8.8.8.8</pre>
+
+<h3 id="container-network-ip-range"><code>--container-network-ip-range</code> </h3>
+<p>Short name: <code>--cnr</code></p>
+<p>The range of IP addresses that container VMs can use if the network that you specify in the <code>container-network</code> option does not support DHCP. If you specify <code>--container-network-ip-range</code>, VCHs manage the addresses for containers within that range. The range that you specify must not be used by other computers or VMs on the network.  You must also specify <code>--container-network-ip-range</code> if container developers need to deploy containers with static IP addresses. If you specify <code>container-network-gateway</code> but do not specify <code>--container-network-ip-range</code>, the IP range for container VMs is the entire subnet that you specify in <code>--container-network-gateway</code>. </p>
+<p>When you specify the container network IP range, you must use the port group that you specify in the <code>--container-network</code>option. If you specify <code>--container-network-ip-range</code> but you do not specify <code>--container-network</code>, or if you specify a different port group to the one that you specify in <code>--container-network</code>, <code>vic-machine create</code> fails with an error.</p>
+<pre>--container-network-ip-range <i>port_group_name</i>:192.168.100.2-192.168.100.254</pre>
+
+<p>You can also specify the IP range as a CIDR.</p>
+<pre>--container-network-ip-range <i>port_group_name</i>:192.168.100.0/24</pre>
+
+<p>Wrap the port group name in single quotes (Linux or Mac OS) or double quotes (Windows) if it includes spaces.</p>
+<pre>--container-network-ip-range &apos;<i>port group name</i>&apos;:192.168.100.0/24</pre>
+
+
+<h2 id="proxy">Options to Configure VCHs to Use Proxy Servers </h2>
+<p>If access to the Internet or to your private image registries requires the use of a proxy server, you must configure a VCH to connect to the proxy server when you deploy it. The proxy is used only when pulling images, and not for any other purpose.</p>
+<p><strong>IMPORTANT</strong>: Configuring a VCH to use a proxy server does not configure proxy support on the containers that this VCH runs. Container developers must configure proxy servers on containers when they create them. </p>
+<h3 id="-https-proxy"><code>--https-proxy</code></h3>
+<p>Short name: <code>--sproxy</code></p>
+<p>The address of the HTTPS proxy server through which the VCH accesses image registries when using HTTPS. Specify the address of the proxy server as either an FQDN or an IP address.</p>
+<pre>--https-proxy https://<i>proxy_server_address</i>:<i>port</i></pre>
+
+<h3 id="-http-proxy"><code>--http-proxy</code></h3>
+<p>Short name: <code>--hproxy</code></p>
+<p>The address of the HTTP proxy server through which the VCH accesses image registries when using HTTP. Specify the address of the proxy server as either an FQDN or an IP address.</p>
+<pre>--http-proxy http://<i>proxy_server_address</i>:<i>port</i></pre>
+
+
+<h2 id="adv-mgmt">Advanced Resource Management Options </h2>
+<p>You can set limits on the memory and CPU shares and reservations on the VCH. For information about memory and CPU shares and reservations, see <a href="https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-49D7217C-DB6C-41A6-86B3-7AFEB8BF575F.html" target="_blank">Allocate Memory Resources</a>, and <a href="https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-6C9023B2-3A8F-48EB-8A36-44E3D14958F6.html" target="_blank">Allocate CPU Resources</a> in the vSphere documentation.</p>
+<h3 id="-memory-reservation"><code>--memory-reservation</code></h3>
+<p>Short name: <code>--memr</code></p>
+<p>Reserve a quantity of memory for use by the VCH vApp in vCenter Server, or for the VCH resource pool on an ESXi host. This limit also applies to the container VMs that run in the VCH vApp or resource pool. Specify the memory reservation value in MB. If not specified, <code>vic-machine create</code> sets the reservation to 1.</p>
+<pre>--memory-reservation 1024</pre>
+
+<h3 id="-memory-shares"><code>--memory-shares</code></h3>
+<p>Short name: <code>--mems</code></p>
+<p>Set memory shares on the VCH vApp in vCenter Server, or on the VCH resource pool on an ESXi host.  This limit also applies to the container VMs that run in the VCH vApp or resource pool. Specify the share value as a level or a number, for example <code>high</code>, <code>normal</code>, <code>low</code>, or <code>163840</code>. If not specified, <code>vic-machine create</code> sets the share to <code>normal</code>.</p>
+<pre>--memory-shares low</pre>
+
+<h3 id="-cpu-reservation"><code>--cpu-reservation</code></h3>
+<p>Short name: <code>--cpur</code></p>
+<p>Reserve a quantity of CPU capacity for use by the VCH vApp in vCenter Server, or for the VCH resource pool on an ESXi host. This limit also applies to the container VMs that run in the VCH vApp or resource pool.  Specify the CPU reservation value in MHz. If not specified, <code>vic-machine create</code> sets the reservation to 1.</p>
+<pre>--cpu-reservation 1024</pre>
+
+<h3 id="-cpu-shares"><code>--cpu-shares</code></h3>
+<p>Short name: <code>--cpus</code></p>
+<p>Set CPU shares on the VCH vApp in vCenter Server, or on the VCH resource pool on an ESXi host.  This limit also applies to the container VMs that run in the VCH vApp or resource pool. Specify the share value as a level or a number, for example <code>high</code>, <code>normal</code>, <code>low</code>, or <code>163840</code>. If not specified, <code>vic-machine create</code> sets the share to <code>normal</code>.</p>
+<pre>--cpu-shares low</pre>
+
+<h3 id="-endpoint-cpu"><code>--endpoint-cpu</code></h3>
+<p>Short name: none</p>
+<p>The number of virtual CPUs for the VCH endpoint VM. The default is 1. Set this option to increase the number of CPUs in the VCH endpoint VM.</p>
+<p><strong>NOTE</strong> Always use the <code>--cpu</code> option instead of the <code>--endpoint-cpu</code> option to increase the overall CPU capacity of the VCH vApp, rather than increasing the number of CPUs on the VCH endpoint VM. The <code>--endpoint-cpu</code> option is mainly intended for use by VMware Support.</p>
+<pre>--endpoint-cpu <i>number_of_CPUs</i></pre>
+
+<h3 id="-endpoint-memory"><code>--endpoint-memory</code></h3>
+<p>Short name: none</p>
+<p>The amount of memory for the VCH endpoint VM. The default is 2048MB. Set this option to increase the amount of memory in the VCH endpoint VM if the VCH will pull large container images.</p>
+<p><strong>NOTE</strong> With the exception of VCHs that pull large container images, always use the <code>--memory</code> option instead of the <code>--endpoint-memory</code> option to increase the overall amount of memory for the VCH vApp, rather than on the VCH endpoint VM. Use <code>docker create -m</code> to set the memory on container VMs. The <code>--endpoint-memory</code> option is mainly intended for use by VMware Support.</p>
+<pre>--endpoint-memory <i>amount_of_memory</i></pre>
+
+
+<h2 id="adv-other">Other Advanced Options </h2>
+<h3 id="bridge-range"><code>--bridge-network-range</code> </h3>
+<p>Short name: <code>--bnr</code></p>
+<p>The range of IP addresses that additional bridge networks can use when container application developers use <code>docker network create</code> to create new bridge networks. If you do not specify the <code>bridge-network-range</code> option, the IP range for bridge networks is 172.16.0.0/12.</p>
+<p>When you specify the bridge network IP range, you specify the IP range as a CIDR. The smallest subnet that you can specify is /16. If you specify an invalid value for <code>--bridge-network-range</code>, <code>vic-machine create</code> fails with an error.</p>
+<pre>--bridge-network-range 192.168.100.0/16</pre>
+
+
+<h3 id="-base-image-size"><code>--base-image-size</code></h3>
+<p>Short name: None</p>
+<p>The size of the base image from which to create other images. You should not normally need to use this option. Specify the size in <code>GB</code> or <code>MB</code>. The default size is 8GB. Images are thin-provisioned, so they do not usually consume 8GB of space.  </p>
+<pre>--base-image-size 4GB</pre>
+
+<h3 id="-container-store"><code>--container-store</code></h3>
+<p>Short name: <code>--cs</code></p>
+<p>The <code>container-store</code> option is not enabled. Container VM files are stored in the datastore that you designate as the image store. </p>
+<h3 id="-appliance-iso"><code>--appliance-iso</code></h3>
+<p>Short name: <code>--ai</code></p>
+<p>The path to the ISO image from which the VCH appliance boots. Set this option if you have moved the <code>appliance.iso</code> file to a folder that is not the folder that contains the <code>vic-machine</code> binary or is not the folder from which you are running <code>vic-machine</code>. Include the name of the ISO file in the path.</p>
+<p><strong>NOTE</strong>: Do not use the <code>--appliance-iso</code> option to point <code>vic-machine</code> to an <code>--appliance-iso</code> file that is of a different version to the version of <code>vic-machine</code> that you are running.</p>
+<pre>--appliance-iso <i>path_to_ISO_file</i>/appliance.iso</pre>
+
+<p>Wrap the folder names in the path in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.</p>
+<pre>--appliance-iso &apos;<i>path to ISO file</i>&apos;/appliance.iso</pre>
+
+<h3 id="-bootstrap-iso"><code>--bootstrap-iso</code></h3>
+<p>Short name: <code>--bi</code></p>
+<p>The path to the ISO image from which to boot container VMs. Set this option if you have moved the <code>bootstrap.iso</code> file to a folder that is not the folder that contains the <code>vic-machine</code> binary or is not the folder from which you are running <code>vic-machine</code>. Include the name of the ISO file in the path.</p>
+<p><strong>NOTE</strong>: Do not use the <code>--bootstrap-iso</code> option to point <code>vic-machine</code> to a <code>--bootstrap-iso</code> file that is of a different version to the version of <code>vic-machine</code> that you are running.</p>
+<pre>--bootstrap-iso <i>path_to_ISO_file</i>/bootstrap.iso</pre>
+
+<p>Wrap the folder names in the path in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.</p>
+<pre>--bootstrap-iso &apos;<i>path to ISO file</i>&apos;/bootstrap.iso</pre>
+
+<h3 id="-use-rp"><code>--use-rp</code></h3>
+<p>Short name: none</p>
+<p>Deploy the VCH appliance to a resource pool on vCenter Server rather than to a vApp. If you specify this option, <code>vic-machine create</code> creates a resource pool with the same name as the VCH.</p>
+<pre>--use-rp</pre>
+
+
+<h3 id="debug"><code>--debug</code> </h3>
+<p>Short name: <code>-v</code></p>
+<p>Deploy the VCH with more verbose levels of logging, and optionally modify the behavior of <code>vic-machine</code> for troubleshooting purposes. Specifying the <code>--debug</code> option increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting the <code>--debug</code> option, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. If not specified, the <code>--debug</code> value is set to 0 and verbose logging is disabled.</p>
+<p><strong>NOTE</strong>: Do not confuse the <code>vic-machine create --debug</code> option with the <code>vic-machine debug</code> command, that enables access to the VCH endpoint VM. For information about <code>vic-machine debug</code>, see <a href="debug_vch.html">Debugging the VCH</a>. </p>
+<p>When you specify <code>vic-machine create --debug</code>, you set a debugging level of 1, 2, or 3. Setting <code>--debug</code> to 2 or 3 changes the behavior of <code>vic-machine create</code> as well as increasing the level of verbosity of the logs:</p>
+<ul>
+<li><code>--debug 1</code> Provides extra verbosity in the logs, with no other changes to <code>vic-machine</code> behavior.</li>
+<li><code>--debug 2</code> Exposes servers on more interfaces, launches <code>pprof</code> in container VMs.</li>
+<li><code>--debug 3</code> Disables recovery logic and logs sensitive data. Disables the restart of failed components and prevents container VMs from shutting down. Logs environment details for user application, and collects application output in the log bundle.</li>
+</ul>
+<p>Additionally, deploying a VCH with a <code>--debug 3</code> enables SSH access to the VCH endpoint VM console by default, with a root password of <code>password</code>, without requiring you to run the <code>vic-machine debug</code> command. This functionality enables you to perform targeted interactive diagnostics in environments in which a VCH endpoint VM failure occurs consistently and in a fashion that prevents <code>vic-machine debug</code> from functioning. </p>
+<p><strong>IMPORTANT</strong>: There is no provision for persistently changing the default root password. Only use this configuration for debugging in a secured environment.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="verify_vch_deployment.html" class="navigation navigation-prev " aria-label="Previous page: Verify the Deployment of a VCH">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="vch_installer_examples.html" class="navigation navigation-next " aria-label="Next page: Advanced Examples of Deploying a VCH">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"VCH Deployment Options","level":"2.1.3.6","depth":3,"next":{"title":"Advanced Examples of Deploying a VCH","level":"2.1.3.7","depth":3,"path":"vic_vsphere_admin/vch_installer_examples.md","ref":"vic_vsphere_admin/vch_installer_examples.md","articles":[]},"previous":{"title":"Verify the Deployment of a VCH","level":"2.1.3.5","depth":3,"path":"vic_vsphere_admin/verify_vch_deployment.md","ref":"vic_vsphere_admin/verify_vch_deployment.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"a4","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_installer_options.md","mtime":"2017-06-27T18:51:01.782Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-27T18:55:45.030Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
