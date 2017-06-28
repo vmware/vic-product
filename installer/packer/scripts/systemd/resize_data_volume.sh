@@ -15,7 +15,7 @@
 set -euf -o pipefail
 
 # Our data block device always sits at ID 1 on the first controller
-block_device=/dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
+block_device=/dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:1:0
 # Our data partition is always partition one on said block device
 data_partition=${block_device}-part1
 
@@ -38,7 +38,9 @@ function repartition {
   partition_size=`blockdev --getsize64 ${data_partition}`
   check_integer $partition_size
 
+  set +e
   device_size_difference=`expr ${blkdev_size} - ${partition_size}`
+  set -e
   check_integer $device_size_difference
 
   if [ $device_size_difference -gt $device_size_threshold ]; then
@@ -61,7 +63,9 @@ function resize {
   partition_size=`blockdev --getsize64 ${data_partition}`
   check_integer $partition_size
 
+  set +e
   fs_size_difference=`expr ${partition_size} - ${fs_size}`
+  set -e
   check_integer $fs_size_difference
 
   if [ $fs_size_difference -gt $fs_size_threshold ]; then
@@ -88,7 +92,7 @@ if [ $# -gt 0 ]; then
       ;;
     resize)
       resize
-      ;;         
+      ;;
     *)
       usage
   esac
