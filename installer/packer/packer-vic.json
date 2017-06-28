@@ -343,6 +343,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/kov/configure_kov_published_env_vars.sh",
+      "destination": "/etc/vmware/kov/configure_kov_published_env_vars.sh"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/kov/kov_env_vars.service",
       "destination": "/usr/lib/systemd/system/kov_env_vars.service"
     },

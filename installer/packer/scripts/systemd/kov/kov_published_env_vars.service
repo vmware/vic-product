@@ -1,0 +1,12 @@
+[Unit]
+Description=Kubernetes on Vsphere
+Documentation=https://github.com/vmware/kov
+After=systemd-networkd.service systemd-resolved.service
+Before=fileserver_startup.service
+
+[Service]
+Type=oneshot
+ExecStart=/etc/vmware/kov/configure_kov_published_env_vars.sh
+
+[Install]
+WantedBy=multi-user.target
