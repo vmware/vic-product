@@ -68,7 +68,7 @@ func Init(conf *config) {
 	flag.StringVar(&conf.addr, "addr", ":9443", "Listen address - must include host and port (addr:port)")
 	flag.StringVar(&conf.certPath, "cert", "", "Path to server certificate in PEM format")
 	flag.StringVar(&conf.keyPath, "key", "", "Path to server certificate key in PEM format")
-	flag.StringVar(&conf.serveDir, "dir", "/opt/vmware/fileserver/files", "Directory to serve and contain html data")
+	flag.StringVar(&conf.serveDir, "dir", "/opt/vmware/fileserver", "Directory to serve and contain html data")
 
 	flag.Parse()
 
@@ -113,9 +113,13 @@ func main() {
 		mux.Handle(httpPath, http.StripPrefix(httpPath, http.FileServer(http.Dir(dirPath))))
 	}
 
+	// attach fileserver route
+	dirPath := filepath.Join(c.serveDir, "files")
+	mux.Handle("/files/", http.StripPrefix("/files/", http.FileServer(http.Dir(dirPath))))
+
 	// attach root index route
 	mux.Handle("/", http.HandlerFunc(indexHandler))
-
+	
 	// start the web server
 	t := &tls.Config{}
 	t.Certificates = []tls.Certificate{c.cert}
