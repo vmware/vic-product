@@ -1,4 +1,4 @@
-# Overview of vSphere Integrated Containers For Cloud Administrators  #
+# Overview of Configure and Manage vSphere Integrated Containers  #
 
 vSphere Integrated Containers integrates of all the packaging and runtime benefits of containers with the enterprise capabilities of a vSphere environment. As a DevOps admin, you use vSphere Integrated Containers Registry to manage container images and you use vSphere Integrated Containers Management Portal to deploy and managing container-based applications. 
 
@@ -9,7 +9,7 @@ vSphere Integrated Containers integrates of all the packaging and runtime benefi
    - Live state updates that provide a live view of the container system.
    - Multi-container template management, that enables logical multi-container application deployments.
 
-The information in this topic is intended for DevOps administrators. For an extended version of this information, see [Overview of vSphere Integrated Containers for vSphere Administrators](../vic_vsphere_admin/introduction.md) in *vSphere Integrated Containers for vSphere Administrators*. 
+The information in this topic is intended for DevOps administrators. For an extended version of this information, see [Overview of Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure](../vic_vsphere_admin/introduction.md) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*. 
 
 - [Differences Between vSphere Integrated Containers and a Classic Container Environment](#differences)
 - [What Does vSphere Integrated Containers Do?](#whatisvic)

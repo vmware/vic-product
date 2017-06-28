@@ -1,6 +1,6 @@
-# vSphere Integrated Containers for Cloud Administrators
+# Configure and Manage vSphere Integrated Containers
 
-*vSphere Integrated Containers for Cloud Administrators* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as a Cloud administrator.
+*Configure and Manage vSphere Integrated Containers* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as a Cloud administrator.
 
 **Product version: 1.2**
 

@@ -1,6 +1,6 @@
-# vSphere Integrated Containers for vSphere Administrators
+# Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure
 
-*vSphere Integrated Containers for vSphere Administrators* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as a vSphere administrator.
+*Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as a vSphere administrator.
 
 **Product version: 1.2**
 

@@ -23,4 +23,4 @@ You have created a project and pushed at least one repository to the project.
 
 **What to Do Next**
 
-If you deleted respositories, and if the registry is configured with garbage collection enabled, restart the registry. vSphere Integrated Containers Registry will perform garbage collection when it reboots. For information about restarting the registry, see [Restart the vSphere Integrated Containers Services](../vic_vsphere_admin/restart_services.md) in *vSphere Integrated Containers for vSphere Administrators*.
+If you deleted respositories, and if the registry is configured with garbage collection enabled, restart the registry. vSphere Integrated Containers Registry will perform garbage collection when it reboots. For information about restarting the registry, see [Restart the vSphere Integrated Containers Services](../vic_vsphere_admin/restart_services.md) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.
