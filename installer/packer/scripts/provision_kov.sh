@@ -26,7 +26,7 @@ echo $BUILD_KOVD_REVISION > $KOV_CONF_DIR/kovd_revision
 
 set +u
 KOVD_FILE="kovd_${BUILD_KOVD_REVISION}"
-KOV_VMDK="base_${BULID_KOVD_REVISION}.vmdk"
+KOV_VMDK="base_${BUILD_KOVD_REVISION}.vmdk"
 KOVD_BUCKET="kovd-releases"
 if [ ${BUILD_KOVD_REVISION} = "dev" ]; then
     KOVD_BUCKET="kovd-builds"
@@ -39,7 +39,8 @@ echo "Downloading Kovd ${KOVD_FILE}: ${KOVD_URL}"
 curl -o /usr/bin/kovd ${KOVD_URL}
 chmod +x /usr/bin/kovd
 echo "Downloading Kov vmdk ${KOV_VMDK}: ${KOV_VMDK_URL}"
-curl -o ${KOV_DATA_DIR}/${KOV_VMDK} ${KOV_VMDK_URL}
+# download vmdk to kov_conf_dir firstly
+curl -o ${KOV_CONF_DIR}/${KOV_VMDK} ${KOV_VMDK_URL}
 
 # kovd assumes kubectl exists
 # Provision kubectl

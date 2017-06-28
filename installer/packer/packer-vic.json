@@ -348,6 +348,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/kov/kov_published_env_vars.service",
+      "destination": "/usr/lib/systemd/system/kov_published_env_vars.service"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/kov/kov_env_vars.service",
       "destination": "/usr/lib/systemd/system/kov_env_vars.service"
     },

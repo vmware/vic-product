@@ -17,7 +17,7 @@ data_dir=/data/kov
 cert_dir=${data_dir}/cert
 cert=${cert_dir}/server.crt
 key=${cert_dir}/server.key
-vmdk=${data_dir}/base_$(cat /etc/vmware/kov/kovd_revision).vmdk
+vmdk=/etc/vmware/kov/base_$(cat /etc/vmware/kov/kovd_revision).vmdk
 
 port="$(ovfenv -k cluster_manager.port)"
 mkdir -p /etc/vmware/kov

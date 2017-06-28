@@ -2,7 +2,7 @@
 Description=VIC Unified Installer Web Server
 Documentation=https://github.com/vmware/vic
 After=fileserver_startup.service
-Requires=data.mount
+Requires=fileserver_startup.service data.mount
 
 [Service]
 Type=simple

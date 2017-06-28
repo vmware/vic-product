@@ -1,9 +1,9 @@
 [Unit]
 Description=Kubernetes on vSphere
 Documentation=https://github.com/vmware/kov
-After=network-online.target admiral_startup.service fileserver_startup.service admiral.service engine_installer_startup.service
-Requires=docker.service admiral_startup.service fileserver_startup.service admiral.service engine_installer_startup.service
-Wants=network-online.target
+After=kov_published_env_vars.service
+Requires=kov_published_env_vars.service
+Before=kov.service
 
 [Service]
 Type=oneshot
