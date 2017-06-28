@@ -1,4 +1,4 @@
-# Managing Virtual Container Hosts #
+# Virtual Container Host Administration #
 
 The `vic-machine` utility provides commands that allow you to manage existing virtual container hosts (VCHs). vSphere Integrated Containers also provides an administration portal for VCHs.
 

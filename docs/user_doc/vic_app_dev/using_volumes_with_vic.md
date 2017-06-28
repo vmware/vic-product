@@ -2,7 +2,7 @@
 
 vSphere Integrated Containers Engine supports the use of container volumes. 
 
-**IMPORTANT**: To use container volume capabilities with vSphere Integrated Containers Engine, the vSphere administrator must configure the virtual container host (VCH) appropriately at the moment of deployment of the VCH. When the vSphere administrator creates a VCH, they must specify the datastore to use to store container volumes in the `vic-machine create --volume-store` option. You cannot currently add volume stores, and therefore volume capabilities, to a VCH after its initial deployment. For information about how to use the `vic-machine create --volume-store` option, see the section on `volume-store` in [VCH Deployment Options](../vic_vsphere_admin/vch_installer_options.md#volume-store) in *vSphere Integrated Containers for vSphere Administrators*.  
+**IMPORTANT**: To use container volume capabilities with vSphere Integrated Containers Engine, the vSphere administrator must configure the virtual container host (VCH) appropriately at the moment of deployment of the VCH. When the vSphere administrator creates a VCH, they must specify the datastore to use to store container volumes in the `vic-machine create --volume-store` option. You cannot currently add volume stores, and therefore volume capabilities, to a VCH after its initial deployment. For information about how to use the `vic-machine create --volume-store` option, see the section on `volume-store` in [VCH Deployment Options](../vic_vsphere_admin/vch_installer_options.md#volume-store) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.  
 
 - [Obtain the List of Available Volume Stores](#list_vs) 
 - [Obtain the List of Available Volumes](#list_vols)

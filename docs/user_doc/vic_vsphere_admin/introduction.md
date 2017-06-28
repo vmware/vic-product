@@ -1,4 +1,4 @@
-# Overview of vSphere Integrated Containers for vSphere Administrators #
+# Overview of Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure #
 
 vSphere Integrated Containers enables IT teams to run traditional and container workloads side-by-side on existing infrastructure seamlessly. This overview is intended for vSphere administrators who intend to use vSphere Integrated Containers to manage container workloads in their vSphere environment. 
 
@@ -193,7 +193,7 @@ The `vic-machine` utility is a binary for Windows, Linux, and OSX that manages t
 
 vSphere Integrated Containers Registry is an enterprise-class registry server that you can use to store and distribute container images. vSphere Integrated Containers Registry allows DevOps administrators to organize image repositories in projects, and to set up role-based access control to those projects to define which users can access which repositories. vSphere Integrated Containers Registry also provides rule-based replication of images between registries, implements Docker Content Trust, and provides detailed logging for project and user auditing.
 
-For a more detailed overview of vSphere Integrated Containers Registry, see [Managing Images, Projects, and Users with vSphere Integrated Containers Registry](../vic_dev_ops/using_registry.html) in *vSphere Integrated Containers for DevOps Administrators*.
+For a more detailed overview of vSphere Integrated Containers Registry, see [Managing Images, Projects, and Users with vSphere Integrated Containers Registry](../vic_cloud_admin/using_registry.html) in *Configure and Manage vSphere Integrated Containers*.
 
 ## What Is vSphere Integrated Containers Management Portal? {#whats_portal}
 
@@ -203,4 +203,4 @@ vSphere Integrated Containers Management Portal is a highly scalable and very li
 - Live state updates that provide a live view of the container system.
 - Multi-container template management, that enables logical multi-container application deployments.
 
-For a more information about vSphere Integrated Containers Management Portal, see [View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal](../vic_dev_ops/vchs_and_mgmt_portal.html) in *vSphere Integrated Containers for DevOps Administrators*.
+For a more information about vSphere Integrated Containers Management Portal, see [View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal](../vic_cloud_admin/vchs_and_mgmt_portal.html) in *Configure and Manage vSphere Integrated Containers*.

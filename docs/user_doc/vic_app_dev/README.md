@@ -1,6 +1,6 @@
-# Developing Container Applications with vSphere Integrated Containers  
+# Develop Container Applications with vSphere Integrated Containers  
 
-*Developing Container Applications with vSphere Integrated Containers* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as the endpoint for Docker container application development.
+*Develop Container Applications with vSphere Integrated Containers* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as the endpoint for Docker container application development.
 
 **Product version: 1.2**
 
