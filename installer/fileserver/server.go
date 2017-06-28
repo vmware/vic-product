@@ -125,7 +125,7 @@ func main() {
 		TLSConfig: t,
 	}
 
-	log.Infof("Starting installer-engine server on %s", s.Addr)
+	log.Infof("Starting fileserver server on %s", s.Addr)
 	log.Fatal(s.ListenAndServeTLS("", ""))
 }
 
