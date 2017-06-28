@@ -82,11 +82,18 @@ function updateConfigFiles {
   lconfig=/tmp/vic/ui/VCSA/configs
   wconfig=/tmp/vic/ui/vCenterForWindows/configs
 
-  sed -i -e s/VIC_UI_HOST_THUMBPRINT=\"\"/VIC_UI_HOST_THUMBPRINT=\"${tp}\"/g $lconfig
-  sed -i -e s/vic_ui_host_thumbprint=/vic_ui_host_thumbprint=${tp}/g $wconfig
+  cur_tp_l=`awk '/VIC_UI_HOST_THUMBPRINT=/{print $NF}' $lconfig`
+  sed -i -e s/${cur_tp_l}/VIC_UI_HOST_THUMBPRINT=\"${tp}\"/g $lconfig
 
-  sed -i -e s/VIC_UI_HOST_URL=\"\"/VIC_UI_HOST_URL=\"${hostname}\"/g $lconfig
-  sed -i -e s/vic_ui_host_url=NOURL/vic_ui_host_url=${hostname}/g $wconfig
+  cur_tp_w=`awk '/vic_ui_host_thumbprint=/{print $NF}' $wconfig`
+  sed -i -e s/${cur_tp_w}/vic_ui_host_thumbprint=${tp}/g $wconfig
+
+  file_server="https://${hostname}:${port}"
+  cur_file_server_l=`awk '/VIC_UI_HOST_URL=/{print $NF}' $lconfig`
+  sed -i -e s%${cur_file_server_l}%VIC_UI_HOST_URL=\"${file_server}\"%g $lconfig
+
+  cur_file_server_w=`awk '/vic_ui_host_url=/{print $NF}' $wconfig`
+  sed -i -e s%${cur_file_server_w}%vic_ui_host_url=${file_server}%g $wconfig
 
   # tar all files again
   tar zcf $tar_gz -C /tmp vic
