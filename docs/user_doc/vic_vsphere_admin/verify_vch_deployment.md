@@ -6,8 +6,10 @@ After you have deployed a virtual container host (VCH), you can verify the deplo
 
 **Prerequisites**
 
-- You followed the instructions in [Deploy a VCH to an ESXi Host with No vCenter Server](deploy_vch_esxi.md) or [Deploy a VCH to a Basic vCenter Server Cluster](deploy_vch_vcenter.md) to deploy a VCH to either an ESXi host or to a vCenter Server instance.
-- You ran `vic-machine create` with the `--no-tlsverify` option.
+-  You deployed a VCH in one of the following ways: 
+
+   - You followed the instructions in [Deploy a Demo VCH](deploy_demo_vch.md) to deploy a basic VCH with no security.
+   - You followed the instructions in [Deploy a VCH to an ESXi Host with No vCenter Server](deploy_vch_esxi.md) or [Deploy a VCH to a Basic vCenter Server Cluster](deploy_vch_vcenter.md), specifying the `--no-tlsverify` option.
 - You have installed a Docker client.
 - If you deployed the VCH to vCenter Server, connect a vSphere Web Client to that vCenter Server instance.
 - If you deployed the VCH to an ESXi host, connect a vSphere Client to that host.
@@ -22,11 +24,17 @@ After you have deployed a virtual container host (VCH), you can verify the deplo
 
    The vApp or resource pool contains the VCH endpoint VM.   
 
-3.  Run the `docker info` command to confirm that you can connect to the VCH.<pre>docker -H <i>vch_address</i>:2376 --tls info</pre>
+3.  Run the `docker info` command to confirm that you can connect to the VCH.
+
+    - Demo VCH: <pre>docker -H <i>vch_address</i>:2376 info</pre>
+    - Deployment with `vic-machine create`: <pre>docker -H <i>vch_address</i>:2376 --tls info</pre>
 
      You should see confirmation that the Storage Driver is ``` vSphere Integrated Containers Backend Engine```.
 
-1.  Pull a Docker container image into the VCH, for example, the `BusyBox` container.<pre>docker -H <i>vch_address</i>:2376 --tls pull busybox</pre>
+1.  Pull a Docker container image into the VCH, for example, the `BusyBox` container.
+
+    - Demo VCH: <pre>docker -H <i>vch_address</i>:2376 pull busybox</pre>
+    - Deployment with `vic-machine create`: <pre>docker -H <i>vch_address</i>:2376 --tls pull busybox</pre>
 1. View the container image files in the vSphere Web Client or vSphere Client.
 
     - vCenter Server: Go to **Storage**, right-click the datastore that you designated as the image store, and select **Browse Files**. 
@@ -36,7 +44,10 @@ After you have deployed a virtual container host (VCH), you can verify the deplo
   
 1. Expand the `VIC` folder to navigate to the `images` folder.  The `images` folder contains a folder for every container image that you pull into the VCH. The folders contain the container image files.
   
-1. In your Docker client, run the Docker container that you pulled into the VCH.<pre>docker -H <i>vch_address</i>:2376 --tls run --name test busybox</pre>
+1. In your Docker client, run the Docker container that you pulled into the VCH.
+
+    - Demo VCH: <pre>docker -H <i>vch_address</i>:2376 run --name test busybox</pre>
+    - Deployment with `vic-machine create`: <pre>docker -H <i>vch_address</i>:2376 --tls run --name test busybox</pre>
 
 1. View the container VMs in the vSphere Web Client or vSphere Client.
 

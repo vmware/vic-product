@@ -1,6 +1,6 @@
 # Environment Prerequisites for VCH Deployment #
 
-Before you deploy vSphere Integrated Containers Engine, you must ensure that your vSphere infrastructure meets the requirements.
+Before you deploy virtual container hosts (VCHs), you must ensure that your vSphere infrastructure meets the requirements.
 
 - [Supported Platforms for `vic-machine`](#platforms)
 - [Supported vSphere Configurations](#configs)
@@ -80,7 +80,7 @@ The following network requirements apply to deployment of VCHs to standalone ESX
 The following network requirements apply to the deployment of VCHs to vCenter Server: 
  
 - Create a distributed virtual switch with a port group for each VCH, for use as the bridge network. You can create multiple port groups on the same distributed virtual switch, but each VCH requires its own port group for the bridge network.
-- Optionally create port groups for use as mapped container networks.  
+- Optionally create port groups for use as mapped container networks, or for the public, management, and client networks.
 - All hosts in a cluster must be attached to the port groups that you will use for the VCH bridge network and for any mapped container networks.
 - Isolate the bridge network and any mapped container networks. You can isolate networks by using a separate VLAN for each network. 
 
