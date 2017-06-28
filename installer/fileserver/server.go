@@ -15,16 +15,24 @@
 package main
 
 import (
+	"context"
 	"crypto/tls"
 	"flag"
 	"fmt"
+	"html/template"
 	"net/http"
 	"os"
+	"path/filepath"
+	"strings"
 	"syscall"
 
 	log "github.com/sirupsen/logrus"
 
+	"github.com/vmware/vic-product/installer/lib"
+	"github.com/vmware/vic-product/installer/tagvm"
 	"github.com/vmware/vic/pkg/certificate"
+	"github.com/vmware/vic/pkg/errors"
+	"github.com/vmware/vic/pkg/trace"
 )
 
 type config struct {
@@ -34,6 +42,17 @@ type config struct {
 	cert     tls.Certificate
 	serveDir string
 }
+
+// ExecHTMLOptions contains fields for html templating in exec.html
+type ExecHTMLOptions struct {
+	InvalidLogin bool
+	Feedback     string
+}
+
+var (
+	admin = &lib.LoginInfo{}
+	c     config
+)
 
 func Init(conf *config) {
 	ud := syscall.Getuid()
@@ -49,7 +68,7 @@ func Init(conf *config) {
 	flag.StringVar(&conf.addr, "addr", ":9443", "Listen address - must include host and port (addr:port)")
 	flag.StringVar(&conf.certPath, "cert", "", "Path to server certificate in PEM format")
 	flag.StringVar(&conf.keyPath, "key", "", "Path to server certificate key in PEM format")
-	flag.StringVar(&conf.serveDir, "dir", "/opt/vmware/fileserver/files", "Directory to serve")
+	flag.StringVar(&conf.serveDir, "dir", "/opt/vmware/fileserver/files", "Directory to serve and contain html data")
 
 	flag.Parse()
 
@@ -81,17 +100,82 @@ func Init(conf *config) {
 }
 
 func main() {
-	var c config
+
 	Init(&c)
 
+	mux := http.NewServeMux()
+
+	// attach static asset routes
+	routes := []string{"css", "images", "fonts"}
+	for _, route := range routes {
+		httpPath := fmt.Sprintf("/%s/", route)
+		dirPath := filepath.Join(c.serveDir, "/html/", route)
+		mux.Handle(httpPath, http.StripPrefix(httpPath, http.FileServer(http.Dir(dirPath))))
+	}
+
+	// attach root index route
+	mux.Handle("/", http.HandlerFunc(indexHandler))
+
+	// start the web server
 	t := &tls.Config{}
 	t.Certificates = []tls.Certificate{c.cert}
 	s := &http.Server{
 		Addr:      c.addr,
-		Handler:   http.FileServer(http.Dir(c.serveDir)),
+		Handler:   mux,
 		TLSConfig: t,
 	}
 
-	log.Infof("Starting server on %s", s.Addr)
+	log.Infof("Starting installer-engine server on %s", s.Addr)
 	log.Fatal(s.ListenAndServeTLS("", ""))
+}
+
+func indexHandler(resp http.ResponseWriter, req *http.Request) {
+	defer trace.End(trace.Begin(""))
+
+	html := &ExecHTMLOptions{InvalidLogin: true}
+
+	if req.Method == http.MethodPost {
+		// verify login
+		admin.Target = req.FormValue("target")
+		admin.User = req.FormValue("user")
+		admin.Password = req.FormValue("password")
+
+		if err := admin.VerifyLogin(); err != nil {
+			log.Infof("Validation failed")
+		} else {
+			log.Infof("validation succeeded")
+			html.Feedback = startInitializationServices()
+			html.InvalidLogin = false
+		}
+	}
+
+	renderTemplate(resp, "html/exec.html", html)
+}
+
+func renderTemplate(resp http.ResponseWriter, filename string, data interface{}) {
+	defer trace.End(trace.Begin(""))
+
+	log.Infof("render: %s", filename)
+	filename = fmt.Sprintf("%s/%s", c.serveDir, filename)
+	log.Infof("render: %s", filename)
+	tmpl, err := template.ParseFiles(filename)
+	if err != nil {
+		http.Error(resp, err.Error(), http.StatusInternalServerError)
+	}
+	if err := tmpl.Execute(resp, data); err != nil {
+		http.Error(resp, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+// error messages from each services is concatenated, return "" if no errors.
+func startInitializationServices() string {
+	var errorMsg []string
+
+	ctx := context.TODO()
+	if err := tagvm.Run(ctx, admin.Validator.Session); err != nil {
+		log.Debug(errors.ErrorStack(err))
+		errorMsg = append(errorMsg, "Failed to locate productVM, trusted content is not available")
+	}
+
+	return strings.Join(errorMsg, "\n")
 }
