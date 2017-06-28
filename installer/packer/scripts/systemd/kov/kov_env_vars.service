@@ -1,5 +1,5 @@
 [Unit]
-Description=Kubernetes on Vsphere
+Description=Kubernetes on vSphere
 Documentation=https://github.com/vmware/kov
 After=network-online.target admiral_startup.service fileserver_startup.service admiral.service engine_installer_startup.service
 Requires=docker.service admiral_startup.service fileserver_startup.service admiral.service engine_installer_startup.service

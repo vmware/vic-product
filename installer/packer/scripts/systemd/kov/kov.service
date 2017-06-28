@@ -1,5 +1,5 @@
 [Unit]
-Description=Kubernetes on Vsphere
+Description=Kubernetes on vSphere
 Documentation=https://github.com/vmware/kov
 After=systemd-networkd.service systemd-resolved.service network.service admiral_startup.service fileserver_startup.service admiral.service engine_installer_startup.service kov_env_vars.service
 Requires=docker.service kov_env_vars.service
