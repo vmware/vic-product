@@ -43,8 +43,8 @@ type config struct {
 	serveDir string
 }
 
-// ExecHTMLOptions contains fields for html templating in exec.html
-type ExecHTMLOptions struct {
+// IndexHTMLOptions contains fields for html templating in index.html
+type IndexHTMLOptions struct {
 	InvalidLogin bool
 	Feedback     string
 }
@@ -132,7 +132,7 @@ func main() {
 func indexHandler(resp http.ResponseWriter, req *http.Request) {
 	defer trace.End(trace.Begin(""))
 
-	html := &ExecHTMLOptions{InvalidLogin: true}
+	html := &IndexHTMLOptions{InvalidLogin: true}
 
 	if req.Method == http.MethodPost {
 		// verify login
@@ -149,7 +149,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	renderTemplate(resp, "html/exec.html", html)
+	renderTemplate(resp, "html/index.html", html)
 }
 
 func renderTemplate(resp http.ResponseWriter, filename string, data interface{}) {
