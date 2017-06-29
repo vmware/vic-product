@@ -296,6 +296,11 @@
       "destination": "/etc/vmware/fileserver/start_fileserver.sh"
     },
     {
+      "type": "file",
+      "source": "../fileserver/html",
+      "destination": "/opt/vmware/fileserver"
+    },
+    {
       "type": "shell",
       "script": "scripts/provision_engine_installer.sh"
     },

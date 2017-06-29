@@ -87,7 +87,7 @@ docker run -it --net=host -v ~/go/src/github.com/vmware/vic/bin:/test-bin \
   --X:enableHiddenProperties -st=OVA --powerOn --noSSLVerify=true -ds=datastore1 -dm=thin \
   --net:Network="VM Network" \
   --prop:appliance.root_pwd="VMware1\!" --prop:appliance.permit_root_login=True --prop:registry.port=443 \
-  --prop:management_portal.port=8282 --prop:registry.admin_password="VMware1\!" \
+  --prop:management_portal.port=8282 --prop:registry.admin_password="VMware1\!" --prop:cluster_manager.admin="Administrator"\
   --prop:registry.db_password="VMware1\!" /test-bin/vic-1.1.0-a84985b.ova \
   vi://root:password@192.168.1.20
 ```
