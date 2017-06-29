@@ -22,8 +22,8 @@ admin=$(ovfenv -k cluster_manager.admin)
 
 # Files under this directory will be served by a file server
 FILES_DIR="/opt/vmware/fileserver/files"
-KOV_DIR="kov"
 CERT_FILES_DIR="certs"
+KOV_ENV_FILE="env.sh"
 mkdir -p $FILES_DIR/$CERT_FILES_DIR
 
 if [ ${deploy,,} != "true" ]; then
@@ -82,9 +82,16 @@ function bundle_kov {
   set +f
   kov_target=$(ls kov_*.tar.gz)
   set -f
-  tar xzvf $kov_target
-  tar czvf $kov_target bin $CERT_FILES_DIR ${KOV_DIR}
-  rm -rf bin $CERT_FILES_DIR ${KOV_DIR}
+  kov_tag="${kov_target#kov_}"
+  kov_tag="${kov_tag%.tar.gz}"
+  tar xzvf ${kov_target}
+  rm bin/kov
+  for dir in bin/*; do
+    target=$(ls ${dir})
+    cp ${dir}/${target} bin/${target}
+    tar czvf $(basename ${dir})-${kov_tag}.tar.gz bin/${target} ${CERT_FILES_DIR} ${KOV_ENV_FILE}
+  done
+  rm -rf bin ${CERT_FILES_DIR} ${KOV_ENV_FILE} kov_${kov_tag}.tar.gz
 }
 
 function genCert {
