@@ -71,12 +71,7 @@ function updateConfigFiles {
   tar -zxf "${tar_gz}" -C /tmp
 
   # get certificate thumbprint
-  if [ $(cat $flag) = "customized" ]; then
-    echo "Customized certificate"
-    tp=`openssl x509 -fingerprint -noout -in "${cert}" | awk -F= '{print $2}'`
-  else
-    tp=`openssl x509 -fingerprint -noout -in "${ca_cert}" | awk -F= '{print $2}'`
-  fi
+  tp=`openssl x509 -fingerprint -noout -in "${cert}" | awk -F= '{print $2}'`
 
   # replace configs files
   lconfig=/tmp/vic/ui/VCSA/configs
