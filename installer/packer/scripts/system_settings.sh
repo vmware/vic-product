@@ -33,7 +33,7 @@ systemctl enable harbor_startup.service harbor.service
 systemctl enable admiral_startup.service admiral
 systemctl enable fileserver_startup.service fileserver.service
 systemctl enable engine_installer_startup.service engine_installer.service
-systemctl enable kov_env_vars.service kov.service
+systemctl enable kov_published_env_vars.service kov_env_vars.service kov.service
 
 # Clean up temporary directories
 rm -rf /var/tmp/harbor

@@ -22,6 +22,7 @@ admin=$(ovfenv -k cluster_manager.admin)
 
 # Files under this directory will be served by a file server
 FILES_DIR="/opt/vmware/fileserver/files"
+KOV_DIR="kov"
 CERT_FILES_DIR="certs"
 mkdir -p $FILES_DIR/$CERT_FILES_DIR
 
@@ -74,6 +75,18 @@ function formatCert {
   echo $content | sed -r 's/(-{5}BEGIN [A-Z ]+-{5})/&\n/g; s/(-{5}END [A-Z ]+-{5})/\n&\n/g' | sed -r 's/.{64}/&\n/g; /^\s*$/d' > $file
 }
 
+function bundle_kov {
+  echo "Copy CA certificate and Admin keypair to $FILES_DIR/$CERT_FILES_DIR and bundle them with kov_cli"
+  cp $admin_key $admin_cert $ca_cert $FILES_DIR/$CERT_FILES_DIR
+  cd $FILES_DIR
+  set +f
+  kov_target=$(ls kov_*.tar.gz)
+  set -f
+  tar xzvf $kov_target
+  tar czvf $kov_target bin $CERT_FILES_DIR ${KOV_DIR}
+  rm -rf bin $CERT_FILES_DIR ${KOV_DIR}
+}
+
 function genCert {
   if [ ! -e $ca_cert ] || [ ! -e $ca_key ]
   then
@@ -96,19 +109,10 @@ function genCert {
     "/C=US/ST=California/L=Palo Alto/O=VMware/OU=Containers on vSphere/CN=$admin"
   openssl x509 -req -days 365 -in $admin_csr -CA $ca_cert -CAkey $ca_key -CAcreateserial -out $admin_cert
 
-  echo "Copy CA certificate and Admin keypair to $FILES_DIR/$CERT_FILES_DIR and bundle them with kov_cli"
-  cp $admin_key $admin_cert $ca_cert $FILES_DIR/$CERT_FILES_DIR
-  cd $FILES_DIR
-  set +f
-  kov_target=$(ls kov_*.tar.gz)
-  set -f
-  tar xzvf $kov_target
-  tar czvf $kov_target bin $CERT_FILES_DIR
-  rm -rf bin $CERT_FILES_DIR
-
   echo "self-signed" > $flag
   echo "Copy CA certificate to $ca_download_dir"
   cp $ca_cert $ca_download_dir/
+  bundle_kov
 }
 
 function secure {
@@ -157,6 +161,7 @@ function secure {
   echo "Use the existing CA, certificate and key file"
   echo "Copy CA certificate to $ca_download_dir"
   cp $ca_cert $ca_download_dir/
+  bundle_kov
 }
 
 function detectHostname {

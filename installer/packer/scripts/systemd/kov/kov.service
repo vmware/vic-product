@@ -1,9 +1,8 @@
 [Unit]
-Description=Kubernetes on Vsphere
+Description=Kubernetes on vSphere
 Documentation=https://github.com/vmware/kov
-After=systemd-networkd.service systemd-resolved.service network.service admiral_startup.service fileserver_startup.service admiral.service engine_installer_startup.service kov_env_vars.service
-Requires=docker.service kov_env_vars.service
-Wants=network.service
+After=kov_env_vars.service
+Requires=kov_env_vars.service
 
 [Service]
 EnvironmentFile=/etc/vmware/kov/kov_env_vars
@@ -14,7 +13,7 @@ Delegate=yes
 KillMode=process
 Restart=on-abnormal
 ExecStartPre=/etc/vmware/kov/configure_kov.sh
-ExecStart=/usr/bin/kovd --tls-port=${KOVD_EXPOSED_PORT} --tls-host=0.0.0.0 --tls-certificate ${KOVD_CERT_LOCATION} --tls-certificate-key ${KOVD_KEY_LOCATION} --base-image-path ${KOV_VMDK_LOCATION} --data-dir ${KOVD_DATA_DIR}
+ExecStart=/usr/bin/kovd --tls-port=${KOVD_EXPOSED_PORT} --tls-host=0.0.0.0 --tls-certificate ${KOVD_CERT_LOCATION} --tls-key ${KOVD_KEY_LOCATION} --base-image-path ${KOV_VMDK_LOCATION} --data-dir ${KOVD_DATA_DIR}
 LimitNOFILE=infinity
 LimitNPROC=infinity
 LimitCORE=infinity
