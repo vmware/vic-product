@@ -14,7 +14,8 @@
 # limitations under the License.
 set -euf -o pipefail
 
-mkdir /etc/vmware/admiral
+conf_dir=/etc/vmware/admiral
+mkdir $conf_dir
 
 BUILD_ADMIRAL_REVISION="${BUILD_ADMIRAL_REVISION:-dev}"
 
@@ -36,3 +37,6 @@ echo "Pulled Admiral image"
 echo "stopping Docker .."
 systemctl stop docker
 echo "Docker stopped"
+
+# Get the PSC binary for use during initialization
+curl -o $conf_dir/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar https://storage.googleapis.com/vic-product-ova-build-deps/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar

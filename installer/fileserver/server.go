@@ -119,7 +119,7 @@ func main() {
 
 	// attach root index route
 	mux.Handle("/", http.HandlerFunc(indexHandler))
-	
+
 	// start the web server
 	t := &tls.Config{}
 	t.Certificates = []tls.Certificate{c.cert}
@@ -171,7 +171,8 @@ func renderTemplate(resp http.ResponseWriter, filename string, data interface{})
 	}
 }
 
-// error messages from each services is concatenated, return "" if no errors.
+// startInitializationServices performs some OVA init tasks - tagging the OVA VM
+// registering Admiral with PSC. Errors, if any, are concatenated and returned.
 func startInitializationServices() string {
 	var errorMsg []string
 
@@ -179,6 +180,11 @@ func startInitializationServices() string {
 	if err := tagvm.Run(ctx, admin.Validator.Session); err != nil {
 		log.Debug(errors.ErrorStack(err))
 		errorMsg = append(errorMsg, "Failed to locate productVM, trusted content is not available")
+	}
+
+	if err := registerWithPSC(ctx); err != nil {
+		log.Debug(errors.ErrorStack(err))
+		errorMsg = append(errorMsg, "Failed to register with PSC: %s", err.Error())
 	}
 
 	return strings.Join(errorMsg, "\n")
