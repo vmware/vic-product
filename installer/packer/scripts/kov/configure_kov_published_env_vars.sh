@@ -23,12 +23,12 @@ admin_key=${cert_dir}/admin.key
 
 FILES_DIR="/opt/vmware/fileserver/files"
 target_file="env.sh"
-mkdir -p ${FILES_DIR}/kov
+mkdir -p ${FILES_DIR}
 
 ip="$(ifconfig eth0 | awk '/inet addr/ {print $2}' | awk -F ":" '{print $2}')"
 port="$(ovfenv -k cluster_manager.port)"
 
-cat > ${FILES_DIR}/kov/${target_file} <<EOF
+cat > ${FILES_DIR}/${target_file} <<EOF
 export KOV_CA_CERT=${ca_cert}
 export KOV_CLIENT_CERT=${admin_cert}
 export KOV_CLIENT_KEY=${admin_key}
@@ -38,7 +38,7 @@ EOF
 # KOV_VC_* are provided as literals because ${FILES_DIR} is going to be
 # used by users and these variables should be set based on settings on
 # user's local environment
-cat >> ${FILES_DIR}/kov/${target_file} <<'EOF'
+cat >> ${FILES_DIR}/${target_file} <<'EOF'
 export KOV_VC_ENDPOINT=${KOV_VC_ENDPOINT:?"KOV_VC_ENDPOINT is not set"}
 export KOV_VC_USERNAME=${KOV_VC_USERNAME:?"KOV_VC_USERNAME is not set"}
 export KOV_VC_PASSWORD=${KOV_VC_PASSWORD:?"KOV_VC_PASSWORD is not set"}
