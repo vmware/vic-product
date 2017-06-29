@@ -16,18 +16,15 @@ package main
 
 import (
 	"bytes"
-	"context"
 	"crypto/tls"
 	"fmt"
 	"html/template"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/vmware/vic/lib/install/data"
-	"github.com/vmware/vic/lib/install/validate"
+	"github.com/vmware/vic-product/installer/lib"
 	"github.com/vmware/vic/pkg/trace"
 )
 
@@ -40,17 +37,14 @@ type EngineInstallerConfigOptions struct {
 
 // EngineInstaller contains all options to be used in the vic-machine create command
 type EngineInstaller struct {
+	loginInfo       lib.LoginInfo
 	BridgeNetwork   string `json:"bridge-net"`
 	PublicNetwork   string `json:"public-net"`
 	ImageStore      string `json:"img-store"`
 	ComputeResource string `json:"compute"`
-	Target          string `json:"target"`
-	User            string `json:"user"`
-	Password        string `json:"password"`
 	Name            string `json:"name"`
 	Thumbprint      string `json:"thumbprint"`
 	CreateCommand   []string
-	validator       *validate.Validator
 }
 
 // AuthHTML holds the invalid login variable
@@ -69,7 +63,6 @@ type ExecHTMLOptions struct {
 	Password        string
 	Name            string
 	Thumbprint      string
-	Feedback	string
 	CreateCommand   string
 }
 
@@ -80,10 +73,10 @@ func NewEngineInstaller() *EngineInstaller {
 func (ei *EngineInstaller) populateConfigOptions() *EngineInstallerConfigOptions {
 	defer trace.End(trace.Begin(""))
 
-	vc := ei.validator.IsVC()
+	vc := ei.loginInfo.Validator.IsVC()
 	log.Infof("Is VC: %t\n", vc)
 
-	dcs, err := ei.validator.ListDatacenters()
+	dcs, err := ei.loginInfo.Validator.ListDatacenters()
 	if err != nil {
 		log.Infoln(err)
 		return nil
@@ -92,7 +85,7 @@ func (ei *EngineInstaller) populateConfigOptions() *EngineInstallerConfigOptions
 		log.Infof("DC: %s\n", d)
 	}
 
-	comp, err := ei.validator.ListComputeResource()
+	comp, err := ei.loginInfo.Validator.ListComputeResource()
 	if err != nil {
 		log.Infoln(err)
 		return nil
@@ -101,7 +94,7 @@ func (ei *EngineInstaller) populateConfigOptions() *EngineInstallerConfigOptions
 		log.Infof("compute: %s\n", c)
 	}
 
-	rp, err := ei.validator.ListResourcePool("*")
+	rp, err := ei.loginInfo.Validator.ListResourcePool("*")
 	if err != nil {
 		log.Infoln(err)
 		return nil
@@ -110,7 +103,7 @@ func (ei *EngineInstaller) populateConfigOptions() *EngineInstallerConfigOptions
 		log.Infof("rp: %s\n", p)
 	}
 
-	nets, err := ei.validator.ListNetworks(!vc) // set to false for vC
+	nets, err := ei.loginInfo.Validator.ListNetworks(!vc) // set to false for vC
 	if err != nil {
 		log.Infoln(err)
 		return nil
@@ -119,7 +112,7 @@ func (ei *EngineInstaller) populateConfigOptions() *EngineInstallerConfigOptions
 		log.Infof("net: %s\n", n)
 	}
 
-	dss, err := ei.validator.ListDatastores()
+	dss, err := ei.loginInfo.Validator.ListDatastores()
 	if err != nil {
 		log.Infoln(err)
 		return nil
@@ -143,9 +136,9 @@ func (ei *EngineInstaller) buildCreateCommand(binaryPath string) {
 	createCommand = append(createCommand, binaryPath+"/vic/vic-machine-linux")
 	createCommand = append(createCommand, "create")
 	createCommand = append(createCommand, "--no-tlsverify")
-	createCommand = append(createCommand, []string{"--target", ei.Target}...)
-	createCommand = append(createCommand, []string{"--user", ei.User}...)
-	createCommand = append(createCommand, []string{"--password", ei.Password}...)
+	createCommand = append(createCommand, []string{"--target", ei.loginInfo.Target}...)
+	createCommand = append(createCommand, []string{"--user", ei.loginInfo.User}...)
+	createCommand = append(createCommand, []string{"--password", ei.loginInfo.Password}...)
 	createCommand = append(createCommand, []string{"--name", ei.Name}...)
 	createCommand = append(createCommand, []string{"--public-network", ei.PublicNetwork}...)
 	createCommand = append(createCommand, []string{"--bridge-network", ei.BridgeNetwork}...)
@@ -154,40 +147,6 @@ func (ei *EngineInstaller) buildCreateCommand(binaryPath string) {
 	createCommand = append(createCommand, []string{"--thumbprint", ei.Thumbprint}...)
 
 	ei.CreateCommand = createCommand
-}
-
-func (ei *EngineInstaller) verifyLogin() error {
-	defer trace.End(trace.Begin(""))
-
-	ctx := context.TODO()
-
-	var u url.URL
-	u.User = url.UserPassword(ei.User, ei.Password)
-	u.Host = ei.Target
-	u.Path = ""
-	log.Infof("server URL: %v\n", u)
-
-	input := data.NewData()
-
-	username := u.User.Username()
-	input.OpsCredentials.OpsUser = &username
-	passwd, _ := u.User.Password()
-	input.OpsCredentials.OpsPassword = &passwd
-	input.URL = &u
-	input.Force = true
-
-	input.User = username
-	input.Password = &passwd
-
-	v, err := validate.NewValidator(ctx, input)
-	if err != nil {
-		log.Infof("validator: %s", err)
-		return err
-	}
-
-	ei.validator = v
-
-	return nil
 }
 
 func setupDefaultAdmiral(vchIP string) {

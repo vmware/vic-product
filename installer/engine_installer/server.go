@@ -15,7 +15,6 @@
 package main
 
 import (
-	"context"
 	"crypto/tls"
 	"encoding/json"
 	"flag"
@@ -29,9 +28,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/vmware/vic-product/installer/tagvm"
 	"github.com/vmware/vic/pkg/certificate"
-	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/trace"
 )
 
@@ -120,10 +117,10 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 
 	if req.Method == http.MethodPost {
 		// verify login
-		engineInstaller.Target = req.FormValue("target")
-		engineInstaller.User = req.FormValue("user")
-		engineInstaller.Password = req.FormValue("password")
-		if err := engineInstaller.verifyLogin(); err != nil {
+		engineInstaller.loginInfo.Target = req.FormValue("target")
+		engineInstaller.loginInfo.User = req.FormValue("user")
+		engineInstaller.loginInfo.Password = req.FormValue("password")
+		if err := engineInstaller.loginInfo.VerifyLogin(); err != nil {
 			// login failed so show login form again
 			renderTemplate(resp, "html/auth.html", &AuthHTML{InvalidLogin: true})
 		} else {
@@ -136,15 +133,12 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 			html.ImageStore = getSelectOptionHTML(opts.Datastores, imgStoreName)
 			html.ComputeResource = getSelectOptionHTML(opts.ResourcePools, computeName)
 
-			html.User = engineInstaller.User
-			html.Password = engineInstaller.Password
-			html.Target = engineInstaller.Target
+			html.User = engineInstaller.loginInfo.User
+			html.Password = engineInstaller.loginInfo.Password
+			html.Target = engineInstaller.loginInfo.Target
 			html.Name = engineInstaller.Name
 			html.Thumbprint = engineInstaller.Thumbprint
 			html.CreateCommand = strings.Join(engineInstaller.CreateCommand, " ")
-
-			html.Feedback = startInitializationServices()
-			
 			renderTemplate(resp, "html/exec.html", html)
 		}
 	} else {
@@ -195,17 +189,4 @@ func parseCmdArgs(resp http.ResponseWriter, req *http.Request) {
 		resp.WriteHeader(http.StatusOK)
 		resp.Write([]byte(strings.Join(engineInstaller.CreateCommand, " ")))
 	}
-}
-
-// error messages from each services is concatenated, return "" if no errors.
-func startInitializationServices() string {
-	var errorMsg []string
-
-	ctx := context.TODO()
-	if err := tagvm.Run(ctx, engineInstaller.validator.Session); err != nil {
-		log.Debug(errors.ErrorStack(err))
-		errorMsg = append(errorMsg, "Failed to locate productVM, trusted content is not available")
-	}
-	
-	return strings.Join(errorMsg, "\n")
 }
