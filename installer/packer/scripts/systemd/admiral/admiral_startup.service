@@ -1,8 +1,9 @@
 [Unit]
 Description=Admiral Startup Configuration
 Documentation=http://github.com/vmware/admiral
-After=docker.service data.mount systemd-networkd.service systemd-resolved.service
+After=docker.service data.mount systemd-networkd.service systemd-resolved.service iptables.service ova-firewall.service
 Before=admiral.service
+Requires=iptables.service
 
 [Service]
 Type=oneshot
