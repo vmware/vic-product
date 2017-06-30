@@ -87,27 +87,39 @@ This version of vSphere Integrated Containers Engine does not support the `docke
 The example below shows an excerpt of the YML file after the modifications:
  
 <pre>
-version: "2"
+version: "3"
 
 services:
   vote:
-    image: <i>dockerhub_username</i>/vote
+    image: victest/vote
+    container_name: vote
     command: python app.py
     ports:
       - "5000:80"
 
   redis:
     image: redis:alpine
+    container_name: redis
     ports: ["6379"]
 
   worker:
-    image: <i>dockerhub_username</i>/vote-worker
+    container_name: worker
+    image: victest/vote-worker
 
+# Postgres container will create an anonymous volume.  VIC will use a
+# vmdk for the volume.  Since it is a new volume, it will have a lost+found
+# folder, and the Postgres init scripts do not like a non-empty folder (the
+# lost+found folder).  We work around this by directing the init scripts to
+# use another arbitrary folder.  We do this by setting the PGDATA env var.
   db:
+    container_name: db
     image: postgres:9.4
+    environment:
+      - PGDATA=/var/lib/postgresql/data/data
 
   result:
-    image: <i>dockerhub_username</i>/vote-result
+    image: victest/vote-result
+    container_name: result
     command: nodemon --debug server.js
     ports:
       - "5001:80"
