@@ -125,7 +125,7 @@ fi
 
 make ova-release
 
-OUTFILE=bin/$(ls -al bin | grep "\.ova" | cut -d ' ' -f 9)
+OUTFILE=bin/$(ls -1 bin | grep "\.ova")
 
 if [ -n "${DRONE_BUILD_NUMBER}" ]; then
   TMP=$(echo ${OUTFILE} | sed "s/-/-${DRONE_BUILD_NUMBER}-/")

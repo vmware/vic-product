@@ -176,7 +176,7 @@ configureAdmiralStart ADMIRAL_KEY_LOCATION $key
 configureAdmiralStart ADMIRAL_JKS_LOCATION $jks
 configureAdmiralStart ADMIRAL_EXPOSED_PORT $port
 
-iptables -A INPUT -j ACCEPT -p tcp --dport $port
+iptables -w -A INPUT -j ACCEPT -p tcp --dport $port
 
 touch $data_dir/custom.conf
 

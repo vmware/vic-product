@@ -199,7 +199,7 @@ fi
 # Init certs
 secure
 
-iptables -A INPUT -j ACCEPT -p tcp --dport $port
+iptables -w -A INPUT -j ACCEPT -p tcp --dport $port
 
 touch $data_dir/custom.conf
 
