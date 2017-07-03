@@ -2,6 +2,7 @@
 Description=VIC Engine Install Wizard Service
 Documentation=https://github.com/vmware/vic
 After=engine_installer_startup.service
+Requires=data.mount
 
 [Service]
 Type=simple

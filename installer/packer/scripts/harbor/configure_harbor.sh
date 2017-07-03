@@ -20,28 +20,28 @@ deploy=$(ovfenv -k registry.deploy)
 
 if [ ${deploy,,} != "true" ]; then
   echo "Not configuring Harbor and disabling startup"
-  systemctl stop harbor
+  systemctl disable harbor
   exit 0
 fi
 
-data_dir=/data/harbor
-conf_dir=/etc/vmware/harbor
-script_dir=/etc/vmware
-harbor_compose_file=${conf_dir}/docker-compose.yml
+data_dir="/data/harbor"
+conf_dir="/etc/vmware/harbor"
+script_dir="/etc/vmware"
+harbor_compose_file="${conf_dir}/docker-compose.yml"
 
-cert_dir=${data_dir}/cert
-flag=${conf_dir}/cert_gen_type
-cfg=${data_dir}/harbor.cfg
+cert_dir="${data_dir}/cert"
+flag="${conf_dir}/cert_gen_type"
+cfg="${data_dir}/harbor.cfg"
 
-ca_download_dir=${data_dir}/ca_download
+ca_download_dir="${data_dir}/ca_download"
 mkdir -p {${cert_dir},${ca_download_dir}}
 
-cert=${cert_dir}/server.crt
-key=${cert_dir}/server.key
-csr=${cert_dir}/server.csr
-ca_cert=${cert_dir}/ca.crt
-ca_key=${cert_dir}/ca.key
-ext=${cert_dir}/extfile.cnf
+cert="${cert_dir}/server.crt"
+key="${cert_dir}/server.key"
+csr="${cert_dir}/server.csr"
+ca_cert="${cert_dir}/ca.crt"
+ca_key="${cert_dir}/ca.key"
+ext="${cert_dir}/extfile.cnf"
 
 rm -rf $ca_download_dir/*
 
@@ -163,7 +163,7 @@ f.close()
 END
 }
 
-attrs=( 
+attrs=(
   registry.admin_password
   registry.db_password
   registry.gc_enabled
@@ -193,7 +193,7 @@ for attr in "${attrs[@]}"
 do
   echo "Read attribute using ovfenv: [ $attr ]"
   value=$(ovfenv -k $attr)
-  
+
   configureHarborCfg $(echo ${attr} | cut -d. -f2) "$value"
 done
 
@@ -211,3 +211,8 @@ iptables -w -A INPUT -j ACCEPT -p tcp --dport $(ovfenv -k registry.port)
 
 # Open port for Notary
 iptables -w -A INPUT -j ACCEPT -p tcp --dport 4443
+
+# Start on startup
+echo "Enable harbor startup"
+systemctl enable harbor_startup.service
+systemctl enable harbor.service

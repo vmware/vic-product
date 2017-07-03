@@ -65,8 +65,8 @@ export BUILD_HARBOR_URL=https://example.com/harbor.tgz  # Optional, URL to downl
 
 export BUILD_ADMIRAL_REVISION=v1.1.1  # Optional, defaults to vic_dev tag (https://hub.docker.com/r/vmware/admiral/tags/)
 
-export BUILD_KOVD_REVISION=v0.1 # Optional, defaults to dev tag
-export BUILD_KOV_CLI_REVISION=v0.1 # Optional, defaults to dev tag
+export BUILD_KOVD_REVISION=v0.1     # Optional, defaults to dev tag
+export BUILD_KOV_CLI_REVISION=v0.1  # Optional, defaults to dev tag
 ```
 
 Then set the required env vars for the build environment and make the release:
@@ -82,14 +82,19 @@ make ova-release
 
 Deploy OVA with ovftool in a Docker container on ESX host
 ```
-docker run -it --net=host -v ~/go/src/github.com/vmware/vic/bin:/test-bin \
-  gcr.io/eminent-nation-87317/vic-integration-test:1.29 ovftool --acceptAllEulas --X:injectOvfEnv \
+docker run -it --net=host -v ~/go/src/github.com/vmware/vic-product/installer/bin:/test-bin \
+  gcr.io/eminent-nation-87317/vic-integration-test:1.32 ovftool --acceptAllEulas --X:injectOvfEnv \
   --X:enableHiddenProperties -st=OVA --powerOn --noSSLVerify=true -ds=datastore1 -dm=thin \
   --net:Network="VM Network" \
-  --prop:appliance.root_pwd="VMware1\!" --prop:appliance.permit_root_login=True --prop:registry.port=443 \
-  --prop:management_portal.port=8282 --prop:registry.admin_password="VMware1\!" --prop:cluster_manager.admin="Administrator"\
-  --prop:registry.db_password="VMware1\!" /test-bin/vic-1.1.0-a84985b.ova \
-  vi://root:password@192.168.1.20
+  --prop:appliance.root_pwd="password" \
+  --prop:appliance.permit_root_login=True \
+  --prop:management_portal.port=8282 \
+  --prop:registry.port=443 \
+  --prop:registry.admin_password="password" \
+  --prop:registry.db_password="password" \
+  --prop:cluster_manager.admin="Administrator" \
+  /test-bin/vic-a2f93359.ova \
+  vi://root:password@192.168.1.86
 ```
 
 ## Vendor

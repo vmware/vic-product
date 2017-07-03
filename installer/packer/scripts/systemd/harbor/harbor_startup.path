@@ -1,0 +1,9 @@
+[Unit]
+Description=Harbor PSC token dependency
+Documentation=https://github.com/vmware/vic-product/installer
+
+[Path]
+PathExists=/etc/vmware/psc/harbor/token
+
+[Install]
+WantedBy=multi-user.target
