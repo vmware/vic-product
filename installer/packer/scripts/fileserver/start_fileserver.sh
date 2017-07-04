@@ -18,14 +18,13 @@ data_dir=/opt/vmware/fileserver
 cert_dir=${data_dir}/cert
 cert=${cert_dir}/server.crt
 key=${cert_dir}/server.key
-fileserver_cert=$(ovfenv -k fileserver.ssl_cert)
-fileserver_key=$(ovfenv -k fileserver.ssl_cert_key)
 
 FILESERVER_EXPOSED_PORT=$(ovfenv -k fileserver.port)
 
-if [[ x$fileserver_cert != "x" && x$fileserver_key != "x" ]]; then
-  /usr/local/bin/ova-webserver --addr ":${FILESERVER_EXPOSED_PORT}" --cert "${cert}" --key "${key}"
-else
-  /usr/local/bin/ova-webserver --addr ":${FILESERVER_EXPOSED_PORT}"
+if [ -z "$FILESERVER_EXPOSED_PORT" ]; then
+  FILESERVER_EXPOSED_PORT="9443"
 fi
+
+# Start file server with certificate cause we'll generate self-signed certificates if it's not customized by user
+/usr/local/bin/ova-webserver --addr ":${FILESERVER_EXPOSED_PORT}" --cert "${cert}" --key "${key}"
 
