@@ -1,7 +1,7 @@
 [Unit]
 Description=VIC Unified Installer Web Server Startup Configuration
 Documentation=https://github.com/vmware/vic
-After=systemd-networkd.service systemd-resolved.service admiral_startup.service iptables.service ova-firewall.service
+After=systemd-networkd.service systemd-resolved.service iptables.service ova-firewall.service
 Before=fileserver.service
 Requires=iptables.service
 

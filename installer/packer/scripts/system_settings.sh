@@ -29,8 +29,8 @@ systemctl enable data.mount repartition.service resizefs.service getty@tty2.serv
 systemctl enable chrootpwd.service sshd_permitrootlogin.service vic-appliance.target
 systemctl enable ovf-network.service
 systemctl enable ova-firewall.service
-systemctl enable harbor_startup.service harbor.service
-systemctl enable admiral_startup.service admiral
+systemctl enable harbor_startup.path
+systemctl enable admiral_startup.path
 systemctl enable fileserver_startup.service fileserver.service
 systemctl enable engine_installer_startup.service engine_installer.service
 systemctl enable kov_published_env_vars.service kov_env_vars.service kov.service

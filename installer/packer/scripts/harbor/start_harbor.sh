@@ -36,7 +36,7 @@ function gc {
   /usr/bin/docker run --name gc --rm --volume $data_dir:/storage \
     --volume $config_dir/:/etc/registry/ \
     $registry_image garbage-collect /etc/registry/config.yml
-  
+
   echo "===================================================="
 }
 

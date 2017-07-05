@@ -34,4 +34,3 @@ ADMIRAL_JKS_LOCATION=""
   --log-opt max-size=1g \
   --log-opt max-file=10 \
   vmware/admiral:ova
-  
