@@ -6,13 +6,20 @@ It is currently under heavy development and not suitable for any use except for 
 
 ## Usage
 
+The build process (launched from your "build machine") uses Packer to launch a VM ("Packer VM") in
+ESX, provision it with components, and snapshot it to make the OVA.
+
+The Packer VM _MUST_ have a route to your build machine because the Packer VM boots from a
+kickstart file served from the build machine. This means if the build machine and target ESX are run
+in Fusion or Workstaion, both VMs should have either bridged or shared networking.
+
+The build VM must have `ovftool` and if using `build.sh` must have `gsutil`.
+
+Execute these commands on your ESX:
 ```
 esxcli system settings advanced set -o /Net/GuestIPHack -i 1
 esxcli network firewall set --enabled false
 ```
-
-The machine that is running Packer (make ova-release) must be reachable from the launched VM and
-have `ovftool` installed
 
 ### Build bundle and OVA
 
@@ -170,8 +177,8 @@ network vm port list -w 73094
 the VM has an IP address ready
 ```
 
-Solution: Disable firewall on the build machine. The launched VM is unable to get the kickstart file
-from your build machine.
+Solution: Disable firewall on the build machine and check networking. The Packer VM is unable to
+get the kickstart file from your build machine.
 
 #### Unable to find available VNC port between 5900 and 6000
 
@@ -215,3 +222,14 @@ With `export PACKER_LOG=1`, you can see following message
 ```
 
 Solution: If firewall is disabled already, set a reasonable timeout for VNC port connection `export PACKER_ESXI_VNC_PROBE_TIMEOUT=30s` or even longer.
+
+#### Waiting for SSH
+
+```
+==> ova-release: Waiting for SSH to become available...
+```
+
+Look at the console for the launched `vic` Packer VM. The Packer VM might not be able to get the
+kickstart file to boot.
+
+Solution: Check networking. The Packer VM must have a route to the build machine.
