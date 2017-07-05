@@ -34,7 +34,6 @@ fi
 
 conf_dir=/etc/vmware/kov
 flag=${conf_dir}/cert_gen_type
-kov_start_script=${conf_dir}/start_kov.sh
 
 data_dir=/data/kov
 cfg=${data_dir}/kov.cfg
@@ -54,19 +53,6 @@ admin_csr=${cert_dir}/admin.csr
 ca_cert=${cert_dir}/ca.crt
 ca_key=${cert_dir}/ca.key
 ext=${cert_dir}/extfile.cnf
-
-#Configure attr in start_kov.sh
-function configureKovStart {
-  cfg_key=$1
-  cfg_value=$2
-
-  basedir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-  if [ -n "$cfg_key" ]; then
-    cfg_value=$(echo "$cfg_value" | sed -r -e 's%[\/&%]%\\&%g')
-    sed -i -r "s%#?$cfg_key\s*=\s*.*%$cfg_key=$cfg_value%" $kov_start_script
-  fi
-}
 
 #Format cert file
 function formatCert {
@@ -190,7 +176,6 @@ ip_address=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
 detectHostname
 if [[ x$hostname != "x" ]]; then
   echo "Hostname: ${hostname}"
-  configureKovStart "hostname" ${hostname}
 else
   echo "Hostname is null, set it to IP"
   hostname=${ip_address}
