@@ -24,6 +24,7 @@ admin=$(ovfenv -k cluster_manager.admin)
 FILES_DIR="/opt/vmware/fileserver/files"
 CERT_FILES_DIR="certs"
 KOV_ENV_FILE="env.sh"
+KOV_BINARY_NAME="vic-adm"
 mkdir -p $FILES_DIR/$CERT_FILES_DIR
 
 if [ ${deploy,,} != "true" ]; then
@@ -66,18 +67,17 @@ function bundle_kov {
   cp $admin_key $admin_cert $ca_cert $FILES_DIR/$CERT_FILES_DIR
   cd $FILES_DIR
   set +f
-  kov_target=$(ls kov_*.tar.gz)
-  set -f
-  kov_tag="${kov_target#kov_}"
+  kov_target=$(ls ${KOV_BINARY_NAME}_*.tar.gz)
+  kov_tag="${kov_target#${KOV_BINARY_NAME}_}"
   kov_tag="${kov_tag%.tar.gz}"
   tar xzvf ${kov_target}
-  rm bin/kov
   for dir in bin/*; do
     target=$(ls ${dir})
     cp ${dir}/${target} bin/${target}
     tar czvf $(basename ${dir})-${kov_tag}.tar.gz bin/${target} ${CERT_FILES_DIR} ${KOV_ENV_FILE}
   done
-  rm -rf bin ${CERT_FILES_DIR} ${KOV_ENV_FILE} kov_${kov_tag}.tar.gz
+  rm -rf bin ${CERT_FILES_DIR} ${KOV_ENV_FILE} ${KOV_BINARY_NAME}_${kov_tag}.tar.gz
+  set -f
 }
 
 function genCert {
