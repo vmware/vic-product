@@ -313,7 +313,7 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
         <Label>7.2. vSphere Container Cluster Manager Port</Label>
         <Description>Specifies the port on which vSphere Container Cluster Manager will be published.</Description>
       </Property>
-      <Property ovf:key="admin" ovf:qualifiers="MinLen(8),MaxLen(128)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+      <Property ovf:key="admin" ovf:qualifiers="MinLen(1),MaxLen(128)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
         <Label>7.3. Admin username</Label>
         <Description>Specifies the username of client admin to whom a self-signed certificate will be generated.</Description>
       </Property>
