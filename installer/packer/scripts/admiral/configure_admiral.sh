@@ -167,6 +167,9 @@ else
   hostname=${ip_address}
 fi
 
+# put admiral endpoint in guestinfo
+$script_dir/set_guestinfo.sh admiral.endpoint https://$ip_address:$port
+
 # Init certs
 secure
 
