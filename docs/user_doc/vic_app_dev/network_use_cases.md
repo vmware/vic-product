@@ -88,7 +88,7 @@ Docker syntax does not allow for the use of multiple `--net` arguments for `dock
 
 `docker network connect [network-id] [container-id]`
 
-**Note**: With VIC containers, networks can only be added to a container when its in its created state. They can't be added while the container is running.
+**Note**: With VIC containers, networks can only be added to a container when it's in its created state. They can't be added while the container is running.
 
 Create two bridge networks, one for data traffic and one for web traffic
 
@@ -99,7 +99,7 @@ Create and run the data container(s)
 
 	docker run -d --name db --net bridge-db myrepo/mydatabase
 
-Create and run the web container(s) and make sure one is on both networks. Expose the web front end on port 80 of the VCH.
+Create and run the web container(s) and make sure one is on both networks. Expose the web front end on port 8080 of the VCH.
 
 	docker create -d --name model --net bridge-db myrepo/web-model
 	docker network connect bridge-web web-model
@@ -154,7 +154,7 @@ Create and run the web container(s) and make sure one is on both networks. In th
 - `db` and `web-model` cannot communicate externally
 - `web-view` has its own external IP address and its service is available on port 80 of that IP address
 
-**Note**: Given that a container network manifests as a vNIC on the container VM, it does has its own network interface.
+**Note**: Given that a container network manifests as a vNIC on the container VM, it has its own distinct network interface in the container.
 
 ## Deploy a Container with a Static IP Address {#staticip}
 
