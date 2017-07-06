@@ -65,7 +65,9 @@ function genCert {
 
 function updateConfigFiles {
   ui_dir="${data_dir}/files"
-  tar_gz=`find "${ui_dir}" -name "vic*.tar.gz"`
+  # cove cli has package in form of vic-adm_*.tar.gz, so use 'vic_*.tar.gz' here
+  # to avoid including cove cli
+  tar_gz=`find "${ui_dir}" -name "vic_*.tar.gz"`
 
   # untar vic package to tmp dir
   tar -zxf "${tar_gz}" -C /tmp

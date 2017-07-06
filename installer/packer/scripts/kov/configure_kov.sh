@@ -24,6 +24,7 @@ admin=$(ovfenv -k cluster_manager.admin)
 FILES_DIR="/opt/vmware/fileserver/files"
 CERT_FILES_DIR="certs"
 KOV_ENV_FILE="env.sh"
+KOV_BINARY_NAME="vic-adm"
 mkdir -p $FILES_DIR/$CERT_FILES_DIR
 
 if [ ${deploy,,} != "true" ]; then
@@ -34,7 +35,6 @@ fi
 
 conf_dir=/etc/vmware/kov
 flag=${conf_dir}/cert_gen_type
-kov_start_script=${conf_dir}/start_kov.sh
 
 data_dir=/data/kov
 cfg=${data_dir}/kov.cfg
@@ -55,19 +55,6 @@ ca_cert=${cert_dir}/ca.crt
 ca_key=${cert_dir}/ca.key
 ext=${cert_dir}/extfile.cnf
 
-#Configure attr in start_kov.sh
-function configureKovStart {
-  cfg_key=$1
-  cfg_value=$2
-
-  basedir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-  if [ -n "$cfg_key" ]; then
-    cfg_value=$(echo "$cfg_value" | sed -r -e 's%[\/&%]%\\&%g')
-    sed -i -r "s%#?$cfg_key\s*=\s*.*%$cfg_key=$cfg_value%" $kov_start_script
-  fi
-}
-
 #Format cert file
 function formatCert {
   content=$1
@@ -80,18 +67,17 @@ function bundle_kov {
   cp $admin_key $admin_cert $ca_cert $FILES_DIR/$CERT_FILES_DIR
   cd $FILES_DIR
   set +f
-  kov_target=$(ls kov_*.tar.gz)
-  set -f
-  kov_tag="${kov_target#kov_}"
+  kov_target=$(ls ${KOV_BINARY_NAME}_*.tar.gz)
+  kov_tag="${kov_target#${KOV_BINARY_NAME}_}"
   kov_tag="${kov_tag%.tar.gz}"
   tar xzvf ${kov_target}
-  rm bin/kov
   for dir in bin/*; do
     target=$(ls ${dir})
     cp ${dir}/${target} bin/${target}
     tar czvf $(basename ${dir})-${kov_tag}.tar.gz bin/${target} ${CERT_FILES_DIR} ${KOV_ENV_FILE}
   done
-  rm -rf bin ${CERT_FILES_DIR} ${KOV_ENV_FILE} kov_${kov_tag}.tar.gz
+  rm -rf bin ${CERT_FILES_DIR} ${KOV_ENV_FILE} ${KOV_BINARY_NAME}_${kov_tag}.tar.gz
+  set -f
 }
 
 function genCert {
@@ -190,7 +176,6 @@ ip_address=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
 detectHostname
 if [[ x$hostname != "x" ]]; then
   echo "Hostname: ${hostname}"
-  configureKovStart "hostname" ${hostname}
 else
   echo "Hostname is null, set it to IP"
   hostname=${ip_address}
