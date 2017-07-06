@@ -32,7 +32,7 @@ Conceptually, a container represents many of the same capabilities as a VM. The 
 
 * In contrast, a VM is a sandbox within a hypervisor. It is the hypervisor that provides a VM with its dependencies, such as virtual disks and NICs. A VM has to boot an OS and its lifecycle is typically tied to that of the OS rather than to that of any one process. By design, a VM is strongly isolated from other VMs and its host.
 
-One of the most interesting facets of containers is how they deal with state. Any data that a container writes is non-persistent by default and is lost when that container is deleted. State, however, can persist beyond the lifespan of a container by attaching a *volume* to it or by sending it over a network. Binary dependencies that the container needs, such as OS libraries or application binaries, are encapsulated in *images* . Images are immutable.
+One of the most interesting facets of containers is how they deal with state. Any data that a container writes is non-persistent by default and is lost when that container is deleted. State, however, can persist beyond the lifespan of a container by attaching a *volume* to it or by sending it over a network. Binary dependencies that the container needs, such as OS libraries or application binaries, are encapsulated in *images*. Images are immutable.
 
 
 ### Packaging {#packaging}
@@ -85,7 +85,7 @@ In a classic container environment:
 - You provision a large Linux VM and send them the IP address.
 - The user installs Docker, patches the OS, configures in-guest network and storage virtualization, secures the guest, isolates the containers, packages the containers efficiently, and manages upgrades and downtime. 
  
-In this scenario, what you have provided is similar to a nested hypervisor that they have to manage and which is opaque to you.If you scale that up to one large Linux VM per tenant, you end up creating a large distributed silo for containers.
+In this scenario, what you have provided is similar to a nested hypervisor that they have to manage and which is opaque to you. If you scale that up to one large Linux VM per tenant, you end up creating a large distributed silo for containers.
 
 **Scenario 2: vSphere Integrated Containers**
 
@@ -153,7 +153,7 @@ A virtual container host (VCH) is the functional equivalent of a Linux VM that r
 - A private network that containers are attached to by default.
 
 
-If you deploy a VCH in a vCenter Server cluster it spans all of the hosts in the cluster, providing the same flexibility and dynamic use of host resources as is the norm.
+If you deploy a VCH in a vCenter Server cluster, it spans all of the hosts in the cluster, providing the same flexibility and dynamic use of host resources as is the norm.
 
 A VCH is functionally distinct from a traditional container host in the following ways:
 
