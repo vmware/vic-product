@@ -16,14 +16,7 @@ set -euf -o pipefail
 
 umask 077
 
-deploy=$(ovfenv -k management_portal.deploy)
 port=$(ovfenv -k management_portal.port)
-
-if [ "${deploy,,}" != "true" ]; then
-  echo "Not configuring Admiral and disabling startup"
-  systemctl disable admiral
-  exit 0
-fi
 
 data_dir="/data/admiral"
 conf_dir="/etc/vmware/admiral"
@@ -192,13 +185,10 @@ iptables -w -A INPUT -j ACCEPT -p tcp --dport "$port"
 
 touch $data_dir/custom.conf
 
-harbor_deploy=$(ovfenv -k registry.deploy)
 
-if [ "${harbor_deploy,,}" == "true" ]; then
-  harbor_port=$(ovfenv -k registry.port)
-  # If harbor is deployed, configure the integration URL
-  echo "harbor.tab.url=https://${hostname}:${harbor_port}" > $data_dir/custom.conf
-fi
+harbor_port=$(ovfenv -k registry.port)
+# Configure the integration URL
+echo "harbor.tab.url=https://${hostname}:${harbor_port}" > $data_dir/custom.conf
 
 # Copy files needed by Admiral into one directory
 config_dir=$data_dir/configs
