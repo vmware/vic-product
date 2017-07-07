@@ -17,9 +17,7 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
-	"net"
 	"os"
 	"os/exec"
 	"strings"
@@ -29,8 +27,9 @@ import (
 
 	"github.com/dustin/go-humanize"
 
+	"github.com/vmware/vic-product/installer/lib"
+	"github.com/vmware/vic-product/installer/pkg/ip"
 	"github.com/vmware/vic/pkg/version"
-	"github.com/vmware/vmw-guestinfo/rpcvmx"
 	"github.com/vmware/vmw-guestinfo/vmcheck"
 )
 
@@ -59,42 +58,20 @@ func main() {
 		os.Exit(-1)
 	}
 
-	config := rpcvmx.NewConfig()
-	// Fetch OVF Environment via RPC
-	ovfEnv, err := config.String("guestinfo.ovfEnv", "")
-	if err != nil {
-		fmt.Println("impossible to fetch ovf environment, exiting")
-		os.Exit(1)
-	}
-
-	// TODO: fix this when proper support for namespaces is added to golang.
-	// ref: golang/go/issues/14407 and golang/go/issues/14407
-	ovfEnv = strings.Replace(ovfEnv, "oe:key", "key", -1)
-	ovfEnv = strings.Replace(ovfEnv, "oe:value", "value", -1)
-
-	var ovf environment
-
 	var info string
 
-	err = xml.Unmarshal([]byte(ovfEnv), &ovf)
+	ovf, err := lib.UnmarshaledOvfEnv()
 	if err != nil {
-		info = fmt.Sprintf("error: %s\n", err.Error())
+		switch err.(type) {
+		case lib.EnvFetchError:
+			fmt.Println("impossible to fetch ovf environment, exiting")
+			os.Exit(1)
+		case lib.UnmarshalError:
+			info = fmt.Sprintf("error: %s\n", err.Error())
+		}
 	}
 
-	iface, err := net.InterfaceByName("eth0")
-	addrs, _ := iface.Addrs()
-	for _, addr := range addrs {
-		var ip net.IP
-		switch v := addr.(type) {
-		case *net.IPNet:
-			ip = v.IP
-		case *net.IPAddr:
-			ip = v.IP
-		}
-		// If the IP is a loopback address an ipv6, we don't need it
-		if ip.IsLoopback() || ip.To4() == nil {
-			continue
-		}
+	if ip, err := ip.FirstIPv4(ip.Eth0Interface); err == nil {
 		if strings.ToLower(ovf.Properties["registry.deploy"]) == "true" {
 			info = fmt.Sprintf("%sAccess the Container Registry at:\nhttps://%s:%s\n", info, ip.String(), ovf.Properties["registry.port"])
 		}
@@ -111,7 +88,6 @@ func main() {
 			info = fmt.Sprintf("%sAccess the Kubernetes on Vsphere daemon at:\nhttps://%s:%s\n", info, ip.String(), port)
 		}
 	}
-
 	info = fmt.Sprintf("%s\nAccess the VIC Product Documentation at:\nhttps://vmware.github.io/vic-product/#documentation\n", info)
 	info = fmt.Sprintf("%s\n\nPress the right arrow key to view network status...", info)
 
@@ -182,36 +158,6 @@ func main() {
 	ui.Render(toppanel, bottompanel)
 
 	ui.Loop()
-}
-
-type environment struct {
-	Properties map[string]string
-}
-
-func (e *environment) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
-
-	type property struct {
-		Key   string `xml:"key,attr"`
-		Value string `xml:"value,attr"`
-	}
-
-	type propertySection struct {
-		Property []property `xml:"Property"`
-	}
-
-	var environment struct {
-		XMLName         xml.Name        `xml:"Environment"`
-		PropertySection propertySection `xml:"PropertySection"`
-	}
-	err := d.DecodeElement(&environment, &start)
-	if err == nil {
-		e.Properties = make(map[string]string)
-		for _, v := range environment.PropertySection.Property {
-			e.Properties[v.Key] = v.Value
-		}
-	}
-	return err
-
 }
 
 func ioctl(fd, cmd, ptr uintptr) error {
