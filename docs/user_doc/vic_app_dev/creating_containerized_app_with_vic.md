@@ -10,5 +10,5 @@ This section will help you to understand the considerations, benefits and limits
 - [How vSphere Integrated Containers engine fits into a Build Pipeline](vic_in_build_pipeline.md)
 - [Example of deploying a single container VM into production with vSphere Integrated Containers engine](deploy_single_containervm.md)
 - [Example of deploying multiple container VMs into production using Docker Compose](deploy_multiple_docker_compose.md)
-- [Example of deploying nested Docker Engine and Docker Compose in VIC (DinV)](deploy_multiple_dinv.md)
-- [Example of deploying a hybrid approach between container VMs and DinV](deploy_hybrid_containervm_dinv.md)
+- [Example of deploying mutiple Linux containers inside container VMs](deploy_multiple_dinv.md)
+- [Example of deploying a hybrid approach between container VMs and Linux containers](deploy_hybrid_containervm_dinv.md)
