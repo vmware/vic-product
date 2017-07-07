@@ -76,6 +76,23 @@ The provisioned container VM does not contain any OS container abstraction.
 - Container volumes are formatted VMDKs that are attached as disks and indexed on a datastore. 
 - Networks are distributed port groups that are attached as vNICs.
 
+### Container VM Isolation and Capabilities {#isolation_capabilities}
+
+A container VM is strongly isolated by design and benefits from vSphere enterprise features such as High Availability and vMotion. It is ideally suited to long-running containers or services with the following requirements: 
+
+- Strong isolation - a container VM has its own kernel and has no access to a shared filesystem or control plane
+- High throughput - a container VM has its own guest buffer cache and can connect directly to a virtual network
+- High availability - a container VM can be configured so it can run independent of the availability of the VCH and can benefit from vSphere HA
+- Persistent data - a container VM can persist its data to a volume disk that can be backed up completely independent of the VM
+
+A container VM is less well suited to containers that are transactional and have a very short lifespan, such as running a unit test. This is because the cost to boot the VM is high relative to the time spent running the test. A container VM however is very well suited to longer-running transactional workloads, such as builds. This is because vSphere resource is only consumed for the period of execution and is immediately freed up after. This can lead to a much more efficient use of virtual infrastructure than slave VMs that are up all the time waiting for jobs.
+
+A container VM is also less well suited to containers that need to be weakly isolated by design, for example a logging or monitoring container that need access to the other processes in an application. This is also true of very small containers that together make up a single service or unit of scale. For this purpose, the VM is the ideal isolation domain for the service as a whole and the containers can be deployed inside the VM as software containers using a regular container engine. 
+
+We call this nesting "Docker-in-VIC" (DinV) and we will be providing more support for this mode of operation in the next release. VIC is actually a great way to manage regular container hosts, because the container VM abstraction allows you to treat them just as ephemerally as containers.
+
+So when deploying applications into production, it's important to consider where the isolation boundaries should lie for your particular container, service or application. A VM is a natural isolation and failure domain and works well as a unit of scale. We will discuss this in more detail in the section on deploying applications using VIC.
+
 ### Virtual Container Hosts {#vch}
 
 A virtual container host (VCH) is the functional equivalent of a Linux VM that runs Docker, but with some significant benefits. A VCH represents the following elements:
