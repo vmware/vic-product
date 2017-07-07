@@ -1,7 +1,7 @@
-# Build certgen in separate container
+# Build dinv in separate container
 FROM golang:1.8 AS build-env
-ADD certgen/ /go/src/certgen
-RUN cd /go/src/certgen && go get -v ./... && go build -o certgen && strip certgen
+ADD . /go/src/dinv
+RUN cd /go/src/dinv && go get -v ./... && go build -o dinv && strip dinv
 
 # Build photon base image
 FROM photon:latest as base
@@ -29,8 +29,7 @@ RUN echo "> Installing photon base system in chroot, killing output to avoid off
 
 RUN cp /etc/resolv.conf $TEMP_CHROOT/etc/
 RUN mkdir $TEMP_CHROOT/certs
-COPY dinv $TEMP_CHROOT/
-COPY --from=build-env /go/src/certgen/certgen $TEMP_CHROOT/
+COPY --from=build-env /go/src/dinv/dinv $TEMP_CHROOT/
 
 # Cleanup
 RUN cd $TEMP_CHROOT && rm -rf usr/src/ && rm -rf home/* && rm -rf var/log/*
