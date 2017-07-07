@@ -6,7 +6,7 @@
   * [Overview for Developers](overview_of_vic_appdev.md)
   * [Supported Docker Commands](container_operations.md)
     * [Supported Docker Compose File Options](docker_compose_file_options.md)
-    * [Supported Docker Image Tags](docker_image_support.md)    
+    * [Supported Dockerfile Instructions](dockerfile_support.md)    
   * [Use and Limitations](container_limitations.md)
   * [Obtain a VCH](obtain_vch.md)
   * [Configure the Docker Client](configure_docker_client.md)
