@@ -1,0 +1,56 @@
+# Deploy a Single Container to a Virtual Container Host #
+
+This section assumes that you already have a Virtual Container Host installed and that you are accessing it using TLS authentication.
+
+For simplicity, pre-built Docker images are demonstrated to illustrate principles of operation. It is assumed that in reality you will have your own Docker images built.
+
+**Deploying a Database - Postgres 9.6**
+
+All databases will have common requirements. A database should almost always be strongly isolated and long-running, so is a perfect candidate for a container VM. Steps to consider include:
+
+1. Choose a volume store for your database state
+2. Choose a size for your persistent volume
+3. Choose a network for your container. Does it need to be exposed externally or privately to other containers?
+4. How many CPUs and how much memory do you want for your database?
+
+Note that the [Dockerfile](https://github.com/docker-library/postgres/blob/972294a377463156c8d61297320c872fc7d370a9/9.6/Dockerfile) uses VOLUME and EXPOSE to illustrate that it needs to store persistent state and that you should be able to reach it on a particular port. As discussed [here](putting_apps_into_production.md), anonymous volumes and random port mappings are fine for a sandbox, but not for production. 
+
+In this example, we create a 10GB volume disk on a backed up shared datastore. We'll use a private network to access the database, assuming that another container will need to access it privately. We use environment variables to set the data directory and password. We give the container a name so that it can be resolved using that name on the private network. Finally, we choose 2 vCPUs and 4GB of RAM.
+
+```
+docker network create datanet
+docker volume create --opt Capacity=10G --opt VolumeStore=shared-backedup pgdata
+docker run --name db -d -v pgdata:/var/lib/postgresql/data -e PGDATA=/var/lib/postgresql/data/data -e POSTGRES_PASSWORD=y7u8i9o0p --cpus 2 -m 4g --net datanet postgres:9.6
+```
+
+Once the container has started, you can use `docker ps` to make sure it's running. You can use `docker logs db` to see the logs. You can use `docker exec -it db /bin/bash` (only available in VIC 1.2+) to get a shell into the container.
+
+Now let's check that it's visible on the private network and it's running correctly. We can do this using a VIC container running on the same private network:
+
+```
+docker run -it --net datanet postgres:9.6 /bin/bash
+   $ ping db
+     PING db (172.18.0.2): 56 data bytes
+     64 bytes from 172.18.0.2: seq=0 ttl=64 time=0.856 ms
+     ...
+   $ pg_isready -h db
+     db:5432 - accepting connections
+```
+If we stop and delete the container, the data volume will persist. It will even persist beyond the lifespan of the VCH unless `vic-machine delete --force` is used.
+
+**Deploying an Application Server - Tomcat 9 with JRE 8**
+
+Looking at the [Dockerfile](https://github.com/docker-library/tomcat/blob/1cb69781deeac97b2bb138054de3b2f35e9b49a0/9.0/jre8/Dockerfile) here, there are no anonymous volumes specified. However, we need to consider how to get our application deployed and we may want to set some JVM configuration.
+
+Let's start by deploying Tomcat on an external container network to make sure it works
+
+```
+docker run --name web -d -p 8080 --net ExternalNetwork tomcat:9
+docker logs web
+docker inspect web | grep IPAddress
+```
+
+**Deploying a Development Environment**
+
+**Deploying a Build**
+
