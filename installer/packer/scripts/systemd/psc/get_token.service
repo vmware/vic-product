@@ -1,0 +1,13 @@
+[Unit]
+Description=OVA PSC Token Creation
+Documentation=http://github.com/vmware/vic-product/installer
+After=docker.service systemd-networkd.service systemd-resolved.service iptables.service ova-firewall.service admiral_startup.path
+Before=harbor_startup.service
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/chmod +x /etc/vmware/psc/get_token.sh
+ExecStart=/usr/bin/bash /etc/vmware/psc/get_token.sh
+
+[Install]
+WantedBy=multi-user.target
