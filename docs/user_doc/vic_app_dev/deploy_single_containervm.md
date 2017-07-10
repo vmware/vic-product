@@ -4,6 +4,8 @@ This section assumes that you already have a Virtual Container Host installed an
 
 For simplicity, pre-built Docker images are demonstrated to illustrate principles of operation. It is assumed that in reality you will have your own Docker images built.
 
+This section will illustrate a number of useful capabilities such as pre-poluating data volumes and creating custom images.
+
 **Deploying a Database - Postgres 9.6**
 
 All databases will have common requirements. A database should almost always be strongly isolated and long-running, so is a perfect candidate for a container VM. Steps to consider include:
@@ -45,10 +47,69 @@ Looking at the [Dockerfile](https://github.com/docker-library/tomcat/blob/1cb697
 Let's start by deploying Tomcat on an external container network to make sure it works
 
 ```
-docker run --name web -d -p 8080 --net ExternalNetwork tomcat:9
+docker run --name web -d -p 8080 -e JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom" --net ExternalNetwork tomcat:9
 docker logs web
 docker inspect web | grep IPAddress
+curl <external-ip>:8080
 ```
+Hopefully an index.html showing Tomcat server running is shown. Of course you can also test this using a browser. Note that you can pass JRE options in as an environment variable. In this case, we're passing in an option to get Tomcat to start faster by using a non-blocking entropy source (see https://wiki.apache.org/tomcat/HowTo/FasterStartUp).
+
+Next step is to consider how to get a webapp onto the application server. There are static and dynamic approaches to this problem. 
+
+***Pre-populate a Volume***
+
+You can use a container to pre-populate a volume with a web application that you then bind when you run the application server. This is a late-binding dynamic approach that has the advantage that the container image remains general-purpose. The downside is that it requires an extra step to populate the volume.
+
+```
+docker volume create webapp
+docker run --rm -v webapp:/data -w /data tomcat:9 curl -O https://tomcat.apache.org/tomcat-6.0-doc/appdev/sample/sample.war
+docker run --name web -d -p 8080 -e JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom" -v webapp:/usr/local/tomcat/webapps --net ExternalNetwork tomcat:9
+curl <external-ip>:8080/sample
+```
+The volume is a disk of default size, in this case 1GB. The command to populate the volume mounts it at /data and then tells the container to use /data as the working directory. It then uses the fact that the Tomcat container has `curl` installed to download a sample web app as a WAR file to the volume. When the volume is mounted to /usr/local/tomcat/webapps, it replaces any existing webapps such as the welcome page and Tomcat runs just the sample app.
+
+If you don't want the volume to completely replace the existing /webapps directory, you can modify the above example to extract the WAR file to the volume and then mount the volume as a subdirectory of webapps.
+
+```
+docker volume create webapp
+docker run --rm -v webapp:/data -w /data tomcat:9 /bin/bash -c "curl -O https://tomcat.apache.org/tomcat-6.0-doc/appdev/sample/sample.war; unzip sample.war; rm sample.war"
+docker run --name web -d -p 8080 -e JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom" -v webapp:/usr/local/tomcat/webapps/sample --net ExternalNetwork tomcat:9
+curl <external-ip>:8080/sample
+```
+Note that running multiple commands on a container can be done using `/bin/bash -c`. Now, not only is your sample app available, but any other app baked into the image in /usr/local/tomcat/webapps is also available.
+
+***Build a custom image***
+
+Building a custom image allows you to copy the sample webapp into the container image filesystem and make some other improvements and upgrades while you're there. This then creates a single purpose container that runs the webapp(s) baked into it.
+
+Note that VIC engine does not have a native docker build capability. Containers should be built using docker engine and VIC engine relies on the portability of the Docker image format to run them. In order to do this, the built image needs to be pushed to a registry that the VCH can access. This is one reason why such a registry is built into the vSphere Integrated Containers product.
+
+Dockerfile:
+```
+FROM tomcat:9
+
+ENV JAVA_OPTS "-Djava.security.egd=file:/dev/./urandom"
+COPY sample.war /usr/local/bin/webapps
+```
+In a VM running standard docker engine:
+```
+docker build -t <registry-address>/<image name> .
+docker login <registry-address>
+docker push <registry-address>/<image name>
+```
+From a docker client attached to a VCH
+```
+docker run --name web -d -p 8080 --net ExternalNetwork <registry-address>/<image name>
+```
+Note that the use of the /dev/urandom above is not considered particularly secure as it doesn't address the underlying problem of lack of entropy. One of the advantages of building a new image is that it can be customized, so for example, you can install the haveged package to solve your entropy problem (see https://www.digitalocean.com/community/tutorials/how-to-setup-additional-entropy-for-cloud-servers-using-haveged).
+
+However, one of the interesting challenges of containers is that they're designed to only run one process and they don't have a conventional init system. So installing haveged in a Dockerfile doesn't mean that it will actually run when deployed.
+
+Let's examime some solutions to this problem
+
+***Running Multiple Processes in a VIC container***
+
+
 
 **Deploying a Development Environment**
 
