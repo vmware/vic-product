@@ -1,4 +1,4 @@
-# Deploy a Single Container to a Virtual Container Host #
+# Building and Deploying Single Containers to a Virtual Container Host #
 
 This section assumes that you already have a Virtual Container Host installed and that you are accessing it using TLS authentication.
 
