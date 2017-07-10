@@ -38,6 +38,7 @@ flag=${conf_dir}/cert_gen_type
 
 data_dir=/data/kov
 cfg=${data_dir}/kov.cfg
+kov_tag_file=${data_dir}/kov.tag
 
 cert_dir=${data_dir}/cert
 ca_download_dir=${data_dir}/ca_download
@@ -67,9 +68,12 @@ function bundle_kov {
   cp $admin_key $admin_cert $ca_cert $FILES_DIR/$CERT_FILES_DIR
   cd $FILES_DIR
   set +f
+  [ -f ${KOV_BINARY_NAME}_*.tar.gz ] || cp_kov_tar
   kov_target=$(ls ${KOV_BINARY_NAME}_*.tar.gz)
   kov_tag="${kov_target#${KOV_BINARY_NAME}_}"
   kov_tag="${kov_tag%.tar.gz}"
+  echo "Saving kov tag ${kov_tag} to ${kov_tag_file}"
+  echo ${kov_tag} > ${kov_tag_file}
   tar xzvf ${kov_target}
   for dir in bin/*; do
     target=$(ls ${dir})
@@ -78,6 +82,12 @@ function bundle_kov {
   done
   rm -rf bin ${CERT_FILES_DIR} ${KOV_ENV_FILE} ${KOV_BINARY_NAME}_${kov_tag}.tar.gz
   set -f
+}
+
+function cp_kov_tar {
+  kov_tag=$(cat ${kov_tag_file})
+  [[ x$kov_tag == "x" ]] && ( echo "KOV tag not set, failing"; exit 1 )
+  cp ${data_dir}/${KOV_BINARY_NAME}_${kov_tag}.tar.gz ${FILES_DIR}
 }
 
 function genCert {
