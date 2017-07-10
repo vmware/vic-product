@@ -159,5 +159,30 @@ COPY rc.local /etc/
 
 **Deploying a Development Environment**
 
-**Deploying a Build**
+You can use VIC to run a development environment that can be used either interactively or as a means of running builds or test suites.
+
+Let's look at some simple examples. Regardless of the approach, we'll need code mounted into the development environment. The simplest way to achieve this is using a volume. Let's download the VIC repository onto a volume.
+
+```
+docker volume create vic-build
+docker run --rm -v vic-build:/build -w /build golang:1.8 git clone https://github.com/vmware/vic.git
+```
+***Interactive***
+
+The source code tree lives on the persistent volume and can be re-used across invocations of the development environment. The command below will take you straight into a golang development environment shell.
+
+```
+docker run --rm -it -v vic-build:/go/src/github.com/vmware/ -w /go/src/github.com/vmware/vic golang:1.8 
+```
+***Running a Build***
+
+Let's build VIC using the volume created above. That's a simple matter of appropriately sizing the container VM and running `make`.
+
+```
+docker run --rm -m 4g -v vic-build:/go/src/github.com/vmware/ -w /go/src/github.com/vmware/vic golang:1.8 make all
+```
+The output of the build also lives on the volume. You need to ensure that the volume is big enough. VIC engine 1.2 will support NFS volume mounts which could be a great alternative for the build source and output.
+
+
+
 
