@@ -4,7 +4,7 @@ This section assumes that you already have a Virtual Container Host installed an
 
 For simplicity, pre-built Docker images are demonstrated to illustrate principles of operation. It is assumed that in reality you will have your own Docker images built.
 
-This section will illustrate a number of useful capabilities such as pre-poluating data volumes and creating custom images.
+This section will illustrate a number of useful capabilities such as pre-poluating data volumes, creating custom images and running daemon processes.
 
 **Deploying a Database - Postgres 9.6**
 
@@ -30,7 +30,7 @@ Once the container has started, you can use `docker ps` to make sure it's runnin
 Now let's check that it's visible on the private network and it's running correctly. We can do this using a VIC container running on the same private network:
 
 ```
-docker run -it --net datanet postgres:9.6 /bin/bash
+docker run --rm -it --net datanet postgres:9.6 /bin/bash
    $ ping db
      PING db (172.18.0.2): 56 data bytes
      64 bytes from 172.18.0.2: seq=0 ttl=64 time=0.856 ms
@@ -76,7 +76,7 @@ docker run --rm -v webapp:/data -w /data tomcat:9 /bin/bash -c "curl -O https://
 docker run --name web -d -p 8080 -e JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom" -v webapp:/usr/local/tomcat/webapps/sample --net ExternalNetwork tomcat:9
 curl <external-ip>:8080/sample
 ```
-Note that running multiple commands on a container can be done using `/bin/bash -c`. Now, not only is your sample app available, but any other app baked into the image in /usr/local/tomcat/webapps is also available.
+Note that running multiple commands on a container can be done using `/bin/bash -c`. There's a discussion below as to why this isn't necessarily ideal for a running service, but for chaining simple commands together, it works fine. Now, not only is your sample app available, but any other app baked into the image in /usr/local/tomcat/webapps is also available.
 
 ***Build a custom image***
 
@@ -101,15 +101,61 @@ From a docker client attached to a VCH
 ```
 docker run --name web -d -p 8080 --net ExternalNetwork <registry-address>/<image name>
 ```
-Note that the use of the /dev/urandom above is not considered particularly secure as it doesn't address the underlying problem of lack of entropy. One of the advantages of building a new image is that it can be customized, so for example, you can install the haveged package to solve your entropy problem (see https://www.digitalocean.com/community/tutorials/how-to-setup-additional-entropy-for-cloud-servers-using-haveged).
+Note that the use of the /dev/urandom above is not considered particularly secure as it doesn't address the underlying problem of lack of entropy. One of the advantages of building a new image is that it can be customized, so for example, you can install the [haveged](https://linux.die.net/man/8/haveged) package to solve your entropy problem.
 
 However, one of the interesting challenges of containers is that they're designed to only run one process and they don't have a conventional init system. So installing haveged in a Dockerfile doesn't mean that it will actually run when deployed.
 
 Let's examime some solutions to this problem
 
-***Running Multiple Processes in a VIC container***
+***Running Daemon Processes in a VIC container***
 
+Although a VIC container is a VM, it is a very opinionated VM in that it has the same constraints as a container. It doesn't have a conventional init system and its lifecycle is coupled to a single main process. There are a few ways of running daemon processes in a container - many of which are far from ideal.
 
+For example, simply chaining commands in a Dockerfile CMD instruction techically works, but it compromises the signal handling and exit codes of the container. As a result, `docker stop` will almost certainly not work as intended. What would that look like in our Tomcat example?
+
+```
+FROM tomcat:9
+
+RUN apt-get update;apt-get install -y haveged
+COPY sample.war /usr/local/bin/webapps
+CMD /usr/sbin/haveged && catalina.sh run
+```
+So this is not a recommended approach. Try running `docker stop` and it will timeout and eventually kill the container. This is not a problem exclusive to VIC engine, this is a general problem with container images.
+
+A much simpler approach is to run haveged using `docker exec` once the container is started:
+
+```
+docker run --name web -d -p 8080 -v webapp:/usr/local/tomcat/webapps --net ExternalNetwork <registry-address>/<image name>
+docker exec -d web /usr/sbin/haveged
+```
+Docker exec with the `-d` option runs a process as a daemon in the container. While this is arguably the neatest solution to the problem, it does require a subsequent call to the container after it's started. While it's realtively simple to script this, it doesn't work well in a scenario such as a Compose file.
+
+So a third approach is to create a script that the container starts when it initializes that uses a trap handler to manage signals.
+
+rc.local
+```
+#!/bin/bash
+
+cleanup() 
+{
+   kill $(pidof /docker-java-home/jre/bin/java)
+}
+
+trap cleanup EXIT
+
+/usr/sbin/haveget
+catalina.sh run
+```
+
+Dockerfile
+```
+FROM tomcat:9
+
+RUN apt-get update;apt-get install -y haveged
+COPY sample.war /usr/local/bin/webapps
+CMD [ "/etc/rc.local" ]
+COPY rc.local /etc/
+```
 
 **Deploying a Development Environment**
 
