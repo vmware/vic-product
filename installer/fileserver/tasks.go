@@ -34,8 +34,8 @@ const (
 )
 
 // registerWithPSC runs the PSC register command to register VIC services with
-// the platforms services controller. The command generates a config file and
-// certificates to use while getting and renewing tokens.
+// the platforms services controller. The command generates config files and
+// keystore files to use while getting and renewing tokens.
 func registerWithPSC(ctx context.Context) error {
 	var err error
 
@@ -73,30 +73,27 @@ func registerWithPSC(ctx context.Context) error {
 	}
 	admiralPort := ovf.Properties["management_portal.port"]
 
-	log.Infof("version: %s", version)
-	log.Infof("tenant: %s", domain)
-	log.Infof("vcHostName: %s", vcHostname)
-	log.Infof("vmIP: %s", vmIP.String())
-	log.Infof("admiralPort: %s", admiralPort)
-
+	// Register all VIC components with PSC
 	cmdName := "java"
-	cmdArgs := []string{
-		"-jar",
-		pscBinaryPath,
-		"--command=register",
-		"--clientName=admiral",
-		"--version=" + version,
-		"--tenant=" + domain,
-		"--domainController=" + vcHostname,
-		"--username=" + admin.User,
-		"--password=" + admin.Password,
-		"--admiralUrl=" + fmt.Sprintf("https://%s:%s", vmIP.String(), admiralPort),
-		"--configDir=" + pscConfDir,
-	}
-	cmd := exec.Command(cmdName, cmdArgs...)
-	if output, err := cmd.CombinedOutput(); err != nil {
-		log.Infof("Error running PSC register command: %s", string(output))
-		return err
+	for _, client := range []string{"admiral", "harbor", "engine"} {
+		cmdArgs := []string{
+			"-jar",
+			pscBinaryPath,
+			"--command=register",
+			"--clientName=" + client,
+			"--version=" + version,
+			"--tenant=" + domain,
+			"--domainController=" + vcHostname,
+			"--username=" + admin.User,
+			"--password=" + admin.Password,
+			"--admiralUrl=" + fmt.Sprintf("https://%s:%s", vmIP.String(), admiralPort),
+			"--configDir=" + pscConfDir,
+		}
+		cmd := exec.Command(cmdName, cmdArgs...)
+		if output, err := cmd.CombinedOutput(); err != nil {
+			log.Infof("Error running PSC register command: %s", string(output))
+			return err
+		}
 	}
 
 	return nil
