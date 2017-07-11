@@ -28,8 +28,10 @@ tdnf remove -y cloud-init
 mkdir /etc/vmware
 mkdir "/usr/lib/systemd/system/getty@tty2.service.d"
 
-# Create directory for PSC token
+# Create directories for PSC token
 mkdir -p /etc/vmware/psc/admiral
+mkdir -p /etc/vmware/psc/harbor
+mkdir -p /etc/vmware/psc/engine
 
 # Create Data Dir
 mkdir /data
