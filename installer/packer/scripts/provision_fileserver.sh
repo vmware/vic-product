@@ -56,6 +56,12 @@ mv ${VIC_ENGINE_FILE} ${FILES_DIR}
 
 KOV_BUCKET="kov-releases"
 KOV_BINARY_NAME="vic-adm"
+
+# fileserver service is after data.mount
+KOV_DATA_DIR="/data/kov"
+# make sure this directory exists
+mkdir -p ${KOV_DATA_DIR}
+
 if [ ${BUILD_KOV_CLI_REVISION} = "dev" ]; then
     KOV_BUCKET="kov-builds"
 fi
@@ -63,4 +69,5 @@ fi
 KOV_CLI_URL="https://storage.googleapis.com/${KOV_BUCKET}/${KOV_BINARY_NAME}_${BUILD_KOV_CLI_REVISION}.tar.gz"
 echo "Downloading KOV ${KOV_CLI_URL}"
 curl -LO ${KOV_CLI_URL}
+cp ${KOV_BINARY_NAME}_${BUILD_KOV_CLI_REVISION}.tar.gz ${KOV_DATA_DIR}
 mv ${KOV_BINARY_NAME}_${BUILD_KOV_CLI_REVISION}.tar.gz ${FILES_DIR}
