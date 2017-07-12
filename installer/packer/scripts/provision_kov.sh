@@ -47,5 +47,6 @@ curl -o ${KOV_CONF_DIR}/${KOV_VMDK} ${KOV_VMDK_URL}
 ver=$(curl -sL https://storage.googleapis.com/kubernetes-release/release/stable.txt)
 echo "Downloading kubectl $ver"
 
-curl -o /usr/bin/kubectl -L'#' https://storage.googleapis.com/kubernetes-release/release/$ver/bin/linux/amd64/kubectl
+curl -o ${KOV_DATA_DIR}/kubectl -L'#' https://storage.googleapis.com/kubernetes-release/release/$ver/bin/linux/amd64/kubectl
+cp ${KOV_DATA_DIR}/kubectl /usr/bin/kubectl
 chmod +x /usr/bin/kubectl

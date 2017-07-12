@@ -69,6 +69,7 @@ function bundle_kov {
   cd $FILES_DIR
   set +f
   [ -f ${KOV_BINARY_NAME}_*.tar.gz ] || cp_kov_tar
+  [ -f kubectl ] || cp ${data_dir}/kubectl .
   kov_target=$(ls ${KOV_BINARY_NAME}_*.tar.gz)
   kov_tag="${kov_target#${KOV_BINARY_NAME}_}"
   kov_tag="${kov_tag%.tar.gz}"
@@ -78,9 +79,9 @@ function bundle_kov {
   for dir in bin/*; do
     target=$(ls ${dir})
     cp ${dir}/${target} bin/${target}
-    tar czvf $(basename ${dir})-${kov_tag}.tar.gz bin/${target} ${CERT_FILES_DIR} ${KOV_ENV_FILE}
+    tar czvf $(basename ${dir})-${kov_tag}.tar.gz bin/${target} ${CERT_FILES_DIR} ${KOV_ENV_FILE} kubectl
   done
-  rm -rf bin ${CERT_FILES_DIR} ${KOV_ENV_FILE} ${KOV_BINARY_NAME}_${kov_tag}.tar.gz
+  rm -rf bin ${CERT_FILES_DIR} ${KOV_ENV_FILE} ${KOV_BINARY_NAME}_${kov_tag}.tar.gz kubectl
   set -f
 }
 
