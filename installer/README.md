@@ -74,7 +74,6 @@ export BUILD_ADMIRAL_REVISION=v1.1.1  # Optional, defaults to vic_dev tag (https
 
 export BUILD_KOVD_REVISION=v0.1     # Optional, defaults to dev tag
 export BUILD_KOV_CLI_REVISION=v0.1  # Optional, defaults to dev tag
-
 ```
 
 Then set the required env vars for the build environment and make the release:
