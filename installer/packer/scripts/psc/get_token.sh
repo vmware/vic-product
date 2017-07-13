@@ -15,17 +15,17 @@
 set -euf -o pipefail
 
 # Prepare paths for token files
-mkdir -p /etc/vmware/psc/admiral
 mkdir -p /etc/vmware/psc/harbor
 mkdir -p /etc/vmware/psc/engine
+mkdir -p /etc/vmware/psc/admiral
 chmod +x /etc/vmware/psc/put_token_guestinfo.sh
 
 version=$(grep "version" /etc/vmware/psc/admiral/psc-config.properties | awk -F= '{print $2}')
 
 # Generate token files
-/usr/bin/java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar --command=get-token --version=$version --configFile=/etc/vmware/psc/admiral/psc-config.properties --tokenFile=/etc/vmware/psc/admiral/tokens.properties
 /usr/bin/java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar --command=get-token --version=$version --configFile=/etc/vmware/psc/harbor/psc-config.properties --tokenFile=/etc/vmware/psc/harbor/tokens.properties
 /usr/bin/java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar --command=get-token --version=$version --configFile=/etc/vmware/psc/engine/psc-config.properties --tokenFile=/etc/vmware/psc/engine/tokens.properties
+/usr/bin/java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar --command=get-token --version=$version --configFile=/etc/vmware/psc/admiral/psc-config.properties --tokenFile=/etc/vmware/psc/admiral/tokens.properties
 
 # Put the engine token in guestinfo
 /etc/vmware/psc/put_token_guestinfo.sh

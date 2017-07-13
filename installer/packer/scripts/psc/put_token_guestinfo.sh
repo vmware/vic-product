@@ -16,5 +16,5 @@
 # This script grabs the engine PSC token and puts it in guestinfo.
 set -euf -o pipefail
 
-engine_psc_token=$(grep "access_token" /etc/vmware/psc/engine/tokens.properties | awk -F'=' '{print $2}')
+engine_psc_token=$(grep "access_token" /etc/vmware/psc/engine/tokens.properties | awk -F'access_token=' '{print $2}')
 /etc/vmware/set_guestinfo.sh "engine.token" $engine_psc_token
