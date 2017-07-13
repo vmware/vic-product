@@ -75,7 +75,6 @@ export BUILD_ADMIRAL_REVISION=v1.1.1  # Optional, defaults to vic_dev tag (https
 export BUILD_KOVD_REVISION=v0.1     # Optional, defaults to dev tag
 export BUILD_KOV_CLI_REVISION=v0.1  # Optional, defaults to dev tag
 
-export BUILD_PORTGROUP="VM Network" # Optional, port group that Packer VM is connected to, defaults to "VM Network"
 ```
 
 Then set the required env vars for the build environment and make the release:
@@ -84,7 +83,8 @@ Then set the required env vars for the build environment and make the release:
 export PACKER_ESX_HOST=1.1.1.1
 export PACKER_USER=root
 export PACKER_PASSWORD=password
-export PACKER_LOG=1  # Optional
+export BUILD_PORTGROUP="VM Network" # Port group that Packer VM is connected to, defaults to "VM Network" in `build.sh`
+export PACKER_LOG=1                 # Optional
 
 make ova-release
 ```
