@@ -15,54 +15,28 @@ pipeline:
     tags: true
     recursive: false
 
-  dinv-build:
-    environment:
-      DOCKER_HOST: tcp://127.0.0.1:2375
-    image: docker:latest
-    pull: true
-    commands:
-      - docker ps
-      - apk add --update bash git
-      - dinv/ci.sh build
-    when:
-      branch: master
-      repo: vmware/vic-product
-      event: [push, pull_request, tag, deployment]
-
-  dinv-push:
-    environment:
-      DOCKER_HOST: tcp://127.0.0.1:2375
-    image: docker:latest
-    pull: true
-    commands:
-      - docker ps
-      - apk add --update bash git
-      - dinv/ci.sh push
-    when:
-      branch: master
-      repo: vmware/vic-product
-      event: [push, tag, deployment]
-
 # pipeline:
 #   clone:
 #     image: plugins/git
 #     tags: true
 #     recursive: false
 
-#   unified-ova-build:
-#     image: harbor.ci.drone.local/library/vic-integration-test:1.32
-#     pull: true
-#     environment:
-#       BIN: bin
-#       GOPATH: /go
-#       SHELL: /bin/bash
-#       PACKER_ESX_HOST: builds-25.vcna.io
-#       PACKER_USER: root
-#       PACKER_PASSWORD: vmware1
-#       BUILD_VICENGINE_REVISION: 1.1.1
-#     commands:
-#       - cd installer/
-#       - scripts/build.sh
+  unified-ova-build: 
+    image: gcr.io/eminent-nation-87317/vic-integration-test:1.32
+    environment:
+       SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}
+       OVA_BUILD_MACHINE: ${OVA_BUILD_MACHINE}
+       OVA_BUILD_USER: ${OVA_BUILD_USER}
+       PACKER_ESX_HOST: ${PACKER_ESX_HOST}
+       PACKER_USER: ${PACKER_USER}
+       PACKER_PASSWORD: ${PACKER_PASSWORD}
+       BUILD_VICENGINE_REVISION: ${BUILD_VICENGINE_REVISION}
+    commands:
+      - keyfile="ova_id_rsa"
+      - echo $SSH_PRIVATE_KEY > $keyfile
+      - chmod 400 $keyfile
+      - chmod 600 $keyfile
+      - installer/scripts/ova-ssh-build.sh $keyfile
 
 #   bundle:
 #     image: harbor.ci.drone.local/library/golang:1.8
