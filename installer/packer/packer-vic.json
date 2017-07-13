@@ -6,6 +6,7 @@
     "remote_username": "",
     "remote_password": "",
     "root_password": "2RQrZ83i79N6szpvZNX6",
+    "build_portgroup": "{{env `BUILD_PORTGROUP`}}",
     "build_vicengine_revision": "{{env `BUILD_VICENGINE_REVISION`}}",
     "build_vicengine_file": "{{env `BUILD_VICENGINE_FILE`}}",
     "build_vicengine_url": "{{env `BUILD_VICENGINE_URL`}}",
@@ -50,7 +51,7 @@
       "vmx_data": {
         "scsi0.virtualDev": "pvscsi",
         "ethernet0.virtualDev": "vmxnet3",
-        "ethernet0.networkName": "VM Network"
+        "ethernet0.networkName": "{{user `build_portgroup`}}"
         },
       "vmx_data_post": {
         "usb.present": "false"
@@ -84,7 +85,7 @@
       "vmx_data": {
         "scsi0.virtualDev": "pvscsi",
         "ethernet0.virtualDev": "vmxnet3",
-        "ethernet0.networkName": "VM Network"
+        "ethernet0.networkName": "{{user `build_portgroup`}}"
         },
       "vmx_data_post": {
         "usb.present": "false"

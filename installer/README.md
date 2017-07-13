@@ -82,7 +82,8 @@ Then set the required env vars for the build environment and make the release:
 export PACKER_ESX_HOST=1.1.1.1
 export PACKER_USER=root
 export PACKER_PASSWORD=password
-export PACKER_LOG=1  # Optional
+export BUILD_PORTGROUP="VM Network" # Port group that Packer VM is connected to, defaults to "VM Network" in `build.sh`
+export PACKER_LOG=1                 # Optional
 
 make ova-release
 ```
