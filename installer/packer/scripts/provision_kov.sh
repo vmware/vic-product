@@ -48,5 +48,5 @@ ver=$(curl -sL https://storage.googleapis.com/kubernetes-release/release/stable.
 echo "Downloading kubectl $ver"
 
 curl -o ${KOV_DATA_DIR}/kubectl -L'#' https://storage.googleapis.com/kubernetes-release/release/$ver/bin/linux/amd64/kubectl
+chmod +x ${KOV_DATA_DIR}/kubectl
 cp ${KOV_DATA_DIR}/kubectl /usr/bin/kubectl
-chmod +x /usr/bin/kubectl
