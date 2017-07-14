@@ -52,7 +52,7 @@ pipeline:
   unified-ova-build: 
     image: gcr.io/eminent-nation-87317/vic-integration-test:1.32
     environment:
-       SSH_OVA_PRIVATE_KEY: ${SSH_OVA_PRIVATE_KEY}
+       OVA_BUILD_SSH_KEY: ${OVA_BUILD_SSH_KEY}
        OVA_BUILD_MACHINE_IP: ${OVA_BUILD_MACHINE_IP}
        OVA_BUILD_USER: ${OVA_BUILD_USER}
        PACKER_ESX_HOST: ${PACKER_ESX_HOST}
@@ -62,7 +62,7 @@ pipeline:
        BUILD_VICENGINE_REVISION: ${BUILD_VICENGINE_REVISION}
     commands:
       - keyfile="ova_id_rsa"
-      - echo $SSH_OVA_PRIVATE_KEY > $keyfile
+      - echo $OVA_BUILD_SSH_KEY > $keyfile
       - chmod 600 $keyfile
       - installer/scripts/ova-ssh-build.sh $keyfile
 
