@@ -65,6 +65,12 @@ pipeline:
     commands:
       - keyfile="ova_id_rsa"
       - echo $OVA_BUILD_SSH_KEY > $keyfile
+      - echo $OVA_BUILD_MACHINE_IP
+      - echo $OVA_BUILD_USER
+      - echo $PACKER_ESX_HOST
+      - echo $PACKER_USER
+      - echo $PACKER_PASSWORD
+      - echo $BUILD_PORTGROUP
       - chmod 600 $keyfile
       - installer/scripts/ova-ssh-build.sh $keyfile
 
