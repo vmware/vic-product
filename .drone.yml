@@ -51,6 +51,8 @@ pipeline:
 
   unified-ova-build: 
     image: gcr.io/eminent-nation-87317/vic-integration-test:1.32
+    pull: true
+    privileged: true
     environment:
        OVA_BUILD_SSH_KEY: ${OVA_BUILD_SSH_KEY}
        OVA_BUILD_MACHINE_IP: ${OVA_BUILD_MACHINE_IP}

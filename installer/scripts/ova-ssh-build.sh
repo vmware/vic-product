@@ -23,7 +23,7 @@ PACKER_PASSWORD="${PACKER_PASSWORD:-}"
 keyfile=$1
 
 if [ -z "${PACKER_ESX_HOST}" ] || [ -z "${PACKER_USER}" ]; then
-  echo "Required Packer environment variables not set"
+  echo "Required Packer env variables not set"
   exit 1
 fi
 
