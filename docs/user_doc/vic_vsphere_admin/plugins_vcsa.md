@@ -18,23 +18,13 @@ You install the vSphere Client plug-ins for vSphere Integrated Containers by log
 1. Connect as root user to the vCenter Server Appliance by using SSH.<pre>ssh root@<i>vcsa_address</i></pre>
 4. Use `curl` to copy the vSphere Integrated Containers Engine binaries from the vSphere Integrated Containers appliance file server to the vCenter Server Appliance.<pre>curl -k https://<i>vic_appliance_address</i>:9443/vic_1.2.x.tar.gz -o vic_1.2.x.tar.gz</pre>**NOTE**: Update `vic_1.2.x` to the appropriate version in the command above and in the next step.
 5. Unpack the vSphere Integrated Containers binaries.<pre>tar -zxf vic_1.2.x.tar.gz</pre>
-5. Set the IPv4 address or FQDN of the vCenter Server instance in the `/vic/ui/VCSA/configs` file.<pre>VCENTER_IP="<i>vcsa_address</i>"</pre>
-
-   Alternatively, you can use a utility such as `sed` to update the `configs` file:<pre>sed -i 's#^\(VCENTER_IP=\).*$#\1"<i>vcsa_address</i>"#' ~/vic/ui/*/configs</pre>
-6. Set the URL of the vSphere Integrated Containers appliance file server in the `/vic/ui/VCSA/configs` file.<pre>VIC_UI_HOST_URL="https://<i>vic_appliance_address</i>:9443/"</pre>You must enter the full URL and include the closing forward slash (`/`) after the port number. 
-
-   Alternatively, you can use `sed`:<pre>sed -i 's#^\(VIC_UI_HOST_URL=\).*$#\1"https://<i>vic_appliance_address</i>:9443"#' ~/vic/ui/*/configs</pre>
-7. Obtain the thumbprint of the vSphere Integrated Containers appliance file server certificate.<pre>echo | openssl s_client -connect <i>vic_appliance_address</i>:9443 | openssl x509 -fingerprint -sha1 -noout</pre>Do not include the HTTPS prefix in <i>vic_appliance_address</i>:9443.
-8.  Set the certificate thumbprint in the `/vic/ui/VCSA/configs` file, replacing <i>thumbprint</i> with the output of the command from the preceding step.<pre>VIC_UI_HOST_THUMBPRINT="<i>thumbprint</i>"</pre>
-
-   Alternatively, you can use `sed`:<pre>sed -i 's#^\(VIC_UI_HOST_THUMBPRINT=\).*$#\1"<i>thumbprint</i>"#' ~/vic/ui/*/configs</pre>
-9. Navigate to `/vic/ui/VCSA`, and run the installer script, entering the user name and password for the vCenter Server administrator account when prompted.<pre>cd vic/ui/VCSA</pre><pre>./install.sh</pre>This first run of the script installs the HTML5 client.
-10. When the installation finishes, stop and restart the HTML5 vSphere Client service.<pre>service-control --stop vsphere-ui</pre><pre>service-control --start vsphere-ui</pre>
-10. To install the plug-in for the Flex-based vSphere Web Client, edit `/vic/ui/VCSA/configs` again and set the plug-in type to `flex`.<pre>PLUGIN_TYPE="flex"</pre>
-
-   Alternatively, you can use `sed`:<pre>sed -i 's#^\(PLUGIN_TYPE=\).*$#\1"flex"#' ~/vic/ui/*/configs</pre>
-11. Run the installer script, entering the user name and password for the vCenter Server administrator account when prompted.<pre>cd vic/ui/VCSA</pre><pre>./install.sh</pre>
-10. When the installation finishes, stop and restart the Flex-based vSphere Web Client service.<pre>service-control --stop vsphere-client</pre><pre>service-control --start vsphere-client</pre>
+9. Navigate to `/vic/ui/VCSA`, run the installer script, and follow the prompts.<pre>cd vic/ui/VCSA</pre><pre>./install.sh</pre>
+	1. Enter the IP address of the vCenter Server instance.
+	1. Enter the user name and password for the vCenter Server administrator account.
+	2. Enter **yes** to confirm that you trust the host and wait for the install process to finish. 
+10. When the installation finishes, stop and restart the services of your management clients.
+	1. Restart the HTML5 vSphere Client service.<pre>service-control --stop vsphere-ui</pre><pre>service-control --start vsphere-ui</pre>
+	2. Restart the Flex-based vSphere Web Client service.<pre>service-control --stop vsphere-client</pre><pre>service-control --start vsphere-client</pre>
 
 **What to Do Next**
 
