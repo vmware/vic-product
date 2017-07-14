@@ -1,22 +1,56 @@
-.main-nav .header {background-color: #0B6C8F;}
-.header .github {position: absolute; right:18px; top:6px;}
-.header .logout {position: absolute; right:210px; top:6px}
-.header .icon-github-circled {font-size:20px}
-.header .icon-logout {font-size:20px}
+/* Header / navigation section */
 
-section {width: 100%; padding-left: 24px; padding-right: 24px; max-width: 1056px; margin: 0 auto; padding-top: 24px;}
-.community-top-section {padding-top: 0;}
+.main-nav .header {
+    background-color: #0B6C8F;
+}
+
+.header .github {
+    position: absolute;
+    right: 18px;
+    top: 6px;
+}
+
+.header .logout {
+    position: absolute;
+    right: 210px;
+    top: 6px
+}
+
+.header .icon-github-circled {
+    font-size: 20px
+}
+
+.header .icon-logout {
+    font-size: 20px
+}
 
 
-.card .row {margin:0 18px 10px;}
-.sixty {width:60%; margin-right:5px;}
-.forty {width:35%;}
-.center{ float:none; margin-left:auto; margin-right:auto;}
-.right {float:right; margin-right:18px;}
-li .right {margin-right:120px}
+/* Clarity UI overrides */
 
-.icon-ok {color:#62A420;}
-.icon-attention {color:#EB8D00;}
-.error-message {color:#c92100; font-size:12px; line-height:12px; display:block; margin-bottom:8px;}
+.content-area {
+    padding: 0px !important;
+}
 
-form {padding-top:0;}
+.card.transparent {
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+
+/* Custom elements and containers */
+
+h1#getting-started {
+    text-align: center;
+}
+
+#docs-link-container {
+    display: flex;
+    align-items: flex-end;
+}
+
+#infra-deploy-tools-container {
+    margin-top: 36px;
+    padding-bottom: 36px;
+    background-color: #ececec;
+}
