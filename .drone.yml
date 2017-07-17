@@ -62,6 +62,7 @@ pipeline:
        BUILD_PORTGROUP: ${BUILD_PORTGROUP}
        PACKER_PASSWORD: ${PACKER_PASSWORD}
        BUILD_VICENGINE_REVISION: ${BUILD_VICENGINE_REVISION}
+       DRONE_TIMEOUT: ${DRONE_TIMEOUT}
     commands:
       - keyfile="ova_id_rsa"
       - echo $OVA_BUILD_SSH_KEY > $keyfile
