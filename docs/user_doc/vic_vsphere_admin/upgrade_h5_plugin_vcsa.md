@@ -1,4 +1,4 @@
-# Upgrade the Plug-Ins on vCenter Server for Windows #
+# Upgrade the Plug-Ins on vCenter Server Appliance #
 
 If you have a previous 1.1.x installation of the plug-ins for vSphere Integrated Containers, you must upgrade them. This procedure describes how to upgrade an existing plug-ins for a vCenter Server Appliance.
 
