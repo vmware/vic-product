@@ -63,6 +63,7 @@ pipeline:
        PACKER_PASSWORD: ${PACKER_PASSWORD}
        BUILD_VICENGINE_REVISION: ${BUILD_VICENGINE_REVISION}
        DRONE_TIMEOUT: ${DRONE_TIMEOUT}
+       DRONE_TIMEOUT_INACTIVITY: ${DRONE_TIMEOUT_INACTIVITY}
     commands:
       - keyfile="ova_id_rsa"
       - echo $OVA_BUILD_SSH_KEY > $keyfile
