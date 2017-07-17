@@ -31,6 +31,12 @@ echo "Cleaning up the bin folder.."
 rm -rf bin
 mkdir bin
 
+mkdir /root/.ssh/
+touch /root/.ssh/known_hosts
+pwd
+ls -al .
+ls -al /root/.ssh/known_hosts
+
 echo "Starting ssh to the OVA Builder vm.."
 ssh -t -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP "export PACKER_ESX_HOST=$PACKER_ESX_HOST && export PACKER_USER=$PACKER_USER && export PACKER_PASSWORD=$PACKER_PASSWORD && export BUILD_PORTGROUP=$BUILD_PORTGROUP && export BUILD_VICENGINE_REVISION=$BUILD_VICENGINE_REVISION && cd ~/go/src/github.com/vmware/vic-product/installer/ && sudo rm -rf bin && sudo -E scripts/build.sh"
 
