@@ -75,7 +75,7 @@ func registerWithPSC(ctx context.Context) error {
 
 	// Register all VIC components with PSC
 	cmdName := "java"
-	for _, client := range []string{"admiral", "harbor", "engine"} {
+	for _, client := range []string{"harbor", "engine", "admiral"} {
 		cmdArgs := []string{
 			"-jar",
 			pscBinaryPath,

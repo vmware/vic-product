@@ -1,0 +1,11 @@
+[Unit]
+Description=OVA PSC Token Creation
+Documentation=http://github.com/vmware/vic-product/installer
+Before=harbor_startup.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash /etc/vmware/psc/get_token.sh
+
+[Install]
+WantedBy=multi-user.target
