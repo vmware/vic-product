@@ -88,11 +88,6 @@ pipeline:
      acl:
        - allUsers:READER
      cache_control: public,max-age=3600
-     when:
-       repo: vmware/vic-product
-       event: [ push ]
-       branch: [ master, releases/* ]
-       status: success
 
   publish-gcs-releases:
      image: maplain/drone-gcs:latest
@@ -102,11 +97,6 @@ pipeline:
      acl:
        - allUsers:READER
      cache_control: public,max-age=3600
-     when:
-       repo: vmware/vic-product
-       event: [ push, tag ]
-       branch: [ refs/tags/* ]
-       status: success
 
 services:
   dind:
