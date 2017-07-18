@@ -89,7 +89,7 @@ pipeline:
      when:
       branch: master
       repo: vmware/vic-product
-      event: [push, tag, deployment]
+      status: success
 
   publish-gcs-releases:
      image: maplain/drone-gcs:latest
@@ -102,7 +102,7 @@ pipeline:
      when:
       branch: master
       repo: vmware/vic-product
-      event: [push, tag, deployment]
+      status: success
 
 services:
   dind:
