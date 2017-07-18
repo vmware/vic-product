@@ -58,8 +58,6 @@ pipeline:
      acl:
        - allUsers:READER
      cache_control: public,max-age=3600
-     when:
-      status: success
 
   publish-gcs-releases:
      image: maplain/drone-gcs:latest
@@ -69,8 +67,6 @@ pipeline:
      acl:
        - allUsers:READER
      cache_control: public,max-age=3600
-     when:
-      status: success
 
 services:
   dind:
