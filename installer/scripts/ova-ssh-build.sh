@@ -42,4 +42,5 @@ ssh -t -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHIN
 
 ssh -t -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP "sudo chown $OVA_BUILD_USER:$OVA_BUILD_USER ~/go/src/github.com/vmware/vic-product/installer/bin/vic-*.ova"
 
+echo "Copying the ova from the ovabuilder.."
 scp -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP:"~/go/src/github.com/vmware/vic-product/installer/bin/vic-*.ova" bin/
