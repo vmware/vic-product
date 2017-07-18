@@ -233,4 +233,8 @@ Solution: If firewall is disabled already, set a reasonable timeout for VNC port
 Look at the console for the launched `vic` Packer VM. The Packer VM might not be able to get the
 kickstart file to boot.
 
-Solution: Check networking. The Packer VM must have a route to the build machine.
+Solution: Check networking. The Packer VM must have a route to the build machine. You may also need to disable the firewall on the build machine:
+```
+sudo ufw disable
+```
+

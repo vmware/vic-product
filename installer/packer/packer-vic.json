@@ -279,6 +279,21 @@
       "destination": "/etc/vmware/admiral/start_admiral.sh"
     },
     {
+      "type": "file",
+      "source": "scripts/systemd/psc/get_token.service",
+      "destination": "/usr/lib/systemd/system/get_token.service"
+    },
+    {
+      "type": "file",
+      "source": "scripts/psc/get_token.sh",
+      "destination": "/etc/vmware/psc/get_token.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/psc/put_token_guestinfo.sh",
+      "destination": "/etc/vmware/psc/put_token_guestinfo.sh"
+    },
+    {
       "type": "shell",
       "environment_vars": ["BUILD_VICENGINE_REVISION={{user `build_vicengine_revision`}}",
                            "BUILD_VICENGINE_FILE={{user `build_vicengine_file`}}",
