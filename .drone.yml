@@ -67,8 +67,6 @@ pipeline:
     commands:
       - keyfile="ova_id_rsa"
       - echo $OVA_BUILD_SSH_KEY > $keyfile
-      - echo $PACKER_USER
-      - echo $PACKER_PASSWORD
       - chmod 600 $keyfile
       - installer/scripts/ova-ssh-build.sh $keyfile
 
@@ -88,6 +86,10 @@ pipeline:
      acl:
        - allUsers:READER
      cache_control: public,max-age=3600
+     when:
+      branch: master
+      repo: vmware/vic-product
+      event: [push, tag, deployment]
 
   publish-gcs-releases:
      image: maplain/drone-gcs:latest
@@ -97,6 +99,10 @@ pipeline:
      acl:
        - allUsers:READER
      cache_control: public,max-age=3600
+     when:
+      branch: master
+      repo: vmware/vic-product
+      event: [push, tag, deployment]
 
 services:
   dind:
