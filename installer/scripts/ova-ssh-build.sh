@@ -44,6 +44,9 @@ echo "Starting ssh to the OVA Builder vm.."
 
 ssh -t -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP "ping -c 3 $OVA_BUILD_MACHINE_IP && traceroute $OVA_BUILD_MACHINE_IP"
 
+echo "Install rSync"
+ssh -t -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP "sudo apt-get install rsync"
+
 echo "Copying the ova from the ovabuilder.."
 #scp -v -r -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP:"~/go/src/github.com/vmware/vic-product/installer/bin/vic-*.ova" bin/
 rsync -r -v --progress -e ssh -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP:"~/go/src/github.com/vmware/vic-product/installer/bin/vic-*.ova" bin/
