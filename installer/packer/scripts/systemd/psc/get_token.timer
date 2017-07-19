@@ -3,7 +3,6 @@ Description=Run the PSC Get Token service every hour
 Documentation=http://github.com/vmware/vic-product/installer
 
 [Timer]
-OnActiveSec=1h
 OnUnitActiveSec=1h
 
 [Install]
