@@ -15,11 +15,33 @@ pipeline:
     tags: true
     recursive: false
 
-  pipeline:
-   clone:
-     image: plugins/git
-     tags: true
-     recursive: false
+  dinv-build:
+    environment:
+      DOCKER_HOST: tcp://127.0.0.1:2375
+    image: docker:latest
+    pull: true
+    commands:
+      - docker ps
+      - apk add --update bash git
+      - dinv/ci.sh build
+    when:
+      branch: master
+      repo: vmware/vic-product
+      event: [push, pull_request, tag, deployment]
+
+  dinv-push:
+    environment:
+      DOCKER_HOST: tcp://127.0.0.1:2375
+    image: docker:latest
+    pull: true
+    commands:
+      - docker ps
+      - apk add --update bash git
+      - dinv/ci.sh push
+    when:
+      branch: master
+      repo: vmware/vic-product
+      event: [push, tag, deployment]
 
   unified-ova-build: 
     image: gcr.io/eminent-nation-87317/vic-integration-test:1.32
@@ -51,6 +73,13 @@ pipeline:
        - ls -al bundle
 
   publish-gcs-builds:
+     image: maplain/drone-gcs:latest
+     pull: true
+     source: bundle
+     target: vic-product-ova-builds
+     acl:
+       - allUsers:READER
+     cache_control: public,max-age=3600
 
   publish-gcs-releases:
      image: maplain/drone-gcs:latest
