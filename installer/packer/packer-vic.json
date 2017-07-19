@@ -290,6 +290,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/psc/get_token.timer",
+      "destination": "/usr/lib/systemd/system/get_token.timer"
+    },
+    {
+      "type": "file",
       "source": "scripts/psc/put_token_guestinfo.sh",
       "destination": "/etc/vmware/psc/put_token_guestinfo.sh"
     },
