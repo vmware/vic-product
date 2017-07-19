@@ -45,4 +45,4 @@ echo "Starting ssh to the OVA Builder vm.."
 ssh -t -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP "ping -c 3 $OVA_BUILD_MACHINE_IP && traceroute $OVA_BUILD_MACHINE_IP"
 
 echo "Copying the ova from the ovabuilder.."
-scp -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP:"~/go/src/github.com/vmware/vic-product/installer/bin/vic-*.ova" bin/
+scp -v -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP:"~/go/src/github.com/vmware/vic-product/installer/bin/vic-*.ova" bin/
