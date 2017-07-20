@@ -22,7 +22,7 @@ curl -L "https://github.com/docker/compose/releases/download/1.11.1/docker-compo
 chmod +x /usr/local/bin/docker-compose
 
 # Remove unused packages
-tdnf remove -y cloud-init
+tdnf remove -y cloud-init open-vm-tools
 
 # Create directory to host VMware-specific scripts
 mkdir /etc/vmware
