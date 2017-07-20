@@ -104,8 +104,9 @@ fi
 
 export BUILD_PORTGROUP="${BUILD_PORTGROUP}"
 
-make ova-release
-
+#make ova-release
+echo "Drone build number"
+echo ${DRONE_BUILD_NUMBER}
 OUTFILE=bin/$(ls -1 bin | grep "\.ova")
 
 if [ -n "${DRONE_BUILD_NUMBER}" ]; then
