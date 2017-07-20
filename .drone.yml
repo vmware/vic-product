@@ -30,9 +30,6 @@ pipeline:
        BUILD_VICENGINE_REVISION: ${BUILD_VICENGINE_REVISION}
        DRONE_TIMEOUT: ${DRONE_TIMEOUT}
        DRONE_TIMEOUT_INACTIVITY: ${DRONE_TIMEOUT_INACTIVITY}
-       GS_PROJECT_ID: ${GS_PROJECT_ID}
-       GS_CLIENT_EMAIL: ${GS_CLIENT_EMAIL}
-       GS_PRIVATE_KEY: ${GS_PRIVATE_KEY}
        BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
     commands:
       - keyfile="ova_id_rsa"
@@ -58,7 +55,7 @@ pipeline:
      cache_control: public,max-age=3600
      when:
       repo: vmware/vic-product
-      event: [ push ]
+      event: [ pull_request, push ]
       branch: [ master, releases/* ]
       status: success
 
@@ -71,6 +68,7 @@ pipeline:
        - allUsers:READER
      cache_control: public,max-age=3600
      when:
+      repo: vmware/vic-product
       event: [ push, tag ]
       branch: [ refs/tags/* ]
       status: success
