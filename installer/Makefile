@@ -34,13 +34,15 @@ BIN ?= bin
 
 export GOPATH ?= $(shell echo $(CURDIR) | sed -e 's,/src/.*,,')
 GVT ?= $(GOPATH)/bin/gvt$(BIN_ARCH)
+GAS ?= $(GOPATH)/bin/gas$(BIN_ARCH)
 
-.PHONY: ova-release ova-debug vagrant-local
+.PHONY: ova-release ova-debug vagrant-local gas
 
 ovfenv := $(BIN)/ovfenv
 vic-ova-ui := $(BIN)/vic-ova-ui
 ova-webserver := $(BIN)/ova-webserver
 ova-engine-installer := $(BIN)/ova-engine-installer
+gas: $(GAS)
 ovfenv: $(ovfenv)
 vic-ova-ui: $(vic-ova-ui)
 ova-webserver: $(ova-webserver)
@@ -79,7 +81,7 @@ $(ova-engine-installer): $(call godeps,engine_installer/*.go)
 	@echo building ova-engine-installer
 	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -o ./$@ ./$(dir $<)
 
-ova-release: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
+ova-release: gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
 	@echo building vic-unified-installer OVA using packer...
 	@cd $(BASE_DIR)packer && $(PACKER) build \
 			-only=ova-release \
@@ -157,6 +159,10 @@ vagrant-local: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
 			--on-error=abort packer-vic.json
 
 # utility targets
+$(GAS): vendor/manifest
+	@echo building $(GAS)...
+	@$(GO) build $(RACE) -o $(GAS) ./vendor/github.com/GoASTScanner/gas
+
 $(GVT): vendor/manifest
 	@echo building $(GVT)...
 	@$(GO) build $(RACE) -o $(GVT) ./vendor/github.com/FiloSottile/gvt
@@ -165,8 +171,15 @@ vendor: $(GVT)
 	  @echo restoring vendor
 		  $(GVT) restore
 
+gas: $(GAS)
+	@echo running go AST tool
+	@for i in engine_installer fileserver lib ovatools pkg tags tagvm; do pushd $$i > /dev/null; $(GAS) ./... > ../$$i.gas 2> /dev/null; popd > /dev/null; done
+
 clean:
 	@echo removing binaries
 	@rm -rf $(BIN)/*
 	@echo removing OVA installer files...
 	@rm -rf packer/vic
+	@echo removing .gas files
+	@rm -f *.gas
+
