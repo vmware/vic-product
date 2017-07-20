@@ -33,6 +33,7 @@ pipeline:
        GS_PROJECT_ID: ${GS_PROJECT_ID}
        GS_CLIENT_EMAIL: ${GS_CLIENT_EMAIL}
        GS_PRIVATE_KEY: ${GS_PRIVATE_KEY}
+       BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
     commands:
       - keyfile="ova_id_rsa"
       - echo $OVA_BUILD_SSH_KEY > $keyfile
