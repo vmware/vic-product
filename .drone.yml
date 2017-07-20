@@ -35,7 +35,7 @@ pipeline:
       - keyfile="ova_id_rsa"
       - echo $OVA_BUILD_SSH_KEY > $keyfile
       - chmod 600 $keyfile
-      - echo $DRONE_BUILD_NUMBER
+      - echo ${DRONE_BUILD_NUMBER}
       - installer/scripts/ova-ssh-build.sh $keyfile
 
   bundle:
