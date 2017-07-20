@@ -15,23 +15,18 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"os"
-	"strings"
 
 	"gopkg.in/urfave/cli.v1"
 
 	"github.com/vmware/vmw-guestinfo/rpcvmx"
 	"github.com/vmware/vmw-guestinfo/vmcheck"
 
-	"github.com/vmware/vic/pkg/version"
+	"github.com/vmware/govmomi/ovf"
+	"github.com/vmware/govmomi/vim25/xml"
+	"github.com/vmware/vic-product/installer/pkg/version"
 )
-
-type environment struct {
-	Platform   map[string]string
-	Properties map[string]string
-}
 
 func main() {
 
@@ -42,11 +37,12 @@ func main() {
 		cli.StringFlag{
 			Name:  "key, k",
 			Value: "",
-			Usage: "Get single OVF property",
+			Usage: "Work on single OVF property",
 		},
-		cli.BoolFlag{
-			Name:  "dump",
-			Usage: "Dump the OVF Environment XML",
+		cli.StringFlag{
+			Name:  "set, s",
+			Value: "",
+			Usage: "Set value for OVF property",
 		},
 	}
 
@@ -56,93 +52,99 @@ func main() {
 		isVM, err := vmcheck.IsVirtualWorld()
 		if err != nil {
 			fmt.Printf("error: %s\n", err.Error())
-			os.Exit(-1)
+			return err
 		}
 
 		// No point in running if we're not inside a VM
 		if !isVM {
 			fmt.Println("not living in a virtual world... :(")
-			os.Exit(-1)
+			return err
 		}
 
 		config := rpcvmx.NewConfig()
-		// Fetch OVF Environment via RPC
-		ovfEnv, err := config.String("guestinfo.ovfEnv", "")
-		if err != nil {
-			fmt.Println("impossible to fetch ovf environment, exiting")
-			os.Exit(1)
+		var e ovf.Env
+
+		if err := fetchovfEnv(config, &e); err != nil {
+			return err
 		}
 
-		if c.Bool("dump") {
-			fmt.Println(ovfEnv)
-			return nil
+		// If set and key are populated, let's set the key to the value passed
+		if c.String("set") != "" && c.String("key") != "" {
+
+			var props []ovf.EnvProperty
+
+			for _, p := range e.Property.Properties {
+				if p.Key == c.String("key") {
+					props = append(props, ovf.EnvProperty{
+						Key:   p.Key,
+						Value: c.String("set"),
+					})
+				} else {
+					props = append(props, ovf.EnvProperty{
+						Key:   p.Key,
+						Value: p.Value,
+					})
+				}
+			}
+
+			env := ovf.Env{
+				EsxID: e.EsxID,
+				Platform: &ovf.PlatformSection{
+					Kind:    e.Platform.Kind,
+					Version: e.Platform.Version,
+					Vendor:  e.Platform.Vendor,
+					Locale:  e.Platform.Locale,
+				},
+				Property: &ovf.PropertySection{
+					Properties: props,
+				},
+			}
+			// Send updated ovfEnv through the rpcvmx channel
+			if err := config.SetString("guestinfo.ovfEnv", env.MarshalManual()); err != nil {
+				return err
+			}
+			// Refresh ovfEnv
+			if err := fetchovfEnv(config, &e); err != nil {
+				return err
+			}
+
 		}
 
-		// TODO: fix this when proper support for namespaces is added to golang.
-		// ref: golang/go/issues/14407 and golang/go/issues/14407
-		ovfEnv = strings.Replace(ovfEnv, "oe:key", "key", -1)
-		ovfEnv = strings.Replace(ovfEnv, "oe:value", "value", -1)
-
-		var e environment
-
-		err = xml.Unmarshal([]byte(ovfEnv), &e)
-		if err != nil {
-			fmt.Printf("error: %s\n", err.Error())
-			os.Exit(-1)
+		// LET'S HAVE A MAP! SO YOU CAN DO LOOKUPS!
+		m := make(map[string]string)
+		for _, v := range e.Property.Properties {
+			m[v.Key] = v.Value
 		}
 
+		// If a key is all we want...
 		if c.String("key") != "" {
-			fmt.Println(e.Properties[c.String("key")])
+			fmt.Println(m[c.String("key")])
 			return nil
 		}
 
-		for k, v := range e.Properties {
+		// Let's print the whole property list by default
+		for k, v := range m {
 			fmt.Printf("[%s]=%s\n", k, v)
 		}
 
 		return nil
 	}
 
-	app.Run(os.Args)
-
+	if err := app.Run(os.Args); err != nil {
+		fmt.Println(err.Error())
+		os.Exit(-1)
+	}
 }
 
-func (e *environment) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
-
-	type property struct {
-		Key   string `xml:"key,attr"`
-		Value string `xml:"value,attr"`
+func fetchovfEnv(config *rpcvmx.Config, e *ovf.Env) error {
+	ovfEnv, err := config.String("guestinfo.ovfEnv", "")
+	if err != nil {
+		return fmt.Errorf("impossible to fetch ovf environment, exiting")
 	}
 
-	type propertySection struct {
-		Property []property `xml:"Property"`
-	}
-	type platformSection struct {
-		Kind    string `xml:"Kind"`
-		Version string `xml:"Version"`
-		Vendor  string `xml:"Vendor"`
-		Locale  string `xml:"Locale"`
+	if err = xml.Unmarshal([]byte(ovfEnv), &e); err != nil {
+		return fmt.Errorf("error: %s", err.Error())
 	}
 
-	var environment struct {
-		XMLName         xml.Name        `xml:"Environment"`
-		PlatformSection platformSection `xml:"PlatformSection"`
-		PropertySection propertySection `xml:"PropertySection"`
-	}
-	err := d.DecodeElement(&environment, &start)
-	if err == nil {
-
-		e.Platform = make(map[string]string)
-		e.Platform["kind"] = environment.PlatformSection.Kind
-		e.Platform["version"] = environment.PlatformSection.Version
-		e.Platform["vendor"] = environment.PlatformSection.Vendor
-		e.Platform["locale"] = environment.PlatformSection.Locale
-
-		e.Properties = make(map[string]string)
-		for _, v := range environment.PropertySection.Property {
-			e.Properties[v.Key] = v.Value
-		}
-	}
-	return err
-
+	return nil
 }

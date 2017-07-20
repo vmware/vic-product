@@ -14,7 +14,15 @@
 # limitations under the License.
 set -euf -o pipefail
 
+# If it's the VM first boot, we set the password and create a timestamp file,
+# this is the only time where the appliance.root_pwd property is read.
 if [[ ! -f /etc/vmware/firstboot ]]; then
   echo "root:$(ovfenv --key appliance.root_pwd)" | chpasswd
   date -u +"%Y-%m-%dT%H:%M:%SZ" > /etc/vmware/firstboot
+fi
+
+# We then obscure the root password, if the VM is reconfigured with another
+# password after deployment, we don't act on it and keep obscuring it.
+if [[ $(ovfenv --key appliance.root_pwd) != '*******' ]]; then
+  ovfenv --key appliance.root_pwd --set '*******'
 fi
