@@ -58,7 +58,8 @@ pipeline:
      cache_control: public,max-age=3600
      when:
       repo: vmware/vic-product
-      event: [ pull_request ]
+      event: [ push ]
+      branch: [ master, releases/* ]
       status: success
 
   publish-gcs-releases:
