@@ -38,6 +38,8 @@ GAS ?= $(GOPATH)/bin/gas$(BIN_ARCH)
 
 .PHONY: ova-release ova-debug vagrant-local gas
 
+LDFLAGS := $(shell BUILD_NUMBER=${BUILD_NUMBER} $(BASE_DIR)/scripts/version-linker-flags.sh)
+
 ovfenv := $(BIN)/ovfenv
 vic-ova-ui := $(BIN)/vic-ova-ui
 ova-webserver := $(BIN)/ova-webserver
@@ -67,19 +69,19 @@ $(ovfenv): $(call godeps,ovatools/ovfenv/*.go)
 	@echo building ovfenv linux...
 	@echo build $(dir $<)
 	@echo output $@
-	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -o ./$@ ./$(dir $<)
+	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
 $(vic-ova-ui): $(call godeps,ovatools/vic-ova-ui/*.go)
 	@echo building vic-ova-ui
-	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -o ./$@ ./$(dir $<)
+	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
 $(ova-webserver): $(call godeps,fileserver/*.go)
 	@echo building ova-webserver
-	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -o ./$@ ./$(dir $<)
+	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
 $(ova-engine-installer): $(call godeps,engine_installer/*.go)
 	@echo building ova-engine-installer
-	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -o ./$@ ./$(dir $<)
+	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
 ova-release: gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
 	@echo building vic-unified-installer OVA using packer...

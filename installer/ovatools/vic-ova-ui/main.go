@@ -29,7 +29,7 @@ import (
 
 	"github.com/vmware/vic-product/installer/lib"
 	"github.com/vmware/vic-product/installer/pkg/ip"
-	"github.com/vmware/vic/pkg/version"
+	"github.com/vmware/vic-product/installer/pkg/version"
 	"github.com/vmware/vmw-guestinfo/vmcheck"
 )
 
