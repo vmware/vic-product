@@ -124,6 +124,11 @@
     },
     {
       "type": "file",
+      "source": "../bin/toolbox",
+      "destination": "/usr/bin/toolbox"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/docker.service",
       "destination": "/usr/lib/systemd/system/docker.service"
     },
@@ -186,6 +191,11 @@
       "type": "file",
       "source": "scripts/systemd/appliance/sshd_permitrootlogin.sh",
       "destination": "/etc/vmware/sshd_permitrootlogin.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/systemd/toolbox.service",
+      "destination": "/usr/lib/systemd/system/toolbox.service"
     },
     {
       "type": "file",
