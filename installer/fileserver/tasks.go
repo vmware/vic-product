@@ -39,14 +39,6 @@ const (
 func registerWithPSC(ctx context.Context) error {
 	var err error
 
-	session := admin.Validator.Session
-	version := session.ServiceContent.About.Version
-	versionFields := strings.Split(version, ".")
-	if len(versionFields) > 2 {
-		// Set version in required format (x.y)
-		version = versionFields[0] + "." + versionFields[1]
-	}
-
 	// Obtain the admin user's domain
 	domain := "vsphere.local"
 	userFields := strings.SplitN(admin.User, "@", 2)
@@ -55,7 +47,7 @@ func registerWithPSC(ctx context.Context) error {
 	}
 
 	// Obtain the hostname of the vCenter host
-	vcHostname, err := optmanager.QueryOptionValue(ctx, session, vcHostnameOption)
+	vcHostname, err := optmanager.QueryOptionValue(ctx, admin.Validator.Session, vcHostnameOption)
 	if err != nil {
 		return err
 	}
@@ -81,7 +73,8 @@ func registerWithPSC(ctx context.Context) error {
 			pscBinaryPath,
 			"--command=register",
 			"--clientName=" + client,
-			"--version=" + version,
+			// NOTE(anchal): version set to 6.0 to use SAML for both versions 6.0 and 6.5
+			"--version=6.0",
 			"--tenant=" + domain,
 			"--domainController=" + vcHostname,
 			"--username=" + admin.User,

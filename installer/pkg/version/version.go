@@ -43,7 +43,7 @@ type Build struct {
 }
 
 func init() {
-	flag.BoolVar(&v, "version", false, "Show version info")
+	flag.BoolVar(&v, "ver", false, "Show version info")
 }
 
 // Show returns whether -version flag is set
