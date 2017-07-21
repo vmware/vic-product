@@ -41,7 +41,6 @@ function gc {
 }
 
 gc_enabled=$(ovfenv --key registry.gc_enabled)
-
 if [ ${gc_enabled,,} == "true" ]; then
   gc 2>&1 >> /var/log/harbor/gc.log || true
 fi
