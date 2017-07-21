@@ -43,22 +43,49 @@ ca_cert="${cert_dir}/ca.crt"
 ca_key="${cert_dir}/ca.key"
 ext="${cert_dir}/extfile.cnf"
 
+MANAGED_KEY="# Managed by configure_harbor.sh"
+export LC_ALL="C"
+
 rm -rf $ca_download_dir/*
 
-#Configure attr in harbor.cfg
+# Configure attr in harbor.cfg
 function configureHarborCfg {
-  cfg_key=$1
-  cfg_value=$2
+  local cfg_key=$1
+  local cfg_value=$2
+  local managed="${3:-false}"
+  local line=$(sed -n "/^$cfg_key\s*=/p" $cfg)
 
-  basedir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
+  if [ -z "$line" ]; then
+    echo "Key not found: $cfg_key"
+    return
+  fi
   if [ -n "$cfg_key" ]; then
     cfg_value=$(echo "$cfg_value" | sed -r -e 's%[\/&%]%\\&%g')
-    sed -i -r "s%#?$cfg_key\s*=\s*.*%$cfg_key = $cfg_value%" $cfg
+    if [ "$managed" = true ]; then
+      echo "Setting managed key $cfg_key"
+      sed -i -r "s/^$cfg_key\s*=.*/${MANAGED_KEY}\n$cfg_key = $cfg_value/g" $cfg
+    else
+      echo "Setting $cfg_key"
+      sed -i -r "s%#?$cfg_key\s*=\s*.*%$cfg_key = $cfg_value%" $cfg
+    fi
   fi
 }
 
-#Format cert file
+# Configure attr only once in harbor.cfg
+function configureHarborCfgOnce {
+  local cfg_key=$1
+  local cfg_value="$2"
+  local prev_line=$(sed -n "/^$cfg_key\s*=/{x;p;d;}; x" $cfg)
+
+  if [[ $prev_line != *"${MANAGED_KEY}"* ]]; then
+    configureHarborCfg "$cfg_key" "$cfg_value" true
+  else
+    local line=$(sed -n "/^$cfg_key\s*=/p" $cfg)
+    echo "Skipping existing managed key $cfg_key"
+  fi
+}
+
+# Format cert file
 function formatCert {
   content=$1
   file=$2
@@ -146,6 +173,11 @@ function detectHostname {
   fi
 }
 
+# Generate random password
+function genPass {
+  openssl rand -base64 32 | shasum -a 256 | head -c 32 ; echo
+}
+
 function setPortInYAML {
 FILE="$1" HPORT="$2" NPORT="$3" python - <<END
 import yaml, os
@@ -163,16 +195,10 @@ f.close()
 END
 }
 
-attrs=(
-  registry.admin_password
-  registry.db_password
-  registry.gc_enabled
-)
-
 hostname=""
 ip_address=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
 
-#Modify hostname
+# Modify hostname
 detectHostname
 if [[ x$hostname != "x" ]]; then
   echo "Hostname: ${hostname}"
@@ -180,6 +206,13 @@ else
   echo "Hostname is null, set it to IP"
   hostname=${ip_address}
 fi
+
+# Check permissions on config file
+if [ $(stat -c "%a" "$cfg") != "600" ]; then
+  echo "Permissions on $cfg must be 600"
+  exit 1
+fi
+
 configureHarborCfg "hostname" ${hostname}:$(ovfenv -k registry.port)
 
 configureHarborCfg ui_url_protocol https
@@ -189,13 +222,9 @@ configureHarborCfg ssl_cert $cert
 configureHarborCfg ssl_cert_key $key
 configureHarborCfg secretkey_path $data_dir
 
-for attr in "${attrs[@]}"
-do
-  echo "Read attribute using ovfenv: [ $attr ]"
-  value=$(ovfenv -k $attr)
-
-  configureHarborCfg $(echo ${attr} | cut -d. -f2) "$value"
-done
+# Set MySQL and Clair DB passwords on first boot
+configureHarborCfgOnce db_password $(genPass)
+configureHarborCfgOnce clair_db_password $(genPass)
 
 setPortInYAML $harbor_compose_file $(ovfenv -k registry.port) $(ovfenv -k registry.notary_port)
 
