@@ -237,7 +237,7 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
         <Label>3.3. Notary Port</Label>
         <Description>Specifies the port on which Notary will be published.</Description>
       </Property>
-      <Property ovf:key="gc_enabled" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="true">
+      <Property ovf:key="gc_enabled" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="false">
         <Label>3.4. Garbage Collection</Label>
         <Description>When setting this to true, registry performs garbage collection everytime it boots up.</Description>
       </Property>
