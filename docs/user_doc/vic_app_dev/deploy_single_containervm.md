@@ -66,9 +66,9 @@ docker run --rm -v webapp:/data -w /data tomcat:9 curl -O https://tomcat.apache.
 docker run --name web -d -p 8080 -e JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom" -v webapp:/usr/local/tomcat/webapps --net ExternalNetwork tomcat:9
 curl <external-ip>:8080/sample
 ```
-The volume is a disk of default size, in this case 1GB. The command to populate the volume mounts it at /data and then tells the container to use /data as the working directory. It then uses the fact that the Tomcat container has `curl` installed to download a sample web app as a WAR file to the volume. When the volume is mounted to /usr/local/tomcat/webapps, it replaces any existing webapps such as the welcome page and Tomcat runs just the sample app.
+The volume is a disk of default size, in this case 1GB. The command to populate the volume mounts it at `/data` and then tells the container to use `/data` as the working directory. It then uses the fact that the Tomcat container has `curl` installed to download a sample web app as a WAR file to the volume. When the volume is mounted to `/usr/local/tomcat/webapps`, it replaces any existing webapps such as the welcome page and Tomcat runs just the sample app.
 
-If you don't want the volume to completely replace the existing /webapps directory, you can modify the above example to extract the WAR file to the volume and then mount the volume as a subdirectory of webapps.
+If you don't want the volume to completely replace the existing `/webapps` directory, you can modify the above example to extract the WAR file to the volume and then mount the volume as a subdirectory of webapps.
 
 ```
 docker volume create webapp
@@ -76,7 +76,7 @@ docker run --rm -v webapp:/data -w /data tomcat:9 /bin/bash -c "curl -O https://
 docker run --name web -d -p 8080 -e JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom" -v webapp:/usr/local/tomcat/webapps/sample --net ExternalNetwork tomcat:9
 curl <external-ip>:8080/sample
 ```
-Note that running multiple commands on a container can be done using `/bin/bash -c`. There's a discussion below as to why this isn't necessarily ideal for a running service, but for chaining simple commands together, it works fine. Now, not only is your sample app available, but any other app baked into the image in /usr/local/tomcat/webapps is also available.
+Note that running multiple commands on a container can be done using `/bin/bash -c`. There's a discussion below as to why this isn't necessarily ideal for a running service, but for chaining simple commands together, it works fine. Now, not only is your sample app available, but any other app baked into the image in `/usr/local/tomcat/webapps` is also available.
 
 ***Build a custom image***
 
@@ -93,15 +93,15 @@ COPY sample.war /usr/local/bin/webapps
 ```
 In a VM running standard docker engine:
 ```
-docker build -t <registry-address>/<image name> .
+docker build -t <registry-address>/<project>/<image name> .
 docker login <registry-address>
-docker push <registry-address>/<image name>
+docker push <registry-address>/<project>/<image name>
 ```
 From a docker client attached to a VCH
 ```
-docker run --name web -d -p 8080 --net ExternalNetwork <registry-address>/<image name>
+docker run --name web -d -p 8080 --net ExternalNetwork <registry-address>/<project>/<image name>
 ```
-Note that the use of the /dev/urandom above is not considered particularly secure as it doesn't address the underlying problem of lack of entropy. One of the advantages of building a new image is that it can be customized, so for example, you can install the [haveged](https://linux.die.net/man/8/haveged) package to solve your entropy problem.
+Note that the use of the `/dev/urandom` above is not considered particularly secure as it doesn't address the underlying problem of lack of entropy. One of the advantages of building a new image is that it can be customized, so for example, you can install the [haveged](https://linux.die.net/man/8/haveged) package to solve your entropy problem.
 
 However, one of the interesting challenges of containers is that they're designed to only run one process and they don't have a conventional init system. So installing haveged in a Dockerfile doesn't mean that it will actually run when deployed.
 
@@ -111,7 +111,7 @@ Let's examime some solutions to this problem
 
 Although a VIC container is a VM, it is a very opinionated VM in that it has the same constraints as a container. It doesn't have a conventional init system and its lifecycle is coupled to a single main process. There are a few ways of running daemon processes in a container - many of which are far from ideal.
 
-For example, simply chaining commands in a Dockerfile CMD instruction techically works, but it compromises the signal handling and exit codes of the container. As a result, `docker stop` will almost certainly not work as intended. What would that look like in our Tomcat example?
+For example, simply chaining commands in a Dockerfile `CMD` instruction techically works, but it compromises the signal handling and exit codes of the container. As a result, `docker stop` will almost certainly not work as intended. What would that look like in our Tomcat example?
 
 ```
 FROM tomcat:9
@@ -128,7 +128,7 @@ A much simpler approach is to run haveged using `docker exec` once the container
 docker run --name web -d -p 8080 -v webapp:/usr/local/tomcat/webapps --net ExternalNetwork <registry-address>/<image name>
 docker exec -d web /usr/sbin/haveged
 ```
-Docker exec with the `-d` option runs a process as a daemon in the container. While this is arguably the neatest solution to the problem, it does require a subsequent call to the container after it's started. While it's realtively simple to script this, it doesn't work well in a scenario such as a Compose file.
+Docker exec with the `-d` option runs a process as a daemon in the container. While this is arguably the neatest solution to the problem, it does require a subsequent call to the container after it's started. While it's relatively simple to script this, it doesn't work well in a scenario such as a Compose file.
 
 So a third approach is to create a script that the container starts when it initializes that uses a trap handler to manage signals.
 
