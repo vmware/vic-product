@@ -1,8 +1,8 @@
 # Building and Deploying Multi-Container Applications to a Virtual Container Host #
 
-Having examined some of the considerations around deploying single containers to a Virtual Container Host, this section examples how to deploy applications that are comprised of multiple containers.
+Having examined some of the considerations around deploying single containers to a Virtual Container Host (VCH), this section examples how to deploy applications that are comprised of multiple containers.
 
-There are two approaches you can take to this. The most instictive approach would be to create scripts that manage the lifecycle of volumes, networks and containers. You can even build and run these scripts as containers if you like!
+There are two approaches you can take to this. The most instictive approach would be to create scripts that manage the lifecycle of volumes, networks and containers.
 
 The second approach is to use a manifest-based orchestrator such as Docker Compose. VIC 1.1 has some basic support for Docker Compose, but it is not functionally complete. Docker Compose is a proprietary orchestrator that drives the Docker API and ties other pieces of the Docker ecosystem together including Build and Swarm. Given that VIC engine doesn't currently support either Build or Swarm, Compose compatibility is necessarily limited. However, Compose can still be a useful tool, provided those limitations are understood.
 
@@ -18,11 +18,11 @@ As with the single container examples, we need to consider:
 
 For this example, we're going to create two named volumes on different vSphere datastores. Database state is going to a persistent volume on a shared datastore that's backed up and encrypted. The Wordpress HTML state is going to a shared datastore that's less expensive.
 
-We're going to create a private network for the database and expose the Wordpress container on the default bridge network.
+We're going to create a private network for the database and expose the Wordpress container on a second network that exposes a port on the VCH endpoint.
 
 The Wordpress application server and the database container don't necessarily have to be separate failure domains, but one of the advantages of VIC engine is that it makes it easy to deploy them that more secure way, so that's the approach we're taking here. 
 
-The question of sizing is a simple matter of setting CPUs and memory on each container.
+The question of sizing is a simple matter of setting virtual CPUs and memory on each container.
 
 If we were to create a shell script to stand this up, it might look like this:
 
@@ -106,7 +106,7 @@ If you want to modify the Wordpress image to add a database connection test, you
 
 Before we get into the topic of ***building*** applications for Docker Compose, let's look at an example of how we would run the equivalent of the above script using Docker Compose and vSphere Integrated Containers engine.
 
-Docker Compose serializes a manifest in a YML file which the docker-compose binary turns into docker commands. The equivalent of the above script as a Docker Compose file would be the following:
+Docker Compose serializes a manifest in a YML file which the `docker-compose` binary turns into docker commands. The equivalent of the above script as a Compose file would be the following:
 
 ```
 version: '2'
@@ -176,9 +176,9 @@ To view a list of volume stores that have been pre-configured by the vSphere adm
 
 Assuming you're using TLS authentication to the Docker endpoint, that is either done using environment variables or command-line options. 
 
-With environment variables, it's assumed that you've already set `DOCKER_TLS_VERIFY=1` and `DOCKER_CERT_PATH=<path to client certs>`. This is required in order to use the docker client. For docker-compose you have to additionally set `COMPOSE_TLS_VERSION=TLSv1_2`. You can then run `docker-compose up -d` to start the application (assuming you've also set `DOCKER_HOST` to point to the VCH endpoint).
+With environment variables, it's assumed that you've already set `DOCKER_TLS_VERIFY=1` and `DOCKER_CERT_PATH=<path to client certs>`. This is required in order to use the docker client. For `docker-compose` you have to additionally set `COMPOSE_TLS_VERSION=TLSv1_2`. You can then run `docker-compose up -d` to start the application (assuming you've also set `DOCKER_HOST` to point to the VCH endpoint).
 
-Using command-line arguments with docker client is a little more clumsy as each key has to be specified independently and the same is true of docker-compose. Regardless, the only way to specify the TLS version is through the environment variable above `COMPOSE_TLS_VERSION=TLSv1_2`. You can then run `docker-compose -H <endpoint-ip>:2376 --tlsverify --tlscacert="<local-ca-path>/ca.pem" --tlscert="<local-ca-path>/cert.pem" --tlskey="<local-ca-path>/key.pem" compose up -d`
+Using command-line arguments with docker client is a little more clumsy as each key has to be specified independently and the same is true of `docker-compose`. Regardless, the only way to specify the TLS version is through the environment variable above `COMPOSE_TLS_VERSION=TLSv1_2`. You can then run `docker-compose -H <endpoint-ip>:2376 --tlsverify --tlscacert="<local-ca-path>/ca.pem" --tlscert="<local-ca-path>/cert.pem" --tlskey="<local-ca-path>/key.pem" compose up -d`
 
 ***Lifecycle Commands***
 
@@ -198,21 +198,147 @@ docker-compose down --volumes --rmi    # stop the application and remove all res
 
 ## Building Multi-Container Applications Using Docker Compose ##
 
-Given that VIC engine does not have a native build capability, it does not interpret the `build` keyword in a compose file and `docker-compose build` will not work when DOCKER_HOST points to a VIC endpoint. VIC engine relies upon the portability of the docker image format and it is expected that a regular docker engine will be used in a CI pipeline to build container images for test and deployment.
+Given that VIC engine does not have a native build capability, it does not interpret the `build` keyword in a compose file and `docker-compose build` will not work when `DOCKER_HOST` points to a VIC endpoint. VIC engine relies upon the portability of the docker image format and it is expected that a regular docker engine will be used in a CI pipeline to build container images for test and deployment.
 
-The simplest way to achieve this is to use two compose files, one for build and one for runtime. Let's examine another example of a Compose file that include build instructions. In this case, the sample voting application.
+There are two ways to work around this. You can create separate Compose files for build and run, or you can use the same Compose file but just make sure to add a couple of arguments. We will explore both options here using another example of a Compose file that includes build instructions. In this case, the sample voting application found [here](https://github.com/dockersamples/example-voting-app/blob/master/docker-compose-simple.yml)
 
+Let's start by cloning the repository: `git clone git@github.com:dockersamples/example-voting-app.git` and we'll start by looking at `docker-compose-simple.yml`. 
 
+***Using separate Compose files***
 
+You can strip a Compose file down to an absolute minimum if you want to use it just for building and pushing images. If you want to run the application on a VIC endpoint, you'll need to also push the built images to a docker registry visible to your VCH, so that they can be deployed. In order to do that, we need to add `image` directives to the Compose file.
 
-## A note on compatibility ##
+```
+$ more docker-compose-simple-build.yml 
+version: "2"
 
-Given that VIC is designed to be an enterprise runtime and has unique isolation characteristics applied to the containers it deploys, a Docker Compose script downloaded from the web may not work without modification. This is partly also a question of functional completeness of VIC engine docker API support. There are some highly detailed technical sections in the documentation highlighting all of the capabilities VIC engine currently supports, but here is a high-level summary of some things to consider:
+services:
+  vote:
+    build: ./vote
+    image: <registry-address>/<project>/vote:0.1
+
+  worker:
+    build: ./worker
+    image: <registry-address>/<project>/worker:0.1
+
+  result:
+    build: ./result
+    image: <registry-address>/<project>/result:0.1
+
+$ sudo docker-compose -f docker-compose-simple-build.yml build 
+$ sudo docker login <registry>
+$ sudo docker-compose -f docker-compose-simple-build.yml push
+```
+
+Now that the application is built and pushed, you need to create a second Compose file for deployment that reflects the deployment considerations discussed earlier in terms of isolation, peristent volume state, networking etc. The Compose file provided in the repo is simply an example and you would typically expect to have to change it to suit your needs. Let's do that, but keep it as simple as possible to begin with. 
+
+Modifications from the original file are highlighted as comments
+
+```
+version: "2"      # VIC engine supports Compose file version 2
+
+services:
+  vote:
+    image: <registry-address>/<project>/vote:0.1    # Fully-qualified image name
+    command: python app.py
+    ports:                          # Local ./vote volume mount removed - use the app.py built-in
+      - "5000:80"
+
+  redis:
+    image: redis:alpine
+    ports: ["6379"]
+
+  worker:
+    image: <registry-address>/<project>/worker:0.1    # Fully-qualified image name
+
+  db:
+    image: postgres:9.4
+    environment:
+      PGDATA: /var/lib/postgresql/data/data     # Added as a workaround to /lost+found in volume root
+
+  result:
+    image: <registry-address>/<project>/result:0.1    # Fully-qualified image name
+    command: nodemon --debug server.js
+    ports:                          # Local ./results volume mount removed - use the server.js built-in
+      - "5001:80"
+      - "5858:5858"
+```
+
+Let's review the changes that were made to this Compose file. 
+
+- Fully qualified image name
+
+In most real-world scenarios, container images will be pushed to a registry before they're deployed into production. That means that the registry and a project will be part of the image name. The only way it will run with just the container name is if it has been built locally.
+
+- Removed local volume mappings
+
+Local volume mounts are useful for development and testing as they allow source trees and data to be easily mapped into a container. In production however, making a container host stateful for the purpose of seeding the container with configuration or application data is only feasible if the container is guaranteed to be deployed to the stateful host. In general, best practice is to keep a container host as stateless as possible. 
+
+VIC engine cannot map volumes from a local filesystem into a container because VIC engine containers are strongly isolated and don't share a common filesystem. Despite this, it is still possible in VIC to add state to a container by pre-populating a volume with data and mounting it (TBD: link to "Pre-populate a Volume").
+
+- Workaround to `/lost+found` folder
+
+In VIC a Volume is an ext4 formatted disk. As such, it has `/lost+found` in the root. Some containers will not write data into this directory due to the presence of this folder, so in this case of postgres above, it is configured to create and write to a subdirectory of the mount point.
+
+***Combining into a single Compose file***
+
+If separate Compose files feels clunky, it's quite possible to build, push and run from the same Compose file. All we need to do is to merge them together and then make sure we tell docker-compose what we want. Here's an example of a merged file:
+
+```
+version: "2"
+
+services:
+  vote:
+    build: ./vote
+    image: <registry-address>/<project>/vote:0.1
+    command: python app.py
+    ports:
+      - "5000:80"
+
+  redis:
+    image: redis:alpine
+    ports: ["6379"]
+
+  worker:
+    build: ./worker
+    image: <registry-address>/<project>/worker:0.1
+
+  db:
+    image: postgres:9.4
+    environment:
+      PGDATA: /var/lib/postgresql/data/data
+
+  result:
+    build: ./result
+    image: <registry-address>/<project>/result:0.1
+    command: nodemon --debug server.js
+    ports:
+      - "5001:80"
+      - "5858:5858"
+```
+Build and push work in just the same way as the previous example. The rest of the directives are ignored. 
+
+In order to deploy this to a VIC endpoint however, you need to first explicitly pull the images. Otherwise docker-compose will try to build them, even if you attempt to run with `--no-build`. Then you run the Compose file with `--no-build` to tell docker-compose to ignore the build directives. 
+
+```
+$ sudo docker-compose -f docker-compose-simple-vic.yml build
+$ sudo docker-compose -f docker-compose-simple-vic.yml push
+$ docker-compose -f docker-compose-simple-vic.yml pull
+$ docker-compose -f docker-compose-simple-vic.yml up --no-build -d
+```
+
+In the example above, the use of `sudo` creates a child shell that runs a local docker engine and bypasses the environment variables configured to make docker-compose talk to a VIC endpoint. In this way, it's possible to do a build, push, pull and run from the same shell using the same client.
+
+## A Summary on Compatibility ##
+
+Given that VIC is designed to be an enterprise runtime and has unique isolation characteristics applied to the containers it deploys, a Docker Compose script downloaded from the web may not work without modification. 
+
+This is partly a question of functional completeness of VIC engine docker API support and partly a question of its inherent design. There are some highly detailed technical sections in the documentation highlighting all of the capabilities VIC engine currently supports, but here is a high-level summary of topics discussed in more detail above:
 
 - VIC engine supports version 2 of the Compose File format.
 - VIC engine has no native build support.
-- VIC volumes are disks and when mounted, have a "lost+found" folder created by ext4. For some containers - databases in particular - you will need to configure them to use a subdirectory of the volume. See MySQL example above.
-- VIC containers take time to boot and thus may exhibit timing related issues. Eg. You may need to set COMPOSE_HTTP_TIMEOUT to a higher value than the default.
+- VIC volumes are disks and when mounted, have a `/lost+found` folder created by ext4. For some containers - databases in particular - you will need to configure them to use a subdirectory of the volume. See MySQL example above.
+- VIC containers take time to boot and thus may exhibit timing related issues. Eg. You may need to set `COMPOSE_HTTP_TIMEOUT` to a higher value than the default.
 - VIC containers have no notion of local read-write shared storage.
 
 One of the main reasons this section takes you through all the considerations of putting a multi-container application into production with the Docker client prior to introducing Docker Compose is to help you understand how to configure Compose to work with the capabilities of VIC. Trying to work the opposite way around, by trying to configure VIC to work with capabilities of Compose may be trickier for the reasons stated.
