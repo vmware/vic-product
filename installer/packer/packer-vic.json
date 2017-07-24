@@ -294,11 +294,6 @@
       "destination": "/usr/lib/systemd/system/get_token.timer"
     },
     {
-      "type": "file",
-      "source": "scripts/psc/put_token_guestinfo.sh",
-      "destination": "/etc/vmware/psc/put_token_guestinfo.sh"
-    },
-    {
       "type": "shell",
       "environment_vars": ["BUILD_VICENGINE_REVISION={{user `build_vicengine_revision`}}",
                            "BUILD_VICENGINE_FILE={{user `build_vicengine_file`}}",
