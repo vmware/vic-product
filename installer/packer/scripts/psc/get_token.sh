@@ -18,7 +18,6 @@ set -euf -o pipefail
 mkdir -p /etc/vmware/psc/harbor
 mkdir -p /etc/vmware/psc/engine
 mkdir -p /etc/vmware/psc/admiral
-chmod +x /etc/vmware/psc/put_token_guestinfo.sh
 
 version=$(grep "version" /etc/vmware/psc/admiral/psc-config.properties | awk -F= '{print $2}')
 
@@ -28,5 +27,5 @@ version=$(grep "version" /etc/vmware/psc/admiral/psc-config.properties | awk -F=
 /usr/bin/java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar --command=get-token --version=$version --configFile=/etc/vmware/psc/admiral/psc-config.properties --tokenFile=/etc/vmware/psc/admiral/tokens.properties
 
 # Put the engine token in guestinfo
-/etc/vmware/psc/put_token_guestinfo.sh
+/etc/vmware/set_guestinfo.sh -f /etc/vmware/psc/engine/tokens.properties "engine.token"
 
