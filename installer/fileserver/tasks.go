@@ -87,6 +87,7 @@ func registerWithPSC(ctx context.Context) error {
 			log.Infof("Error running PSC register command: %s", string(output))
 			return err
 		}
+		log.Infof("Successfully registered %s with PSC", client)
 	}
 
 	return nil
