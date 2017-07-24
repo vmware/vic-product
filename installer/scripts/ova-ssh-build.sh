@@ -27,7 +27,7 @@ if [ -z "${PACKER_ESX_HOST}" ] || [ -z "${PACKER_USER}" ]; then
   exit 1
 fi
 
-echo "Cleaning up the bin folder.."
+echo "Cleaning up the bin folder..."
 rm -rf bin
 mkdir bin
 
