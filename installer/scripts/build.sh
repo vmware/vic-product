@@ -124,6 +124,8 @@ if [ -z "${KOV_CLI}" ]; then
   export BUILD_KOV_CLI_REVISION="dev"
 fi
 
+export BUILD_PORTGROUP="${BUILD_PORTGROUP}"
+
 make ova-release
 
 OUTFILE=bin/$(ls -1 bin | grep "\.ova")
