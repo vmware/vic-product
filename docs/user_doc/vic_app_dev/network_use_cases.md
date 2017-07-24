@@ -6,8 +6,7 @@ The following sections present examples of how to perform container networking o
 - [Add Containers to a New Bridge Network](#newbridge)
 - [Bridged Containers with an Exposed Port](#bridgeport)
 - [Deploy Containers on Multiple Bridge Networks](#multibridge)
-- [Connect Containers to External Networks](#external)
-- [Deploy Containers That Use Multiple Container Networks](#multinet)
+- [Deploy Containers That Combine Bridge Networks with a Container Network](#containerbridge)
 - [Deploy a Container with a Static IP Address](#staticip)
 
 To perform certain networking operations on containers, your Docker environment and your virtual container hosts (VCHs) must be configured in a specific way.
@@ -47,10 +46,11 @@ Create a new non-default bridge network and set up two containers on the network
 
 **Result:**  The `server` and `client` containers can ping each other by name.
 
+**Note**: Containers created on the default bridge network don't get name resolution by default in the way described above. This is consistent with docker bridge network behavior.
+
 ## Bridged Containers with an Exposed Port {#bridgeport}
 
 Connect two containers on a bridge network and set up one of the containers to publish a port via the VCH. Assume that `server_app` binds to port 5000.
-
 
     $ docker network create -d bridge my-bridge-network
     $ docker network ls
@@ -82,150 +82,79 @@ Connect two containers on a bridge network and set up one of the containers to p
 
 ## Deploy Containers on Multiple Bridge Networks {#multibridge}
 
-Create containers on multiple bridge networks by mapping ports through the VCH. The VCH must have an IP address on the relevant bridge networks. To create bridge networks, use  `network create`.
+You can use multiple bridge networks to isolate certain types of application network traffic. An example may be containers in a data tier communicating on one network and containers on a web tier communicating on another. In order for this to work, at least one of the containers needs to be on both networks.
 
-Run a container that is connected to two networks:
+Docker syntax does not allow for the use of multiple `--net` arguments for `docker run` or `docker create`, so to connect a container to multiple networks, you need to use:
 
- `docker run -it --net net1 --net net2 busybox`
+`docker network connect [network-id] [container-id]`
 
-Run containers that can each only reach one of the networks:
+**Note**: With VIC containers, networks can only be added to a container when it's in its created state. They can't be added while the container is running.
 
-	docker run -it --net net1 --name n1 busybox
-	docker run -it --net net2 --name n2 busybox
+Create two bridge networks, one for data traffic and one for web traffic
 
-Run a container that can reach both networks:
+	docker network create --internal bridge-db
+	docker network create bridge-web
 
-	docker run -it --net net1 --net net2 --name n12 busybox
+Create and run the data container(s)
+
+	docker run -d --name db --net bridge-db myrepo/mydatabase
+
+Create and run the web container(s) and make sure one is on both networks. Expose the web front end on port 8080 of the VCH.
+
+	docker create -d --name model --net bridge-db myrepo/web-model
+	docker network connect bridge-web web-model
+	docker start model
+	docker run -d -p 8080:80 --name view --net bridge-web myrepo/web-view
 
 **Result:**  
-- `n1` and `n2` cannot communicate with each other
-- `n12` can communicate with both `n1` and `n2`
+- `db` and `web-view` cannot communicate with each other
+- `web-model` can communicate with both `db` and `web-view`
+- `web-view` exposes a service on port 8080 of the VCH
 
-## Connect Containers to External Networks {#external}
+**Note**: A container on multliple bridge networks will not get a distinct network interface for each network, rather it will get multiple IP addresses on the same interface. Use `ip addr` to see the IP addresses.
 
-Configure two external networks in vSphere:
+## Deploy Containers That Combine Bridge Networks with a Container Network {#containerbridge}
 
-- `default-external` is `10.2.0.0/16` with gateway `10.2.0.1`  
-- `vic-production` is `208.91.3.0/24` with gateway `208.91.3.1`  
+A "container" network is a vSphere port group that a container can be connected to directly and which allows the container to have an external identity on that network. This can be combined with one or more private bridge networks for intra-container traffic.
 
-Deploy a VCH that uses the default network at 208.91.3.2 as its public network.
+**NOTE**: Multiple bridge networks are backed by the same port group as the default bridge, segregated via IP address management. Container networks are strongly isolated from all other networks.
 
-`docker network ls` shows:
+A container network is specified when the VCH is installed using `vic-machine --container-network [existing-port-group]` and should be visible when you run `docker network ls` from a docker client.
 
-    $ docker network ls
-    NETWORK ID          NAME                DRIVER
-    e2113b821ead        none                null
-    37470ed9992f        default-external    bridge
-    ea96a6b919de        vic-production      bridge
-    b7e91524f3e2        bridge              bridge  
+	$ docker network ls
+	NETWORK ID          NAME                DRIVER              SCOPE
+	baf6919f5721        ExternalNetwork     external            
+	fc41d9a86514        bridge              bridge              
 
-You have a container that provides a Web service to expose outside of the vSphere Integrated Containers Engine environment.
+The three main advantages of using a container network over exposing a port on the VCH are that:
 
-Output of `docker network inspect default-external`:
+1) The container can get its own external IP address.
+2) The container is not dependent on the VCH control plane being up for network connectivity. This allows the VCH to be powered down or upgraded with zero impact on the network connectivity of the deployed container.
+3) This avoids the use of NAT, which will benefit throughput performance
 
-    [
-        {
-            "Name": "default-external",
-            "Id": "id",
-            "Scope": "external",
-            "Driver": "bridge",
-            "IPAM": {
-                "Driver": "default",
-                "Options": {},
-                "Config": [
-                    {
-                        "Subnet": "10.2.0.0/16",
-                        "Gateway": "10.2.0.1"
-                    }
-                ]
-            },
-            "Containers": {},
-            "Options": {}
-        }
-    ]
+Let's take the above example with the web and data tiers and show how it could be achieved using a container network.
 
-Output of `docker network inspect vic-production`:
+Create one private bridge network for data traffic
 
-    [
-        {
-            "Name": "vic-production",
-            "Id": "id",
-            "Scope": "external",
-            "Driver": "bridge",
-            "IPAM": {
-                "Driver": "default",
-                "Options": {},
-                "Config": [
-                    {
-                        "Subnet": "208.91.3.0/24",
-                        "Gateway": "208.91.3.1"
-                    }
-                ]
-            },
-            "Containers": {},
-            "Options": {}
-        }
-    ]
+	docker network create --internal bridge-db
 
-Set up a server on the `vic-production` network:
+Create and run the data container(s)
 
-    $ docker run -d --expose=80 --net=vic-production --name server my_webapp
-    {% raw %}$ docker inspect 
-      --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 
-      server{% endraw %}
-    208.91.3.2
-    $ telnet 208.91.3.2 80
-    Trying 208.91.3.2...
-    Connected to 208.91.3.2.
-    Escape character is '^]'.
-    GET /
-    
-    Hello world!Connection closed by foreign host.
+	docker run -d --name db --net bridge-db myrepo/mydatabase
 
-**NOTE:** You can also use `-p 80` or `-p 80:80` instead of
-`--expose=80`. If you try to map to different ports with `-p`, you get a configuration error.
+Create and run the web container(s) and make sure one is on both networks. In this example, we only want the web-view container to have an identity on the ExternalNetwork, so the web-model container is only in the data network.
 
-**Result:**  The `server` container port is exposed on the external `vic-production` network.
+	docker run -d --name model --net bridge-db myrepo/web-model
+	docker create -d -p 80 --name view --net bridge-db myrepo/web-view
+	docker network connect ExternalNetwork view
+	docker start view
 
-## Deploy Containers That Use Multiple Container Networks {#multinet}
+**Result:**  
+- All the containers can communicate with each other.
+- `db` and `web-model` cannot communicate externally
+- `web-view` has its own external IP address and its service is available on port 80 of that IP address
 
-Create multiple container networks by using `vic-machine create --container-network`. 
-
-**NOTE**: The networks known as container networks in vSphere Integrated Containers Engine terminology correspond to external networks in Docker terminology.
-
-Example:
-
-    ./vic-machine-darwin create --target 172.16.252.131 --image-store datastore1 --name vic-demo --user root --password 'Vmware!23' --compute-resource /ha-datacenter/host/*/Resources --container-network pg1:pg1 --container-network pg2:pg2 --container-network pg3:pg3
-
-`pg1-3` are port groups on the ESX Server that are now mapped into `docker network ls`.
-
-    $ docker -H 172.16.252.150:2376 --tls network ls
-    NETWORK ID   NAME   DRIVER
-    903b61edec66 bridge bridge
-    95a91e11b1a8 pg1    external
-    ab84ba2a326b pg2    external
-    2df4101caac2 pg3    external
-
-
-If a container is connected to a container network, the traffic to and from that network does not go through the VCH.
-
-You also can create more bridge networks via the Docker API. These are all backed by the same port group as the default bridge, but those networks are isolated via IP address management.
-
-    Example:
-    $ docker -H 172.16.252.150:2376 --tls network create mike
-    0848ee433797c746b466ffeb57581c301d8e96b7e82a4d524e0fa0222860ba44
-    $ docker -H 172.16.252.150:2376 --tls network create bob
-    316e34ff3b7b19501fe14982791ee139ce98e62d060203125c5dbdc8543ff641
-    $ docker -H 172.16.252.150:2376 --tls network ls
-    NETWORK ID   NAME   DRIVER
-    316e34ff3b7b bob    bridge
-    903b61edec66 bridge bridge
-    0848ee433797 mike  bridge
-    95a91e11b1a8 pg1    external
-    ab84ba2a326b pg2    external
-    2df4101caac2 pg3    external
-
-**Result:**  You can create containers with `--net mike` or `--net pg1` and be on the correct network. With Docker you can combine them and attach multiple networks.
+**Note**: Given that a container network manifests as a vNIC on the container VM, it has its own distinct network interface in the container.
 
 ## Deploy a Container with a Static IP Address {#staticip}
 
