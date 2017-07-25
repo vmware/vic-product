@@ -1,6 +1,6 @@
-# Deploy a Demo Virtual Container Host
+# Deploy Virtual Container Hosts Interactively
 
-The vSphere Integrated Containers appliance provides an interactive web installer from which you can deploy a basic virtual container host (VCH). This VCH has limited cabilities and is for demonstration purposes only, to allow you to start experimenting with vSphere Integrated Containers.  
+The vSphere Integrated Containers appliance provides an interactive web installer from which you can deploy a basic virtual container host (VCH). This VCH has limited cabilities and is for demonstration purposes only, to allow you to start experimenting with vSphere Integrated Containers. 
 
 The demo VCH has the minimum configuration that deployment to vCenter Server requires. Only the bridge network, public network, image store, and compute resource options are currently supported. 
 
