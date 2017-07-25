@@ -105,7 +105,7 @@ if [ -z "${ADMIRAL}" ]; then
   export BUILD_ADMIRAL_REVISION="dev"
 fi
 if [ -z "${VICENGINE}" ]; then
-  url=$(gsutil ls -l "gs://vic-engine-builds" | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
+  url=$(gsutil ls -l "gs://vic-engine-builds" | grep -v TOTAL | grep vic_ | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
   export BUILD_VICENGINE_URL=$url
 fi
 if [ -z "${HARBOR}" ]; then
