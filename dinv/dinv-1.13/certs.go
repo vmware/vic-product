@@ -36,11 +36,11 @@ func certsExist(files []string) error {
 func getFirstIP(ifname string) (net.IP, error) {
 	iface, err := net.InterfaceByName(ifname)
 	if err != nil {
-		return nil, fmt.Errorf("Failed to generate a self-signed certificate: %s. Exiting.", err.Error())
+		return nil, fmt.Errorf("failed to generate a self-signed certificate: %s. Exiting", err.Error())
 	}
 	addrs, err := iface.Addrs()
 	if err != nil {
-		return nil, fmt.Errorf("Failed to generate a self-signed certificate: %s. Exiting.", err.Error())
+		return nil, fmt.Errorf("failed to generate a self-signed certificate: %s. Exiting", err.Error())
 	}
 	for _, addr := range addrs {
 		var ip net.IP
@@ -65,53 +65,71 @@ func getFirstIP(ifname string) (net.IP, error) {
 // dinv but not wanting to create certs on their machine, client certs can be
 // downloaded from /certs.
 func generateCACerts(ip net.IP) error {
-	// Certificate authority
-	cacrt, cakey, err := certificate.CreateRootCA(ip.String(), []string{"VMware, Inc."}, 2048)
+
+	var name string
+	dns, err := net.LookupAddr(ip.String())
 	if err != nil {
-		return fmt.Errorf("Failed to generate a self-signed CA certificate: %s. Exiting.", err.Error())
+		// Can't look up a DNS name for IP, falling back to just IP
+		name = ip.String()
+	} else {
+		name = dns[0]
+	}
+	// Certificate authority
+	cacrt, cakey, err := certificate.CreateRootCA(name, []string{"VMware, Inc."}, 2048)
+	if err != nil {
+		return fmt.Errorf("failed to generate a self-signed CA certificate: %s. Exiting", err.Error())
 	}
 	if err := ioutil.WriteFile("/certs/ca-key.pem", cakey.Bytes(), 0444); err != nil {
-		return fmt.Errorf("Failed to generate a self-signed certificate: %s. Exiting.", err.Error())
+		return fmt.Errorf("failed to generate a self-signed certificate: %s. Exiting", err.Error())
 	}
 	if err := ioutil.WriteFile("/certs/ca.crt", cacrt.Bytes(), 0444); err != nil {
-		return fmt.Errorf("Failed to generate a self-signed certificate: %s. Exiting.", err.Error())
+		return fmt.Errorf("failed to generate a self-signed certificate: %s. Exiting", err.Error())
 	}
 
-	srvcrt, srvkey, err := certificate.CreateServerCertificate(ip.String(), []string{"VMware, Inc."}, 2048, cacrt.Bytes(), cakey.Bytes())
+	srvcrt, srvkey, err := certificate.CreateServerCertificate(name, []string{"VMware, Inc."}, 2048, cacrt.Bytes(), cakey.Bytes())
 	if err != nil {
-		return fmt.Errorf("Failed to generate a CA-signed server certificate: %s. Exiting.", err.Error())
+		return fmt.Errorf("failed to generate a CA-signed server certificate: %s. Exiting", err.Error())
 	}
 	if err := ioutil.WriteFile("/certs/docker.key", srvkey.Bytes(), 0444); err != nil {
-		return fmt.Errorf("Failed to generate a self-signed certificate: %s. Exiting.", err.Error())
+		return fmt.Errorf("failed to generate a self-signed certificate: %s. Exiting", err.Error())
 	}
 	if err := ioutil.WriteFile("/certs/docker.crt", srvcrt.Bytes(), 0444); err != nil {
-		return fmt.Errorf("Failed to generate a self-signed certificate: %s. Exiting.", err.Error())
+		return fmt.Errorf("failed to generate a self-signed certificate: %s. Exiting", err.Error())
 	}
 
-	cltcrt, cltkey, err := certificate.CreateClientCertificate(ip.String(), []string{"VMware, Inc."}, 2048, cacrt.Bytes(), cakey.Bytes())
+	cltcrt, cltkey, err := certificate.CreateClientCertificate(name, []string{"VMware, Inc."}, 2048, cacrt.Bytes(), cakey.Bytes())
 	if err != nil {
-		return fmt.Errorf("Failed to generate a CA-signed client certificate: %s. Exiting.", err.Error())
+		return fmt.Errorf("failed to generate a CA-signed client certificate: %s. Exiting", err.Error())
 	}
 	if err := ioutil.WriteFile("/certs/docker-client.key", cltkey.Bytes(), 0444); err != nil {
-		return fmt.Errorf("Failed to generate a self-signed certificate: %s. Exiting.", err.Error())
+		return fmt.Errorf("failed to generate a self-signed certificate: %s. Exiting", err.Error())
 	}
 	if err := ioutil.WriteFile("/certs/docker-client.crt", cltcrt.Bytes(), 0444); err != nil {
-		return fmt.Errorf("Failed to generate a self-signed certificate: %s. Exiting.", err.Error())
+		return fmt.Errorf("failed to generate a self-signed certificate: %s. Exiting", err.Error())
 	}
 
 	return nil
 }
 
 func generateSelfSignedCerts(ip net.IP) error {
-	c, k, err := certificate.CreateSelfSigned(ip.String(), []string{"VMware, Inc."}, 2048)
+	var name string
+	dns, err := net.LookupAddr(ip.String())
 	if err != nil {
-		return fmt.Errorf("Failed to generate a self-signed certificate: %s. Exiting.", err.Error())
+		// Can't look up a DNS name for IP, falling back to just IP
+		name = ip.String()
+	} else {
+		name = dns[0]
+	}
+
+	c, k, err := certificate.CreateSelfSigned(name, []string{"VMware, Inc."}, 2048)
+	if err != nil {
+		return fmt.Errorf("failed to generate a self-signed certificate: %s. Exiting", err.Error())
 	}
 	if err := ioutil.WriteFile("/certs/docker.key", k.Bytes(), 0444); err != nil {
-		return fmt.Errorf("Failed to generate a self-signed certificate: %s. Exiting.", err.Error())
+		return fmt.Errorf("failed to generate a self-signed certificate: %s. Exiting", err.Error())
 	}
 	if err := ioutil.WriteFile("/certs/docker.crt", c.Bytes(), 0444); err != nil {
-		return fmt.Errorf("Failed to generate a self-signed certificate: %s. Exiting.", err.Error())
+		return fmt.Errorf("failed to generate a self-signed certificate: %s. Exiting", err.Error())
 	}
 
 	return nil
