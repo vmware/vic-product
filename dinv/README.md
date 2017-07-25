@@ -43,6 +43,8 @@ Usage of /dinv:
     	Use TLS; implied by --tlsverify. Certs are generated automatically if not available
   -tlsverify
     	Use TLS and verify the remote. Certs are generated automatically if not available
+  -vic-ip string
+    	Set IP for automatic certificate creation
 ```
 
 - `insecure-registry`: is a list of registries for which no security consideration is given.
@@ -50,6 +52,7 @@ Usage of /dinv:
 - `storage`: this selects the docker storage driver to be used by the running engine, by default is set as `overlay2` which is the recommended engine when running as a ContainerVM.
 - `tls`: this will enable secure communication with no verification of the remote, certs are loaded from `/certs` as `/certs/docker.crt` (Server certificate) and `/certs/docker.key` (Key for the server certificate).
 - `tlsverify`: this will enable secure communication with verification of the remote, certs are loaded from `/certs/` as `/certs/ca.crt` (CA certificate), `/certs/docker.crt` (Server certificate) and `/certs/docker.key` (Key for the server certificate).
+- `vic-ip`: this sets the ip of the VCH for automatic certificate creation when running behind a port mapping.
 
 Two volumes are available to persist the docker engine certificates and image cache: `/certs` and `/var/lib/docker`, they can be used to persist state across runs and when performing engine upgrades.
 

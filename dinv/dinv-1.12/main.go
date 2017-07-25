@@ -17,6 +17,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"net"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -26,7 +27,9 @@ import (
 )
 
 const (
-	DOCKER     string = "/usr/bin/docker"
+	// DOCKER references where the docker daemon lives
+	DOCKER string = "/usr/bin/docker"
+	// CONTAINERD references where the containerd daemon lives
 	CONTAINERD string = "/usr/bin/docker-containerd"
 )
 
@@ -36,6 +39,7 @@ var (
 	local            bool
 	storage          string
 	insecureRegistry string
+	vicIP            string
 	dockerArgs       []string
 	port             int
 )
@@ -48,6 +52,7 @@ func init() {
 	flag.BoolVar(&local, "local", false, "Do not bind API to external interfaces")
 	flag.StringVar(&storage, "storage", "overlay2", "Storage driver to use")
 	flag.StringVar(&insecureRegistry, "insecure-registry", "", "Enable insecure registry communication")
+	flag.StringVar(&vicIP, "vic-ip", "", "Set IP for automatic certificate creation")
 }
 
 func main() {
@@ -79,9 +84,14 @@ func main() {
 
 			if err := certsExist(files); err != nil {
 				log.Debug("Certs not available, generating...")
-				ip, err := getFirstIP("eth0")
-				if err != nil {
-					log.Fatal(err.Error())
+				var ip net.IP
+				if vicIP != "" {
+					ip = net.ParseIP(vicIP)
+				} else {
+					ip, err = getFirstIP("eth0")
+					if err != nil {
+						log.Fatal(err.Error())
+					}
 				}
 				if err := generateSelfSignedCerts(ip); err != nil {
 					log.Fatal(err.Error())
@@ -103,9 +113,14 @@ func main() {
 
 			if err := certsExist(files); err != nil {
 				log.Debug("Certs not available, generating...")
-				ip, err := getFirstIP("eth0")
-				if err != nil {
-					log.Fatal(err.Error())
+				var ip net.IP
+				if vicIP != "" {
+					ip = net.ParseIP(vicIP)
+				} else {
+					ip, err = getFirstIP("eth0")
+					if err != nil {
+						log.Fatal(err.Error())
+					}
 				}
 				if err := generateCACerts(ip); err != nil {
 					log.Fatal(err.Error())
@@ -148,7 +163,6 @@ func main() {
 	log.Debug("Installing signal handler")
 	sigc := make(chan os.Signal, 1)
 	signal.Notify(sigc,
-		syscall.SIGKILL,
 		syscall.SIGINT,
 		syscall.SIGTERM,
 		syscall.SIGQUIT)
