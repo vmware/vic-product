@@ -1,6 +1,6 @@
 # Installing the vSphere Client Plug-Ins #
 
-vSphere Integrated Containers provides plug-ins for the Flex-based vSphere Web Client on vCenter Server 6.0 or 6.5 and for the HTML5 vSphere Client on vCenter Server 6.5. 
+vSphere Integrated Containers provides a basic plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0 or 6.5. vSphere Integrated Containers provides a plug-in with more complete functionality for the HTML5 vSphere Client. The HTML5 vSphere Client is only available with vSphere 6.5. 
 
 You can deploy the plug-ins on a vCenter Server instance that runs on Windows, or on a vCenter Server Appliance.
 
