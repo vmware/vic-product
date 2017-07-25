@@ -2,8 +2,7 @@
 
 To install the vSphere Client plug-ins for vSphere Integrated Containers, you log in to the Windows system on which vCenter Server runs and run a script. The script registers an extension with vCenter Server, and instructs vCenter Server to download the plug-in files from the file server in the vSphere Integrated Containers appliance.
 
-- You can install the the Flex-based vSphere Web Client plug-in on vCenter Server 6.0 or 6.5.
-- You can install the the HTML5 vSphere Client plug-in on vCenter Server 6.5.
+The installer installs plug-ins for the Flex-based vSphere Web Client on vCenter Server 6.0 or 6.5 and for the HTML5 vSphere Client on vCenter Server 6.5.
 
 **Prerequisites**
 
@@ -11,8 +10,6 @@ To install the vSphere Client plug-ins for vSphere Integrated Containers, you lo
 - You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 - Log in to the Windows system on which vCenter Server is running. You must perform all of the steps in this procedure on this Windows system.
 - Go to https://<i>vic_appliance_address</i>:9443/files in a Web browser, download the vSphere Integrated Containers Engine package, `vic_1.2.x.tar.gz`, and unpack it on the Desktop. Do not download the client plug-in files, `com.vmware.vic-v1.2.x.zip` and `com.vmware.vic.ui-v1.2.x.zip`, directly from the file server. The plug-in installation script pulls these files from the file server.
-
-**NOTE**: If the vSphere Integrated Containers appliance uses a different port for the file server, replace 9443 with the appropriate port in the prerequisites above and in the procedure below.
 
 **Procedure**
 
