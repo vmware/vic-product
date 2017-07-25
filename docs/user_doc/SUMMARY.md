@@ -117,6 +117,7 @@
     * [Configuring Cluster Size and Scale](vic_app_dev/configuring_clusters.md)
   * [Supported Docker Commands](vic_app_dev/container_operations.md)
     * [Supported Docker Compose File Options](vic_app_dev/docker_compose_file_options.md)
+    * [Supported Dockerfile Instructions](vic_app_dev/dockerfile_support.md)   
   * [Use and Limitations](vic_app_dev/container_limitations.md)
   * [Obtain a VCH](vic_app_dev/obtain_vch.md)
   * [Configure the Docker Client](vic_app_dev/configure_docker_client.md)
@@ -124,8 +125,9 @@
   * [Using Volumes](vic_app_dev/using_volumes_with_vic.md) 
   * [Container Networking](vic_app_dev/network_use_cases.md)
   * [Creating a Containerized App](vic_app_dev/creating_containerized_app_with_vic.md)
-    * [Docker Compose Constraints](vic_app_dev/constraints_using_compose.md)
-    * [Example of Building an App](vic_app_dev/build_app_with_vic.md)
+    * [Putting Apps into Production](vic_app_dev/putting_apps_into_production.md)
+    * [Deploy a Single Container VM](vic_app_dev/deploy_single_containervm.md)
+    * [Deploy Container VMs with Compose](vic_app_dev/deploy_multiple_docker_compose.md) 
   * [Default Volume Store Error](vic_app_dev/ts_volume_store_error.md)
 
 
