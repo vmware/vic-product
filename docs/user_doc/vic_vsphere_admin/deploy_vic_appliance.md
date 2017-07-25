@@ -2,6 +2,7 @@
 
 You install vSphere Integrated Containers by deploying a virtual appliance. The appliance runs the vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal services, and publishes the downloads of the vSphere Integrated Containers Engine and vSphere Container Cluster Manager binaries. 
 
+
 **Prerequisites**
 
 - You downloaded an official build or an open-source build of the OVA installer.
@@ -69,11 +70,13 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 9. When the deployment completes, power on the appliance VM.
 10. Go to https://<i>vic_appliance_address</i>:9443 and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance.
 
-    The installation process requires the single sign-on credentials to set up vSphere Integrated Containers Management Portal and Registry. If you configured the vSphere Integrated Containers appliance to use a different port for the vSphere Integrated Containers file server, replace 9443 with the appropriate port. 
+    If you configured the vSphere Integrated Containers appliance to use a different port for the vSphere Integrated Containers file server, replace 9443 with the appropriate port. 
+
+    **IMPORTANT**: The installation process requires the single sign-on credentials to set up vSphere Integrated Containers Management Portal and Registry. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
 
 **What to Do Next**
 
-Access the different vSphere Integrated Containers components and start using them.
+Access the different vSphere Integrated Containers components and start using them. If, during the OVA deployment, you configured the vSphere Integrated Containers appliance to use different ports for the vSphere Integrated Containers services, replace the port numbers in the URLs below with the appropriate ports. 
 
 - Go to the file server that runs in the vSphere Integrated Containers appliance at https://<i>vic_appliance_address</i>:9443/files and download and unpack the vSphere Integrated Containers Engine binaries bundle, `vic_1.2.x.tar.gz`.
 - Install the vSphere Client plug-ins for vSphere Integrated Containers. For information about installing the plug-ins, see [Installing the vSphere Client Plug-ins](install_vic_plugin.md). 
@@ -83,7 +86,7 @@ Access the different vSphere Integrated Containers components and start using th
 - Download the vSphere Container Cluster Manager binaries bundle, `vic-adm-platform-dev.tar.gz`, from the file server. Unpack the bundle and start deploying container clusters. For information about deploying container clusters, see [Deploy a Kubernetes Cluster](deploy_kubernetes_cluster.html).
 - Log in to vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282. For information about how to use vSphere Integrated Containers Management Portal, see [View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal](../vic_cloud_admin/vchs_and_mgmt_portal.md).
 
-**NOTE** If, during the OVA deployment, you configured the vSphere Integrated Containers appliance to use different ports for the vSphere Integrated Containers services, replace the port numbers in the URLs below with the appropriate ports.
+You can reconfigure the appliance after deployment by editing the settings of the appliance VM. For information about reconfiguring the appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.html).
 
 
    
