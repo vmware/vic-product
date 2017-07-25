@@ -117,6 +117,9 @@ func main() {
 	dirPath := filepath.Join(c.serveDir, "files")
 	mux.Handle("/files/", http.StripPrefix("/files/", http.FileServer(http.Dir(dirPath))))
 
+	// attach register route, for registration automation
+	mux.Handle("/register", http.HandlerFunc(registerHandler))
+
 	// attach root index route
 	mux.Handle("/", http.HandlerFunc(indexHandler))
 

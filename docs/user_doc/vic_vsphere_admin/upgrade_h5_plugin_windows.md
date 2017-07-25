@@ -1,6 +1,6 @@
 # Upgrade the Plug-Ins on vCenter Server for Windows #
 
-If you have a previous 1.1.x installation of the plug-ins for vSphere Integrated Containers, you must upgrade them. This procedure describes how to upgrade an existing plug-ins for vCenter Server on Windows.
+If you have a previous installation of the plug-ins for vSphere Integrated Containers, you must upgrade them. This procedure describes how to upgrade an existing plug-ins for vCenter Server on Windows.
 
 **Prerequisites**
 
@@ -10,7 +10,7 @@ If you have a previous 1.1.x installation of the plug-ins for vSphere Integrated
 - Log in to the Windows system on which vCenter Server is running. You must perform all of the steps in this procedure on this Windows system.
 - Go to https://<i>upgraded_vic_appliance_address</i>:9443 in a Web browser, download the new version of the vSphere Integrated Containers Engine package, `vic_1.2.y.tar.gz`, and unpack it on the Desktop. 
 
-**NOTE**: If the upgraded vSphere Integrated Containers appliance uses a different port for the file server, replace 9443 with the appropriate port in the prerequisites above and in the procedure below.
+**NOTE**: If the upgraded vSphere Integrated Containers appliance uses a different port for the file server, replace 9443 with the appropriate port in the prerequisites above.
 
 **Procedure**
 

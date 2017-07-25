@@ -24,6 +24,7 @@ sed -i '/linux/ s/$/ consoleblank=0/' /boot/grub2/grub.cfg
 
 # Enable systemd services
 systemctl daemon-reload
+systemctl enable toolbox.service
 systemctl enable docker.service
 systemctl enable data.mount repartition.service resizefs.service getty@tty2.service
 systemctl enable chrootpwd.service sshd_permitrootlogin.service vic-appliance.target

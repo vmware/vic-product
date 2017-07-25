@@ -15,7 +15,6 @@
 package version
 
 import (
-	"flag"
 	"fmt"
 	"runtime"
 	"strconv"
@@ -40,10 +39,6 @@ type Build struct {
 	BuildNumber   string
 	State         string
 	PluginVersion int
-}
-
-func init() {
-	flag.BoolVar(&v, "version", false, "Show version info")
 }
 
 // Show returns whether -version flag is set

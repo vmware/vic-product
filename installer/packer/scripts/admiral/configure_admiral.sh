@@ -28,7 +28,7 @@ fi
 data_dir="/data/admiral"
 conf_dir="/etc/vmware/admiral"
 script_dir="/etc/vmware"
-javadir="/usr/lib/jvm/OpenJDK-1.8.0.131/bin"
+keytool="/usr/bin/keytool"
 
 cert_dir=${data_dir}/cert
 flag=${conf_dir}/cert_gen_type
@@ -89,7 +89,7 @@ function genCert {
   $script_dir/set_guestinfo.sh -f $ca_cert "admiral.ca"
 
   echo "creating java keystore with self-signed CA"
-  $javadir/keytool -import -noprompt -v -trustcacerts -alias selfsignedca -file $ca_cert -keystore $jks -keypass changeit -storepass changeit
+  $keytool -import -noprompt -v -trustcacerts -alias selfsignedca -file $ca_cert -keystore $jks -keypass changeit -storepass changeit
 }
 
 function secure {
@@ -101,7 +101,7 @@ function secure {
     formatCert "$ssl_cert_key" $key
     echo "customized" > $flag
     echo "creating java keystore with provided cert for xenon"
-    $javadir/keytool -import -noprompt -v -trustcacerts -alias selfsignedca -file $cert -keystore $jks -keypass changeit -storepass changeit
+    $keytool -import -noprompt -v -trustcacerts -alias selfsignedca -file $cert -keystore $jks -keypass changeit -storepass changeit
     return
   fi
 
