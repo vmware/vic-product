@@ -1,17 +1,14 @@
 # Install the Client Plug-Ins on a vCenter Server Appliance #
 
 You install the vSphere Client plug-ins for vSphere Integrated Containers by logging into the vCenter Server appliance and running a script.  The script registers an extension with vCenter Server, and instructs vCenter Server to download the plug-in files from the file server in the vSphere Integrated Containers appliance.
-- You can install the the Flex-based vSphere Web Client plug-in on vCenter Server 6.0 or 6.5.
-- You can install the the HTML5 vSphere Client plug-in on vCenter Server 6.5.
+
+The installer installs a basic plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0 or 6.5 and a plug-in with more complete functionality for the HTML5 vSphere Client on vCenter Server 6.5.
 
 **Prerequisites**
 
 - You are installing the plug-ins on a vCenter Server appliance instance. If you are running vCenter Server on Windows, see [Install the Client Plug-Ins on vCenter Server for Windows](plugins_vc_windows.md).
 - Go to the vCenter Server Appliance Management Interface (VAMI) at https://<i>vcsa_address</i>:5480, click **Access**, and make sure that Bash Shell is enabled.
 - You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
-
-**NOTE**: If the vSphere Integrated Containers appliance uses a different port for the file server, replace 9443 with the appropriate port in the procedure below.
-
 
 **Procedure**
 
