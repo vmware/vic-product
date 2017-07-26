@@ -45,12 +45,14 @@ vic-ova-ui := $(BIN)/vic-ova-ui
 ova-webserver := $(BIN)/ova-webserver
 ova-engine-installer := $(BIN)/ova-engine-installer
 toolbox := $(BIN)/toolbox
+rpctool := $(BIN)/rpctool
 gas: $(GAS)
 ovfenv: $(ovfenv)
 vic-ova-ui: $(vic-ova-ui)
 ova-webserver: $(ova-webserver)
 ova-engine-installer: $(ova-engine-installer)
 toolbox: $(toolbox)
+rpctool: $(rpctool)
 
 # Generate Go package dependency set, skipping if the only targets specified are clean and/or distclean
 # Caches dependencies to speed repeated calls
@@ -89,7 +91,11 @@ $(toolbox): $(call godeps,toolbox/*.go)
 	@echo building toolbox
 	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
-ova-release: gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox)
+$(rpctool): $(call godeps,ovatools/rpctool/*.go)
+	@echo building rpctool
+	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
+
+ova-release: gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
 	@echo building vic-unified-installer OVA using packer...
 	@cd $(BASE_DIR)packer && $(PACKER) build \
 			-only=ova-release \
@@ -120,7 +126,7 @@ endif
 	@echo cleaning packer directory...
 	@cd $(BASE_DIR)packer && $(RM) -rf vic
 
-ova-debug: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox)
+ova-debug: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
 	@echo building vic-unified-installer OVA using packer...
 	cd $(BASE_DIR)packer && PACKER_LOG=1 $(PACKER) build \
 			-only=ova-release \
@@ -151,7 +157,7 @@ endif
 	@echo cleaning packer directory...
 	cd $(BASE_DIR)packer && $(RM) -rf vic
 
-vagrant-local: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
+vagrant-local: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
 	@echo building vic-unified-installer Vagrant box using packer...
 	@cd $(BASE_DIR)packer && $(PACKER) build \
 			-only=vagrant-local \

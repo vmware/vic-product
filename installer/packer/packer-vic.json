@@ -129,6 +129,11 @@
     },
     {
       "type": "file",
+      "source": "../bin/rpctool",
+      "destination": "/usr/bin/rpctool"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/docker.service",
       "destination": "/usr/lib/systemd/system/docker.service"
     },
