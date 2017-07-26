@@ -335,7 +335,7 @@ This example deploys a VCH with the following configuration:
 --image-store datastore1
 --bridge-network vch1-bridge
 --tls-cname *.example.org
---cert-path <i>path_to_cert_folder</i>
+--tls-cert-path <i>path_to_cert_folder</i>
 --force
 --name vch1
 </pre>
