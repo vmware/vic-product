@@ -98,8 +98,6 @@ docker run -it --net=host -v ~/go/src/github.com/vmware/vic-product/installer/bi
   --prop:appliance.permit_root_login=True \
   --prop:management_portal.port=8282 \
   --prop:registry.port=443 \
-  --prop:registry.admin_password="password" \
-  --prop:registry.db_password="password" \
   --prop:cluster_manager.admin="Administrator" \
   /test-bin/vic-a2f93359.ova \
   vi://root:password@192.168.1.86
