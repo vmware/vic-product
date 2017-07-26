@@ -18,7 +18,7 @@ import (
 	"context"
 	"net/url"
 
-	log "github.com/sirupsen/logrus"
+	log "github.com/Sirupsen/logrus"
 
 	"github.com/vmware/vic-product/installer/tags"
 	"github.com/vmware/vic/pkg/errors"

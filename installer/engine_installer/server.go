@@ -26,7 +26,7 @@ import (
 	"strings"
 	"syscall"
 
-	log "github.com/sirupsen/logrus"
+	log "github.com/Sirupsen/logrus"
 
 	"github.com/vmware/vic/pkg/certificate"
 	"github.com/vmware/vic/pkg/trace"
