@@ -2,7 +2,7 @@
 
 You can obtain information about a virtual container host (VCH) by using the `vic-machine inspect` command.
 
-The `vic-machine inspect` command does not include any options in addition to the common options described in [Common `vic-machine` Options](common_vic_options.md).
+In addition to the common options described in [Common `vic-machine` Options](common_vic_options.md), the `vic-machine inspect` command only includes one option, `--tls-cert-path`. 
 
 **Prerequisites**
 
@@ -25,7 +25,17 @@ You have deployed a VCH.
   <pre>$ vic-machine-<i>operating_system</i> inspect
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
     --thumbprint <i>certificate_thumbprint</i>
-    --name <i>vch_name</i></pre>
+    --name <i>vch_name</i>
+</pre>
+
+3. To inspect a VCH that implements server and client authentication (`tlsverify`) and uses a non-default location to store its certificates, specify the `--tls-cert-path` option.
+
+  <pre>$ vic-machine-<i>operating_system</i> inspect
+    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --thumbprint <i>certificate_thumbprint</i>
+    --name <i>vch_name</i>
+    --tls-cert-path <i>path_to_certificates</i>
+</pre>
 
 **Result**
 
@@ -49,19 +59,21 @@ https://<i>vch_address</i>:2378</pre>
 - The address at which the VCH publishes ports.
 <pre><i>vch_address</i></pre>
 - The Docker environment variables that container developers can use when connecting to this VCH.
-  - VCH with full TLS authentication with trusted Certificate Authority certificates:
+  - VCH with server and client authentication (`tlsverify`):
   <pre>DOCKER_TLS_VERIFY=1 
 DOCKER_CERT_PATH=<i>path_to_certificates</i>
-DOCKER_HOST=<i>vch_address</i>:2376</pre>
-  - VCH with TLS authentication with untrusted self-signed certificates:
+DOCKER_HOST=<i>vch_address</i>:2376</pre>If `vic-machine inspect` is unable to find the appropriate certificates, either in the default location or in a location that you specify in the `--tls-cert-path` option, the output includes a warning.<pre>Unable to find valid client certs
+DOCKER_CERT_PATH must be provided in environment or certificates specified 
+individually via CLI arguments.<pre>
+  - VCH with TLS server authentication but without client authentication (`no-tlsverify`):
   <pre>
 DOCKER_HOST=<i>vch_address</i>:2376</pre>
   - VCH with no TLS authentication:
   <pre>DOCKER_HOST=<i>vch_address</i>:2375</pre>
 - The Docker command to use to connect to the Docker endpoint.
-  - VCH with full TLS authentication with trusted Certificate Authority certificates:
+  - VCH with server and client authentication (`tlsverify`):
   <pre>docker -H <i>vch_address</i>:2376 --tlsverify info</pre>
-  - VCH with TLS authentication with untrusted self-signed certificates:
+  - VCH with TLS server authentication but without client authentication (`no-tlsverify`):
   <pre>docker -H <i>vch_address</i>:2376 --tls info</pre>
   - VCH with no TLS authentication:
   <pre>docker -H <i>vch_address</i>:2375 info</pre>
