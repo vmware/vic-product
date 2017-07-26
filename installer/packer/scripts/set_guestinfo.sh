@@ -34,7 +34,7 @@ done
 shift $((OPTIND-1))
 
 if [ $# == 1 ] && [ -n "$value_file" ]; then
-	value=`cat $value_file`
+	value=$(cat "$value_file")
 elif [ $# == 2 ]; then
 	value=$2
 else
@@ -44,4 +44,4 @@ fi
 
 key=$1
 
-vmware-rpctool "info-set guestinfo.vicova.$key $value"
+rpctool -set vicova."$key" "$value"
