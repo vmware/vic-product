@@ -19,8 +19,7 @@ You can use the `vic-machine debug` command to enable shell access to a virtual 
 
 This example authorizes SSH access and provides a public key file.
 
-    <pre>
-     $ vic-machine-<i>operating_system</i> debug
+<pre>$ vic-machine-<i>operating_system</i> debug
      --target <i>vcenter_server_or_esxi_host_address</i>
      --user <i>vcenter_server_or_esxi_host_username</i>
      --password <i>vcenter_server_or_esxi_host_password</i>
@@ -28,8 +27,7 @@ This example authorizes SSH access and provides a public key file.
      --thumbprint <i>certificate_thumbprint</i>
      --enable-ssh
      --rootpw '<i>new_p@ssword</i>' 
-     --authorized-key <i>path_to_public_key_file</i>/<i>key_file</i>.pub
-</pre>
+     --authorized-key <i>path_to_public_key_file</i>/<i>key_file</i>.pub</pre>
   
 ## Output ##
 
