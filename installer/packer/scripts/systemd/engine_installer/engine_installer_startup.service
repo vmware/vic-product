@@ -1,9 +1,9 @@
 [Unit]
 Description=VIC Engine Install Wizard Startup Configuration
 Documentation=https://github.com/vmware/vic
-After=systemd-networkd.service systemd-resolved.service iptables.service ova-firewall.service fileserver.service
+After=systemd-networkd.service systemd-resolved.service iptables.service ova-firewall.service fileserver.service data.mount
 Before=engine_installer.service
-Requires=iptables.service fileserver.service
+Requires=iptables.service fileserver.service data.mount
 
 [Service]
 Type=oneshot
