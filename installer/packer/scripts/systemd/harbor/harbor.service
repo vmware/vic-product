@@ -1,7 +1,7 @@
 [Unit]
 Description=Harbor Container Registry
 Documentation=http://github.com/vmware/harbor
-After=docker.service
+After=docker.service data.mount
 Requires=docker.service data.mount
 
 [Service]
