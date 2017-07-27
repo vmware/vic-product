@@ -1,8 +1,8 @@
 [Unit]
 Description=Kubernetes on vSphere
 Documentation=https://github.com/vmware/kov
-After=network-online.target
-Requires=docker.service network-online.target
+After=network-online.target data.mount
+Requires=docker.service network-online.target data.mount
 Before=kov_env_vars.service
 
 [Service]

@@ -1,8 +1,8 @@
 [Unit]
 Description=Kubernetes on vSphere
 Documentation=https://github.com/vmware/kov
-After=kov_published_env_vars.service
-Requires=kov_published_env_vars.service
+After=kov_published_env_vars.service data.mount
+Requires=kov_published_env_vars.service data.mount
 Before=kov.service
 
 [Service]

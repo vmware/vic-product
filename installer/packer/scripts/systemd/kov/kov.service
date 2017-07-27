@@ -1,8 +1,8 @@
 [Unit]
 Description=Kubernetes on vSphere
 Documentation=https://github.com/vmware/kov
-After=kov_env_vars.service iptables.service ova-firewall.service
-Requires=kov_env_vars.service iptables.service
+After=kov_env_vars.service iptables.service ova-firewall.service data.mount
+Requires=kov_env_vars.service iptables.service data.mount
 
 [Service]
 EnvironmentFile=/etc/vmware/kov/kov_env_vars
