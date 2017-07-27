@@ -41,7 +41,6 @@
        * [VCH Upgrade Options](vic_vsphere_admin/upgrade_vch_options.md)
      * [Upgrade Plug-In on Windows](vic_vsphere_admin/upgrade_h5_plugin_windows.md)
      * [Upgrade Plug-In VCSA](vic_vsphere_admin/upgrade_h5_plugin_vcsa.md)
-     * [Upgrade 0.5 Registry](vic_vsphere_admin/upgrade_registry.md)
   * [Managing the Appliance](vic_vsphere_admin/manage_appliance.md)
     * [Reconfigure the Appliance](vic_vsphere_admin/reconfigure_appliance.md)
     * [Check Service Status](vic_vsphere_admin/service_status.md)

@@ -1,12 +1,10 @@
 # Upgrade the vSphere Integrated Containers Appliance # 
 
-If you deployed a 1.1.x version of the vSphere Integrated Containers appliance, you can upgrade your existing installation to 1.2.x.
-
-To upgrade an instance of vSphere Integrated Containers Registry 0.5 (Harbor) that you deployed with vSphere Integrated Containers 1.0, see [Upgrade vSphere Integrated Containers Registry 0.5 to 1.2.x](upgrade_registry.md).
+If you deployed a 1.1.x version of the vSphere Integrated Containers appliance, you can upgrade your existing installation to 1.2.x. You can also upgrade a 1.2.x appliance to a later 1.2.y update release.
 
 **Prerequisites**
 
-- You have an existing vSphere Integrated Containers 1.1.x appliance that you deployed by using the official OVA installer.
+- You have an existing vSphere Integrated Containers appliance that you deployed by using the OVA installer.
 - Back up the previous appliance by using your usual backup tools.
 - Deploy the new version of the vSphere Integrated Containers appliance to a location in which it can access the VMDK files of the previous appliance. For information about using the OVA installer, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md). 
 
@@ -34,4 +32,4 @@ To upgrade an instance of vSphere Integrated Containers Registry 0.5 (Harbor) th
 
 **What to Do Next**
 
-Log into the new versions of vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal to verify that the data from your previous vSphere Integrated Containers installation has migrated successfully.
+Log into the new version of vSphere Integrated Container Management Portal to verify that the data from your previous vSphere Integrated Containers installation has migrated successfully.
