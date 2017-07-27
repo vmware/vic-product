@@ -1,7 +1,7 @@
 Build_OVA ()
 {
 # exit on failure and configure debug, include util functions
-set -euf -o pipefail
+#set -euf -o pipefail
 
 BUILD_VICENGINE_REVISION="${BUILD_VICENGINE_REVISION:-}"
 PACKER_ESX_HOST="${PACKER_ESX_HOST:-}"
