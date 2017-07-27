@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+BuildOVA ()
+{
 # exit on failure and configure debug, include util functions
 set -euf -o pipefail
 
@@ -40,3 +42,42 @@ ssh -t -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHIN
 
 echo "Copying the ova from the ovabuilder.."
 scp -v -r -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP:"~/go/src/github.com/vmware/vic-product/installer/bin/vic-*.ova" bin/
+}
+
+set -e
+
+if [ ! -p $pipe ]; then
+    echo "Pipe not present"
+    mkfifo $pipe
+else
+    echo "Pipe already present exiting..."
+    exit 0
+fi
+
+while true
+do
+    if mkdir $ova_lock; then
+        # Delete the pipe
+          rm -f $pipe
+
+        # Do the job
+          echo "Performing OVA build..."
+          Build_OVA
+          
+          #trap "rm -f $pipe" EXIT
+          #trap "rm -rf $ova_lock" EXIT
+
+          echo "OVA build complete..."
+          rm -rf $ova_lock
+          exit 0
+    else
+        echo "Lock present waiting..."
+        sleep 5s
+        echo "Retrying..."   
+    fi
+done
+
+if [ $? != 0 ] then
+trap "rm -f $pipe" EXIT
+trap "rm -rf $ova_lock" EXIT
+fi
