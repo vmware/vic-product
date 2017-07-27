@@ -174,10 +174,8 @@ $script_dir/set_guestinfo.sh admiral.endpoint https://$ip_address:$port
 secure
 
 configureAdmiralStart ADMIRAL_DATA_LOCATION $data_dir
-configureAdmiralStart ADMIRAL_CERT_LOCATION $cert
-configureAdmiralStart ADMIRAL_KEY_LOCATION $key
-configureAdmiralStart ADMIRAL_JKS_LOCATION $jks
 configureAdmiralStart ADMIRAL_EXPOSED_PORT $port
+configureAdmiralStart OVA_VM_IP $ip_address
 
 iptables -w -A INPUT -j ACCEPT -p tcp --dport $port
 
@@ -190,6 +188,22 @@ if [ ${harbor_deploy,,} == "true" ]; then
   # If harbor is deployed, configure the integration URL
   echo "harbor.tab.url=https://${hostname}:${harbor_port}" > $data_dir/custom.conf
 fi
+
+# Copy files needed by Admiral into one directory
+config_dir=$data_dir/configs
+mkdir -p $config_dir
+admiral_psc_dir=/etc/vmware/psc/admiral
+
+cp $jks $config_dir
+cp $key $config_dir
+cp $cert $config_dir
+cp $data_dir/custom.conf $config_dir/config.properties
+cp $admiral_psc_dir/psc-config.keystore $config_dir
+cp $admiral_psc_dir/psc-config.properties $config_dir
+
+# Change Admiral's keystore.file value to point to mounted path in container
+sed -i "/\b\(keystore.file\)\b/d" $config_dir/psc-config.properties
+echo "keystore.file=/configs/psc-config.keystore" >> $config_dir/psc-config.properties
 
 # Start on startup
 echo "Enable admiral startup"

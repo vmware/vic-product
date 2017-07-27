@@ -14,22 +14,20 @@
 # limitations under the License.
 set -euf -o pipefail
 
+# Populated by configure_admiral.sh
 ADMIRAL_EXPOSED_PORT=""
 ADMIRAL_DATA_LOCATION=""
-ADMIRAL_KEY_LOCATION=""
-ADMIRAL_CERT_LOCATION=""
-ADMIRAL_JKS_LOCATION=""
+OVA_VM_IP=""
+
+# Configure Xenon opts with VM IP
+admiral_xenon_opts="--publicUri=https://${OVA_VM_IP}:8282/ --bindAddress=0.0.0.0 --port=-1 --authConfig=/configs/psc-config.properties --securePort=8282 --keyFile=/configs/server.key --certificateFile=/configs/server.crt --startMockHostAdapterInstance=false"
 
 /usr/bin/docker run -p ${ADMIRAL_EXPOSED_PORT}:8282 \
   --name vic-admiral \
-  -e ADMIRAL_PORT=8282 \
-  -e JAVA_OPTS="-Ddcp.net.ssl.trustStore=/tmp/trusted_certificates.jks -Ddcp.net.ssl.trustStorePassword=changeit" \
-  -e XENON_OPTS="--port=-1 --securePort=8282 --certificateFile=/tmp/server.crt --keyFile=/tmp/server.key" \
-  -v "$ADMIRAL_CERT_LOCATION:/tmp/server.crt" \
-  -v "$ADMIRAL_KEY_LOCATION:/tmp/server.key" \
-  -v "$ADMIRAL_JKS_LOCATION:/tmp/trusted_certificates.jks" \
-  -v "$ADMIRAL_DATA_LOCATION/custom.conf:/admiral/config/configuration.properties" \
-  -v "$ADMIRAL_DATA_LOCATION:/var/admiral" \
+  -v "$ADMIRAL_DATA_LOCATION/configs:/configs" \
+  -e ADMIRAL_PORT=-1 \
+  -e JAVA_OPTS="-Dconfiguration.properties=/configs/config.properties -Ddcp.net.ssl.trustStore=/configs/trustedcertificates.jks -Ddcp.net.ssl.trustStorePassword=changeit" \
+  -e XENON_OPTS="${admiral_xenon_opts}" \
   --log-driver=json-file \
   --log-opt max-size=1g \
   --log-opt max-file=10 \
