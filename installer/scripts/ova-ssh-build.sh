@@ -44,6 +44,9 @@ echo "Copying the ova from the ovabuilder.."
 scp -v -r -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP:"~/go/src/github.com/vmware/vic-product/installer/bin/vic-*.ova" bin/
 }
 
+pipe=/tmp/ovapipe
+ova_lock=/var/lock/mylock
+
 set -e
 
 if [ ! -p $pipe ]; then
