@@ -57,7 +57,7 @@ if [ ! -p $pipe ]; then
     echo "Pipe not present"
     mkfifo $pipe
 else
-    echo "Pipe already present exiting..."
+    echo "Pipe already present exiting.."
     exit 0
 fi
 
