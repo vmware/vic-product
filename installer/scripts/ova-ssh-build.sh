@@ -48,8 +48,8 @@ pipe=/tmp/ovapipe
 ova_lock=/var/lock/mylock
 
 #forcing the pipe and lock deletion.
-rm -f $pipe
-rm -rf $ova_lock
+#rm -f $pipe
+#rm -rf $ova_lock
 
 set -e
 
