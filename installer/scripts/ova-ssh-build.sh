@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-BuildOVA ()
+Build_OVA ()
 {
 # exit on failure and configure debug, include util functions
 set -euf -o pipefail
