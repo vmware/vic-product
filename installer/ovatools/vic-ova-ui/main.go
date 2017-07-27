@@ -85,7 +85,7 @@ func main() {
 			info = fmt.Sprintf("%sAccess the Demo VCH Installer at:\nhttps://%s:%s\n", info, ip.String(), port)
 		}
 		if port, ok := ovf.Properties["cluster_manager.port"]; ok {
-			info = fmt.Sprintf("%sAccess the Kubernetes on Vsphere daemon at:\nhttps://%s:%s\n", info, ip.String(), port)
+			info = fmt.Sprintf("%sAccess the Kubernetes on vSphere daemon at:\nhttps://%s:%s\n", info, ip.String(), port)
 		}
 	}
 	info = fmt.Sprintf("%s\nAccess the VIC Product Documentation at:\nhttps://vmware.github.io/vic-product/#documentation\n", info)
