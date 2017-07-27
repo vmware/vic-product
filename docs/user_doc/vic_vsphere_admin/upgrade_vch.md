@@ -2,7 +2,7 @@
 
 You upgrade virtual container hosts (VCHs) by downloading a new version of vSphere Integrated Containers Engine and running the `vic-machine upgrade` command.
 
-You can use `vic-machine upgrade` to upgrade VCHs from version 0.8 and above. You can run `vic-machine upgrade` on VCHs that are either running or powered off. When you upgrade a running VCH, the VCH goes temporarily offline, but container workloads continue as normal during the upgrade process. Upgrading a VCH does not affect any mapped container networks that you defined by setting the `vic-machine create --container-network` option. The following operations are not available during upgrade:
+You can use `vic-machine upgrade` to upgrade VCHs to newer versions. You can run `vic-machine upgrade` on VCHs that are either running or powered off. When you upgrade a running VCH, the VCH goes temporarily offline, but container workloads continue as normal during the upgrade process. Upgrading a VCH does not affect any mapped container networks that you defined by setting the `vic-machine create --container-network` option. The following operations are not available during upgrade:
 
 - You cannot access container logs
 - You cannot attach to a container
@@ -14,7 +14,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
 
 **Prerequisites**
 
-- You deployed one or more VCHs with an older version of the `vic-machine create` command.
+- You deployed one or more VCHs with an older version of `vic-machine`.
 - You downloaded a new version of the vSphere Integrated Containers Engine bundle.
 - Run the `vic-machine ls` command by using the new version of `vic-machine` to see the upgrade status of all of the VCHs that are running on a vCenter Server instance or ESXi host. For information about running `vic-machine ls`, see [List VCHs and Obtain Their IDs](list_vch.md).
 - Optionally note the IDs of the VCHs.
@@ -36,14 +36,14 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
 --thumbprint <i>certificate_thumbprint</i>
---name <i>vch_name</i></pre>
+--id <i>vch_id</i></pre>
 
 3. If the upgrade operation fails with error messages, run `vic-machine upgrade` again, specifying a timeout longer than 3 minutes in the `--timeout` option.
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
 --thumbprint <i>certificate_thumbprint</i>
---name <i>vch_name</i>
+--id <i>vch_id</i>
 --timeout 5m0s</pre>
 
 3. If the upgrade operation continues to fail with error messages, run `vic-machine upgrade` again with the `--force` option.
@@ -52,7 +52,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---name <i>vch_name</i>
+--id <i>vch_id</i>
 --timeout 5m0s
 --force</pre>
 
@@ -60,7 +60,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---name <i>vch_name</i>
+--id <i>vch_id</i>
 --force
 --rollback</pre>
 
