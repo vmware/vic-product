@@ -47,6 +47,10 @@ scp -v -r -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MAC
 pipe=/tmp/ovapipe
 ova_lock=/var/lock/mylock
 
+#forcing the pipe and lock deletion.
+rm -f $pipe
+rm -rf $ova_lock
+
 set -e
 
 if [ ! -p $pipe ]; then
