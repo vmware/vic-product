@@ -69,7 +69,7 @@ do
 
         # Do the job
           echo "Performing OVA build..."
-          Build_OVA
+          Build_OVA $1
           
           #trap "rm -f $pipe" EXIT
           #trap "rm -rf $ova_lock" EXIT
