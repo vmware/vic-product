@@ -68,7 +68,7 @@ do
           rm -f $pipe
 
         # Do the job
-          echo "Performing OVA build..."
+          echo "Performing OVA build.."
           Build_OVA $1
           
           #trap "rm -f $pipe" EXIT
