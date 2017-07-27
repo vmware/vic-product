@@ -32,7 +32,6 @@
        * [VCH Upgrade Options](upgrade_vch_options.md)
      * [Upgrade Plug-In on Windows](upgrade_h5_plugin_windows.md)
      * [Upgrade Plug-In VCSA](upgrade_h5_plugin_vcsa.md)
-     * [Upgrade 0.5 Registry](upgrade_registry.md)
   * [Managing the Appliance](manage_appliance.md)
     * [Reconfigure the Appliance](reconfigure_appliance.md)
     * [Check Service Status](service_status.md)
