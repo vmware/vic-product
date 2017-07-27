@@ -20,7 +20,7 @@ This example specifies the vCenter Server credentials in the `--target` option.
 </pre>
 
 
-## Output ##
+### Output
 
 The `vic-machine ls` command lists the VCHs that are running on the ESXi host or vCenter Server instance that you specified.
 
@@ -34,14 +34,9 @@ vm-<i>n</i>       <i>path</i>     vch_<i>n</i>   <i>version</i>     Up to date
 - The IDs are the vSphere Managed Object References, or morefs, for the VCH endpoint VMs. You can use VCH IDs when you run the  `vic-machine inspect`, `debug`, `upgrade`, and `delete` commands. Using VCH IDs reduces the number of options that you need to specify when you run those commands.
 - The `PATH` value depends on where the VCH is deployed:
 
-  - ESXi host that is not managed by vCenter Server:
-      <pre>/ha-datacenter/host/<i>host_name</i>/Resources</pre>
-  - Standalone host that is managed by vCenter Server: 
-      <pre>/<i>datacenter</i>/host/<i>host_address</i>/Resources</pre>
-  - vCenter Server cluster:
-      <pre>/<i>datacenter</i>/host/<i>cluster_name</i>/Resources</pre>
-
-     If VCHs are deployed in resource pools on hosts or clusters, the resource pool names appear after `Resources` in the path. You can use the information in `PATH` in the `--compute-resource` option of `vic-machine` commands. 
+  - ESXi host that is not managed by vCenter Server:<pre>/ha-datacenter/host/<i>host_name</i>/Resources</pre>
+  - Standalone host that is managed by vCenter Server:<pre>/<i>datacenter</i>/host/<i>host_address</i>/Resources</pre>
+  - vCenter Server cluster:<pre>/<i>datacenter</i>/host/<i>cluster_name</i>/Resources</pre>If VCHs are deployed in resource pools on hosts or clusters, the resource pool names appear after `Resources` in the path. You can use the information in `PATH` in the `--compute-resource` option of `vic-machine` commands. 
 - The `VERSION` value shows the version of `vic-machine` that was used to create the VCH. It includes the release version, the build number and the short Git commit checksum, in the format `vch_version-vch_build-git_commit`.
 
 - The `UPGRADE STATUS` reflects whether the current version of `vic-machine` that you are using is the same as the one that you used to deploy a VCH. If the version or build number of the VCH does not match that of `vic-machine`, `UPGRADE STATUS` is  `Upgradeable to vch_version-vch_build-git_commit`.

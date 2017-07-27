@@ -6,7 +6,7 @@ You can use the `vic-machine debug` command to enable shell access to a virtual 
 
 - You must specify the vSphere target and its credentials, either in the `--target` option or separately in the `--user` and `--password` options. 
       
-  The credentials that you provide must have the following privilege on the endpoint VM:<pre>Virtual machine.Guest Operations.Guest Operation Program Execution</pre>
+    The credentials that you provide must have the following privilege on the endpoint VM:<pre>Virtual machine.Guest Operations.Guest Operation Program Execution</pre>
 - You must specify the ID or name of the VCH to debug.
 - You might need to provide the thumbprint of the vCenter Server or ESXi host certificate. Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
 - To enable SSH access, you mush enable shell access by specifying the `--rootpw` option. Wrap the password in single quotes (Linux or Mac OS) or double quotes (Windows) if it includes shell characters such as `$`, `!` or `%`.
@@ -29,7 +29,7 @@ This example authorizes SSH access and provides a public key file.
      --rootpw '<i>new_p@ssword</i>' 
      --authorized-key <i>path_to_public_key_file</i>/<i>key_file</i>.pub</pre>
   
-## Output ##
+### Output
 
 The output of the `vic-machine debug` command includes confirmation that SSH access is enabled:
 
