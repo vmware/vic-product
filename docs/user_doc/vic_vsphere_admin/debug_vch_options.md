@@ -32,7 +32,7 @@ If you have already enabled SSH access but the password that you set has expired
 
 ### `--authorized-key` ###
 
-Short name: `--key`
+Short name: --tls-server-key
 
 Upload a public key file to `/root/.ssh/authorized_keys` to enable SSH key authentication for the `root` user. Include the name of the `*.pub` file in the path.
 
