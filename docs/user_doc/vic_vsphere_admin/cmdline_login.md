@@ -18,7 +18,7 @@ curl https://<i>vch_address</i>:2378/logs/port-layer.log
 In the example above, <i>cert_folder</i> is either of the following locations:
 
   - The folder with the same name as the VCH, in the directory from which you ran `vic-machine create`.
-  - A folder that you specified in the `vic-machine create --cert-path` option.
+  - A folder that you specified in the `vic-machine create --tls-cert-path` option.
 
 ## Without Client Authentication ##
 
