@@ -145,10 +145,10 @@ func (ei *EngineInstaller) buildCreateCommand(binaryPath string) {
 	createCommand = append(createCommand, []string{"--bridge-network", ei.BridgeNetwork}...)
 	createCommand = append(createCommand, []string{"--compute-resource", ei.ComputeResource}...)
 	createCommand = append(createCommand, []string{"--image-store", ei.ImageStore}...)
-	createCommand = append(createCommand, []string{"--thumbprint", ei.Thumbprint}...)
 	if ip, err := ip.FirstIPv4(ip.Eth0Interface); err == nil {
-            createCommand = append(createCommand, fmt.Sprintf("--insecure-registry %s:443", ip.String()))
+            createCommand = append(createCommand, []string{"--insecure-registry", fmt.Sprintf("%s:443", ip.String())}...)
         }
+	createCommand = append(createCommand, []string{"--thumbprint", ei.Thumbprint}...)
 
 	ei.CreateCommand = createCommand
 }
