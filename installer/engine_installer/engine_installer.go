@@ -26,6 +26,7 @@ import (
 
 	"github.com/vmware/vic-product/installer/lib"
 	"github.com/vmware/vic/pkg/trace"
+	"github.com/vmware/vic-product/installer/pkg/ip"
 )
 
 // EngineInstallerConfigOptions contains resource options for selection by user in exec.html
@@ -145,6 +146,9 @@ func (ei *EngineInstaller) buildCreateCommand(binaryPath string) {
 	createCommand = append(createCommand, []string{"--compute-resource", ei.ComputeResource}...)
 	createCommand = append(createCommand, []string{"--image-store", ei.ImageStore}...)
 	createCommand = append(createCommand, []string{"--thumbprint", ei.Thumbprint}...)
+	if ip, err := ip.FirstIPv4(ip.Eth0Interface); err == nil {
+            createCommand = append(createCommand, fmt.Sprintf("--insecure-registry %s:443", ip.String()))
+        }
 
 	ei.CreateCommand = createCommand
 }
