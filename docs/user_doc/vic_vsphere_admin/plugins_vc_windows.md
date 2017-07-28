@@ -6,6 +6,7 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 
 **Prerequisites**
 
+- The HTML5 plug-in requires vCenter Server 6.5.0d or later. The HTML5 plug-in does not function with earlier versions of vCenter Server 6.5.0.
 - The vCenter Server instance on which to install the plug-in runs on Windows. If you are running a vCenter Server appliance instance, see [Install the Client Plug-Ins on a vCenter Server Appliance](plugins_vcsa.md).
 - You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 - Log in to the Windows system on which vCenter Server is running. You must perform all of the steps in this procedure on this Windows system.
@@ -23,4 +24,4 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 
 **What to Do Next**
 
-To verify the deployment of the plug-in, see [Access the vSphere Integrated Containers View in the HTML5 vSphere Client](access_h5_ui.md), [Find VCH Information in the vSphere Clients](vch_portlet_ui.md), and [Find Container Information in the vSphere Clients](container_portlet_ui.md).
+To verify the deployment of the plug-ins, see [VCH Administration in the vSphere Client](vch_admin_client.md).

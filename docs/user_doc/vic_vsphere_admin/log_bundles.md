@@ -2,7 +2,7 @@
 
 vSphere Integrated Containers Engine provides log bundles that you can download from the VCH Admin portal for a virtual container host (VCH).
 
-You access the VCH Admin Portal at https://<i>vch_address</i>:2378. For more information about the VCH Admin portal, see [Access the VCH Administration Portal](access_vicadmin.md).
+You access the VCH Admin Portal at https://<i>vch_address</i>:2378. For more information about the VCH Admin portal, see [VCH Administration Portal](access_vicadmin.md).
 
 To aid in troubleshooting errors, you can download different log bundles:
 
