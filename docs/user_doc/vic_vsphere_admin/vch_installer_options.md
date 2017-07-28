@@ -144,15 +144,15 @@ When using the Docker client, the client validates the server either by using CA
 
 Short name: None
 
-The FQDN or IP address to embed in an auto-generated server certificate. Specify an FQDN, IP address, or a domain wildcard. If you provide a custom server certificate by using the `--cert` option, you can use `--tls-cname` as a sanity check to ensure that the certificate is valid for the deployment.
+The FQDN or IP address to embed in an auto-generated server certificate. Specify an FQDN, IP address, or a domain wildcard. If you provide a custom server certificate by using the `--tls-server-cert` option, you can use `--tls-cname` as a sanity check to ensure that the certificate is valid for the deployment.
 
 If you do not specify `--tls-cname` but you do set a static address for the VCH on the client network interface, `vic-machine create` uses that  address for the Common Name, with the same results as if you had specified `--tls-cname=x.x.x.x`. For information about setting a static IP address on the client network, see [Options for Specifying a Static IP Address for the VCH Endpoint VM](#static-ip).
 
 When you specify the `--tls-cname` option, `vic-machine create` performs the following actions during the deployment of the VCH:
 
-- Checks for an existing certificate in either a folder that has the same name as the VCH that you are deploying, or in a location that you specify in the [`--cert-path`](#cert-path) option. If a valid certificate exists that includes the same Common Name attribute as the one that you specify in `--tls-cname`, `vic-machine create` reuses it. Reusing certificates allows you to delete and recreate VCHs for which you have already distributed the certificates to container developers.
+- Checks for an existing certificate in either a folder that has the same name as the VCH that you are deploying, or in a location that you specify in the [`--tls-cert-path`](#cert-path) option. If a valid certificate exists that includes the same Common Name attribute as the one that you specify in `--tls-cname`, `vic-machine create` reuses it. Reusing certificates allows you to delete and recreate VCHs for which you have already distributed the certificates to container developers.
 - If certificates are present in the certificate folder that include a different Common Name attribute to the one that you specify in `--tls-cname`, `vic-machine create` fails.  
-- If a certificate folder does not exist, `vic-machine create` creates a folder with the same name as the VCH, or creates a folder in the location that you specify in the `--cert-path` option. 
+- If a certificate folder does not exist, `vic-machine create` creates a folder with the same name as the VCH, or creates a folder in the location that you specify in the `--tls-cert-path` option. 
 - If valid certificates do not already exist, `vic-machine create` creates the following trusted CA, server, and client certificate/key pairs in the certificate folder:
   - `ca.pem`
   - `ca-key.pem`
@@ -177,20 +177,20 @@ You must provide copies of the `cert.pem` and `key.pem` client certificate files
 <pre>--tls-cname vch-name.example.org</pre>
 <pre>--tls-cname *.example.org</pre>
 
-#### `--cert-path` {#cert-path}
+#### `--tls-cert-path` {#cert-path}
 
 Short name: none
 
-By default `--cert-path` is a folder in the current directory, that takes its name from the VCH name that you specify in the `--name` option. `vic-machine create` checks in `--cert-path` for existing certificates with the standard names and uses those certificates if they are present:
+By default `--tls-cert-path` is a folder in the current directory, that takes its name from the VCH name that you specify in the `--name` option. `vic-machine create` checks in `--tls-cert-path` for existing certificates with the standard names and uses those certificates if they are present:
 * `server-cert.pem` 
 * `server-key.pem`
 * `ca.pem`
 
-If `vic-machine create` does not find existing certificates with the standard names in `--cert-path`, or if you do not specify certificates directly by using the `--cert`, `--key`, and `--tls-ca` options, `vic-machine create` generates certificates. Generated certificates are saved in the `--cert-path` folder with the standard names listed. `vic-machine create` additionally generates other certificates:
+If `vic-machine create` does not find existing certificates with the standard names in `--tls-cert-path`, or if you do not specify certificates directly by using the `--tls-server-cert`, `--tls-server-key`, and `--tls-ca` options, `vic-machine create` generates certificates. Generated certificates are saved in the `--tls-cert-path` folder with the standard names listed. `vic-machine create` additionally generates other certificates:
 * `cert.pem` and `key.pem` for client certificates, if required.
 * `ca-key.pem`, the private key for the certificate authority. 
 
-<pre>--cert-path '<i>path_to_certificate_folder</i>'
+<pre>--tls-cert-path '<i>path_to_certificate_folder</i>'
 </pre>
 
 #### `--certificate-key-size` ###
@@ -213,9 +213,9 @@ A list of identifiers to record in certificates generated by `vic-machine`. You 
 
 ### Restrict Access to the Docker API with Custom Certificates {#restrict_custom}
 
-To exercise fine control over the certificates that VCHs use, obtain or generate custom certificates yourself before you deploy a VCH. Use the `--key`, `--cert`, and `--tls-ca` options to pass the custom certificates to `vic-machine create`.
+To exercise fine control over the certificates that VCHs use, obtain or generate custom certificates yourself before you deploy a VCH. Use the `--tls-server-key`, `--tls-server-cert`, and `--tls-ca` options to pass the custom certificates to `vic-machine create`.
 
-#### `--cert` {#cert}
+#### `--tls-server-cert` {#cert}
 
 Short name: none
 
@@ -227,37 +227,37 @@ The path to a custom X.509 server certificate. This certificate identifies the V
   - `KeyAgreement`
   - `ServerAuth`
 - This option is mandatory if you use custom TLS certificates, rather than auto-generated certificates.
-- Use this option in combination with the `--key` option, that provides the path to the private key file for the custom certificate.
+- Use this option in combination with the `--tls-server-key` option, that provides the path to the private key file for the custom certificate.
 - Include the names of the certificate and key files in the paths.
 - If you use trusted custom certificates, container developers run Docker commands with the `--tlsverify`, `--tlscacert`, `--tlscert`, and `--tlskey` options.
 
-<pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
---key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
+<pre>--tls-server-cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
+--tls-server-key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
 </pre> 
 
 Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.
 
-<pre>--cert '<i>path to certificate file</i>'/<i>certificate_file_name</i>.pem 
---key '<i>path to key file</i>'/<i>key_file_name</i>.pem
+<pre>--tls-server-cert '<i>path to certificate file</i>'/<i>certificate_file_name</i>.pem 
+--tls-server-key '<i>path to key file</i>'/<i>key_file_name</i>.pem
 </pre> 
 
 
-#### `--key` {#key}
+#### `--tls-server-key` {#key}
 
 Short name: none
 
-The path to the private key file to use with a custom server certificate. This option is mandatory if you specify the `--cert` option, that provides the path to a custom X.509 certificate file. Include the names of the certificate and key files in the paths. 
+The path to the private key file to use with a custom server certificate. This option is mandatory if you specify the `--tls-server-cert` option, that provides the path to a custom X.509 certificate file. Include the names of the certificate and key files in the paths. 
 
 **IMPORTANT**: The key must not be encrypted.
 
-<pre>--cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
---key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
+<pre>--tls-server-cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
+--tls-server-key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
 </pre> 
 
 Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.
 
-<pre>--cert '<i>path to certificate file</i>'/<i>certificate_file_name</i>.pem 
---key '<i>path to key file</i>'/<i>key_file_name</i>.pem
+<pre>--tls-server-cert '<i>path to certificate file</i>'/<i>certificate_file_name</i>.pem 
+--tls-server-key '<i>path to key file</i>'/<i>key_file_name</i>.pem
 </pre>
 
 #### `--tls-ca` {#tls-ca}
@@ -278,11 +278,11 @@ To deploy a VCH that does not restrict access to the Docker API, use the `--no-t
 
 Short name: `--kv`
 
-The `--no-tlsverify` option prevents the use of CAs for client authentication. You still require a server certificate if you use `--no-tlsverify`. You can still supply a custom server certificate by using the  [`--cert`](#cert) and [`--key`](#key)  options. If you do not use `--cert` and `--key` to supply a custom server certificate, `vic-machine create` generates a self-signed server certificate. If you specify `--no-tlsverify` there is no access control, however connections remain encrypted.
+The `--no-tlsverify` option prevents the use of CAs for client authentication. You still require a server certificate if you use `--no-tlsverify`. You can still supply a custom server certificate by using the  [`--tls-server-cert`](#cert) and [`--tls-server-key`](#key)  options. If you do not use `--tls-server-cert` and `--tls-server-key` to supply a custom server certificate, `vic-machine create` generates a self-signed server certificate. If you specify `--no-tlsverify` there is no access control, however connections remain encrypted.
 
 When you specify the `--no-tlsverify` option, `vic-machine create` performs the following actions during the deployment of the VCH.
 
-- Generates a self-signed server certificate if you do not specify `--cert` and `--key`.
+- Generates a self-signed server certificate if you do not specify `--tls-server-cert` and `--tls-server-key`.
 - Creates a folder with the same name as the VCH in the location in which you run `vic-machine create`.
 - Creates an environment file named <code><i>vch_name</i>.env</code> in that folder, that contains the `DOCKER_HOST=vch_address` environment variable, that you can provide to container developers to use to set up their Docker client environment.
 

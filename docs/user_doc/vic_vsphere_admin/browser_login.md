@@ -9,7 +9,7 @@ If you deployed the VCH with client and server authentication by using `--tls-cn
 - Locate the file named `cert.pfx` on the system on which you ran `vic-machine create`. The `cert.pfx` is located in either of the following locations:
 
   - In the folder with the same name as the VCH, in the directory from which you ran `vic-machine create`.
-  - In a folder that you specified in the `vic-machine create --cert-path` option.
+  - In a folder that you specified in the `vic-machine create --tls-cert-path` option.
 
 **Procedure** 
 

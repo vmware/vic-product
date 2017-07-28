@@ -335,7 +335,7 @@ This example deploys a VCH with the following configuration:
 --image-store datastore1
 --bridge-network vch1-bridge
 --tls-cname *.example.org
---cert-path <i>path_to_cert_folder</i>
+--tls-cert-path <i>path_to_cert_folder</i>
 --force
 --name vch1
 </pre>
@@ -347,7 +347,7 @@ For more information about using auto-generated CA certificates, see the section
 
 ### Use Custom Server Certificates {#custom_cert}
 
-You can create a VCH that uses a custom server certificate, for example  a server certificate that has been signed by Verisign or another public root. You use the `--cert` and `--key` options to provide the paths to a custom X.509 certificate and its key when you deploy a VCH. The paths to the certificate and key files must be relative to the location from which you are running `vic-machine create`.
+You can create a VCH that uses a custom server certificate, for example  a server certificate that has been signed by Verisign or another public root. You use the `--tls-server-cert` and `--tls-server-key` options to provide the paths to a custom X.509 certificate and its key when you deploy a VCH. The paths to the certificate and key files must be relative to the location from which you are running `vic-machine create`.
 
 This example deploys a VCH with the following configuration:
 
@@ -359,8 +359,8 @@ This example deploys a VCH with the following configuration:
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
---cert ../some/relative/path/<i>certificate_file</i>.pem
---key ../some/relative/path/<i>key_file</i>.pem
+--tls-server-cert ../some/relative/path/<i>certificate_file</i>.pem
+--tls-server-key ../some/relative/path/<i>key_file</i>.pem
 --name vch1
 --force
 </pre>
@@ -369,7 +369,7 @@ For more information about using custom server certificates, see the section [Re
 
 ### Combine Custom Server Certificates and Auto-Generated Client Certificates {#certcombo}
 
-You can create a VCH with a custom server certificate by specifying the paths to custom `server-cert.pem` and `server-key.pem` files in the `--cert` and `--key` options. The key should be un-encrypted. Specifying the `--cert` and `--key` options for the server certificate does not affect the automatic generation of client certificates. If you specify the `--tls-cname` option to match the common name value of the server certificate, `vic-machine create` generates self-signed certificates for Docker client authentication and deployment of the VCH succeeds.
+You can create a VCH with a custom server certificate by specifying the paths to custom `server-cert.pem` and `server-key.pem` files in the `--tls-server-cert` and `--tls-server-key` options. The key should be un-encrypted. Specifying the `--tls-server-cert` and `--tls-server-key` options for the server certificate does not affect the automatic generation of client certificates. If you specify the `--tls-cname` option to match the common name value of the server certificate, `vic-machine create` generates self-signed certificates for Docker client authentication and deployment of the VCH succeeds.
 
 This example deploys a VCH with the following configuration:
 
@@ -382,8 +382,8 @@ This example deploys a VCH with the following configuration:
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
---cert ../some/relative/path/<i>certificate_file</i>.pem
---key ../some/relative/path/<i>key_file</i>.pem
+--tls-server-cert ../some/relative/path/<i>certificate_file</i>.pem
+--tls-server-key ../some/relative/path/<i>key_file</i>.pem
 --tls-cname <i>cname_from_server_cert</i>
 --name vch1
 --force
