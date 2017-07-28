@@ -5,24 +5,21 @@ You can reconfigure certain settings on an existing virtual container host (VCH)
 When you run `vic-machine configure`, you use the options described in [Common `vic-machine` Options](common_vic_options.md) to identify the VCH to configure. In addition to these options, the `vic-machine configure` command provides options that allow you to perform the following modifications on VCHs:
 
 - [Update vCenter Server Credentials](#vccreds)
+- [Update vCenter Server Certificates](#vccert)
 - [Add and Remove Volume Stores](#volumes)
 - [Update TLS Certificates](#tlscerts)
 - [Add and Remove DNS Servers](#dns)
 - [Reconfigure Container Network Settings](#containernet)
-- [Reconfigure Management Network Settings](#mgmtnet)
-- [Reconfigure Client Network Settings](#clientnet)
 - [Enable and Disable Debug Mode](#debug)
 - [Add or Reconfigure Proxy Servers](#proxies)
 
 To see the current configuration of a VCH before you reconfigure it, and to check the new configuration,  run `vic-machine inspect config` before and after you run `vic-machine configure`. For information about running `vic-machine inspect config`, see [Obtain VCH Configuration Information](inspect_vch_config.md).
 
-In all cases, it is preferable to use the `--id` option rather than `--name` to 
-
 ## Update vCenter Server Credentials {#vccreds}
 
 If the vCenter Server credentials with which VCHs run change, you must update those VCHs otherwise they will no longer function. 
 
-If the password of the vCenter Server user account with which the VCH runs changes, provide the new password in in the `--ops-password` option. You use the `--ops-password` option to update the password even if the VCH uses the same vSphere administrator account for day-to-day operations as you use when you run `vic-machine` commands. For example, if you use Administrator@vsphere.local to run `vic-machine` commands, and you did not set the `--ops-user` option when you deployed the VCH, the VCH uses Administrator@vsphere.local for general operations. Consequently, to update the password, you specify the `vic-machine configure --user` option to log into the VCH, and the `--ops-user` and `--ops-password` options to update the password.  
+If the password of the vCenter Server user account with which the VCH runs changes, provide the new password in in the `--ops-password` option. You use the `--ops-password` option to update the password even if the VCH uses the same vSphere administrator account for day-to-day operations as you use when you run `vic-machine` commands. For example, if you use Administrator@vsphere.local to run `vic-machine` commands, and you did not set the `vic-machine create --ops-user` option when you deployed the VCH, the VCH uses Administrator@vsphere.local for post-deployment operations. Consequently, to update the password, you specify the `vic-machine configure --user` and `--password` options so that `vic-machine` can log into vSphere, and you specify the `--ops-user` and `--ops-password` options to update the password that the VCH uses during post-deployment operation.  
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_address</i>
@@ -33,31 +30,25 @@ If the password of the vCenter Server user account with which the VCH runs chang
     --ops-user Administrator@vsphere.local
     --ops-password <i>new_password</i></pre>
 
-You can also configure the VCH to use a different user account than the vSphere administrator account for day-to-day operation
+You can also use the `vic-machine configure --ops-user` and `--ops-password` options to configure an operations user on a VCH that was not initially deployed with that option. Similarly, you can use `--ops-user` and `--ops-password` to change the operations user account on a VCH that was deployed with an operations user account.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
     --thumbprint <i>certificate_thumbprint</i>
-    --id <i>vch_id</i></pre>
+    --id <i>vch_id</i>
+    --ops-user <i>new_operations_user_account</i>
+    --ops-password <i>password</i></pre>
 
-
-   --user value, -u value                           ESX or vCenter user [%VIC_MACHINE_USER%]
-   --password value, -p value                       ESX or vCenter password (default: <nil>) [%VIC_MACHINE_PASSWORD%]
-   --thumbprint value                               ESX or vCenter host certificate thumbprint [%VIC_MACHINE_THUMBPRINT%]
---ops-user value                                 The user with which the VCH operates after creation. Defaults to the credential supplied with target (default: <nil>)
-   --ops-password value                             Password or token for the operations user. Defaults to the credential supplied with target (default: <nil>)
-
-## Update vCenter Server Certificates {#vccreds}
+## Update vCenter Server Certificates {#vccert}
 
 If the vCenter Server certificate changes, you must update any VCHs running on that vCenter Server instance, otherwise they will no longer function.
 
-To update the certificate, provide the new certificate thumbprint in the `--thumbprint` option:
+To update the certificate, provide the new certificate thumbprint to the VCH in the `--thumbprint` option:
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
     --id <i>vch_id</i>
-    --thumbprint <i>new_certificate_thumbprint</i>
-    </pre>
+    --thumbprint <i>new_certificate_thumbprint</i></pre>
 
 ## Add and Remove Volume Stores {#volumes}
 
@@ -153,17 +144,6 @@ Blah
    --cpu value                                      VCH resource pool vCPUs limit in MHz (unlimited=0) (default: <nil>)
    --cpu-reservation value, --cpur value            VCH resource pool reservation in MHz (default: <nil>)
    --cpu-shares value, --cpus value                 VCH VCH resource pool vCPUs shares, in level or share number, e.g. high, normal, low, or 4000 (default: <nil>)
-
-
-## Reconfigure --ops-user Account {#proxies}
-
-Blah
-
-<pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
-    --thumbprint <i>certificate_thumbprint</i>
-    --id <i>vch_id</i></pre>
-
 
 
 ## Add or Remove Registry Servers {#proxies}
