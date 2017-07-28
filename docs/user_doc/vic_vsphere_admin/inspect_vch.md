@@ -55,8 +55,8 @@ DOCKER_CERT_PATH=<i>path_to_certificates</i>
 DOCKER_HOST=<i>vch_address</i>:2376</pre>If `vic-machine inspect` is unable to find the appropriate client certificates, either in the default location or in a location that you specify in the `--tls-cert-path` option, the output includes a warning.<pre>Unable to find valid client certs
 DOCKER_CERT_PATH must be provided in environment or certificates specified individually via CLI arguments</pre>
   - VCH with TLS server authentication but without client authentication (`no-tlsverify`):<pre>DOCKER_HOST=<i>vch_address</i>:2376</pre>
-  - VCH with no TLS authentication:<pre>DOCKER_HOST=<i>vch_address</i>:2375</pre>
+  - VCH with no TLS authentication (`no-tls`):<pre>DOCKER_HOST=<i>vch_address</i>:2375</pre>
 - The Docker command to use to connect to the Docker endpoint, depending on the the level of security that the VCH implements.
   - VCH with server and client authentication (`tlsverify`):<pre>docker -H <i>vch_address</i>:2376 --tlsverify info</pre>
   - VCH with TLS server authentication but without client authentication (`no-tlsverify`):<pre>docker -H <i>vch_address</i>:2376 --tls info</pre>
-  - VCH with no TLS authentication:<pre>docker -H <i>vch_address</i>:2375 info</pre>
+  - VCH with no TLS authentication  (`no-tls`):<pre>docker -H <i>vch_address</i>:2375 info</pre>
