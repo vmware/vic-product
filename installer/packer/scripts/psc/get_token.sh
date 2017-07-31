@@ -28,4 +28,6 @@ version=$(grep "version" /etc/vmware/psc/admiral/psc-config.properties | awk -F=
 
 # Put the engine token in guestinfo
 /etc/vmware/set_guestinfo.sh -f /etc/vmware/psc/engine/tokens.properties "engine.token"
+# Copy harbor token to container mount path
+cp /etc/vmware/psc/harbor/tokens.properties /data/harbor/tokens.properties
 
