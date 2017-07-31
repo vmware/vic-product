@@ -49,64 +49,64 @@ pipeline:
 #     tags: true
 #     recursive: false
 
-# unified-ova-build: 
-#   image: gcr.io/eminent-nation-87317/vic-integration-test:1.32
-#   pull: true
-#   privileged: true
-#   environment:
-#      OVA_BUILD_SSH_KEY: ${OVA_BUILD_SSH_KEY}
-#      OVA_BUILD_MACHINE_IP: ${OVA_BUILD_MACHINE_IP}
-#      OVA_BUILD_USER: ${OVA_BUILD_USER}
-#      PACKER_ESX_HOST: ${PACKER_ESX_HOST}
-#      PACKER_USER: ${PACKER_USER}
-#      BUILD_PORTGROUP: ${BUILD_PORTGROUP}
-#      PACKER_PASSWORD: ${PACKER_PASSWORD}
-#      BUILD_VICENGINE_REVISION: ${BUILD_VICENGINE_REVISION}
-#      DRONE_TIMEOUT: ${DRONE_TIMEOUT}
-#      DRONE_TIMEOUT_INACTIVITY: ${DRONE_TIMEOUT_INACTIVITY}
-#      DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
-#   commands:
-#     - keyfile="ova_id_rsa"
-#     - echo $OVA_BUILD_SSH_KEY > $keyfile
-#     - chmod 600 $keyfile
-#     - echo ${DRONE_BUILD_NUMBER}
-#     - installer/scripts/ova-ssh-build.sh $keyfile
-
-#  bundle:
-#     image: harbor.ci.drone.local/library/golang:1.8
+#   unified-ova-build: 
+#     image: gcr.io/eminent-nation-87317/vic-integration-test:1.32
 #     pull: true
+#     privileged: true
+#     environment:
+#        OVA_BUILD_SSH_KEY: ${OVA_BUILD_SSH_KEY}
+#        OVA_BUILD_MACHINE_IP: ${OVA_BUILD_MACHINE_IP}
+#        OVA_BUILD_USER: ${OVA_BUILD_USER}
+#        PACKER_ESX_HOST: ${PACKER_ESX_HOST}
+#        PACKER_USER: ${PACKER_USER}
+#        BUILD_PORTGROUP: ${BUILD_PORTGROUP}
+#        PACKER_PASSWORD: ${PACKER_PASSWORD}
+#        BUILD_VICENGINE_REVISION: ${BUILD_VICENGINE_REVISION}
+#        DRONE_TIMEOUT: ${DRONE_TIMEOUT}
+#        DRONE_TIMEOUT_INACTIVITY: ${DRONE_TIMEOUT_INACTIVITY}
+#        DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
 #     commands:
-#       - mkdir bundle
-#       - cp bin/vic-*.ova bundle
-#       - ls -al bundle
+#       - keyfile="ova_id_rsa"
+#       - echo $OVA_BUILD_SSH_KEY > $keyfile
+#       - chmod 600 $keyfile
+#       - echo ${DRONE_BUILD_NUMBER}
+#       - installer/scripts/ova-ssh-build.sh $keyfile
 
-#  publish-gcs-builds:
-#     image: maplain/drone-gcs:latest
-#     pull: true
-#     source: bundle
-#     target: vic-product-ova-builds
-#     acl:
-#       - allUsers:READER
-#     cache_control: public,max-age=3600
-#     when:
-#      repo: vmware/vic-product
-#      event: [ pull_request, push ]
-#      branch: [ master, releases/* ]
-#      status: success
+#   bundle:
+#      image: harbor.ci.drone.local/library/golang:1.8
+#      pull: true
+#      commands:
+#        - mkdir bundle
+#        - cp bin/vic-*.ova bundle
+#        - ls -al bundle
 
-#  publish-gcs-releases:
-#     image: maplain/drone-gcs:latest
-#     pull: true
-#     source: bundle
-#     target: vic-product-ova-releases
-#     acl:
-#       - allUsers:READER
-#     cache_control: public,max-age=3600
-#     when:
-#      repo: vmware/vic-product
-#      event: [ push, tag ]
-#      branch: [ refs/tags/* ]
-#      status: success
+#   publish-gcs-builds:
+#      image: maplain/drone-gcs:latest
+#      pull: true
+#      source: bundle
+#      target: vic-product-ova-builds
+#      acl:
+#        - allUsers:READER
+#      cache_control: public,max-age=3600
+#      when:
+#       repo: vmware/vic-product
+#       event: [ pull_request, push ]
+#       branch: [ master, releases/* ]
+#       status: success
+
+#   publish-gcs-releases:
+#      image: maplain/drone-gcs:latest
+#      pull: true
+#      source: bundle
+#      target: vic-product-ova-releases
+#      acl:
+#        - allUsers:READER
+#      cache_control: public,max-age=3600
+#      when:
+#       repo: vmware/vic-product
+#       event: [ push, tag ]
+#       branch: [ refs/tags/* ]
+#       status: success
 
 services:
   dind:
