@@ -49,12 +49,6 @@ export BUILD_VICENGINE_REVISION=1.1.1
 ./scripts/build.sh --harbor harbor.tgz --vicengine vic.tar.gz
 ```
 
-Build with URLs, Admiral tag v1.1.1 and Kov(including kovd and kov-cli) tag v0.1
-```
-export BUILD_VICENGINE_REVISION=1.1.1
-./scripts/build.sh --admiral v1.1.1 --kovd v0.1 --kov-cli v0.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic.tar.gz
-```
-
 #### Manual
 
 First, we have to set the revisions of the components we want to bundle in the OVA.
@@ -71,9 +65,6 @@ export BUILD_HARBOR_FILE=harbor-offline-installer.tgz   # Optional, file in `pac
 export BUILD_HARBOR_URL=https://example.com/harbor.tgz  # Optional, URL to download
 
 export BUILD_ADMIRAL_REVISION=v1.1.1  # Optional, defaults to vic_dev tag (https://hub.docker.com/r/vmware/admiral/tags/)
-
-export BUILD_KOVD_REVISION=v0.1     # Optional, defaults to dev tag
-export BUILD_KOV_CLI_REVISION=v0.1  # Optional, defaults to dev tag
 ```
 
 Then set the required env vars for the build environment and make the release:
