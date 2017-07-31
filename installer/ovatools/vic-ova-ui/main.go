@@ -84,12 +84,9 @@ func main() {
 		if port, ok := ovf.Properties["engine_installer.port"]; ok {
 			info = fmt.Sprintf("%sAccess the Demo VCH Installer at:\nhttps://%s:%s\n", info, ip.String(), port)
 		}
-		if port, ok := ovf.Properties["cluster_manager.port"]; ok {
-			info = fmt.Sprintf("%sAccess the Kubernetes on vSphere daemon at:\nhttps://%s:%s\n", info, ip.String(), port)
-		}
 	}
 	info = fmt.Sprintf("%s\nAccess the VIC Product Documentation at:\nhttps://vmware.github.io/vic-product/#documentation\n", info)
-	info = fmt.Sprintf("%s\n\nPress the right arrow key to view network status...", info)
+	info = fmt.Sprintf("%s\n\n\n\n\t\t\t\t\t\tPress the right arrow key to view network status...", info)
 
 	toppanel := ui.NewPar(fmt.Sprintf("VMware vSphere Integrated Containers %s\n\n%s\n%s", version.GetBuild().ShortVersion(), getCPUs(), getMemory()))
 	toppanel.Height = ui.TermHeight()/2 + 1
