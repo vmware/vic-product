@@ -36,7 +36,7 @@ pipeline:
       - echo $OVA_BUILD_SSH_KEY > $keyfile
       - chmod 600 $keyfile
       - echo ${DRONE_BUILD_NUMBER}
-      #- installer/scripts/ova-ssh-build.sh $keyfile
+      - installer/scripts/ova-ssh-build.sh $keyfile
 
   bundle:
      image: gcr.io/eminent-nation-87317/vic-integration-test:1.32
