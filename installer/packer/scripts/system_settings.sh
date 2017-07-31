@@ -36,7 +36,6 @@ systemctl enable get_token.timer
 systemctl start get_token.timer
 systemctl enable fileserver_startup.service fileserver.service
 systemctl enable engine_installer_startup.service engine_installer.service
-systemctl enable kov_published_env_vars.service kov_env_vars.service kov.service
 
 # Clean up temporary directories
 rm -rf /var/tmp/harbor

@@ -25,8 +25,6 @@ PACKER_PASSWORD="${PACKER_PASSWORD:-}"
 ADMIRAL=""
 VICENGINE=""
 HARBOR=""
-KOVD=""
-KOV_CLI=""
 
 if [ -z "${PACKER_ESX_HOST}" ] || [ -z "${PACKER_USER}" ] || [ -z "${PACKER_PASSWORD}" ]; then
   echo "Required Packer environment variables not set"
@@ -53,14 +51,6 @@ do
       ;;
     --harbor)
       HARBOR="$2"
-      shift # past argument
-      ;;
-    --kovd)
-      KOVD="$2"
-      shift # past argument
-      ;;
-    --kov-cli)
-      KOV_CLI="$2"
       shift # past argument
       ;;
     *)
@@ -93,12 +83,6 @@ fi
 if [ -n "${HARBOR}" ]; then
   setenv HARBOR
 fi
-if [ -n "${KOVD}" ]; then
-  setenv KOVD
-fi
-if [ -n "${KOV_CLI}" ]; then
-  setenv KOV_CLI
-fi
 
 # If not set, find the latest versions of each component
 if [ -z "${ADMIRAL}" ]; then
@@ -116,12 +100,6 @@ fi
 if [ -z "${BUILD_VICENGINE_REVISION}" ]; then
   echo "VIC Engine build must be set"
   exit 1
-fi
-if [ -z "${KOVD}" ]; then
-  export BUILD_KOVD_REVISION="dev"
-fi
-if [ -z "${KOV_CLI}" ]; then
-  export BUILD_KOV_CLI_REVISION="dev"
 fi
 
 export BUILD_PORTGROUP="${BUILD_PORTGROUP}"
