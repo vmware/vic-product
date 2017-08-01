@@ -45,4 +45,6 @@ if [ ${gc_enabled,,} == "true" ]; then
   gc 2>&1 >> /var/log/harbor/gc.log || true
 fi
 
-/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml up
+/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml \
+                              -f /etc/vmware/harbor/docker-compose.notary.yml \
+                              -f /etc/vmware/harbor/docker-compose.clair.yml up
