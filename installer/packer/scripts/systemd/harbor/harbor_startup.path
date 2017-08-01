@@ -3,7 +3,7 @@ Description=Harbor PSC token dependency
 Documentation=https://github.com/vmware/vic-product/installer
 
 [Path]
-PathExists=/data/harbor/tokens.properties
+PathExists=/etc/vmware/psc/harbor/tokens.properties
 
 [Install]
 WantedBy=multi-user.target
