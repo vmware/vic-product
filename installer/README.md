@@ -233,3 +233,13 @@ Solution: Check networking. The Packer VM must have a route to the build machine
 sudo ufw disable
 ```
 
+#### Building the OVA outside of the CI workflow
+``` 
+Get the ova_secrets.yml file from https://git.eng.vmware.com/gitweb/repos/vic-internal/
+Cd to the the vic-product repo path on your Ubuntu VM.
+Start a ovpn connection to the OVH network by running sudo openvpn ovpnconfigfile(.ovpn)
+Set the drone timeout values as desired using the --timeout options in drone.
+Use Drone exec to kickoff the OVA build.
+
+drone exec --timeout "1h0m0s" --timeout.inactivity "1h0m0s" --repo.trusted --secrets-file "ova_secrets.yml" .drone.local.yml
+```

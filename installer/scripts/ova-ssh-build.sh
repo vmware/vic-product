@@ -16,10 +16,6 @@
 # exit on failure and configure debug, include util functions
 set -euf -o pipefail
 
-BUILD_VICENGINE_REVISION="${BUILD_VICENGINE_REVISION:-}"
-PACKER_ESX_HOST="${PACKER_ESX_HOST:-}"
-PACKER_USER="${PACKER_USER:-}"
-PACKER_PASSWORD="${PACKER_PASSWORD:-}"
 keyfile=$1
 
 if [ -z "${PACKER_ESX_HOST}" ] || [ -z "${PACKER_USER}" ]; then
@@ -41,3 +37,4 @@ ssh -t -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHIN
 echo "Copying the ova from the ovabuilder.."
 scp -v -r -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP:"~/go/src/github.com/vmware/vic-product/installer/bin/vic-*.ova" bin/
 
+ssh -t -o StrictHostKeyChecking=no -i $keyfile $OVA_BUILD_USER@$OVA_BUILD_MACHINE_IP "sudo rm -rf ~/go/src/github.com/vmware/vic-product/installer/bin/vic-*.ova"

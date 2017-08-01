@@ -25,8 +25,8 @@ pipeline:
        OVA_BUILD_USER: ${OVA_BUILD_USER}
        PACKER_ESX_HOST: ${PACKER_ESX_HOST}
        PACKER_USER: ${PACKER_USER}
-       BUILD_PORTGROUP: ${BUILD_PORTGROUP}
        PACKER_PASSWORD: ${PACKER_PASSWORD}
+       BUILD_PORTGROUP: ${BUILD_PORTGROUP}
        BUILD_VICENGINE_REVISION: ${BUILD_VICENGINE_REVISION}
        DRONE_TIMEOUT: ${DRONE_TIMEOUT}
        DRONE_TIMEOUT_INACTIVITY: ${DRONE_TIMEOUT_INACTIVITY}
@@ -34,7 +34,6 @@ pipeline:
     commands:
       - echo $OVA_BUILD_SSH_KEY > ova_id_rsa
       - chmod 600 ova_id_rsa
-      - echo ${DRONE_BUILD_NUMBER}
       - installer/scripts/ova-ssh-build.sh ova_id_rsa
 
   bundle:
