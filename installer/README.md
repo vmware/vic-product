@@ -235,7 +235,7 @@ sudo ufw disable
 
 #### Building the OVA outside of the CI workflow
 ``` 
-Get the ova_secrets.yml file from https://git.eng.vmware.com/gitweb/repos/vic-internal/
+Get the ova_secrets.yml file from vic-internal repo.
 Cd to the the vic-product repo path on your Ubuntu VM.
 Start a ovpn connection to the OVH network by running sudo openvpn ovpnconfigfile(.ovpn)
 Set the drone timeout values as desired using the --timeout options in drone.
