@@ -49,52 +49,58 @@ pipeline:
 #     tags: true
 #     recursive: false
 
-#   unified-ova-build:
-#     image: harbor.ci.drone.local/library/vic-integration-test:1.32
+#   unified-ova-build: 
+#     image: gcr.io/eminent-nation-87317/vic-integration-test:1.32
 #     pull: true
+#     privileged: true
 #     environment:
-#       BIN: bin
-#       GOPATH: /go
-#       SHELL: /bin/bash
-#       PACKER_ESX_HOST: builds-25.vcna.io
-#       PACKER_USER: root
-#       PACKER_PASSWORD: vmware1
-#       BUILD_VICENGINE_REVISION: 1.1.1
+#        OVA_BUILD_SSH_KEY: ${OVA_BUILD_SSH_KEY}
+#        OVA_BUILD_MACHINE_IP: ${OVA_BUILD_MACHINE_IP}
+#        OVA_BUILD_USER: ${OVA_BUILD_USER}
+#        PACKER_ESX_HOST: ${PACKER_ESX_HOST}
+#        PACKER_USER: ${PACKER_USER}
+#        PACKER_PASSWORD: ${PACKER_PASSWORD}
+#        BUILD_PORTGROUP: ${BUILD_PORTGROUP}
+#        BUILD_VICENGINE_REVISION: ${BUILD_VICENGINE_REVISION}
+#        DRONE_TIMEOUT: ${DRONE_TIMEOUT}
+#        DRONE_TIMEOUT_INACTIVITY: ${DRONE_TIMEOUT_INACTIVITY}
+#        DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
 #     commands:
-#       - cd installer/
-#       - scripts/build.sh
+#       - echo $OVA_BUILD_SSH_KEY > ova_id_rsa
+#       - chmod 600 ova_id_rsa
+#       - installer/scripts/ova-ssh-build.sh ova_id_rsa
 
 #   bundle:
-#     image: harbor.ci.drone.local/library/golang:1.8
-#     pull: true
-#     commands:
-#       - mkdir bundle
-#       - cp bin/vic-*.ova bundle
-#       - ls -al bundle
+#      image: harbor.ci.drone.local/library/golang:1.8
+#      pull: true
+#      commands:
+#        - mkdir bundle
+#        - cp bin/vic-*.ova bundle
+#        - ls -al bundle
 
 #   publish-gcs-builds:
-#     image: maplain/drone-gcs:latest
-#     pull: true
-#     source: bundle
-#     target: vic-product-ova-builds
-#     acl:
-#       - allUsers:READER
-#     cache_control: public,max-age=3600
-#     when:
+#      image: maplain/drone-gcs:latest
+#      pull: true
+#      source: bundle
+#      target: vic-product-ova-builds
+#      acl:
+#        - allUsers:READER
+#      cache_control: public,max-age=3600
+#      when:
 #       repo: vmware/vic-product
-#       event: [ push ]
+#       event: [ pull_request, push ]
 #       branch: [ master, releases/* ]
 #       status: success
 
 #   publish-gcs-releases:
-#     image: maplain/drone-gcs:latest
-#     pull: true
-#     source: bundle
-#     target: vic-product-ova-releases
-#     acl:
-#       - allUsers:READER
-#     cache_control: public,max-age=3600
-#     when:
+#      image: maplain/drone-gcs:latest
+#      pull: true
+#      source: bundle
+#      target: vic-product-ova-releases
+#      acl:
+#        - allUsers:READER
+#      cache_control: public,max-age=3600
+#      when:
 #       repo: vmware/vic-product
 #       event: [ push, tag ]
 #       branch: [ refs/tags/* ]
