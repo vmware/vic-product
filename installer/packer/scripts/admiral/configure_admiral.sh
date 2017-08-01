@@ -19,7 +19,7 @@ umask 077
 deploy=$(ovfenv -k management_portal.deploy)
 port=$(ovfenv -k management_portal.port)
 
-if [ ${deploy,,} != "true" ]; then
+if [ "${deploy,,}" != "true" ]; then
   echo "Not configuring Admiral and disabling startup"
   systemctl disable admiral
   exit 0
@@ -31,12 +31,12 @@ script_dir="/etc/vmware"
 keytool="/usr/bin/keytool"
 
 cert_dir=${data_dir}/cert
-flag=${conf_dir}/cert_gen_type
+flag=${data_dir}/cert_gen_type
 admiral_start_script=${conf_dir}/start_admiral.sh
-cfg=${data_dir}/admiral.cfg
 
 ca_download_dir=${data_dir}/ca_download
-mkdir -p {${cert_dir},${ca_download_dir}}
+mkdir -p ${cert_dir}
+mkdir -p ${ca_download_dir}
 
 cert=${cert_dir}/server.crt
 key=${cert_dir}/server.key
@@ -53,8 +53,6 @@ function configureAdmiralStart {
   cfg_key=$1
   cfg_value=$2
 
-  basedir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
   if [ -n "$cfg_key" ]; then
     cfg_value=$(echo "$cfg_value" | sed -r -e 's%[\/&%]%\\&%g')
     sed -i -r "s%#?$cfg_key\s*=\s*.*%$cfg_key=$cfg_value%" $admiral_start_script
@@ -65,7 +63,7 @@ function configureAdmiralStart {
 function formatCert {
   content=$1
   file=$2
-  echo $content | sed -r 's/(-{5}BEGIN [A-Z ]+-{5})/&\n/g; s/(-{5}END [A-Z ]+-{5})/\n&\n/g' | sed -r 's/.{64}/&\n/g; /^\s*$/d' > $file
+  echo "$content" | sed -r 's/(-{5}BEGIN [A-Z ]+-{5})/&\n/g; s/(-{5}END [A-Z ]+-{5})/\n&\n/g' | sed -r 's/.{64}/&\n/g; /^\s*$/d' > "$file"
 }
 
 function genCert {
@@ -80,7 +78,7 @@ function genCert {
     "/C=US/ST=California/L=Palo Alto/O=VMware/OU=Containers on vSphere/CN=$hostname"
 
   echo "Add subjectAltName = IP: $ip_address to certificate"
-  echo subjectAltName = IP:$ip_address > $ext
+  echo subjectAltName = IP:"$ip_address" > $ext
   openssl x509 -req -days 365 -in $csr -CA $ca_cert -CAkey $ca_key -CAcreateserial -extfile $ext -out $cert
 
   echo "self-signed" > $flag
@@ -89,6 +87,13 @@ function genCert {
   $script_dir/set_guestinfo.sh -f $ca_cert "admiral.ca"
 
   echo "creating java keystore with self-signed CA"
+  if [ -f "$jks" ]; then
+    echo "removing existing keystore $jks"
+    rm -f $jks
+  else
+    echo "no keystore present, creating"
+  fi
+
   $keytool -import -noprompt -v -trustcacerts -alias selfsignedca -file $ca_cert -keystore $jks -keypass changeit -storepass changeit
 }
 
@@ -101,6 +106,12 @@ function secure {
     formatCert "$ssl_cert_key" $key
     echo "customized" > $flag
     echo "creating java keystore with provided cert for xenon"
+    if [ -f "$jks" ]; then
+      echo "removing existing keystore $jks"
+      rm -f $jks
+    else
+      echo "no keystore present, creating"
+    fi
     $keytool -import -noprompt -v -trustcacerts -alias selfsignedca -file $cert -keystore $jks -keypass changeit -storepass changeit
     return
   fi
@@ -117,7 +128,7 @@ function secure {
     return
   fi
 
-  if [ ! $(cat $flag) = "self-signed" ]; then
+  if [ ! "$(cat $flag)" = "self-signed" ]; then
     echo "The way generating certificate changed, will generate a new self-signed certificate"
     genCert
     return
@@ -168,22 +179,22 @@ else
 fi
 
 # put admiral endpoint in guestinfo
-$script_dir/set_guestinfo.sh admiral.endpoint https://$ip_address:$port
+$script_dir/set_guestinfo.sh admiral.endpoint https://"$ip_address":"$port"
 
 # Init certs
 secure
 
 configureAdmiralStart ADMIRAL_DATA_LOCATION $data_dir
-configureAdmiralStart ADMIRAL_EXPOSED_PORT $port
-configureAdmiralStart OVA_VM_IP $ip_address
+configureAdmiralStart ADMIRAL_EXPOSED_PORT "$port"
+configureAdmiralStart OVA_VM_IP "$ip_address"
 
-iptables -w -A INPUT -j ACCEPT -p tcp --dport $port
+iptables -w -A INPUT -j ACCEPT -p tcp --dport "$port"
 
 touch $data_dir/custom.conf
 
 harbor_deploy=$(ovfenv -k registry.deploy)
 
-if [ ${harbor_deploy,,} == "true" ]; then
+if [ "${harbor_deploy,,}" == "true" ]; then
   harbor_port=$(ovfenv -k registry.port)
   # If harbor is deployed, configure the integration URL
   echo "harbor.tab.url=https://${hostname}:${harbor_port}" > $data_dir/custom.conf
