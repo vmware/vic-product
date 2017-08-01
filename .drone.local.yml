@@ -32,11 +32,10 @@ pipeline:
        DRONE_TIMEOUT_INACTIVITY: ${DRONE_TIMEOUT_INACTIVITY}
        DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
     commands:
-      - keyfile="ova_id_rsa"
-      - echo $OVA_BUILD_SSH_KEY > $keyfile
-      - chmod 600 $keyfile
+      - echo $OVA_BUILD_SSH_KEY > ova_id_rsa
+      - chmod 600 ova_id_rsa
       - echo ${DRONE_BUILD_NUMBER}
-      - installer/scripts/ova-ssh-build.sh $keyfile
+      - installer/scripts/ova-ssh-build.sh ova_id_rsa
 
   bundle:
      image: gcr.io/eminent-nation-87317/vic-integration-test:1.32
