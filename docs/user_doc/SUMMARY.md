@@ -54,7 +54,7 @@
       * [Common Options](vic_vsphere_admin/common_vic_options.md)
       * [List VCHs](vic_vsphere_admin/list_vch.md)
       * [Obtain VCH Information](vic_vsphere_admin/inspect_vch.md)
-      * [Reconfigure VCHs](vic_vsphere_admin/configure_vch.md)
+      * [Configure VCHs](vic_vsphere_admin/configure_vch.md)
       * [Delete a VCH](vic_vsphere_admin/remove_vch.md)
         * [VCH Delete Options](vic_vsphere_admin/delete_vch_options.md)
       * [Debugging the VCH](vic_vsphere_admin/debug_vch.md)

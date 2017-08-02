@@ -1,6 +1,6 @@
-# Reconfigure Virtual Container Hosts #
+# Configure Virtual Container Hosts #
 
-You can reconfigure certain settings on an existing virtual container host (VCH) by using the `vic-machine configure` command.
+You can configure certain settings on an existing virtual container host (VCH) by using the `vic-machine configure` command.
 
 When you run `vic-machine configure`, you use the options described in [Common `vic-machine` Options](common_vic_options.md) to identify the VCH to configure. In addition to these options, the `vic-machine configure` command provides options that allow you to perform the following modifications on VCHs:
 
@@ -9,11 +9,11 @@ When you run `vic-machine configure`, you use the options described in [Common `
 - [Add and Remove Volume Stores](#volumes)
 - [Update TLS Certificates](#tlscerts)
 - [Add and Remove DNS Servers](#dns)
-- [Reconfigure Container Network Settings](#containernet)
+- [Configure Container Network Settings](#containernet)
 - [Enable and Disable Debug Mode](#debug)
-- [Add or Reconfigure Proxy Servers](#proxies)
+- [Add or Configure Proxy Servers](#proxies)
 
-To see the current configuration of a VCH before you reconfigure it, and to check the new configuration,  run `vic-machine inspect config` before and after you run `vic-machine configure`. For information about running `vic-machine inspect config`, see [Obtain VCH Configuration Information](inspect_vch_config.md).
+To see the current configuration of a VCH before you configure it, and to check the new configuration,  run `vic-machine inspect config` before and after you run `vic-machine configure`. For information about running `vic-machine inspect config`, see [Obtain VCH Configuration Information](inspect_vch_config.md).
 
 ## Update vCenter Server Credentials {#vccreds}
 
@@ -89,7 +89,7 @@ Blah
 
 --dns-server value                               DNS server for the client, public, and management networks. Defaults to 8.8.8.8 and 8.8.4.4 when VCH uses static IP
 
-## Reconfigure Container Network Settings {#containernet}
+## Configure Container Network Settings {#containernet}
 
 Blah
 
@@ -117,7 +117,7 @@ Blah
 
 --debug value, -v value                          [0(default),1...n], 0 is disabled, 1 is enabled, >= 1 may alter behaviour (default: <nil>)
 
-## Add or Reconfigure Proxy Servers {#proxies}
+## Add or Configure Proxy Servers {#proxies}
 
 Blah
 
@@ -129,7 +129,7 @@ Blah
 --https-proxy value                              An HTTPS proxy for use when fetching images, in the form https://fqdn_or_ip:port (default: <nil>)
    --http-proxy value                               An HTTP proxy for use when fetching images, in the form http://fqdn_or_ip:port (default: <nil>)
 
-## Reconfigure CPU and Memory Allocations {#proxies}
+## Configure CPU and Memory Allocations {#proxies}
 
 Blah
 
