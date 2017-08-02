@@ -1,6 +1,6 @@
 # Deploy the vSphere Integrated Containers Appliance #
 
-You install vSphere Integrated Containers by deploying a virtual appliance. The appliance runs the vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal services, and publishes the downloads of the vSphere Integrated Containers Engine and vSphere Container Cluster Manager binaries. 
+You install vSphere Integrated Containers by deploying a virtual appliance. The appliance runs the vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal services, and publishes the downloads of the vSphere Integrated Containers Engine binaries. 
 
 
 **Prerequisites**
@@ -53,19 +53,12 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
     - If you do not want to enable vSphere Integrated Containers Management Portal, uncheck the **Deploy Management Portal** check box.
     - In the **Management Portal Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Management Portal service.
     - To use custom certificates to authenticate connections to vSphere Integrated Containers Management Portal, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates.
-7. Expand **Fileserver Configuration** to configure the file server from which you download the vSphere Integrated Containers Engine and vSphere Container Cluster binaries, and which publishes the plug-in packages for the vSphere Client. 
+7. Expand **Fileserver Configuration** to configure the file server from which you download the vSphere Integrated Containers Engine binaries, and which publishes the plug-in packages for the vSphere Client. 
 
    - In the **Fileserver Port** text box, optionally change the port on which the vSphere Integrated Containers Engine file server runs.
    - To use custom certificates to authenticate connections to the vSphere Integrated Containers Engine file server, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates.
 
 7. Expand **VIC Engine Install Wizard Configuration** to optionally change the port on which the interactive web installer for virtual container hosts (VCHs) runs.
-8. Expand **vSphere Container Cluster Manager Configuration** to configure the deployment of vSphere Container Cluster Manager.
-
-    - If you do not want to enable vSphere Container Cluster Manager, uncheck the **Deploy vSphere Container Cluster Manager** check box.
-    - In the **Admin username** text box, optionally specify a user name for an account for vSphere Container Cluster Manager to use when accessing the Kubernetes API . 
-    
-      If not specified, the installer creates an account named `admin`.
-    - To use custom certificates to authenticate connections to vSphere Container Cluster Manager, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates.
 8. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
 9. When the deployment completes, power on the appliance VM.
 10. Go to https://<i>vic_appliance_address</i>:9443 and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance.
@@ -83,7 +76,6 @@ Access the different vSphere Integrated Containers components and start using th
 - Configure the firewalls on all ESXi hosts to permit VCH deployment. For information about how to configure the firewalls on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.html).
 - Go to the interactive VCH installer at https://<i>vic_appliance_address</i>:1337 and deploy a demo VCH. For information about how to use the interactive VCH installer, see [Deploy a Virtual Container Host Interactively](deploy_demo_vch.html).
 - Use `vic-machine` to deploy production VCHs. For information about deploying VCHs with `vic-machine`, see [Deploying Virtual Container Hosts with `vic-machine`](deploy_vch.md).
-- Download the vSphere Container Cluster Manager binaries bundle, `vic-adm-platform-dev.tar.gz`, from the file server. Unpack the bundle and start deploying container clusters. For information about deploying container clusters, see [Deploy a Kubernetes Cluster](deploy_kubernetes_cluster.html).
 - Log in to vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282. For information about how to use vSphere Integrated Containers Management Portal, see [View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal](../vic_cloud_admin/vchs_and_mgmt_portal.md).
 
 You can reconfigure the appliance after deployment by editing the settings of the appliance VM. For information about reconfiguring the appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.html).
