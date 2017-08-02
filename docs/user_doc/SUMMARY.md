@@ -34,7 +34,6 @@
     * [Advanced Examples of Deploying a VCH](vic_vsphere_admin/vch_installer_examples.md)
     * [Deploy a VCH for Use with vSphere Integrated Containers Registry](vic_vsphere_admin/deploy_vch_registry.md)
     * [Use Different User Accounts for VCH Deployment and Operation](vic_vsphere_admin/set_up_ops_user.md)
-  * [Deploy a Kubernetes Cluster](vic_vsphere_admin/deploy_kubernetes_cluster.md)
   * [Upgrading](vic_vsphere_admin/upgrading_vic.md)
      * [Upgrade the Appliance](vic_vsphere_admin/upgrade_appliance.md)
      * [Upgrade VCHs](vic_vsphere_admin/upgrade_vch.md)
