@@ -51,7 +51,7 @@ docker load -i "$harbor_containers_bundle"
 # Copy configuration data from tarball
 mkdir /etc/vmware/harbor
 cp -p /var/tmp/harbor/harbor.cfg /data/harbor
-cp -pr /var/tmp/harbor/{prepare,common,docker-compose.yml,docker-compose.notary.yml} /etc/vmware/harbor
+cp -pr /var/tmp/harbor/{prepare,common,docker-compose.yml,docker-compose.notary.yml,docker-compose.clair.yml} /etc/vmware/harbor
 
 # Stop docker service
 systemctl stop docker.service
