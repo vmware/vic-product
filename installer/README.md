@@ -49,10 +49,10 @@ export BUILD_VICENGINE_REVISION=1.1.1
 ./scripts/build.sh --harbor harbor.tgz --vicengine vic.tar.gz
 ```
 
-Build with URLs, Admiral tag v1.1.1 and Kov(including kovd and kov-cli) tag v0.1
+Build with URLs, Admiral tag v1.1.1
 ```
 export BUILD_VICENGINE_REVISION=1.1.1
-./scripts/build.sh --admiral v1.1.1 --kovd v0.1 --kov-cli v0.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic.tar.gz
+./scripts/build.sh --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic.tar.gz
 ```
 
 #### Manual
@@ -71,9 +71,6 @@ export BUILD_HARBOR_FILE=harbor-offline-installer.tgz   # Optional, file in `pac
 export BUILD_HARBOR_URL=https://example.com/harbor.tgz  # Optional, URL to download
 
 export BUILD_ADMIRAL_REVISION=v1.1.1  # Optional, defaults to vic_dev tag (https://hub.docker.com/r/vmware/admiral/tags/)
-
-export BUILD_KOVD_REVISION=v0.1     # Optional, defaults to dev tag
-export BUILD_KOV_CLI_REVISION=v0.1  # Optional, defaults to dev tag
 ```
 
 Then set the required env vars for the build environment and make the release:
@@ -234,5 +231,16 @@ kickstart file to boot.
 Solution: Check networking. The Packer VM must have a route to the build machine. You may also need to disable the firewall on the build machine:
 ```
 sudo ufw disable
+```
+
+#### Building the OVA outside of the CI workflow
+``` 
+Get the ova_secrets.yml file from vic-internal repo.
+Cd to the the vic-product repo path on your Ubuntu VM.
+Start a ovpn connection to the OVH network by running sudo openvpn ovpnconfigfile(.ovpn)
+Set the drone timeout values as desired using the --timeout options in drone.
+Use Drone exec to kickoff the OVA build.
+
+drone exec --timeout "1h0m0s" --timeout.inactivity "1h0m0s" --repo.trusted --secrets-file "ova_secrets.yml" .drone.local.yml
 ```
 

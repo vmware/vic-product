@@ -71,21 +71,17 @@ func main() {
 		}
 	}
 
+	info = fmt.Sprintf("%sAfter first boot, you must visit the Getting Started Page to\ninitialize the appliance before VIC services can start.\n\n", info)
+
 	if ip, err := ip.FirstIPv4(ip.Eth0Interface); err == nil {
-		if strings.ToLower(ovf.Properties["registry.deploy"]) == "true" {
-			info = fmt.Sprintf("%sAccess the Container Registry at:\nhttps://%s:%s\n", info, ip.String(), ovf.Properties["registry.port"])
+		if port, ok := ovf.Properties["fileserver.port"]; ok {
+			info = fmt.Sprintf("%sAccess the Getting Started Page at:\nhttps://%s:%s\n", info, ip.String(), port)
 		}
 		if strings.ToLower(ovf.Properties["management_portal.deploy"]) == "true" {
 			info = fmt.Sprintf("%sAccess the Container Management Portal at:\nhttps://%s:%s\n", info, ip.String(), ovf.Properties["management_portal.port"])
 		}
-		if port, ok := ovf.Properties["fileserver.port"]; ok {
-			info = fmt.Sprintf("%sAccess the fileserver at:\nhttps://%s:%s\n", info, ip.String(), port)
-		}
 		if port, ok := ovf.Properties["engine_installer.port"]; ok {
 			info = fmt.Sprintf("%sAccess the Demo VCH Installer at:\nhttps://%s:%s\n", info, ip.String(), port)
-		}
-		if port, ok := ovf.Properties["cluster_manager.port"]; ok {
-			info = fmt.Sprintf("%sAccess the Kubernetes on vSphere daemon at:\nhttps://%s:%s\n", info, ip.String(), port)
 		}
 	}
 	info = fmt.Sprintf("%s\nAccess the VIC Product Documentation at:\nhttps://vmware.github.io/vic-product/#documentation\n", info)
