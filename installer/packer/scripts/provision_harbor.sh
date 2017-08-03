@@ -47,6 +47,7 @@ sleep 2
 # Load Containers in local registry cache
 harbor_containers_bundle=$(find /var/tmp -size +20M -type f -regextype sed -regex ".*/harbor\..*\.t.*z$")
 docker load -i "$harbor_containers_bundle"
+docker images
 
 # Copy configuration data from tarball
 mkdir /etc/vmware/harbor

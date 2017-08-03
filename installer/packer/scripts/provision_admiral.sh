@@ -33,6 +33,8 @@ docker pull ${ADMIRAL_IMAGE}
 docker tag ${ADMIRAL_IMAGE} vmware/admiral:ova
 echo "Pulled Admiral image"
 
+docker images
+
 # stop docker
 echo "stopping Docker .."
 systemctl stop docker
