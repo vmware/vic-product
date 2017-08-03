@@ -47,5 +47,5 @@ If the plug-ins do not appear at all, restart the vSphere Client services.
 ### Restart the Flex Client on a vCenter Server Appliance ###
 
 1. Use SSH to log in to the vCenter Server Appliance as `root`.
-2. Use the `service-control` command-line utility to stop the vSphere Web Client service.<pre>service vsphere-client stop</pre>
+2. Use the `service-control` command-line utility to stop the vSphere Web Client service.<pre>service-control --stop vsphere-client</pre>
 3. Restart the vSphere Web Client service.<pre>service-control --start vsphere-client</pre>
