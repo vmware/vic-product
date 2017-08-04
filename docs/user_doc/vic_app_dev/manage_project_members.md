@@ -8,7 +8,7 @@ You have a created project and assigned users to it.
 
 **Procedure**
 
-1. Log in to the vSphere Integrated Containers Registry interface at https://<i>vic_appliance_address</i>:443.
+1. Log in to the vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282.
 
    Use the `admin` account, an account with the system-wide Administrator role, or an account that has the Project Admin role for this project. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Registry, replace 443 with the appropriate port.
 2. Click **Projects** on the left, click a project name, and click **Members**.

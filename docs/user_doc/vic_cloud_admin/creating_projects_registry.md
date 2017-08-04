@@ -6,7 +6,7 @@ In vSphere Integrated Containers Registry, you group container image repositorie
 
 **Procedure**
 
-1. Log in to the vSphere Integrated Containers Registry interface at https://<i>vic_appliance_address</i>:443.
+1. Log in to the vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282.
 
    If the registry is configured so that only administrators can create projects, use the `admin` account, or an account with Administrator privileges. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Registry, replace 443 with the appropriate port.
 2. Click **Projects** on the left, then click the **+ Project** button.
