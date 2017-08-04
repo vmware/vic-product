@@ -26,7 +26,8 @@ admiral_xenon_opts="--publicUri=https://${OVA_VM_IP}:8282/ --bindAddress=0.0.0.0
   --name vic-admiral \
   -v "$ADMIRAL_DATA_LOCATION/configs:/configs" \
   -e ADMIRAL_PORT=-1 \
-  -e JAVA_OPTS="-Dconfiguration.properties=/configs/config.properties -Ddcp.net.ssl.trustStore=/configs/trustedcertificates.jks -Ddcp.net.ssl.trustStorePassword=changeit" \
+  -e JAVA_OPTS="-Ddcp.net.ssl.trustStore=/configs/trustedcertificates.jks -Ddcp.net.ssl.trustStorePassword=changeit" \
+  -e CONFIG_FILE_PATH="/configs/config.properties" \
   -e XENON_OPTS="${admiral_xenon_opts}" \
   --log-driver=json-file \
   --log-opt max-size=1g \
