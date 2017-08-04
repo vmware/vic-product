@@ -8,7 +8,7 @@ If the registry uses LDAP authentication, you cannot create or register new user
 
 1. Log in to the vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282.
 
-    Use an account with vCenter Server administrator privileges. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Registry, replace 443 with the appropriate port.
+    Use an account with vCenter Server administrator privileges. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
 2. Expand **Administration** on the left, click **Users**, then click the **+ Users** button.
 3. Enter a user name, email address, and the user's full name.
 

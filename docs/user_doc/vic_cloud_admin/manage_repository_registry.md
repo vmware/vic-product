@@ -12,7 +12,7 @@ You have created a project and pushed at least one repository to the project.
 
 1. Log in to the vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282.
 
-   Use the `admin` account, an account with the system-wide Administrator role, or an account that has the Project Admin role for this project. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Registry, replace 443 with the appropriate port.
+   Use the `admin` account, an account with the system-wide Administrator role, or an account that has the Project Admin role for this project. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
 2. Click **Projects** on the left and click the name of a project in the project list.
 
    All of the repositories for this project appear under Repositories. You can see the number of tags that the repository contains, and how many times that users have pulled the repository. 
