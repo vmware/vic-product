@@ -10,7 +10,7 @@ You have a created project. If the registry uses local user management, there mu
 
 1. Log in to the vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282.
 
-   Use the `admin` account, an account with the system-wide Administrator role, or an account that has the Project Admin role for this project. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
+   Use an account with the system-wide Administrator role, or an account that has the Project Admin role for this project. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
 2. Click **Projects** on the left and click the name of a project in the project list.
 7. Click **Members**, then click the **+ Member** button to add users to the project.
 8. Enter the user name for an existing user account, and select a role for the user in this project.
