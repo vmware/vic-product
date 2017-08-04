@@ -1,4 +1,4 @@
-# Obtain VCH Configuration Information #
+# Obtain Virtual Container Host Configuration Information #
 
 You can obtain information about the configuration of a virtual container host (VCH) by using the `config` command with `vic-machine inspect`. The `config` command provides details of the options with which the VCH was deployed with `vic-machine create` or subsequently reconfigured with  `vic-machine configure`. 
 

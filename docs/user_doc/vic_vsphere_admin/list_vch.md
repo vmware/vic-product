@@ -1,4 +1,4 @@
-# List VCHs and Obtain Their IDs #
+# List Virtual Container Hosts and Obtain Their IDs #
 
 You can obtain a list of the virtual container hosts (VCHs) that are running in vCenter Server or on an ESXi host by using the `vic-machine ls` command. The `vic-machine ls` command lists VCHs with their IDs, names, and versions, and informs you whether upgrades are available for the VCHs.
 

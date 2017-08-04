@@ -1,4 +1,4 @@
-# Delete a VCH #
+# Delete Virtual Container Hosts #
 
 You delete virtual container hosts (VCHs) by using the `vic-machine delete` command.
 
