@@ -14,7 +14,6 @@
       * [vCenter Server Appliance](plugins_vcsa.md)
       * [Access the vSphere Integrated Containers View](access_h5_ui.md)
       * [Find VCH Information](vch_portlet_ui.md)
-      * [Find Container Information](container_portlet_ui.md)
   * [Deploy VCHs](deploy_vch.md)
     * [Contents of the vSphere Integrated Containers Engine Binaries](contents_of_vic_binaries.md)
     * [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md)
