@@ -11,15 +11,17 @@ When you run `vic-machine configure`, you use the options described in [Common `
 - [Add and Remove DNS Servers](#dns)
 - [Configure Container Network Settings](#containernet)
 - [Enable and Disable Debug Mode](#debug)
-- [Add or Configure Proxy Servers](#proxies)
+- [Add, Configure, or Reset Proxy Servers](#proxies)
 
 To see the current configuration of a VCH before you configure it, and to check the new configuration,  run `vic-machine inspect config` before and after you run `vic-machine configure`. For information about running `vic-machine inspect config`, see [Obtain VCH Configuration Information](inspect_vch_config.md).
 
 ## Update vCenter Server Credentials {#vccreds}
 
-If the vCenter Server credentials with which VCHs run change, you must update those VCHs otherwise they will no longer function. 
+If the vCenter Server credentials change after the deployment of a VCH, you must update that VCH with the new credentials. The VCH will not function until you update the credentials. 
 
-If the password of the vCenter Server user account with which the VCH runs changes, provide the new password in in the `--ops-password` option. You use the `--ops-password` option to update the password even if the VCH uses the same vSphere administrator account for day-to-day operations as you use when you run `vic-machine` commands. For example, if you use Administrator@vsphere.local to run `vic-machine` commands, and you did not set the `vic-machine create --ops-user` option when you deployed the VCH, the VCH uses Administrator@vsphere.local for post-deployment operations. Consequently, to update the password, you specify the `vic-machine configure --user` and `--password` options so that `vic-machine` can log into vSphere, and you specify the `--ops-user` and `--ops-password` options to update the password that the VCH uses during post-deployment operation.  
+You provide the new vCenter Server credentials in the `vic-machine configure --ops-user` and `--ops-password` options. You use the `vic-machine configure --ops-user` and `--ops-password` options to update the credentials even if you did not specify the `vic-machine create --ops-user` and `--ops-password` options during the initial deployment of the VCH. If you did not specify `vic-machine create --ops-user` and `--ops-password` during the deployment of the VCH, by default the VCH uses the values from `vic-machine create --user` and `--password` for the `--ops-user` and `--ops-password` settings, and it uses these credentials for day-to-day, post-deployment operation. 
+
+For example, if you specified `--user Administrator@vsphere.local` in the `vic-machine create` command, and you did not set the `vic-machine create --ops-user` and `--ops-password` options, the VCH automatically sets `--ops-user` to Administrator@vsphere.local and uses this account for post-deployment operations. Consequently, if the password for Administrator@vsphere.local changes, you must specify the `vic-machine configure --ops-user` and `--ops-password` options to update the password. This example specifies the `--user` and `--password` options to log into vCenter Server, and then specifies `--ops-user` and `--ops-password` to update those settings in the VCH. 
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_address</i>
@@ -30,7 +32,7 @@ If the password of the vCenter Server user account with which the VCH runs chang
     --ops-user Administrator@vsphere.local
     --ops-password <i>new_password</i></pre>
 
-You can also use the `vic-machine configure --ops-user` and `--ops-password` options to configure an operations user on a VCH that was not initially deployed with that option. Similarly, you can use `--ops-user` and `--ops-password` to change the operations user account on a VCH that was deployed with an operations user account.
+You can also use the `vic-machine configure --ops-user` and `--ops-password` options to configure an operations user on a VCH that was not initially deployed with that option. Similarly, you can use `--ops-user` and `--ops-password` to change the operations user account on a VCH that was deployed with an operations user account, or to update the password for a previously specified operations user account. This example specifies the credentials to log into vCenter Server in the `--target` option, rather than in `--user` and `--password`.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
@@ -49,6 +51,8 @@ To update the certificate, provide the new certificate thumbprint to the VCH in 
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
     --id <i>vch_id</i>
     --thumbprint <i>new_certificate_thumbprint</i></pre>
+
+**NOTE**: If you run `vic-machine configure` with the `--force` option and you do not specify `--thumbprint`, `vic-machine` updates the thumbprint automatically.
 
 ## Add and Remove Volume Stores {#volumes}
 
@@ -117,7 +121,7 @@ Blah
 
 --debug value, -v value                          [0(default),1...n], 0 is disabled, 1 is enabled, >= 1 may alter behaviour (default: <nil>)
 
-## Add or Configure Proxy Servers {#proxies}
+## Add, Configure, or Reset Proxy Servers {#proxies}
 
 Blah
 
