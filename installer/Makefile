@@ -181,13 +181,10 @@ vendor: $(GVT)
 
 gas: $(GAS)
 	@echo running go AST tool
-	@for i in engine_installer fileserver lib ovatools pkg tags tagvm; do pushd $$i > /dev/null; $(GAS) ./... > ../$$i.gas 2> /dev/null; popd > /dev/null; done
+	@$(GAS) -quiet engine_installer/... fileserver/... lib/... ovatools/... pkg/... tagvm/... toolbox/... 2> /dev/null
 
 clean:
 	@echo removing binaries
 	@rm -rf $(BIN)/*
 	@echo removing OVA installer files...
 	@rm -rf packer/vic
-	@echo removing .gas files
-	@rm -f *.gas
-

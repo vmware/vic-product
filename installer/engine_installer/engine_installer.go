@@ -25,8 +25,8 @@ import (
 	log "github.com/Sirupsen/logrus"
 
 	"github.com/vmware/vic-product/installer/lib"
-	"github.com/vmware/vic/pkg/trace"
 	"github.com/vmware/vic-product/installer/pkg/ip"
+	"github.com/vmware/vic/pkg/trace"
 )
 
 // EngineInstallerConfigOptions contains resource options for selection by user in exec.html
@@ -146,8 +146,8 @@ func (ei *EngineInstaller) buildCreateCommand(binaryPath string) {
 	createCommand = append(createCommand, []string{"--compute-resource", ei.ComputeResource}...)
 	createCommand = append(createCommand, []string{"--image-store", ei.ImageStore}...)
 	if ip, err := ip.FirstIPv4(ip.Eth0Interface); err == nil {
-            createCommand = append(createCommand, []string{"--insecure-registry", fmt.Sprintf("%s:443", ip.String())}...)
-        }
+		createCommand = append(createCommand, []string{"--insecure-registry", fmt.Sprintf("%s:443", ip.String())}...)
+	}
 	createCommand = append(createCommand, []string{"--thumbprint", ei.Thumbprint}...)
 
 	ei.CreateCommand = createCommand
@@ -157,6 +157,8 @@ func setupDefaultAdmiral(vchIP string) {
 	defer trace.End(trace.Begin(""))
 
 	admiral := "https://localhost:8282"
+	// #nosec: TLS InsecureSkipVerify set true.
+	// Connecting to localhost.
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}

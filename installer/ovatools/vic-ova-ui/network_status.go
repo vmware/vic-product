@@ -58,6 +58,7 @@ func (nstat *NetworkStatus) addressPresenceHelper(expectedAddresses []string, co
 		return "DHCP"
 	}
 
+	// #nosec: Subprocess launching with variable.
 	out, err := exec.Command("/bin/bash", "-c", command).Output()
 	if err != nil {
 		fmt.Printf("%#v\n%s", err, err.Error())

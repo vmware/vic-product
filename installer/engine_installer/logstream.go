@@ -58,7 +58,8 @@ func NewLogStream() *LogStream {
 
 func (ls *LogStream) setCmd(command []string) {
 	defer trace.End(trace.Begin(""))
-
+	// #nosec: Subprocess launching with variable.
+	// This runs the vic-machine create command.
 	ls.cmd = exec.Command(command[0], command[1:]...)
 }
 

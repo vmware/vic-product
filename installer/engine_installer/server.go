@@ -149,11 +149,14 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 func getSelectOptionHTML(arr []string, id string) template.HTML {
 	defer trace.End(trace.Begin(""))
 
+	// #nosec: this method will not auto-escape HTML. Verify data is well formed.
 	templ := template.HTML(fmt.Sprintf("<div class=\"select\"><select name=\"%s\">", id))
 	for _, option := range arr {
 		optionHTML := fmt.Sprintf("<option>%s</option>", option)
+		// #nosec: this method will not auto-escape HTML. Verify data is well formed.
 		templ = template.HTML(fmt.Sprintf("%s\n%s", templ, optionHTML))
 	}
+	// #nosec: this method will not auto-escape HTML. Verify data is well formed.
 	return template.HTML(fmt.Sprintf("%s\n</select></div>", templ))
 }
 

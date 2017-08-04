@@ -20,10 +20,10 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
-	"github.com/vmware/vic-product/installer/tags"
 	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/vsphere/guest"
 	"github.com/vmware/vic/pkg/vsphere/session"
+	"github.com/vmware/vic/pkg/vsphere/tags"
 )
 
 const (
@@ -34,10 +34,10 @@ const (
 	ProductVMDescription  = "Product VM"
 )
 
-func setupClient(sess *session.Session) (*tags.RestClient, error) {
+func setupClient(ctx context.Context, sess *session.Session) (*tags.RestClient, error) {
 	endpoint, err := url.Parse(sess.Service)
-	client := tags.NewClient(endpoint, sess.Insecure)
-	err = client.Login()
+	client := tags.NewClient(endpoint, sess.Insecure, sess.Thumbprint)
+	err = client.Login(ctx)
 	if err != nil {
 		log.Debugf("failed to connect rest API for %s", errors.ErrorStack(err))
 		return client, errors.Errorf("Rest is not accessible")
@@ -46,14 +46,14 @@ func setupClient(sess *session.Session) (*tags.RestClient, error) {
 	return client, nil
 }
 
-func createProductVMtag(client *tags.RestClient) (string, error) {
+func createProductVMtag(ctx context.Context, client *tags.RestClient) (string, error) {
 	// create category first, then create tag
-	categoryId, err := client.CreateCategoryIfNotExist(VicProductCategory, VicProductDescription, VicProductType, false)
+	categoryId, err := client.CreateCategoryIfNotExist(ctx, VicProductCategory, VicProductDescription, VicProductType, false)
 	if err != nil {
 		return "", errors.Errorf("failed to create vic product category: %s", errors.ErrorStack(err))
 	}
 
-	tagId, err := client.CreateTagIfNotExist(ProductVMTag, ProductVMDescription, *categoryId)
+	tagId, err := client.CreateTagIfNotExist(ctx, ProductVMTag, ProductVMDescription, *categoryId)
 	if err != nil {
 		return "", errors.Errorf("failed to create product vm tag: %s", errors.ErrorStack(err))
 	}
@@ -71,7 +71,7 @@ func attachTag(ctx context.Context, client *tags.RestClient, sess *session.Sessi
 		return errors.Errorf("failed to get product vm : %s", errors.ErrorStack(err))
 	}
 
-	err = client.AttachTagToObject(tagId, vm.Reference().Value, vm.Reference().Type)
+	err = client.AttachTagToObject(ctx, tagId, vm.Reference().Value, vm.Reference().Type)
 	if err != nil {
 		return errors.Errorf("failed to apply the tag on product vm : %s", errors.ErrorStack(err))
 	}
@@ -82,12 +82,12 @@ func attachTag(ctx context.Context, client *tags.RestClient, sess *session.Sessi
 
 // Run takes in a url and session and tag the ova vm.
 func Run(ctx context.Context, sess *session.Session) error {
-	client, err := setupClient(sess)
+	client, err := setupClient(ctx, sess)
 	if err != nil {
 		return err
 	}
 
-	tagId, err := createProductVMtag(client)
+	tagId, err := createProductVMtag(ctx, client)
 	if err != nil {
 		return err
 	}
