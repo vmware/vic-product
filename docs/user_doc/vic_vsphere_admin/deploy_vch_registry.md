@@ -7,7 +7,7 @@ If you did not provide a custom server certificate and private key for the regis
 **Prerequisites**
 
 - You selected the option to deploy vSphere Integrated Containers Registry when you deployed the vSphere Integrated Containers appliance.
-- You downloaded the vSphere Integrated Containers Engine bundle from the appliance.
+- You downloaded the vSphere Integrated Containers Engine bundle from https://<i>vic_appliance_address</i>:9443.
 
 **Procedure**
 
