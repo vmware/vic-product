@@ -63,7 +63,7 @@ Wrap the user name in single quotes (') on Mac OS and Linux and in double quotes
 
 You can specify the username in the URL that you pass to `vic-machine create` in the `target` option, in which case the `user` option is not required.
 
-You can configure a VCH so that it uses a non-administrator account for post-deployment operations by specifying the [`--ops-user`](#--ops-user) option.
+You can configure a VCH so that it uses a non-administrator account for post-deployment operations by specifying the [`--ops-user`](#--ops-user) option. If you do not specify `--ops-user`, VCHs use the vSphere administrator account that you specify in `--user` for general post-deployment operations.
 
 ### `--password` ###
 

@@ -6,5 +6,6 @@ The `vic-machine` utility provides commands that allow you to manage existing vi
   * [Common `vic-machine` Options](common_vic_options.md)
   * [List VCHs and Obtain their IDs](list_vch.md)
   * [Obtain Information About a VCH](inspect_vch.md)
+  * [Configure VCHs](configure_vch.md)
   * [Delete a VCH](remove_vch.md)
   * [Debugging the VCH](debug_vch.md)

@@ -42,6 +42,7 @@
       * [Obtain Version Information](vic_vsphere_admin/vic_machine_version.md)
       * [Common Options](vic_vsphere_admin/common_vic_options.md)
       * [List VCHs](vic_vsphere_admin/list_vch.md)
+      * [Configure VCHs](vic_vsphere_admin/configure_vch.md)
       * [Obtain General VCH Information and Connection Details](vic_vsphere_admin/inspect_vch.md)
       * [Obtain VCH Configuration Information](vic_vsphere_admin/inspect_vch_config.md)
       * [Delete a VCH](vic_vsphere_admin/remove_vch.md)

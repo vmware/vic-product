@@ -10,7 +10,7 @@ The IPv4 address, fully qualified domain name (FQDN), or URL of the ESXi host or
 
 - If the target ESXi host is not managed by vCenter Server, provide the address of the host.<pre>--target <i>esxi_host_address</i></pre>
 - If the target ESXi host is managed by vCenter Server, or if you deployed the VCH to a cluster, provide the address of vCenter Server.<pre>--target <i>vcenter_server_address</i></pre>
-- You can include the user name and password in the target URL. <pre>--target <i>vcenter_or_esxi_username</i>:<i>password</i>@<i>vcenter_or_esxi_address</i></pre>
+- You can include the user name and password in the target URL.  The user account that you specify must have vSphere administrator privileges.<pre>--target <i>vcenter_or_esxi_username</i>:<i>password</i>@<i>vcenter_or_esxi_address</i></pre>
 
   Wrap the user name or password in single quotes (Linux or Mac OS) or double quotes (Windows) if they include special characters.<pre>'<i>vcenter_or_esxi_usern@me</i>':'<i>p@ssword</i>'@<i>vcenter_or_esxi_address</i></pre>
   
@@ -22,7 +22,7 @@ The IPv4 address, fully qualified domain name (FQDN), or URL of the ESXi host or
 
 Short name: `-u`
 
-The username for the ESXi host or vCenter Server instance on which you deployed the VCH. This option is mandatory if you do not specify the username in the `target` option.
+The ESXi host or vCenter Server user account with which to run the `vic-machine` command. This option is mandatory if you do not specify the username in the `target` option. The user account that you specify in `--user` must have vSphere administrator privileges.
 
 <pre>--user <i>esxi_or_vcenter_server_username</i></pre>
 
