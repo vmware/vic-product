@@ -19,7 +19,7 @@ You replicate image repositories between vSphere Integrated Containers Registry 
 1. Log in to the vSphere Integrated Containers Registry instance that contains the images to replicate. 
 
    Log in at https://<i>vic_appliance_address</i>:8282.  Use an account with vCenter Server administrator privileges. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
-2. Click **Projects** on the left and click the name of the project to replicate.
+2. Select the **Administration** tab, click **Projects** on the left,  and click the name of the project to replicate.
 3. Click **Replication**, then click the **+ Replication Rule** button.
 4. Enter a suitable name for the new replication rule and optionally add a description.
 5. Select or create an endpoint registry.

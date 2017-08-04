@@ -9,7 +9,7 @@ You have a created project.
 **Procedure**
 
 1. Log in to the vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282.
-2. Click **Projects** on the left, click a project name, and click **Logs**.
+2. Select the **Administration** tab, click **Projects** on the left, , click a project name, and click **Logs**.
 
    The Logs view lists all of the operations that users have performed on this project.
 3. To see a reduced list of operations, enter text in the **Filter Logs** text box.

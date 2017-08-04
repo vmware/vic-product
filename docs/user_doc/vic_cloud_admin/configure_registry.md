@@ -15,7 +15,7 @@ The vSphere administrator enabled vSphere Integrated Containers Registry when th
 1. Log in to the vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282.
 
    If you configured the vSphere Integrated Containers appliance to use a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
-2. Expand **Administration** on the left, select **Configuration** > **Authentication**, and set the **Auth Mode**.
+2. Select the **Administration** tab, select **Configuration** > **Authentication**, and set the **Auth Mode**.
 
     - To use local user management, leave **Auth Mode** set to **Database**.
     - To implement LDAP or Active Directory authentication, select **LDAP**.
