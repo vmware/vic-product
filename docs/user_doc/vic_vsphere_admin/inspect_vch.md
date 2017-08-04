@@ -1,4 +1,4 @@
-# Obtain General VCH Information and Connection Details #
+# Obtain General Virtual Container Host Information and Connection Details #
 
 You can obtain general information about a virtual container host (VCH) and its connection details by using the `vic-machine inspect` command.
 
