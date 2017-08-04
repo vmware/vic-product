@@ -148,12 +148,14 @@ func main() {
 
 	containerdArgs := []string{"--listen", "unix:///run/containerd.sock", "--runtime", "/usr/bin/docker-runc", "--shim", "/usr/bin/docker-containerd-shim"}
 	log.Debugf("Creating exec command for %s %v", CONTAINERD, containerdArgs)
+	// #nosec: Subprocess launching should be audited.
 	containerdCmd := exec.Command(CONTAINERD, containerdArgs...)
 
 	containerdCmd.Stdout = os.Stdout
 	containerdCmd.Stderr = os.Stderr
 
 	log.Debugf("Creating exec command for %s %v", DOCKER, dockerArgs)
+	// #nosec: Subprocess launching with variable.
 	dockerCmd := exec.Command(DOCKER, dockerArgs...)
 
 	dockerCmd.Stdout = os.Stdout

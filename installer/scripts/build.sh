@@ -106,7 +106,7 @@ export BUILD_PORTGROUP="${BUILD_PORTGROUP}"
 
 make ova-release
 
-OUTFILE=bin/$(ls -1 bin | grep "\.ova")
+OUTFILE=bin/$(ls -1t bin | grep "\.ova")
 
 if [ -n "${DRONE_BUILD_NUMBER}" ]; then
   TMP=$(echo ${OUTFILE} | sed "s/-/-${DRONE_BUILD_NUMBER}-/")

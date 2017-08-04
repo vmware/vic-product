@@ -181,7 +181,7 @@ vendor: $(GVT)
 
 gas: $(GAS)
 	@echo running go AST tool
-	@$(GAS) -quiet engine_installer/... fileserver/... lib/... ovatools/... pkg/... tagvm/... 2> /dev/null
+	@$(GAS) -quiet engine_installer/... fileserver/... lib/... ovatools/... pkg/... tagvm/... toolbox/... 2> /dev/null
 
 clean:
 	@echo removing binaries

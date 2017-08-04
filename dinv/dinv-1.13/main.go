@@ -140,6 +140,7 @@ func main() {
 	dockerArgs = append(dockerArgs, "-s", storage)
 
 	log.Debugf("Creating exec command for %s %v", DOCKER, dockerArgs)
+	// #nosec: Subprocess launching with variable.
 	cmd := exec.Command(DOCKER, dockerArgs...)
 
 	cmd.Stdout = os.Stdout

@@ -26,7 +26,7 @@ function build {
     rev="${version##*-}"
     echo "[${name}:${rev}] Building ${name}:${rev}"
     docker build -t "${namespace}/${name}:${rev}" "$version"
-    echo "[${name}:${rev}] built"    
+    echo "[${name}:${rev}] built"
   done
 
 }

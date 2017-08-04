@@ -17,8 +17,16 @@ fi
 versions=( "${versions[@]%/}" )
 
 for version in "${versions[@]}"; do
-	name="${version%-*}"
-	rev="${version##*-}"
+  if [ -x "$(command -v gas)" ]; then
+    echo "Running go AST tool (gas) for ${version}/ directory. This step will fail if gas generates any warnings."
+    echo "(Use #nosec comments to annotate innocuous code with gas warnings.)"
+    gas -quiet "${version}"/... 2> /dev/null
+  else
+    echo "go AST tool (gas) not present, skipping gas check."
+  fi
+
+  name="${version%-*}"
+  rev="${version##*-}"
   echo "[${name}:${rev}] Building ${name}:${rev}"
   docker build -t "${namespace}/${name}:${rev}" "$version"
   echo "[${name}:${rev}] You can now push with: \"docker push ${namespace}/${name}:${rev}\""
