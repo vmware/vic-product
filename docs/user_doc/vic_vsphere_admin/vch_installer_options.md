@@ -681,7 +681,7 @@ You can specify a static IP address for the VCH endpoint VM on each of the clien
 
 To specify a static IP address for the endpoint VM on the client, public, or management network, you provide an IP address in the `client/public/management-network-ip` option. If you set a static IP address, you can optionally provide gateway addresses and specify one or more DNS server addresses.
 
-### `--dns-server` ###
+### `--dns-server` <a id="dns-server"></a>
 
 Short name: None
 
@@ -811,7 +811,7 @@ If access to the Internet or to your private image registries requires the use o
 
 ### `--https-proxy` ###
 
-Short name: `--sproxy`
+Short name: None
 
 The address of the HTTPS proxy server through which the VCH accesses image registries when using HTTPS. Specify the address of the proxy server as either an FQDN or an IP address.
 
@@ -819,7 +819,7 @@ The address of the HTTPS proxy server through which the VCH accesses image regis
 
 ### `--http-proxy` ###
 
-Short name: `--hproxy`
+Short name: None
 
 The address of the HTTP proxy server through which the VCH accesses image registries when using HTTP. Specify the address of the proxy server as either an FQDN or an IP address.
 
