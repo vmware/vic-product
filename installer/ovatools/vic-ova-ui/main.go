@@ -165,8 +165,8 @@ func ioctl(fd, cmd, ptr uintptr) error {
 }
 
 func getCPUs() string {
-	// #nosec: Subprocess launching with partial path.
-	out, _ := exec.Command("lscpu").Output()
+	// #nosec: Subprocess launching should be audited.
+	out, _ := exec.Command("/usr/bin/lscpu").Output()
 	outstring := strings.TrimSpace(string(out))
 	lines := strings.Split(outstring, "\n")
 	var cpus string
