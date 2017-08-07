@@ -21,7 +21,7 @@ SHA256SUM ?= sha256sum
 SED ?= sed
 RM ?= rm
 CP ?= cp
-OS := $(shell uname | tr '[:upper]' '[:lower:]')
+OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 
 REV :=$(shell git rev-parse --short=8 HEAD)
 

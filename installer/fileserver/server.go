@@ -47,6 +47,8 @@ type config struct {
 type IndexHTMLOptions struct {
 	InvalidLogin bool
 	Feedback     string
+	NeedLogin    bool
+	RootAddr     string
 }
 
 var (
@@ -139,7 +141,7 @@ func main() {
 func indexHandler(resp http.ResponseWriter, req *http.Request) {
 	defer trace.End(trace.Begin(""))
 
-	html := &IndexHTMLOptions{InvalidLogin: true}
+	html := &IndexHTMLOptions{NeedLogin: true, RootAddr: "test"}
 
 	if req.Method == http.MethodPost {
 		// verify login
@@ -149,10 +151,11 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 
 		if err := admin.VerifyLogin(); err != nil {
 			log.Infof("Validation failed")
+			html.InvalidLogin = true
 		} else {
-			log.Infof("validation succeeded")
+			log.Infof("Validation succeeded")
 			html.Feedback = startInitializationServices()
-			html.InvalidLogin = false
+			html.NeedLogin = false
 		}
 	}
 

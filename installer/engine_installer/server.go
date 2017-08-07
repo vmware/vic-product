@@ -190,6 +190,12 @@ func parseCmdArgs(resp http.ResponseWriter, req *http.Request) {
 		engineInstaller.buildCreateCommand(c.serveDir)
 		log.Infoln(engineInstaller)
 		resp.WriteHeader(http.StatusOK)
-		resp.Write([]byte(strings.Join(engineInstaller.CreateCommand, " ")))
+		// exclude password from the create command
+		log.Infoln("COMMAND: ", engineInstaller.CreateCommand)
+		var cmd []string
+		if len(engineInstaller.CreateCommand) > 10 {
+			cmd = append(engineInstaller.CreateCommand[:7], append([]string{"--password ********"}, engineInstaller.CreateCommand[10:]...)...)
+		}
+		resp.Write([]byte(strings.Join(cmd, " ")))
 	}
 }

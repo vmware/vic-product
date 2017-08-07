@@ -117,7 +117,7 @@ func (ls *LogStream) start() {
 func (ls *LogStream) websocketServer(resp http.ResponseWriter, req *http.Request) {
 	defer trace.End(trace.Begin(""))
 
-	//turn http requests into websockets
+	// turn http requests into websockets
 	upgrader := websocket.Upgrader{}
 	websocket, err := upgrader.Upgrade(resp, req, nil)
 	if err != nil {
@@ -126,7 +126,7 @@ func (ls *LogStream) websocketServer(resp http.ResponseWriter, req *http.Request
 		panic(err)
 	}
 
-	//set logstrem websocket for use by start() and send()
+	// set logstrem websocket for use by start() and send()
 	ls.websocket = websocket
 	defer ls.websocket.Close()
 
