@@ -49,10 +49,21 @@ harbor_containers_bundle=$(find /var/tmp -size +20M -type f -regextype sed -rege
 docker load -i "$harbor_containers_bundle"
 docker images
 
+
+# TODO FIXME ATC Remove when migrator is in offline installer
+migrator_image="vmware/harbor-db-migrator:1.2-test"
+echo "----- FIXME Pulling ${migrator_image} ----- "
+docker pull ${migrator_image}
+echo "----- FIXME Pulled ${migrator_image} -----"
+
 # Copy configuration data from tarball
 mkdir /etc/vmware/harbor
 cp -p /var/tmp/harbor/harbor.cfg /data/harbor
 cp -pr /var/tmp/harbor/{prepare,common,docker-compose.yml,docker-compose.notary.yml,docker-compose.clair.yml} /etc/vmware/harbor
+
+# Get Harbor to Admiral data migration script
+curl -Lo /etc/vmware/harbor/admiral_import https://raw.githubusercontent.com/vmware/harbor/master/tools/migration/import
+chmod +x /etc/vmware/harbor/admiral_import
 
 # Stop docker service
 systemctl stop docker.service

@@ -77,8 +77,8 @@ func main() {
 		if port, ok := ovf.Properties["fileserver.port"]; ok {
 			info = fmt.Sprintf("%sAccess the Getting Started Page at:\nhttps://%s:%s\n", info, ip.String(), port)
 		}
-		if strings.ToLower(ovf.Properties["management_portal.deploy"]) == "true" {
-			info = fmt.Sprintf("%sAccess the Container Management Portal at:\nhttps://%s:%s\n", info, ip.String(), ovf.Properties["management_portal.port"])
+		if port, ok := ovf.Properties["management_portal.port"]; ok {
+			info = fmt.Sprintf("%sAccess the Container Management Portal at:\nhttps://%s:%s\n", info, ip.String(), port)
 		}
 		if port, ok := ovf.Properties["engine_installer.port"]; ok {
 			info = fmt.Sprintf("%sAccess the Demo VCH Installer at:\nhttps://%s:%s\n", info, ip.String(), port)

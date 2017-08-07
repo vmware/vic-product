@@ -26,6 +26,7 @@ tdnf remove -y cloud-init open-vm-tools
 
 # Create directory to host VMware-specific scripts
 mkdir /etc/vmware
+mkdir /etc/vmware/upgrade
 mkdir "/usr/lib/systemd/system/getty@tty2.service.d"
 
 # Create directories for PSC token
