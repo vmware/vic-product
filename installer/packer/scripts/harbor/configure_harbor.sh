@@ -39,6 +39,9 @@ ext="${cert_dir}/extfile.cnf"
 MANAGED_KEY="# Managed by configure_harbor.sh"
 export LC_ALL="C"
 
+REGISTRY_PORT="$(ovfenv -k registry.port)"
+NOTARY_PORT="$(ovfenv -k registry.notary_port)"
+
 rm -rf "${ca_download_dir}"
 mkdir -p "${ca_download_dir}"
 
@@ -208,7 +211,11 @@ if [ "$(stat -c "%a" "$cfg")" != "600" ]; then
   exit 1
 fi
 
-configureHarborCfg "hostname" "${hostname}":"$(ovfenv -k registry.port)"
+if [ "${REGISTRY_PORT}" == "443" ] || [ "${REGISTRY_PORT}" == "80" ]; then
+  configureHarborCfg "hostname" "${hostname}"
+else
+  configureHarborCfg "hostname" "${hostname}":"${REGISTRY_PORT}"
+fi
 
 configureHarborCfg ui_url_protocol https
 secure
@@ -221,16 +228,16 @@ configureHarborCfg secretkey_path $data_dir
 configureHarborCfgOnce db_password "$(genPass)"
 configureHarborCfgOnce clair_db_password "$(genPass)"
 
-setPortInYAML $harbor_compose_file "$(ovfenv -k registry.port)" "$(ovfenv -k registry.notary_port)"
+setPortInYAML $harbor_compose_file "${REGISTRY_PORT}" "${NOTARY_PORT}"
 
 # Configure the integration URL
 configureHarborCfg admiral_url https://"${hostname}":"$(ovfenv -k management_portal.port)"
 
 # Open port for Harbor
-iptables -w -A INPUT -j ACCEPT -p tcp --dport "$(ovfenv -k registry.port)"
+iptables -w -A INPUT -j ACCEPT -p tcp --dport "${REGISTRY_PORT}"
 
 # Open port for Notary
-iptables -w -A INPUT -j ACCEPT -p tcp --dport 4443
+iptables -w -A INPUT -j ACCEPT -p tcp --dport "${NOTARY_PORT}"
 
 # Start on startup
 echo "Enable harbor startup"
