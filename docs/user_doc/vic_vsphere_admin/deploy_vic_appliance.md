@@ -59,6 +59,10 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 7. Expand **VIC Engine Install Wizard Configuration** to optionally change the port on which the interactive web installer for virtual container hosts (VCHs) runs.
 8. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
 9. When the deployment completes, power on the appliance VM.
+
+   
+     If you deployed the appliance so that it obtains its address via DHCP, go to the **Summary** tab for the appliance VM and note the address.
+
 10. Go to https://<i>vic_appliance_address</i>:9443 and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance.
 
     If you configured the vSphere Integrated Containers appliance to use a different port for the vSphere Integrated Containers file server, replace 9443 with the appropriate port. 
