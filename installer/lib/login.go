@@ -27,7 +27,7 @@ import (
 	"github.com/vmware/vic/pkg/trace"
 )
 
-const loginTimeout = 1 * time.Second
+const loginTimeout = 15 * time.Second
 
 type LoginInfo struct {
 	Target    string `json:"target"`
@@ -58,30 +58,29 @@ func (info *LoginInfo) VerifyLogin() error {
 	input.User = username
 	input.Password = &passwd
 
-	ctx, cancel := context.WithTimeout(context.Background(), loginTimeout)
+	ctx, _ := context.WithTimeout(context.Background(), loginTimeout)
 	loginResponse := make(chan error, 1)
 	var v *validate.Validator
 	var err error
 
 	go func() {
-		select {
-		case <-ctx.Done():
-			if v == nil {
-				loginResponse <- fmt.Errorf("login failed")
-				return
-			}
-			loginResponse <- err
-		}
+		v, err = validate.NewValidator(ctx, input)
+		info.Validator = v
+		loginResponse <- err
 	}()
 
-	v, err = validate.NewValidator(ctx, input)
-	cancel()
-	if err != nil {
-		log.Infof("validator: %s", err)
-		return err
-	}
+	select {
+	case <-ctx.Done():
+		loginResponse <- fmt.Errorf("login failed; validator context exceeded")
+	case err := <-loginResponse:
+		if err != nil {
+			log.Infof("validator: %s", err)
+			loginResponse <- err
+		} else {
+			loginResponse <- nil
+		}
 
-	info.Validator = v
+	}
 
 	return <-loginResponse
 }

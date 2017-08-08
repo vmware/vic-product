@@ -44,6 +44,7 @@
       "remote_cache_directory": "packer_cache",
       "remote_username": "{{user `remote_username`}}",
       "remote_password": "{{user `remote_password`}}",
+      "ovftool_options": ["--allowExtraConfig"],
       "vnc_disable_password": true,
       "version": 11,
       "vmx_data": {
