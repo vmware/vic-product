@@ -46,6 +46,7 @@ type config struct {
 	serverIP      net.IP
 	admiralPort   string
 	installerPort string
+	vicTarName    string
 }
 
 // IndexHTMLOptions contains fields for html templating in index.html
@@ -127,6 +128,15 @@ func Init(conf *config) {
 			conf.installerPort = port
 		}
 	}
+
+	// get the fileserver vic tar location
+	filepath.Walk("/opt/vmware/fileserver/files/", func(path string, f os.FileInfo, err error) error {
+		if strings.HasSuffix(path, ".tar.gz") {
+			c.vicTarName = f.Name()
+			return fmt.Errorf("stop") // returning an error stops the file walk
+		}
+		return nil // vic tar not found, continue walking
+	})
 }
 
 func main() {
@@ -163,6 +173,11 @@ func main() {
 	}
 
 	log.Infof("Starting fileserver server on %s", s.Addr)
+	// redirect port 80 to 9443 to improve ux on ova
+	go http.ListenAndServe(":80", http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		target := "https://" + req.Host + c.addr + req.URL.Path
+		http.Redirect(w, req, target, http.StatusMovedPermanently)
+	}))
 	log.Fatal(s.ListenAndServeTLS("", ""))
 }
 
@@ -189,7 +204,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 
 	html.AdmiralAddr = fmt.Sprintf("https://%s:%s", c.serverIP.String(), c.admiralPort)
 	html.DemoVCHAddr = fmt.Sprintf("https://%s:%s", c.serverIP.String(), c.installerPort)
-	html.FileserverAddr = fmt.Sprintf("https://%s%s", c.serverIP.String(), c.addr)
+	html.FileserverAddr = fmt.Sprintf("https://%s/files/%s", c.serverIP.String()+c.addr, c.vicTarName)
 
 	renderTemplate(resp, "html/index.html", html)
 }
