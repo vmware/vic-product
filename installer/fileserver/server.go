@@ -20,6 +20,7 @@ import (
 	"flag"
 	"fmt"
 	"html/template"
+	"net"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -29,6 +30,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 
 	"github.com/vmware/vic-product/installer/lib"
+	"github.com/vmware/vic-product/installer/pkg/ip"
 	"github.com/vmware/vic-product/installer/tagvm"
 	"github.com/vmware/vic/pkg/certificate"
 	"github.com/vmware/vic/pkg/errors"
@@ -36,17 +38,24 @@ import (
 )
 
 type config struct {
-	addr     string
-	certPath string
-	keyPath  string
-	cert     tls.Certificate
-	serveDir string
+	addr          string
+	certPath      string
+	keyPath       string
+	cert          tls.Certificate
+	serveDir      string
+	serverIP      net.IP
+	admiralPort   string
+	installerPort string
 }
 
 // IndexHTMLOptions contains fields for html templating in index.html
 type IndexHTMLOptions struct {
-	InvalidLogin bool
-	Feedback     string
+	InvalidLogin   bool
+	Feedback       string
+	NeedLogin      bool
+	AdmiralAddr    string
+	DemoVCHAddr    string
+	FileserverAddr string
 }
 
 var (
@@ -97,6 +106,27 @@ func Init(conf *config) {
 		}
 	}
 	log.Infof("Loaded certificate")
+
+	ovf, err := lib.UnmarshaledOvfEnv()
+	if err != nil {
+		switch err.(type) {
+		case lib.EnvFetchError:
+			log.Fatalf("impossible to fetch ovf environment, exiting")
+			os.Exit(1)
+		case lib.UnmarshalError:
+			fmt.Errorf("error: %s", err.Error())
+		}
+	}
+
+	if ip, err := ip.FirstIPv4(ip.Eth0Interface); err == nil {
+		conf.serverIP = ip
+		if port, ok := ovf.Properties["management_portal.port"]; ok {
+			conf.admiralPort = port
+		}
+		if port, ok := ovf.Properties["engine_installer.port"]; ok {
+			conf.installerPort = port
+		}
+	}
 }
 
 func main() {
@@ -139,7 +169,7 @@ func main() {
 func indexHandler(resp http.ResponseWriter, req *http.Request) {
 	defer trace.End(trace.Begin(""))
 
-	html := &IndexHTMLOptions{InvalidLogin: true}
+	html := &IndexHTMLOptions{NeedLogin: true}
 
 	if req.Method == http.MethodPost {
 		// verify login
@@ -149,12 +179,17 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 
 		if err := admin.VerifyLogin(); err != nil {
 			log.Infof("Validation failed")
+			html.InvalidLogin = true
 		} else {
-			log.Infof("validation succeeded")
+			log.Infof("Validation succeeded")
 			html.Feedback = startInitializationServices()
-			html.InvalidLogin = false
+			html.NeedLogin = false
 		}
 	}
+
+	html.AdmiralAddr = fmt.Sprintf("https://%s:%s", c.serverIP.String(), c.admiralPort)
+	html.DemoVCHAddr = fmt.Sprintf("https://%s:%s", c.serverIP.String(), c.installerPort)
+	html.FileserverAddr = fmt.Sprintf("https://%s%s", c.serverIP.String(), c.addr)
 
 	renderTemplate(resp, "html/index.html", html)
 }

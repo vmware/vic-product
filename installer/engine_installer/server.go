@@ -122,6 +122,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 		engineInstaller.loginInfo.Password = req.FormValue("password")
 		if err := engineInstaller.loginInfo.VerifyLogin(); err != nil {
 			// login failed so show login form again
+			log.Errorf("error logging in: %s", err.Error())
 			renderTemplate(resp, "html/auth.html", &AuthHTML{InvalidLogin: true})
 		} else {
 			// vCenter login successful, set resource drop downs
@@ -190,6 +191,12 @@ func parseCmdArgs(resp http.ResponseWriter, req *http.Request) {
 		engineInstaller.buildCreateCommand(c.serveDir)
 		log.Infoln(engineInstaller)
 		resp.WriteHeader(http.StatusOK)
-		resp.Write([]byte(strings.Join(engineInstaller.CreateCommand, " ")))
+		// exclude password from the create command
+		cmd := make([]string, len(engineInstaller.CreateCommand))
+		copy(cmd, engineInstaller.CreateCommand)
+		if len(cmd) > 10 {
+			cmd = append(cmd[:8], append([]string{"********"}, cmd[9:]...)...)
+		}
+		resp.Write([]byte(strings.Join(cmd, " ")))
 	}
 }
