@@ -60,8 +60,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 8. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
 9. When the deployment completes, power on the appliance VM.
 
-   
-     If you deployed the appliance so that it obtains its address via DHCP, go to the **Summary** tab for the appliance VM and note the address.
+    If you deployed the appliance so that it obtains its address via DHCP, go to the **Summary** tab for the appliance VM and note the address.
 
 10. Go to https://<i>vic_appliance_address</i>:9443 and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance.
 
