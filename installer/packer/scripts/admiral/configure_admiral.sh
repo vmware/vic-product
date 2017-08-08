@@ -16,32 +16,31 @@ set -euf -o pipefail
 
 umask 077
 
-port=$(ovfenv -k management_portal.port)
+ADMIRAL_PORT=$(ovfenv -k management_portal.port)
 
 data_dir="/data/admiral"
 conf_dir="/etc/vmware/admiral"
 script_dir="/etc/vmware"
 keytool="/usr/bin/keytool"
 
-cert_dir=${data_dir}/cert
-flag=${data_dir}/cert_gen_type
-admiral_start_script=${conf_dir}/start_admiral.sh
+cert_dir="${data_dir}/cert"
+flag="${data_dir}/cert_gen_type"
+admiral_start_script="${conf_dir}/start_admiral.sh"
 
-ca_download_dir=${data_dir}/ca_download
-mkdir -p ${cert_dir}
-mkdir -p ${ca_download_dir}
+ca_download_dir="${data_dir}/ca_download"
+mkdir -p "${cert_dir}"
+rm -rf "${ca_download_dir}"
+mkdir -p "${ca_download_dir}"
 
-cert=${cert_dir}/server.crt
-key=${cert_dir}/server.key
-jks=${cert_dir}/trustedcertificates.jks
-csr=${cert_dir}/server.csr
-ca_cert=${cert_dir}/ca.crt
-ca_key=${cert_dir}/ca.key
-ext=${cert_dir}/extfile.cnf
+cert="${cert_dir}/server.crt"
+key="${cert_dir}/server.key"
+jks="${cert_dir}/trustedcertificates.jks"
+csr="${cert_dir}/server.csr"
+ca_cert="${cert_dir}/ca.crt"
+ca_key="${cert_dir}/ca.key"
+ext="${cert_dir}/extfile.cnf"
 
-rm -rf $ca_download_dir/*
-
-#Configure attr in start_admiral.sh
+# Configure attr in start_admiral.sh
 function configureAdmiralStart {
   cfg_key=$1
   cfg_value=$2
@@ -52,7 +51,7 @@ function configureAdmiralStart {
   fi
 }
 
-#Format cert file
+# Format cert file
 function formatCert {
   content=$1
   file=$2
@@ -172,23 +171,23 @@ else
 fi
 
 # put admiral endpoint in guestinfo
-$script_dir/set_guestinfo.sh admiral.endpoint https://"$ip_address":"$port"
+$script_dir/set_guestinfo.sh admiral.endpoint https://"$ip_address":"$ADMIRAL_PORT"
 
 # Init certs
 secure
 
 configureAdmiralStart ADMIRAL_DATA_LOCATION $data_dir
-configureAdmiralStart ADMIRAL_EXPOSED_PORT "$port"
+configureAdmiralStart ADMIRAL_EXPOSED_PORT "$ADMIRAL_PORT"
 configureAdmiralStart OVA_VM_IP "$ip_address"
 
-iptables -w -A INPUT -j ACCEPT -p tcp --dport "$port"
+iptables -w -A INPUT -j ACCEPT -p tcp --dport "$ADMIRAL_PORT"
 
 touch $data_dir/custom.conf
 
 
-harbor_port=$(ovfenv -k registry.port)
+HARBOR_PORT=$(ovfenv -k registry.port)
 # Configure the integration URL
-echo "harbor.tab.url=https://${hostname}:${harbor_port}" > $data_dir/custom.conf
+echo "harbor.tab.url=https://${hostname}:${HARBOR_PORT}" > $data_dir/custom.conf
 
 # Copy files needed by Admiral into one directory
 config_dir=$data_dir/configs

@@ -18,32 +18,27 @@ umask 077
 
 data_dir="/data/harbor"
 conf_dir="/etc/vmware/harbor"
-script_dir="/etc/vmware"
 harbor_compose_file="${conf_dir}/docker-compose.yml"
 
-cert_dir="${data_dir}/cert"
-flag="${conf_dir}/cert_gen_type"
 cfg="${data_dir}/harbor.cfg"
 
+# Copy CA cert to be downloaded from UI
 ca_download_dir="${data_dir}/ca_download"
-mkdir -p "${cert_dir}"
+rm -rf "${ca_download_dir}"
 mkdir -p "${ca_download_dir}"
+ca_cert="/data/admiral/cert/ca.crt"
+cp ${ca_cert} ${ca_download_dir}
 
+
+cert_dir="/data/admiral/cert"
 cert="${cert_dir}/server.crt"
 key="${cert_dir}/server.key"
-csr="${cert_dir}/server.csr"
-ca_cert="${cert_dir}/ca.crt"
-ca_key="${cert_dir}/ca.key"
-ext="${cert_dir}/extfile.cnf"
 
 MANAGED_KEY="# Managed by configure_harbor.sh"
 export LC_ALL="C"
 
 REGISTRY_PORT="$(ovfenv -k registry.port)"
 NOTARY_PORT="$(ovfenv -k registry.notary_port)"
-
-rm -rf "${ca_download_dir}"
-mkdir -p "${ca_download_dir}"
 
 # Configure attr in harbor.cfg
 function configureHarborCfg {
@@ -81,82 +76,6 @@ function configureHarborCfgOnce {
   else
     echo "Skipping existing managed key $cfg_key"
   fi
-}
-
-# Format cert file
-function formatCert {
-  content=$1
-  file=$2
-  echo "$content" | sed -r 's/(-{5}BEGIN [A-Z ]+-{5})/&\n/g; s/(-{5}END [A-Z ]+-{5})/\n&\n/g' | sed -r 's/.{64}/&\n/g; /^\s*$/d' > "$file"
-}
-
-function genCert {
-  if [ ! -e $ca_cert ] || [ ! -e $ca_key ]
-  then
-    openssl req -newkey rsa:4096 -nodes -sha256 -keyout $ca_key \
-      -x509 -days 365 -out $ca_cert -subj \
-      "/C=US/ST=California/L=Palo Alto/O=VMware, Inc./OU=Containers on vSphere/CN=Self-signed by VMware, Inc."
-  fi
-  openssl req -newkey rsa:4096 -nodes -sha256 -keyout $key \
-    -out $csr -subj \
-    "/C=US/ST=California/L=Palo Alto/O=VMware/OU=Containers on vSphere/CN=$hostname"
-
-  echo "Add subjectAltName = IP: $ip_address to certificate"
-  echo subjectAltName = IP:"$ip_address" > $ext
-  openssl x509 -req -days 365 -in $csr -CA $ca_cert -CAkey $ca_key -CAcreateserial -extfile $ext -out $cert
-
-  echo "self-signed" > $flag
-  echo "Copy CA certificate to $ca_download_dir"
-  cp $ca_cert $ca_download_dir/
-  $script_dir/set_guestinfo.sh -f $ca_cert "harbor.ca"
-}
-
-function secure {
-  ssl_cert=$(ovfenv -k registry.ssl_cert)
-  ssl_cert_key=$(ovfenv -k registry.ssl_cert_key)
-  if [ -n "$ssl_cert" ] && [ -n "$ssl_cert_key" ]; then
-    echo "ssl_cert and ssl_cert_key are both set, using customized certificate"
-    formatCert "$ssl_cert" $cert
-    formatCert "$ssl_cert_key" $key
-    echo "customized" > $flag
-    return
-  fi
-
-  if [ ! -e $ca_cert ] || [ ! -e $cert ] || [ ! -e $key ]; then
-    echo "CA, Certificate or key file does not exist, will generate a self-signed certificate"
-    genCert
-    return
-  fi
-
-  if [ ! -e $flag ]; then
-    echo "The file which records the way generating certificate does not exist, will generate a new self-signed certificate"
-    genCert
-    return
-  fi
-
-  if [ ! "$(cat $flag)" = "self-signed" ]; then
-    echo "The way generating certificate changed, will generate a new self-signed certificate"
-    genCert
-    return
-  fi
-
-  cn=$(openssl x509 -noout -subject -in $cert | sed -n '/^subject/s/^.*CN=//p') || true
-  if [ "$hostname" !=  "$cn" ]; then
-    echo "Common name changed: $cn -> $hostname , will generate a new self-signed certificate"
-    genCert
-    return
-  fi
-
-  ip_in_cert=$(openssl x509 -noout -text -in $cert | sed -n '/IP Address:/s/.*IP Address://p') || true
-  if [ "$ip_address" !=  "$ip_in_cert" ]; then
-    echo "IP changed: $ip_in_cert -> $ip_address , will generate a new self-signed certificate"
-    genCert
-    return
-  fi
-
-  echo "Use the existing CA, certificate and key file"
-  echo "Copy CA certificate to $ca_download_dir"
-  cp $ca_cert $ca_download_dir/
 }
 
 function detectHostname {
@@ -218,7 +137,6 @@ else
 fi
 
 configureHarborCfg ui_url_protocol https
-secure
 
 configureHarborCfg ssl_cert $cert
 configureHarborCfg ssl_cert_key $key
