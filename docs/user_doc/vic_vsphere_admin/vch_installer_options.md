@@ -959,7 +959,7 @@ When you specify `vic-machine create --debug`, you set a debugging level of 1, 2
 
 - `--debug 1` Provides extra verbosity in the logs, with no other changes to `vic-machine` behavior.
 - `--debug 2` Exposes servers on more interfaces, launches `pprof` in container VMs.
-- `--debug 3` Disables recovery logic and logs sensitive data. Disables the restart of failed components and prevents container VMs from shutting down. Logs environment details for user application, and collects application output in the log bundle.
+- `--debug 3` Disables recovery logic and logs sensitive data. Disables the restart of failed components and prevents container VMs from shutting down. Logs environment details for user application, and collects application output in the log bundle. This is the maximum  supported debugging level.
 
 Additionally, deploying a VCH with a `--debug 3` enables SSH access to the VCH endpoint VM console by default, with a root password of `password`, without requiring you to run the `vic-machine debug` command. This functionality enables you to perform targeted interactive diagnostics in environments in which a VCH endpoint VM failure occurs consistently and in a fashion that prevents `vic-machine debug` from functioning. 
 

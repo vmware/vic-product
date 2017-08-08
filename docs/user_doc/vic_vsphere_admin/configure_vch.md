@@ -125,9 +125,9 @@ Blah
                                                 Examples for a vsphere backed volume store are:  "datastore/path:label" or "datastore:label" or "ds://my-datastore-name:store-label"
                                                      Examples for nfs back volume stores are: "nfs://127.0.0.1/path/to/share/point?uid=1234&gid=5678&proto=tcp:my-volume-store-label" or "nfs://my-store/path/to/share/point:my-label"
 
-## Add and Remove DNS Servers <a id="dns"></a>
+## Add and Reset DNS Servers <a id="dns"></a>
 
-If you deployed the VCH with a static IP address, you can add and remove DNS servers by using the `vic-machine configure --dns-server` option. 
+If you deployed the VCH with a static IP address, you can add DNS servers or reset them to the default by using the `vic-machine configure --dns-server` option. 
 
 The `vic-machine configure --dns-server` option functions in the same way as the equivalent `vic-machine create --dns-server` option. For information about the `vic-machine create --dns-server` option, see  [`--dns-server`](vch_installer_options.md#dns-server) in VCH Deployment Options.
 
@@ -139,7 +139,7 @@ This example adds a new DNS server to a VCH. If the VCH already uses a DNS serve
     --id <i>vch_id</i>
     --dns-server <i>dns_server_address</i></pre>
 
-To remove all DNS server from a VCH, set the `vic-machine configure --dns-server` option to `""`.
+To reset the DNS servers on a VCH to their defaults of 8.8.8.8 and 8.8.4.4, set the `vic-machine configure --dns-server` option to `""`.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
@@ -198,13 +198,13 @@ To remove a proxy server from a VCH, set the `vic-machine configure --https-prox
     --id <i>vch_id</i>
     --https-proxy ""</pre>
 
-## Enable, Reset, and Disable Debug Mode  <a id="debug"></a>
+## Configure Debug Mode  <a id="debug"></a>
 
 To enable or disable debug mode on a VCH, you use the `vic-machine configure --debug` option. You can also use `vic-machine configure --debug` to increase or decrease the level of debugging on a VCH that is already running in debug mode.
 
 The `vic-machine configure --debug` option functions in the same way as the equivalent `vic-machine create --debug` option. For information about the `vic-machine create --debug` option, see [`--debug`](vch_installer_options.md#debug) in VCH Deployment Options.
 
-This example increases the level of debugging to the maximum, either on a VCH that is running with a lower level of debugging, or on a VCH that is not running in debug mode.
+This example increases the level of debugging to level 3, either on a VCH that is running with a lower level of debugging, or on a VCH that is not running in debug mode.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
@@ -212,7 +212,7 @@ This example increases the level of debugging to the maximum, either on a VCH th
     --id <i>vch_id</i>
     --debug 3</pre>
 
-This example disables debug mode on a VCH that is already running in debug mode.
+This example sets the `--debug` option to 0, to disable debug mode on a VCH that is already running at any level of debug mode.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
@@ -240,6 +240,8 @@ This example configures a VCH to impose memory and CPU reservations, limits, and
     --cpu-reservation 1024
     --cpu-shares low
 </pre>
+
+**NOTE**: If you set limits on memory and CPU usage that are too low, the `vic-machine configure` operation might fail because it is unable to restart the VCH.
 
 This example removes all limitations on memory and CPU use from a VCH.
 
