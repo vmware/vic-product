@@ -40,7 +40,6 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
 6. Expand **Registry Configuration** to configure the deployment of vSphere Integrated Containers Registry. 
 
-    - If you do not want to enable vSphere Integrated Containers Registry, uncheck the **Deploy Registry** check box.
     - In the **Registry Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Registry service.
     - In the **Notary Port** text box, optionally change the port on which to publish the Docker Notary service for vSphere Integrated Containers Registry.
     - Optionally check the **Garbage Collection** check box to enable garbage collection on the registry when the appliance reboots. 
@@ -48,7 +47,6 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
 7. Expand **Management Portal Configuration** to configure the deployment of vSphere Integrated Containers Management Portal. 
 
-    - If you do not want to enable vSphere Integrated Containers Management Portal, uncheck the **Deploy Management Portal** check box.
     - In the **Management Portal Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Management Portal service.
     - To use custom certificates to authenticate connections to vSphere Integrated Containers Management Portal, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates.
 7. Expand **Fileserver Configuration** to configure the file server from which you download the vSphere Integrated Containers Engine binaries, and which publishes the plug-in packages for the vSphere Client. 
