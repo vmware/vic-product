@@ -8,14 +8,16 @@ When you run `vic-machine configure`, you use the options described in [Common `
 - [Update vCenter Server Certificates](#vccert)
 - [Add or Update Registry Server Certificates](#registries)
 - [Update Security Configuration](#tlscerts)
-- [Add and Remove Volume Stores](#volumes)
-- [Add and Remove DNS Servers](#dns)
+- [Add Volume Stores](#volumes)
+- [Add and Reset DNS Servers](#dns)
 - [Configure Container Network Settings](#containernet)
-- [Add, Configure, or Reset Proxy Servers](#proxies)
-- [Enable, Reset, and Disable Debug Mode](#debug)
+- [Add, Configure, or Remove Proxy Servers](#proxies)
+- [Configure Debug Mode](#debug)
 - [Configure CPU and Memory Allocations](#cpumem)
 
 To see the current configuration of a VCH before you configure it, and to check the new configuration,  run `vic-machine inspect config` before and after you run `vic-machine configure`. For information about running `vic-machine inspect config`, see [Obtain VCH Configuration Information](inspect_vch_config.md).
+
+**IMPORTANT**: If volume stores exist on a VCH, you must always specify the `vic-machine configure --volume-store` option. For more information, see [Add Volume Stores](#volumes) below.
 
 ## Update vCenter Server Credentials <a id="vccreds"></a>
 
@@ -112,18 +114,24 @@ This example sets `--no-tlsverify` to disable the verification of client certifi
     --id <i>vch_id</i>
     --no-tlsverify</pre>
 
-## Add and Remove Volume Stores <a id="volumes"></a>
+## Add Volume Stores <a id="volumes"></a>
 
-Blah
+You can add volume stores to VCHs by using the `vic-machine configure --volume-store` option. You can add vSphere datastores and NFS datastores with shared mount points to a VCH. 
+
+The `vic-machine configure --volume-store` option functions in the same way as the equivalent `vic-machine create --volume-store` option. For information about the `vic-machine create --volume-store` option, see [`--volume-store`](vch_installer_options.md#volume-store) in VCH Deployment Options.
+
+**IMPORTANT**: If volume stores already exist on a VCH, you must  specify all of the existing volume stores in the `vic-machine configure --volume-store` option when you perform any `vic-machine configure` operations. You must specify `--volume-store` even if you are not adding new volume stores to the VCH. You can specify `--volume-store` multiple times, to identify all existing volume stores. To obtain the existing volume store configuration of a VCH, run `vic-machine inspect config` before you run `vic-machine configure`. For information about running `vic-machine inspect config`, see [Obtain VCH Configuration Information](inspect_vch_config.md).
+
+This example adds a new NFS volume store to a VCH. The VCH already has an existing volume store that is backed by a vSphere datastore, that you identify in another instance of the `--volume-store` option.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
     --thumbprint <i>certificate_thumbprint</i>
-    --id <i>vch_id</i></pre>
+    --id <i>vch_id</i>
+    --volume-store <i>datastore_name</i>/<i>datastore_path</i>:<i>existing_volume_store_label</i>
+    --volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>new_volume_store_label</i></pre>
 
---volume-store value, --vs value                 Specify a list of location and label for volume store, nfs stores can have mount options specified as query parameters in the url target.
-                                                Examples for a vsphere backed volume store are:  "datastore/path:label" or "datastore:label" or "ds://my-datastore-name:store-label"
-                                                     Examples for nfs back volume stores are: "nfs://127.0.0.1/path/to/share/point?uid=1234&gid=5678&proto=tcp:my-volume-store-label" or "nfs://my-store/path/to/share/point:my-label"
+**NOTE**: The current version of vSphere Integrated Containers does not allow you to remove volume stores from a VCH.
 
 ## Add and Reset DNS Servers <a id="dns"></a>
 
@@ -139,7 +147,7 @@ This example adds a new DNS server to a VCH. If the VCH already uses a DNS serve
     --id <i>vch_id</i>
     --dns-server <i>dns_server_address</i></pre>
 
-To reset the DNS servers on a VCH to their defaults of 8.8.8.8 and 8.8.4.4, set the `vic-machine configure --dns-server` option to `""`.
+To reset the DNS servers on a VCH to the default, set the `vic-machine configure --dns-server` option to `""`.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
@@ -176,7 +184,7 @@ This example extends the range of IP addresses that the existing `vic-containers
     --container-network-ip-range vic-containers:192.168.100.0/32</pre>
 
 
-## Add, Configure, or Reset Proxy Servers <a id="proxies"></a>
+## Add, Configure, or Remove Proxy Servers <a id="proxies"></a>
 
 If access to the Internet or to private registry servers changes to pass through a proxy server, you configure a VCH to use the new proxy server by using the `vic-machine configure --https-proxy` and `--http-proxy` options.  You also use the `vic-machine configure --https-proxy` and `--http-proxy` options if an existing proxy server changes.
  
