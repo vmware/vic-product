@@ -173,6 +173,7 @@ fi
 secure
 
 iptables -w -A INPUT -j ACCEPT -p tcp --dport $port
+iptables -w -A INPUT -j ACCEPT -p tcp --dport 80
 
 # Update configurations
 updateConfigFiles

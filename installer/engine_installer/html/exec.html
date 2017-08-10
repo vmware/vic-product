@@ -45,7 +45,7 @@
                     var messages = msg.data.split('\n');
                     for (var i = 0; i < messages.length; i++) {
                       appendLog(messages[i]);
-                      $("html,body").animate({ scrollTop: $("#log-scroll").offset().top }, "fast");
+                      $("html").animate({ scrollTop: $("#log-scroll").offset().top }, "fast");
                     }
                   };
                 } else {
@@ -168,8 +168,8 @@
 
               </div>
             </div>
+            <div id="log-scroll"></div>
           </div>
-          <span id="log-scroll"></span>
         </section>
       </main>
     </div>

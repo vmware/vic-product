@@ -17,6 +17,7 @@ package main
 import (
 	"bytes"
 	"crypto/tls"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"io/ioutil"
@@ -28,6 +29,9 @@ import (
 	"github.com/vmware/vic-product/installer/pkg/ip"
 	"github.com/vmware/vic/pkg/trace"
 )
+
+// #nosec: Potential hardcoded credentials
+const pscToken = "/etc/vmware/psc/admiral/tokens.properties"
 
 // EngineInstallerConfigOptions contains resource options for selection by user in exec.html
 type EngineInstallerConfigOptions struct {
@@ -153,52 +157,78 @@ func (ei *EngineInstaller) buildCreateCommand(binaryPath string) {
 	ei.CreateCommand = createCommand
 }
 
-func setupDefaultAdmiral(vchIP string) {
+// ClusterPayload is the main object used in creating a
+// cluster in Admiral. See the following url for the cluster json spec:
+// https://confluence.eng.vmware.com/pages/viewpage.action?pageId=230746111
+type ClusterPayload struct {
+	HostState         *State `json:"hostState,omitempty"`
+	AcceptCertificate bool   `json:"acceptCertificate,omitempty"`
+}
+
+// State contains the address of the vch. We add the TentantLinks so Admiral
+// can create a relationship between the cluster and the default project.
+type State struct {
+	Address          string   `json:"address,omitempty"`
+	TenantLinks      []string `json:"tenantLinks,omitempty"`
+	CustomProperties *Props   `json:"customProperties,omitempty"`
+}
+
+// Props are used by admiral to determine the address endpoint type and
+// to give the VCH cluster a custom name.
+type Props struct {
+	ContainerHostType string `json:"__containerHostType,omitempty"`
+	AdapterDockerType string `json:"__adapterDockerType,omitempty"`
+	ClusterName       string `json:"__clusterName,omitempty"`
+}
+
+// NewDefaultVCHPayload creates a new ClusterPayload that will add the
+// demo VCH created from this app as a cluster in the default Admiral project.
+func NewDefaultVCHPayload(address string) ClusterPayload {
+	return ClusterPayload{
+		HostState: &State{
+			Address:     fmt.Sprintf("https://%s", address),
+			TenantLinks: []string{"/projects/default-project"},
+			CustomProperties: &Props{
+				ContainerHostType: "VCH",
+				AdapterDockerType: "API",
+				ClusterName:       "Default-VCH",
+			},
+		},
+		AcceptCertificate: true,
+	}
+}
+
+func setupDefaultAdmiral(vchIP string) error {
 	defer trace.End(trace.Begin(""))
 
 	admiral := "https://localhost:8282"
 	// #nosec: TLS InsecureSkipVerify set true.
-	// Connecting to localhost.
-	tr := &http.Transport{
+	client := &http.Client{Transport: &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	}
-	client := &http.Client{Transport: tr}
-
-	// validate vch host
-	sslTrustPayload := fmt.Sprintf("{\"hostState\":{\"id\":\"%s\",\"address\":\"https://%s\",\"customProperties\":{\"__adapterDockerType\":\"API\",\"__containerHostType\":\"VCH\"}}}", vchIP, vchIP)
-	sslTrustReq, _ := http.NewRequest(http.MethodPut, fmt.Sprintf("%s/resources/hosts?validate=true", admiral), bytes.NewBuffer([]byte(sslTrustPayload)))
-	sslTrustResp, err := client.Do(sslTrustReq)
-	if err != nil || sslTrustResp.StatusCode != http.StatusOK {
-		log.Infof("error: %v\nresponse: %v\n", err, sslTrustResp)
-		log.Infoln("Cannot add vch to Admiral.")
-		return
-	}
-
-	// trust vch host on admiral
-	sslCert, err := ioutil.ReadAll(sslTrustResp.Body)
-	if err != nil {
-		log.Infoln(err)
-		log.Infoln("Cannot add vch to Admiral.")
-		return
-	}
-	if len(sslCert) > 0 {
-		sslCertReq, _ := http.NewRequest(http.MethodPost, fmt.Sprintf("%s/config/trust-certs", admiral), bytes.NewBuffer([]byte(sslCert)))
-		sslCertResp, err := client.Do(sslCertReq)
-		if err != nil || sslCertResp.StatusCode != http.StatusOK {
-			log.Infof("error: %v\nresponse: %v\n", err, sslCertResp)
-			log.Infoln("Admiral cannot trust host certificate.")
-			return
-		}
-	}
+	}}
 
 	// add host to admiral
-	addHostReq, _ := http.NewRequest(http.MethodPut, fmt.Sprintf("%s/resources/hosts", admiral), bytes.NewBuffer([]byte(sslTrustPayload)))
+	addHostPayload, err := json.Marshal(NewDefaultVCHPayload(vchIP))
+	if err != nil {
+		log.Infof("cannot marshall add host payload: %s", err.Error())
+		return fmt.Errorf("error adding host to Admiral")
+	}
+
+	// #nosec: Errors unhandled.
+	addHostReq, _ := http.NewRequest(http.MethodPost, fmt.Sprintf("%s/resources/clusters", admiral), bytes.NewBuffer(addHostPayload))
+	hdr := http.Header{}
+
+	// #nosec: Errors unhandled.
+	token, _ := ioutil.ReadFile(pscToken)
+	hdr.Add("x-xenon-auth-token", string(token))
+	addHostReq.Header = hdr
+
 	addHostResp, err := client.Do(addHostReq)
-	if err != nil || addHostResp.StatusCode != http.StatusNoContent {
-		log.Infof("error: %v\nresponse: %v\n", err, addHostResp)
-		log.Infoln("Error adding host to Admiral.")
-		return
+	if err != nil || addHostResp.StatusCode != http.StatusOK {
+		log.Infof("error: %#v\nresponse: %#v\n", err, addHostResp)
+		return fmt.Errorf("error adding host to Admiral")
 	}
 
 	log.Infoln("Host added to admiral.")
+	return nil
 }
