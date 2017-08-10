@@ -15,9 +15,9 @@ When you run `vic-machine configure`, you use the options described in [Common `
 - [Configure Debug Mode](#debug)
 - [Configure CPU and Memory Allocations](#cpumem)
 
-To see the current configuration of a VCH before you configure it, and to check the new configuration,  run `vic-machine inspect config` before and after you run `vic-machine configure`. For information about running `vic-machine inspect config`, see [Obtain VCH Configuration Information](inspect_vch_config.md).
+To see the current configuration of a VCH before you configure it, and to check the new configuration,  run `vic-machine inspect config` before and after you run `vic-machine configure`. For information about running `vic-machine inspect config`, see [Obtain VCH Configuration Information](inspect_vch_config.md). 
 
-**IMPORTANT**: If volume stores exist on a VCH, you must always specify the `vic-machine configure --volume-store` option. For more information, see [Add Volume Stores](#volumes) below.
+**IMPORTANT**: Running `vic-machine inspect config` before you run `vic-machine configure` is especially important if you are adding registry certificates, volume stores, DNS servers, or container networks to a VCH that already includes one or more of those elements. When you add registry certificates, volume stores, DNS servers, or container networks to a VCH, you must specify the existing configuration as well as any new configurations in separate instances of the appropriate `vic-machine inspect config` option. 
 
 ## Update vCenter Server Credentials <a id="vccreds"></a>
 
@@ -73,6 +73,15 @@ This example passes the CA certificate for a new registry to a VCH, and updates 
     --registry-ca <i>path_to_ca_cert_for_new_registry</i>
     --registry-ca <i>path_to_new_ca_cert_for_existing_registry</i></pre>
 
+If you are adding registry certificates to a VCH that already has one or more registry certificates, you must also specify each existing registry certificate in a separate instance of `--registry-ca`. This example passes the CA certificate for a new registry to a VCH and specifies the existing certificate for a registry that this VCH already uses.
+
+<pre>$ vic-machine-<i>operating_system</i> configure
+    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --thumbprint <i>certificate_thumbprint</i>
+    --id <i>vch_id</i>
+    --registry-ca <i>path_to_ca_cert_for_new_registry</i>
+    --registry-ca <i>path_to_ca_cert_for_existing_registry</i></pre>
+
 **NOTE**: Unlike `vic-machine create`, the `vic-machine configure` command does not provide an `--insecure-registry` option.
 
 ## Update Security Configuration  <a id="tlscerts"></a>
@@ -120,16 +129,16 @@ You can add volume stores to VCHs by using the `vic-machine configure --volume-s
 
 The `vic-machine configure --volume-store` option functions in the same way as the equivalent `vic-machine create --volume-store` option. For information about the `vic-machine create --volume-store` option, see [`--volume-store`](vch_installer_options.md#volume-store) in VCH Deployment Options.
 
-**IMPORTANT**: If volume stores already exist on a VCH, you must  specify all of the existing volume stores in the `vic-machine configure --volume-store` option when you perform any `vic-machine configure` operations. You must specify `--volume-store` even if you are not adding new volume stores to the VCH. You can specify `--volume-store` multiple times, to identify all existing volume stores. To obtain the existing volume store configuration of a VCH, run `vic-machine inspect config` before you run `vic-machine configure`. For information about running `vic-machine inspect config`, see [Obtain VCH Configuration Information](inspect_vch_config.md).
+If you are adding volume stores to a VCH that already has one or more volume stores, you must specify each existing volume store in a separate instance of `--volume-store`.
 
-This example adds a new NFS volume store to a VCH. The VCH already has an existing volume store that is backed by a vSphere datastore, that you identify in another instance of the `--volume-store` option.
+This example adds a new NFS volume store to a VCH. The VCH already has an existing volume store with the label `default`, that is backed by a vSphere datastore.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
-    --volume-store <i>datastore_name</i>/<i>datastore_path</i>:<i>existing_volume_store_label</i>
-    --volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>new_volume_store_label</i></pre>
+    --volume-store <i>datastore_name</i>/<i>datastore_path</i>:default
+    --volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
 
 **NOTE**: The current version of vSphere Integrated Containers does not allow you to remove volume stores from a VCH.
 
@@ -139,13 +148,14 @@ If you deployed the VCH with a static IP address, you can add DNS servers or res
 
 The `vic-machine configure --dns-server` option functions in the same way as the equivalent `vic-machine create --dns-server` option. For information about the `vic-machine create --dns-server` option, see  [`--dns-server`](vch_installer_options.md#dns-server) in VCH Deployment Options.
 
-This example adds a new DNS server to a VCH. If the VCH already uses a DNS server, the new DNS server replaces it. 
+If  you are adding DNS servers to a VCH that already includes one or more DNS servers, you must also specify each existing DNS server in a separate instance of `--dns-server`. This example adds a new DNS server, `dns_server_2`, to a VCH that already uses `dns_server_1`.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
-    --dns-server <i>dns_server_address</i></pre>
+    --dns-server <i>dns_server_1</i>
+    --dns-server <i>dns_server_2</i></pre>
 
 To reset the DNS servers on a VCH to the default, set the `vic-machine configure --dns-server` option to `""`.
 
@@ -159,7 +169,7 @@ To reset the DNS servers on a VCH to the default, set the `vic-machine configure
 
 ## Configure Container Network Settings <a id="containernet"></a>
 
-If containers that run in a VCH require a dedicated network for external communication, you can add one or more container networks to the VCH by using the `vic-machine configure --container-network` options. You can also use the `vic-machine configure --container-network` options to reconfigure an existing container network.
+If containers that run in a VCH require a dedicated network for external communication, you can add one or more container networks to the VCH by using the `vic-machine configure --container-network` options. You can specify `--container-network` multiple times to add multipl container networks.
 
 The `vic-machine configure --container-network` options function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` container network options, see the description of the [--container-network](vch_installer_options.md#container-network) option and [Options for Configuring a Non-DHCP Network for Container Traffic](vch_installer_options.md#adv-container-net) in VCH Deployment Options.
 
@@ -175,14 +185,16 @@ This example adds a new container network to a VCH. It designates a port group n
     --container-network-dns vic-containers:<i>dns1_ip_address</i>
     --container-network-dns vic-containers:<i>dns2_ip_address</i></pre>
 
-This example extends the range of IP addresses that the existing `vic-containers` port group makes available. 
+If  you are adding container networks to a VCH that already includes one or more container networks, you must also specify each existing container network in a separate instance of `--container-network`. This example adds a new container network named `vic-containers-2` to a VCH that includes an existing container network, `vic-containers-1`.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
-    --container-network-ip-range vic-containers:192.168.100.0/32</pre>
+    --container-network vic-containers-1:vic-container-network-1
+    --container-network vic-containers-2:vic-container-network-2</pre>
 
+You cannot modify or delete an existing container network on a VCH. 
 
 ## Add, Configure, or Remove Proxy Servers <a id="proxies"></a>
 
