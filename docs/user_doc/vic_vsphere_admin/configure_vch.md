@@ -14,6 +14,7 @@ When you run `vic-machine configure`, you use the options described in [Common `
 - [Add, Configure, or Remove Proxy Servers](#proxies)
 - [Configure Debug Mode](#debug)
 - [Configure CPU and Memory Allocations](#cpumem)
+- [Reset Upgrade or Configuration Progress](#resetprogress)
 
 To see the current configuration of a VCH before you configure it, and to check the new configuration,  run `vic-machine inspect config` before and after you run `vic-machine configure`. For information about running `vic-machine inspect config`, see [Obtain VCH Configuration Information](inspect_vch_config.md). 
 
@@ -295,4 +296,17 @@ This example removes all limitations on memory and CPU use from a VCH.
     --cpu 0
     --cpu-reservation 0
     --cpu-shares normal
+</pre>
+
+## Reset Upgrade or Configuration Progress <a id="resetprogress"></a>
+
+If an attempt to upgrade or configure a VCH was interrupted before it could complete successfully, any further attempts to run `vic-machine upgrade` or `vic-machine configure` fail with the error `another upgrade/configure operation is in progress`. This happens because `vic-machine upgrade` and `vic-machine configure` set an `UpdateInProgress` flag on the VCH endpoint VM that prevents other operations on that VCH while the upgrade or configuration operation is ongoing. If an upgrade or configuration operation is interrupted before it completes, this flag persists on the VCH indefinitely.
+
+To clear the flag so that you can attempt further `vic-machine upgrade` or `vic-machine configure` operations, run `vic-machine configure` with the `--reset-progress` option.
+
+<pre>$ vic-machine-<i>operating_system</i> configure
+    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --thumbprint <i>certificate_thumbprint</i>
+    --id <i>vch_id</i>
+    --reset-progress
 </pre>

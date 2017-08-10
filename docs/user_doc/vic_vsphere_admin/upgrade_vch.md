@@ -1,4 +1,4 @@
-# Upgrade a VCH #
+# Upgrade Virtual Container Hosts #
 
 You upgrade virtual container hosts (VCHs) by downloading a new version of vSphere Integrated Containers Engine and running the `vic-machine upgrade` command.
 
@@ -76,10 +76,11 @@ During the upgrade process, `vic-machine upgrade` performs the following operati
 - Deletes the snapshot of the VCH endpoint VM once the upgrade has succeeded.
 - After you upgrade a VCH, any new container VMs will boot from the new version of the `bootstrap.iso` file.
 - If the upgrade times out while waiting for the VCH service to start, the upgrade fails and rolls back to the previous version.
+- If the upgrade fails with the error `another upgrade/configure operation is in progress`, a previous attempt at upgrading the VCH might have been interrupted without rolling back. In this case, run `vic-machine configure` with the `--reset-progress` option. For information about `vic-machine configure --reset-progress`, see [Reset Upgrade or Configuration Progress](configure_vch.md#resetprogress).
 
 **What to Do Next**
 
-Upgrade the HTML5 vSphere Client plug-in:
+Upgrade the HTML5 vSphere Client plug-in.
 
 - [Upgrade the HTML5 vSphere Client Plug-In on vCenter Server for Windows](upgrade_h5_plugin_windows.md)
 - [Upgrade the HTML5 vSphere Client Plug-In on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md)
