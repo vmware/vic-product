@@ -64,13 +64,12 @@ If a VCH requires access to a new vSphere Integrated Containers Registry instanc
 
 The `vic-machine configure --registry-ca` option functions in the same way as the equivalent `vic-machine create --registry-ca` option. For information about the `vic-machine create --registry-ca` option, see [Private Registry Options](vch_installer_options.md#registry) in VCH Deployment Options.
 
-This example passes the CA certificate for a new registry to a VCH, and updates the certificate for a registry that this VCH already uses.
+This example updates the certificate for a registry that this VCH already uses.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
-    --registry-ca <i>path_to_ca_cert_for_new_registry</i>
     --registry-ca <i>path_to_new_ca_cert_for_existing_registry</i></pre>
 
 If you are adding registry certificates to a VCH that already has one or more registry certificates, you must also specify each existing registry certificate in a separate instance of `--registry-ca`. This example passes the CA certificate for a new registry to a VCH and specifies the existing certificate for a registry that this VCH already uses.
@@ -79,8 +78,8 @@ If you are adding registry certificates to a VCH that already has one or more re
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
-    --registry-ca <i>path_to_ca_cert_for_new_registry</i>
-    --registry-ca <i>path_to_ca_cert_for_existing_registry</i></pre>
+    --registry-ca <i>path_to_ca_cert_for_existing_registry</i>
+    --registry-ca <i>path_to_ca_cert_for_new_registry</i></pre>
 
 **NOTE**: Unlike `vic-machine create`, the `vic-machine configure` command does not provide an `--insecure-registry` option.
 
@@ -169,7 +168,7 @@ To reset the DNS servers on a VCH to the default, set the `vic-machine configure
 
 ## Configure Container Network Settings <a id="containernet"></a>
 
-If containers that run in a VCH require a dedicated network for external communication, you can add one or more container networks to the VCH by using the `vic-machine configure --container-network` options. You can specify `--container-network` multiple times to add multipl container networks.
+If containers that run in a VCH require a dedicated network for external communication, you can add one or more container networks to the VCH by using the `vic-machine configure --container-network` options. You can specify `--container-network` multiple times to add multiple container networks.
 
 The `vic-machine configure --container-network` options function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` container network options, see the description of the [--container-network](vch_installer_options.md#container-network) option and [Options for Configuring a Non-DHCP Network for Container Traffic](vch_installer_options.md#adv-container-net) in VCH Deployment Options.
 
@@ -185,14 +184,35 @@ This example adds a new container network to a VCH. It designates a port group n
     --container-network-dns vic-containers:<i>dns1_ip_address</i>
     --container-network-dns vic-containers:<i>dns2_ip_address</i></pre>
 
-If  you are adding container networks to a VCH that already includes one or more container networks, you must also specify each existing container network in a separate instance of `--container-network`. This example adds a new container network named `vic-containers-2` to a VCH that includes an existing container network, `vic-containers-1`.
+If  you are adding container networks to a VCH that already includes one or more container networks, you must also specify each existing container network in separate instances of the `--container-network` options. This example adds a new DHCP container network named `vic-containers-2` to the VCH from the example above.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
-    --container-network vic-containers-1:vic-container-network-1
+    --container-network vic-containers:vic-container-network
+    --container-network-gateway vic-containers:<i>gateway_ip_address</i>/24
+    --container-network-ip-range vic-containers:192.168.100.0/24
+    --container-network-dns vic-containers:<i>dns1_ip_address</i>
+    --container-network-dns vic-containers:<i>dns2_ip_address</i>
     --container-network vic-containers-2:vic-container-network-2</pre>
+
+You can also configure the trust level of the container network firewall by setting the `--container-network-firewall` option. This example opens the firewalls for outbound connections on the two container networks from the preceding examples.
+
+<pre>$ vic-machine-<i>operating_system</i> configure
+    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --thumbprint <i>certificate_thumbprint</i>
+    --id <i>vch_id</i>
+    --container-network vic-containers:vic-container-network
+    --container-network-gateway vic-containers:<i>gateway_ip_address</i>/24
+    --container-network-ip-range vic-containers:192.168.100.0/24
+    --container-network-dns vic-containers:<i>dns1_ip_address</i>
+    --container-network-dns vic-containers:<i>dns2_ip_address</i>
+    --container-network-firewall vic-containers:outbound
+    --container-network vic-containers-2:vic-container-network-2
+    --container-network-firewall vic-containers-2:outbound</pre>
+
+For information about the trust levels that you can set, see [`--container-network-firewall`](vch_installer_options.md##container-network-firewall) in VCH Deployment Options.
 
 You cannot modify or delete an existing container network on a VCH. 
 

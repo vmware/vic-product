@@ -802,6 +802,24 @@ Wrap the port group name in single quotes (Linux or Mac OS) or double quotes (Wi
 
 <pre>--container-network-ip-range '<i>port group name</i>':192.168.100.0/24</pre>
 
+### `--container-network-firewall`  {#container-network-firewall}
+
+Short name: `--cnf`
+
+You can configure the trust level of container networks by setting the 
+`--container-network-firewall` option. 
+
+The `--container-network-firewall` option allows you to set the following levels of trust.
+
+|Trust Level|Description|
+|---|---|
+|`closed`|No traffic can come in or out of the container network.|
+|`outbound`|Only outbound connections permitted.|
+|`peers`|Only connections to other container networks on this VCH permitted.|
+|`published`|Only connections to published ports permitted.|
+|`open`|All traffic permitted.|
+
+<pre>--container-network-firewall <i>port_group_name</i>:<i>trust_level</i></pre>
 
 ## Options to Configure VCHs to Use Proxy Servers {#proxy}
 
