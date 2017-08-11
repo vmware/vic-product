@@ -54,9 +54,6 @@ func (nstat *NetworkStatus) GetGatewayStatus() string {
 }
 
 func (nstat *NetworkStatus) addressPresenceHelper(expectedAddresses []string, command string) string {
-	if len(expectedAddresses) == 0 {
-		return "DHCP"
-	}
 
 	// #nosec: Subprocess launching with variable.
 	out, err := exec.Command("/bin/bash", "-c", command).Output()
@@ -65,6 +62,10 @@ func (nstat *NetworkStatus) addressPresenceHelper(expectedAddresses []string, co
 		return nstat.down
 	}
 	actualAddresses := strings.Split(string(out), "\n")
+	if len(expectedAddresses) == 0 {
+		return fmt.Sprintf("DHCP -- %s", strings.Join(actualAddresses, ", "))
+	}
+
 	allAddresses := make(map[string]struct{})
 
 	for _, addr := range actualAddresses {
@@ -76,8 +77,9 @@ func (nstat *NetworkStatus) addressPresenceHelper(expectedAddresses []string, co
 
 	// equal lengths implies no members in expectedAddresses matched with actualAddresses
 	if len(allAddresses) == (len(actualAddresses) + len(expectedAddresses)) {
-		return fmt.Sprintf("%s -- OVF set address as: %s but addresses were: %s", nstat.down, expectedAddresses, actualAddresses)
+		return fmt.Sprintf("%s -- OVF set address as: %s but addresses were: %s", nstat.down,
+			strings.Join(expectedAddresses, ", "), strings.Join(actualAddresses, ", "))
 	}
-	return nstat.up
+	return fmt.Sprintf("%s -- %s", nstat.up, strings.Join(actualAddresses, ", "))
 
 }
