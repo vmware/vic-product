@@ -310,3 +310,5 @@ To clear the flag so that you can attempt further `vic-machine upgrade` or `vic-
     --id <i>vch_id</i>
     --reset-progress
 </pre>
+
+**IMPORTANT**: Before you run `vic-machine configure --reset-progress`, check in Recent Tasks in the vSphere Client that there are indeed no update or configuration operations in progress on the VCH endoint VM.
