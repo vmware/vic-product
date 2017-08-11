@@ -98,6 +98,7 @@ $(rpctool): $(call godeps,ovatools/rpctool/*.go)
 ova-release: gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
 	@echo building vic-unified-installer OVA using packer...
 	@cd $(BASE_DIR)packer && $(PACKER) build \
+		  -on-error=ask \
 			-only=ova-release \
 			-var 'iso_sha1sum=$(PHOTON_ISO_SHA1SUM)'\
 			-var 'iso_file=$(PHOTON_ISO)'\
