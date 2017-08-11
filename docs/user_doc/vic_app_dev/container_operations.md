@@ -41,7 +41,7 @@
 |`attach`|[Attach to a container](https://docs.docker.com/engine/reference/commandline/attach/)|Yes, since 1.0|
 |`container list`|[List Containers](https://docs.docker.com/engine/reference/api/docker_remote_api_v1.22/#list-containers)|Yes, since 1.0|
 |`container resize`|[Resize a container](https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#resize-a-container-tty)|Yes, since 1.0|
-|`cp`|[Copy files or folders between a container and the local filesystem](https://docs.docker.com/engine/reference/commandline/cp/)|No|
+|`cp`|[Copy files or folders between a container and the local filesystem](https://docs.docker.com/engine/reference/commandline/cp/)|Yes, since 1.2|
 |`create`|[Create a container](https://docs.docker.com/engine/reference/commandline/create/)|Yes, since 1.0. <br>`--cpuset-cpus` in Docker specifies CPUs the container is allowed to use during execution (0-3, 0,1). In vSphere Integrated Containers Engine, this parameter specifies the number of virtual CPUs to allocate to the container VM. Minimum CPU count is 1, maximum is unlimited. Default is 2.<br>`--ip` allows you to set a static IP on the container. By default, the virtual container host  manages the container IP.<br> Minimum value for `--memory` is 512MB, maximum unlimited. If unspecified, the default is 2GB. Supports the `--attach`, `--cidfile`, `--cpuset-cpus`, `--entrypoint`, `--env`, `--env-file`, `--help`, `--interactive`, `--ip`, `--link`, `--memory`, `--name`, `--net`, `--net-alias`, `--publish`, `--rm`, `--stop-signal`, `--stop-timeout`, `--tty`, `--user`, `--volume`, and `--workdir` options.|
 |`diff`|[Inspect changes on a container's filesystem](https://docs.docker.com/engine/reference/commandline/diff/)|No|
 |`events`|[Get real time events from the server](https://docs.docker.com/engine/reference/commandline/events/)|Yes, since 1.0. Supports passive Docker events for containers and images. Does not yet support events for volumes or networks.|
@@ -100,7 +100,7 @@ For more information about volume operations with vSphere Integrated Containers 
 
 ## Docker Compose Commands {#compose}
 
-vSphere Integrated Containers Engine 1.1 supports Docker Compose version 1.9.0.
+vSphere Integrated Containers Engine 1.2 supports Docker Compose version 1.9.0.
 
 For more information about using Docker Compose with vSphere Integrated Containers Engine, see [Creating a Containerized Application with vSphere Integrated Containers Engine](creating_containerized_app_with_vic.md).
 

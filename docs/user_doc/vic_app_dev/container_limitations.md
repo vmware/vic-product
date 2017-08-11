@@ -24,7 +24,6 @@ This version of vSphere Integrated Containers Engine does not support these feat
 - Mapping a local host file to a container
 - `docker push`
 - `docker build`
-- `docker cp`
 
 For limitations of using vSphere Integrated Containers with volumes, see [Using Volumes with vSphere Integrated Containers Engine](using_volumes_with_vic.md).
 
