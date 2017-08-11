@@ -156,7 +156,7 @@ func main() {
 	ui.Render(toppanel, bottompanel)
 
 	// refresh according to refreshTime. This quits the app, where systemd will recover it.
-	ui.Handle("/timer/", +refreshTime, func(_ ui.Event) {
+	ui.Handle("/timer/"+refreshTime, func(_ ui.Event) {
 		ui.StopLoop()
 	})
 
