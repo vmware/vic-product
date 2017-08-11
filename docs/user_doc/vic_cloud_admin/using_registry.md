@@ -11,7 +11,7 @@ The sections below present the key features of vSphere Integrated Containers Reg
 - [Garbage Collection](#gc)
 - [Logging](#logging)
 
-## Projects and Role-Based Access Control {#projects}
+## Projects and Role-Based Access Control <a id="projects"></a>
 
 In vSphere Integrated Containers Registry, you organize repositories in projects. "Repository" is Docker terminology for a collection of container images that have the same name but that have different tags. You assign users to the projects and you assign roles with different permissions to the users in each project. There are two types of project in vSphere Integrated Containers Registry:  
 
@@ -22,7 +22,7 @@ When you first deploy vSphere Integrated Containers Registry, a default public p
 
 For information about projects, see [Create a Project](creating_projects_registry.md), [Assign Users to a Project](add_users_registry.md), [Manage Project Members](manage_project_members.md), and [Manage Projects](manage_projects.md).
 
-## User Authentication {#authentication}
+## User Authentication <a id="authentication"></a>
 
 You can configure vSphere Integrated Containers Registry to use an existing LDAP or Active Domain service, or use local user management to authenticate and manage users.
 
@@ -38,21 +38,21 @@ Immediately after you deploy vSphere Integrated Containers Registry, can you con
 
 For information about enabling LDAP authentication, see [Configure a Registry](configure_registry.md).
 
-## Rule Based Image Replication {#replication}
+## Rule Based Image Replication <a id="replication"></a>
 
 You can set up multiple registries and replicate images between registry instances. Replicating images between registries helps with load balancing and high availability, and allows you to create multi-datacenter, hybrid, and multi-cloud setups. For information about image replication, see [Replicating Images](replicating_images.md).
 
 
-## Docker Content Trust {#notary}
+## Docker Content Trust <a id="notary"></a>
 
 vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement Docker Content Trust by signing and verifying the images in the registry. For information about Docker Notary, see [Content trust in Docker](https://docs.docker.com/engine/security/trust/content_trust/) in the Docker documentation. 
 
 The Notary server runs by default. For information about how container developers use Docker Content Trust with vSphere Integrated Containers Registry, see [Configure the Docker Client for Use with vSphere Integrated Containers](../vic_app_dev/configure_docker_client.md) in *Develop Container Applications with vSphere Integrated Containers*.
 
-## Garbage Collection {#gc}
+## Garbage Collection <a id="gc"></a>
 
 You can configure vSphere Integrated Containers Registry to perform garbage collection whenever you restart the registry service. If you implement garbage collection, the registry recycles the storage space that is consumed by images that you have deleted. For more information about garbage collection, see [Manage Repositories](manage_repository_registry.md). See also [Garbage Collection](https://docs.docker.com/registry/garbage-collection/) in the Docker documentation.
 
-## Logging {#logging}
+## Logging <a id="logging"></a>
 
 vSphere Integrated Containers Registry keeps a log of every operation that users perform in a project. The logs are fully searchable, to assist you with activity auditing. For information about project logs, see [Access Project Logs](access_project_logs.md).

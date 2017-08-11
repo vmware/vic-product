@@ -30,7 +30,7 @@ You can share the non-live version of the logs with administrators or VMware Sup
 
 Logs also include the `vic-machine` commands used during VCH deployment to help you resolve issues.
 
-## Collecting Logs Manually {#manual}
+## Collecting Logs Manually <a id="manual"></a>
 If the VCH Admin portal is offline, use `vic-machine debug` to enable SSH on the VCH and use `scp -r` to capture the logs from `/var/log/vic/`.
 
 ## Setting the Log Size Cap
