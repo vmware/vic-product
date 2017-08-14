@@ -13,7 +13,7 @@ To perform certain networking operations on containers, your Docker environment 
 
 - For information about the default Docker networks, see https://docs.docker.com/engine/userguide/networking/.
 - For an overview of the networks that vSphere Integrated Containers Engine uses, see [Networks Used by vSphere Integrated Containers Engine](../vic_vsphere_admin/networks.md) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.
-- For information about the networking options with which vSphere administrators can deploy VCHs, see the sections in VCH Deployment Options on [Networking Options](../vic_vsphere_admin/vch_installer_options.md#networking) and [Options for Configuring a Non-DHCP Network for Container Traffic](../vic_vsphere_admin/vch_installer_options.md#adv-container-net) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.
+- For information about the networking options with which vSphere administrators can deploy VCHs, see the sections in VCH Deployment Options on [Networking Options](../vic_vsphere_admin/vch_installer_options.md#networking) and [Configure Container Networks](../vic_vsphere_admin/vch_installer_options.md#adv-container-net) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.
 - For examples of how to deploy VCHs with different network configurations, see the section in Advanced Examples of Deploying a VCH on [Networking Examples](../vic_vsphere_admin/vch_installer_examples.md#networking) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.
 
 
