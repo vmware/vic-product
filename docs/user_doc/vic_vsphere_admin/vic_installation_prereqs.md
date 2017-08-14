@@ -11,7 +11,7 @@ Before you deploy virtual container hosts (VCHs), you must ensure that your vSph
 - [vCenter Server Network Requirements](#networkreqs)
 
 
-## Supported Platforms for `vic-machine` {#platforms}
+## Supported Platforms for `vic-machine` <a id="platforms"></a>
 
 The vSphere Integrated Containers management utility, `vic-machine`, has been tested and verified on the following  64-bit Windows, Mac OS, and Linux OS systems.
 
@@ -24,7 +24,7 @@ The vSphere Integrated Containers management utility, `vic-machine`, has been te
 Other recent 64-bit OS versions should work but are untested.
 
 
-## Supported vSphere Configurations {#configs}
+## Supported vSphere Configurations <a id="configs"></a>
 
 You can deploy vSphere Integrated Containers Engine in the following vSphere setups:
 
@@ -38,13 +38,13 @@ Caveats and limitations:
 - If you deploy a virtual container host (VCH) onto an ESXi host that is not managed by vCenter Server, and you then move that host into a cluster, the VCH might not function correctly.
 
 
-## License Requirements {#license}
+## License Requirements <a id="license"></a>
 vSphere Integrated Containers Engine requires a vSphere Enterprise Plus license.
 
 All of the ESXi hosts in a cluster require an appropriate license. Deployment fails if your environment includes one or more ESXi hosts that have inadequate licenses. 
 
 
-## ESXi Host Firewall Requirements {#firewall}
+## ESXi Host Firewall Requirements <a id="firewall"></a>
 
 To be valid targets for VCHs and container VMs, ESXi hosts must have the following firewall configuration:
 - Allow outbound TCP traffic to port 2377 on the endpoint VM, for use by the interactive container shell.
@@ -55,7 +55,7 @@ These requirements apply to standalone ESXi hosts and to ESXi hosts in vCenter S
 For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 
 
-## ESXi Host Storage Requirements for vCenter Server Clusters {#storage}
+## ESXi Host Storage Requirements for vCenter Server Clusters <a id="storage"></a>
 
 ESXi hosts in vCenter Server clusters must meet the following storage requirements in order to be usable by a VCH:
 - Be attached to the datastores that you will use for image stores and volume stores. 
@@ -64,7 +64,7 @@ ESXi hosts in vCenter Server clusters must meet the following storage requiremen
 For information about image stores and volumes stores, see the [Datastore Options](vch_installer_options.md#datastore) section of *VCH Deployment Options*.
 
 
-## General Network Requirements {#general_networkreqs}
+## General Network Requirements <a id="general_networkreqs"></a>
 
 The following network requirements apply to deployment of VCHs to standalone ESXi hosts and to vCenter Server:
 
@@ -76,7 +76,7 @@ The following network requirements apply to deployment of VCHs to standalone ESX
 - Do not share the bridge network interface with with any other network, unless you ensure that the bridge IP ranges do not conflict with other VCHs or VMs on that network. It is highly recommended that a bridge network be solely for use by only one VCH.
 
 
-## vCenter Server Network Requirements {#networkreqs}
+## vCenter Server Network Requirements <a id="networkreqs"></a>
 The following network requirements apply to the deployment of VCHs to vCenter Server: 
  
 - Create a distributed virtual switch with a port group for each VCH, for use as the bridge network. You can create multiple port groups on the same distributed virtual switch, but each VCH requires its own port group for the bridge network.

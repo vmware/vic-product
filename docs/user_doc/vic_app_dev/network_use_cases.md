@@ -17,7 +17,7 @@ To perform certain networking operations on containers, your Docker environment 
 - For examples of how to deploy VCHs with different network configurations, see the section in Advanced Examples of Deploying a VCH on [Networking Examples](../vic_vsphere_admin/vch_installer_examples.md#networking) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.
 
 
-## Publish a Container Port {#port}
+## Publish a Container Port <a id="port"></a>
 
 Connect a container to an external mapped port on the public network of the VCH:
 
@@ -25,7 +25,7 @@ Connect a container to an external mapped port on the public network of the VCH:
 
 **Result:**  You can access Port 80 on `test1` from the public network interface on the VCH at port 8080.
 
-## Add Containers to a New Bridge Network {#newbridge}
+## Add Containers to a New Bridge Network <a id="newbridge"></a>
 
 Create a new non-default bridge network and set up two containers on the network. Verify that the containers can locate and communicate with each other:
 
@@ -48,7 +48,7 @@ Create a new non-default bridge network and set up two containers on the network
 
 **Note**: Containers created on the default bridge network don't get name resolution by default in the way described above. This is consistent with docker bridge network behavior.
 
-## Bridged Containers with an Exposed Port {#bridgeport}
+## Bridged Containers with an Exposed Port <a id="bridgeport"></a>
 
 Connect two containers on a bridge network and set up one of the containers to publish a port via the VCH. Assume that `server_app` binds to port 5000.
 
@@ -80,7 +80,7 @@ Connect two containers on a bridge network and set up one of the containers to p
 
 **Result:**  The `server` and `client` containers can ping each other by name. You can connect to  `server` on port 5000 from the `client` container and to port 5000 on the VCH public network.
 
-## Deploy Containers on Multiple Bridge Networks {#multibridge}
+## Deploy Containers on Multiple Bridge Networks <a id="multibridge"></a>
 
 You can use multiple bridge networks to isolate certain types of application network traffic. An example may be containers in a data tier communicating on one network and containers on a web tier communicating on another. In order for this to work, at least one of the containers needs to be on both networks.
 
@@ -113,7 +113,7 @@ Create and run the web container(s) and make sure one is on both networks. Expos
 
 **Note**: A container on multliple bridge networks will not get a distinct network interface for each network, rather it will get multiple IP addresses on the same interface. Use `ip addr` to see the IP addresses.
 
-## Deploy Containers That Combine Bridge Networks with a Container Network {#containerbridge}
+## Deploy Containers That Combine Bridge Networks with a Container Network <a id="containerbridge"></a>
 
 A "container" network is a vSphere port group that a container can be connected to directly and which allows the container to have an external identity on that network. This can be combined with one or more private bridge networks for intra-container traffic.
 
@@ -156,7 +156,7 @@ Create and run the web container(s) and make sure one is on both networks. In th
 
 **Note**: Given that a container network manifests as a vNIC on the container VM, it has its own distinct network interface in the container.
 
-## Deploy a Container with a Static IP Address {#staticip}
+## Deploy a Container with a Static IP Address <a id="staticip"></a>
 
 Deploy a container that has a static IP address on the container network. For you to be able to deploy containers with static IP addresses, the vSphere administrator must have specified the [`--container-network-ip-range`](../vic_vsphere_admin/vch_installer_options.md#container-network-ip-range) option when they deployed the VCH. The IP address that you specify in `docker network connect --ip` must be within the specified range. If you do not specify `--ip`, the VCH assigns an IP address from the range that the vSphere administrator specified in `--container-network-ip-range`.
 

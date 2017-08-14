@@ -10,7 +10,7 @@ The information in this topic is intended for container developers. For an exten
 - [What Is vSphere Integrated Containers Registry?](#whats_registry)
 - [What Is vSphere Integrated Containers Management Portal?](#whats_portal)
 
-## Differences Between vSphere Integrated Containers and a Classic Container Environment {#differences}
+## Differences Between vSphere Integrated Containers and a Classic Container Environment <a id="differences"></a>
 
 The main differences between vSphere Integrated Containers and a classic container environment are the following:
 
@@ -25,7 +25,7 @@ The main differences between vSphere Integrated Containers and a classic contain
   - Use the Docker client to directly control selected elements of vSphere infrastructure.
   - A container endpoint Service-as-a-Service presents as a service abstraction, not as IaaS
 
-## What Does vSphere Integrated Containers Do? {#whatisvic}
+## What Does vSphere Integrated Containers Do? <a id="whatisvic"></a>
 
 vSphere Integrated Containers allows the vSphere administrator to easily make the vSphere infrastructure accessible to you, the container application developer, so that you can provision container workloads into production.
 
@@ -53,11 +53,11 @@ In this scenario, the vSphere administrator has provided you with a service port
 
 If you discover that you need more compute capacity, in Scenario 1, the vSphere administrator has to power down the VM and reconfigure it, or give you a new VM and let you deal with the clustering implications. Both of these solutions are disruptive to you. With vSphere Integrated Containers  in Scenario 2, the vSphere administrator can reconfigure the VCH in vSphere, or redeploy it with a new configuration in a way that is completely transparent to you.
 
-## What Is vSphere Integrated Containers Engine? {#engine}
+## What Is vSphere Integrated Containers Engine? <a id="engine"></a>
 
 The objective of vSphere Integrated Containers Engine is to take as much of vSphere as possible and layer whatever Docker capabilities are missing on top, reusing as much of Docker’s own code as possible. The  result should not sacrifice the portability of the Docker image format and should be completely transparent to a Docker client. The following sections describe key concepts and components that make this possible.
 
-### Container VMs {#containervm}
+### Container VMs <a id="containervm"></a>
 
 The container VMs that vSphere Integrated Containers Engine creates have all of the characteristics of software containers:
 
@@ -76,7 +76,7 @@ The provisioned container VM does not contain any OS container abstraction.
 - Container volumes are formatted VMDKs that are attached as disks and indexed on a datastore. 
 - Networks are distributed port groups that are attached as vNICs.
 
-### Container VM Isolation and Capabilities {#isolation_capabilities}
+### Container VM Isolation and Capabilities <a id="isolation_capabilities"></a>
 
 A container VM is strongly isolated by design and benefits from vSphere enterprise features such as High Availability and vMotion. It is ideally suited to long-running containers or services with the following requirements: 
 
@@ -93,7 +93,7 @@ We call this nesting "Docker-in-VIC" (DinV) and we will be providing more suppor
 
 So when deploying applications into production, it's important to consider where the isolation boundaries should lie for your particular container, service or application. A VM is a natural isolation and failure domain and works well as a unit of scale. We will discuss this in more detail in the section on deploying applications using VIC.
 
-### Virtual Container Hosts {#vch}
+### Virtual Container Hosts <a id="vch"></a>
 
 A virtual container host (VCH) is the functional equivalent of a Linux VM that runs Docker, but with some significant benefits. A VCH represents the following elements:
 - A clustered pool of resource into which to provision container VMs.
@@ -109,13 +109,13 @@ A VCH is functionally distinct from a traditional container host in the followin
 - There is no local image cache. This is kept on a datastore in the cluster that the vSphere administrator specified when they deployed a VCH.
 - There is no read-write shared storage
 
-## What Is vSphere Integrated Containers Registry? {#whats_registry}
+## What Is vSphere Integrated Containers Registry? <a id="whats_registry"></a>
 
 vSphere Integrated Containers Registry is an enterprise-class registry server that you can use to store and distribute container images. vSphere Integrated Containers Registry allows DevOps administrators to organize image repositories in projects, and to set up role-based access control to those projects to define which users can access which repositories. vSphere Integrated Containers Registry also provides rule-based replication of images between registries, implements Docker Content Trust, and provides detailed logging for project and user auditing.
 
 For a more detailed overview of vSphere Integrated Containers Registry, see [Managing Images, Projects, and Users with vSphere Integrated Containers Registry](../vic_cloud_admin/using_registry.html) in *Configure and Manage vSphere Integrated Containers*.
 
-## What Is vSphere Integrated Containers Management Portal? {#whats_portal}
+## What Is vSphere Integrated Containers Management Portal? <a id="whats_portal"></a>
 
 vSphere Integrated Containers Management Portal is a highly scalable and very lightweight container management platform for deploying and managing container based applications. It is designed to have a small footprint and boot extremely quickly. vSphere Integrated Containers Management Portal is intended to provide DevOps administrators with automated deployment and lifecycle management of containers.
 
