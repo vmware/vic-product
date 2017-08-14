@@ -7,7 +7,8 @@ The vCenter Server instance to which you deploy the VCH must match the specifica
 **Prerequisites**
 
 * Deploy the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
-* In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link to **download the vSphere Integrated Containers Engine bundle**, and unpack it on your working machine.  * Create or obtain a vCenter Server instance with the following configuration:
+* In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link to **download the vSphere Integrated Containers Engine bundle**, and unpack it on your working machine.  
+* Create or obtain a vCenter Server instance with the following configuration:
   * One datacenter
   * One cluster with two ESXi hosts and DRS enabled. You can use nested ESXi hosts for this example.
   * A shared datastore, that is accessible by both of the ESXi hosts.
