@@ -17,7 +17,7 @@ The information in this topic is intended for DevOps administrators. For an exte
 - [What Is vSphere Integrated Containers Registry?](#whats_registry)
 - [What Is vSphere Integrated Containers Management Portal?](#whats_portal)
 
-## Differences Between vSphere Integrated Containers and a Classic Container Environment {#differences}
+## Differences Between vSphere Integrated Containers and a Classic Container Environment <a id="differences"></a>
 
 The main differences between vSphere Integrated Containers and a classic container environment are the following:
 
@@ -32,7 +32,7 @@ The main differences between vSphere Integrated Containers and a classic contain
   - Use the Docker client to directly control selected elements of vSphere infrastructure.
   - A container endpoint Service-as-a-Service presents as a service abstraction, not as IaaS
 
-## What Does vSphere Integrated Containers Do? {#whatisvic}
+## What Does vSphere Integrated Containers Do? <a id="whatisvic"></a>
 
 vSphere Integrated Containers allows a DevOps administrator or the vSphere administrator to easily make the vSphere infrastructure accessible to container application developers, so that you can provision container workloads into production.
 
@@ -56,7 +56,7 @@ With vSphere Integrated Containers:
 - The appliance runs a secure remote Docker API, that is the only access that users have to the vSphere infrastructure.
 - Instead of sending the users a Linux VM, the vSphere administrator sends them the IP address of the appliance, the port of the remote Docker API, and a certificate for secure access.
 
-## What Is vSphere Integrated Containers Engine? {#engine}
+## What Is vSphere Integrated Containers Engine? <a id="engine"></a>
 
 The objective of vSphere Integrated Containers Engine is to take as much of vSphere as possible and layer whatever Docker capabilities are missing on top, reusing as much of Docker’s own code as possible. The  result should not sacrifice the portability of the Docker image format and should be completely transparent to a Docker client. The following sections describe key concepts and components that make this possible.
 
