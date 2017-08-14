@@ -2,7 +2,7 @@
 
 # Deploy Virtual Container Hosts with `vic-machine` #
 
-After you deploy the vSphere Integrated Containers appliance, go to https://<i>vic_appliance_address</i>:9443 in a Web browser, scroll down to Infrastructure Deployment Tools, click the link to **download the vSphere Integrated Containers Engine bundle**, and unpack it on your working machine.
+After you deploy the vSphere Integrated Containers appliance, go to  http://<i>vic_appliance_address</i> in a Web browser, scroll down to Infrastructure Deployment Tools, click the link to **download the vSphere Integrated Containers Engine bundle**, and unpack it on your working machine.
 
 The vSphere Integrated Containers Engine binaries include the `vic-machine` utility, that you use to deploy virtual container hosts (VCHs). 
 

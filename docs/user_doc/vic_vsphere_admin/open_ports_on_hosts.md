@@ -11,8 +11,7 @@ The `vic-machine create` command does not modify the firewall. Run `vic-machine 
 **Prerequisites**
 
 * Deploy the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
-* In a Web browser, go to https://<i>vic_appliance_address</i>:9443, scroll down to Infrastructure Deployment Tools, click the link to **download the vSphere Integrated Containers Engine bundle**, and unpack it on your working machine. If you configured the appliance to use a different port for the file server, replace 9443 with the appropriate port.
-
+* In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link to **download the vSphere Integrated Containers Engine bundle**, and unpack it on your working machine.  
 **Procedure**
 
 1. Open a terminal on the system on which you downloaded and unpacked the vSphere Integrated Containers Engine binary bundle.

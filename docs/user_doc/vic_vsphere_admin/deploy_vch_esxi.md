@@ -5,7 +5,7 @@ This topic provides instructions for deploying a virtual container host (VCH) to
 **Prerequisites**
 
 * Deploy the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
-* In a Web browser, go to https://<i>vic_appliance_address</i>:9443, scroll down to Infrastructure Deployment Tools, click the link to **download the vSphere Integrated Containers Engine bundle**, and unpack it on your working machine. If you configured the appliance to use a different port for the file server, replace 9443 with the appropriate port.
+* In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link to **download the vSphere Integrated Containers Engine bundle**, and unpack it on your working machine.  
 * Create or obtain an ESXi host with the following configuration:
   * One datastore
   * The VM Network is present
