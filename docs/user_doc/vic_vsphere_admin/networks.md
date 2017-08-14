@@ -1,4 +1,4 @@
-# Networks Used by vSphere Integrated Containers #
+# Virtual Container Host Networking #
 
 You can configure networks on a virtual container host (VCH) that are tied into the vSphere infrastructure. You define which networks are available to a VCH when you deploy the VCH.
 
