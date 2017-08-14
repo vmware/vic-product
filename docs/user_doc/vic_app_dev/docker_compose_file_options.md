@@ -58,8 +58,6 @@ This topic provides information about the Docker Compose file options that vSphe
 
 ## Volume Configuration Options <a id="volume"></a>
 
-NOTE: vSphere Integrated Containers 1.2 does not support shared volumes. You can use these options for containers that do not share volumes. 
-
 | **Option** | **Compose File Reference** | **Supported** |
 | --- | --- | --- |
 |`driver` | [Specify driver to use for this volume](https://docs.docker.com/compose/compose-file/compose-file-v2/#driver) | Yes |
