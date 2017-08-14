@@ -60,9 +60,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
     If you deployed the appliance so that it obtains its address via DHCP, go to the **Summary** tab for the appliance VM and note the address.
 
-10. Go to https://<i>vic_appliance_address</i>:9443 and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance.
-
-    If you configured the vSphere Integrated Containers appliance to use a different port for the vSphere Integrated Containers file server, replace 9443 with the appropriate port. 
+10. Go to  http://<i>vic_appliance_address</i> and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance.
 
     **IMPORTANT**: The installation process requires the single sign-on credentials to set up vSphere Integrated Containers Management Portal and Registry. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
 
@@ -70,7 +68,7 @@ You can reconfigure the appliance after deployment by editing the settings of th
 
 **What to Do Next**
 
-Access the different vSphere Integrated Containers components from the  vSphere Integrated Containers Getting Started page at https://<i>vic_appliance_address</i>:9443. If you configured the vSphere Integrated Containers appliance to use a different port for the vSphere Integrated Containers file server, replace 9443 with the appropriate port. 
+Access the different vSphere Integrated Containers components from the  vSphere Integrated Containers Getting Started page at  http://<i>vic_appliance_address</i>.
 
 - Click the link to go to the **vSphere Integrated Containers Management Portal**. For information about how to use vSphere Integrated Containers Management Portal, see [View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal](../vic_cloud_admin/vchs_and_mgmt_portal.md).
 - Scroll down to **Infrastructure deployment tools** and click the link to go to the **web installer to deploy a demo VCH**. For information about how to use the interactive VCH installer, see [Deploy a Virtual Container Host Interactively](deploy_demo_vch.html).

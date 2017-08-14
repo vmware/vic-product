@@ -8,9 +8,7 @@ If you have a previous installation of the plug-ins for vSphere Integrated Conta
 - You deployed the vSphere Integrated Containers plug-ins with vSphere Integrated Containers 1.1.x. For information about installing the plug-ins for the first time, see [Install the Client Plug-Ins on vCenter Server for Windows](plugins_vc_windows.md).
 - You upgraded an existing vSphere Integrated Containers 1.2.x appliance to a newer 1.2.y version. For information about upgrading the vSphere Integrated Containers appliance, see [Upgrade the vSphere Integrated Containers Appliance](upgrade_appliance.md).
 - Log in to the Windows system on which vCenter Server is running. You must perform all of the steps in this procedure on this Windows system.
-- Go to https://<i>upgraded_vic_appliance_address</i>:9443 in a Web browser, download the new version of the vSphere Integrated Containers Engine package, `vic_1.2.y.tar.gz`, and unpack it on the Desktop. 
-
-**NOTE**: If the upgraded vSphere Integrated Containers appliance uses a different port for the file server, replace 9443 with the appropriate port in the prerequisites above.
+- Go to http://<i>upgraded_vic_appliance_address</i> in a Web browser, download the new version of the vSphere Integrated Containers Engine package, `vic_1.2.y.tar.gz`, and unpack it on the Desktop. 
 
 **Procedure**
 
