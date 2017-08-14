@@ -7,15 +7,13 @@
 
 
 * [Introduction](README.md)
-* [Quick Start Links](vic_quickstart.md)
+  * [Quick Start Links](vic_quickstart.md)
+  * [Overview](vic_vsphere_admin/introduction.md)
 
 ----
 
 
 * [Install, Deploy, Maintain Infrastructure](vic_vsphere_admin/README.md)
- * [Overview for vSphere Admins](vic_vsphere_admin/introduction.md)
-     * [Interoperability](vic_vsphere_admin/interop.md)
-     * [Networking](vic_vsphere_admin/networks.md)
  * [Installation](vic_vsphere_admin/installing_vic.md)
      * [Download](vic_vsphere_admin/download_vic.md) 
      * [Deploy the Appliance](vic_vsphere_admin/deploy_vic_appliance.md)
@@ -23,6 +21,7 @@
          * [vCenter Server for Windows](vic_vsphere_admin/plugins_vc_windows.md)
          * [vCenter Server Appliance](vic_vsphere_admin/plugins_vcsa.md)
      * [Open the Required Ports on ESXi Hosts](vic_vsphere_admin/open_ports_on_hosts.md)
+  * [VCH Networking](vic_vsphere_admin/networks.md)
   * [Deploy VCHs Interactively](vic_vsphere_admin/deploy_demo_vch.md)
   * [Deploy VCHs with `vic-machine`](vic_vsphere_admin/deploy_vch.md)
      * [Contents of the vSphere Integrated Containers Engine Binaries](vic_vsphere_admin/contents_of_vic_binaries.md)
@@ -35,6 +34,7 @@
      * [Deploy a VCH for Use with vSphere Integrated Containers Registry](vic_vsphere_admin/deploy_vch_registry.md)
      * [Use Different User Accounts for VCH Deployment and Operation](vic_vsphere_admin/set_up_ops_user.md)
   * [VCH Administration](vic_vsphere_admin/vch_admin.md)
+     * [Interoperability](vic_vsphere_admin/interop.md)
      * [VCH Admin in the vSphere Client](vic_vsphere_admin/vch_admin_client.md)
          * [View All VCH and Container Information](vic_vsphere_admin/access_h5_ui.md)
          * [View Individual VCH and Container Information](vic_vsphere_admin/vch_portlet_ui.md)
@@ -81,7 +81,6 @@
 ----
 
 * [Configure and Manage](vic_cloud_admin/README.md)
-   * [Overview for Cloud Admins](vic_cloud_admin/overview_of_vic_cloudadmin.md)
    * [Managing Images, Projects, Users](vic_cloud_admin/using_registry.md)
       * [Configure a Registry](vic_cloud_admin/configure_registry.md)
    * [Create Users](vic_cloud_admin/creating_users_registry.md)
@@ -106,7 +105,6 @@
 
 
 * [Develop Container Apps](vic_app_dev/README.md)
-  * [Overview for Developers](vic_app_dev/overview_of_vic_appdev.md)
   * [Assign Users to a Project](vic_app_dev/add_users_registry.md)
   * [Manage Project Members](vic_app_dev/manage_project_members.md)
   * [Create New Networks for Provisioning Containers](vic_app_dev/create_network.md)

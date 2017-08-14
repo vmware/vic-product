@@ -1,4 +1,4 @@
-# Overview of Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure #
+# Overview of vSphere Integrated Containers #
 
 vSphere Integrated Containers enables IT teams to run traditional and container workloads side-by-side on existing infrastructure seamlessly. This overview is intended for vSphere administrators who intend to use vSphere Integrated Containers to manage container workloads in their vSphere environment. 
 
