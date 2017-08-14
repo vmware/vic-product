@@ -46,7 +46,7 @@ As such, VIC makes it easy to store persistent data to disks that are independen
 
 Note that an anonymous volume declared in a Dockerfile will manifest as a mounted disk of a default size (1GB) to a default datastore. This is almost always going to be the wrong option in production for the reasons stated above.
 
-In VIC 1.2 there will be the option to use NFS to mount shared read-write volumes to container VMs.
+You can use NFS to mount shared read-write volumes to container VMs.
 
 **Container Isolation**
 
