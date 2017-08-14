@@ -34,14 +34,30 @@
     <div class="main-container">
         <main class="content-container">
             <div class="content-area">
+                {{if .Feedback }}
+                <div class="alert alert-warning">
+                    <div class="alert-items">
+                        <div class="alert-item">
+                            <div class="alert-icon-wrapper">
+                                <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+                            </div>
+                            <span class="alert-text">{{ .Feedback }}</span>
+                        </div>
+                    </div>
+                </div>
+                {{ end }}
                 <div class="row flex-items-xs-center">
                     <div class="col-xs-2"></div>
-                    <div class="col-xs-8">
-                        <h1 id="getting-started">Getting Started</h1>
-                    </div>
                     <div class="col-xs-2" id="docs-link-container">
                         <a href="https://vmware.github.io/vic-product/assets/files/html/1.2/" target="_blank" title="Documentation" class="btn btn-outline">Documentation</a>
                     </div>
+                    <div class="col-xs-4">
+                        <h1 id="getting-started">Getting Started</h1>
+                    </div>
+                    <div class="col-xs-2" id="docs-link-container">
+                        <a href="/?login=true" title="Login" class="btn btn-outline">Initialize VIC Appliance</a>
+                    </div>
+                    <div class="col-xs-2"></div>
                 </div>
 
                 <div class="row flex-items-xs-center">

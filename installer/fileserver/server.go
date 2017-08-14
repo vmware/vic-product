@@ -20,12 +20,14 @@ import (
 	"flag"
 	"fmt"
 	"html/template"
+	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
 	"syscall"
+	"time"
 
 	log "github.com/Sirupsen/logrus"
 
@@ -63,6 +65,8 @@ var (
 	admin = &lib.LoginInfo{}
 	c     config
 )
+
+const initServicesTimestamp = "./registration-timestamps.txt"
 
 func Init(conf *config) {
 	ud := syscall.Getuid()
@@ -184,7 +188,10 @@ func main() {
 func indexHandler(resp http.ResponseWriter, req *http.Request) {
 	defer trace.End(trace.Begin(""))
 
-	html := &IndexHTMLOptions{NeedLogin: true}
+	html := &IndexHTMLOptions{
+		NeedLogin: needInitializationServices(req),
+		Feedback:  "",
+	}
 
 	if req.Method == http.MethodPost {
 		// verify login
@@ -195,6 +202,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 		if err := admin.VerifyLogin(); err != nil {
 			log.Infof("Validation failed")
 			html.InvalidLogin = true
+
 		} else {
 			log.Infof("Validation succeeded")
 			html.Feedback = startInitializationServices()
@@ -240,5 +248,17 @@ func startInitializationServices() string {
 		errorMsg = append(errorMsg, "Failed to register with PSC: %s", err.Error())
 	}
 
-	return strings.Join(errorMsg, "\n")
+	if len(errorMsg) == 0 {
+		err := ioutil.WriteFile(initServicesTimestamp, []byte(time.Now().String()), 0644)
+		if err != nil {
+			log.Debug(errors.ErrorStack(err))
+			errorMsg = append(errorMsg, "Failed to write to timestamp file: %s", err.Error())
+		}
+	}
+	return strings.Join(errorMsg, "<br />")
+}
+
+func needInitializationServices(req *http.Request) bool {
+	_, err := os.Stat(initServicesTimestamp)
+	return os.IsNotExist(err) || req.URL.Query().Get("login") == "true"
 }
