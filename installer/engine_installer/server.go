@@ -122,6 +122,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 		engineInstaller.loginInfo.Password = req.FormValue("password")
 		if err := engineInstaller.loginInfo.VerifyLogin(); err != nil {
 			// login failed so show login form again
+			log.Errorf("error logging in: %s", err.Error())
 			renderTemplate(resp, "html/auth.html", &AuthHTML{InvalidLogin: true})
 		} else {
 			// vCenter login successful, set resource drop downs
@@ -138,7 +139,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 			html.Target = engineInstaller.loginInfo.Target
 			html.Name = engineInstaller.Name
 			html.Thumbprint = engineInstaller.Thumbprint
-			html.CreateCommand = strings.Join(engineInstaller.CreateCommand, " ")
+			html.CreateCommand = maskPassword(engineInstaller.CreateCommand)
 			renderTemplate(resp, "html/exec.html", html)
 		}
 	} else {
@@ -190,6 +191,21 @@ func parseCmdArgs(resp http.ResponseWriter, req *http.Request) {
 		engineInstaller.buildCreateCommand(c.serveDir)
 		log.Infoln(engineInstaller)
 		resp.WriteHeader(http.StatusOK)
-		resp.Write([]byte(strings.Join(engineInstaller.CreateCommand, " ")))
+
+		resp.Write([]byte(maskPassword(engineInstaller.CreateCommand)))
 	}
+}
+
+// maskPassword masks the password of a create command. the cmdWithPasswd
+// array must be in the same format as the create command.
+func maskPassword(cmdWithPasswd []string) string {
+	// exclude password from the create command
+	cmd := make([]string, len(cmdWithPasswd))
+	copy(cmd, cmdWithPasswd)
+
+	// the password is the 9th index in the createCommand array
+	if len(cmd) > 9 {
+		cmd = append(cmd[:8], append([]string{"********"}, cmd[9:]...)...)
+	}
+	return strings.Join(cmd, " ")
 }

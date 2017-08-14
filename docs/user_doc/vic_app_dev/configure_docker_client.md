@@ -7,7 +7,7 @@ If your container development environment uses vSphere Integrated Containers, yo
 - [Using vSphere Integrated Containers Registry](#registry)
 - [Using vSphere Integrated Containers Registry with Notary](#notary)
 
-## Connecting to the VCH {#connectvch}
+## Connecting to the VCH <a id="connectvch"></a>
 
 How you connect to your virtual container host (VCH) depends on the security options with which the vSphere administrator deployed the VCH. 
 
@@ -25,7 +25,7 @@ How you connect to your virtual container host (VCH) depends on the security opt
 - If the VCH uses server certificates but does not authenticate the Docker client, no client certificate is required and any client can connect to the VCH. This configuration is commonly referred to as `no-tlsverify` in documentation about containers and Docker. In this configuration, the VCH has a server certificate and connections are encrypted, requiring you to run Docker commands with the `--tls` option. For example:<pre>docker -H <i>vch_address</i>:2376 --tls info</pre>In this case, do not set the `DOCKER_TLS_VERIFY` environment variable. Setting `DOCKER_TLS_VERIFY` to 0 or to `false` has no effect.
 - If TLS is completely disabled on the VCH, you connect to the VCH at *vch_address*:2375. Any Docker client can connect to the VCH and communications are not encrypted. As a consequence, you do not need to specify any additional TLS options in Docker commands or set any environment variables. This configuration is not recommended in production environments. For example:<pre>docker -H <i>vch_address</i>:2375 info</pre>
 
-## Using Docker Environment Variables {#variables}
+## Using Docker Environment Variables <a id="variables"></a>
 
 If the vSphere administrator deploys the VCHs with TLS authentication, `vic-machine create` generates a file named `vch_name.env`. The `env` file contains Docker environment variables that are specific to the VCH. You can use the `env` file to set environment variables in your Docker client. 
 
@@ -41,7 +41,7 @@ DOCKER_HOST=<i>vch_address</i>:2376</pre>
 
 For information about how to obtain the `env` file, see [Obtain a VCH](obtain_vch.md).
 
-## Using vSphere Integrated Containers Registry {#registry}
+## Using vSphere Integrated Containers Registry <a id="registry"></a>
 
 If your development environment uses vSphere Integrated Containers Registry or another private registry server that uses CA server certificates, you must pass the registry's CA certificate to the Docker client. The vSphere administrator must also have configured the VCH to access the registry. For information about how to obtain the CA certificate from vSphere Integrated Containers Registry and how to deploy a VCH so that it can access a private registry, see [Deploy a VCH for Use with vSphere Integrated Containers Registry](../vic_vsphere_admin/deploy_vch_registry.md).
 
@@ -84,7 +84,7 @@ To pass the registry's CA certificate to a Docker client that is running on Wind
    - Select **Reset** and click **Restart Docker**.
 5. Log in to the registry server.<pre>docker login <i>registry_ip</i></pre>
 
-## Using vSphere Integrated Containers Registry with Notary {#notary}
+## Using vSphere Integrated Containers Registry with Notary <a id="notary"></a>
 
 vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement content trust by signing and verifying the images in the registry. For information about Docker Notary, see [Content trust in Docker](https://docs.docker.com/engine/security/trust/content_trust/) in the Docker documentation.
 

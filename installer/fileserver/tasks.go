@@ -66,7 +66,7 @@ func registerWithPSC(ctx context.Context) error {
 	admiralPort := ovf.Properties["management_portal.port"]
 
 	// Register all VIC components with PSC
-	cmdName := "java"
+	cmdName := "/usr/bin/java"
 	for _, client := range []string{"harbor", "engine", "admiral"} {
 		cmdArgs := []string{
 			"-jar",

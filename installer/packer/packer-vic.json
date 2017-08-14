@@ -44,6 +44,7 @@
       "remote_cache_directory": "packer_cache",
       "remote_username": "{{user `remote_username`}}",
       "remote_password": "{{user `remote_password`}}",
+      "ovftool_options": ["--allowExtraConfig"],
       "vnc_disable_password": true,
       "version": 11,
       "vmx_data": {
@@ -258,8 +259,8 @@
     },
     {
       "type": "file",
-      "source": "scripts/harbor/upgrade_from_0.5.sh",
-      "destination": "/etc/vmware/harbor/upgrade_from_0.5.sh"
+      "source": "scripts/upgrade/upgrade_1.1_to_1.2.sh",
+      "destination": "/etc/vmware/upgrade/upgrade_1.1_to_1.2.sh"
     },
     {
       "type": "shell",

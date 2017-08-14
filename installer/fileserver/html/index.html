@@ -54,11 +54,11 @@
                                             <clr-icon shape="group" size="24"></clr-icon> Open the Management Portal
                                         </div>
                                         <div class="card-text">
-                                            <a href="#" target="_blank">Go to the vSphere Integrated Containers Management Portal</a>                                            to manage registries, provision containers, and create projects and manage users.
+                                            <a href="{{ .AdmiralAddr }}" target="_blank">Go to the vSphere Integrated Containers Management Portal</a>                                            to manage registries, provision containers, and create projects and manage users.
                                         </div>
                                     </div>
                                     <div class="card-footer">
-                                        <a class="btn btn-sm btn-link">Open</a>
+                                        <a class="btn btn-sm btn-link" href="{{ .AdmiralAddr }}" target="_blank">Open</a>
                                         <a class="btn btn-sm btn-link" target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_cloud_admin">Read more</a>
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
                                 <div class="card transparent">
                                     <div class="card-block">
                                         <div class="card-title">
-                                            <clr-icon shape="list" size="24"></clr-icon> Post-install & Deployment tasks
+                                            <clr-icon shape="list" size="24"></clr-icon> Post-Install &amp; Deployment Tasks
                                         </div>
                                         <div class="card-text">
                                             These tasks are usually performed by the vSphere admin.
@@ -101,7 +101,7 @@
                 </div>
                 <div class="row flex-items-xs-center" id="infra-deploy-tools-container">
                     <div class="col-xs-10">
-                        <h4>Infrastructure deployment tools</h4>
+                        <h4>Infrastructure Deployment Tools</h4>
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
                                 <div class="card">
@@ -110,12 +110,13 @@
                                             <clr-icon shape="host" size="24"></clr-icon> Deploy a Demo VCH
                                         </div>
                                         <div class="card-text">
-                                            <a href="#" target="_blank">Go to the web installer to deploy a demo VCH.</a>                                            This VCH has limited capabilities and is for demonstration purposes only, to
+                                            <a href="{{ .DemoVCHAddr }}" target="_blank">Go to the web installer to deploy a demo VCH.</a>                                            
+                                            This VCH has limited capabilities and is for demonstration purposes only, to
                                             allow you to start experimenting with vSphere Integrated Containers.
                                         </div>
                                     </div>
                                     <div class="card-footer">
-                                        <a class="btn btn-sm btn-link">Installer</a>
+                                        <a class="btn btn-sm btn-link" href="{{ .DemoVCHAddr }}" target="_blank">Installer</a>
                                         <a class="btn btn-sm btn-link" target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/deploy_demo_vch.html">Read more</a>
                                     </div>
                                 </div>
@@ -127,12 +128,12 @@
                                             <clr-icon shape="host" size="24"></clr-icon> Deploy a VCH
                                         </div>
                                         <div class="card-text">
-                                            <a href="#" target="_blank">Download the vSphere Integrated Containers Engine bundle</a>                                            which provides a command-line utility named vic-machine that you use to deploy
-                                            virtual container hosts (VCHs) in production.
+                                            <a href="{{ .FileserverAddr }}" target="_blank">Download the vSphere Integrated Containers Engine bundle.</a>
+                                                vSphere Integrated Containers Engine provides a command-line utility named vic-machine that you use to deploy virtual container hosts (VCHs) in production. 
                                         </div>
                                     </div>
                                     <div class="card-footer">
-                                        <a class="btn btn-sm btn-link">Download</a>
+                                        <a class="btn btn-sm btn-link" href="{{ .FileserverAddr }}" target="_blank">Download</a>
                                         <a class="btn btn-sm btn-link" target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/deploy_vch.html">Read more</a>
                                     </div>
                                 </div>
@@ -140,7 +141,7 @@
                         </div>
                     </div>
                 </div>
-                {{if .InvalidLogin}}
+                {{if .NeedLogin}}
                 <div class="modal">
                     <div class="modal-dialog" role="dialog" aria-hidden="true">
                         <div class="modal-content">
@@ -149,6 +150,13 @@
                             <clr-icon aria-hidden="true" shape="close"></clr-icon>
                         </button>
                                 <h3 class="modal-title">Complete VIC appliance installation</h3>
+                                {{if .InvalidLogin}}
+                                <div class="alert-item">
+                                    <span class="alert-text">
+                                        Error logging in.
+                                    </span>
+                                </div>
+                                {{ end }}
                             </div>
                             <div class="modal-body">
                                 <p>Please enter your vCenter credentials to complete the vSphere Integrated Containers Appliance

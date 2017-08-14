@@ -6,14 +6,14 @@ Docker-in-VIC (also known as DinV) is a way to run a full fledged docker engine 
 
 DinV hosts are packaged as containers and they can be instantiated on VIC just like any other regular container, DinV containers have several options that can be passed over the command line to enable/disable features in the Docker engine.
 
-All the DinV packages are based on Photon OS and the source, dockerfiles and documentation is available at [github.com/vmware/vic-product](github.com/vmware/vic-product).
+All the official DinV images are based on Photon OS and the source, dockerfiles and documentation is available at [github.com/vmware/vic-product](github.com/vmware/vic-product).
 
 ## Quickstart
 
 The easiest way to get started with DinV is to run:
 
 ```console
-$ docker run -p 12375:2375 -d vmware/dinv
+$ docker run -p 12375:2375 -d vmware/dch-photon
 ```
 
 And then connect to the newly deployed docker engine with:
@@ -26,12 +26,12 @@ With this quickstart configuration, the DinV container is not saved and communic
 
 ## Configuration
 
-The DinV container is distributed prevalently through the Docker Hub, as of this writing, two versions of the engine are available: 1.13 and 1.12, versions can be used as a tag for the container (e.g. `vmware/dinv:1.12`).
+The DinV container is distributed prevalently through the Docker Hub, as of this writing, two versions of the engine are available: 1.13 and 1.12, versions can be used as a tag for the container (e.g. `vmware/dch-photon:1.12`).
 
 When the container is run with the `-h` or `--help` flag, the help is shown and the container will quit without starting docker engine.
 
 ```console
-$ docker run vmware/dinv -h
+$ docker run vmware/dch-photon -h
 Usage of /dinv:
   -insecure-registry string
     	Enable insecure registry communication
@@ -84,7 +84,7 @@ They can be copied locally with `docker cp` when needed.
 - Creates the DinV container, without starting the process
 
 ```console
-$ docker create -p 12376:2376 --name dinv-build -v mycerts:/certs vmware/dinv -tlsverify
+$ docker create -p 12376:2376 --name dinv-build -v mycerts:/certs vmware/dch-photon -tlsverify
 ```
 - Copy the certificates for the VCH into the newly created container
 
@@ -110,7 +110,7 @@ $ docker -H <VCH HOST>:12376 info
 - Run a DinV container with `/var/lib/docker` mounted in a persistent volume
 
 ```console
-$ docker run -v myregistry:/var/lib/docker -v mycerts:/certs -p 12376:2376 vmware/dinv -tlsverify
+$ docker run -v myregistry:/var/lib/docker -v mycerts:/certs -p 12376:2376 vmware/dch-photon -tlsverify
 ```
 
 ### 3. Troubleshoot Docker Engine and the DinV wrapper
@@ -118,7 +118,7 @@ $ docker run -v myregistry:/var/lib/docker -v mycerts:/certs -p 12376:2376 vmwar
 - Run a DinV container with `-e DEBUG=true`
 
 ```console
-$ docker run -v mycerts:/certs -e DEBUG=true -p 12376:2376 -it vmware/dinv
+$ docker run -v mycerts:/certs -e DEBUG=true -p 12376:2376 -it vmware/dch-photon
 ```
 
 ### 4. Run a full-fledged DinV host with a separate network connection
@@ -126,7 +126,7 @@ $ docker run -v mycerts:/certs -e DEBUG=true -p 12376:2376 -it vmware/dinv
 - Creates the DinV container, without starting the process
 
 ```console
-$ docker create --name dinv -v mycerts:/certs -v myregistry:/var/lib/docker --net=publicNet vmware/dinv -tlsverify
+$ docker create --name dinv -v mycerts:/certs -v myregistry:/var/lib/docker --net=publicNet vmware/dch-photon -tlsverify
 ```
 
 - Copy the certificates (pre created) into the newly created container
@@ -155,7 +155,7 @@ $ docker info
 - Creates the DinV container, without starting the process
 
 ```console
-$ docker run --name dinv -v mycerts:/certs -v myregistry:/var/lib/docker --net=publicNet -d vmware/dinv -tlsverify
+$ docker run --name dinv -v mycerts:/certs -v myregistry:/var/lib/docker --net=publicNet -d vmware/dch-photon -tlsverify
 ```
 
 - Copy the certificates (created by DinV) on your local machine

@@ -8,10 +8,10 @@ You have a created project.
 
 **Procedure**
 
-1. Log in to the vSphere Integrated Containers Registry interface at https://<i>vic_appliance_address</i>:443.
+1. Log in to the vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282.
 
-   Use the `admin` account, an account with the system-wide Administrator role, or an account that has the Project Admin role for this project. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Registry, replace 443 with the appropriate port.
-2. Click **Projects** on the left.
+   Use an account with the system-wide Administrator role, or an account that has the Project Admin role for this project. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
+2. Select the **Administration** tab, click **Projects** on the left, .
 7. In the list of projects, click the 3 vertical dots next to a project name and select an option.
 
    - If the project is public, select **Make private** to change the project state to private.

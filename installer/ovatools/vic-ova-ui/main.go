@@ -36,6 +36,7 @@ import (
 const (
 	VT_ACTIVATE   = 0x5606
 	VT_WAITACTIVE = 0x5607
+	refreshTime   = "1m"
 )
 
 func main() {
@@ -77,8 +78,8 @@ func main() {
 		if port, ok := ovf.Properties["fileserver.port"]; ok {
 			info = fmt.Sprintf("%sAccess the Getting Started Page at:\nhttps://%s:%s\n", info, ip.String(), port)
 		}
-		if strings.ToLower(ovf.Properties["management_portal.deploy"]) == "true" {
-			info = fmt.Sprintf("%sAccess the Container Management Portal at:\nhttps://%s:%s\n", info, ip.String(), ovf.Properties["management_portal.port"])
+		if port, ok := ovf.Properties["management_portal.port"]; ok {
+			info = fmt.Sprintf("%sAccess the Container Management Portal at:\nhttps://%s:%s\n", info, ip.String(), port)
 		}
 		if port, ok := ovf.Properties["engine_installer.port"]; ok {
 			info = fmt.Sprintf("%sAccess the Demo VCH Installer at:\nhttps://%s:%s\n", info, ip.String(), port)
@@ -116,13 +117,14 @@ func main() {
 	bottompanel.PaddingLeft = 4
 
 	netstat := &NetworkStatus{
-		down:     "[DOWN](bg-red)",
-		up:       "[UP](bg-green)",
+		down:     "[MISMATCH](bg-red)",
+		up:       "[MATCH](bg-green)",
 		ovfProps: ovf.Properties,
 	}
 
-	netInto := fmt.Sprintf("Network Status:\n\nDNS: %s\n\nIP: %s\n\nGateway: %s\n", netstat.GetDNSStatus(), netstat.GetIPStatus(), netstat.GetGatewayStatus())
-	netInto = fmt.Sprintf("%s\n\n\n\n\n\n\n\nPress the left arrow key to view service info...", netInto)
+	netHeader := "Network Status:\n\nSettings with 'MATCH' indicate the system network configuration matches the OVF config."
+	netInto := fmt.Sprintf("%s\nDNS: %s\n\nIP: %s\n\nGateway: %s\n", netHeader, netstat.GetDNSStatus(), netstat.GetIPStatus(), netstat.GetGatewayStatus())
+	netInto = fmt.Sprintf("%s\n\n\n\n\nPress the left arrow key to view service info...", netInto)
 
 	// yellow := ui.ColorRGB(4, 4, 1)
 	networkPanel := ui.NewPar(netInto)
@@ -153,6 +155,11 @@ func main() {
 
 	ui.Render(toppanel, bottompanel)
 
+	// refresh according to refreshTime. This quits the app, where systemd will recover it.
+	ui.Handle("/timer/"+refreshTime, func(_ ui.Event) {
+		ui.StopLoop()
+	})
+
 	ui.Loop()
 }
 
@@ -165,8 +172,8 @@ func ioctl(fd, cmd, ptr uintptr) error {
 }
 
 func getCPUs() string {
-	// #nosec: Subprocess launching with partial path.
-	out, _ := exec.Command("lscpu").Output()
+	// #nosec: Subprocess launching should be audited.
+	out, _ := exec.Command("/usr/bin/lscpu").Output()
 	outstring := strings.TrimSpace(string(out))
 	lines := strings.Split(outstring, "\n")
 	var cpus string

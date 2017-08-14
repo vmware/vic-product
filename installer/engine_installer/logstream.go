@@ -17,8 +17,8 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"net/http"
-	"os"
 	"os/exec"
 	"regexp"
 	"strings"
@@ -37,10 +37,11 @@ const (
 )
 
 var (
-	// lock for single command execution
 	cmdDone   = make(chan error, 1)
 	logStream = NewLogStream()
-	mu        sync.Mutex
+	// lock for single command execution
+	mu sync.Mutex
+	wg sync.WaitGroup
 )
 
 // LogStream streams a command's execution over a websocket connection
@@ -67,44 +68,53 @@ func (ls *LogStream) start() {
 	defer trace.End(trace.Begin(""))
 
 	// log reader and writer.
-	logReader, logWriter, err := os.Pipe()
-	if err != nil {
-		log.Infoln("ERROR")
-		log.Infoln(err)
-	}
-	defer logReader.Close()
-	defer logWriter.Close()
+	logReader, logWriter := io.Pipe()
+	wg := sync.WaitGroup{}
 
-	// attach cmd std out and std err to log Writer
-	ls.cmd.Stderr = logWriter
-	ls.cmd.Stdout = logWriter
-	r, _ := regexp.Compile(`DOCKER_HOST=(\d{1,3}\.){3}(\d{1,3}):\d{4}`)
-
+	// write logReader contents to the websocket stream
 	go func() {
+
+		// #nosec: Errors unhandled.
+		r, _ := regexp.Compile(`DOCKER_HOST=(\d{1,3}\.){3}(\d{1,3}):\d{4}`)
+
+		// read cmd output from the logReader pipe
 		s := bufio.NewScanner(logReader)
 		for s.Scan() {
 			ls.send(string(s.Bytes()))
-			//if we get a docker endpoint the setup is complete and we should attach this vch to admiral
+
+			// if we get a docker endpoint the setup is complete and we should attach this vch to admiral
 			match := r.Find(s.Bytes())
 			stringMatch := string(match)
-			if err == nil && strings.Contains(stringMatch, "=") {
+			if strings.Contains(stringMatch, "=") {
 				dockerIP := strings.Split(stringMatch, "=")[1]
 				log.Infof("Docker endpoint is: %s\n", dockerIP)
-				go setupDefaultAdmiral(string(dockerIP))
+				go func() {
+					wg.Add(1)
+					defer wg.Done()
+					err := setupDefaultAdmiral(string(dockerIP))
+					if err != nil {
+						ls.send(fmt.Sprintf("Failed to add %s to the Container Management Portal", dockerIP))
+						return
+					}
+					ls.send(fmt.Sprintf("Added %s to the Container Management Portal.", dockerIP))
+				}()
 			}
 		}
 	}()
 
+	// run the vic-machine command and write it's stdout/stderr to the logWriter
 	go func() {
+		defer logWriter.Close()
+
+		// attach cmd std out and std err to log Writer
+		ls.cmd.Stderr = logWriter
+		ls.cmd.Stdout = logWriter
 		cmdDone <- ls.cmd.Run()
 	}()
 
 	select {
 	case <-time.After(waitTime):
-		if err := ls.cmd.Process.Kill(); err != nil {
-			ls.send(fmt.Sprintf("failed to kill create: %v ", err))
-		}
-		ls.send("Create exited after timeout")
+		ls.send("Create exited after timeout.")
 	case err := <-cmdDone:
 		if err != nil {
 			ls.send(fmt.Sprintf("Create failed with error: %v\n", err))
@@ -112,12 +122,14 @@ func (ls *LogStream) start() {
 			ls.send("Execution complete.")
 		}
 	}
+
+	wg.Wait() // block on setting up the default admiral cluster
 }
 
 func (ls *LogStream) websocketServer(resp http.ResponseWriter, req *http.Request) {
 	defer trace.End(trace.Begin(""))
 
-	//turn http requests into websockets
+	// turn http requests into websockets
 	upgrader := websocket.Upgrader{}
 	websocket, err := upgrader.Upgrade(resp, req, nil)
 	if err != nil {
@@ -126,7 +138,7 @@ func (ls *LogStream) websocketServer(resp http.ResponseWriter, req *http.Request
 		panic(err)
 	}
 
-	//set logstrem websocket for use by start() and send()
+	// set logstrem websocket for use by start() and send()
 	ls.websocket = websocket
 	defer ls.websocket.Close()
 

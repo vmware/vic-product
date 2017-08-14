@@ -1,0 +1,11 @@
+{
+
+	"title": "Configure and Manage VMware vSphere Integrated Containers 1.2",
+        "gitbook": "3.x.x",
+	"pdf": {
+		"headerTemplate": "_TITLE_",
+		"footerTemplate": "_PAGENUM_",
+                "paperSize": "letter"
+	}
+         
+}

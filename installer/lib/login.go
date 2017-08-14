@@ -16,7 +16,9 @@ package lib
 
 import (
 	"context"
+	"fmt"
 	"net/url"
+	"time"
 
 	log "github.com/Sirupsen/logrus"
 
@@ -24,6 +26,8 @@ import (
 	"github.com/vmware/vic/lib/install/validate"
 	"github.com/vmware/vic/pkg/trace"
 )
+
+const loginTimeout = 15 * time.Second
 
 type LoginInfo struct {
 	Target    string `json:"target"`
@@ -35,8 +39,6 @@ type LoginInfo struct {
 // Verify login based on info given, return non nil error if validation fails.
 func (info *LoginInfo) VerifyLogin() error {
 	defer trace.End(trace.Begin(""))
-
-	ctx := context.TODO()
 
 	var u url.URL
 	u.User = url.UserPassword(info.User, info.Password)
@@ -56,13 +58,29 @@ func (info *LoginInfo) VerifyLogin() error {
 	input.User = username
 	input.Password = &passwd
 
-	v, err := validate.NewValidator(ctx, input)
-	if err != nil {
-		log.Infof("validator: %s", err)
-		return err
+	ctx, _ := context.WithTimeout(context.Background(), loginTimeout)
+	loginResponse := make(chan error, 1)
+	var v *validate.Validator
+	var err error
+
+	go func() {
+		v, err = validate.NewValidator(ctx, input)
+		info.Validator = v
+		loginResponse <- err
+	}()
+
+	select {
+	case <-ctx.Done():
+		loginResponse <- fmt.Errorf("login failed; validator context exceeded")
+	case err := <-loginResponse:
+		if err != nil {
+			log.Infof("validator: %s", err)
+			loginResponse <- err
+		} else {
+			loginResponse <- nil
+		}
+
 	}
 
-	info.Validator = v
-
-	return nil
+	return <-loginResponse
 }

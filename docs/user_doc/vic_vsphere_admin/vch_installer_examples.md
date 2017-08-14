@@ -28,12 +28,12 @@ For simplicity, these examples use the `--force` option to disable the verificat
 For detailed descriptions of all of the `vic-machine create` options, see [VCH Deployment Options](vch_installer_options.md).
 
 
-## General Deployment Examples {#general}
+## General Deployment Examples <a id="general"></a>
 
 The examples in this section demonstrate the deployment of VCHs in different vSphere environments.
 
 
-### Deploy to a vCenter Server Cluster with Multiple Datacenters and Datastores {#cluster}
+### Deploy to a vCenter Server Cluster with Multiple Datacenters and Datastores <a id="cluster"></a>
 
 If vCenter Server has more than one datacenter, you specify the datacenter in the `--target` option.
 
@@ -59,7 +59,7 @@ This example deploys a VCH with the following configuration:
 </pre>
 
 
-### Deploy to a Specific Standalone Host in vCenter Server {#standalone} 
+### Deploy to a Specific Standalone Host in vCenter Server <a id="standalone"></a> 
 
 If vCenter Server manages multiple standalone ESXi hosts that are not part of a cluster, you use the `--compute-resource` option to specify the address of the ESXi host to which to deploy the VCH.
 
@@ -79,7 +79,7 @@ This example deploys a VCH with the following configuration:
 </pre>
 
 
-### Deploy to a Resource Pool on an ESXi Host {#rp_host}
+### Deploy to a Resource Pool on an ESXi Host <a id="rp_host"></a>
 
 To deploy a VCH in a specific resource pool on an ESXi host that is not managed by vCenter Server, you specify the resource pool name in the `--compute-resource` option. 
 
@@ -98,7 +98,7 @@ This example deploys a VCH with the following configuration:
 </pre>
 
 
-### Deploy to a Resource Pool in a vCenter Server Cluster {#rp_cluster}
+### Deploy to a Resource Pool in a vCenter Server Cluster <a id="rp_cluster"></a>
 
 To deploy a VCH in a resource pool in a vCenter Server cluster, you specify the resource pool in the `compute-resource` option.
 
@@ -131,7 +131,7 @@ If the name of the resource pool is not unique across all clusters, for example 
 
 Note that the resource pool and cluster names in these examples are wrapped in quotes, because they contain spaces. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system.
 
-### Set Limits on Resource Use {#customized}
+### Set Limits on Resource Use <a id="customized"></a>
 
 To limit the amount of system resources that the container VMs in a VCH can use, you can set resource limits on the VCH vApp. 
 
@@ -159,12 +159,12 @@ This example deploys a VCH with the following configuration:
 For more information about setting resource use limitations on VCHs, see the [Advanced Deployment Options](vch_installer_options.md#deployment) and [Advanced Resource Management Options](vch_installer_options.md#adv-mgmt) sections in VCH Deployment Options.
 
 
-## Networking Examples {#networking}
+## Networking Examples <a id="networking"></a>
 
 The examples in this section demonstrate how to direct traffic to and from VCHs and the other elements in your environment, how to set static IPs, how to configure container VM networks, and how to configure a VCH to use a proxy server.
 
 
-### Specify Public, Management, and Client Networks {#networks}
+### Specify Public, Management, and Client Networks <a id="networks"></a>
 
 In addition to the mandatory bridge network, if your vCenter Server environment includes multiple networks, you can direct different types of traffic to different networks. 
 
@@ -195,7 +195,7 @@ This example deploys a VCH with the following configuration:
 For more information about the networking options, see the [Networking Options section](vch_installer_options.md#networking) in VCH Deployment Options.
 
 
-### Set a Static IP Address for the VCH Endpoint VM on the Different Networks {#static-ip}
+### Set a Static IP Address for the VCH Endpoint VM on the Different Networks <a id="static-ip"></a>
 
 If you specify networks for any or all of the public, management, and client networks, you can deploy the VCH so that the VCH endpoint VM has a static IP address on one or more of those networks.  
 
@@ -228,7 +228,7 @@ This example deploys a VCH with the following configuration:
 For more information about setting static IP addresses, see the [Specify a Static IP Address for the VCH Endpoint VM](vch_installer_options.md#static-ip) in VCH Deployment Options.
 
 
-### Configure a Non-DHCP Network for Container VMs {#ip-range}
+### Configure a Non-DHCP Network for Container VMs <a id="ip-range"></a>
 
 You can designate a specific network for container VMs to use by specifying the `--container-network` option. Containers use this network if the container developer runs `docker run` or `docker create` specifying the `--net` option with one of the specified container networks when they run or create a container. This option requires a port group that must exist before you run `vic-machine create`. You cannot use the same port group that you use for the bridge network. You can provide a descriptive name for the network, for use by Docker. If you do not specify a descriptive name, Docker uses the vSphere network name. For example, the descriptive name appears as an available network in the output of `docker info` and `docker network ls`. 
 
@@ -262,7 +262,7 @@ This example deploys a VCH with the following configuration:
 For more information about the container network options, see the [`--container-network`](vch_installer_options.md#container-network) and  [Configure Container Networks](vch_installer_options.md#adv-container-net) sections in VCH Deployment Options.
 
 
-### Configure a Proxy Server {#proxy}
+### Configure a Proxy Server <a id="proxy"></a>
 
 If your network access is controlled by a proxy server, you must   configure a VCH to connect to the proxy server when you deploy it, so that it can pull images from external sources.
 
@@ -284,7 +284,7 @@ This example deploys a VCH with the following configuration:
 
 
 
-## Specify Volume Stores {#volume-stores}
+## Specify Volume Stores <a id="volume-stores"></a>
 
 If container application developers will use the `docker volume create` command to create containers that use volumes, you must create volume stores when you deploy VCHs. You specify volume stores in the `--volume-store` option. You can specify `--volume-store` multiple times to create multiple volume stores. 
 
@@ -312,12 +312,12 @@ This example deploys a VCH with the following configuration:
 For more information about volume stores, see the [volume-store section](vch_installer_options.md#volume-store) in VCH Deployment Options. 
 
 
-## Security Examples {#security}
+## Security Examples <a id="security"></a>
 
 The examples in this section demonstrate how to configure a VCH to use Certificate Authority (CA) certificates to enable `TLSVERIFY` in your Docker environment, and to allow access to insecure registries of Docker images.
 
 
-###  Use Auto-Generated Trusted CA Certificates {#auto_cert}
+###  Use Auto-Generated Trusted CA Certificates <a id="auto_cert"></a>
 
 You can deploy a VCH that implements two-way authentication with trusted auto-generated TLS certificates that are signed by a CA. 
 
@@ -347,7 +347,7 @@ The Docker API for this VCH will be accessible at `https://dhcp-a-b-c.example.co
 For more information about using auto-generated CA certificates, see the section [Restrict Access to the Docker API with Auto-Generated Certificates](vch_installer_options.md#restrict_auto) in VCH Deployment Options.
 
 
-### Use Custom Server Certificates {#custom_cert}
+### Use Custom Server Certificates <a id="custom_cert"></a>
 
 You can create a VCH that uses a custom server certificate, for example  a server certificate that has been signed by Verisign or another public root. You use the `--tls-server-cert` and `--tls-server-key` options to provide the paths to a custom X.509 certificate and its key when you deploy a VCH. The paths to the certificate and key files must be relative to the location from which you are running `vic-machine create`.
 
@@ -369,7 +369,7 @@ This example deploys a VCH with the following configuration:
 
 For more information about using custom server certificates, see the section [Restrict Access to the Docker API with Custom Certificates](vch_installer_options.md#restrict_custom) in VCH Deployment Options.
 
-### Combine Custom Server Certificates and Auto-Generated Client Certificates {#certcombo}
+### Combine Custom Server Certificates and Auto-Generated Client Certificates <a id="certcombo"></a>
 
 You can create a VCH with a custom server certificate by specifying the paths to custom `server-cert.pem` and `server-key.pem` files in the `--tls-server-cert` and `--tls-server-key` options. The key should be un-encrypted. Specifying the `--tls-server-cert` and `--tls-server-key` options for the server certificate does not affect the automatic generation of client certificates. If you specify the `--tls-cname` option to match the common name value of the server certificate, `vic-machine create` generates self-signed certificates for Docker client authentication and deployment of the VCH succeeds.
 
@@ -391,7 +391,7 @@ This example deploys a VCH with the following configuration:
 --force
 </pre>
 
-### Specify Different User Accounts for VCH Deployment and Operation {#ops-user}
+### Specify Different User Accounts for VCH Deployment and Operation <a id="ops-user"></a>
 
 When you deploy a VCH, you can use different vSphere user accounts for deployment and for operation. This allows you to run VCHs with lower levels of privileges than are required for deployment.
 
@@ -418,11 +418,11 @@ This example deploys a VCH with the following configuration:
 
 For information about the permissions that the `--ops-user` account requires, and the permissions to set on the resource pool for the VCH and on the network folders, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
 
-## Registry Server Examples {#regserv}
+## Registry Server Examples <a id="regserv"></a>
 
 The examples in this section demonstrate how to configure a VCH to use a private registry server, for example vSphere Integrated Containers Registry.
 
-### Authorize Access to an Insecure Private Registry Server {#registry}
+### Authorize Access to an Insecure Private Registry Server <a id="registry"></a>
 
 To authorize connections from a VCH to a private registry server without verifying the certificate of that registry, set the `insecure-registry` option. If you authorize a VCH to connect to an insecure private registry server, the VCH attempts to access the registry server via HTTP if access via HTTPS fails. VCHs always use HTTPS when connecting to registry servers for which you have not authorized insecure access. You can specify `insecure-registry` multiple times to allow connections from the VCH to multiple insecure private registry servers.
 
@@ -446,6 +446,6 @@ This example deploys a VCH with the following configuration:
 
 For more information about configuring VCHs to allow connections to insecure private registry servers, see the section on the [`insecure-registry` option](vch_installer_options.md#insecure-registry) in VCH Deployment Options.
 
-### Authorize Access to Secure Registries and vSphere Integrated Containers Registry {#secureregistry}
+### Authorize Access to Secure Registries and vSphere Integrated Containers Registry <a id="secureregistry"></a>
 
 For an example of how to use `--registry-ca` to authorize access to vSphere Integrated Containers Registry or to another secure registry, see [Deploy a VCH for Use with vSphere Integrated Containers Registry](deploy_vch_registry.md).
