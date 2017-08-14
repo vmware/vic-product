@@ -11,9 +11,9 @@ The command line utility for vSphere Integrated Containers Engine, `vic-machine`
 
 To allow you to fine-tune the deployment of VCHs, `vic-machine create` provides [Advanced Options](#advanced).
 
-- [Options for Specifying a Static IP Address for the VCH Endpoint VM](#static-ip)
-- [Options for Configuring a Non-DHCP Network for Container Traffic](#adv-container-net)
-- [Options to Configure VCHs to Use Proxy Servers](#proxy)
+- [Specify a Static IP Address for the VCH Endpoint VM](#static-ip)
+- [Configure Container Networks](#adv-container-net)
+- [Configure VCHs to Use Proxy Servers](#proxy)
 - [Advanced Resource Management Options](#adv-mgmt)
 - [Other Advanced Options](#adv-other)
 
@@ -146,7 +146,7 @@ Short name: None
 
 The FQDN or IP address to embed in an auto-generated server certificate. Specify an FQDN, IP address, or a domain wildcard. If you provide a custom server certificate by using the `--tls-server-cert` option, you can use `--tls-cname` as a sanity check to ensure that the certificate is valid for the deployment.
 
-If you do not specify `--tls-cname` but you do set a static address for the VCH on the client network interface, `vic-machine create` uses that  address for the Common Name, with the same results as if you had specified `--tls-cname=x.x.x.x`. For information about setting a static IP address on the client network, see [Options for Specifying a Static IP Address for the VCH Endpoint VM](#static-ip).
+If you do not specify `--tls-cname` but you do set a static address for the VCH on the client network interface, `vic-machine create` uses that  address for the Common Name, with the same results as if you had specified `--tls-cname=x.x.x.x`. For information about setting a static IP address on the client network, see [Specify a Static IP Address for the VCH Endpoint VM](#static-ip).
 
 When you specify the `--tls-cname` option, `vic-machine create` performs the following actions during the deployment of the VCH:
 
@@ -475,7 +475,7 @@ The `vic-machine create` utility allows you to specify different networks for th
 
 By default, `vic-machine create` obtains IP addresses for VCH endpoint VMs by using DHCP. For information about how to specify a static IP address for the VCH endpoint VM on the client, public, and management networks, see [Specify a Static IP Address for the VCH Endpoint VM](#static-ip) in Advanced Options.
 
-If your network access is controlled by a proxy server, see [Options to Configure VCHs to Use Proxy Servers](#proxy) in Advanced Options. 
+If your network access is controlled by a proxy server, see [Configure VCHs to Use Proxy Servers](#proxy) in Advanced Options. 
 
 When you specify different network interfaces for the different types of traffic, `vic-machine create` checks that the firewalls on the ESXi hosts allow connections to port 2377 from those networks. If access to port 2377 on one or more ESXi hosts is subject to IP address restrictions, and if those restrictions block access to the network interfaces that you specify, `vic-machine create` fails with a firewall configuration error:
 <pre>Firewall configuration incorrect due to allowed IP restrictions on hosts: 
@@ -602,7 +602,7 @@ If you specify an invalid port group name, `vic-machine create` fails and sugges
 - The port group must exist before you run `vic-machine create`. 
 - You cannot use the same port group as you use for the bridge network. 
 - You can create the port group on the same distributed virtual switch as the port group that you use for the bridge network.
-- If the port group that you specify in the `container-network` option does not support DHCP, see [Options for Configuring a Non-DHCP Network for Container Traffic](#adv-container-net) in Advanced Options. 
+- If the port group that you specify in the `container-network` option does not support DHCP, see [Configure Container Networks](#adv-container-net) in Advanced Options. 
 - The descriptive name appears under `Networks` when you run `docker info` or `docker network ls` on the deployed VCH.
 - Container developers use the descriptive name in the `--net` option when they run `docker run` or `docker create`.
 
@@ -675,13 +675,13 @@ The timeout period for uploading the vSphere Integrated Containers Engine files 
 
 The options in this section are exposed in the `vic-machine create` help if you run <code>vic-machine create --extended-help</code>, or <code>vic-machine create -x</code>. 
 
-## Options for Specifying a Static IP Address for the VCH Endpoint VM <a id="static-ip"></a>
+## Specify a Static IP Address for the VCH Endpoint VM <a id="static-ip"></a>
 
 You can specify a static IP address for the VCH endpoint VM on each of the client, public, and management networks. DHCP is used for the endpoint VM for any network on which you do not specify a static IP address.
 
 To specify a static IP address for the endpoint VM on the client, public, or management network, you provide an IP address in the `client/public/management-network-ip` option. If you set a static IP address, you can optionally provide gateway addresses and specify one or more DNS server addresses.
 
-### `--dns-server` ###
+### `--dns-server` <a id="dns-server"></a>
 
 Short name: None
 
@@ -751,7 +751,9 @@ In the following example, `--management-network-gateway` informs the VCH that it
 
 
 
-## Options for Configuring a Non-DHCP Network for Container Traffic <a id="adv-container-net"></a>
+
+## Configure Container Networks <a id="adv-container-net"></a>
+
 If the network that you specify in the `container-network` option does not support DHCP, you must specify the `container-network-gateway` option. You can optionally specify one or more DNS servers and a range of IP addresses for container VMs on the container network. 
 
 For information about the container network, see the section on the [`container-network` option](#container-network).
@@ -802,8 +804,26 @@ Wrap the port group name in single quotes (Linux or Mac OS) or double quotes (Wi
 
 <pre>--container-network-ip-range '<i>port group name</i>':192.168.100.0/24</pre>
 
+### `--container-network-firewall`  <a id="container-network-firewall"></a>
 
-## Options to Configure VCHs to Use Proxy Servers <a id="proxy"></a>
+Short name: `--cnf`
+
+You can configure the trust level of container networks by setting the 
+`--container-network-firewall` option. 
+
+The `--container-network-firewall` option allows you to set the following levels of trust.
+
+|Trust Level|Description|
+|---|---|
+|`closed`|No traffic can come in or out of the container interface.|
+|`outbound`|Only outbound connections permitted.|
+|`peers`|Only connections to other containers with the same `peers` interface are permitted. To enforce the `peers` trust level, you must set the `--container-network-ip-range` on the container network. The VCH applies a network rule so that container traffic is only allowed over that IP range. If you do not specify an IP range, the container network uses DHCP and there is no way that the VCH can determine whether or not a container at a given IP address is a peer to another container. In this case, the VCH defaults to the `open` setting, and it treats all connections as peer connections.|
+|`published`|Only connections to published ports permitted.|
+|`open`|All traffic permitted.|
+
+<pre>--container-network-firewall <i>port_group_name</i>:<i>trust_level</i></pre>
+
+## Configure VCHs to Use Proxy Servers <a id="proxy"></a>
 
 If access to the Internet or to your private image registries requires the use of a proxy server, you must configure a VCH to connect to the proxy server when you deploy it. The proxy is used only when pulling images, and not for any other purpose.
 
@@ -811,7 +831,7 @@ If access to the Internet or to your private image registries requires the use o
 
 ### `--https-proxy` ###
 
-Short name: `--sproxy`
+Short name: None
 
 The address of the HTTPS proxy server through which the VCH accesses image registries when using HTTPS. Specify the address of the proxy server as either an FQDN or an IP address.
 
@@ -819,7 +839,7 @@ The address of the HTTPS proxy server through which the VCH accesses image regis
 
 ### `--http-proxy` ###
 
-Short name: `--hproxy`
+Short name: None
 
 The address of the HTTP proxy server through which the VCH accesses image registries when using HTTP. Specify the address of the proxy server as either an FQDN or an IP address.
 
@@ -959,7 +979,7 @@ When you specify `vic-machine create --debug`, you set a debugging level of 1, 2
 
 - `--debug 1` Provides extra verbosity in the logs, with no other changes to `vic-machine` behavior.
 - `--debug 2` Exposes servers on more interfaces, launches `pprof` in container VMs.
-- `--debug 3` Disables recovery logic and logs sensitive data. Disables the restart of failed components and prevents container VMs from shutting down. Logs environment details for user application, and collects application output in the log bundle.
+- `--debug 3` Disables recovery logic and logs sensitive data. Disables the restart of failed components and prevents container VMs from shutting down. Logs environment details for user application, and collects application output in the log bundle. This is the maximum  supported debugging level.
 
 Additionally, deploying a VCH with a `--debug 3` enables SSH access to the VCH endpoint VM console by default, with a root password of `password`, without requiring you to run the `vic-machine debug` command. This functionality enables you to perform targeted interactive diagnostics in environments in which a VCH endpoint VM failure occurs consistently and in a fashion that prevents `vic-machine debug` from functioning. 
 

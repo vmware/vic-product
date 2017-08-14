@@ -225,7 +225,7 @@ This example deploys a VCH with the following configuration:
 --name vch1
 </pre>
 
-For more information about setting static IP addresses, see the [Options for Specifying a Static IP Address for the VCH Endpoint VM](vch_installer_options.md#static-ip) in VCH Deployment Options.
+For more information about setting static IP addresses, see the [Specify a Static IP Address for the VCH Endpoint VM](vch_installer_options.md#static-ip) in VCH Deployment Options.
 
 
 ### Configure a Non-DHCP Network for Container VMs <a id="ip-range"></a>
@@ -241,6 +241,7 @@ This example deploys a VCH with the following configuration:
 - Designates a port group named `vic-containers` for use by container VMs that are run with the `--net` option.
 - Gives the container network the name `vic-container-network`, for use by Docker. 
 - Specifies the gateway, two DNS servers, and a range of IP addresses on the container network for container VMs to use.
+- Opens the firewall on the container network for outbound connections.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
@@ -252,12 +253,13 @@ This example deploys a VCH with the following configuration:
 --container-network-dns vic-containers:<i>dns1_ip_address</i>
 --container-network-dns vic-containers:<i>dns2_ip_address</i>
 --container-network-ip-range vic-containers:192.168.100.0/24
+--container-network-firewall vic-containers:outbound
 --name vch1
 --force
 --no-tls
 </pre>
 
-For more information about the container network options, see the [`--container-network`](vch_installer_options.md#container-network) and [Options for Configuring a Non-DHCP Network for Container Traffic](vch_installer_options.md#adv-container-net) sections in VCH Deployment Options.
+For more information about the container network options, see the [`--container-network`](vch_installer_options.md#container-network) and  [Configure Container Networks](vch_installer_options.md#adv-container-net) sections in VCH Deployment Options.
 
 
 ### Configure a Proxy Server <a id="proxy"></a>
