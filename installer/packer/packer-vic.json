@@ -102,6 +102,11 @@
       "script": "scripts/package_provisioning.sh"
     },
     {
+      "type": "shell",
+      "script": "scripts/filesystem_provisioning.sh",
+      "pause_before": "15s"
+    },
+    {
       "type": "file",
       "source": "../bin/ovfenv",
       "destination": "/usr/bin/ovfenv"
