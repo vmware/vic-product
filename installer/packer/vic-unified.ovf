@@ -278,6 +278,22 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
         <Description>Specifies the port on which fileserver will be published.</Description>
       </Property>
     </ProductSection>
+    <ProductSection ovf:class="default_users" ovf:required="false">
+      <Info>Out-of-the-box VIC users</Info>
+      <Category>7. Out-of-the box-users configuration</Category>
+      <Property ovf:key="create_def_users" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="true">
+        <Label>7.1. Create out-of-the-box-users</Label>
+        <Description>Uncheck to skip creation of out-of-the-box users.</Description>
+      </Property>
+      <Property ovf:key="def_user_prefix" ovf:qualifiers="MinLen(0),MaxLen(64)" ovf:type="string" ovf:userConfigurable="true" ovf:value="vicdef">
+        <Label>7.2. Out-of-the-box users prefix</Label>
+        <Description>Prefix to be used to create out-of-the-box VIC users.</Description>
+      </Property>
+      <Property ovf:key="def_user_password" ovf:password="true" ovf:qualifiers="MinLen(0),MaxLen(128)" ovf:type="string" ovf:userConfigurable="true" ovf:value="VicPro!23">
+        <Label>7.3. Out-of-the-box users password</Label>
+        <Description>Password to be used to create out-of-the-box VIC users. The password must follow the rules set for vSphere.</Description>
+      </Property>
+    </ProductSection>
     <ProductSection ovf:class="vm" ovf:required="false">
       <Info>VM specific properties</Info>
       <Property ovf:key="vmname" ovf:type="string" ovf:value="vic"/>
