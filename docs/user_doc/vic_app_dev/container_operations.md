@@ -25,7 +25,7 @@
 | **Command** | **Docker Reference** | **Supported** |
 | --- | --- | --- |
 |`build`|[Build an image from a Dockerfile](https://docs.docker.com/engine/reference/commandline/build/)|No|
-|`commit`|[Create a new image from a container’s changes](https://docs.docker.com/engine/reference/commandline/commit/)|Yes, since 1.2|
+|`commit`|[Create a new image from a container’s changes](https://docs.docker.com/engine/reference/commandline/commit/)|Yes, since 1.2. You can only run `docker commit` on stopped containers.|
 |`history`|[Show the history of an image](https://docs.docker.com/engine/reference/commandline/history/)|No|
 |`images`|[Images](https://docs.docker.com/engine/reference/commandline/images/)|Yes, since 1.0. Supports `--filter`, `--no-trunc`, and `--quiet`|
 |`import`|[Import the contents from a tarball to create a filesystem image](https://docs.docker.com/engine/reference/commandline/import/)|No|
