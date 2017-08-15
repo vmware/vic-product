@@ -39,6 +39,7 @@ systemctl enable engine_installer_startup.service engine_installer.service
 
 # Clean up temporary directories
 rm -rf /var/tmp/harbor
+tdnf clean all
 
 # seal the template
 > /etc/machine-id

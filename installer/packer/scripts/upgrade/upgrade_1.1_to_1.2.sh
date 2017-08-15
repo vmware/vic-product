@@ -55,7 +55,7 @@ function harborDataSanityCheck {
 # Check if directory is present
 function checkDir {
   if [ -d "$1" ]; then
-    echo "Directory $1 already exists. Please remove and retry upgrade."
+    echo "Directory $1 already exists. If upgrade is not already running or previously completed, remove the directory and retry upgrade."
     exit 1
   fi
 }
@@ -66,6 +66,10 @@ function checkHarborPSCToken {
     echo "PSC token ${harbor_psc_token_file} not present. Unable to perform data migration to Admiral."
     exit 1
   fi
+  if [ ! -s "${harbor_psc_token_file}" ]; then
+    echo "PSC token ${harbor_psc_token_file} has zero size. Unable to perform data migration to Admiral."
+    exit 1
+  fi
 }
 
 # Check if required PSC token is present
@@ -74,9 +78,12 @@ function checkAdmiralPSCToken {
     echo "PSC token ${admiral_psc_token_file} not present."
     exit 1
   fi
+  if [ ! -s "${admiral_psc_token_file}" ]; then
+    echo "PSC token ${admiral_psc_token_file} has zero size."
+    exit 1
+  fi
 }
 
-# Read a file
 function readFile {
  cat "$1" ; echo
 }
@@ -177,9 +184,12 @@ function migrateHarborData {
 
   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql -v ${harbor_backup}:/harbor-migration/backup ${migrator_image} backup
   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e SKIP_CONFIRM=y -v ${harbor_database}:/var/lib/mysql ${migrator_image} up head
+  if [ $? -ne 0 ]; then
+    (>&2 echo "Harbor up head command failed")
+    exit 1
+  fi
   # Overwrites ${harbor_migration}/harbor_projects.json if present
   docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e EXPORTPATH=/harbor_migration -v ${harbor_migration}:/harbor_migration -v ${harbor_database}:/var/lib/mysql ${migrator_image} export
-
   if [ $? -ne 0 ]; then
     (>&2 echo "Harbor data export failed")
     exit 1
@@ -189,6 +199,10 @@ function migrateHarborData {
 function admiralImportData {
   checkHarborPSCToken
   /etc/vmware/harbor/admiral_import --admiralendpoint https://localhost:8282 --tokenfile ${harbor_psc_token_file} --projectsfile ${harbor_migration}/harbor_projects.json
+  if [ $? -ne 0 ]; then
+    (>&2 echo "Importing Harbor data to Admiral failed")
+    exit 1
+  fi
 }
 
 function performAdmiralUpgrade {
@@ -264,6 +278,10 @@ function performAdmiralUpgrade {
   local psc_token
   psc_token=$(readFile ${admiral_psc_token_file})
   /etc/vmware/admiral/migrate.sh "$old_admiral" "$new_admiral" "$psc_token"
+  if [ $? -ne 0 ]; then
+    (>&2 echo "Data migration to new Admiral failed")
+    exit 1
+  fi
 
   echo "Admiral migration complete"
   docker stop vic-upgrade-admiral
@@ -283,6 +301,7 @@ function upgradeAdmiral {
   checkAdmiralPSCToken
   checkUpgradeStatus "Admiral" ${admiral_upgrade_status}
   if [ $? -ne 0 ]; then
+    # Return to skip Admiral, continue
     return 1
   fi
 
@@ -317,6 +336,7 @@ function upgradeHarbor {
   echo "Performing pre-upgrade checks"
   checkUpgradeStatus "Harbor" ${harbor_upgrade_status}
   if [ $? -ne 0 ]; then
+    # Return to skip Harbor, continue
     return 1
   fi
 
@@ -341,13 +361,16 @@ function upgradeHarbor {
 
   echo "[=] Migrating Harbor data"
   migrateHarborData
+  echo "[=] Finished migrating Harbor data"
 
   echo "[=] Migrating Harbor configuration"
   upgradeHarborConfiguration
+  echo "[=] Finished migrating Harbor configuration"
 
   echo "[=] Importing project data into Admiral"
   checkAdmiralRunning
   admiralImportData
+  echo "[=] Finished importing project data into Admiral"
 
   echo "Harbor upgrade complete"
   # Set timestamp file
@@ -355,7 +378,6 @@ function upgradeHarbor {
 
   echo "Starting Harbor"
   systemctl start harbor_startup.service
-  systemctl start harbor.service
 }
 
 # Register appliance for content trust
@@ -452,14 +474,18 @@ function main {
 
   systemctl start docker.service
 
+  echo "Preparing upgrade environment"
   disableServicesStart
   registerAppliance
   getPSCTokens
+  echo "Finished preparing upgrade environment"
 
   upgradeAdmiral
   upgradeHarbor
 
   enableServicesStart
+  echo "Upgrade script complete. Exiting."
+  exit 0
 }
 
 main "$@"
