@@ -462,12 +462,14 @@ If you specify an invalid vSphere datastore name or an invalid NFS data volume U
 
 - To specify an NFS data volume as a volume store, use the `nfs://` prefix and the path to a shared mount point.
 
-    <pre>nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>volume_store_label</i></pre>
+    **IMPORTANT**: When container developers run `docker info` or `docker volume ls` against a VCH, there is currently no indication whether a volume store is backed by vSphere or by an NFS data volume. Consequently, you should include an indication that a volume store is an NFS data volume in the volume store label. 
+
+    <pre>nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
 
     You can also specify the URL, UID, GID, and access protocol of a shared NFS mount point when you specify an NFS data volume.
-    <pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&gid=5678&proto=tcp:<i>volume_store_label</i></pre>
+    <pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&gid=5678&proto=tcp:<i>nfs_volume_store_label</i></pre>
 
-    You cannot specify the root folder of an NFS server as a volume store.
+    You cannot specify the root folder of an NFS server as a volume store. 
     
 - If you only require one volume store, set the volume store label to `default`. If you set the volume store label to `default`, container developers do not need to specify the <code>--opt VolumeStore=<i>volume_store_label</i></code> option when they run `docker volume create`. 
 
