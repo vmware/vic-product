@@ -9,6 +9,7 @@ This version of vSphere Integrated Containers Engine supports these features:
 - Pulling images from Docker hub and private registries
 - Named data volumes
 - Anonymous data volumes
+- Sharing concurrent NFS data volumes between containers
 - Bridged networks
 - External networks
 - Port mapping
@@ -19,7 +20,6 @@ This version of vSphere Integrated Containers Engine supports these features:
 This version of vSphere Integrated Containers Engine does not support these features:
 
 - Pulling images via image digest 
-- Sharing concurrent data volume between containers
 - Mapping a local host folder to a container volume
 - Mapping a local host file to a container
 - `docker push`

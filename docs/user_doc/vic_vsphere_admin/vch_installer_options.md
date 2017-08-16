@@ -438,7 +438,7 @@ The label that you specify is the volume store name that Docker uses. For exampl
 
 **IMPORTANT**: The volume store label must be unique.
 
-If you specify an invalid datastore name, `vic-machine create` fails and suggests valid datastores. 
+If you specify an invalid vSphere datastore name or an invalid NFS data volume URL, `vic-machine create` fails and suggests valid datastores. 
 
 **IMPORTANT** If you do not specify the `volume-store` option, no  volume store is created and container developers cannot use the `docker volume create` or `docker create -v` commands. You can add volume stores to a VCH after deployment by running `vic-machine configure --volume-store`. For information about adding volume stores after deployment, see [Add Volume Stores](configure_vch.md#volumes) in Configure Virtual Container Hosts.
 
@@ -460,11 +460,14 @@ If you specify an invalid datastore name, `vic-machine create` fails and suggest
 
      **IMPORTANT**: If multiple VCHs will use the same datastore for their volume stores, specify a different datastore folder for each VCH. Do not designate the same datastore folder as the volume store for multiple VCHs.
 
-- To specify an NFS data volume as a volume store, use the `nfs://` prefix and the path to a shared mount point.<pre>nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>volume_store_label</i></pre>
+- To specify an NFS data volume as a volume store, use the `nfs://` prefix and the path to a shared mount point.
+
+    <pre>nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>volume_store_label</i></pre>
 
     You can also specify the URL, UID, GID, and access protocol of a shared NFS mount point when you specify an NFS data volume.
     <pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&gid=5678&proto=tcp:<i>volume_store_label</i></pre>
 
+    You cannot specify the root folder of an NFS server as a volume store.
     
 - If you only require one volume store, set the volume store label to `default`. If you set the volume store label to `default`, container developers do not need to specify the <code>--opt VolumeStore=<i>volume_store_label</i></code> option when they run `docker volume create`. 
 
