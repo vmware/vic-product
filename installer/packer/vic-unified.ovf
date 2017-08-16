@@ -237,14 +237,6 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
         <Label>3.3. Garbage Collection</Label>
         <Description>When setting this to true, registry performs garbage collection everytime it boots up.</Description>
       </Property>
-      <Property ovf:key="ssl_cert" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>3.4. SSL Cert</Label>
-        <Description>Paste in the content of a certificate file. Leave blank for a generated self-signed certificate.</Description>
-      </Property>
-      <Property ovf:key="ssl_cert_key" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>3.5. SSL Cert Key</Label>
-        <Description>Paste in the content of certificate key file. Leave blank for a generated key.</Description>
-      </Property>
     </ProductSection>
     <ProductSection ovf:class="management_portal" ovf:required="false">
       <Info>Management Portal Properties</Info>
