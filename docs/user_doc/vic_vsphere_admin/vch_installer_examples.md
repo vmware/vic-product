@@ -295,6 +295,7 @@ This example deploys a VCH with the following configuration:
 - Specifies the user name, password, datacenter, cluster, bridge network, and name for the VCH.
 - Specifies the `volumes` folder on `datastore 1` as the default volume store. Creating a volume store named `default` allows container application developers to create anonymous or named volumes by using `docker create -v`. 
 - Specifies a second volume store named `volume_store_2` in the `volumes` folder on `datastore 2`. 
+- Specifies a shared NFS data volume named `shared_volume`, from which containers can mount shared volumes.
 - Note that the datastore names are wrapped in quotes, because they contain spaces. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system.
 
 <pre>vic-machine-<i>operating_system</i> create
@@ -302,8 +303,9 @@ This example deploys a VCH with the following configuration:
 --compute-resource cluster1
 --bridge-network vch1-bridge
 --image-store 'datastore 1'
---volume-store 'datastore 1'/volumes:default</i>
---volume-store 'datastore 2'/volumes:volume_store_2</i>
+--volume-store 'datastore 1'/volumes:default
+--volume-store 'datastore 2'/volumes:volume_store_2
+--volume-store nfs://nfs_store/path/to/share/point:shared_volume
 --name vch1
 --force
 --no-tls
