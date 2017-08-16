@@ -150,7 +150,7 @@ func main() {
 	mux := http.NewServeMux()
 
 	// attach static asset routes
-	routes := []string{"css", "images", "fonts"}
+	routes := []string{"css", "js", "images", "fonts"}
 	for _, route := range routes {
 		httpPath := fmt.Sprintf("/%s/", route)
 		dirPath := filepath.Join(c.serveDir, "/html/", route)
