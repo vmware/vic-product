@@ -1,4 +1,4 @@
-# Create a Project in vSphere Integrated Containers Registry #
+# Create a Project in vSphere Integrated Containers #
 
 In vSphere Integrated Containers Registry, you group container image repositories in projects. A project contains all of the repositories that an application requires. You cannot push images to vSphere Integrated Containers Registry until you have created a project. 
 
@@ -6,9 +6,9 @@ In vSphere Integrated Containers Registry, you group container image repositorie
 
 **Procedure**
 
-1. Log in to the vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282.
+1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
 
-   If the registry is configured so that only administrators can create projects,  Use an account with vCenter Server administrator privileges. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
+   Use an account with Cloud Administrator privileges.
 2. Select the **Administration** tab, click **Projects** on the left, then click the **+ Project** button.
 3. Provide a name for the project.
 4. (Optional) Check the **Public** check box to make the project public.

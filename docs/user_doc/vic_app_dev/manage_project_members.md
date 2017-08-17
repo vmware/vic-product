@@ -8,9 +8,9 @@ You have a created project and assigned users to it.
 
 **Procedure**
 
-1. Log in to the vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282.
+1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
 
-   Use an account with the system-wide Administrator role, or an account that has the Project Admin role for this project. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
+   Use an account with the system-wide Administrator role, or an account that has the Project Admin role for this project.
 2. Select the **Administration** tab, click **Projects** on the left, click a project name, and click **Members**.
 3. In the list of project members, click the 3 vertical dots next to a user name and select an option.
 
