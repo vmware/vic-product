@@ -20,9 +20,12 @@ harbor_backup="/data/harbor_backup"
 harbor_migration="/data/harbor_migration"
 harbor_psc_token_file="/etc/vmware/psc/harbor/tokens.properties"
 admiral_psc_token_file="/etc/vmware/psc/admiral/tokens.properties"
+timestamp_file="/registration-timestamps.txt"
 
 admiral_upgrade_status="/etc/vmware/admiral/upgrade_status"
 harbor_upgrade_status="/etc/vmware/harbor/upgrade_status"
+upgrade_log_file="/var/log/vmware/upgrade.log"
+mkdir -p "/var/log/vmware"
 
 DB_USER=""
 DB_PASSWORD=""
@@ -30,6 +33,7 @@ VCENTER_TARGET=""
 VCENTER_USERNAME=""
 VCENTER_PASSWORD=""
 APPLIANCE_IP=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
+TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S %z %Z")
 
 MANAGED_KEY="# Managed by configure_harbor.sh"
 export LC_ALL="C"
@@ -55,7 +59,7 @@ function harborDataSanityCheck {
 # Check if directory is present
 function checkDir {
   if [ -d "$1" ]; then
-    echo "Directory $1 already exists. If upgrade is not already running or previously completed, remove the directory and retry upgrade."
+    echo "Directory $1 already exists. If upgrade is not already running or previously completed, remove the directory and retry upgrade." | tee /dev/fd/3
     exit 1
   fi
 }
@@ -63,11 +67,11 @@ function checkDir {
 # Check if required PSC token is present
 function checkHarborPSCToken {
   if [ ! -f "${harbor_psc_token_file}" ]; then
-    echo "PSC token ${harbor_psc_token_file} not present. Unable to perform data migration to Admiral."
+    echo "PSC token ${harbor_psc_token_file} not present. Unable to perform data migration to Admiral." | tee /dev/fd/3
     exit 1
   fi
   if [ ! -s "${harbor_psc_token_file}" ]; then
-    echo "PSC token ${harbor_psc_token_file} has zero size. Unable to perform data migration to Admiral."
+    echo "PSC token ${harbor_psc_token_file} has zero size. Unable to perform data migration to Admiral." | tee /dev/fd/3
     exit 1
   fi
 }
@@ -75,11 +79,11 @@ function checkHarborPSCToken {
 # Check if required PSC token is present
 function checkAdmiralPSCToken {
   if [ ! -f "${admiral_psc_token_file}" ]; then
-    echo "PSC token ${admiral_psc_token_file} not present."
+    echo "PSC token ${admiral_psc_token_file} not present." | tee /dev/fd/3
     exit 1
   fi
   if [ ! -s "${admiral_psc_token_file}" ]; then
-    echo "PSC token ${admiral_psc_token_file} has zero size."
+    echo "PSC token ${admiral_psc_token_file} has zero size." | tee /dev/fd/3
     exit 1
   fi
 }
@@ -91,7 +95,7 @@ function readFile {
 # Check if Admiral is running
 function checkAdmiralRunning {
   if [ "$(systemctl is-active admiral.service)" != "active" ]; then
-    echo "Admiral is not running. Unable to perform data migration to Admiral."
+    echo "Admiral is not running. Unable to perform data migration to Admiral." | tee /dev/fd/3
     exit 1
   fi
 }
@@ -99,7 +103,9 @@ function checkAdmiralRunning {
 # Check timestamp file, skip if already upgraded
 function checkUpgradeStatus {
   if [ -f "$2" ]; then
-    echo "$1 upgrade previously completed. Skipping."
+    echo "$1 upgrade status show previously completed" | tee /dev/fd/3
+    echo "If upgrade is not already running or completed, execute the following command and rerun the upgrade script:" | tee /dev/fd/3
+    echo "    rm $2" | tee /dev/fd/3
     return 1
   fi
   return 0
@@ -176,33 +182,41 @@ function migrateHarborData {
   local harbor_database="/data/harbor/database"
 
   # Test database connection
+  set +e
   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql ${migrator_image} test
   if [ $? -ne 0 ]; then
-    (>&2 echo "Invalid database credentials")
+    echo "Invalid database credentials" | tee /dev/fd/3
     exit 1
   fi
+  set -e
 
   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql -v ${harbor_backup}:/harbor-migration/backup ${migrator_image} backup
+  set +e
   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e SKIP_CONFIRM=y -v ${harbor_database}:/var/lib/mysql ${migrator_image} up head
   if [ $? -ne 0 ]; then
-    (>&2 echo "Harbor up head command failed")
+    echo "Harbor up head command failed" | tee /dev/fd/3
     exit 1
   fi
+  set -e
   # Overwrites ${harbor_migration}/harbor_projects.json if present
+  set +e
   docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e EXPORTPATH=/harbor_migration -v ${harbor_migration}:/harbor_migration -v ${harbor_database}:/var/lib/mysql ${migrator_image} export
   if [ $? -ne 0 ]; then
-    (>&2 echo "Harbor data export failed")
+    echo "Harbor data export failed" | tee /dev/fd/3
     exit 1
   fi
+  set -e
 }
 
 function admiralImportData {
   checkHarborPSCToken
+  set +e
   /etc/vmware/harbor/admiral_import --admiralendpoint https://localhost:8282 --tokenfile ${harbor_psc_token_file} --projectsfile ${harbor_migration}/harbor_projects.json
   if [ $? -ne 0 ]; then
-    (>&2 echo "Importing Harbor data to Admiral failed")
+    echo "Importing Harbor data to Admiral failed" | tee /dev/fd/3
     exit 1
   fi
+  set -e
 }
 
 function performAdmiralUpgrade {
@@ -219,15 +233,15 @@ function performAdmiralUpgrade {
   local admiral_backup="/etc/vmware/upgrade/admiral_backup.tgz"
 
   if [ -d $new_admiral_data ]; then
-    echo "Admiral upgrade target exists"
-    echo "If upgrade is not already running or completed, execute the following command and rerun the upgrade script:"
-    echo "    rm -r $new_admiral_data"
+    echo "Admiral upgrade target exists" | tee /dev/fd/3
+    echo "If upgrade is not already running or completed, execute the following command and rerun the upgrade script:" | tee /dev/fd/3
+    echo "    rm -r $new_admiral_data" | tee /dev/fd/3
     exit 1
   fi
   if [ -f $admiral_backup ]; then
-    echo "Admiral upgrade backup exists"
-    echo "If upgrade is not already running or completed, execute the following command and rerun the upgrade script:"
-    echo "    rm $admiral_backup"
+    echo "Admiral upgrade backup exists" | tee /dev/fd/3
+    echo "If upgrade is not already running or completed, execute the following command and rerun the upgrade script:" | tee /dev/fd/3
+    echo "    rm $admiral_backup" | tee /dev/fd/3
     exit 1
   fi
 
@@ -277,72 +291,66 @@ function performAdmiralUpgrade {
 
   local psc_token
   psc_token=$(readFile ${admiral_psc_token_file})
+  set +e
   /etc/vmware/admiral/migrate.sh "$old_admiral" "$new_admiral" "$psc_token"
   if [ $? -ne 0 ]; then
-    (>&2 echo "Data migration to new Admiral failed")
+    echo "Data migration to new Admiral failed" | tee /dev/fd/3
     exit 1
   fi
+  set -e
 
-  echo "Admiral migration complete"
+  echo "Admiral migration complete" | tee /dev/fd/3
   docker stop vic-upgrade-admiral
   docker stop vic-admiral
 
-  echo "Archiving previous Admiral data"
+  echo "Archiving previous Admiral data" | tee /dev/fd/3
   /usr/bin/tar czf $admiral_backup $old_admiral_data
   rm -rf $old_admiral_data
   mv $new_admiral_data $old_admiral_data
 
-  echo "Cleaning up"
+  echo "Cleaning up" | tee /dev/fd/3
   docker rm -f vic-upgrade-admiral
 }
 
 function upgradeAdmiral {
-  echo "Performing pre-upgrade checks"
+  echo "Performing pre-upgrade checks" | tee /dev/fd/3
   checkAdmiralPSCToken
   checkUpgradeStatus "Admiral" ${admiral_upgrade_status}
-  if [ $? -ne 0 ]; then
-    # Return to skip Admiral, continue
-    return 1
-  fi
 
   if [ -n "$(docker ps -q -f name=vic-upgrade-admiral)" ]; then
-    echo "Admiral upgrade container already exists"
-    echo "If upgrade is not already running, execute the following command and rerun the upgrade script:"
-    echo "    docker rm -f vic-upgrade-admrial"
+    echo "Admiral upgrade container already exists" | tee /dev/fd/3
+    echo "If upgrade is not already running, execute the following command and rerun the upgrade script:" | tee /dev/fd/3
+    echo "    docker rm -f vic-upgrade-admrial" | tee /dev/fd/3
     exit 1
   fi
 
-  echo "Starting Admiral upgrade"
+  echo "Starting Admiral upgrade" | tee /dev/fd/3
 
-  echo "[=] Shutting down Harbor and Admiral"
+  echo "[=] Shutting down Harbor and Admiral" | tee /dev/fd/3
   systemctl stop harbor.service harbor_startup.service
   systemctl stop admiral.service admiral_startup.service
   iptables -A INPUT -p tcp --dport 8282 -j ACCEPT
   iptables -A INPUT -p tcp --dport 8283 -j ACCEPT
 
-  echo "[=] Upgrade Admiral"
+  echo "[=] Upgrade Admiral" | tee /dev/fd/3
   performAdmiralUpgrade
 
-  echo "Admiral upgrade complete"
+  echo "Admiral upgrade complete" | tee /dev/fd/3
   # Set timestamp file
   /usr/bin/touch ${admiral_upgrade_status}
   iptables -D INPUT -p tcp --dport 8283 -j ACCEPT
 
-  echo "Starting Admiral"
+  echo "Starting Admiral" | tee /dev/fd/3
   systemctl start admiral_startup.service
 }
 
 function upgradeHarbor {
-  echo "Performing pre-upgrade checks"
+  echo "Performing pre-upgrade checks" | tee /dev/fd/3
   checkUpgradeStatus "Harbor" ${harbor_upgrade_status}
-  if [ $? -ne 0 ]; then
-    # Return to skip Harbor, continue
-    return 1
-  fi
 
   # Perform sanity check on data volume
   if ! harborDataSanityCheck ${data_mount}; then
-    echo "Harbor Data is not present in ${data_mount}, can't continue with upgrade operation"
+    echo "Harbor Data is not present in ${data_mount}, can't continue with upgrade operation" | tee /dev/fd/3
     exit 1
   fi
 
@@ -353,30 +361,30 @@ function upgradeHarbor {
   # Start Admiral for data migration
   systemctl start admiral_startup.service
 
-  echo "Starting Harbor upgrade"
+  echo "Starting Harbor upgrade" | tee /dev/fd/3
 
-  echo "[=] Shutting down Harbor"
+  echo "[=] Shutting down Harbor" | tee /dev/fd/3
   systemctl stop harbor_startup.service
   systemctl stop harbor.service
 
-  echo "[=] Migrating Harbor data"
+  echo "[=] Migrating Harbor data" | tee /dev/fd/3
   migrateHarborData
-  echo "[=] Finished migrating Harbor data"
+  echo "[=] Finished migrating Harbor data" | tee /dev/fd/3
 
-  echo "[=] Migrating Harbor configuration"
+  echo "[=] Migrating Harbor configuration" | tee /dev/fd/3
   upgradeHarborConfiguration
-  echo "[=] Finished migrating Harbor configuration"
+  echo "[=] Finished migrating Harbor configuration" | tee /dev/fd/3
 
-  echo "[=] Importing project data into Admiral"
+  echo "[=] Importing project data into Admiral" | tee /dev/fd/3
   checkAdmiralRunning
   admiralImportData
-  echo "[=] Finished importing project data into Admiral"
+  echo "[=] Finished importing project data into Admiral" | tee /dev/fd/3
 
-  echo "Harbor upgrade complete"
+  echo "Harbor upgrade complete" | tee /dev/fd/3
   # Set timestamp file
   /usr/bin/touch ${harbor_upgrade_status}
 
-  echo "Starting Harbor"
+  echo "Starting Harbor" | tee /dev/fd/3
   systemctl start harbor_startup.service
 }
 
@@ -384,23 +392,30 @@ function upgradeHarbor {
 function registerAppliance {
   status=$(/usr/bin/curl -k --write-out '%{http_code}' --header "Content-Type: application/json" -X POST --data '{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'"}' https://localhost:9443/register)
   if [[ "$status" != *"200"* ]]; then
-    echo "Failed to register appliance. Check vCenter target and credentials."
+    echo "Failed to register appliance. Check vCenter target and credentials." | tee /dev/fd/3
     exit 1
   fi
 }
 
 # Get PSC tokens for SSO integration
 function getPSCTokens {
+  set +e
   /etc/vmware/psc/get_token.sh
   if [ $? -ne 0 ]; then
-    echo "Fatal error: Failed to get PSC tokens."
+    echo "Fatal error: Failed to get PSC tokens." | tee /dev/fd/3
     exit 1
   fi
+  set -e
+}
+
+# Write timestamp so credentials prompt is skipped on Getting Started
+function writeTimestamp {
+  echo "${TIMESTAMP}" > ${timestamp_file}
 }
 
 # Prevent Admiral and Harbor from starting from path units
 function disableServicesStart {
-  echo "Disabling and stopping Admiral and Harbor path startup"
+  echo "Disabling and stopping Admiral and Harbor path startup" | tee /dev/fd/3
   systemctl stop admiral_startup.path
   systemctl stop harbor_startup.path
   systemctl disable admiral_startup.path
@@ -409,7 +424,7 @@ function disableServicesStart {
 
 # Enable Admiral and Harbor starting from path units
 function enableServicesStart {
-  echo "Enabling and starting Admiral and Harbor path startup"
+  echo "Enabling and starting Admiral and Harbor path startup" | tee /dev/fd/3
   systemctl enable admiral_startup.path
   systemctl enable harbor_startup.path
   systemctl start admiral_startup.path
@@ -474,17 +489,25 @@ function main {
 
   systemctl start docker.service
 
-  echo "Preparing upgrade environment"
+  exec 3>&1 1>>${upgrade_log_file} 2>&1
+  echo ""
+  echo "-------------------------"
+  echo "Starting upgrade ${TIMESTAMP}" | tee /dev/fd/3
+
+  echo "Preparing upgrade environment" | tee /dev/fd/3
   disableServicesStart
   registerAppliance
   getPSCTokens
-  echo "Finished preparing upgrade environment"
+  writeTimestamp
+  echo "Finished preparing upgrade environment" | tee /dev/fd/3
 
   upgradeAdmiral
   upgradeHarbor
 
   enableServicesStart
-  echo "Upgrade script complete. Exiting."
+  echo "Upgrade script complete. Exiting." | tee /dev/fd/3
+  echo "-------------------------"
+  echo ""
   exit 0
 }
 
