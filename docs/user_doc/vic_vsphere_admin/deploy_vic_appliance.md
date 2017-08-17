@@ -54,7 +54,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
    - In the **Fileserver Port** text box, optionally change the port on which the vSphere Integrated Containers Engine file server runs.
    - To use custom certificates to authenticate connections to the vSphere Integrated Containers Engine file server, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates.
 
-7. Expand **VIC Engine Install Wizard Configuration** to optionally change the port on which the interactive web installer for virtual container hosts (VCHs) runs.
+7. Expand **Demo VCH Installer Wizard Configuration** to optionally change the port on which the interactive web installer for virtual container hosts (VCHs) runs.
 8. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
 9. When the deployment completes, power on the appliance VM.
 
@@ -71,7 +71,7 @@ You can reconfigure the appliance after deployment by editing the settings of th
 Access the different vSphere Integrated Containers components from the  vSphere Integrated Containers Getting Started page at  http://<i>vic_appliance_address</i>.
 
 - Click the link to go to the **vSphere Integrated Containers Management Portal**. For information about how to use vSphere Integrated Containers Management Portal, see [View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal](../vic_cloud_admin/vchs_and_mgmt_portal.md).
-- Scroll down to **Infrastructure deployment tools** and click the link to go to the **web installer to deploy a demo VCH**. For information about how to use the interactive VCH installer, see [Deploy a Virtual Container Host Interactively](deploy_demo_vch.html).
+- Scroll down to **Infrastructure deployment tools** and click the link to go to the **Demo VCH Installer Wizard**. For information about how to use the interactive VCH installer, see [Deploy a Virtual Container Host Interactively](deploy_demo_vch.html).
 - Scroll down to **Infrastructure deployment tools** and click the link to **download the vSphere Integrated Containers Engine bundle**. The vSphere Integrated Containers Engine bundle allows you to perform the following tasks:
 
    - Use `vic-machine` to configure the firewalls on all ESXi hosts to permit VCH deployment. For information about how to configure the firewalls on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.html).
