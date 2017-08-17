@@ -24,7 +24,8 @@ timestamp_file="/registration-timestamps.txt"
 
 admiral_upgrade_status="/etc/vmware/admiral/upgrade_status"
 harbor_upgrade_status="/etc/vmware/harbor/upgrade_status"
-upgrade_log_file="/etc/vmware/upgrade/upgrade.log"
+upgrade_log_file="/var/log/vmware/upgrade.log"
+mkdir -p "/var/log/vmware"
 
 DB_USER=""
 DB_PASSWORD=""
@@ -431,7 +432,6 @@ function enableServicesStart {
 }
 
 function main {
-  exec 3>&1 1>>${upgrade_log_file} 2>&1
   while [[ $# -gt 1 ]]
   do
     key="$1"
@@ -482,13 +482,15 @@ function main {
   fi
 
   if [ -z "$VCENTER_PASSWORD" ] ; then
-    echo -n "Enter vCenter Administrator Password: " 1>&3
+    echo -n "Enter vCenter Administrator Password: "
     read -s VCENTER_PASSWORD
-    echo "" 1>&3
+    echo ""
   fi
 
   systemctl start docker.service
 
+  exec 3>&1 1>>${upgrade_log_file} 2>&1
+  echo ""
   echo "-------------------------"
   echo "Starting upgrade ${TIMESTAMP}" | tee /dev/fd/3
 
@@ -506,6 +508,7 @@ function main {
   enableServicesStart
   echo "Upgrade script complete. Exiting." | tee /dev/fd/3
   echo "-------------------------"
+  echo ""
   exit 0
 }
 
