@@ -184,39 +184,39 @@ function migrateHarborData {
   # Test database connection
   set +e
   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql ${migrator_image} test
-  set -e
   if [ $? -ne 0 ]; then
     echo "Invalid database credentials" | tee /dev/fd/3
     exit 1
   fi
+  set -e
 
   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql -v ${harbor_backup}:/harbor-migration/backup ${migrator_image} backup
   set +e
   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e SKIP_CONFIRM=y -v ${harbor_database}:/var/lib/mysql ${migrator_image} up head
-  set -e
   if [ $? -ne 0 ]; then
     echo "Harbor up head command failed" | tee /dev/fd/3
     exit 1
   fi
+  set -e
   # Overwrites ${harbor_migration}/harbor_projects.json if present
   set +e
   docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e EXPORTPATH=/harbor_migration -v ${harbor_migration}:/harbor_migration -v ${harbor_database}:/var/lib/mysql ${migrator_image} export
-  set -e
   if [ $? -ne 0 ]; then
     echo "Harbor data export failed" | tee /dev/fd/3
     exit 1
   fi
+  set -e
 }
 
 function admiralImportData {
   checkHarborPSCToken
   set +e
   /etc/vmware/harbor/admiral_import --admiralendpoint https://localhost:8282 --tokenfile ${harbor_psc_token_file} --projectsfile ${harbor_migration}/harbor_projects.json
-  set -e
   if [ $? -ne 0 ]; then
     echo "Importing Harbor data to Admiral failed" | tee /dev/fd/3
     exit 1
   fi
+  set -e
 }
 
 function performAdmiralUpgrade {
@@ -293,11 +293,11 @@ function performAdmiralUpgrade {
   psc_token=$(readFile ${admiral_psc_token_file})
   set +e
   /etc/vmware/admiral/migrate.sh "$old_admiral" "$new_admiral" "$psc_token"
-  set -e
   if [ $? -ne 0 ]; then
     echo "Data migration to new Admiral failed" | tee /dev/fd/3
     exit 1
   fi
+  set -e
 
   echo "Admiral migration complete" | tee /dev/fd/3
   docker stop vic-upgrade-admiral
@@ -401,11 +401,11 @@ function registerAppliance {
 function getPSCTokens {
   set +e
   /etc/vmware/psc/get_token.sh
-  set -e
   if [ $? -ne 0 ]; then
     echo "Fatal error: Failed to get PSC tokens." | tee /dev/fd/3
     exit 1
   fi
+  set -e
 }
 
 # Write timestamp so credentials prompt is skipped on Getting Started
