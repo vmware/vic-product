@@ -1,4 +1,4 @@
-# Create Users in vSphere Integrated Containers Registry #
+# Add Users to vSphere Integrated Containers #
 
 If you configured vSphere Integrated Containers Registry to use local user management rather than LDAP authentication, you must create user accounts before you can assign users to projects. 
 
@@ -6,10 +6,10 @@ If the registry uses LDAP authentication, you cannot create or register new user
 
 **Procedure**
 
-1. Log in to the vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282.
+1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
 
-    Use an account with vCenter Server administrator privileges. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
-2. Select the **Administration** tab, click **Users**, then click the **+ Users** button.
+    Use an account with Cloud Administrator privileges.
+2. Select **Administration** > **Identity Management**, and click **Users & Groups**.
 3. Enter a user name, email address, and the user's full name.
 
    The user name and email address must be unique in this registry instance. The email address and the user's full name are for use in email responses to password reset requests.

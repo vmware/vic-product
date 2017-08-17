@@ -14,9 +14,9 @@ You can list, add, edit and delete replication endpoints and replication rules, 
 
 **Procedure**
 
-1. Log in to the vSphere Integrated Containers Registry instance to use as the source registry for replications. 
+1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials. 
 
-   Log in at https://<i>vic_appliance_address</i>:8282.  Use an account with vCenter Server administrator privileges. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
+   Use an account with Cloud Administrator privileges.
 2. Select the **Administration** tab, click **Replication**
 
    Existing endpoints appear in the **Endpoints** view.  

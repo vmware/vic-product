@@ -1,9 +1,9 @@
 # Overview of vSphere Integrated Containers #
 
-vSphere Integrated Containers enables IT teams to run traditional and container workloads side-by-side on existing infrastructure seamlessly. This overview is intended for vSphere administrators who intend to use vSphere Integrated Containers to manage container workloads in their vSphere environment. 
+vSphere Integrated Containers enables IT teams to seamlessly run traditional and container workloads side-by-side on existing vSphere infrastructure. 
 
 - [Introduction to Containers, Images and Volumes](#containers)
-  - [Runtime](#runtime)
+  - [Container Runtime](#runtime)
   - [Packaging](#packaging) 
 - [What is vSphere Integrated Containers?](#whatis_vic)
 - [What Does vSphere Integrated Containers Do?](#what_vic_does)
@@ -25,10 +25,10 @@ vSphere Integrated Containers enables IT teams to run traditional and container 
 
 ## Introduction to Containers, Images and Volumes <a id="containers"></a>
 
-The word "container" is an overloaded one these days. When understanding containers and how they relate to vSphere Integrated Containers, it is helpful to distinguish the *runtime* aspect from the *packaging* aspect.
+The word "container" is an overloaded one these days. When understanding containers and how they relate to vSphere Integrated Containers, it is helpful to distinguish the *runtime* aspect of containers from the *packaging* aspect.
 
 
-### Runtime <a id="runtime"></a>
+### Container Runtime <a id="runtime"></a>
 
 At its most basic, a container is simply a sandbox in which a process can run. The sandbox isolates the process from other processes that are running on the same system. A container has a lifecycle which is typically tied to the lifecycle of the process that it is designed to run. If you start a container, it starts its main process and when that process ends, the container stops. The container might have access to some storage. It typically has an identity on a network.
 
@@ -41,7 +41,7 @@ Conceptually, a container represents many of the same capabilities as a VM. The 
 One of the most interesting facets of containers is how they deal with state. Any data that a container writes is non-persistent by default and is lost when that container is deleted. State, however, can persist beyond the lifespan of a container by attaching a *volume* to it or by sending it over a network. Binary dependencies that the container needs, such as OS libraries or application binaries, are encapsulated in *images*. Images are immutable.
 
 
-### Packaging <a id="packaging"></a>
+### Container Packaging <a id="packaging"></a>
 
 One of the most significant benefits of containers is that they allow you to package up the entire environment that an application needs and run it anywhere. You can go to Docker Hub, select from hundreds of thousands of applications and run that application anywhere that you have installed Docker on a compatible OS. The packaging encapsulates the binary dependencies, environment variables, volumes, and even the network configuration. 
 
@@ -214,7 +214,6 @@ In vSphere Integrated Containers Registry, you organize repositories in projects
 
 When you first deploy vSphere Integrated Containers Registry, a default public project named `library` is created. You can toggle projects from public to private, or the reverse, at any moment.
 
-For information about projects, see [Create a Project](creating_projects_registry.md), [Assign Users to a Project](add_users_registry.md), [Manage Project Members](manage_project_members.md), and [Manage Projects](manage_projects.md).
 
 ### User Authentication <a id="authentication"></a>
 
@@ -229,8 +228,6 @@ You create user and manage user accounts locally in vSphere Integrated Container
 Immediately after you deploy vSphere Integrated Containers Registry, can you configure the registry to use an external LDAP or Active Directory server  to authenticate users. If you implement LDAP authentication, users whose credentials are stored by the external LDAP or Active Directory server can log in to vSphere Integrated Containers Registry directly. In this case, you do not need to create user accounts locally.
 
 **IMPORTANT**: The option to switch from local user management to LDAP authentication is only available while the local database is empty. If you start to populate the database with users and projects, the option to switch to LDAP authentication is disabled. If you want to implement LDAP authentication, you must enable this option when you first log in to a new registry instance. 
-
-For information about enabling LDAP authentication, see [Configure a Registry](configure_registry.md).
 
 ## What Is vSphere Integrated Containers Registry? <a id="whats_registry"></a>
 

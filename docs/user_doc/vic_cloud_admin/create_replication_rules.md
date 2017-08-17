@@ -12,13 +12,13 @@ You replicate image repositories between vSphere Integrated Containers Registry 
 
 - You have two vSphere Integrated Containers Registry instances, one that contains the images to replicate and one to act as the replication endpoint registry.
 - You created at least one project, and pushed at least one image to that project.
-- If the remote registry that you intend to use as the endpoint uses a self-signed or an untrusted certificate, you must disable certificate verification on the registry from which you are replicating. For example, disable certificate verification if the endpoint registry uses the default auto-generated certificates that vSphere Integrated Containers Registry created during the deployment of the vSphere Integrated Containers appliance. For information about disabling certificate verification, see [Configure a Registry](configure_registry.md).
+- If the remote registry that you intend to use as the endpoint uses a self-signed or an untrusted certificate, you must disable certificate verification on the registry from which you are replicating. For example, disable certificate verification if the endpoint registry uses the default auto-generated certificates that vSphere Integrated Containers Registry created during the deployment of the vSphere Integrated Containers appliance. For information about disabling certificate verification, see [Configure System Settings](configure_system.md).
 
 **Procedure**
 
-1. Log in to the vSphere Integrated Containers Registry instance that contains the images to replicate. 
+1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials. 
 
-   Log in at https://<i>vic_appliance_address</i>:8282.  Use an account with vCenter Server administrator privileges. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Management Portal, replace 8282 with the appropriate port.
+   Use an account with Cloud Administrator privileges.
 2. Select the **Administration** tab, click **Projects** on the left,  and click the name of the project to replicate.
 3. Click **Replication**, then click the **+ Replication Rule** button.
 4. Enter a suitable name for the new replication rule and optionally add a description.
