@@ -81,8 +81,7 @@
 ----
 
 * [Configure and Manage](vic_cloud_admin/README.md)
-   * [Managing Images, Projects, Users](vic_cloud_admin/using_registry.md)
-      * [Configure a Registry](vic_cloud_admin/configure_registry.md)
+   * [Configure a Registry](vic_cloud_admin/configure_registry.md)
    * [Create Users](vic_cloud_admin/creating_users_registry.md)
    * [Assign the Administrator Role](vic_cloud_admin/assign_admin_role.md)
    * [Create a Project](vic_cloud_admin/creating_projects_registry.md)
