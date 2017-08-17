@@ -501,7 +501,6 @@ function main {
   writeTimestamp
   echo "Finished preparing upgrade environment" | tee /dev/fd/3
 
-
   upgradeAdmiral
   upgradeHarbor
 
