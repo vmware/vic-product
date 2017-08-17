@@ -14,8 +14,8 @@ ExecStart=/usr/bin/dockerd \
 ExecReload=/bin/kill -s HUP $MAINPID
 # Having non-zero Limit*s causes performance problems due to accounting overhead
 # in the kernel. We recommend using cgroups to do container-local accounting.
-LimitNOFILE=infinity
-LimitNPROC=infinity
+LimitNOFILE=1048576
+LimitNPROC=1048576
 LimitCORE=infinity
 # Uncomment TasksMax if your systemd version supports it.
 # Only systemd 226 and above support this version.
