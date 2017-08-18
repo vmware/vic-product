@@ -22,6 +22,8 @@ To allow you to fine-tune the deployment of VCHs, `vic-machine create` provides 
 
 The `create` command of the `vic-machine` utility requires you to provide information about where in your vSphere environment to deploy the VCH and the vCenter Server or ESXi user account to use.
 
+You can set environment variables for the `--target`, `--user`, `--password`, and `--thumbprint` options. For information about setting environment variables, see [Set Environment Variables for Key `vic-machine` Options](vic_env_variables.md).
+
 ### `--target` ###
 
 Short name: `-t`

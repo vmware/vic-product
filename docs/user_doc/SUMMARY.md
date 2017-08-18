@@ -30,6 +30,7 @@
      * [Deploy a VCH to a Basic vCenter Server Cluster](vic_vsphere_admin/deploy_vch_vcenter.md)
      * [Verify the Deployment of a VCH](vic_vsphere_admin/verify_vch_deployment.md)
      * [VCH Deployment Options](vic_vsphere_admin/vch_installer_options.md)
+     * [Set Environment Variables](vic_vsphere_admin/vic_env_variables.md)
      * [Advanced Examples of Deploying a VCH](vic_vsphere_admin/vch_installer_examples.md)
      * [Deploy a VCH for Use with vSphere Integrated Containers Registry](vic_vsphere_admin/deploy_vch_registry.md)
      * [Use Different User Accounts for VCH Deployment and Operation](vic_vsphere_admin/set_up_ops_user.md)
