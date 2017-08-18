@@ -8,7 +8,7 @@
 
 * [Introduction](README.md)
   * [Quick Start Links](vic_quickstart.md)
-  * [Overview](vic_vsphere_admin/introduction.md)
+  * [Overview](vic_overview/introduction.md)
 
 ----
 
