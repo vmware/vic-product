@@ -17,7 +17,7 @@ The demo VCH has the minimum configuration that deployment to vCenter Server req
 
 **Procedure**
 
-1. In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link **Go to the web installer to deploy a demo VCH**, and trust the certificate. 
+1. In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link **Go to the Demo VCH Installer Wizard**, and trust the certificate. 
 2. Enter the IP address and administrator credentials of the vCenter Server instance on which the vSphere Integrated Containers appliance is running and click **Login**. 
 4. Use the drop-down menus to select the appropriate resources for each of the required resources.
 

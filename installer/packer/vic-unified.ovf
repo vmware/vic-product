@@ -271,8 +271,8 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
       </Property>
     </ProductSection>
     <ProductSection ovf:class="engine_installer" ovf:required="false">
-      <Info>VIC Engine Install Wizard Properties</Info>
-      <Category>6. VIC Engine Install Wizard Configuration</Category>
+      <Info>Demo VCH Installer Wizard Properties</Info>
+      <Category>6. Demo VCH Installer Wizard Configuration</Category>
       <Property ovf:key="port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="1337">
         <Label>6.1. Engine Install Wizard Port</Label>
         <Description>Specifies the port on which fileserver will be published.</Description>
