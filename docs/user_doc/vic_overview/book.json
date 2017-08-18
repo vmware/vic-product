@@ -2,9 +2,9 @@
 
         "gitbook": "3.x.x",
 	"pdf": {
-                "paperSize": "letter",
-                "pageNumbers": false,
-                "toc": false
+		"headerTemplate": "_TITLE_",
+		"footerTemplate": "_PAGENUM_",
+                "paperSize": "letter"
 	}
          
 }
