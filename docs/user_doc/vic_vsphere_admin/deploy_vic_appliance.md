@@ -43,7 +43,6 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
     - In the **Registry Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Registry service.
     - In the **Notary Port** text box, optionally change the port on which to publish the Docker Notary service for vSphere Integrated Containers Registry.
     - Optionally check the **Garbage Collection** check box to enable garbage collection on the registry when the appliance reboots. 
-    - To use custom certificates to authenticate connections to vSphere Integrated Containers Registry, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates. 
 
 7. Expand **Management Portal Configuration** to configure the deployment of vSphere Integrated Containers Management Portal. 
 
