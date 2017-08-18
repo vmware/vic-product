@@ -1,8 +1,4 @@
-/* Header / navigation section */
-
-.main-nav .header {
-    background-color: #0B6C8F;
-}
+/* Header/Navigation section */
 
 .header .github {
     position: absolute;
@@ -24,11 +20,10 @@
     font-size: 20px
 }
 
-
 /* Clarity UI overrides */
 
 .content-area {
-    padding: 0px !important;
+    padding: 0 !important;
 }
 
 .card.transparent {
@@ -37,20 +32,28 @@
     box-shadow: none;
 }
 
-
 /* Custom elements and containers */
-
-h1#getting-started {
-    text-align: center;
-}
-
-#docs-link-container {
-    display: flex;
-    align-items: flex-end;
-}
 
 #infra-deploy-tools-container {
     margin-top: 36px;
     padding-bottom: 36px;
     background-color: #ececec;
+}
+
+#infra-deploy-tools-container .card-text {
+    min-height: 120px;
+}
+
+#login-spinner {
+    width: 100%;
+    text-align: center;
+    padding: 50px;
+}
+
+#feedback-alert {
+    margin: 12px 12px 0 24px;
+}
+
+#feedback-link {
+    max-width: inherit;
 }
