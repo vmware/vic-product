@@ -53,12 +53,13 @@ type config struct {
 
 // IndexHTMLOptions contains fields for html templating in index.html
 type IndexHTMLOptions struct {
-	InvalidLogin   bool
-	Feedback       string
-	NeedLogin      bool
-	AdmiralAddr    string
-	DemoVCHAddr    string
-	FileserverAddr string
+	InvalidLogin        bool
+	InitErrorFeedback   string
+	InitSuccessFeedback string
+	NeedLogin           bool
+	AdmiralAddr         string
+	DemoVCHAddr         string
+	FileserverAddr      string
 }
 
 var (
@@ -189,8 +190,9 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 	defer trace.End(trace.Begin(""))
 
 	html := &IndexHTMLOptions{
-		NeedLogin: needInitializationServices(req),
-		Feedback:  "",
+		NeedLogin:           needInitializationServices(req),
+		InitErrorFeedback:   "",
+		InitSuccessFeedback: "",
 	}
 
 	if req.Method == http.MethodPost {
@@ -205,7 +207,12 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 
 		} else {
 			log.Infof("Validation succeeded")
-			html.Feedback = startInitializationServices()
+			html.InitErrorFeedback = startInitializationServices()
+			// Display success message upon init success.
+			if html.InitErrorFeedback == "" {
+				html.InitSuccessFeedback = "Installation successful. Refer to the Post-install and Deployment tasks below."
+			}
+
 			html.NeedLogin = false
 		}
 	}
