@@ -9,7 +9,7 @@ This version of vSphere Integrated Containers Engine supports these features:
 - Pulling images from Docker hub and private registries
 - Named data volumes
 - Anonymous data volumes
-- Sharing concurrent NFS data volumes between containers
+- Sharing concurrent NFS share points between containers
 - Bridged networks
 - External networks
 - Port mapping

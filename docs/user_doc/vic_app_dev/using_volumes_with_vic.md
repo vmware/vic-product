@@ -1,8 +1,8 @@
 # Using Volumes with vSphere Integrated Containers #
 
-vSphere Integrated Containers supports the use of container volumes. You can create container volumes either in volume stores on vSphere datastores or in volume stores in NFS data volumes.
+vSphere Integrated Containers supports the use of container volumes. You can create container volumes either in volume stores on vSphere datastores or in NFS share points that you designate as volume stores. The vSphere datastore or NFS share point houses the volume store and containers build volumes in that volume store.
 
-**IMPORTANT**: To use container volume capabilities with vSphere Integrated Containers, the vSphere administrator must configure one or more volume stores on the virtual container host (VCH). When the vSphere administrator creates a VCH, they can specify a vSphere datastore or NFS data volume to use to store container volumes. For information about how to create VCHs with volume stores, see the description of the [`vic-machine create --volume-store` option](../vic_vsphere_admin/vch_installer_options.md#volume-store) in *Virtual Container Host Deployment Options*. For information about how to add volume stores to existing VCHs, see [Add Volume Stores](../vic_vsphere_admin/configure_vch.md#volumes) in *Configure Virtual Container Hosts*.
+**IMPORTANT**: To use container volume capabilities with vSphere Integrated Containers, the vSphere administrator must configure one or more volume stores on the virtual container host (VCH). When the vSphere administrator creates a VCH, they can specify a vSphere datastore or NFS share point to use to store container volumes. For information about how to create VCHs with volume stores, see the description of the [`vic-machine create --volume-store` option](../vic_vsphere_admin/vch_installer_options.md#volume-store) in *Virtual Container Host Deployment Options*. For information about how to add volume stores to existing VCHs, see [Add Volume Stores](../vic_vsphere_admin/configure_vch.md#volumes) in *Configure Virtual Container Hosts*.
 
 - [Obtain the List of Available Volume Stores](#list_vs) 
 - [Obtain the List of Available Volumes](#list_vols)
@@ -96,7 +96,7 @@ If you require an image volume with a different volume capacity to the default, 
 If you intend to create named or anonymous volumes by using `docker create -v` when creating containers, a volume store named `default` must exist in the VCH. 
 
 **NOTES**: 
-- vSphere Integrated Containers Engine does not support mounting folders as data volumes. A command such as <code>docker create -v /<i>folder_name</i>:/<i>folder_name</i> busybox</code> is not supported.
+- vSphere Integrated Containers Engine does not support mounting  vSphere datastore folders as data volumes. A command such as <code>docker create -v /<i>folder_name</i>:/<i>folder_name</i> busybox</code> is not supported if the volume store is a vSphere datastore.
 - If you use `docker create -v` to create containers and mount new volumes on them, vSphere Integrated Containers Engine only supports the `-r` and `-rw` options.
 
 ### Create a Container with a New Anonymous Volume ###
@@ -157,7 +157,9 @@ previously mounted to container1]</pre>
 
 ## Sharing NFS-Backed Volumes Between Containers <a id="mount_nfs"></a>
 
-If your volume store is in a shared NFS data volume, sharing volumes between containers is not subject to any limitations. You can create volumes and mount them on multiple containers in the usual Docker way.
+If your volume store is in an NFS share point, sharing volumes between containers is not subject to any limitations. In vSphere Integrated Containers, the `local` driver is the vSphere Integrated Containers Docker personality. Consequently, the way to create NFS volumes with vSphere Integrated Containers is slightly different to how you do it with regular Docker. All that you need to do to create an NFS volume for a container is provide the name of the appropriate volume store in the `docker volume create` command.
+
+<pre>docker volume create --opt volumestore=<i>nfs_volumestore_name</i></pre>
 
 ## Obtain Information About a Volume <a id="inspect_vol"></a>
 To get information about a volume, run `docker volume inspect` and specify the name of the volume.
