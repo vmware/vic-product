@@ -9,7 +9,7 @@ You can use the `vic-machine debug` command to enable shell access to a virtual 
     The credentials that you provide must have the following privilege on the endpoint VM:<pre>Virtual machine.Guest Operations.Guest Operation Program Execution</pre>
 - You must specify the ID or name of the VCH to debug.
 - You might need to provide the thumbprint of the vCenter Server or ESXi host certificate. Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
-- To enable SSH access, you mush enable shell access by specifying the `--rootpw` option. Wrap the password in single quotes (Linux or Mac OS) or double quotes (Windows) if it includes shell characters such as `$`, `!` or `%`.
+- To enable SSH access, you mush enable shell access by specifying the `--rootpw` option. Wrap the password in quotes if it includes shell characters such as `$`, `!` or `%`.
 - You authorize SSH access by specifying `--enable-ssh`. The `sshd` service runs until the VCH endpoint VM reboots. The `--enable-ssh` option takes no arguments. 
 - If you have already enabled SSH access but the password that you set has expired, and you then rerun `--enable-ssh` without specifying `--rootpw`, the password expiry is set to 1 day in the future and the password is preserved.
 - Optionally, you can specify the `--authorized-key` option to upload a public key file to `/root/.ssh/authorized_keys` folder in the endpoint VM. Include the name of the `*.pub` file in the path. <pre>--authorized-key <i>path_to_public_key_file</i>/<i>key_file</i>.pub</pre>

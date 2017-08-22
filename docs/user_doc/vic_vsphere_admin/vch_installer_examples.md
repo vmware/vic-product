@@ -27,6 +27,18 @@ For simplicity, these examples use the `--force` option to disable the verificat
 
 For detailed descriptions of all of the `vic-machine create` options, see [VCH Deployment Options](vch_installer_options.md).
 
+**NOTE**: Wrap any option arguments that include spaces or special characters in quotes. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system.
+
+Option arguments that might require quotation marks include the following:
+
+- User names and passwords in `--target`, or in `--user` and `--password`
+- Datacenter names in `--target`.
+- VCH names in `--name`.
+- Datastore names and paths in `--image-store` and `--volume-store`.
+- Network and port group names in all networking options.
+- Cluster and resource pool names in `--compute-resource`.
+- Folder names in the paths for `--tls-cert-path`, `--tls-server-cert`, `--tls-server-key`, `--appliance-iso`, and `--bootstrap-iso`.
+
 
 ## General Deployment Examples <a id="general"></a>
 
@@ -43,7 +55,7 @@ When deploying a VCH to vCenter Server, you must use the `--bridge-network` opti
 
 This example deploys a VCH with the following configuration:
 
-- Provides the vCenter Single Sign-On user and password in the `--target` option. Note that the user name is wrapped in quotes, because it contains the `@` character. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system. 
+- Provides the vCenter Single Sign-On user and password in the `--target` option. The user name is wrapped in quotes, because it contains the `@` character.
 - Deploys a VCH named `vch1` to the cluster `cluster1` in datacenter `dc1`. 
 - Uses a port group named `vic-bridge` for the bridge network. 
 - Designates `datastore1` as the datastore in which to store container images, the files for the VCH appliance, and container VMs. 
@@ -86,7 +98,7 @@ To deploy a VCH in a specific resource pool on an ESXi host that is not managed 
 This example deploys a VCH with the following configuration:
 
 - Specifies the user name and password, image store, and a name for the VCH.
-- Designates `rp 1` as the resource pool in which to place the VCH. Note that the resource pool name is wrapped in quotes, because it contains a space. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system.
+- Designates `rp 1` as the resource pool in which to place the VCH. The resource pool name is wrapped in quotes, because it contains a space.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target root:<i>password</i>@<i>esxi_host_address</i>
@@ -128,8 +140,6 @@ If the name of the resource pool is not unique across all clusters, for example 
 --force
 --no-tls
 </pre>
-
-Note that the resource pool and cluster names in these examples are wrapped in quotes, because they contain spaces. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system.
 
 ### Set Limits on Resource Use <a id="customized"></a>
 
@@ -177,7 +187,7 @@ In addition to the mandatory bridge network, if your vCenter Server environment 
 This example deploys a VCH with the following configuration:
 
 - Specifies the user name, password, datacenter, cluster, image store, bridge network, and name for the VCH.
-- Directs public and management traffic to network 1 and Docker API traffic to network 2. Note that the network names are wrapped in quotes, because they contain spaces. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system.
+- Directs public and management traffic to network 1 and Docker API traffic to network 2.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
@@ -202,7 +212,7 @@ If you specify networks for any or all of the public, management, and client net
 This example deploys a VCH with the following configuration:
 
 - Specifies the user name, password, datacenter, cluster, image store, bridge network, and name for the VCH.
-- Directs public and management traffic to network 1 and Docker API traffic to network 2. Note that the network names are wrapped in quotes, because they contain spaces. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system.
+- Directs public and management traffic to network 1 and Docker API traffic to network 2.
 - Sets a DNS server for use by the public, management, and client networks.
 - Sets a static IP address and subnet mask for the VCH endpoint VM on the public and client networks. Because the management network shares a network with the public network, you only need to specify the public network IP address. You cannot specify a management IP address because you are sharing a port group between the management and public network.
 - Specifies the gateway for the public network. If you set a static IP address on the public network, you must also specify the gateway address.
@@ -295,7 +305,6 @@ This example deploys a VCH with the following configuration:
 - Specifies the user name, password, datacenter, cluster, bridge network, and name for the VCH.
 - Specifies the `volumes` folder on `datastore 1` as the default volume store. Creating a volume store named `default` allows container application developers to create anonymous or named volumes by using `docker create -v`. 
 - Specifies a second volume store named `volume_store_2` in the `volumes` folder on `datastore 2`. 
-- Note that the datastore names are wrapped in quotes, because they contain spaces. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1

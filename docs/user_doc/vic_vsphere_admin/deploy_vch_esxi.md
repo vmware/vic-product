@@ -21,7 +21,7 @@ This topic provides instructions for deploying a virtual container host (VCH) to
 2. Navigate to the directory that contains the `vic-machine` utility:
 3. Run the `vic-machine create` command.
 
-  Wrap any option arguments that include spaces or special characters in quotes. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system.  In these examples, the password is wrapped in quotes because it contains `@`.
+  In these examples, the password is wrapped in quotes because it contains `@`.
 
    - Linux OS:
       <pre>$ vic-machine-linux create
