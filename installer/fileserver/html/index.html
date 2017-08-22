@@ -41,6 +41,13 @@
                     </div>
                 </div>
                 {{ end }}
+                {{if .InitSuccessFeedback }}
+                <div id="feedback-alert" class="alert alert-success">
+                    <div class="alert-item">
+                        <span class="alert-text">{{ .InitSuccessFeedback }}</span>
+                    </div>
+                </div>
+                {{ end }}
                 <div class="row flex-items-xs-middle my-1">
                     <div class="col-xs"></div>
                     <div class="col-xs">
