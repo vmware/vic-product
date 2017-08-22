@@ -2,8 +2,6 @@
 
 This section describes the options that are common to all `vic-machine` commands. The common options that `vic-machine` requires relate to the vSphere environment in which you deployed the virtual container host (VCH), and to the VCH itself.  
 
-You can set environment variables for the `--target`, `--user`, `--password`, and `--thumbprint` options. For information about setting environment variables, see [Set Environment Variables for Key `vic-machine` Options](vic_env_variables.md).
-
 **NOTE**: Wrap any option arguments that include spaces or special characters in quotes. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system. 
 
 Option arguments that might require quotation marks include the following:
@@ -12,7 +10,9 @@ Option arguments that might require quotation marks include the following:
 - Datacenter names in `--target`.
 - VCH names in `--name`.
 - Datastore names and paths in `--image-store`.
-- Cluster and resource pool names in `--compute-resource`
+- Cluster and resource pool names in `--compute-resource`.
+
+You can set environment variables for the `--target`, `--user`, `--password`, and `--thumbprint` options. For information about setting environment variables, see [Set Environment Variables for Key `vic-machine` Options](vic_env_variables.md).
 
 ### `--target` ###
 
