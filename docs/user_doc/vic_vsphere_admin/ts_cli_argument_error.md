@@ -44,5 +44,3 @@ Option arguments that might require quotation marks include the following:
 - Network and port group names in all networking options.
 - Cluster and resource pool names in `--compute-resource`.
 - Folder names in the paths for `--tls-cert-path`, `--tls-server-cert`, `--tls-server-key`, `--appliance-iso`, and `--bootstrap-iso`.
-
-For information about when to use quotation marks for different options, see the descriptions of those options in [VCH Deployment Options](vch_installer_options.md).
