@@ -217,17 +217,44 @@ When you first deploy vSphere Integrated Containers Registry, a default public p
 
 ### User Authentication <a id="authentication"></a>
 
-You can configure vSphere Integrated Containers Registry to use an existing LDAP or Active Domain service, or use local user management to authenticate and manage users.
+vSphere Integrated Containers is fully integrated with VMware Platform Services Controller. The Platform Services Controller provides common infrastructure services to the vSphere environment. Services include licensing, certificate management, and authentication with vCenter Single Sign-On. With vCenter Single Sign-On you can use local users created in the Platform Services Controller or configure external identity sources. 
 
-#### Local User Management
+For more information about, deploying, configuring, and working with Platform Services Controller, see the [https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.psc.doc/GUID-9451A5B4-5747-42C1-8A82-83AFCC1F2861.html](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.psc.doc/GUID-9451A5B4-5747-42C1-8A82-83AFCC1F2861.html "Platform Services Controller Administration guide in the VMware vSphere documentation").
+
+You can pull users from the Platform Services Controller and assign them roles through the vSphere Integrated Containers Management Portal.
+
+
+#### Users and Roles
 	
-You create user and manage user accounts locally in vSphere Integrated Containers Registry. User information is stored in a database that is embedded in vSphere Integrated Containers Registry. When you first deploy vSphere Integrated Containers Registry, the registry uses local user management by default. For information about creating local user accounts, see [Create Users](creating_users_registry.md).
+vSphere Integrated Containers features four roles for user access. The viewer role has the lowest level of access with the global administrator having the highest. Permissions per role are described below, as every next role inherits the permissions of the previous role and has additional ones.
 
-#### LDAP Authentication
+**Viewer**
 
-Immediately after you deploy vSphere Integrated Containers Registry, can you configure the registry to use an external LDAP or Active Directory server  to authenticate users. If you implement LDAP authentication, users whose credentials are stored by the external LDAP or Active Directory server can log in to vSphere Integrated Containers Registry directly. In this case, you do not need to create user accounts locally.
+Role assigned per project.
+- If assigned, has only view access to the deployed containers, templates, and available resources for a project.
 
-**IMPORTANT**: The option to switch from local user management to LDAP authentication is only available while the local database is empty. If you start to populate the database with users and projects, the option to switch to LDAP authentication is disabled. If you want to implement LDAP authentication, you must enable this option when you first log in to a new registry instance. 
+**Developer**
+
+Role assigned per project. In addition to the view access, a developer can also:
+- Provision containers
+- Push images
+- Create and import templates
+
+**DevOps Administrator**
+
+Role assigned per project.
+- For their projects, can add other users and assign other DevOps administrators.
+
+**Cloud administrator / Global Administrator for all projects**
+
+The default cloud administrator role is assigned to the Administrators group for vCenter Server during the installation of vSphere Integrated Containers. Through the management portal, you can revoke that role for the Administrators group, only after you assign the role to another group. Cloud admins, can also assign the role to individual users.
+
+The following global permissions are unique for the cloud administrator role:
+- Add new cloud admins.
+- Create new projects and assign the first DevOps administrator for them
+- Add hosts and clusters as resources to a given project
+- Add and manage registries
+
 
 ## What Is vSphere Integrated Containers Registry? <a id="whats_registry"></a>
 
