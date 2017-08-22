@@ -31,10 +31,10 @@
         </header>
         <main class="content-container">
             <div class="content-area">
-                {{if .Feedback }}
+                {{if .InitErrorFeedback }}
                 <div id="feedback-alert" class="alert alert-danger">
                     <div class="alert-item">
-                        <span class="alert-text">{{ .Feedback }}</span>
+                        <span class="alert-text">{{ .InitErrorFeedback }}</span>
                         <div class="alert-actions">
                             <a href="/?login=true" title="Login" class="alert-action">Re-initialize</a>
                         </div>
@@ -161,7 +161,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{if .Feedback}}
+                        {{if .InitErrorFeedback}}
                         <a href="/?login=true" id="feedback-link" class="btn btn-link px-0 my-2">
                             Re-initialize the vSphere Integrated Container Appliance
                         </a>
