@@ -31,7 +31,7 @@ For detailed descriptions of all of the `vic-machine create` options, see [VCH D
 
 Option arguments that might require quotation marks include the following:
 
-- User names and passwords in `--target`, or in `--user` and `--password`
+- User names and passwords in `--target`, `--user`, `--password`, `--ops-user`, and `--ops-password`.
 - Datacenter names in `--target`.
 - VCH names in `--name`.
 - Datastore names and paths in `--image-store` and `--volume-store`.
