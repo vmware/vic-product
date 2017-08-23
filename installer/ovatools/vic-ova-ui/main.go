@@ -72,7 +72,7 @@ func main() {
 		}
 	}
 
-	info = fmt.Sprintf("%sAfter first boot, unless you are upgrading the appliance, you must visit the Getting Started Page\nto initialize the appliance before VIC services can start.\n\n", info)
+	info = fmt.Sprintf("%sAfter first boot, unless you are upgrading the appliance, you must visit the\nGetting Started Page to initialize the appliance before VIC services can start.\n\n", info)
 
 	if ip, err := ip.FirstIPv4(ip.Eth0Interface); err == nil {
 		if port, ok := ovf.Properties["fileserver.port"]; ok {
