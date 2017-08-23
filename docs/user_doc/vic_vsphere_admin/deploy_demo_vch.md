@@ -17,7 +17,7 @@ The demo VCH has the minimum configuration that deployment to vCenter Server req
 
 **Procedure**
 
-1. In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link **Go to the web installer to deploy a demo VCH**, and trust the certificate. 
+1. In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link **Go to the Demo VCH Installer Wizard**, and trust the certificate. 
 2. Enter the IP address and administrator credentials of the vCenter Server instance on which the vSphere Integrated Containers appliance is running and click **Login**. 
 4. Use the drop-down menus to select the appropriate resources for each of the required resources.
 
@@ -60,4 +60,4 @@ At the end of a successful deployment, **Execution Output** displays information
 
 - Connect a Docker client to the VCH and run Docker commands against it. For information about running Docker commands against a VCH, see [Verify the Deployment of a VCH](verify_vch_deployment.md).
 - Copy the generated command output under **Create Command** and use it as a template for use with `vic-machine` to create production VCHs. For information about how to deploy production VCHs, see [Using `vic-machine` to Deploy Virtual Container Hosts](deploy_vch.html).
-- Go to the at vSphere Integrated Containers Management Portal at https://<i>vic_appliance_address</i>:8282. After creating a VCH, the web installer adds the VCH to the management portal instance that is running in the appliance. 
+- Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, enter the vCenter Server Single Sign-On credentials, and go to **Home** > **Clusters**. After creating a VCH, the web installer adds the VCH to the management portal instance that is running in the appliance. 

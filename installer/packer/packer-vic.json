@@ -289,6 +289,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/admiral/admiral_default_users.service",
+      "destination": "/usr/lib/systemd/system/admiral_default_users.service"
+    },
+    {
+      "type": "file",
       "source": "scripts/admiral/configure_admiral.sh",
       "destination": "/etc/vmware/admiral/configure_admiral.sh"
     },
@@ -296,6 +301,11 @@
       "type": "file",
       "source": "scripts/admiral/start_admiral.sh",
       "destination": "/etc/vmware/admiral/start_admiral.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/admiral/add_default_users.sh",
+      "destination": "/etc/vmware/admiral/add_default_users.sh"
     },
     {
       "type": "file",

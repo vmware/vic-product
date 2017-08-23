@@ -6,13 +6,17 @@ The vSphere Integrated Containers Documentation provides information about how t
 
 This documentation applies to all 1.2.x releases.
 
-## Intended Audience
+## Intended Audiences
 
 This information is intended for the following audiences:
 
-- VMware vSphere&reg; administrators who want to install and set up vSphere Integrated Containers. 
-- DevOps administrators who want to use vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal to manage container images, create development projects, and provision and manage containers.
-- Container application developers whose Docker environment uses vSphere Integrated Containers. 
+|**Audience**|**Description of Role**|**Relevant Documentation**|
+|---|---|---|
+|vSphere administrators|Install vSphere Integrated Containers. Deploy  and maintain the vSphere Integrated Containers infrastructure in the vSphere environment.|[Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure](vic_vsphere_admin/README.md)|
+|Cloud administrators|Use vSphere Integrated Containers Management Portal and vSphere Integrated Containers Registry to manage container images, create development projects, and provision and manage containers. |[Configure and Manage vSphere Integrated Containers](vic_cloud_admin/README.md)|
+|DevOps administrators|Use vSphere Integrated Containers Management Portal to manage container development projects.|[Develop Container Applications with vSphere Integrated Containers](vic_app_dev/README.md)|
+|Container application developers|Use vSphere Integrated Containers as the endpoint for container application development.|[Develop Container Applications with vSphere Integrated Containers](vic_app_dev/README.md)|
+ 
 
 ----------
 

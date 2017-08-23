@@ -65,6 +65,14 @@ func registerWithPSC(ctx context.Context) error {
 	}
 	admiralPort := ovf.Properties["management_portal.port"]
 
+	// Out of the box users
+	defCreateUsers, foundCreateUsers := ovf.Properties["default_users.create_def_users"]
+	defPrefix, foundPrefix := ovf.Properties["default_users.def_user_prefix"]
+	defPassword, foundPassword := ovf.Properties["default_users.def_user_password"]
+
+	log.Infof("PSC Out of the box users. CreateUsers: %s, FoundCreateUsers: %v, Prefix: %s",
+		defCreateUsers, foundCreateUsers, defPrefix)
+
 	// Register all VIC components with PSC
 	cmdName := "/usr/bin/java"
 	for _, client := range []string{"harbor", "engine", "admiral"} {
@@ -81,6 +89,18 @@ func registerWithPSC(ctx context.Context) error {
 			"--password=" + admin.Password,
 			"--admiralUrl=" + fmt.Sprintf("https://%s:%s", vmIP.String(), admiralPort),
 			"--configDir=" + pscConfDir,
+		}
+
+		if client == "admiral" && foundCreateUsers && strings.ToLower(defCreateUsers) == "true" {
+			if foundPrefix && defPrefix != "" {
+				arg := "--defaultUserPrefix=" + defPrefix
+				cmdArgs = append(cmdArgs, arg)
+			}
+
+			if foundPassword && defPrefix != "" && defPassword != "" {
+				arg := "--defaultUserPassword=" + defPassword
+				cmdArgs = append(cmdArgs, arg)
+			}
 		}
 
 		// #nosec: Subprocess launching with variable.

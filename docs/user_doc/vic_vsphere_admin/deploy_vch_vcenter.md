@@ -26,7 +26,7 @@ The vCenter Server instance to which you deploy the VCH must match the specifica
 2. Navigate to the directory that contains the `vic-machine` utility:
 3. Run the `vic-machine create` command.
 
-   Wrap any option arguments that include spaces or special characters in quotes. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system. In these examples, the user name is wrapped in quotes because it contains `@`.
+   In these examples, the user name is wrapped in quotes because it contains `@`.
 
    - Linux OS:
       <pre>$ vic-machine-linux create

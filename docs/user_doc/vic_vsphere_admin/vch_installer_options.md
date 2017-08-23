@@ -17,10 +17,24 @@ To allow you to fine-tune the deployment of VCHs, `vic-machine create` provides 
 - [Advanced Resource Management Options](#adv-mgmt)
 - [Other Advanced Options](#adv-other)
 
+**NOTE**: Wrap any option arguments that include spaces or special characters in quotes. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system. 
+
+Option arguments that might require quotation marks include the following:
+
+- User names and passwords in `--target`, or in `--user` and `--password`.
+- Datacenter names in `--target`.
+- VCH names in `--name`.
+- Datastore names and paths in `--image-store` and `--volume-store`.
+- Network and port group names in all networking options.
+- Cluster and resource pool names in `--compute-resource`.
+- Folder names in the paths for `--tls-cert-path`, `--tls-server-cert`, `--tls-server-key`, `--appliance-iso`, and `--bootstrap-iso`.
+
 
 ## vSphere Target Options <a id="vsphere"></a>
 
 The `create` command of the `vic-machine` utility requires you to provide information about where in your vSphere environment to deploy the VCH and the vCenter Server or ESXi user account to use.
+
+You can set environment variables for the `--target`, `--user`, `--password`, and `--thumbprint` options. For information about setting environment variables, see [Set Environment Variables for Key `vic-machine` Options](vic_env_variables.md).
 
 ### `--target` ###
 
@@ -33,8 +47,6 @@ To facilitate IP address changes in your infrastructure, provide an FQDN wheneve
 - If the target ESXi host is not managed by vCenter Server, provide the address of the ESXi host.<pre>--target <i>esxi_host_address</i></pre>
 - If the target ESXi host is managed by vCenter Server, or if you are deploying to a cluster, provide the address of vCenter Server.<pre>--target <i>vcenter_server_address</i></pre>
 - You can include the user name and password in the target URL. If you are deploying a VCH on vCenter Server, specify the username for an account that has the Administrator role on that vCenter Server instance. <pre>--target <i>vcenter_or_esxi_username</i>:<i>password</i>@<i>vcenter_or_esxi_address</i></pre>
-
-  Wrap the user name or password in single quotes (Linux or Mac OS) or double quotes (Windows) if they include special characters.<pre>'<i>vcenter_or_esxi_usern@me</i>':'<i>p@ssword</i>'@<i>vcenter_or_esxi_address</i></pre>
   
   If you do not include the user name in the target URL, you must specify the `user` option. If you do not specify the `password` option or include the password in the target URL, `vic-machine create` prompts you to enter the password.
 
@@ -43,9 +55,6 @@ To facilitate IP address changes in your infrastructure, provide an FQDN wheneve
 - If you are deploying a VCH on a vCenter Server instance that includes more than one datacenter, include the datacenter name in the target URL. If you include an invalid datacenter name, `vic-machine create` fails and suggests the available datacenters that you can specify. 
 
   <pre>--target <i>vcenter_server_address</i>/<i>datacenter_name</i></pre>
-
-  Wrap the datacenter name in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes spaces.
-  <pre>--target <i>vcenter_server_address</i>/'<i>datacenter name</i>'</pre>
 
 ### `--user` ###
 
@@ -56,10 +65,6 @@ The username for the ESXi host or vCenter Server instance on which you are deplo
 If you are deploying a VCH on vCenter Server, specify a username for an account that has the Administrator role on that vCenter Server instance. 
 
 <pre>--user <i>esxi_or_vcenter_server_username</i></pre>
-
-Wrap the user name in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes special characters.
-
-<pre>--user '<i>esxi_or_vcenter_server_usern@me</i>'</pre>
 
 You can specify the username in the URL that you pass to `vic-machine create` in the `target` option, in which case the `user` option is not required.
 
@@ -72,10 +77,6 @@ Short name: `-p`
 The password for the user account on the vCenter Server on which you  are deploying the VCH, or the password for the ESXi host if you are deploying directly to an ESXi host. If not specified, `vic-machine` prompts you to enter the password during deployment.
 
 <pre>--password <i>esxi_host_or_vcenter_server_password</i></pre>
-
-Wrap the password in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes special characters.
-
-<pre>--password '<i>esxi_host_or_vcenter_server_p@ssword</i>'</pre>
 
 You can also specify the username and password in the URL that you pass to `vic-machine create` in the `target` option, in which case the `password` option is not required.
 
@@ -100,7 +101,6 @@ If you do not specify the `--compute-resource` option and multiple possible reso
 * To deploy to a specific resource pool on a standalone host that is managed by vCenter Server, or to a specific resource pool in a cluster, if the resource pool name is unique across all hosts and clusters, specify the name of the resource pool:<pre>--compute-resource <i>resource_pool_name</i></pre>
 * To deploy to a specific resource pool on a standalone host that is managed by vCenter Server, if the resource pool name is not unique across all hosts, specify the IPv4 address or FQDN of the target host and name of the resource pool:<pre>--compute-resource <i>host_name</i>/<i>resource_pool_name</i></pre>
 * To deploy to a specific resource pool in a cluster, if the resource pool name is not unique across all clusters, specify the full path to the resource pool:<pre>--compute-resource <i>cluster_name</i>/Resources/<i>resource_pool_name</i></pre>
-* Wrap resource names in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if they include spaces:<pre>--compute-resource '<i>resource pool name</i>'</pre><pre>--compute-resource '<i>cluster name</i>'/Resources/'<i>resource pool name</i>'</pre>
 
 ### `--thumbprint` <a id="thumbprint"></a>
 
@@ -235,13 +235,6 @@ The path to a custom X.509 server certificate. This certificate identifies the V
 --tls-server-key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
 </pre> 
 
-Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.
-
-<pre>--tls-server-cert '<i>path to certificate file</i>'/<i>certificate_file_name</i>.pem 
---tls-server-key '<i>path to key file</i>'/<i>key_file_name</i>.pem
-</pre> 
-
-
 #### `--tls-server-key` <a id="key"></a>
 
 Short name: none
@@ -253,12 +246,6 @@ The path to the private key file to use with a custom server certificate. This o
 <pre>--tls-server-cert <i>path_to_certificate_file</i>/<i>certificate_file_name</i>.pem 
 --tls-server-key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
 </pre> 
-
-Wrap the folder names in the paths in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.
-
-<pre>--tls-server-cert '<i>path to certificate file</i>'/<i>certificate_file_name</i>.pem 
---tls-server-key '<i>path to key file</i>'/<i>key_file_name</i>.pem
-</pre>
 
 #### `--tls-ca` <a id="tls-ca"></a>
 
@@ -316,10 +303,6 @@ A vSphere user account with which the VCH runs after deployment. If not specifie
 
 <pre>--ops-user <i>user_name</i></pre>
 
-Wrap the user name in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes special characters.
-
-<pre>--ops-user '<i>user_n@me</i>'</pre>
-
 The user account that you specify in `--ops-user` must exist before you deploy the VCH. For information about the permissions that the `--ops-user` account requires, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
 
 #### `--ops-password` ###
@@ -329,11 +312,6 @@ Short name: None
 The password or token for the operations user that you specify in `--ops-user`. If not specified, `vic-machine create` prompts you to enter the password for the `--ops-user` account.
 
 <pre>--ops-password <i>password</i></pre>
-
-Wrap the password in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes special characters.
-
-<pre>--ops-password '<i>p@ssword</i>'</pre>
-
 
 ## Private Registry Options <a id="registry"></a>
 
@@ -411,7 +389,7 @@ You can specify a datastore folder to use as the image store by specifying a pat
 
 <pre>--image-store <i>datastore_name</i>/<i>path</i></pre> 
 
-If the folder that you specify in `/path` does not already exist, `vic-machine create` creates it. Wrap the datastore name and path in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if they include spaces:  <pre>--image-store '<i>datastore name</i>'/'<i>datastore path</i>'</pre>  
+If the folder that you specify in `/path` does not already exist, `vic-machine create` creates it.
 
 If you designate a datastore folder as the image store, `vic-machine` creates the following set of folders in the target datastore:
 
@@ -465,6 +443,8 @@ If you specify an invalid vSphere datastore name or an invalid NFS share point U
     **IMPORTANT**: When container developers run `docker info` or `docker volume ls` against a VCH, there is currently no indication whether a volume store is backed by vSphere or by an NFS share point. Consequently, you should include an indication that a volume store is an NFS share point in the volume store label. 
 
     <pre>nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
+- You can specify the `volume-store` option multiple times, to create multiple volume stores for the VCH.
+
 
     You can also specify the URL, UID, GID, and access protocol of a shared NFS mount point when you specify an NFS share point.
     <pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&gid=5678&proto=tcp:<i>nfs_volume_store_label</i></pre>
@@ -528,10 +508,6 @@ The `bridge-network` option is **optional** when you are deploying a VCH to an E
 
 <pre>--bridge-network <i>port_group_name</i></pre>
 
-Wrap the port group name in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes spaces.
-
-<pre>--bridge-network '<i>port group name</i>'</pre>
-
 If you intend to use the [`--ops-user`](#ops-user) option to use different user accounts for deployment and operation of the VCH, you must place the bridge network port group in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md). 
 
 For information about how to specify a range of IP addresses for additional bridge networks, see [`bridge-network-range`](#bridge-range) in Advanced Networking Options.
@@ -547,11 +523,6 @@ If not specified, the VCH uses the public network for client traffic. If you spe
 
 <pre>--client-network <i>port_group_name</i></pre>
 
-Wrap the port group name in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes spaces.
-
-<pre>--client-network '<i>port group name</i>'</pre>
-
-
 ### `--public-network` <a id="public-network"></a>
 
 Short name: `--pn`
@@ -563,11 +534,6 @@ A port group for containers to use to connect to the Internet. VCHs use the publ
 If not specified, containers use the VM Network for public network traffic. If you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups.
 
 <pre>--public-network <i>port_group</i></pre>
-
-Wrap the network name in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes spaces.
-
-<pre>--public-network '<i>port group name</i>'</pre>
-
 
 ### `--management-network` <a id="management-network"></a>
 
@@ -598,10 +564,6 @@ If not specified, the VCH uses the public network for management traffic. If you
 
 <pre>--management-network <i>port_group_name</i></pre>
 
-Wrap the network name in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes spaces.
-
-<pre>--management-network '<i>port group name</i>'</pre>
-
 
 ### `--container-network` <a id="container-network"></a>
 
@@ -626,7 +588,7 @@ If you specify an invalid port group name, `vic-machine create` fails and sugges
 - You cannot use the same port group as you use for the bridge network. 
 - You can create the port group on the same distributed virtual switch as the port group that you use for the bridge network.
 - If the port group that you specify in the `container-network` option does not support DHCP, see [Configure Container Networks](#adv-container-net) in Advanced Options. 
-- The descriptive name appears under `Networks` when you run `docker info` or `docker network ls` on the deployed VCH.
+- The descriptive name appears under `Networks` when you run `docker info` or `docker network ls` on the deployed VCH. The descriptive name cannot include spaces.
 - Container developers use the descriptive name in the `--net` option when they run `docker run` or `docker create`.
 
 You can specify `--container-network` multiple times to add multiple vSphere networks to Docker.
@@ -634,10 +596,6 @@ You can specify `--container-network` multiple times to add multiple vSphere net
 If you do not specify `--container-network`, or if you deploy containers that do not use a container network, the containers' network services are still be available via port mapping through the VCH, by using NAT through the public interface of the VCH.
 
 <pre>--container-network <i>port_group_name</i>:<i>container_port _group_name</i></pre>
-
-Wrap the port group name in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes spaces. The descriptive name cannot include spaces.
-
-<pre>--container-network '<i>port group name</i>':<i>container port group name</i></pre>
 
 If you intend to use the [`--ops-user`](#ops-user) option to use different user accounts for deployment and operation of the VCH, you must place any container network port groups in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
 
@@ -652,10 +610,6 @@ Short name: `-n`
 A name for the VCH. If not specified, `vic-machine` sets the name of the VCH to `virtual-container-host`. If a VCH of the same name exists on the ESXi host or in the vCenter Server inventory, or if a folder of the same name exists in the target datastore, `vic-machine create` creates a folder named <code><i>vch_name</i>_1</code>. If the name that you provide contains unsupported characters, `vic-machine create` fails with an error.
  
 <pre>--name <i>vch_name</i></pre>
-
-Wrap the name in single quotes (') on Mac OS and Linux and in double quotes (") on Windows if it includes spaces.
-
-<pre>--name '<i>vch name</i>'</pre>
 
 ### `--memory` ###
 
@@ -772,9 +726,6 @@ In the following example, `--management-network-gateway` informs the VCH that it
 
 <pre>--management-network-gateway 192.168.3.0,192.168.128.0:192.168.2.1</pre>
 
-
-
-
 ## Configure Container Networks <a id="adv-container-net"></a>
 
 If the network that you specify in the `container-network` option does not support DHCP, you must specify the `container-network-gateway` option. You can optionally specify one or more DNS servers and a range of IP addresses for container VMs on the container network. 
@@ -791,10 +742,6 @@ When you specify the container network gateway, you must use the port group that
 
 <pre>--container-network-gateway <i>port_group_name</i>:<i>gateway_ip_address</i>/<i>subnet_mask</i></pre>
 
-Wrap the port group name in single quotes (Linux or Mac OS) or double quotes (Windows) if it includes spaces.
-
-<pre>--container-network-gateway '<i>port group name</i>':<i>gateway_ip_address</i>/<i>subnet_mask</i></pre>
-
 ### `--container-network-dns` ###
 
 Short name: `--cnd`
@@ -804,10 +751,6 @@ The address of the DNS server for the container network. This option is recommen
 When you specify the container network DNS server, you must use the  port group that you specify in the `--container-network` option. You can specify `--container-network-dns` multiple times, to configure multiple DNS servers. If you specify `--container-network-dns` but you do not specify `--container-network`, or if you specify a different port group to the one that you specify in `--container-network`, `vic-machine create` fails with an error.
 
 <pre>--container-network-dns <i>port_group_name</i>:8.8.8.8</pre>
-
-Wrap the port group name in single quotes (Linux or Mac OS) or double quotes (Windows) if it includes spaces.
-
-<pre>--container-network-dns '<i>port group name</i>':8.8.8.8</pre>
 
 ### `--container-network-ip-range` <a id="container-network-ip-range"></a>
 
@@ -822,10 +765,6 @@ When you specify the container network IP range, you must use the port group tha
 You can also specify the IP range as a CIDR.
 
 <pre>--container-network-ip-range <i>port_group_name</i>:192.168.100.0/24</pre>
-
-Wrap the port group name in single quotes (Linux or Mac OS) or double quotes (Windows) if it includes spaces.
-
-<pre>--container-network-ip-range '<i>port group name</i>':192.168.100.0/24</pre>
 
 ### `--container-network-firewall`  <a id="container-network-firewall"></a>
 
@@ -964,10 +903,6 @@ The path to the ISO image from which the VCH appliance boots. Set this option if
 
 <pre>--appliance-iso <i>path_to_ISO_file</i>/appliance.iso</pre>
 
-Wrap the folder names in the path in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.
-
-<pre>--appliance-iso '<i>path to ISO file</i>'/appliance.iso</pre>
-
 ### `--bootstrap-iso` ###
 
 Short name: `--bi`
@@ -977,10 +912,6 @@ The path to the ISO image from which to boot container VMs. Set this option if y
 **NOTE**: Do not use the `--bootstrap-iso` option to point `vic-machine` to a `--bootstrap-iso` file that is of a different version to the version of `vic-machine` that you are running.
 
 <pre>--bootstrap-iso <i>path_to_ISO_file</i>/bootstrap.iso</pre>
-
-Wrap the folder names in the path in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.
-
-<pre>--bootstrap-iso '<i>path to ISO file</i>'/bootstrap.iso</pre>
 
 ### `--use-rp` ###
 

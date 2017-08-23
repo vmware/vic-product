@@ -16,43 +16,44 @@ set -euf -o pipefail
 
 umask 077
 
-port=$(ovfenv -k management_portal.port)
+ADMIRAL_PORT=$(ovfenv -k management_portal.port)
 
 data_dir="/data/admiral"
 conf_dir="/etc/vmware/admiral"
 script_dir="/etc/vmware"
 keytool="/usr/bin/keytool"
 
-cert_dir=${data_dir}/cert
-flag=${data_dir}/cert_gen_type
-admiral_start_script=${conf_dir}/start_admiral.sh
+cert_dir="${data_dir}/cert"
+flag="${data_dir}/cert_gen_type"
+admiral_start_script="${conf_dir}/start_admiral.sh"
+admiral_add_default_users_script=${conf_dir}/add_default_users.sh
 
-ca_download_dir=${data_dir}/ca_download
-mkdir -p ${cert_dir}
-mkdir -p ${ca_download_dir}
+ca_download_dir="${data_dir}/ca_download"
+mkdir -p "${cert_dir}"
+rm -rf "${ca_download_dir}"
+mkdir -p "${ca_download_dir}"
 
-cert=${cert_dir}/server.crt
-key=${cert_dir}/server.key
-jks=${cert_dir}/trustedcertificates.jks
-csr=${cert_dir}/server.csr
-ca_cert=${cert_dir}/ca.crt
-ca_key=${cert_dir}/ca.key
-ext=${cert_dir}/extfile.cnf
+cert="${cert_dir}/server.crt"
+key="${cert_dir}/server.key"
+jks="${cert_dir}/trustedcertificates.jks"
+csr="${cert_dir}/server.csr"
+ca_cert="${cert_dir}/ca.crt"
+ca_key="${cert_dir}/ca.key"
+ext="${cert_dir}/extfile.cnf"
 
-rm -rf $ca_download_dir/*
-
-#Configure attr in start_admiral.sh
-function configureAdmiralStart {
-  cfg_key=$1
-  cfg_value=$2
+#Configure attr in script
+function configureScript {
+  script_name=$1
+  cfg_key=$2
+  cfg_value=$3
 
   if [ -n "$cfg_key" ]; then
     cfg_value=$(echo "$cfg_value" | sed -r -e 's%[\/&%]%\\&%g')
-    sed -i -r "s%#?$cfg_key\s*=\s*.*%$cfg_key=$cfg_value%" $admiral_start_script
+    sed -i -r "s%#?$cfg_key\s*=\s*.*%$cfg_key=$cfg_value%" $script_name
   fi
 }
 
-#Format cert file
+# Format cert file
 function formatCert {
   content=$1
   file=$2
@@ -165,30 +166,34 @@ ip_address=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
 detectHostname
 if [[ x$hostname != "x" ]]; then
   echo "Hostname: ${hostname}"
-  configureAdmiralStart "hostname" ${hostname}
+  configureScript $admiral_start_script "hostname" ${hostname}
 else
   echo "Hostname is null, set it to IP"
   hostname=${ip_address}
 fi
 
 # put admiral endpoint in guestinfo
-$script_dir/set_guestinfo.sh admiral.endpoint https://"$ip_address":"$port"
+$script_dir/set_guestinfo.sh admiral.endpoint https://"$ip_address":"$ADMIRAL_PORT"
 
 # Init certs
 secure
 
-configureAdmiralStart ADMIRAL_DATA_LOCATION $data_dir
-configureAdmiralStart ADMIRAL_EXPOSED_PORT "$port"
-configureAdmiralStart OVA_VM_IP "$ip_address"
+configureScript $admiral_start_script ADMIRAL_DATA_LOCATION $data_dir
+configureScript $admiral_start_script ADMIRAL_EXPOSED_PORT "$ADMIRAL_PORT"
+configureScript $admiral_start_script OVA_VM_IP "$ip_address"
 
-iptables -w -A INPUT -j ACCEPT -p tcp --dport "$port"
+configureScript $admiral_add_default_users_script ADMIRAL_DATA_LOCATION $data_dir
+configureScript $admiral_add_default_users_script ADMIRAL_EXPOSED_PORT "$ADMIRAL_PORT"
+configureScript $admiral_add_default_users_script OVA_VM_IP "$ip_address"
+
+iptables -w -A INPUT -j ACCEPT -p tcp --dport "$ADMIRAL_PORT"
 
 touch $data_dir/custom.conf
 
 
-harbor_port=$(ovfenv -k registry.port)
+HARBOR_PORT=$(ovfenv -k registry.port)
 # Configure the integration URL
-echo "harbor.tab.url=https://${hostname}:${harbor_port}" > $data_dir/custom.conf
+echo "harbor.tab.url=https://${hostname}:${HARBOR_PORT}" > $data_dir/custom.conf
 
 # Copy files needed by Admiral into one directory
 config_dir=$data_dir/configs

@@ -72,7 +72,7 @@ func main() {
 		}
 	}
 
-	info = fmt.Sprintf("%sAfter first boot, you must visit the Getting Started Page to\ninitialize the appliance before VIC services can start.\n\n", info)
+	info = fmt.Sprintf("%sAfter first boot, unless you are upgrading the appliance, you must visit the Getting Started Page\nto initialize the appliance before VIC services can start.\n\n", info)
 
 	if ip, err := ip.FirstIPv4(ip.Eth0Interface); err == nil {
 		if port, ok := ovf.Properties["fileserver.port"]; ok {
@@ -122,12 +122,12 @@ func main() {
 		ovfProps: ovf.Properties,
 	}
 
-	netHeader := "Network Status:\n\nSettings with 'MATCH' indicate the system network configuration matches the OVF config."
-	netInto := fmt.Sprintf("%s\nDNS: %s\n\nIP: %s\n\nGateway: %s\n", netHeader, netstat.GetDNSStatus(), netstat.GetIPStatus(), netstat.GetGatewayStatus())
-	netInto = fmt.Sprintf("%s\n\n\n\n\nPress the left arrow key to view service info...", netInto)
+	netHeader := "Network Status:\n\nSettings with 'MATCH' indicate the system network \nconfiguration matches the OVF network configuration.\n\n"
+	netInfo := fmt.Sprintf("%s\nDNS: %s\n\nIP: %s\n\nGateway: %s\n", netHeader, netstat.GetDNSStatus(), netstat.GetIPStatus(), netstat.GetGatewayStatus())
+	netInfo = fmt.Sprintf("%s\n\n\nPress the left arrow key to view service info...", netInfo)
 
 	// yellow := ui.ColorRGB(4, 4, 1)
-	networkPanel := ui.NewPar(netInto)
+	networkPanel := ui.NewPar(netInfo)
 	networkPanel.Height = ui.TermHeight()/2 + 1
 	networkPanel.Width = ui.TermWidth()
 	networkPanel.TextFgColor = ui.ColorBlack
