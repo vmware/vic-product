@@ -1,6 +1,6 @@
 # Logging In to the Management Portal #
 
-You can access the Management Portal in a web browser by entering the vSphere Integrated Containers instance IP address and the port that you specified for the portal during the deployment. By default the port number is *8282*.
+You can access the Management Portal in a web browser by entering the vSphere Integrated Containers appliance IP address and the port that you specified for the portal during the deployment. By default the port number is *8282*.
 
 If you don't know the port number, you can access the portal by going to http://<i>vic_appliance_address</i> and following the **Go to the vSphere Integrated Containers Management Portal** link.
 
