@@ -9,6 +9,7 @@ Type=oneshot
 ExecStart=/usr/bin/bash /etc/vmware/admiral/configure_admiral.sh
 ExecStartPost=/usr/bin/systemctl start admiral.service
 ExecStartPost=/usr/bin/systemctl start get_token.service
+ExecStartPost=/usr/bin/systemctl start admiral_default_users.service
 
 [Install]
 WantedBy=multi-user.target
