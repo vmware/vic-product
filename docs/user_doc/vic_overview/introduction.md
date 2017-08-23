@@ -224,7 +224,7 @@ For more information about, deploying, configuring, and working with Platform Se
 You can pull users from the Platform Services Controller and assign them roles through the vSphere Integrated Containers Management Portal.
 
 
-#### Users and Roles
+#### Users and Roles <a id="usersandroles"></a>
 	
 vSphere Integrated Containers features four roles for user access. The viewer role has the lowest level of access with the global administrator having the highest. Permissions per role are described below, as every next role inherits the permissions of the previous role and has additional ones.
 

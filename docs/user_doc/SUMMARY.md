@@ -82,6 +82,7 @@
 ----
 
 * [Configure and Manage](vic_cloud_admin/README.md)
+   * [Logging In to the Management Portal](vic_cloud_admin/logging_in_mp.md)
    * [Configure System Settings](vic_cloud_admin/configure_system.md)
    * [Add Users](vic_cloud_admin/add_users.md)
    * [Assign the Cloud Administrator Role](vic_cloud_admin/assign_admin_role.md)
