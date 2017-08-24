@@ -7,8 +7,8 @@ To upgrade an older version of the appliance, you deploy a new appliance instanc
 |Type of data|Migrated?|More Information|
 |---|---|---|
 |Virtual Container Hosts (VCHs)|Yes|VCHs that you added in the previous version migrate to the new version. Upgrading the appliance does not upgrade the VCHs themselves. For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).|
-|Placement policies|No|This version of vSphere Integrated Containers does not implement placement policies. In this version of vSphere Integrated Containers, projects manage placement??????????|
-|Registries|Yes|Registries that you added in the previous version migrate to the new version. Registry certificates and credentials also migrate.  **IMPORTANT**: If you added vSphere Integrated Containers Registry to the previous version of the vSphere Integrated Containers Management Portal, you must update the address of that registry to reflect the address of the new vSphere Integrated Containers appliance.|
+|Placement policies|No|This version of vSphere Integrated Containers does not implement placement policies. In this version of vSphere Integrated Containers, projects manage placement.|
+|Registries|Yes|Registries that you added in the previous version migrate to the new version. Registry certificates and credentials also migrate.|
 |Applications|Yes|Applications that you created in the previous version migrate to the new version.|
 |Containers and templates|Yes|Containers and templates that you created in the previous version migrate to the new version. Containers that are running in VCHs also migrate.|
 |Networks and volumes|Yes|Networks and volumes that you created in the previous version migrate to the new version.|
