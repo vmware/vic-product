@@ -17,7 +17,10 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/vmware/vic-product/installer/tagvm"
 )
@@ -61,6 +64,12 @@ func registerHandler(resp http.ResponseWriter, req *http.Request) {
 
 		if err := registerWithPSC(ctx); err != nil {
 			http.Error(resp, err.Error(), http.StatusServiceUnavailable)
+			return
+		}
+
+		if err := ioutil.WriteFile(initServicesTimestamp, []byte(time.Now().String()), 0644); err != nil {
+			errMsg := fmt.Sprintf("Failed to write to timestamp file: %s", err.Error())
+			http.Error(resp, errMsg, http.StatusServiceUnavailable)
 			return
 		}
 
