@@ -9,6 +9,7 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
 - You have an older version of the vSphere Integrated Containers appliance that you need to upgrade.
 - If the previous version of vSphere Integrated Containers Registry uses local database authentication for identity management, make a record of all of the users that exist in the database. These users cannot migrate to the new version, so you must recreate them after the upgrade.
 - Back up the older appliance by using your usual backup tools.
+- Ensure that all vCenter Server instances and ESXi hosts in the environment in which you are deploying the appliance have network time protocol (NTP) running. Running NTP prevents problems arising from clock skew between the vSphere Integrated Containers appliance, virtual container hosts, and the vSphere infrastructure.
 - Obtain the user name and password for the embedded vSphere Integrated Containers Registry database that runs in the older appliance.
 - Deploy the new version of the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 
