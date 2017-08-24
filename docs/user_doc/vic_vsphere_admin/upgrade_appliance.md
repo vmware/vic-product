@@ -36,18 +36,21 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
    - HTML5 vSphere Client: Click the **Add New Device** button and select **Existing Hard Disk**. 
 6. Navigate to the VDMK files of the previous appliance, select the VMDK file with the file name that ends in `_1`, and click **OK**.
 7. Expand **New Hard Disk** and make sure that the Virtual Device Node for the disk is set to **SCSI(0:1)**, then click **OK**.
-9. Power on the new vSphere Integrated Containers appliance, note its address, and use SSH to connect to it as root user.
+9. Power on the new vSphere Integrated Containers appliance and note its address.
+
+    **IMPORTANT**: Do not go to the Getting Started page of the appliance. Logging in to the Getting Started page for the first time initializes the appliance. Initialization is only applicable to new installations and causes upgraded appliances not to function correctly. 
+10. Use SSH to connect to the new appliance as root user.
 
     <pre>$ ssh root@new_vic_appliance_address</pre>
 
 11. Navigate to the upgrade script and run it. 
 
     <pre>$ cd /etc/vmware/upgrade</pre>
-    <pre>$ ./upgrade_1.1_to_1.2.sh --dbuser root --dbpass <i>registry_db_password</i> --target <i>vcenter_server_address</i> --username <i>vcenter_server_sso_username</i> --password <i>vcenter_server_sso_password</i></pre>
+    <pre>$ ./upgrade_1.1_to_1.2.sh --dbpass <i>registry_db_password</i> --target <i>vcenter_server_address</i> --username <i>vcenter_server_sso_username</i> --password <i>vcenter_server_sso_password</i></pre>
 
      When you run the script you must specify the following arguments:
 
-    - `--dbuser` and `--dbpassword`: The user name and password for the embedded database from the previous deployment of the vSphere Integrated Containers Registry. The script requires these credentials to log into the embedded database from the previous version to extract its data.
+    - `--dbpassword`: The password for the embedded database from the previous deployment of the vSphere Integrated Containers Registry. The script requires this password to log into the embedded database from the previous version to extract its data.
     - `--target`, `--username`, and `--password`: The address and Single Sign-On credentials of the vCenter Server instance on which you deployed the new appliance. The script requires these credentials to register the new version of vSphere Integrated Containers with the vSphere Platform Services Controller.
 10. When the upgrade finishes, go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and use vCenter Server Single Sign-On credentials to log in.
 
