@@ -2,13 +2,12 @@
 
 If you deployed a 1.1.x version of the vSphere Integrated Containers appliance, you can upgrade your existing installation to 1.2.x. You can also upgrade a 1.2.x appliance to a later 1.2.y update release.
 
-Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrated Containers Registry and vSphere Integrated Containers Management portal.
-
-To upgrade an older version of the appliance, you deploy a new appliance instance. The appliance upgrade process migrates vSphere Integrated Containers Registry and Management Portal data from the older appliance to the new appliance. For information about the data that migrates during upgrade, see [Data That Migrates During vSphere Integrated Containers Appliance Upgrade](upgrade_data.md).
+Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal. For information about the vSphere Integrated Containers Registry and Management Portal data that migrates during upgrade, see [Data That Migrates During vSphere Integrated Containers Appliance Upgrade](upgrade_data.md).
 
 **Prerequisites**
 
 - You have an older version of the vSphere Integrated Containers appliance that you need to upgrade.
+- If the previous version of vSphere Integrated Containers Registry uses local database authentication for identity management, make a record of all of the users that exist in the database. These users cannot migrate to the new version, so you must recreate them after the upgrade.
 - Back up the older appliance by using your usual backup tools.
 - Obtain the user name and password for the embedded vSphere Integrated Containers Registry database that runs in the older appliance.
 - Deploy the new version of the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
@@ -54,12 +53,12 @@ To upgrade an older version of the appliance, you deploy a new appliance instanc
 **What to Do Next**
 
 - In the **Home** tab of the vSphere Integrated Containers Management Portal, check that all existing applications, containers, networks, volumes, and virtual container hosts have migrated successfully.
-- In the **Administration** tab, check that projects, registries, and replication rules have migrated successfully.
-- **IMPORTANT**: If you added vSphere Integrated Containers Registry to the previous version of the vSphere Integrated Containers Management Portal, you must update the address of that registry to reflect the address of the new vSphere Integrated Containers appliance. 
+- In the **Administration** tab, check that projects and registries have migrated successfully.
+
+    If you added vSphere Integrated Containers Registry to the previous version of the vSphere Integrated Containers Management Portal, update the address of that registry instance to reflect the address of the new vSphere Integrated Containers appliance. 
    
-    1. Go to **Administration** > **Registries** > **Source Registries**
-    1. Hover your pointer over an instance of vSphere Integrated Containers Registry, and click the **Edit** icon.
-    1. Update the address of the registry to reflect the address of the new vSphere Integrated Containers appliance.
-- Upgrade the vSphere Integrated Containers plug-in for the HTML5 vSphere Client.
-- Download the vSphere Integrated Containers Engine bundle and upgrade VCHs.
-- After you have verified that the upgrade succeeded, you can delete the previous version of the appliance. 
+    - Go to **Administration** > **Registries** > **Source Registries**
+    - Hover your pointer over an instance of vSphere Integrated Containers Registry, and click the **Edit** icon.
+    - Update the address of the registry to reflect the address of the new vSphere Integrated Containers appliance.
+- Download the vSphere Integrated Containers Engine bundle and upgrade VCHs. For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).
+- Upgrade the vSphere Integrated Containers plug-in for the HTML5 vSphere Client. For information about upgrading the vSphere Client plug-in, see [Upgrade the HTML5 vSphere Client Plug-In on vCenter Server for Windows](upgrade_h5_plugin_windows.md) or [Upgrade the HTML5 vSphere Client Plug-In on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md), depending on the type of vCenter Server that you use.
