@@ -15,6 +15,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
    - 2 vCPUs
    - 8GB RAM
    - 80GB free disk space on the datastore
+- Ensure that all vCenter Server instances and ESXi hosts in the environment in which you are deploying the appliance have network time protocol (NTP) running. Running NTP prevents problems arising from clock skew between the vSphere Integrated Containers appliance, virtual container hosts, and the vSphere infrastructure.
 
 **Procedure**
 
