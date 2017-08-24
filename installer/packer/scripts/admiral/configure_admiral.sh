@@ -75,6 +75,9 @@ function genCert {
   echo subjectAltName = IP:"$ip_address" > $ext
   openssl x509 -req -days 365 -in $csr -CA $ca_cert -CAkey $ca_key -CAcreateserial -extfile $ext -out $cert
 
+  echo "Creating certificate chain for $cert"
+  cat $ca_cert >> $cert
+
   echo "self-signed" > $flag
   echo "Copy CA certificate to $ca_download_dir"
   cp $ca_cert $ca_download_dir/
