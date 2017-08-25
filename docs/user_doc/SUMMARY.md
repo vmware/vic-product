@@ -56,6 +56,7 @@
          * [VCH Admin Status Reference](vic_vsphere_admin/vicadmin_status_ref.md)
   * [Upgrading](vic_vsphere_admin/upgrading_vic.md)
      * [Data That Migrates During Upgrade](vic_vsphere_admin/upgrade_data.md) 
+     * [Tasks to Perform Before Upgrading](vic_vsphere_admin/pre_upgrade_tasks.md)
      * [Upgrade the Appliance](vic_vsphere_admin/upgrade_appliance.md)
      * [Upgrade VCHs](vic_vsphere_admin/upgrade_vch.md)
          * [VCH Upgrade Options](vic_vsphere_admin/upgrade_vch_options.md)
