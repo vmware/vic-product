@@ -85,7 +85,7 @@ func (v *Build) String() string {
 }
 
 func (v *Build) ShortVersion() string {
-	return fmt.Sprintf("%s-%s-%s", v.Version, v.BuildNumber, v.GitCommit)
+	return fmt.Sprintf("%s-%s", v.Version, v.GitCommit)
 }
 
 // Equal determines if v is equal to b based on BuildNumber
