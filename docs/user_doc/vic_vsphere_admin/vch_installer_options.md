@@ -356,10 +356,10 @@ The `vic-machine` utility allows you to specify the datastore in which to store 
 - vSphere Integrated Containers Engine fully supports VMware vSAN datastores. 
 - vSphere Integrated Containers Engine supports all alphanumeric characters, hyphens, and underscores in datastore paths and datastore names, but no other special characters.
 - If you specify different datastores in the different datastore options, and if no single host in a cluster can access all of those datastores, `vic-machine create` fails with an error.
-  <pre>No single host can access all of the requested datastores. 
+    <pre>No single host can access all of the requested datastores. 
   Installation cannot continue.</pre>
 - If you specify different datastores in the different datastore options, and if only one host in a cluster can access all of them, `vic-machine create` succeeds with a warning.
-  <pre>Only one host can access all of the image/container/volume datastores. 
+    <pre>Only one host can access all of the image/container/volume datastores. 
   This may be a point of contention/performance degradation and HA/DRS 
   may not work as intended.</pre> 
 - VCHs do not support datastore name changes. If a datastore changes name after you have deployed a VCH that uses that datastore, that VCH will no longer function.
@@ -406,44 +406,70 @@ When container developers create containers, vSphere Integrated Containers Engin
 
 Short name: `--vs`
 
-The datastore in which to create volumes when container developers use the `docker volume create` or `docker create -v` commands. When you specify the `volume-store` option, you  provide the name of the target datastore and a label for the volume store. You can optionally provide a path to a specific folder in the datastore in which to create the volume store. If the folders that you specify in the path do not already exist on the datastore, `vic-machine create` creates the appropriate folder structure. 
+The datastore in which to create volumes when container developers use the `docker volume create` command. You can specify either a datastore that is backed by vSphere or an NFS share point as the volume store.
 
-The `vic-machine create` creates command creates the `volumes` folder independently from the folders for VCH files so that you can share volumes between VCHs. If you delete a VCH, any volumes that the VCH managed will remain available in the volume store unless you specify the `--force` option when you delete the VCH. You can then assign an existing volume store that already contains data to a newly created VCH. 
+If you are deploying the VCH to a vCenter Server cluster, vSphere datastores that you designate in the `volume-store` option should be shared by at least two ESXi hosts in the cluster. Using non-shared datastores is possible and `vic-machine create` succeeds, but it issues a warning that this configuration limits the use of vSphere features such as vSphere vMotion and DRS.
 
-**IMPORTANT**: If multiple VCHs will use the same datastore for their volume stores, specify a different datastore folder for each VCH. Do not designate the same datastore folder as the volume store for multiple VCHs.
-
-If you are deploying the VCH to a vCenter Server cluster, the datastore that you designate in the `volume-store` option should be shared by at least two ESXi hosts in the cluster. Using non-shared datastores is possible and `vic-machine create` succeeds, but it issues a warning that this configuration limits the use of vSphere features such as vSphere vMotion and DRS.
+If you use NFS volume stores, container developers can share the data in those volumes between containers by attaching the same volume to multiple containers. For example, you can use shared NFS volume stores to share configuration information between containers, or  to allow containers to access the data of another container. To use shared NFS volume stores, it is recommended that the NFS share points that you designate as the volume stores be directly accessible by the network that you use as the container network. For information about container networks, see the description of the [`--container-network`](#container-network) option.
 
 The label that you specify is the volume store name that Docker uses. For example, the volume store label appears in the information for a VCH when container developers run `docker info`. Container developers specify the volume store label in the <code>docker volume create --opt VolumeStore=<i>volume_store_label</i></code> option when they create a volume.
 
 **IMPORTANT**: The volume store label must be unique.
 
-If you specify an invalid datastore name, `vic-machine create` fails and suggests valid datastores. 
+If you specify an invalid vSphere datastore name or an invalid NFS share point URL, `vic-machine create` fails and suggests valid datastores. 
 
-**IMPORTANT** If you do not specify the `volume-store` option, no  volume store is created and container developers cannot use the `docker volume create` or `docker create -v` commands.
+**IMPORTANT** If you do not specify the `volume-store` option, no  volume store is created and container developers cannot create containers with volumes. You can add volume stores to a VCH after deployment by running `vic-machine configure --volume-store`. For information about adding volume stores after deployment, see [Add Volume Stores](configure_vch.md#volumes) in Configure Virtual Container Hosts.
 
-- If you only require one volume store, you can set the volume store label to `default`. If you set the volume store label to `default`, container developers do not need to specify the <code>--opt VolumeStore=<i>volume_store_label</i></code> option when they run `docker volume create`. 
+- To specify a vSphere datastore, provide the datastore name and the volume store label. 
 
-  **NOTE**: If container developers intend to use `docker create -v` to create containers that are attached to anonymous or named volumes, you must create a volume store with a label of `default`.
+    <pre>--volume-store <i>datastore_name</i>:<i>volume_store_label</i></pre>
 
-  <pre>--volume-store <i>datastore_name</i>:default</pre>
- 
-- If you specify the target datastore and the volume store label, `vic-machine create` creates a folder named `VIC/volumes` at the top level of the target datastore. Any volumes that container developers create will appear in the `VIC/volumes` folder. 
+    You can optionally use the `ds://` prefix to specify a datastore that is backed by vSphere.
 
-  <pre>--volume-store <i>datastore_name</i>:<i>volume_store_label</i></pre>
-- If you specify the target datastore, a datastore path, and the volume store label, `vic-machine create` creates a folder named `volumes` in the location that you specify in the datastore path. Any volumes that container developers create will appear in the <code><i>path</i>/volumes</code> folder.
+    <pre>--volume-store ds://<i>datastore_name</i>:<i>volume_store_label</i></pre>
 
-  <pre>--volume-store <i>datastore_name</i>/<i>datastore_path</i>:<i>volume_store_label</i></pre>
+    If you specify a vSphere datastore without specifying a path to a specific datastore folder, `vic-machine create` creates a folder named `VIC/volumes` at the top level of the target datastore. Any volumes that container developers create will appear in the `VIC/volumes` folder. 
+
+- If you specify a vSphere datastore and a datastore path, `vic-machine create` creates a folder named `volumes` in the location that you specify in the datastore path. If the folders that you specify in the path do not already exist on the datastore, `vic-machine create` creates the appropriate folder structure.  Any volumes that container developers create will appear in the <code><i>path</i>/volumes</code> folder. 
+
+    <pre>--volume-store <i>datastore_name</i>/<i>datastore_path</i>:<i>volume_store_label</i></pre>    
+
+    The `vic-machine create` command creates the `volumes` folder independently from the folders for VCH files so that you can share volume stores between VCHs. If you delete a VCH, any volumes that the VCH managed will remain available in the volume store unless you specify the `--force` option when you delete the VCH. You can then assign an existing volume store that already contains data to a newly created VCH. 
+
+     **IMPORTANT**: If multiple VCHs will use the same datastore for their volume stores, specify a different datastore folder for each VCH. Do not designate the same datastore folder as the volume store for multiple VCHs.
+
+- To specify an NFS share point as a volume store, use the `nfs://` prefix and the path to a shared mount point.
+
+    **IMPORTANT**: When container developers run `docker info` or `docker volume ls` against a VCH, there is currently no indication whether a volume store is backed by vSphere or by an NFS share point. Consequently, you should include an indication that a volume store is an NFS share point in the volume store label. 
+
+    <pre>nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
 - You can specify the `volume-store` option multiple times, to create multiple volume stores for the VCH.
 
-  <pre>--volume-store <i>datastore_name</i>/path:<i>volume_store_label_1</i>
+
+    You can also specify the URL, UID, GID, and access protocol of a shared NFS mount point when you specify an NFS share point.
+    <pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&gid=5678&proto=tcp:<i>nfs_volume_store_label</i></pre>
+
+    If you do not specify a UID and GID, vSphere Integrated Containers Engine uses te `anon` UID and GID when creating and interacting with the volume store. The `anon` UID and GID is 1000.    
+
+    You cannot specify the root folder of an NFS server as a volume store. 
+    
+- If you only require one volume store, set the volume store label to `default`. If you set the volume store label to `default`, container developers do not need to specify the <code>--opt VolumeStore=<i>volume_store_label</i></code> option when they run `docker volume create`. 
+
+    **NOTE**: If container developers intend to use `docker create -v` to create containers that are attached to anonymous or named volumes, you must create a volume store with a label of `default`.
+
+    <pre>--volume-store <i>datastore_name</i>:default</pre>
+    <pre>--volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:default</pre>
+ 
+- You can specify the `volume-store` option multiple times, to create multiple volume stores for the VCH. You can add a mixture of vSphere datastores and NFS share points to a VCH.
+
+    <pre>--volume-store <i>datastore_name</i>/path:<i>volume_store_label_1</i>
 --volume-store <i>datastore_name</i>/<i>path</i>:<i>volume_store_label_2</i>
-[...]
---volume-store <i>datastore_name</i>/<i>path</i>:<i>volume_store_label_n</i>
+--volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i>
 </pre>
 
 
-## Networking Options {#networking}
+## Networking Options <a id="networking"></a>
+
 The `vic-machine create` utility allows you to specify different networks for the different types of traffic between containers, the VCH, the external internet, and your vSphere environment. For information about the different networks that VCHs use, see [Virtual Container Host Networking](networks.md).
 
 **IMPORTANT**: A VCH supports a maximum of 3 distinct network interfaces. Because the bridge network requires its own port group, at least two of the public, client, and management networks must share a network interface and therefore a port group. Container networks do not go through the VCH, so they are not subject to this limitation. This limitation will be removed in a future release.
@@ -545,7 +571,9 @@ Short name: `--cn`
 
 A port group for container VMs to use for external communication when container developers  run `docker run` or `docker create` with the `--net` option. 
 
-You can optionally specify one or more container networks. Container networks allow containers to directly attach to a network without having to route through the VCH via network address translation (NAT). Container networks that you add by using the `--container-network` option appear when you run the `docker network ls` command. These networks are available for use by containers. Containers that use these networks are directly attached to the container network, and do not go through the VCH or share the public IP of the VCH.
+You can optionally specify one or more container networks. Container networks allow containers to directly attach to a network without having to route through the VCH via network address translation (NAT). Container networks that you add by using the `--container-network` option appear when you run the `docker network ls` command. These networks are available for use by containers. Containers that use these networks are directly attached to the container network, and do not go through the VCH or share the public IP of the VCH. 
+
+If you use shared NFS share points as volumes stores, it is recommended to make the NFS target accessible by the container network. If you use NFS volume stores and you do not specify a container network, containers use NAT to route traffic to the NFS target through the VCH endpoint VM. This can create potential bottlenecks and a single point of failure. 
 
 **IMPORTANT**: For security reasons, whenever possible, use separate port groups for the container network and the management network.
 
