@@ -112,7 +112,7 @@ The thumbprint of the vCenter Server or ESXi host certificate. Specify this opti
 
 To obtain the thumbprint of the vCenter Server or ESXi host certificate, run `vic-machine create` without the specifying the `--thumbprint` or `--force` options. The deployment of the VCH fails, but the resulting error message includes the required certificate thumbprint. You can copy the thumbprint from the error message and run vic-machine create again, including the `--thumbprint` option. 
 
-**NOTE**: If you obtain the thumbprint by other means, use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
+**NOTE**: Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
 
 <pre>--thumbprint <i>certificate_thumbprint</i></pre>
 

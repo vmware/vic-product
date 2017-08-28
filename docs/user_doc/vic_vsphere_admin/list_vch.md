@@ -8,7 +8,7 @@ The `vic-machine ls` command does not include any options in addition to the com
 - You must specify the username and optionally the password, either in the `--target` option or separately in the `--user` and `--password` options. 
 - If your vSphere environment uses untrusted, self-signed certificates, you must also specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. To obtain the thumbprint of the vCenter Server or ESXi host certificate, run `vic-machine` without the specifying the `--thumbprint` option. The listing of the VCHs fails, but the resulting error message includes the required certificate thumbprint. You can copy the thumbprint from the error message and run `vic-machine` again, including the `--thumbprint` option.
 
-   **NOTE**: If you obtain the thumbprint by other means, use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
+   **NOTE**: Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
 
 
 ## Example ##

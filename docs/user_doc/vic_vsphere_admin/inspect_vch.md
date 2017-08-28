@@ -9,7 +9,7 @@ In addition to the common options described in [Common `vic-machine` Options](co
   - If multiple compute resources exist in the datacenter, you must specify the `--compute-resource` or `--id` option. 
   - If your vSphere environment uses untrusted, self-signed certificates, you must also specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. To obtain the thumbprint of the vCenter Server or ESXi host certificate, run `vic-machine` without the specifying the `--thumbprint` option. The inspection of the VCH fails, but the resulting error message includes the required certificate thumbprint. You can copy the thumbprint from the error message and run `vic-machine` again, including the `--thumbprint` option.
 
-     **NOTE**: If you obtain the thumbprint by other means, use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
+     **NOTE**: Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
   
   - If the VCH implements server and client authentication (`tlsverify`) and uses a non-default location to store its certificates, specify the `--tls-cert-path` option. If you do not specify `--tls-cert-path`, `vic-machine inspect` looks for valid certificates in `$PWD`, `$PWD/$vch_name` and `$HOME/.docker`. 
 
