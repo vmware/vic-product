@@ -57,7 +57,7 @@ To update the certificate, provide the new certificate thumbprint to the VCH in 
     --id <i>vch_id</i>
     --thumbprint <i>new_certificate_thumbprint</i></pre>
 
-**NOTE**: If you run `vic-machine configure` with the `--force` option and you do not specify `--thumbprint`, `vic-machine` updates the thumbprint automatically.
+**NOTE**: If you run `vic-machine configure` with the `--force` option and you do not specify `--thumbprint`, `vic-machine` updates the thumbprint automatically. It is not recommended to use `--force` to automatically update thumbprints in production environments as this exposes VCHs to the risk of man-in-the-middle attacks. For information about how to obtain the vCenter Server certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
 
 ## Add or Update Registry Server Certificates <a id="registries"></a>
 

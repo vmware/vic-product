@@ -52,7 +52,9 @@ The thumbprint of the vCenter Server or ESXi host certificate. Specify this opti
 
 If you run `vic-machine` without the specifying the `--thumbprint` option and the operation fails, the resulting error message includes the certificate thumbprint. Always verify that the thumbprint in the error message is valid before attempting to run the command again.  
 
-For information about how to obtain the certificate thumbprint either before running vic-machine or to verify a thumbprint from a vic-machine error message, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md). 
+For information about how to obtain the certificate thumbprint either before running `vic-machine` or to verify a thumbprint from a `vic-machine` error message, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md). 
+
+You can bypass certificate thumbprint verification by specifying the `--force` option instead of `--thumbprint`. It is not recommended to use `--force` to bypass thumbprint verification in production environments as this exposes VCHs to the risk of man-in-the-middle attacks.
 
 **NOTE**: Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
 

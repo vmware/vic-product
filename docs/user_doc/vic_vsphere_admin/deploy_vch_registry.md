@@ -8,6 +8,7 @@ If you did not provide a custom server certificate and private key for the regis
 
 - You selected the option to deploy vSphere Integrated Containers Registry when you deployed the vSphere Integrated Containers appliance.
 - You downloaded the vSphere Integrated Containers Engine bundle from  http://<i>vic_appliance_address</i>.
+- Obtain the vCenter Server or ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
 
 **Procedure**
 
@@ -26,7 +27,7 @@ If you did not provide a custom server certificate and private key for the regis
 --image-store datastore1
 --bridge-network vch1-bridge
 --name vch_registry
---force
+--thumbprint <i>vcenter_server_certificate_thumbprint</i>
 --no-tlsverify
 --registry-ca=<i>cert_path</i>/ca.crt
 </pre>

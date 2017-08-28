@@ -18,6 +18,8 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
 - You downloaded a new version of the vSphere Integrated Containers Engine bundle.
 - Run the `vic-machine ls` command by using the new version of `vic-machine` to see the upgrade status of all of the VCHs that are running on a vCenter Server instance or ESXi host. For information about running `vic-machine ls`, see [List VCHs and Obtain Their IDs](list_vch.md).
 - Optionally note the IDs of the VCHs.
+- Obtain the vCenter Server or ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
+
 
 **Procedure**
 
@@ -29,7 +31,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
   - You must specify the username and optionally the password, either in the `target` option or separately in the `--user` and `--password` options. 
   - If the VCH has a name other than the default name, `virtual-container-host`, you must specify the `--name` or `--id` option. 
   - If multiple compute resources exist in the datacenter, you must specify the `--compute-resource` or `--id` option. 
-  - If your vSphere environment uses untrusted, self-signed certificates, you must also specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. To obtain the thumbprint of the vCenter Server or ESXi host certificate, run `vic-machine` without the specifying the `--thumbprint` or `--force` options. The upgrade of the VCH fails, but the resulting error message includes the required certificate thumbprint. You can copy the thumbprint from the error message and run `vic-machine` again, including the `--thumbprint` option.
+  - If your vSphere environment uses untrusted, self-signed certificates, you must also specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. 
 
      **NOTE**: Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
 
@@ -48,7 +50,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
 
 3. If the upgrade operation continues to fail with error messages, run `vic-machine upgrade` again with the `--force` option.
 
-    If your vSphere environment uses untrusted, self-signed certificates, running `vic-machine upgrade` with the `--force` option allows you to omit the `--thumbprint` option.
+    If your vSphere environment uses untrusted, self-signed certificates, running `vic-machine upgrade` with the `--force` option allows you to omit the `--thumbprint` option. It is not recommended to use `--force` to bypass thumbprint verification in production environments as this exposes VCHs to the risk of man-in-the-middle attacks.
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
@@ -61,7 +63,6 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
 --id <i>vch_id</i>
---force
 --rollback</pre>
 
 
