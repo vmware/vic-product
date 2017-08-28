@@ -37,7 +37,9 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
     To use DHCP, leave the networking properties blank.
 
-    **IMPORTANT**: If you set a static IP address for the appliance, use spaces to separate DNS servers. Do not use comma separation for DNS servers.
+    **IMPORTANT**: If you set a static IP address for the appliance, use spaces to separate DNS servers. Do not use comma separation for DNS servers. 
+
+    The OVA installer checks that the network configuration is valid before it proceeds with deployment of the appliance.
 
 6. Expand **Registry Configuration** to configure the deployment of vSphere Integrated Containers Registry. 
 
