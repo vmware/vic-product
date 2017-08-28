@@ -260,8 +260,6 @@ The following global permissions are unique for the cloud administrator role:
 
 vSphere Integrated Containers Registry is an enterprise-class registry server that you can use to store and distribute container images. vSphere Integrated Containers Registry allows DevOps administrators to organize image repositories in projects, and to set up role-based access control to those projects to define which users can access which repositories. vSphere Integrated Containers Registry also provides rule-based replication of images between registries, implements Docker Content Trust, and provides detailed logging for project and user auditing.
 
-For a more detailed overview of vSphere Integrated Containers Registry, see [Managing Images, Projects, and Users with vSphere Integrated Containers Registry](../vic_cloud_admin/using_registry.md) in *Configure and Manage vSphere Integrated Containers*.
-
 vSphere Integrated Containers Registry is an enterprise-class registry server that you can use to store and distribute container images. vSphere Integrated Containers Registry extends the open source Docker Distribution project by adding the features that enterprise users require, such as user management, access control, and activity auditing. You can improve image transfer efficiency by deploying vSphere Integrated Containers Registry alongside vSphere Integrated Containers Engine, so that your registry is located close to the build and run environment. 
 
 ### Rule Based Image Replication <a id="replication"></a>
