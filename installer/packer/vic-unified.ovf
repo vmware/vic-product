@@ -282,7 +282,7 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
       </Property>
     </ProductSection>
     <ProductSection ovf:class="default_users" ovf:required="false">
-      <Info>Out-of-the-box VIC users</Info>
+      <Info>Example Users</Info>
       <Category>7. Configure Example Users</Category>
       <Property ovf:key="create_def_users" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="true">
         <Label>7.1. Create Example Users</Label>
