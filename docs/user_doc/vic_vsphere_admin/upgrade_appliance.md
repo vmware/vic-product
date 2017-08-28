@@ -55,7 +55,7 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
 - In the **Home** tab of the vSphere Integrated Containers Management Portal, check that all existing applications, containers, networks, volumes, and virtual container hosts have migrated successfully.
 - In the **Administration** tab, check that projects and registries have migrated successfully.
 
-    If you added vSphere Integrated Containers Registry to the previous version of the vSphere Integrated Containers Management Portal, update the address of that registry instance to reflect the address of the new vSphere Integrated Containers appliance. 
+    If you added vSphere Integrated Containers Registry to the previous version of the vSphere Integrated Containers Management Portal,  and if the address of the appliance changed during the upgrade, update the address of that registry instance to reflect the address of the new vSphere Integrated Containers appliance. 
    
     - Go to **Administration** > **Registries** > **Source Registries**
     - Hover your pointer over an instance of vSphere Integrated Containers Registry, and click the **Edit** icon.

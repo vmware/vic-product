@@ -7,7 +7,7 @@ To upgrade an older version of the appliance, you deploy a new appliance instanc
 |Type of data|Migrated?|More Information|
 |---|---|---|
 |Virtual Container Hosts (VCHs)|Yes|VCHs that you added in the previous version migrate to the new version. Upgrading the appliance does not upgrade the VCHs themselves. For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).|
-|Placement policies|No|This version of vSphere Integrated Containers does not implement placement policies. In this version of vSphere Integrated Containers, projects manage placement.|
+|Placement policies|No|You cannot modify placements and placement zones in this version of vSphere Integrated Containers. This version manages placements internally when you create or modify projects.|
 |Registries|Yes|Registries that you added in the previous version migrate to the new version. Registry certificates and credentials also migrate.|
 |Applications|Yes|Applications that you created in the previous version migrate to the new version.|
 |Containers and templates|Yes|Containers and templates that you created in the previous version migrate to the new version. Containers that are running in VCHs also migrate.|
