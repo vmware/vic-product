@@ -203,7 +203,7 @@ vSphere Integrated Containers Management Portal is a highly scalable and very li
 - Live state updates that provide a live view of the container system.
 - Multi-container template management, that enables logical multi-container application deployments.
 
-For a more information about vSphere Integrated Containers Management Portal, see [View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal](../vic_cloud_admin/vchs_and_mgmt_portal.html) in *Configure and Manage vSphere Integrated Containers*.
+For a more information about vSphere Integrated Containers Management Portal, see [View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal](../vic_cloud_admin/vchs_and_mgmt_portal.md) in *Configure and Manage vSphere Integrated Containers*.
 
 ### Projects and Role-Based Access Control <a id="projects"></a>
 
@@ -259,8 +259,6 @@ The following global permissions are unique for the cloud administrator role:
 ## What Is vSphere Integrated Containers Registry? <a id="whats_registry"></a>
 
 vSphere Integrated Containers Registry is an enterprise-class registry server that you can use to store and distribute container images. vSphere Integrated Containers Registry allows DevOps administrators to organize image repositories in projects, and to set up role-based access control to those projects to define which users can access which repositories. vSphere Integrated Containers Registry also provides rule-based replication of images between registries, implements Docker Content Trust, and provides detailed logging for project and user auditing.
-
-For a more detailed overview of vSphere Integrated Containers Registry, see [Managing Images, Projects, and Users with vSphere Integrated Containers Registry](../vic_cloud_admin/using_registry.html) in *Configure and Manage vSphere Integrated Containers*.
 
 vSphere Integrated Containers Registry is an enterprise-class registry server that you can use to store and distribute container images. vSphere Integrated Containers Registry extends the open source Docker Distribution project by adding the features that enterprise users require, such as user management, access control, and activity auditing. You can improve image transfer efficiency by deploying vSphere Integrated Containers Registry alongside vSphere Integrated Containers Engine, so that your registry is located close to the build and run environment. 
 
