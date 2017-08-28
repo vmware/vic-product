@@ -19,12 +19,12 @@ The certificate on the vCenter Server or ESXi host that you specified in the `--
 
 If the certificate was signed by a certificate authority (CA), add that CA to the trusted roots for the client system.
 
-If the CA should not be generally trusted, or the certificate is self-signed:
-*  If the server is trusted and you did not specify the certificate thumbprint when you ran `vic-machine create`, specify the `--thumbprint` option, using the thumbprint from the error message.
-*  If the thumbprint that you specified in `--thumbprint` does not match the server certificate reported in the error message: 
+If the CA should not be generally trusted, or the certificate is self-signed, obtain the thumbprint of the vCenter Server instance or ESXi host. For information about how to obtain the certificate thumbprint either before running `vic-machine` or to verify a thumbprint from a `vic-machine` error message, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
+*  If the server is trusted and you did not specify the certificate thumbprint when you ran `vic-machine create`, run `vic-machine create` again, specifying the `--thumbprint` option. 
+*  If a thumbprint that you specified in `--thumbprint` does not match the server certificate reported in the error message: 
     1.  Remove the thumbprint from the `vic-machine create` command. 
     **WARNING:** A thumbprint mismatch could mean the server you have connected to is not the intended target and might have be spoofed.
     2. Validate that the change in server certificate is legitimate
-    3. Re-run `vic-machine create`, specifying the new thumbprint in the `--thumbprint` option.
+    3. Re-run `vic-machine create`, specifying a new thumbprint in the `--thumbprint` option.
 
        **NOTE**: Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
