@@ -49,7 +49,7 @@ The demo VCH has the minimum configuration that deployment to vCenter Server req
 
 6. Enter the vCenter Server certificate thumbprint into the **Thumbprint** text box and click **Execute**. 
 
-    If you leave **Thumbprint** empty, the deployment of the VCH fails, and the certificate thumbprint of the target vCenter Server appears under **Execution Output**. Verify that the thumbprint is valid. It it is valid, copy and paste the thumprint in **Thumbprint** and click **Execute** again.
+    If you leave **Thumbprint** empty, the deployment of the VCH fails, and the certificate thumbprint of the target vCenter Server appears under **Execution Output**. Verify that the thumbprint is valid. If it is valid, copy and paste the thumprint in **Thumbprint** and click **Execute** again.
 
 You can monitor the progress of the VCH deployment under **Execution Output**. Stay on the Installer page until the command finishes. Logs might stop streaming if you switch to other tabs or windows. 
 

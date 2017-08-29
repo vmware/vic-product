@@ -33,7 +33,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
   - If multiple compute resources exist in the datacenter, you must specify the `--compute-resource` or `--id` option. 
   - If your vSphere environment uses untrusted, self-signed certificates, you must also specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. 
 
-     **NOTE**: Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
+     Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>

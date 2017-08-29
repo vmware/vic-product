@@ -27,4 +27,4 @@ If the CA should not be generally trusted, or the certificate is self-signed, ob
     2. Validate that the change in server certificate is legitimate
     3. Re-run `vic-machine create`, specifying a new thumbprint in the `--thumbprint` option.
 
-       **NOTE**: Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
+       Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
