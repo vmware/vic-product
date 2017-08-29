@@ -22,7 +22,7 @@ After you have deployed a virtual container host (VCH), you can verify the deplo
    - vCenter Server: Go to **Hosts and Clusters** in the vSphere Web Client and select the cluster or host on which you deployed the VCH. You should see a vApp with the name that you set for the VCH.
    - ESXi host: Go to **Inventory** in the vSphere Client and select the host on which you deployed the VCH. You should see a resource pool with the name that you set for the VCH.
 
-   The vApp or resource pool contains the VCH endpoint VM.   
+    The vApp or resource pool contains the VCH endpoint VM.   
 
 3.  Run the `docker info` command to confirm that you can connect to the VCH.
 
@@ -40,7 +40,7 @@ After you have deployed a virtual container host (VCH), you can verify the deplo
     - vCenter Server: Go to **Storage**, right-click the datastore that you designated as the image store, and select **Browse Files**. 
     - ESXi host: Click the **Summary** tab for the ESXi host, right-click the datastore that you designated as the image store, and select **Browse Datastore**. 
 
-    vSphere Integrated Containers Engine creates a folder a folder that has the same name as the VCH, that contains a folder named `VIC` in which to store container image files.
+    vSphere Integrated Containers Engine creates a folder that has the same name as the VCH, that contains a folder named `VIC` in which to store container image files.
   
 1. Expand the `VIC` folder to navigate to the `images` folder.  The `images` folder contains a folder for every container image that you pull into the VCH. The folders contain the container image files.
   
