@@ -22,28 +22,28 @@ The demo VCH has the minimum configuration that deployment to vCenter Server req
 2. Enter the IP address and administrator credentials of the vCenter Server instance on which the vSphere Integrated Containers appliance is running and click **Login**. 
 4. Use the drop-down menus to select the appropriate resources for each of the required resources.
 
-     <table border="1">
-  <tr>
+    <table border="1">
+    <tr>
     <th scope="col">Option</th>
     <th scope="col">Description</th>
-  </tr>
-  <tr>
+    </tr>
+    <tr>
     <td>Bridge Network</td>
     <td>Select an existing distributed port group for container VMs use to communicate with each other.</td>
-  </tr>
-  <tr>
+    </tr>
+    <tr>
     <td>Public Network</td>
     <td>Select a different distributed port group for container VMs use to connect to the internet.</td>
-  </tr>
-  <tr>
+    </tr>
+    <tr>
     <td>Image Store</td>
     <td>Select a datastore in which to store container images that you pull into the VCH.</td>
-  </tr>
+    </tr>
     <tr>
     <td>Compute Resource</td>
     <td>Select the host, cluster, or resource pool in which to deploy the VCH.</td>
-  </tr>
-</table>
+    </tr>
+    </table>
 
 5. (Optional) Modify the name of the VCH to create.
 
