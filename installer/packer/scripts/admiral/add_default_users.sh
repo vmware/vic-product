@@ -127,7 +127,7 @@ add_users_to_project_url+="/projects/default-project"
 echo $add_users_to_project_url
 
 project_admin_name=$defuser_prefix
-project_admin_name+="-project-admin"
+project_admin_name+="-devops-admin"
 project_admin_name+="@"
 project_admin_name+=$tenant
 
