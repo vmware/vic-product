@@ -32,7 +32,9 @@ Short name: `-f`
 
 Forces `vic-machine upgrade` to ignore warnings and continue with the upgrade of a VCH. Errors such as an incorrect compute resource still cause the upgrade to fail. 
 
-If your vSphere environment uses untrusted, self-signed certificates, you can use the `--force` option to upgrade a VCH without providing the thumbprint of the vCenter Server or ESXi host in the `thumbprint` option. It is not recommended to use `--force` to bypass thumbprint verification in production environments as this exposes VCHs to the risk of man-in-the-middle attacks.
+You can bypass certificate thumbprint verification by specifying the `--force` option instead of `--thumbprint`. 
+
+**CAUTION**: It is not recommended to use `--force` to bypass thumbprint verification in production environments. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials.
 
 <pre>--force</pre>
 
