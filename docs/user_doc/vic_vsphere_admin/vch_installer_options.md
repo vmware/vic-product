@@ -787,7 +787,7 @@ The `--container-network-firewall` option allows you to set the following levels
 
 <pre>--container-network-firewall <i>port_group_name</i>:<i>trust_level</i></pre>
 
-If you do not set `--container-network-firewall`, the default level of trust is `published`. As a consequence, if you do not set `--container-network-firewall`, container developers must specify `-p 80` in `docker run` and `docker create` commands to publish port 80 on a container. In regular Docker, then do not need to specify `-p` to publish port 80.
+If you do not set `--container-network-firewall`, the default level of trust is `published`. As a consequence, if you do not set `--container-network-firewall`, container developers must specify `-p 80` in `docker run` and `docker create` commands to publish port 80 on a container. In regular Docker, they do not need to specify `-p` to publish port 80.
 
 ## Configure VCHs to Use Proxy Servers <a id="proxy"></a>
 
