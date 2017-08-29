@@ -203,7 +203,7 @@ vSphere Integrated Containers Management Portal is a highly scalable and very li
 - Live state updates that provide a live view of the container system.
 - Multi-container template management, that enables logical multi-container application deployments.
 
-For a more information about vSphere Integrated Containers Management Portal, see [View and Manage VCHs in vSphere Integrated Containers Management Portal](../vic_cloud_admin/vchs_and_mgmt_portal.md) in *Configure and Manage vSphere Integrated Containers*.
+For more information about vSphere Integrated Containers Management Portal, see [View and Manage VCHs in vSphere Integrated Containers Management Portal](../vic_cloud_admin/vchs_and_mgmt_portal.md) in *Configure and Manage vSphere Integrated Containers*.
 
 ### Projects and Role-Based Access Control <a id="projects"></a>
 
