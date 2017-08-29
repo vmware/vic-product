@@ -10,7 +10,8 @@ The demo VCH has the minimum configuration that deployment to vCenter Server req
 
 - You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.html).
 - You opened port 2377 for outgoing connections on all ESXi hosts in your vCenter Server environment. For information about opening port 2377, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.html).
-- You must create two distributed port groups, one each for the bridge and public networks, on the vCenter Server instance on which to deploy the VCH. For information about how to create a distributed virtual switch and a port group, see [Create a vSphere Distributed Switch](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) and [Add Hosts to a vSphere Distributed Switch](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere documentation.   
+- You must create two distributed port groups, one each for the bridge and public networks, on the vCenter Server instance on which to deploy the VCH. For information about how to create a distributed virtual switch and a port group, see [Create a vSphere Distributed Switch](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) and [Add Hosts to a vSphere Distributed Switch](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere documentation. 
+- Obtain the vCenter Server certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).  
 
 **NOTE**: When using `vic-machine` to deploy VCHs, if you do not specify a network or port group for the public network, the VCH uses the VM Network by default. However, because the VM Network might not be present, the demo VCH requires that you create a port group for the public network. 
 
@@ -44,14 +45,13 @@ The demo VCH has the minimum configuration that deployment to vCenter Server req
   </tr>
 </table>
 5. (Optional) Modify the name of the VCH to create.
-6. Leave **Thumbprint** empty and click **Execute**. 
+6. Enter the vCenter Server certificate thumbprint in the **Thumbprint** text box and click **Execute**. 
 
-     The deployment of the VCH fails, but the certificate thumbprint of the target vCenter Server appears under **Execution Output**.
-7. Copy and paste the certificate thumbprint into **Thumbprint** and click **Execute** again.
-
-    You can monitor the progress of the VCH deployment under **Execution Output**. Stay on the Installer page until the command finishes. Logs might stop streaming if you switch to other tabs or windows. 
+    If you leave **Thumprint** empty, the deployment of the VCH fails, but the certificate thumbprint of the target vCenter Server appears under **Execution Output**. Verify the validity of the thumbprint. If it is authentic, paste it into **Thumprint** and click **Execute** again.
 
 **Result**
+
+You can monitor the progress of the VCH deployment under **Execution Output**. Stay on the Installer page until the command finishes. Logs might stop streaming if you switch to other tabs or windows.
 
 At the end of a successful deployment, **Execution Output** displays information about the new VCH.  
 
