@@ -48,11 +48,16 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 7. Expand **Management Portal Configuration** to configure the deployment of vSphere Integrated Containers Management Portal. 
 
     - In the **Management Portal Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Management Portal service.
-    - To use custom certificates to authenticate connections to vSphere Integrated Containers Management Portal, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates.
+    - To use custom certificates to authenticate connections to vSphere Integrated Containers Management Portal, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. 
+
+        **IMPORTANT**: vSphere Integrated Containers Management Portal does not support RSA format for TLS private keys. You must specify TLS private keys in PKCS8 format. Make sure there is no whitespace at the end of the key.
+
+    - Leave the text boxes blank to use auto-generated certificates.
 7. Expand **Fileserver Configuration** to configure the file server from which you download the vSphere Integrated Containers Engine binaries, and which publishes the plug-in packages for the vSphere Client. 
 
    - In the **Fileserver Port** text box, optionally change the port on which the vSphere Integrated Containers Engine file server runs.
-   - To use custom certificates to authenticate connections to the vSphere Integrated Containers Engine file server, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates.
+   - To use custom certificates to authenticate connections to the vSphere Integrated Containers Engine file server, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. The file server supports RSA format for TLS private keys. 
+   - Leave the text boxes blank to use auto-generated certificates.    
 
 7. Expand **Demo VCH Installer Wizard Configuration** to optionally change the port on which the interactive web installer for virtual container hosts (VCHs) runs.
 8. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
