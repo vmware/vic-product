@@ -17,7 +17,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 
 	log "github.com/Sirupsen/logrus"
@@ -31,6 +33,7 @@ const (
 	pscBinaryPath    = "/etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar"
 	vcHostnameOption = "config.vpxd.hostnameUrl"
 	pscConfDir       = "/etc/vmware/psc"
+	pscConfFileName  = "psc-config.properties"
 )
 
 // registerWithPSC runs the PSC register command to register VIC services with
@@ -76,6 +79,12 @@ func registerWithPSC(ctx context.Context) error {
 	// Register all VIC components with PSC
 	cmdName := "/usr/bin/java"
 	for _, client := range []string{"harbor", "engine", "admiral"} {
+		pscConfFile := filepath.Join(pscConfDir, client, pscConfFileName)
+		if _, err := os.Stat(pscConfFile); err == nil {
+			log.Infof("Skipping registering %s with PSC since PSC config file is present", client)
+			continue
+		}
+
 		cmdArgs := []string{
 			"-jar",
 			pscBinaryPath,
