@@ -40,7 +40,7 @@ systemctl enable fileserver_startup.service fileserver.service
 systemctl enable engine_installer_startup.service engine_installer.service
 
 # Clean up temporary directories
-rm -rf /var/tmp/harbor
+rm -rf /tmp/* /var/tmp/*
 tdnf clean all
 
 # seal the template
