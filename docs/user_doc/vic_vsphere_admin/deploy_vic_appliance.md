@@ -37,7 +37,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
     To use DHCP, leave the networking properties blank.
 
-    **IMPORTANT**: If you set a static IP address for the appliance, use spaces to separate DNS servers. Do not use comma separation for DNS servers.
+    **IMPORTANT**: If you set a static IP address for the appliance, use spaces to separate DNS servers. Do not use comma separation for DNS servers. 
 
 6. Expand **Registry Configuration** to configure the deployment of vSphere Integrated Containers Registry. 
 
@@ -60,7 +60,14 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
     If you deployed the appliance so that it obtains its address via DHCP, go to the **Summary** tab for the appliance VM and note the address.
 
-10. Go to  http://<i>vic_appliance_address</i> and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance.
+10. (Optional) If you provided a static network configuration, view the network status of the appliance.
+
+    1. In the **Summary** tab for the appliance VM, launch the VM console
+    2. In the VM console, press the right arrow key. 
+
+    The network status shows whether the network settings that you provided during the deployment match the settings with which the appliance is running. If there are mismatches, power off the appliance and select **Edit Settings** > **vApp Options** to correct the network settings.
+    
+11. In a browser, go to  http://<i>vic_appliance_address</i> and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance.
 
     **IMPORTANT**: The installation process requires the single sign-on credentials to set up vSphere Integrated Containers Management Portal and Registry. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
 
