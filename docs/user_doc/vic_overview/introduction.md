@@ -248,11 +248,11 @@ Role assigned per project. For their assigned projects DevOps administrators can
 
 **Cloud administrator / Global Administrator for all projects**
 
-The default cloud administrator role is assigned to the Administrators group for vCenter Server during the installation of vSphere Integrated Containers. Through the management portal, you can revoke that role for the Administrators group, only after you assign the role to another group. Cloud admins, can also assign the role to individual users.
+The default cloud administrator role is assigned to the Administrators group for vCenter Server during the installation of vSphere Integrated Containers. Through the management portal, you can revoke that role for the Administrators group, only after you assign the role to another group. Cloud administrators can also assign the role to individual users.
 
 The following global permissions are unique for the cloud administrator role:
 - Add new cloud administrators
-- Create new projects and assign the first DevOps administrator for them
+- Create new projects and assign the first DevOps administrator to them
 - Add hosts and clusters as resources to a given project
 - Add and manage registries, replication endpoints, and replication rules
 - Add predefined credentials and certificates for authentication
@@ -261,7 +261,7 @@ The following global permissions are unique for the cloud administrator role:
 
 ##### Example Users #####
 
-You can create Cloud administrator, DevOps administrator, and a Developer example users during the deployment of vSphere Integrated Containers features. These users create as local users for your Platform Services Controller. If you leave the default value for prefix for the users to be created, you end up with the following example users:
+You can create Cloud administrator, DevOps administrator, and a Developer example users during the deployment of vSphere Integrated Containers appliance. These users create as local users for your Platform Services Controller. If you leave the default value for prefix for the users to be created, you end up with the following example users:
 - vic-cloud-admin@*local_domain*
 - vic-devops-admin@*local_domain*
 - vic-developer@*local_domain*
