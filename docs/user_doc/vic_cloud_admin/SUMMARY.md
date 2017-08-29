@@ -4,8 +4,8 @@
 
 * [Configure and Manage](README.md)
    * [Configure System Settings](configure_system.md)
-   * [Add Users](add_users.md)
-   * [Assign the Cloud Administrator Role](assign_admin_role.md)
+   * [Add Cloud Administrators](add_cloud_admins.md)
+   * [Add Viewers, Developers, or DevOps Administrators to Projects](add_users.md)
    * [View and Manage VCHs](vchs_and_mgmt_portal.md)
       * [Add Hosts with No TLS Authentication to the Management Portal](add_vch_noTLS_in_portal.md)
       * [Add Hosts with Server-Side TLS Authentication to the Management Portal](add_vch_serversideTLS_in_portal.md)

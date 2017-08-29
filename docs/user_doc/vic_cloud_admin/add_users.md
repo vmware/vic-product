@@ -1,24 +1,23 @@
-# Add Users to vSphere Integrated Containers #
+# Add Viewers, Developers, or DevOps Administrators to Projects #
 
-If you configured vSphere Integrated Containers Registry to use local user management rather than LDAP authentication, you must create user accounts before you can assign users to projects. 
+You can add any user from the Platform Services Controller to the vSphere Integrated Containers Management Portal and assign them a role.  
 
-If the registry uses LDAP authentication, you cannot create or register new users in the registry. The LDAP server manages users externally. However, users must log in at least once with their LDAP credentials in order to be added to the registry account system. After a user has logged in once, you can assign that user to projects.
+For more information about working with local users and identity sources in the Platform Services Controller, see the [Platform Services Controller Administration Guide](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.psc.doc/GUID-9451A5B4-5747-42C1-8A82-83AFCC1F2861.html "Platform Services Controller Administration Guide") in the VMware vSphere documentation.
+
+For more information about users and roles in vSphere Integrated Containers, see [Users and Roles](..\vic_overview\introduction.md#usersandroles).
 
 **Procedure**
 
 1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
 
-    Use an account with Cloud Administrator privileges.
-2. Select **Administration** > **Identity Management**, and click **Users & Groups**.
-3. Enter a user name, email address, and the user's full name.
-
-   The user name and email address must be unique in this registry instance. The email address and the user's full name are for use in email responses to password reset requests.
-5. Enter and confirm a password for the user.
-
-   The password must contain at least 8 characters, with at least 1 lower case letter, 1 upper case letter, and 1 numeric character. Special characters are permitted. If the passwords do not match or if they do not meet the password criteria, the **OK** button remains deactivated.
-6. When you have completed all of the required fields correctly, click **OK**.
+    Use an account with Cloud administrator or DevOps administrator privileges.
+2. Select **Administration** > **Projects**, and click a project to add users to.
+3. Click the **Members** tab and click **Add** to add a new user to that project.
+4. In the Add Users and Groups window configure the user and the access.
+	1. In the **ID or email** text box, enter any detail for a desired user and select it from the populated list.
+	2. From the **Role in project** drop-down menu, select a role for that user and click **OK**. 
 
    
-**What to Do Next**
-
-Create projects and assign the users to those projects. 
+5. (Optional) Change the role of a user that is assigned to the project.
+	1. From the table with users, click the three dots next to a user and click **Edit**.
+	2. In the **Edit member role in project** window, select new role for that user and click **OK**.
