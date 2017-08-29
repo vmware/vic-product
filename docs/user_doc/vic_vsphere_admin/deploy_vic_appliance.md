@@ -55,13 +55,13 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
    - To use custom certificates to authenticate connections to the vSphere Integrated Containers Engine file server, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates.
 
 7. Expand **Demo VCH Installer Wizard Configuration** to optionally change the port on which the interactive web installer for virtual container hosts (VCHs) runs.
-8. Expand **Configure Out-of-the-Box Users** to configure ready-made vSphere Integrated Containers user accounts in the Platform Services Controller.
+8. Expand **Configure Example Users** to configure ready-made vSphere Integrated Containers user accounts in the Platform Services Controller.
     
      You can use these accounts to test the different user personas that can access vSphere Integrated Containers Management Portal and Registry.
 
-    - Optionally uncheck the **Create Out-of-the-Box Users** checkbox to disable the creation of out-of-the-box users.
-    - In the **Out-of-the-Box Username Prefix** text box, optionally modify the prefix of the out-of-the-box user names from the default, `vicdef`. 
-    - In the **Out-of-the-Box User Password** text boxes, optionally modify the password for the out-of-the-box user account from the default, `password`.
+    - Optionally uncheck the **Create Example Users** checkbox to disable the creation of example user accounts.
+    - In the **Username Prefix for Example Users** text box, optionally modify the prefix of the example user names from the default, `vic`. 
+    - In the **Password for Example Users** text boxes, optionally modify the password for the example user account from the default, `VicPro!23`.
 8. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
 9. When the deployment completes, power on the appliance VM.
 
