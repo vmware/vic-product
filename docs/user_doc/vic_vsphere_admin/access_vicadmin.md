@@ -17,3 +17,5 @@ After you log in, the VCH Admin portal displays information about the VCH and th
 - The system time of the VCH. This is useful to know because clock skews between VCHs and client systems can cause TLS authentication to fail. For information about clock skews, see [Connections Fail with Certificate Errors when Using Full TLS Authentication with Trusted Certificates](ts_clock_skew.md). 
 - The remaining capacity of the datastore that you designated as the image store. If the VCH is unable to connect to vSphere, the datastore information is not displayed.
 - Live logs and log bundles for different aspects of the VCH. For information about the logs, see [Access vSphere Integrated Containers Engine Log Bundles](log_bundles.md).
+
+If you see a certificate error when you attempt to log in to the VCH Administration Portal, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](ts_cert_error.md).

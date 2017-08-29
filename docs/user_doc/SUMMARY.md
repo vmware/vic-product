@@ -68,6 +68,7 @@
      * [Access Log Bundles](vic_vsphere_admin/log_bundles.md)
      * [VCH Deployment Times Out](vic_vsphere_admin/ts_vch_deployment_timeout.md)
      * [Certificate Verification Error](vic_vsphere_admin/ts_thumbprint_error.md)
+     * [Browser Rejects Certificates](vic_vsphere_admin/ts_cert_error.md)
      * [Missing Common Name Error Even When TLS Options Are Specified Correctly](vic_vsphere_admin/ts_cli_argument_error.md)
      * [Firewall Validation Error](vic_vsphere_admin/ts_firewall_error.md)
      * [Certificate cname Mismatch](vic_vsphere_admin/ts_cname_mismatch.md)

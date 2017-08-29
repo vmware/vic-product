@@ -64,6 +64,8 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
     **IMPORTANT**: The installation process requires the single sign-on credentials to set up vSphere Integrated Containers Management Portal and Registry. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
 
+If you see a certificate error when you attempt to go to http://<i>vic_appliance_address</i>, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](ts_cert_error.md).
+
 You can reconfigure the appliance after deployment by editing the settings of the appliance VM. For information about reconfiguring the appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.md).
 
 **What to Do Next**
