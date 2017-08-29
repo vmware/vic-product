@@ -203,7 +203,7 @@ vSphere Integrated Containers Management Portal is a highly scalable and very li
 - Live state updates that provide a live view of the container system.
 - Multi-container template management, that enables logical multi-container application deployments.
 
-For a more information about vSphere Integrated Containers Management Portal, see [View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal](../vic_cloud_admin/vchs_and_mgmt_portal.md) in *Configure and Manage vSphere Integrated Containers*.
+For a more information about vSphere Integrated Containers Management Portal, see [View and Manage VCHs in vSphere Integrated Containers Management Portal](../vic_cloud_admin/vchs_and_mgmt_portal.md) in *Configure and Manage vSphere Integrated Containers*.
 
 ### Projects and Role-Based Access Control <a id="projects"></a>
 
@@ -219,7 +219,7 @@ When you first deploy vSphere Integrated Containers Registry, a default public p
 
 vSphere Integrated Containers is fully integrated with VMware Platform Services Controller. The Platform Services Controller provides common infrastructure services to the vSphere environment. Services include licensing, certificate management, and authentication with vCenter Single Sign-On. With vCenter Single Sign-On you can use local users created in the Platform Services Controller or configure external identity sources. 
 
-For more information about, deploying, configuring, and working with Platform Services Controller, see the [https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.psc.doc/GUID-9451A5B4-5747-42C1-8A82-83AFCC1F2861.html](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.psc.doc/GUID-9451A5B4-5747-42C1-8A82-83AFCC1F2861.html "Platform Services Controller Administration guide in the VMware vSphere documentation").
+For more information about, deploying, configuring, and working with Platform Services Controller, see the [Platform Services Controller Administration Guide](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.psc.doc/GUID-9451A5B4-5747-42C1-8A82-83AFCC1F2861.html) in the VMware vSphere documentation.
 
 You can pull users from the Platform Services Controller and assign them roles through the vSphere Integrated Containers Management Portal.
 
@@ -264,7 +264,7 @@ vSphere Integrated Containers Registry is an enterprise-class registry server th
 
 ### Rule Based Image Replication <a id="replication"></a>
 
-You can set up multiple registries and replicate images between registry instances. Replicating images between registries helps with load balancing and high availability, and allows you to create multi-datacenter, hybrid, and multi-cloud setups. For information about image replication, see [Replicating Images](replicating_images.md).
+You can set up multiple registries and replicate images between registry instances. Replicating images between registries helps with load balancing and high availability, and allows you to create multi-datacenter, hybrid, and multi-cloud setups. For information about image replication, see [Replicating Images](../vic_cloud_admin/replicating_images.md).
 
 
 ### Docker Content Trust <a id="notary"></a>
@@ -275,8 +275,8 @@ The Notary server runs by default. For information about how container developer
 
 ### Garbage Collection <a id="gc"></a>
 
-You can configure vSphere Integrated Containers Registry to perform garbage collection whenever you restart the registry service. If you implement garbage collection, the registry recycles the storage space that is consumed by images that you have deleted. For more information about garbage collection, see [Manage Repositories](manage_repository_registry.md). See also [Garbage Collection](https://docs.docker.com/registry/garbage-collection/) in the Docker documentation.
+You can configure vSphere Integrated Containers Registry to perform garbage collection whenever you restart the registry service. If you implement garbage collection, the registry recycles the storage space that is consumed by images that you have deleted. For more information about garbage collection, see [Manage Repositories](../vic_cloud_admin/manage_repository_registry.md). See also [Garbage Collection](https://docs.docker.com/registry/garbage-collection/) in the Docker documentation.
 
 ### Logging <a id="logging"></a>
 
-vSphere Integrated Containers Registry keeps a log of every operation that users perform in a project. The logs are fully searchable, to assist you with activity auditing. For information about project logs, see [Access Project Logs](access_project_logs.md).
+vSphere Integrated Containers Registry keeps a log of every operation that users perform in a project. The logs are fully searchable, to assist you with activity auditing. For information about project logs, see [Access Project Logs](../vic_cloud_admin/access_project_logs.md).
