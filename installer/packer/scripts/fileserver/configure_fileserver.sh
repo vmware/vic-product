@@ -47,7 +47,7 @@ function genCert {
   if [ ! -e $ca_cert ] || [ ! -e $ca_key ]
   then
     openssl req -newkey rsa:4096 -nodes -sha256 -keyout $ca_key \
-      -x509 -days 365 -out $ca_cert -subj \
+      -x509 -days 1095 -out $ca_cert -subj \
       "/C=US/ST=California/L=Palo Alto/O=VMware, Inc./OU=Containers on vSphere/CN=Self-signed by VMware, Inc."
   fi
   openssl req -newkey rsa:4096 -nodes -sha256 -keyout $key \
@@ -56,7 +56,7 @@ function genCert {
 
   echo "Add subjectAltName = IP: $ip_address to certificate"
   echo subjectAltName = IP:$ip_address > $ext
-  openssl x509 -req -days 365 -in $csr -CA $ca_cert -CAkey $ca_key -CAcreateserial -extfile $ext -out $cert
+  openssl x509 -req -days 1095 -in $csr -CA $ca_cert -CAkey $ca_key -CAcreateserial -extfile $ext -out $cert
 
   echo "self-signed" > $flag
   echo "Copy CA certificate to $ca_download_dir"
