@@ -18,7 +18,7 @@ For more information about users and roles in vSphere Integrated Containers, see
 
 5. Select the check box next to the user in the table and click **Assign Admin Role**.
 	
-	The user is now a Cloud administrator for vSphere Integrated Containers. You can use the same workflow to unassign the role to a current cloud administrator user or group.
+	The user is now a Cloud administrator for vSphere Integrated Containers. You can use the same workflow to unassign the role from a current cloud administrator user or group.
 
    
 **What to Do Next**
