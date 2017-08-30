@@ -24,4 +24,4 @@ You have already accepted a client certificate or a generated Certificate Author
 
 2. Delete any client certificates or CAs for older instances of vSphere Integrated Containers appliances or VCHs.
 3. Clear the browser history, close, and restart Chrome.
-4. Connect to the vSphere Integrated Containers Getting Started page, vSphere Integrated Containers Management Portal, or VCH Administration portal again, and trust the certificate.
+4. Connect to the vSphere Integrated Containers Getting Started page, vSphere Integrated Containers Management Portal, or VCH Administration portal again, verify the certificate, and trust it if it is valid.
