@@ -2,16 +2,29 @@
 
 If your vSphere environment uses untrusted, self-signed certificates, you must specify the thumbprint of the vCenter Server or ESXi host certificate in the `--thumbprint` option of each `vic-machine` command. If your vSphere environment uses trusted certificates that are signed by a known Certificate Authority (CA), you do not need to specify the `--thumbprint` option.
 
-If you do not specify the `--thumbprint` option, `vic-machine` commands fail with certificate verification errors that include the thumbprint of the target. Verify that the thumbprint in the error message is valid before attempting to run `vic-machine` again.
+If you do not specify the `--thumbprint` option, `vic-machine` commands fail with certificate verification errors that include the thumbprint of the target. In this case, you should verify that the thumbprint in the error message is valid before attempting to run `vic-machine` again.
 
-## Use SSL to Obtain Certificate Thumbprints
+You can use either SSH or the Platform Services Controller to obtain certificate thumbprints, either before you run `vic-machine` commands, or to confirm that a thumbprint in an error message is valid.
 
-You can use SSL to obtain the vCenter Server or ESXi host certificate thumbprint before running `vic-machine` commands, or to confirm that a thumbprint in an error message is valid.
+After you obtain the certificate thumbprint from vCenter Server or an ESXi host, you can set it as a `vic-machine` environment variable so that you do not have to specify `--thumbprint` in every command. For information about setting `vic-machine` environment variables, see [Set Environment Variables for Key vic-machine Options](vic_env_variables.md).
 
-<pre>$ echo -n | openssl s_client -connect <i>vcenter_server_or_esxi_host_address</i>:443 2>/dev/null | openssl x509 -noout -fingerprint -sha1</pre>
+## Obtain Certificate Thumbprints from an ESXi Host 
 
-This command is valid for vCenter Server instances that run on Windows, vCenter Server appliances, and ESXi hosts. 
+You can use SSH and Open SSL to obtain the certificate thumbprint for an ESXi host. 
+
+1. Use SSH to connect to the ESXi host as `root` user.<pre>$ ssh root@<i>vcsa_or_esxi_host_address</i></pre>
+2. Use `openssl` to view the certificate fingerprint.<pre>openssl x509 -in /etc/vmware/ssl/rui.crt -fingerprint -sha1 -noout</pre>
+3. Copy the certificate thumbprint for use in the `--thumbprint` option of `vic-machine` commands.
 
 ## Obtain Certificate Thumbprints from Platform Services Controller
 
-You can obtain a vCenter Server certificate thumbprint by logging into the Platform Services Controller for that vCenter Server instance and selecting **Certificate Management** > **Machine Certificates**, selecting a certificate, and clicking **Show Details**.
+You can obtain a vCenter Server certificate thumbprint by logging into the Platform Services Controller for that vCenter Server instance.
+
+1. Log in to the Platform Services Controller interface. 
+
+    - Embedded Platform Services Controller: https://<i>vcenter_server_address</i>/psc
+    - Standalone Platform Services Controller: https://<i>psc_address</i>/psc
+
+2. Select **Certificate Management** and enter a vCenter Single Sign-On password.
+3. Select **Machine Certificates**, select a certificate, and click **Show Details**.
+3. Copy the thumbprint for use in the `--thumbprint` option of `vic-machine` commands.
