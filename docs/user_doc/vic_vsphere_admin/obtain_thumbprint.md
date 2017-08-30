@@ -4,16 +4,19 @@ If your vSphere environment uses untrusted, self-signed certificates, you must s
 
 If you do not specify the `--thumbprint` option, `vic-machine` commands fail with certificate verification errors that include the thumbprint of the target. In this case, you should verify that the thumbprint in the error message is valid before attempting to run `vic-machine` again.
 
-You can use either SSH or the Platform Services Controller to obtain certificate thumbprints, either before you run `vic-machine` commands, or to confirm that a thumbprint in an error message is valid.
+You can use either SSH and Open SSL or the Platform Services Controller to obtain certificate thumbprints, either before you run `vic-machine` commands, or to confirm that a thumbprint in an error message is valid.
 
 After you obtain the certificate thumbprint from vCenter Server or an ESXi host, you can set it as a `vic-machine` environment variable so that you do not have to specify `--thumbprint` in every command. For information about setting `vic-machine` environment variables, see [Set Environment Variables for Key vic-machine Options](vic_env_variables.md).
 
 ## Obtain Certificate Thumbprints from an ESXi Host 
 
-You can use SSH and Open SSL to obtain the certificate thumbprint for an ESXi host. 
+You can use SSH and Open SSL to obtain the certificate thumbprint for a vCenter Server Appiance instance or an ESXi host. 
 
 1. Use SSH to connect to the ESXi host as `root` user.<pre>$ ssh root@<i>vcsa_or_esxi_host_address</i></pre>
-2. Use `openssl` to view the certificate fingerprint.<pre>openssl x509 -in /etc/vmware/ssl/rui.crt -fingerprint -sha1 -noout</pre>
+2. Use `openssl` to view the certificate fingerprint.
+
+   - vCenter Server Appliance: <pre>openssl x509 -in /etc/vmware-vpx/ssl/rui.crt -fingerprint -sha1 -noout</pre>
+   - ESXi host: <pre>openssl x509 -in /etc/vmware/ssl/rui.crt -fingerprint -sha1 -noout</pre>
 3. Copy the certificate thumbprint for use in the `--thumbprint` option of `vic-machine` commands.
 
 ## Obtain Certificate Thumbprints from Platform Services Controller
