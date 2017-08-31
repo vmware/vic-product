@@ -77,13 +77,15 @@
      * [Plug-In Does Not Appear](vic_vsphere_admin/ts_ui_not_appearing.md)
      * [Deleting or Inspecting a VCH Fails](vic_vsphere_admin/ts_delete_inspect_error.md)
      * [Certificate Errors when Using Full TLS Authentication with Trusted Certificates](vic_vsphere_admin/ts_clock_skew.md)
-  * [Security Reference](vic_vsphere_admin/security_reference.md)
-
+  * [Security](vic_vsphere_admin/security_reference.md)
+     * [Certificate Reference](vic_vsphere_admin/vic_cert_reference.md)
+     * [Obtain Appliance Certificates](vic_vsphere_admin/obtain_appliance_certs.md)
 
 ----
 
 * [Configure and Manage](vic_cloud_admin/README.md)
-   * [Logging In to the Management Portal](vic_cloud_admin/logging_in_mp.md)
+   * [Logging in to the Management Portal](vic_cloud_admin/logging_in_mp.md)
+      * [Verify and Trust Certificates](vic_cloud_admin/trust_vic_certs.md)
    * [Configure System Settings](vic_cloud_admin/configure_system.md)
    * [Add Users](vic_cloud_admin/add_users.md)
    * [Assign the Cloud Administrator Role](vic_cloud_admin/assign_admin_role.md)
