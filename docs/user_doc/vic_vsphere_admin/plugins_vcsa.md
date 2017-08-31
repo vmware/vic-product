@@ -10,6 +10,7 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 - You are installing the plug-ins on a vCenter Server appliance instance. If you are running vCenter Server on Windows, see [Install the Client Plug-Ins on vCenter Server for Windows](plugins_vc_windows.md).
 - Go to the vCenter Server Appliance Management Interface (VAMI) at https://<i>vcsa_address</i>:5480, click **Access**, and make sure that Bash Shell is enabled.
 - You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
+- Obtain the vCenter Server certificate thumbprint. For information about how to obtain and verify the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
 
 **Procedure**
 
@@ -18,7 +19,7 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 9. Navigate to `/vic/ui/VCSA`, run the installer script, and follow the prompts.<pre>cd vic/ui/VCSA</pre><pre>./install.sh</pre>
 	1. Enter the IP address of the vCenter Server instance.
 	1. Enter the user name and password for the vCenter Server administrator account.
-	2. Enter **yes** to confirm that you trust the host and wait for the install process to finish. 
+	2. Enter **yes** if the vCenter Server certificate thumbprint is legitimate, and wait for the install process to finish. 
 10. When the installation finishes, stop and restart the services of your management clients.
 	1. Restart the HTML5 vSphere Client service.<pre>service-control --stop vsphere-ui</pre><pre>service-control --start vsphere-ui</pre>
 	2. Restart the Flex-based vSphere Web Client service.<pre>service-control --stop vsphere-client</pre><pre>service-control --start vsphere-client</pre>
