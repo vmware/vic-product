@@ -8,7 +8,7 @@ You can use either SSH and OpenSSL or the Platform Services Controller to obtain
 
 After you obtain the certificate thumbprint from vCenter Server or an ESXi host, you can set it as a `vic-machine` environment variable so that you do not have to specify `--thumbprint` in every command. For information about setting `vic-machine` environment variables, see [Set Environment Variables for Key vic-machine Options](vic_env_variables.md).
 
-## Obtain Certificate Thumbprints from an ESXi Host 
+## Obtain Certificate Thumbprints from a vCenter Server Appliance or ESXi Host 
 
 You can use SSH and OpenSSL to obtain the certificate thumbprint for a vCenter Server Appiance instance or an ESXi host. 
 
