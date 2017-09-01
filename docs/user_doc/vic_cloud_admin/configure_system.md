@@ -11,7 +11,7 @@ When you first log in to a new vSphere Integrated Containers instance, you can i
 
 8. Modify **Token Expiration (Minutes)** to optionally change the duration of login sessions from the default of 30 minutes.
 9. Click **Download** to obtain the root certificate of the vSphere Integrated Containers Registry so that you can distribute it to interested parties.
-	Developers might need that certificate to pull an image from the Registry into their Docker client.
+	Developers need that certificate to pull an image from the Registry into their Docker client.
 
 9. Under **Vulnerability Scanning**, optionally change the default settings for the scheduled daily vulnerability scanning at 3AM, and click **Save**.
 
