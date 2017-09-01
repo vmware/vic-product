@@ -12,6 +12,8 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 - You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 - The system on which you run the script is running `awk`.
 
+**IMPORTANT**: The upgrade script does not function if you have set the `VIC_MACHINE_THUMBPRINT` environment variable on the system on which you run the script. Delete the `VIC_MACHINE_THUMBPRINT` environment variable before running the script.
+
 **Procedure**
 
 1. Connect as root user to the vCenter Server Appliance by using SSH.<pre>$ ssh root@<i>vcsa_address</i></pre>
