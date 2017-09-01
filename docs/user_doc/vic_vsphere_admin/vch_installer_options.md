@@ -347,6 +347,8 @@ If you set the `--insecure-registry` option, the VCH does not verify the certifi
 
 If you authorize a VCH to connect to an insecure private registry server, the VCH attempts to access the registry server via HTTP if access via HTTPS fails. VCHs always use HTTPS when connecting to registry servers for which you have not authorized insecure access.
 
+**NOTE**: You cannot configure VCHs to connect to vSphere Integrated Containers Registry instances as insecure registries. Connections to vSphere Integrated Containers Registry always require HTTPS and a certificate.
+
 You can specify `--insecure-registry` multiple times if multiple insecure registries are permitted. If the registry server listens on a specific port, add the port number to the URL
 
 <pre>--insecure-registry <i>registry_URL_1</i>
@@ -789,6 +791,8 @@ The `--container-network-firewall` option allows you to set the following levels
 
 <pre>--container-network-firewall <i>port_group_name</i>:<i>trust_level</i></pre>
 
+If you do not set `--container-network-firewall`, the default level of trust is `published`. As a consequence, if you do not set `--container-network-firewall`, container developers must specify `-p 80` in `docker run` and `docker create` commands to publish port 80 on a container. In regular Docker, they do not need to specify `-p` to publish port 80.
+
 ## Configure VCHs to Use Proxy Servers <a id="proxy"></a>
 
 If access to the Internet or to your private image registries requires the use of a proxy server, you must configure a VCH to connect to the proxy server when you deploy it. The proxy is used only when pulling images, and not for any other purpose.
@@ -929,13 +933,14 @@ Deploy the VCH appliance to a resource pool on vCenter Server rather than to a v
 ### `--debug` <a id="debug"></a>
 Short name: `-v`
 
-Deploy the VCH with more verbose levels of logging, and optionally modify the behavior of `vic-machine` for troubleshooting purposes. Specifying the `--debug` option increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting the `--debug` option, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. If not specified, the `--debug` value is set to 0 and verbose logging is disabled.
+Deploy the VCH with more verbose levels of logging, and optionally modify the behavior of `vic-machine` for troubleshooting purposes. Specifying the `--debug` option increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting the `--debug` option, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. If not specified, the `--debug` value is set to 1 and verbose logging is enabled.
 
-**NOTE**: Do not confuse the `vic-machine create --debug` option with the `vic-machine debug` command, that enables access to the VCH endpoint VM. For information about `vic-machine debug`, see [Debugging the VCH](debug_vch.html). 
+**NOTE**: Do not confuse the `vic-machine create --debug` option with the `vic-machine debug` command, that enables access to the VCH endpoint VM. For information about `vic-machine debug`, see [Debugging the VCH](debug_vch.md). 
 
-When you specify `vic-machine create --debug`, you set a debugging level of 1, 2, or 3. Setting `--debug` to 2 or 3 changes the behavior of `vic-machine create` as well as increasing the level of verbosity of the logs:
+When you specify `vic-machine create --debug`, you set a debugging level of 0, 1, 2, or 3. Setting `--debug` to 2 or 3 changes the behavior of `vic-machine create` as well as increasing the level of verbosity of the logs:
 
-- `--debug 1` Provides extra verbosity in the logs, with no other changes to `vic-machine` behavior.
+- `--debug 0` Disables verbosity in the logs.
+- `--debug 1` Provides verbosity in the logs, with no other changes to `vic-machine` behavior. This is the default setting.
 - `--debug 2` Exposes servers on more interfaces, launches `pprof` in container VMs.
 - `--debug 3` Disables recovery logic and logs sensitive data. Disables the restart of failed components and prevents container VMs from shutting down. Logs environment details for user application, and collects application output in the log bundle. This is the maximum  supported debugging level.
 

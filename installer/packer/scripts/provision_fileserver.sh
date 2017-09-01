@@ -46,7 +46,9 @@ fi
 set -u
 
 echo "Downloading VIC Engine ${VIC_ENGINE_FILE}: ${VIC_ENGINE_URL}"
-VIC_ENGINE_BUILD="$(echo ${VIC_ENGINE_FILE} | sed  's/vic_//' | sed 's/.tar.gz//')"
 curl -LO ${VIC_ENGINE_URL}
-tar xzf ${VIC_ENGINE_FILE} -C ${FILES_DIR} vic/ui/vsphere-client-serenity/com.vmware.vic.ui-v${BUILD_VICENGINE_REVISION}.${VIC_ENGINE_BUILD}.zip vic/ui/plugin-packages/com.vmware.vic-v${BUILD_VICENGINE_REVISION}.${VIC_ENGINE_BUILD}.zip --strip-components=3
+
+# Copy UI plugin zip files to fileserver directory
+tar tf ${VIC_ENGINE_FILE} | grep "vic/ui" | grep ".zip" | xargs  -I '{}' tar xzf ${VIC_ENGINE_FILE} -C ${FILES_DIR} '{}' --strip-components=3
+
 mv ${VIC_ENGINE_FILE} ${FILES_DIR}

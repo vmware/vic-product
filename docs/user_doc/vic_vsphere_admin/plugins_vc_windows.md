@@ -20,8 +20,8 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 	1. Enter the user name and password for the vCenter Server administrator account.
 	2. Enter **yes** if the vCenter Server certificate thumbprint is legitimate, and wait for the install process to finish. 
 10. When the installation finishes, stop and restart the services of your management clients.
-	1. Restart the HTML5 vSphere Client service.<pre>service-control --stop vsphere-ui</pre><pre>service-control --start vsphere-ui</pre>
-	2. Restart the Flex-based vSphere Web Client service.<pre>service-control --stop vsphere-client</pre><pre>service-control --start vsphere-client</pre>
+	1. Restart the HTML5 vSphere Client service.<pre>service-control --stop vsphere-ui && service-control --start vsphere-ui</pre>
+	2. Restart the Flex-based vSphere Web Client service.<pre>service-control --stop vsphere-client && service-control --start vsphere-client</pre>
 
 **What to Do Next**
 

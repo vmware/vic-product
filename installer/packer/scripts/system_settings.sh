@@ -21,6 +21,8 @@ echo 'GRUB_CMDLINE_LINUX=\"net.ifnames=0\"' >> /etc/default/grub
 # Disable console blanking
 sed -i '/linux/ s/$/ consoleblank=0/' /boot/grub2/grub.cfg
 
+# Disable password expiration for root
+chage -I -1 -m 0 -M 99999 -E -1 root
 
 # Enable systemd services
 systemctl daemon-reload
@@ -38,7 +40,7 @@ systemctl enable fileserver_startup.service fileserver.service
 systemctl enable engine_installer_startup.service engine_installer.service
 
 # Clean up temporary directories
-rm -rf /var/tmp/harbor
+rm -rf /tmp/* /var/tmp/*
 tdnf clean all
 
 # seal the template
