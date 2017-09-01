@@ -355,6 +355,11 @@
       "destination": "/opt/vmware/fileserver"
     },
     {
+      "type": "file",
+      "source": "../fileserver/files/open_source_license.txt",
+      "destination": "/opt/vmware/fileserver/files/open_source_license.txt"
+    },
+    {
       "type": "shell",
       "script": "scripts/provision_engine_installer.sh"
     },
