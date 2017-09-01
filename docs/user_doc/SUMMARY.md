@@ -75,6 +75,7 @@
      * [Certificate cname Mismatch](vic_vsphere_admin/ts_cname_mismatch.md)
      * [Docker API Endpoint Check Failed Error](vic_vsphere_admin/ts_docker_api_check_error.md)
      * [No Single Host Can Access All Datastores](vic_vsphere_admin/ts_datastore_access_error.md)
+     * [Plug-In Scripts Fail](vic_vsphere_admin/ts_plugin_script_fails.md)
      * [Plug-In Does Not Appear](vic_vsphere_admin/ts_ui_not_appearing.md)
      * [Deleting or Inspecting a VCH Fails](vic_vsphere_admin/ts_delete_inspect_error.md)
      * [Certificate Errors when Using Full TLS Authentication with Trusted Certificates](vic_vsphere_admin/ts_clock_skew.md)
