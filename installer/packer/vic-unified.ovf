@@ -15,7 +15,7 @@
   </vmw:IpAssignmentSection>
   <DiskSection>
     <Info>List of the virtual disks and partitions needed</Info>
-    <Disk ovf:capacity="20" ovf:capacityAllocationUnits="byte * 2^30" ovf:diskId="system" ovf:fileRef="system.vmdk_id" ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#streamOptimized" ovf:populatedSize="629145600"/>
+    <Disk ovf:capacity="30" ovf:capacityAllocationUnits="byte * 2^30" ovf:diskId="system" ovf:fileRef="system.vmdk_id" ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#streamOptimized" ovf:populatedSize="629145600"/>
     <Disk ovf:capacity="50" ovf:capacityAllocationUnits="byte * 2^30" ovf:diskId="data1" ovf:fileRef="data1.vmdk_id" ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#streamOptimized" ovf:populatedSize="0"/>
   </DiskSection>
   <VirtualSystem ovf:id="vic">
