@@ -11,7 +11,9 @@ The `vic-machine create` command does not modify the firewall. Run `vic-machine 
 **Prerequisites**
 
 * Deploy the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
-* In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link to **download the vSphere Integrated Containers Engine bundle**, and unpack it on your working machine.  
+* In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link to **download the vSphere Integrated Containers Engine bundle**, and unpack it on your working machine. 
+* If your vSphere environment uses untrusted, self-signed certificates, you must specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md). 
+ 
 **Procedure**
 
 1. Open a terminal on the system on which you downloaded and unpacked the vSphere Integrated Containers Engine binary bundle.
@@ -45,5 +47,5 @@ The `vic-machine update firewall` command in these examples specifies the follow
 - In the case of a vCenter Server cluster, the name of the cluster in the `--compute-resource` option.
 - The thumbprint of the vCenter Server or ESXi host certificate in the `--thumbprint` option, if they use untrusted, self-signed certificates. 
 
-     **NOTE**: Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
+     Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
 - The `--allow` option to open the port.

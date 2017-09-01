@@ -26,6 +26,7 @@
   * [Deploy VCHs with `vic-machine`](vic_vsphere_admin/deploy_vch.md)
      * [Contents of the vSphere Integrated Containers Engine Binaries](vic_vsphere_admin/contents_of_vic_binaries.md)
      * [Environment Prerequisites for VCH Deployment](vic_vsphere_admin/vic_installation_prereqs.md)
+     * [Obtain Certificate Thumbprints](vic_vsphere_admin/obtain_thumbprint.md)
      * [Deploy a VCH to an ESXi Host with No vCenter Server](vic_vsphere_admin/deploy_vch_esxi.md)
      * [Deploy a VCH to a Basic vCenter Server Cluster](vic_vsphere_admin/deploy_vch_vcenter.md)
      * [Verify the Deployment of a VCH](vic_vsphere_admin/verify_vch_deployment.md)
