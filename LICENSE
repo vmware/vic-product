@@ -1,10 +1,11 @@
 LICENSE
 
-vSphere Integrated Containers 
+vSphere Integrated Containers
 
 Copyright (c) 2017 VMware, Inc.  All rights reserved.
 
-This project is licensed to you under the Apache License version 2.0 (the “License”).  
+This project is licensed to you under the Apache License version 2.0 (the
+“License”).
 You may not use this project except in compliance with the License.
 
                            Apache License
@@ -19,7 +20,7 @@ You may not use this project except in compliance with the License.
 and distribution as defined by Sections 1 through 9 of this document.
 
 "Licensor" shall mean the copyright owner or entity authorized by the
-copyright owner that is granting the License.  
+copyright owner that is granting the License.
 
 "Legal Entity" shall mean the union of the acting entity and all other
 entities that control, are controlled by, or are under common control
@@ -30,7 +31,7 @@ of fifty percent (50%) or more of the outstanding shares, or (iii)
 beneficial ownership of such entity.
 
 "You" (or "Your") shall mean an individual or Legal Entity exercising
-permissions granted by this License.  
+permissions granted by this License.
 
 "Source" form shall mean the preferred form for making modifications,
 including but not limited to software source code, documentation source,
@@ -39,12 +40,12 @@ and configuration files.
 "Object" form shall mean any form resulting from mechanical transformation
 or translation of a Source form, including but not limited to compiled
 object code, generated documentation, and conversions to other media
-types.  
+types.
 
 "Work" shall mean the work of authorship, whether in Source or
 Object form, made available under the License, as indicated by a copyright
 notice that is included in or attached to the work (an example is provided
-in the Appendix below).  
+in the Appendix below).
 
 "Derivative Works" shall mean any work, whether in Source or Object form,
 that is based on (or derived from) the Work and for which the editorial
@@ -179,14 +180,14 @@ hold each Contributor harmless for any liability incurred by, or claims
 asserted against, such Contributor by reason of your accepting any such
 warranty or additional liability.
 
-END OF TERMS AND CONDITIONS 
+END OF TERMS AND CONDITIONS
 ===========================================================================
 
 The following copyright statements and licenses apply to various open
 source software packages (or portions thereof) that are distributed with
 this project.
 
-This project does not necessarily use all the open source software packages 
+This project does not necessarily use all the open source software packages
 referred to below and may also only use portions of a given package.
 
 ========================== TABLE OF CONTENTS ==============================
@@ -1084,7 +1085,7 @@ limitations under the License.
 
 ADDITIONAL LICENSE INFORMATION:
 
->MIT 
+>MIT
 
 yaml-4c78c975fe7c825c6d1466c42be594d1d6f3aba6.tar.gz\yaml-4c78c975fe7c825c6d1466c42be594d1d6f3aba6.tar\yaml-4c78c975fe7c825c6d1466c42be594d1d6f3aba6\LICENSE.libyaml
 
@@ -1120,16 +1121,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-==================== APPENDIX. Standard License Files ======================== 
+==================== APPENDIX. Standard License Files ========================
 
 -------------------- SECTION 1: Apache License, V2.0 -------------------------
 
-Apache License 
+Apache License
 
-Version 2.0, January 2004 
-http://www.apache.org/licenses/ 
+Version 2.0, January 2004
+http://www.apache.org/licenses/
 
-TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION 
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 
 1. Definitions.
 
@@ -1137,7 +1138,7 @@ TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 and distribution as defined by Sections 1 through 9 of this document.
 
 "Licensor" shall mean the copyright owner or entity authorized by the
-copyright owner that is granting the License.  
+copyright owner that is granting the License.
 
 "Legal Entity" shall mean the union of the acting entity and all other
 entities that control, are controlled by, or are under common control
@@ -1148,7 +1149,7 @@ of fifty percent (50%) or more of the outstanding shares, or (iii)
 beneficial ownership of such entity.
 
 "You" (or "Your") shall mean an individual or Legal Entity exercising
-permissions granted by this License.  
+permissions granted by this License.
 
 "Source" form shall mean the preferred form for making modifications,
 including but not limited to software source code, documentation source,
@@ -1157,12 +1158,12 @@ and configuration files.
 "Object" form shall mean any form resulting from mechanical transformation
 or translation of a Source form, including but not limited to compiled
 object code, generated documentation, and conversions to other media
-types.  
+types.
 
 "Work" shall mean the work of authorship, whether in Source or
 Object form, made available under the License, as indicated by a copyright
 notice that is included in or attached to the work (an example is provided
-in the Appendix below).  
+in the Appendix below).
 
 "Derivative Works" shall mean any work, whether in Source or Object form,
 that is based on (or derived from) the Work and for which the editorial
@@ -1297,7 +1298,7 @@ hold each Contributor harmless for any liability incurred by, or claims
 asserted against, such Contributor by reason of your accepting any such
 warranty or additional liability.
 
-END OF TERMS AND CONDITIONS 
+END OF TERMS AND CONDITIONS
 
 ===========================================================================
 
