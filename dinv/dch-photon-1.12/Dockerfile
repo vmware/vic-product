@@ -17,12 +17,12 @@ RUN mkdir /data &&\
 
 RUN echo "> Installing photon base system in chroot, killing output to avoid offending drone" &&\
     tdnf --releasever 1.0 --installroot $TEMP_CHROOT/ --refresh install -y \
-    bash-4.3.30-4.ph1 \
+    bash-4.3.30-9.ph1 \
     coreutils-8.25-2.ph1 \
     filesystem-1.0-10.ph1 \
     photon-release-1.0-6.ph1 \
     photon-repos-1.0-4.ph1 \
-    tdnf-1.0.9-2.ph1 \
+    tdnf-1.1.0-1.ph1 \
     docker-1.12.6-1.ph1 \
     procps-ng-3.3.11-4.ph1 \
     iptables-1.6.0-6.ph1 > /dev/null 2>&1
