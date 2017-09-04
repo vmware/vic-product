@@ -330,7 +330,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.3" data-path="deploy_vch_esxi.html">
+        <li class="chapter " data-level="2.1.4.3" data-path="obtain_thumbprint.html">
+            
+                <a href="obtain_thumbprint.html">
+            
+                    
+                    Obtain Certificate Thumbprints
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.4.4" data-path="deploy_vch_esxi.html">
             
                 <a href="deploy_vch_esxi.html">
             
@@ -343,7 +356,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.4" data-path="deploy_vch_vcenter.html">
+        <li class="chapter " data-level="2.1.4.5" data-path="deploy_vch_vcenter.html">
             
                 <a href="deploy_vch_vcenter.html">
             
@@ -356,7 +369,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.5" data-path="verify_vch_deployment.html">
+        <li class="chapter " data-level="2.1.4.6" data-path="verify_vch_deployment.html">
             
                 <a href="verify_vch_deployment.html">
             
@@ -369,7 +382,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.6" data-path="vch_installer_options.html">
+        <li class="chapter " data-level="2.1.4.7" data-path="vch_installer_options.html">
             
                 <a href="vch_installer_options.html">
             
@@ -382,7 +395,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.7" data-path="vic_env_variables.html">
+        <li class="chapter " data-level="2.1.4.8" data-path="vic_env_variables.html">
             
                 <a href="vic_env_variables.html">
             
@@ -395,7 +408,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.8" data-path="vch_installer_examples.html">
+        <li class="chapter " data-level="2.1.4.9" data-path="vch_installer_examples.html">
             
                 <a href="vch_installer_examples.html">
             
@@ -408,7 +421,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.9" data-path="deploy_vch_registry.html">
+        <li class="chapter " data-level="2.1.4.10" data-path="deploy_vch_registry.html">
             
                 <a href="deploy_vch_registry.html">
             
@@ -421,7 +434,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.10" data-path="set_up_ops_user.html">
+        <li class="chapter " data-level="2.1.4.11" data-path="set_up_ops_user.html">
             
                 <a href="set_up_ops_user.html">
             
@@ -1021,7 +1034,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.9" data-path="ts_ui_not_appearing.html">
+        <li class="chapter " data-level="2.1.8.9" data-path="ts_plugin_script_fails.html">
+            
+                <a href="ts_plugin_script_fails.html">
+            
+                    
+                    Plug-In Scripts Fail
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.10" data-path="ts_ui_not_appearing.html">
             
                 <a href="ts_ui_not_appearing.html">
             
@@ -1034,7 +1060,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.10" data-path="ts_delete_inspect_error.html">
+        <li class="chapter " data-level="2.1.8.11" data-path="ts_delete_inspect_error.html">
             
                 <a href="ts_delete_inspect_error.html">
             
@@ -1047,7 +1073,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.11" data-path="ts_clock_skew.html">
+        <li class="chapter " data-level="2.1.8.12" data-path="ts_clock_skew.html">
             
                 <a href="ts_clock_skew.html">
             
@@ -1807,8 +1833,8 @@
 <li>If you do not specify <code>--force</code> and the VCH has volume stores, the deletion of the VCH succeeds without deleting the volume stores. The list of volume stores appears in the <code>vic-machine delete</code> success message for reference and optional manual removal.</li>
 </ul>
 </li>
-<li><p>If your vSphere environment uses untrusted, self-signed certificates, you must also specify the thumbprint of the vCenter Server instance or ESXi host in the <code>--thumbprint</code> option, or specify <code>--force</code>. To obtain the thumbprint of the vCenter Server or ESXi host certificate, run <code>vic-machine</code> without the specifying the <code>--thumbprint</code> or <code>--force</code> options. The deletion of the VCH fails, but the resulting error message includes the required certificate thumbprint. You can copy the thumbprint from the error message and run <code>vic-machine</code> again, including the <code>--thumbprint</code> option.</p>
-<p>   <strong>NOTE</strong>: If you obtain the thumbprint by other means, use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.</p>
+<li><p>If your vSphere environment uses untrusted, self-signed certificates, you must specify the thumbprint of the vCenter Server instance or ESXi host in the <code>--thumbprint</code> option. For information about how to obtain the certificate thumbprint, see <a href="obtain_thumbprint.html">Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host</a>. </p>
+<p>   Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.</p>
 </li>
 </ul>
 <p>When you delete a VCH that uses TLS authentication with trusted Certificate Authority (CA) certificates, <code>vic-machine delete</code> does not delete the certificates or the certificate folder, even if you specify the <code>--force</code> option. Because <code>vic-machine delete</code> does not delete the certificates, you can delete VCHs and create new ones that reuse the same certificates. This is useful if you have already distributed the client certificates for VCHs that you need to recreate.</p>
@@ -1820,16 +1846,20 @@
 --thumbprint <i>certificate_thumbprint</i>
 --name <i>vch_name</i></pre>
 
-<p>If your vSphere environment uses untrusted, self-signed certificates, running <code>vic-machine delete</code> with the <code>--force</code> option allows you to omit the <code>--thumbprint</code> option.</p>
+<p>If the delete operation fails with a message about container VMs that are powered on, run <code>docker stop</code> on the containers and run <code>vic-machine delete</code> again. Alternatively, run <code>vic-machine delete</code> with the <code>--force</code> option.</p>
+<p><strong>CAUTION</strong> Running <code>vic-machine delete</code> with the <code>--force</code> option removes all running container VMs that the VCH manages, as well as any associated volumes and volume stores. It is not recommended to use the <code>--force</code> option to remove running containers.</p>
+<pre>$ vic-machine-<i>operating_system</i> delete
+--target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+--thumbprint <i>certificate_thumbprint</i>
+--name <i>vch_name</i>
+--force</pre>
+
+<p>If your vSphere environment uses untrusted, self-signed certificates, running <code>vic-machine delete</code> with the <code>--force</code> option allows you to omit the <code>--thumbprint</code> option.  </p>
+<p><strong>CAUTION</strong>: It is not recommended to use <code>--force</code> to bypass thumbprint verification in production environments.  Using <code>--force</code> in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. </p>
 <pre>$ vic-machine-<i>operating_system</i> delete
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
 --name <i>vch_name</i>
 --force</pre>
-
-<h3 id="output">Output</h3>
-<p>If the delete operation fails with a message about container VMs that are powered on, run <code>docker stop</code> on the containers and run <code>vic-machine delete</code> again. Alternatively, run <code>vic-machine delete</code> with the <code>--force</code> option.</p>
-<p><strong>CAUTION</strong> Running <code>vic-machine delete</code> with the <code>--force</code> option removes all running container VMs that the VCH manages, as well as any associated volumes and volume stores. It is not recommended to use the <code>--force</code> option to remove running containers.</p>
-
                                 
                                 </section>
                             
@@ -1872,7 +1902,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Delete VCHs","level":"2.1.5.3.7","depth":4,"next":{"title":"Debug VCHs","level":"2.1.5.3.8","depth":4,"path":"vic_vsphere_admin/debug_vch.md","ref":"vic_vsphere_admin/debug_vch.md","articles":[{"title":"Enable Shell Access","level":"2.1.5.3.8.1","depth":5,"path":"vic_vsphere_admin/vch_shell_access.md","ref":"vic_vsphere_admin/vch_shell_access.md","articles":[]},{"title":"Authorize SSH Access","level":"2.1.5.3.8.2","depth":5,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]}]},"previous":{"title":"Configure VCHs","level":"2.1.5.3.6","depth":4,"path":"vic_vsphere_admin/configure_vch.md","ref":"vic_vsphere_admin/configure_vch.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/remove_vch.md","mtime":"2017-08-30T11:30:41.281Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-30T16:38:34.181Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Delete VCHs","level":"2.1.5.3.7","depth":4,"next":{"title":"Debug VCHs","level":"2.1.5.3.8","depth":4,"path":"vic_vsphere_admin/debug_vch.md","ref":"vic_vsphere_admin/debug_vch.md","articles":[{"title":"Enable Shell Access","level":"2.1.5.3.8.1","depth":5,"path":"vic_vsphere_admin/vch_shell_access.md","ref":"vic_vsphere_admin/vch_shell_access.md","articles":[]},{"title":"Authorize SSH Access","level":"2.1.5.3.8.2","depth":5,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]}]},"previous":{"title":"Configure VCHs","level":"2.1.5.3.6","depth":4,"path":"vic_vsphere_admin/configure_vch.md","ref":"vic_vsphere_admin/configure_vch.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/remove_vch.md","mtime":"2017-09-04T16:27:48.729Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-04T16:30:02.346Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

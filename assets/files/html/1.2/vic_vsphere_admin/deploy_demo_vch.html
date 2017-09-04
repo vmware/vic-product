@@ -330,7 +330,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.3" data-path="deploy_vch_esxi.html">
+        <li class="chapter " data-level="2.1.4.3" data-path="obtain_thumbprint.html">
+            
+                <a href="obtain_thumbprint.html">
+            
+                    
+                    Obtain Certificate Thumbprints
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.4.4" data-path="deploy_vch_esxi.html">
             
                 <a href="deploy_vch_esxi.html">
             
@@ -343,7 +356,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.4" data-path="deploy_vch_vcenter.html">
+        <li class="chapter " data-level="2.1.4.5" data-path="deploy_vch_vcenter.html">
             
                 <a href="deploy_vch_vcenter.html">
             
@@ -356,7 +369,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.5" data-path="verify_vch_deployment.html">
+        <li class="chapter " data-level="2.1.4.6" data-path="verify_vch_deployment.html">
             
                 <a href="verify_vch_deployment.html">
             
@@ -369,7 +382,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.6" data-path="vch_installer_options.html">
+        <li class="chapter " data-level="2.1.4.7" data-path="vch_installer_options.html">
             
                 <a href="vch_installer_options.html">
             
@@ -382,7 +395,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.7" data-path="vic_env_variables.html">
+        <li class="chapter " data-level="2.1.4.8" data-path="vic_env_variables.html">
             
                 <a href="vic_env_variables.html">
             
@@ -395,7 +408,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.8" data-path="vch_installer_examples.html">
+        <li class="chapter " data-level="2.1.4.9" data-path="vch_installer_examples.html">
             
                 <a href="vch_installer_examples.html">
             
@@ -408,7 +421,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.9" data-path="deploy_vch_registry.html">
+        <li class="chapter " data-level="2.1.4.10" data-path="deploy_vch_registry.html">
             
                 <a href="deploy_vch_registry.html">
             
@@ -421,7 +434,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.10" data-path="set_up_ops_user.html">
+        <li class="chapter " data-level="2.1.4.11" data-path="set_up_ops_user.html">
             
                 <a href="set_up_ops_user.html">
             
@@ -1021,7 +1034,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.9" data-path="ts_ui_not_appearing.html">
+        <li class="chapter " data-level="2.1.8.9" data-path="ts_plugin_script_fails.html">
+            
+                <a href="ts_plugin_script_fails.html">
+            
+                    
+                    Plug-In Scripts Fail
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.10" data-path="ts_ui_not_appearing.html">
             
                 <a href="ts_ui_not_appearing.html">
             
@@ -1034,7 +1060,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.10" data-path="ts_delete_inspect_error.html">
+        <li class="chapter " data-level="2.1.8.11" data-path="ts_delete_inspect_error.html">
             
                 <a href="ts_delete_inspect_error.html">
             
@@ -1047,7 +1073,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.11" data-path="ts_clock_skew.html">
+        <li class="chapter " data-level="2.1.8.12" data-path="ts_clock_skew.html">
             
                 <a href="ts_clock_skew.html">
             
@@ -1803,6 +1829,7 @@
 <li>You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see <a href="deploy_vic_appliance.html">Deploy the vSphere Integrated Containers Appliance</a>.</li>
 <li>You opened port 2377 for outgoing connections on all ESXi hosts in your vCenter Server environment. For information about opening port 2377, see <a href="open_ports_on_hosts.html">Open the Required Ports on ESXi Hosts</a>.</li>
 <li>You must create two distributed port groups, one each for the bridge and public networks, on the vCenter Server instance on which to deploy the VCH. For information about how to create a distributed virtual switch and a port group, see <a href="https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html" target="_blank">Create a vSphere Distributed Switch</a> and <a href="https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html" target="_blank">Add Hosts to a vSphere Distributed Switch</a> in the vSphere documentation.   </li>
+<li>Obtain the vCenter Server certificate thumbprint. For information about how to obtain and verify the certificate thumbprint, see <a href="obtain_thumbprint.html">Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host</a>.</li>
 </ul>
 <p><strong>NOTE</strong>: When using <code>vic-machine</code> to deploy VCHs, if you do not specify a network or port group for the public network, the VCH uses the VM Network by default. However, because the VM Network might not be present, the demo VCH requires that you create a port group for the public network. </p>
 <p><strong>Procedure</strong></p>
@@ -1810,43 +1837,43 @@
 <li>In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link <strong>Go to the Demo VCH Installer Wizard</strong>, and trust the certificate. </li>
 <li>Enter the IP address and administrator credentials of the vCenter Server instance on which the vSphere Integrated Containers appliance is running and click <strong>Login</strong>. </li>
 <li><p>Use the drop-down menus to select the appropriate resources for each of the required resources.</p>
-  <table border="1">
-<tr>
+ <table border="1">
+ <tr>
  <th scope="col">Option</th>
  <th scope="col">Description</th>
-</tr>
-<tr>
+ </tr>
+ <tr>
  <td>Bridge Network</td>
  <td>Select an existing distributed port group for container VMs use to communicate with each other.</td>
-</tr>
-<tr>
+ </tr>
+ <tr>
  <td>Public Network</td>
  <td>Select a different distributed port group for container VMs use to connect to the internet.</td>
-</tr>
-<tr>
+ </tr>
+ <tr>
  <td>Image Store</td>
  <td>Select a datastore in which to store container images that you pull into the VCH.</td>
-</tr>
+ </tr>
  <tr>
  <td>Compute Resource</td>
  <td>Select the host, cluster, or resource pool in which to deploy the VCH.</td>
-</tr>
-</table></li>
-<li>(Optional) Modify the name of the VCH to create.</li>
-<li><p>Leave <strong>Thumbprint</strong> empty and click <strong>Execute</strong>. </p>
-<p>  The deployment of the VCH fails, but the certificate thumbprint of the target vCenter Server appears under <strong>Execution Output</strong>.</p>
+ </tr>
+ </table>
 </li>
-<li><p>Copy and paste the certificate thumbprint into <strong>Thumbprint</strong> and click <strong>Execute</strong> again.</p>
-<p> You can monitor the progress of the VCH deployment under <strong>Execution Output</strong>. Stay on the Installer page until the command finishes. Logs might stop streaming if you switch to other tabs or windows. </p>
+<li><p>(Optional) Modify the name of the VCH to create.</p>
+</li>
+<li><p>Enter the vCenter Server certificate thumbprint into the <strong>Thumbprint</strong> text box and click <strong>Execute</strong>. </p>
+<p> If you leave <strong>Thumbprint</strong> empty, the deployment of the VCH fails, and the certificate thumbprint of the target vCenter Server appears under <strong>Execution Output</strong>. Verify that the thumbprint is valid. If it is valid, copy and paste the thumprint in <strong>Thumbprint</strong> and click <strong>Execute</strong> again.</p>
 </li>
 </ol>
+<p>You can monitor the progress of the VCH deployment under <strong>Execution Output</strong>. Stay on the Installer page until the command finishes. Logs might stop streaming if you switch to other tabs or windows. </p>
 <p><strong>Result</strong></p>
 <p>At the end of a successful deployment, <strong>Execution Output</strong> displays information about the new VCH.  </p>
 <p><strong>What to Do Next</strong></p>
 <ul>
 <li>Connect a Docker client to the VCH and run Docker commands against it. For information about running Docker commands against a VCH, see <a href="verify_vch_deployment.html">Verify the Deployment of a VCH</a>.</li>
 <li>Copy the generated command output under <strong>Create Command</strong> and use it as a template for use with <code>vic-machine</code> to create production VCHs. For information about how to deploy production VCHs, see <a href="deploy_vch.html">Using <code>vic-machine</code> to Deploy Virtual Container Hosts</a>.</li>
-<li>Go to http://<i>vic_appliance_address</i>, click the link to <strong>Go to the vSphere Integrated Containers Management Portal</strong>, enter the vCenter Server Single Sign-On credentials, and go to <strong>Home</strong> &gt; <strong>Clusters</strong>. After creating a VCH, the web installer adds the VCH to the management portal instance that is running in the appliance. </li>
+<li>Go to http://<i>vic_appliance_address</i>, click the link to <strong>Go to the vSphere Integrated Containers Management Portal</strong>, enter the vCenter Server Single Sign-On credentials, and go to <strong>Home</strong> &gt; <strong>Clusters</strong>. After creating a VCH, the web installer adds the VCH to the project <code>default-project</code> in the management portal instance that is running in the vSphere Integrated Containers appliance. </li>
 </ul>
 
                                 
@@ -1891,7 +1918,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Deploy VCHs Interactively","level":"2.1.3","depth":2,"next":{"title":"Deploy VCHs with vic-machine","level":"2.1.4","depth":2,"path":"vic_vsphere_admin/deploy_vch.md","ref":"vic_vsphere_admin/deploy_vch.md","articles":[{"title":"Contents of the vSphere Integrated Containers Engine Binaries","level":"2.1.4.1","depth":3,"path":"vic_vsphere_admin/contents_of_vic_binaries.md","ref":"vic_vsphere_admin/contents_of_vic_binaries.md","articles":[]},{"title":"Environment Prerequisites for VCH Deployment","level":"2.1.4.2","depth":3,"path":"vic_vsphere_admin/vic_installation_prereqs.md","ref":"vic_vsphere_admin/vic_installation_prereqs.md","articles":[]},{"title":"Deploy a VCH to an ESXi Host with No vCenter Server","level":"2.1.4.3","depth":3,"path":"vic_vsphere_admin/deploy_vch_esxi.md","ref":"vic_vsphere_admin/deploy_vch_esxi.md","articles":[]},{"title":"Deploy a VCH to a Basic vCenter Server Cluster","level":"2.1.4.4","depth":3,"path":"vic_vsphere_admin/deploy_vch_vcenter.md","ref":"vic_vsphere_admin/deploy_vch_vcenter.md","articles":[]},{"title":"Verify the Deployment of a VCH","level":"2.1.4.5","depth":3,"path":"vic_vsphere_admin/verify_vch_deployment.md","ref":"vic_vsphere_admin/verify_vch_deployment.md","articles":[]},{"title":"VCH Deployment Options","level":"2.1.4.6","depth":3,"path":"vic_vsphere_admin/vch_installer_options.md","ref":"vic_vsphere_admin/vch_installer_options.md","articles":[]},{"title":"Set Environment Variables","level":"2.1.4.7","depth":3,"path":"vic_vsphere_admin/vic_env_variables.md","ref":"vic_vsphere_admin/vic_env_variables.md","articles":[]},{"title":"Advanced Examples of Deploying a VCH","level":"2.1.4.8","depth":3,"path":"vic_vsphere_admin/vch_installer_examples.md","ref":"vic_vsphere_admin/vch_installer_examples.md","articles":[]},{"title":"Deploy a VCH for Use with vSphere Integrated Containers Registry","level":"2.1.4.9","depth":3,"path":"vic_vsphere_admin/deploy_vch_registry.md","ref":"vic_vsphere_admin/deploy_vch_registry.md","articles":[]},{"title":"Use Different User Accounts for VCH Deployment and Operation","level":"2.1.4.10","depth":3,"path":"vic_vsphere_admin/set_up_ops_user.md","ref":"vic_vsphere_admin/set_up_ops_user.md","articles":[]}]},"previous":{"title":"VCH Networking","level":"2.1.2","depth":2,"path":"vic_vsphere_admin/networks.md","ref":"vic_vsphere_admin/networks.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/deploy_demo_vch.md","mtime":"2017-08-30T11:30:41.208Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-30T16:38:34.181Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Deploy VCHs Interactively","level":"2.1.3","depth":2,"next":{"title":"Deploy VCHs with vic-machine","level":"2.1.4","depth":2,"path":"vic_vsphere_admin/deploy_vch.md","ref":"vic_vsphere_admin/deploy_vch.md","articles":[{"title":"Contents of the vSphere Integrated Containers Engine Binaries","level":"2.1.4.1","depth":3,"path":"vic_vsphere_admin/contents_of_vic_binaries.md","ref":"vic_vsphere_admin/contents_of_vic_binaries.md","articles":[]},{"title":"Environment Prerequisites for VCH Deployment","level":"2.1.4.2","depth":3,"path":"vic_vsphere_admin/vic_installation_prereqs.md","ref":"vic_vsphere_admin/vic_installation_prereqs.md","articles":[]},{"title":"Obtain Certificate Thumbprints","level":"2.1.4.3","depth":3,"path":"vic_vsphere_admin/obtain_thumbprint.md","ref":"vic_vsphere_admin/obtain_thumbprint.md","articles":[]},{"title":"Deploy a VCH to an ESXi Host with No vCenter Server","level":"2.1.4.4","depth":3,"path":"vic_vsphere_admin/deploy_vch_esxi.md","ref":"vic_vsphere_admin/deploy_vch_esxi.md","articles":[]},{"title":"Deploy a VCH to a Basic vCenter Server Cluster","level":"2.1.4.5","depth":3,"path":"vic_vsphere_admin/deploy_vch_vcenter.md","ref":"vic_vsphere_admin/deploy_vch_vcenter.md","articles":[]},{"title":"Verify the Deployment of a VCH","level":"2.1.4.6","depth":3,"path":"vic_vsphere_admin/verify_vch_deployment.md","ref":"vic_vsphere_admin/verify_vch_deployment.md","articles":[]},{"title":"VCH Deployment Options","level":"2.1.4.7","depth":3,"path":"vic_vsphere_admin/vch_installer_options.md","ref":"vic_vsphere_admin/vch_installer_options.md","articles":[]},{"title":"Set Environment Variables","level":"2.1.4.8","depth":3,"path":"vic_vsphere_admin/vic_env_variables.md","ref":"vic_vsphere_admin/vic_env_variables.md","articles":[]},{"title":"Advanced Examples of Deploying a VCH","level":"2.1.4.9","depth":3,"path":"vic_vsphere_admin/vch_installer_examples.md","ref":"vic_vsphere_admin/vch_installer_examples.md","articles":[]},{"title":"Deploy a VCH for Use with vSphere Integrated Containers Registry","level":"2.1.4.10","depth":3,"path":"vic_vsphere_admin/deploy_vch_registry.md","ref":"vic_vsphere_admin/deploy_vch_registry.md","articles":[]},{"title":"Use Different User Accounts for VCH Deployment and Operation","level":"2.1.4.11","depth":3,"path":"vic_vsphere_admin/set_up_ops_user.md","ref":"vic_vsphere_admin/set_up_ops_user.md","articles":[]}]},"previous":{"title":"VCH Networking","level":"2.1.2","depth":2,"path":"vic_vsphere_admin/networks.md","ref":"vic_vsphere_admin/networks.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/deploy_demo_vch.md","mtime":"2017-09-04T16:27:48.685Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-04T16:30:02.346Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
