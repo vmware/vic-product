@@ -13,6 +13,8 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 - Obtain the vCenter Server certificate thumbprint. For information about how to obtain and verify the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
 - The system on which you run the script is running `awk`.
 
+**IMPORTANT**: The upgrade script does not function if you have set the `VIC_MACHINE_THUMBPRINT` environment variable on the system on which you run the script. Delete the `VIC_MACHINE_THUMBPRINT` environment variable before running the script.
+
 **Procedure**
 
 1. Connect as root user to the vCenter Server Appliance by using SSH.<pre>$ ssh root@<i>vcsa_address</i></pre>
