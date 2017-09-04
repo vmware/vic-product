@@ -547,7 +547,7 @@ Short name: `--mn`
 
 A port group that the VCH uses to communicate with vCenter Server and ESXi hosts. Container VMs use this network to communicate with the VCH. 
 
-**IMPORTANT**: Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network.
+**IMPORTANT**: Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network. Ideally, use separate networks for the management network and the container networks. The most secure setup is to make sure that VCHs can access vCenter Server and ESXi hosts directly over the management network, and that the management network has route entries for the subnets that contain both the target vCenter Server and the corresponding ESXi hosts. If the management network does not have route entries for the vCenter Server and ESXi host subnets, you must configure asymmetric routing by using the [`--asymmetric-routes` option](#asymmetric-routes). Configuring asymmetric routes permits incoming connections from the ESXi hosts over the public network.
 
 When you create a VCH, `vic-machine create` checks that the firewall on ESXi hosts allows connections to port 2377 from the management network of the VCH. If access to port 2377 on ESXi hosts is subject to IP address restrictions, and if those restrictions block access to the management network interface, `vic-machine create` fails with a firewall configuration error:
 <pre>Firewall configuration incorrect due to allowed IP restrictions on hosts: 
@@ -570,6 +570,20 @@ If not specified, the VCH uses the public network for management traffic. If you
 
 <pre>--management-network <i>port_group_name</i></pre>
 
+### `--asymmetric-routes` <a id="asymmetric-routes"></a>
+
+Short name: `--ar`
+
+Allows incoming connections from ESXi hosts to VCHs over the public network rather than over the management network. If the management network does not have route entries for the vCenter Server and ESXi host subnets, containers can experience the following problems:
+
+-  Containers that run without specifying `-d` remain in the starting state.
+-  You can make connections to running containers via port forwarding from the public network, but not from the client or management networks.
+
+In these scenarios, use the `--asymmetric-routes` option to allow management traffic from ESXi hosts to the VCH to pass over the public network. By setting the `--asymmetric-routes` option, you set reverse path forwarding in the VCH endpoint VM to loose mode rather than the default strict mode. For information about reverse path forwarding and loose mode, see https://en.wikipedia.org/wiki/Reverse_path_forwarding.
+
+The `--asymmetric-routes` option takes no arguments. If you do not set `--asymmetric-routes`, all management traffic is routed over the management network.
+
+<pre>--asymmetric-routes</pre>
 
 ### `--container-network` <a id="container-network"></a>
 
