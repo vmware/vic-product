@@ -37,7 +37,7 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
     **IMPORTANT**: Do not go to the Getting Started page of the appliance. Logging in to the Getting Started page for the first time initializes the appliance. Initialization is only applicable to new installations and causes upgraded appliances not to function correctly. 
 10. Use SSH to connect to the new appliance as root user.
 
-    <pre>$ ssh root@new_vic_appliance_address</pre>
+    <pre>$ ssh root@<i>new_vic_appliance_address</i></pre>
 
 11. Navigate to the upgrade script and run it. 
 

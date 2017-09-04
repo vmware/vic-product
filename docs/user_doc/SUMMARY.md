@@ -80,6 +80,7 @@
      * [Plug-In Does Not Appear](vic_vsphere_admin/ts_ui_not_appearing.md)
      * [Deleting or Inspecting a VCH Fails](vic_vsphere_admin/ts_delete_inspect_error.md)
      * [Certificate Errors when Using Full TLS Authentication with Trusted Certificates](vic_vsphere_admin/ts_clock_skew.md)
+     * [Appliance VM Password Refused](vic_vsphere_admin/ts_appliance_password_refused.md)
   * [Security Reference](vic_vsphere_admin/security_reference.md)
 
 

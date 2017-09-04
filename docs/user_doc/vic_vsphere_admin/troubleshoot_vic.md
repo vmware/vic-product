@@ -14,3 +14,4 @@ This section provides solutions for common problems that you might encounter dur
 * [vSphere Integrated Containers Plug-Ins Not Deploying Correctly](ts_ui_not_appearing.md)
 * [Deleting or Inspecting a VCH Fails with a Not a VCH or Resource Pool Not Found Error](ts_delete_inspect_error.md)
 * [Connections Fail with Certificate Errors when Using Full TLS Authentication with Trusted Certificates](ts_clock_skew.md)
+* [vSphere Integrated Containers Appliance VM Password Refused](ts_appliance_password_refused.md)
