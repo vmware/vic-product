@@ -12,5 +12,6 @@ This section provides solutions for common problems that you might encounter dur
 * [VCH Deployment with a Shared NFS Datastore Fails with an Error About No Single Host Being Able to Access All Datastores](ts_datastore_access_error.md)
 * [vSphere Client Plug-In Scripts Fail with No Error Message](ts_plugin_script_fails.md)
 * [vSphere Integrated Containers Plug-Ins Not Deploying Correctly](ts_ui_not_appearing.md)
+* [Some Users Cannot Access vSphere Integrated Containers Services](ts_no_access_to_vic_services.md)
 * [Deleting or Inspecting a VCH Fails with a Not a VCH or Resource Pool Not Found Error](ts_delete_inspect_error.md)
 * [Connections Fail with Certificate Errors when Using Full TLS Authentication with Trusted Certificates](ts_clock_skew.md)

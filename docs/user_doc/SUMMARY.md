@@ -78,6 +78,7 @@
      * [No Single Host Can Access All Datastores](vic_vsphere_admin/ts_datastore_access_error.md)
      * [Plug-In Scripts Fail](vic_vsphere_admin/ts_plugin_script_fails.md)
      * [Plug-In Does Not Appear](vic_vsphere_admin/ts_ui_not_appearing.md)
+     * [Some Users Cannot Access Services](vic_vsphere_admin/ts_no_access_to_vic_services.md)
      * [Deleting or Inspecting a VCH Fails](vic_vsphere_admin/ts_delete_inspect_error.md)
      * [Certificate Errors when Using Full TLS Authentication with Trusted Certificates](vic_vsphere_admin/ts_clock_skew.md)
   * [Security Reference](vic_vsphere_admin/security_reference.md)
