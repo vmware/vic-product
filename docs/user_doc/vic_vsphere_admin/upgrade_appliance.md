@@ -42,9 +42,9 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
 11. Navigate to the upgrade script and run it. 
 
     <pre>$ cd /etc/vmware/upgrade</pre>
-    <pre>$ ./upgrade_1.1_to_1.2.sh --target <i>vcenter_server_address</i> --username <i>vcenter_server_sso_username</i> --password <i>vcenter_server_sso_password</i></pre>
+    <pre>$ ./upgrade_1.1_to_1.2.sh</i></pre>
 
-     When you run the script you must specify the `--target`, `--username`, and `--password` arguments tp provide the address and Single Sign-On credentials of the vCenter Server instance on which you deployed the new appliance. The script requires these credentials to register the new version of vSphere Integrated Containers with the vSphere Platform Services Controller.
+     When prompted, enter the address of the vCenter Server instance on which you deployed the new appliance and the Single Sign-On credentials of a vSphere administrator account. The script requires these credentials to register the new version of vSphere Integrated Containers with the vSphere Platform Services Controller.
 10. When the upgrade finishes, go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and use vCenter Server Single Sign-On credentials to log in.
 
 **What to Do Next**
