@@ -45,7 +45,20 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
     <pre>$ ./upgrade_1.1_to_1.2.sh</i></pre>
 
      When prompted, enter the address of the vCenter Server instance on which you deployed the new appliance and the Single Sign-On credentials of a vSphere administrator account. The script requires these credentials to register the new version of vSphere Integrated Containers with the vSphere Platform Services Controller.
-10. When the upgrade finishes, go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and use vCenter Server Single Sign-On credentials to log in.
+10. When the script finishes, run the following command to complete the upgrade.
+
+    Copy and paste the command exactly as it is shown below:<pre>curl \
+  -s --insecure \
+  -X PUT \
+  -H "x-xenon-auth-token: `cat /etc/vmware/psc/admiral/tokens.properties`" \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -d "{ \"key\" : \"harbor.tab.url\", \"value\" : \"`grep harbor.tab.url /data/admiral/configs/config.properties | cut -d'=' -f2`\" }" \
+  "https://`ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p'`:8282/config/props/harbor.tab.url" ; \
+systemctl restart admiral.service</pre>
+
+    When the command runs, you see output that is wrapped in angle brackets:<pre>{"key": [<i>output</i>] =="}</pre>
+11. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and use vCenter Server Single Sign-On credentials to log in.
 
 **What to Do Next**
 
