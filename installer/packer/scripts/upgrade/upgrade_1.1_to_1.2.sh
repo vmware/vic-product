@@ -286,7 +286,7 @@ function performAdmiralUpgrade {
   # Copy psc-config.properties to /configs in container
   cp /etc/vmware/psc/admiral/psc-config.properties $new_admiral_data/configs
 
-  local new_admiral_xenon_opts="--publicUri=https://${APPLIANCE_IP}:8282/ --bindAddress=0.0.0.0 --port=-1 --authConfig=/configs/psc-config.properties --securePort=8282 --keyFile=/configs/server.key --certificateFile=/configs/server.crt --startMockHostAdapterInstance=false"
+  local new_admiral_xenon_opts="--publicUri=https://${new_admiral}/ --bindAddress=0.0.0.0 --port=-1 --authConfig=/configs/psc-config.properties --securePort=8282 --keyFile=/configs/server.key --certificateFile=/configs/server.crt --startMockHostAdapterInstance=false"
 
   # Start current Admiral
   docker create -p 8282:8282 \
@@ -357,6 +357,20 @@ function upgradeAdmiral {
 
   echo "Starting Admiral" | tee /dev/fd/3
   systemctl start admiral_startup.service
+  sleep 3
+}
+
+function updateAdmiralConfig {
+  echo "Updating Admiral configuration" | tee /dev/fd/3
+  curl \
+    -s --insecure \
+    -X PUT \
+    -H "x-xenon-auth-token: $(cat /etc/vmware/psc/admiral/tokens.properties)" \
+    -H 'cache-control: no-cache' \
+    -H 'content-type: application/json' \
+    -d "{ \"key\" : \"harbor.tab.url\", \"value\" : \"$(grep harbor.tab.url /data/admiral/configs/config.properties | cut -d'=' -f2)\" }" \
+    "https://${APPLIANCE_IP}:8282/config/props/harbor.tab.url" ; \
+  systemctl restart admiral.service
 }
 
 function upgradeHarbor {
@@ -524,6 +538,7 @@ function main {
   echo "Finished preparing upgrade environment" | tee /dev/fd/3
 
   upgradeAdmiral
+  updateAdmiralConfig
   upgradeHarbor
 
   enableServicesStart
