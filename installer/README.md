@@ -93,6 +93,7 @@ Pick one to set Harbor version:
 export BUILD_HARBOR_REVISION=v1.1.1                     # Defaults to dev (https://console.cloud.google.com/storage/browser/harbor-builds)
 export BUILD_HARBOR_FILE=harbor-offline-installer.tgz   # File in `packer/scripts`
 export BUILD_HARBOR_URL=https://example.com/harbor.tgz  # URL to download
+```
 
 Set the Admiral tag appended to `vic_`:
 
