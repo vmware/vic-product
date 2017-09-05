@@ -2,18 +2,25 @@
 
 This directory will host all the code that is going to be part of the VIC unified installer OVA.
 
-It is currently under heavy development and not suitable for any use except for development, this file will be updated to reflect the status of the installer as development progresses.
+The build process (launched from your "build machine") uses Packer to launch a VM ("Packer VM") in
+ESX, provision it with components, and snapshot it to make the OVA.
+
+After the Packer VM is powered on, it attempts to retrieve a kickstart file from the build machine.
+The Packer VM then boots based on the kickstart file. When the base Packer VM is booted, Packer uses
+`packer-vic.json` to provision the Packer VM. This copies files to the Packer VM and runs scripts on
+the Packer VM which download components included in the OVA (Admiral, Harbor, VIC Engine, DCH) to
+the correct location and configures them if needed. After provisioning is complete, a snapshot of
+the VM is taken to make the OVA.
 
 ## Usage
 
-The build process (launched from your "build machine") uses Packer to launch a VM ("Packer VM") in
-ESX, provision it with components, and snapshot it to make the OVA.
+### Prerequisites
 
 The Packer VM _MUST_ have a route to your build machine because the Packer VM boots from a
 kickstart file served from the build machine. This means if the build machine and target ESX are run
 in Fusion or Workstaion, both VMs should have either bridged or shared networking.
 
-The build VM must have `ovftool` and if using `build.sh` must have `gsutil`.
+The build machine must have `ovftool` and if using `build.sh` must have `gsutil`.
 
 Execute these commands on your ESX:
 ```
@@ -25,9 +32,7 @@ esxcli network firewall set --enabled false
 
 #### Build script
 
-The build script accepts files in `packer/scripts`, URLs, or revisions and automatically sets
-required environment variables. `BUILD_VICENGINE_REVISION` is required for UI plugin even if using
-file or URL.
+This is the recommended way to build the OVA.
 
 Export required values
 ```
@@ -36,20 +41,27 @@ export PACKER_USER=root
 export PACKER_PASSWORD=password
 ```
 
+The build script pulls the desired versions of each included component into the Packer VM.
+It accepts files in `packer/scripts`, URLs, or revisions and automatically sets
+required environment variables. `BUILD_VICENGINE_REVISION` is required for UI plugin even if using
+file or URL.
+
 If called without any values, `build.sh` will get the latest build for each component
 ```
 export BUILD_VICENGINE_REVISION=1.1.1
 ./scripts/build.sh
 ```
 
-Build with files `packer/scripts/harbor.tgz` and `packer/scripts/vic.tar.gz` and Admiral tag
-`vic_dev`.
+If called with the values below, `build.sh` will include the Harbor version from
+`packer/scripts/harbor.tgz`, the VIC Engine version from `packer/scripts/vic.tar.gz`, and Admiral tag
+`vic_dev` (since `--admiral` was not specified it defaults to the `vic_dev` tag)
 ```
 export BUILD_VICENGINE_REVISION=1.1.1
 ./scripts/build.sh --harbor harbor.tgz --vicengine vic.tar.gz
 ```
 
-Build with URLs, Admiral tag v1.1.1
+If called with the values below, `build.sh` will include the Harbor and VIC Engine versions
+specified by their respective URLs, and Admiral tag `vic_v1.1.1`
 ```
 export BUILD_VICENGINE_REVISION=1.1.1
 ./scripts/build.sh --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic.tar.gz
@@ -57,20 +69,32 @@ export BUILD_VICENGINE_REVISION=1.1.1
 
 #### Manual
 
+This method of building the OVA is not recommended as it is more complicated.
+
 First, we have to set the revisions of the components we want to bundle in the OVA.
 Specifying a file takes precedence, then URL, then revision.
 
+Pick one to set VIC Engine version:
+
 ```
-export BUILD_VICENGINE_REVISION=1.1.1                      # Required (https://console.cloud.google.com/storage/browser/vic-engine-releases)
-                                                           # If specifying file or URL, REVISION is used for setting UI plugin version
-export BUILD_VICENGINE_FILE=vic_10000.tar.gz               # Optional, file in `packer/scripts` export
-export BUILD_VICENGINE_URL=https://example.com/vic.tar.gz  # Optional, URL to download
+export BUILD_VICENGINE_REVISION=1.1.1                      # If specifying file or URL, REVISION is used for setting UI plugin version
+                                                           # If no other BUILD_VICENGINE vars specified, also specifies VIC Engine
+                                                           # version from https://console.cloud.google.com/storage/browser/vic-engine-releases
+export BUILD_VICENGINE_FILE=vic_10000.tar.gz               # File in `packer/scripts`
+export BUILD_VICENGINE_URL=https://example.com/vic.tar.gz  # URL to download
+```
 
-export BUILD_HARBOR_REVISION=v1.1.1                     # Optional, defaults to dev (https://console.cloud.google.com/storage/browser/harbor-builds)
-export BUILD_HARBOR_FILE=harbor-offline-installer.tgz   # Optional, file in `packer/scripts`
-export BUILD_HARBOR_URL=https://example.com/harbor.tgz  # Optional, URL to download
+Pick one to set Harbor version:
 
-export BUILD_ADMIRAL_REVISION=v1.1.1  # Optional, defaults to vic_dev tag (https://hub.docker.com/r/vmware/admiral/tags/)
+```
+export BUILD_HARBOR_REVISION=v1.1.1                     # Defaults to dev (https://console.cloud.google.com/storage/browser/harbor-builds)
+export BUILD_HARBOR_FILE=harbor-offline-installer.tgz   # File in `packer/scripts`
+export BUILD_HARBOR_URL=https://example.com/harbor.tgz  # URL to download
+
+Set the Admiral tag appended to `vic_`:
+
+```
+export BUILD_ADMIRAL_REVISION=v1.1.1  # defaults to `dev` to specify `vic_dev` tag (https://hub.docker.com/r/vmware/admiral/tags/)
 ```
 
 Then set the required env vars for the build environment and make the release:
@@ -85,7 +109,20 @@ export PACKER_LOG=1                 # Optional
 make ova-release
 ```
 
-Deploy OVA with ovftool in a Docker container on ESX host
+## Deploy
+
+The OVA must be deployed to a vCenter.
+Deploying to ESX host is not supported.
+
+The recommended method for deploying the OVA:
+- Access the vCenter Web UI, click `vCenter Web Client (Flash)`
+- Right click on the desired cluster or resource pool
+- Click `Deploy OVF Template`
+- Select the URL or file and follow the prompts
+- Power on the deployed VM
+- Access the `Getting Started Page` by going to `https://<appliance_ip>:9443`
+
+Alternative, deploying with `ovftool`:
 ```
 docker run -it --net=host -v ~/go/src/github.com/vmware/vic-product/installer/bin:/test-bin \
   gcr.io/eminent-nation-87317/vic-integration-test:1.34 ovftool --acceptAllEulas --X:injectOvfEnv \
