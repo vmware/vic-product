@@ -330,7 +330,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.3" data-path="deploy_vch_esxi.html">
+        <li class="chapter " data-level="2.1.4.3" data-path="obtain_thumbprint.html">
+            
+                <a href="obtain_thumbprint.html">
+            
+                    
+                    Obtain Certificate Thumbprints
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.4.4" data-path="deploy_vch_esxi.html">
             
                 <a href="deploy_vch_esxi.html">
             
@@ -343,7 +356,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.4" data-path="deploy_vch_vcenter.html">
+        <li class="chapter " data-level="2.1.4.5" data-path="deploy_vch_vcenter.html">
             
                 <a href="deploy_vch_vcenter.html">
             
@@ -356,7 +369,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.5" data-path="verify_vch_deployment.html">
+        <li class="chapter " data-level="2.1.4.6" data-path="verify_vch_deployment.html">
             
                 <a href="verify_vch_deployment.html">
             
@@ -369,7 +382,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.6" data-path="vch_installer_options.html">
+        <li class="chapter " data-level="2.1.4.7" data-path="vch_installer_options.html">
             
                 <a href="vch_installer_options.html">
             
@@ -382,7 +395,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.7" data-path="vic_env_variables.html">
+        <li class="chapter " data-level="2.1.4.8" data-path="vic_env_variables.html">
             
                 <a href="vic_env_variables.html">
             
@@ -395,7 +408,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.8" data-path="vch_installer_examples.html">
+        <li class="chapter " data-level="2.1.4.9" data-path="vch_installer_examples.html">
             
                 <a href="vch_installer_examples.html">
             
@@ -408,7 +421,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.9" data-path="deploy_vch_registry.html">
+        <li class="chapter " data-level="2.1.4.10" data-path="deploy_vch_registry.html">
             
                 <a href="deploy_vch_registry.html">
             
@@ -421,7 +434,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.10" data-path="set_up_ops_user.html">
+        <li class="chapter " data-level="2.1.4.11" data-path="set_up_ops_user.html">
             
                 <a href="set_up_ops_user.html">
             
@@ -1021,7 +1034,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.9" data-path="ts_ui_not_appearing.html">
+        <li class="chapter " data-level="2.1.8.9" data-path="ts_plugin_script_fails.html">
+            
+                <a href="ts_plugin_script_fails.html">
+            
+                    
+                    Plug-In Scripts Fail
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.10" data-path="ts_ui_not_appearing.html">
             
                 <a href="ts_ui_not_appearing.html">
             
@@ -1034,7 +1060,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.10" data-path="ts_delete_inspect_error.html">
+        <li class="chapter " data-level="2.1.8.11" data-path="ts_delete_inspect_error.html">
             
                 <a href="ts_delete_inspect_error.html">
             
@@ -1047,7 +1073,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.11" data-path="ts_clock_skew.html">
+        <li class="chapter " data-level="2.1.8.12" data-path="ts_clock_skew.html">
             
                 <a href="ts_clock_skew.html">
             
@@ -1802,20 +1828,23 @@
 <li>The HTML5 plug-in requires vCenter Server 6.5.0d or later. The HTML5 plug-in does not function with earlier versions of vCenter Server 6.5.0.</li>
 <li>The vCenter Server instance on which to install the plug-in runs on Windows. If you are running a vCenter Server appliance instance, see <a href="plugins_vcsa.html">Install the Client Plug-Ins on a vCenter Server Appliance</a>.</li>
 <li>You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see <a href="deploy_vic_appliance.html">Deploy the vSphere Integrated Containers Appliance</a>.</li>
-<li>Log in to the Windows system on which vCenter Server is running. You must perform all of the steps in this procedure on this Windows system.</li>
+<li><p>Log in to the Windows system on which vCenter Server is running. You must perform all of the steps in this procedure on this Windows system.</p>
+<p>  <strong>IMPORTANT</strong>: The upgrade script does not function if you have set the <code>VIC_MACHINE_THUMBPRINT</code> environment variable on the system on which you run the script. Delete the <code>VIC_MACHINE_THUMBPRINT</code> environment variable before running the script.</p>
+</li>
 <li>In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link to <strong>download the vSphere Integrated Containers Engine bundle</strong>, and unpack it on the Desktop.  </li>
+<li>Obtain the vCenter Server certificate thumbprint. For information about how to obtain and verify the certificate thumbprint, see <a href="obtain_thumbprint.html">Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host</a>.</li>
 </ul>
 <p><strong>Procedure</strong></p>
 <ol>
 <li>Run the install script and follow the prompts.<pre>%USERPROFILE%\Desktop\vic\ui\vCenterForWindows\install.bat</pre><ol>
 <li>Enter the IP address of the vCenter Server instance.</li>
 <li>Enter the user name and password for the vCenter Server administrator account.</li>
-<li>Enter <strong>yes</strong> to confirm that you trust the host and wait for the install process to finish. </li>
+<li>Enter <strong>yes</strong> if the vCenter Server certificate thumbprint is legitimate, and wait for the install process to finish. </li>
 </ol>
 </li>
 <li>When the installation finishes, stop and restart the services of your management clients.<ol>
-<li>Restart the HTML5 vSphere Client service.<pre>service-control --stop vsphere-ui</pre><pre>service-control --start vsphere-ui</pre></li>
-<li>Restart the Flex-based vSphere Web Client service.<pre>service-control --stop vsphere-client</pre><pre>service-control --start vsphere-client</pre></li>
+<li>Restart the HTML5 vSphere Client service.<pre>service-control --stop vsphere-ui &amp;&amp; service-control --start vsphere-ui</pre></li>
+<li>Restart the Flex-based vSphere Web Client service.<pre>service-control --stop vsphere-client &amp;&amp; service-control --start vsphere-client</pre></li>
 </ol>
 </li>
 </ol>
@@ -1864,7 +1893,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"vCenter Server for Windows","level":"2.1.1.3.1","depth":4,"next":{"title":"vCenter Server Appliance","level":"2.1.1.3.2","depth":4,"path":"vic_vsphere_admin/plugins_vcsa.md","ref":"vic_vsphere_admin/plugins_vcsa.md","articles":[]},"previous":{"title":"Installing the Plug-ins","level":"2.1.1.3","depth":3,"path":"vic_vsphere_admin/install_vic_plugin.md","ref":"vic_vsphere_admin/install_vic_plugin.md","articles":[{"title":"vCenter Server for Windows","level":"2.1.1.3.1","depth":4,"path":"vic_vsphere_admin/plugins_vc_windows.md","ref":"vic_vsphere_admin/plugins_vc_windows.md","articles":[]},{"title":"vCenter Server Appliance","level":"2.1.1.3.2","depth":4,"path":"vic_vsphere_admin/plugins_vcsa.md","ref":"vic_vsphere_admin/plugins_vcsa.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/plugins_vc_windows.md","mtime":"2017-08-30T15:50:43.979Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-30T16:38:34.181Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"vCenter Server for Windows","level":"2.1.1.3.1","depth":4,"next":{"title":"vCenter Server Appliance","level":"2.1.1.3.2","depth":4,"path":"vic_vsphere_admin/plugins_vcsa.md","ref":"vic_vsphere_admin/plugins_vcsa.md","articles":[]},"previous":{"title":"Installing the Plug-ins","level":"2.1.1.3","depth":3,"path":"vic_vsphere_admin/install_vic_plugin.md","ref":"vic_vsphere_admin/install_vic_plugin.md","articles":[{"title":"vCenter Server for Windows","level":"2.1.1.3.1","depth":4,"path":"vic_vsphere_admin/plugins_vc_windows.md","ref":"vic_vsphere_admin/plugins_vc_windows.md","articles":[]},{"title":"vCenter Server Appliance","level":"2.1.1.3.2","depth":4,"path":"vic_vsphere_admin/plugins_vcsa.md","ref":"vic_vsphere_admin/plugins_vcsa.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/plugins_vc_windows.md","mtime":"2017-09-04T16:27:48.723Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-04T16:30:02.346Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -330,7 +330,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.3" data-path="deploy_vch_esxi.html">
+        <li class="chapter " data-level="2.1.4.3" data-path="obtain_thumbprint.html">
+            
+                <a href="obtain_thumbprint.html">
+            
+                    
+                    Obtain Certificate Thumbprints
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.4.4" data-path="deploy_vch_esxi.html">
             
                 <a href="deploy_vch_esxi.html">
             
@@ -343,7 +356,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.4" data-path="deploy_vch_vcenter.html">
+        <li class="chapter " data-level="2.1.4.5" data-path="deploy_vch_vcenter.html">
             
                 <a href="deploy_vch_vcenter.html">
             
@@ -356,7 +369,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.5" data-path="verify_vch_deployment.html">
+        <li class="chapter " data-level="2.1.4.6" data-path="verify_vch_deployment.html">
             
                 <a href="verify_vch_deployment.html">
             
@@ -369,7 +382,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.6" data-path="vch_installer_options.html">
+        <li class="chapter " data-level="2.1.4.7" data-path="vch_installer_options.html">
             
                 <a href="vch_installer_options.html">
             
@@ -382,7 +395,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.7" data-path="vic_env_variables.html">
+        <li class="chapter " data-level="2.1.4.8" data-path="vic_env_variables.html">
             
                 <a href="vic_env_variables.html">
             
@@ -395,7 +408,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.1.4.8" data-path="vch_installer_examples.html">
+        <li class="chapter active" data-level="2.1.4.9" data-path="vch_installer_examples.html">
             
                 <a href="vch_installer_examples.html">
             
@@ -408,7 +421,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.9" data-path="deploy_vch_registry.html">
+        <li class="chapter " data-level="2.1.4.10" data-path="deploy_vch_registry.html">
             
                 <a href="deploy_vch_registry.html">
             
@@ -421,7 +434,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4.10" data-path="set_up_ops_user.html">
+        <li class="chapter " data-level="2.1.4.11" data-path="set_up_ops_user.html">
             
                 <a href="set_up_ops_user.html">
             
@@ -1021,7 +1034,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.9" data-path="ts_ui_not_appearing.html">
+        <li class="chapter " data-level="2.1.8.9" data-path="ts_plugin_script_fails.html">
+            
+                <a href="ts_plugin_script_fails.html">
+            
+                    
+                    Plug-In Scripts Fail
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.10" data-path="ts_ui_not_appearing.html">
             
                 <a href="ts_ui_not_appearing.html">
             
@@ -1034,7 +1060,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.10" data-path="ts_delete_inspect_error.html">
+        <li class="chapter " data-level="2.1.8.11" data-path="ts_delete_inspect_error.html">
             
                 <a href="ts_delete_inspect_error.html">
             
@@ -1047,7 +1073,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.11" data-path="ts_clock_skew.html">
+        <li class="chapter " data-level="2.1.8.12" data-path="ts_clock_skew.html">
             
                 <a href="ts_clock_skew.html">
             
@@ -1826,8 +1852,8 @@
 </ul>
 </li>
 </ul>
-<p>For simplicity, these examples use the <code>--force</code> option to disable the verification of the vCenter Server certificate, so the <code>--thumbprint</code> option is not specified. Similarly, all examples that do not relate explicitly to certificate use specify the <code>--no-tls</code> option.</p>
-<p>For detailed descriptions of all of the <code>vic-machine create</code> options, see <a href="vch_installer_options.html">VCH Deployment Options</a>.</p>
+<p>For simplicity, all examples that do not relate explicitly to certificate use specify the <code>--no-tls</code> option.</p>
+<p>For detailed descriptions of all of the <code>vic-machine create</code> options, see <a href="vch_installer_options.html">VCH Deployment Options</a>. For information about how to obtain the certificate thumbprint before running <code>vic-machine</code>, see <a href="obtain_thumbprint.html">Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host</a>. </p>
 <p><strong>NOTE</strong>: Wrap any option arguments that include spaces or special characters in quotes. Use single quotes if you are using <code>vic-machine</code> on a Linux or Mac OS system and double quotes on a Windows system.</p>
 <p>Option arguments that might require quotation marks include the following:</p>
 <ul>
@@ -1858,7 +1884,7 @@
 --image-store datastore1
 --bridge-network vch1-bridge
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -1876,7 +1902,7 @@
 --bridge-network vch1-bridge
 --compute-resource esxihost1.organization.company.com
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -1893,7 +1919,7 @@
 --compute-resource &apos;rp 1&apos;
 --image-store datastore1
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -1911,7 +1937,7 @@
 --image-store datastore1
 --bridge-network vch1-bridge
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -1922,7 +1948,7 @@
 --image-store datastore1
 --bridge-network vch1-bridge
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -1945,7 +1971,7 @@
 --cpu-reservation 1024
 --cpu-shares low
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -1974,7 +2000,7 @@
 --management-network &apos;network 1&apos;
 --client-network &apos;network 2&apos;
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -2003,7 +2029,7 @@
 --client-network &apos;network 2&apos;
 --client-network-ip 192.168.3.10/24
 --dns-server <i>dns_server_address</i>
---force
+--thumbprint <i>certificate_thumbprint</i>
 --name vch1
 </pre>
 
@@ -2032,7 +2058,7 @@
 --container-network-ip-range vic-containers:192.168.100.0/24
 --container-network-firewall vic-containers:outbound
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -2051,7 +2077,7 @@
 --bridge-network vch1-bridge
 --https-proxy https://<i>proxy_server_address</i>:<i>port</i>
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -2076,7 +2102,7 @@
 --volume-store &apos;datastore 2&apos;/volumes:volume_store_2
 --volume-store nfs://nfs_store/path/to/share/point:shared_volume
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -2100,7 +2126,7 @@
 --bridge-network vch1-bridge
 --tls-cname *.example.org
 --tls-cert-path <i>path_to_cert_folder</i>
---force
+--thumbprint <i>certificate_thumbprint</i>
 --name vch1
 </pre>
 
@@ -2121,7 +2147,7 @@
 --tls-server-cert ../some/relative/path/<i>certificate_file</i>.pem
 --tls-server-key ../some/relative/path/<i>key_file</i>.pem
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 </pre>
 
 <p>For more information about using custom server certificates, see the section <a href="vch_installer_options.html#restrict_custom">Restrict Access to the Docker API with Custom Certificates</a> in VCH Deployment Options.</p>
@@ -2142,7 +2168,7 @@
 --tls-server-key ../some/relative/path/<i>key_file</i>.pem
 --tls-cname <i>cname_from_server_cert</i>
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 </pre>
 
 <h3 id="specify-different-user-accounts-for-vch-deployment-and-operation-">Specify Different User Accounts for VCH Deployment and Operation <a id="ops-user"></a></h3>
@@ -2164,7 +2190,7 @@
 --name vch1
 --ops-user <i>vsphere_user</i>
 --ops-password <i>vsphere_user_password</i>
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -2188,7 +2214,7 @@
 --insecure-registry <i>registry_URL_1</i>
 --insecure-registry <i>registry_URL_2:5000</i>
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -2238,7 +2264,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Advanced Examples of Deploying a VCH","level":"2.1.4.8","depth":3,"next":{"title":"Deploy a VCH for Use with vSphere Integrated Containers Registry","level":"2.1.4.9","depth":3,"path":"vic_vsphere_admin/deploy_vch_registry.md","ref":"vic_vsphere_admin/deploy_vch_registry.md","articles":[]},"previous":{"title":"Set Environment Variables","level":"2.1.4.7","depth":3,"path":"vic_vsphere_admin/vic_env_variables.md","ref":"vic_vsphere_admin/vic_env_variables.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_installer_examples.md","mtime":"2017-08-30T11:30:41.322Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-30T16:38:34.181Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Advanced Examples of Deploying a VCH","level":"2.1.4.9","depth":3,"next":{"title":"Deploy a VCH for Use with vSphere Integrated Containers Registry","level":"2.1.4.10","depth":3,"path":"vic_vsphere_admin/deploy_vch_registry.md","ref":"vic_vsphere_admin/deploy_vch_registry.md","articles":[]},"previous":{"title":"Set Environment Variables","level":"2.1.4.8","depth":3,"path":"vic_vsphere_admin/vic_env_variables.md","ref":"vic_vsphere_admin/vic_env_variables.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_installer_examples.md","mtime":"2017-09-04T16:27:48.775Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-04T16:30:02.346Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

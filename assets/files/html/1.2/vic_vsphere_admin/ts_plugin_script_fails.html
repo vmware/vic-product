@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Pre-Upgrade Tasks · VMware vSphere Integrated Containers 1.2 Documentation</title>
+        <title>Plug-In Scripts Fail · VMware vSphere Integrated Containers 1.2 Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="upgrade_appliance.html" />
+    <link rel="next" href="ts_ui_not_appearing.html" />
     
     
-    <link rel="prev" href="upgrade_data.html" />
+    <link rel="prev" href="ts_datastore_access_error.html" />
     
 
     </head>
@@ -769,7 +769,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.1.6.2" data-path="pre_upgrade_tasks.html">
+        <li class="chapter " data-level="2.1.6.2" data-path="pre_upgrade_tasks.html">
             
                 <a href="pre_upgrade_tasks.html">
             
@@ -1034,7 +1034,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.9" data-path="ts_plugin_script_fails.html">
+        <li class="chapter active" data-level="2.1.8.9" data-path="ts_plugin_script_fails.html">
             
                 <a href="ts_plugin_script_fails.html">
             
@@ -1805,7 +1805,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Pre-Upgrade Tasks</a>
+        <a href=".." >Plug-In Scripts Fail</a>
     </h1>
 </div>
 
@@ -1820,32 +1820,14 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="tasks-to-perform-before-upgrading-the-vsphere-integrated-containers-appliance">Tasks to Perform Before Upgrading the vSphere Integrated Containers Appliance</h1>
-<p>To ensure a successful upgrade, you must perform several tasks before upgrading the vSphere Integrated Containers appliance. These pre-upgrade tasks are necessary due to differences in implementation between versions 1.1 and 1.2 of the vSphere Integrated Containers Registry and Management Portal, in particular the merging of the user interfaces and the transition to the Platform Services Controller for identity management.</p>
-<ul>
-<li><p>Make sure that the previous version of the vSphere Integrated Containers appliance allows SSH connections.</p>
-<ol>
-<li>Select the appliance VM in the Hosts and Clusters view of the vSphere client</li>
-<li>Select <strong>Edit Settings</strong> &gt; <strong>vApp Options</strong>.</li>
-<li>Expand <strong>Appliance Security</strong> and make sure that <strong>Permit Root Login</strong> is set to <code>True</code>.</li>
-<li>If <strong>Permit Root Login</strong> is set to <code>False</code>, power off the appliance VM, and edit the settings to enable it.</li>
-</ol>
-</li>
-<li>If the previous version of vSphere Integrated Containers Registry uses local database authentication for identity management, make a record of all of the users that exist in the database. These users cannot migrate to the Platform Services Controller, so you must recreate them after the upgrade.</li>
-<li>Obtain the user name and password for the embedded vSphere Integrated Containers Registry database.</li>
-<li><p>If the previous version of vSphere Integrated Containers Management Portal includes projects in <strong>Management</strong> &gt; <strong>Policies</strong> &gt; <strong>Placements</strong>, project names must respect certain rules for the upgrade to succeed. Project names can only include the following characters:</p>
-<ul>
-<li>Alpha-numeric characters </li>
-<li>Lower-case letters</li>
-<li>Periods, dashes, and underscores</li>
-<li><p>Maximum length of 254 characters </p>
-<p>If project names include upper-case characters or special characters other than periods, dashes, and underscores, or exceed 254 characters, you must edit them before you perform the upgrade. </p>
-</li>
-</ul>
-</li>
-<li>Ensure that all vCenter Server instances and ESXi hosts in the environment in which you are deploying the appliance have network time protocol (NTP) running. Running NTP prevents problems arising from clock skew between the vSphere Integrated Containers appliance, virtual container hosts, and the vSphere infrastructure.</li>
-<li>Back up the appliance by using your usual backup tools.</li>
-</ul>
+                                <h1 id="vsphere-client-plug-in-scripts-fail-with-no-error-message">vSphere Client Plug-In Scripts Fail with No Error Message</h1>
+<p>When you run the scripts to install or upgrade the vSphere Integrated Containers plug-ins for the vSphere Client, the operation fails immediately.</p>
+<h2 id="problem">Problem</h2>
+<p>Running the <code>install</code>, <code>uninstall</code>, or <code>upgrade</code> scripts fails immediately after you enter the password for vCenter Server. The output of the script is <code>Error! Could not register plugin with vCenter Server. Please see the message above</code>. However, there is no error message above.</p>
+<h2 id="cause">Cause</h2>
+<p>You have set the <code>VIC_MACHINE_THUMBPRINT</code> environment variable on the system on which you are running the script. The presence of the <code>VIC_MACHINE_THUMBPRINT</code> environment variable causes the script to skip the verification of the vCenter Server certificate thumbprint. This causes the script to fail.</p>
+<h2 id="solution">Solution</h2>
+<p>Delete the <code>VIC_MACHINE_THUMBPRINT</code> environment variable, or run the script on a different system.</p>
 
                                 
                                 </section>
@@ -1873,12 +1855,12 @@
 
             
                 
-                <a href="upgrade_data.html" class="navigation navigation-prev " aria-label="Previous page: Data Migration">
+                <a href="ts_datastore_access_error.html" class="navigation navigation-prev " aria-label="Previous page: No Single Host Can Access All Datastores">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="upgrade_appliance.html" class="navigation navigation-next " aria-label="Next page: Upgrade the Appliance">
+                <a href="ts_ui_not_appearing.html" class="navigation navigation-next " aria-label="Next page: Plug-In Does Not Appear">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1889,7 +1871,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Pre-Upgrade Tasks","level":"2.1.6.2","depth":3,"next":{"title":"Upgrade the Appliance","level":"2.1.6.3","depth":3,"path":"vic_vsphere_admin/upgrade_appliance.md","ref":"vic_vsphere_admin/upgrade_appliance.md","articles":[]},"previous":{"title":"Data Migration","level":"2.1.6.1","depth":3,"path":"vic_vsphere_admin/upgrade_data.md","ref":"vic_vsphere_admin/upgrade_data.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/pre_upgrade_tasks.md","mtime":"2017-09-04T16:27:48.725Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-04T16:30:02.346Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Plug-In Scripts Fail","level":"2.1.8.9","depth":3,"next":{"title":"Plug-In Does Not Appear","level":"2.1.8.10","depth":3,"path":"vic_vsphere_admin/ts_ui_not_appearing.md","ref":"vic_vsphere_admin/ts_ui_not_appearing.md","articles":[]},"previous":{"title":"No Single Host Can Access All Datastores","level":"2.1.8.8","depth":3,"path":"vic_vsphere_admin/ts_datastore_access_error.md","ref":"vic_vsphere_admin/ts_datastore_access_error.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/ts_plugin_script_fails.md","mtime":"2017-09-04T16:27:48.752Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-04T16:30:02.346Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
