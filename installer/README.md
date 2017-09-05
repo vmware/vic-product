@@ -22,8 +22,8 @@ in Fusion or Workstaion, both VMs should have either bridged or shared networkin
 
 The build machine must have `ovftool` and if using `build.sh` must have `gsutil`.
 
-`gsutil`: https://cloud.google.com/sdk/downloads
-`ovftool`: https://www.vmware.com/support/developer/ovf/
+- `gsutil`: https://cloud.google.com/sdk/downloads
+- `ovftool`: https://www.vmware.com/support/developer/ovf/
 
 Execute these commands on your ESX:
 ```
