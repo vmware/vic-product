@@ -10,9 +10,9 @@ You deployed the vSphere Integrated Containers appliance
 1. Connect to the vSphere Integrated Containers appliance by using SSH.
 2. Run one of the following commands to check the status of one of the vSphere Integrated Containers services:
 
-  - vSphere Integrated Containers Registry: `systemctl status harbor`
-  - vSphere Integrated Containers Management Portal services: `systemctl status admiral`
-  - Embedded file server: `systemctl status fileserver`
+  - vSphere Integrated Containers Registry: `systemctl status harbor.service`
+  - vSphere Integrated Containers Management Portal services: `systemctl status admiral.service`
+  - Embedded file server: `systemctl status fileserver.service`
 
 **Result**
 
