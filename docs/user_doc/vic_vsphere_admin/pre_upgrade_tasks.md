@@ -9,7 +9,6 @@ To ensure a successful upgrade, you must perform several tasks before upgrading 
   3. Expand **Appliance Security** and make sure that **Permit Root Login** is set to `True`.
   4. If **Permit Root Login** is set to `False`, power off the appliance VM, and edit the settings to enable it.
 - If the previous version of vSphere Integrated Containers Registry uses local database authentication for identity management, make a record of all of the users that exist in the database. These users cannot migrate to the Platform Services Controller, so you must recreate them after the upgrade.
-- Obtain the user name and password for the embedded vSphere Integrated Containers Registry database.
 - If the previous version of vSphere Integrated Containers Management Portal includes projects in **Management** > **Policies** > **Placements**, project names must respect certain rules for the upgrade to succeed. Project names can only include the following characters:
 
    - Alpha-numeric characters 
