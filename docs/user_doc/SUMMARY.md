@@ -81,6 +81,7 @@
      * [Some Users Cannot Access Services](vic_vsphere_admin/ts_no_access_to_vic_services.md)
      * [Deleting or Inspecting a VCH Fails](vic_vsphere_admin/ts_delete_inspect_error.md)
      * [Certificate Errors when Using Full TLS Authentication with Trusted Certificates](vic_vsphere_admin/ts_clock_skew.md)
+     * [Appliance VM Password Refused](vic_vsphere_admin/ts_appliance_password_refused.md)
   * [Security Reference](vic_vsphere_admin/security_reference.md)
 
 

@@ -15,3 +15,4 @@ This section provides solutions for common problems that you might encounter dur
 * [Some Users Cannot Access vSphere Integrated Containers Services](ts_no_access_to_vic_services.md)
 * [Deleting or Inspecting a VCH Fails with a Not a VCH or Resource Pool Not Found Error](ts_delete_inspect_error.md)
 * [Connections Fail with Certificate Errors when Using Full TLS Authentication with Trusted Certificates](ts_clock_skew.md)
+* [vSphere Integrated Containers Appliance VM Password Refused](ts_appliance_password_refused.md)
