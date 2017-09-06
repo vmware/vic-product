@@ -7,9 +7,11 @@ You can restart the vSphere Integrated Containers Registry and vSphere Integrate
 You deployed the vSphere Integrated Containers appliance.
 
 **Procedure**
+
 1. Connect to the vSphere Integrated Containers appliance by using SSH.
 2. Run one of the following commands to restart one of the vSphere Integrated Containers services:
 
   - vSphere Integrated Containers Registry: `systemctl restart harbor.service`
   - vSphere Integrated Containers Management Portal services: `systemctl restart admiral.service`
   - Embedded file server: `systemctl restart fileserver.service`
+  - Demo VCH Installer Wizard: `systemctl restart engine_installer.service`
