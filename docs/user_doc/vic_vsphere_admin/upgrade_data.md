@@ -18,7 +18,7 @@ To upgrade an older version of the appliance, you deploy a new appliance instanc
 
 |Type of data|Migrated?|More Information|
 |---|---|---|
-|System Configuration|Partially|After upgrade, the login token expiration period reverts to the default of 30 minutes. If you deselected the checkbox to verify remote registry certificates during replication, this setting persists after upgrade.|
+|System Configuration|Yes|If you changed the login token expiration period or deselected the checkbox to verify remote registry certificates during replication, these settings persist after upgrade.|
 |Email Settings|No|vSphere Integrated Containers 1.2.x does not implement email notifications.|
 |Projects|Yes|All existing projects migrate|
 |Replication endpoints and rules|No|Because registry addresses can change during the upgrade, and because you cannot replicate between registries of different versions, replication endpoints and rules do not migrate.|
