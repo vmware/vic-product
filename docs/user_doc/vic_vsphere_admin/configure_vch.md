@@ -245,7 +245,7 @@ To remove a proxy server from a VCH, set the `vic-machine configure --https-prox
 
 To enable or disable debug mode on a VCH, you use the `vic-machine configure --debug` option. You can also use `vic-machine configure --debug` to increase or decrease the level of debugging on a VCH that is already running in debug mode. 
 
-The `vic-machine configure --debug` option functions in the same way as the equivalent `vic-machine create --debug` option. For information about the `vic-machine create --debug` option, see [`--debug`](vch_installer_options.md#debug) in VCH Deployment Options. By default, `vic-machine create` deploys VCHs with debugging level 1.
+The `vic-machine configure --debug` option functions in the same way as the equivalent `vic-machine create --debug` option. For information about the `vic-machine create --debug` option, see [`--debug`](vch_installer_options.md#debug) in VCH Deployment Options. By default, `vic-machine create` deploys VCHs with debugging level 0.
 
 This example increases the level of debugging to level 3, either on a VCH that is running with a lower level of debugging, or on a VCH that is not running in debug mode.
 
