@@ -938,6 +938,8 @@ Short name: none
 
 Deploy the VCH appliance to a resource pool on vCenter Server rather than to a vApp. If you specify this option, `vic-machine create` creates a resource pool with the same name as the VCH.
 
+**NOTE**: If you specify both of the `--ops-user` and  `--use-rp` options when you create a VCH, you must specify an additional permission when you create the roles for the operations user. For information about operations user roles and permissions, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
+
 <pre>--use-rp</pre>
 
 
