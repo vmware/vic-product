@@ -71,6 +71,7 @@
      * [Access Log Bundles](vic_vsphere_admin/log_bundles.md)
      * [VCH Deployment Times Out](vic_vsphere_admin/ts_vch_deployment_timeout.md)
      * [Certificate Verification Error](vic_vsphere_admin/ts_thumbprint_error.md)
+     * [Browser Rejects Certificates](vic_vsphere_admin/ts_cert_error.md)
      * [Missing Common Name Error Even When TLS Options Are Specified Correctly](vic_vsphere_admin/ts_cli_argument_error.md)
      * [Firewall Validation Error](vic_vsphere_admin/ts_firewall_error.md)
      * [Certificate cname Mismatch](vic_vsphere_admin/ts_cname_mismatch.md)
@@ -82,13 +83,16 @@
      * [Deleting or Inspecting a VCH Fails](vic_vsphere_admin/ts_delete_inspect_error.md)
      * [Certificate Errors when Using Full TLS Authentication with Trusted Certificates](vic_vsphere_admin/ts_clock_skew.md)
      * [Appliance VM Password Refused](vic_vsphere_admin/ts_appliance_password_refused.md)
-  * [Security Reference](vic_vsphere_admin/security_reference.md)
-
+  * [Security](vic_vsphere_admin/security_reference.md)
+     * [Certificate Reference](vic_vsphere_admin/vic_cert_reference.md)
+     * [Obtain Appliance Certificates](vic_vsphere_admin/obtain_appliance_certs.md)
+     
 
 ----
 
 * [Configure and Manage](vic_cloud_admin/README.md)
-   * [Logging In to the Management Portal](vic_cloud_admin/logging_in_mp.md)
+   * [Logging in to the Management Portal](vic_cloud_admin/logging_in_mp.md)
+      * [Verify and Trust Certificates](vic_cloud_admin/trust_vic_certs.md)
    * [Configure System Settings](vic_cloud_admin/configure_system.md)
    * [Add Cloud Administrators](vic_cloud_admin/add_cloud_admins.md)
    * [Add Viewers, Developers, or DevOps Administrators to Projects](vic_cloud_admin/add_users.md)
