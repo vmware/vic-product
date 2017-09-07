@@ -74,7 +74,7 @@ When you deploy a VCH, a user account that you specify in `--ops-user` must have
 
     For information about how to create vSphere roles, see [vSphere Permissions and User Management Tasks](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-5372F580-5C23-4E9C-8A4E-EF1B4DD9033E.html) in the vSphere documentation. 
 
-    **NOTE**: If you specify both of the `--ops-user` and  `--use-rp` options when you create a VCH, you must also add the **Resource** &gt; **Add virtual machine** permission.
+    **NOTE**: If you specify both of the `--ops-user` and  `--use-rp` options when you create a VCH, you must also add the **Resource** &gt; **Add virtual machine** permission to the `VCH - endpoint` role.
 
 3. Go to **Networking**, create a network folder, and place the distributed virtual switches that the VCHs will use for the bridge network and any container networks into that folder.
 
