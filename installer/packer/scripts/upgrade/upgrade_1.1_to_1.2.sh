@@ -226,9 +226,22 @@ function migrateHarborData {
 function admiralImportData {
   checkHarborPSCToken
   set +e
-  /etc/vmware/harbor/admiral_import --admiralendpoint https://localhost:8282 --tokenfile ${harbor_psc_token_file} --projectsfile ${harbor_migration}/harbor_projects.json
+  /etc/vmware/harbor/admiral_import --admiralendpoint https://localhost:8282 --tokenfile ${harbor_psc_token_file} --projectsfile ${harbor_migration}/harbor_projects.json --mapprojectsfile ${harbor_migration}/harbor_map_projects.json
   if [ $? -ne 0 ]; then
     echo "Importing Harbor data to Admiral failed" | tee /dev/fd/3
+    exit 1
+  fi
+  set -e
+}
+
+function mapHarborProject {
+  set +e
+  local migrator_image="vmware/harbor-db-migrator:1.2"
+  local harbor_database="/data/harbor/database"
+
+  docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e MAPPROJECTFILE=/harbor_migration/harbor_map_projects.json -v ${harbor_migration}:/harbor_migration -v ${harbor_database}:/var/lib/mysql ${migrator_image} mapprojects
+  if [ $? -ne 0 ]; then
+    echo "Map Harbor data failed" | tee /dev/fd/3
     exit 1
   fi
   set -e
@@ -408,6 +421,10 @@ function upgradeHarbor {
   checkAdmiralRunning
   admiralImportData
   echo "[=] Finished importing project data into Admiral" | tee /dev/fd/3
+
+  echo "[=] Mapping project data into Harbor" | tee /dev/fd/3
+  mapHarborProject
+  echo "[=] Finished mapping project data into Harbor" | tee /dev/fd/3
 
   echo "Harbor upgrade complete" | tee /dev/fd/3
   # Set timestamp file
