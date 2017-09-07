@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Missing Common Name Error Even When TLS Options Are Specified Correctly · VMware vSphere Integrated Containers 1.2 Documentation</title>
+        <title>Obtain Appliance Certificates · VMware vSphere Integrated Containers 1.2 Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="ts_firewall_error.html" />
+    <link rel="next" href="../vic_cloud_admin/" />
     
     
-    <link rel="prev" href="ts_cert_error.html" />
+    <link rel="prev" href="vic_cert_reference.html" />
     
 
     </head>
@@ -982,7 +982,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.1.8.5" data-path="ts_cli_argument_error.html">
+        <li class="chapter " data-level="2.1.8.5" data-path="ts_cli_argument_error.html">
             
                 <a href="ts_cli_argument_error.html">
             
@@ -1157,7 +1157,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.9.2" data-path="obtain_appliance_certs.html">
+        <li class="chapter active" data-level="2.1.9.2" data-path="obtain_appliance_certs.html">
             
                 <a href="obtain_appliance_certs.html">
             
@@ -1895,7 +1895,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Missing Common Name Error Even When TLS Options Are Specified Correctly</a>
+        <a href=".." >Obtain Appliance Certificates</a>
     </h1>
 </div>
 
@@ -1910,49 +1910,32 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="vch-deployment-fails-with-missing-common-name-error-even-when-tls-options-are-specified-correctly">VCH Deployment Fails with Missing Common Name Error Even When TLS Options Are Specified Correctly</h1>
-<p>If you deploy a virtual container host (VCH) and you have specified one of the <code>vic-machine create --tls-cname</code>, <code>--no-tlsverify</code>, or <code>--no-tls</code> options, or you set a static IP address on the client network, the deployment fails with an error about the certificate Common Name being missing.</p>
-<h2 id="problem">Problem</h2>
-<p>Deployment fails during the validation of the configuration that you provided, even if you did specify a TLS option or you set a static IP address on the client network. For example: </p>
-<pre>$ vic-machine-windows create 
---target &apos;Administrator@vsphere.local:<i>password</i>&apos;@<i>vcenter_server</i> 
---bridge-network vic bridge --no-tls
-### Installing VCH ####
-[...]
-Common Name must be provided when generating certificates for client
-authentication:
-[...]
-Create cannot continue: unable to generate certificates
---------------------
-vic-machine-windows.exe failed: provide Common Name for server certificate</pre>
+                                <h1 id="obtain-the-thumbprints-and-ca-files-of-the-vsphere-integrated-containers-appliance-certificates">Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates</h1>
+<p>If you do not provide custom certificates during deployment, the OVA installer generates certificates for the vSphere Integrated Containers Management Portal and the vSphere Integrated Containers file server. These certificates authenticate connections to the Getting Started page, vSphere Integrated Containers Management Portal, and the vSphere Integrated Containers Engine bundle and vSphere Client plug-in downloads. If you deploy the appliance with automatically generated certificates, the certificates are self-signed by an automatically generated Certificate Authority (CA).</p>
+<p>The vSphere administrator obtains the thumbprints and CA files and passes them to other users who need to access the Getting Started page or the vSphere Integrated Containers Management Portal. </p>
+<p><strong>Procedure</strong></p>
+<ol>
+<li>Use SSH to connect to the vSphere Integrated Containers appliance as <code>root</code> user.<pre>$ ssh root@<i>vic_appliance_address</i></pre></li>
+<li><p>Use <code>openssl</code> to view the certificate fingerprint of the file server. </p>
+<p> The file server certificate authenticates access to the Getting Started page, including the downloads for the vSphere Integrated Containers Engine bundle and the vSphere Client plug-in. </p>
+ <pre>openssl x509 -in  /opt/vmware/fileserver/cert/server.crt -noout -sha1 -fingerprint</pre>
+</li>
+<li><p>Use <code>openssl</code> to view the certificate fingerprint of the management portal. </p>
+<p> The management portal certificate authenticates access to the vSphere Integrated Containers Management Portal. </p>
+ <pre>openssl x509 -in  /data/admiral/cert/server.crt -noout -sha1 -fingerprint</pre>
+</li>
+<li><p>Take a note of the two thumbprints and close the SSH session.</p>
+</li>
+<li><p>Use <code>scp</code> to copy the CA file for the file server to your local machine.</p>
+ <pre>scp root@<i>vic_appliance_address</i>:/opt/vmware/fileserver/cert/ca.crt <i>/path/on/local_machine/folder1</i></pre>
+</li>
+<li><p>Use <code>scp</code> to copy the CA file for the management portal to your local machine.</p>
+ <pre>scp root@<i>vic_appliance_address</i>:/data/admiral/cert/ca.crt <i>/path/on/local_machine/folder2</i></pre>
 
-<p>If you include a TLS option at the beginning of the <code>vic-machine create</code> command rather than the end, you see the following error: </p>
-<pre>$ vic-machine-windows create 
---target &apos;Administrator@vsphere.local:<i>password</i>&apos;@<i>vcenter_server</i> 
- --no-tls
---bridge-network vic bridge
-### Installing VCH ####
-[...]
-Unknown argument: bridge
---------------------
-vic-machine-windows.exe failed: invalid CLI arguments
-</pre>
-
-
-<h2 id="cause">Cause</h2>
-<p>String values that you provided for certain options contain spaces or special characters that you did not escape with quotations marks. The <code>vic-machine create</code> input validator validates the arguments that you provide only as far as the argument that includes the space or special character. If you specify the TLS option before the argument with the space or special character, <code>vic-machine create</code> throws the correct error message. However, if you specify the TLS option after the argument that includes the space or special character, the <code>vic-machine create</code> validator stops before it reaches the TLS option, and so throws the error about the missing Common Name.</p>
-<h2 id="solution">Solution</h2>
-<p>Wrap any arguments that contain spaces or special characters in single quotation marks (&apos;) on Mac OS and Linux and in double quotation marks (&quot;)  on Windows. </p>
-<p>Option arguments that might require quotation marks include the following:</p>
-<ul>
-<li>User names and passwords in <code>--target</code>, or in <code>--user</code> and <code>--password</code></li>
-<li>Datacenter names in <code>--target</code>.</li>
-<li>VCH names in <code>--name</code>.</li>
-<li>Datastore names and paths in <code>--image-store</code> and <code>--volume-store</code>.</li>
-<li>Network and port group names in all networking options.</li>
-<li>Cluster and resource pool names in <code>--compute-resource</code>.</li>
-<li>Folder names in the paths for <code>--tls-cert-path</code>, <code>--tls-server-cert</code>, <code>--tls-server-key</code>, <code>--appliance-iso</code>, and <code>--bootstrap-iso</code>.</li>
-</ul>
+<p>  Be sure to copy the two files to different locations, as they are both named <code>ca.crt</code>.</p>
+</li>
+</ol>
+<p>You can share the thumbprints and CA files with users who need to connect to the vSphere Integrated Containers Management Portal or downloads. For information about how to verify the thumbprints and trust  the CAs, see <a href="../vic_cloud_admin/trust_vic_certs.html">Verify and Trust vSphere Integrated Containers Appliance Certificates</a>.</p>
 
                                 
                                 </section>
@@ -1980,12 +1963,12 @@ vic-machine-windows.exe failed: invalid CLI arguments
 
             
                 
-                <a href="ts_cert_error.html" class="navigation navigation-prev " aria-label="Previous page: Browser Rejects Certificates">
+                <a href="vic_cert_reference.html" class="navigation navigation-prev " aria-label="Previous page: Certificate Reference">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="ts_firewall_error.html" class="navigation navigation-next " aria-label="Next page: Firewall Validation Error">
+                <a href="../vic_cloud_admin/" class="navigation navigation-next " aria-label="Next page: Configure and Manage">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1996,7 +1979,7 @@ vic-machine-windows.exe failed: invalid CLI arguments
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Missing Common Name Error Even When TLS Options Are Specified Correctly","level":"2.1.8.5","depth":3,"next":{"title":"Firewall Validation Error","level":"2.1.8.6","depth":3,"path":"vic_vsphere_admin/ts_firewall_error.md","ref":"vic_vsphere_admin/ts_firewall_error.md","articles":[]},"previous":{"title":"Browser Rejects Certificates","level":"2.1.8.4","depth":3,"path":"vic_vsphere_admin/ts_cert_error.md","ref":"vic_vsphere_admin/ts_cert_error.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/ts_cli_argument_error.md","mtime":"2017-09-07T08:42:58.259Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-07T08:48:07.557Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Obtain Appliance Certificates","level":"2.1.9.2","depth":3,"next":{"title":"Configure and Manage","level":"3.1","depth":1,"path":"vic_cloud_admin/README.md","ref":"vic_cloud_admin/README.md","articles":[{"title":"Logging in to the Management Portal","level":"3.1.1","depth":2,"path":"vic_cloud_admin/logging_in_mp.md","ref":"vic_cloud_admin/logging_in_mp.md","articles":[{"title":"Verify and Trust Certificates","level":"3.1.1.1","depth":3,"path":"vic_cloud_admin/trust_vic_certs.md","ref":"vic_cloud_admin/trust_vic_certs.md","articles":[]}]},{"title":"Configure System Settings","level":"3.1.2","depth":2,"path":"vic_cloud_admin/configure_system.md","ref":"vic_cloud_admin/configure_system.md","articles":[]},{"title":"Add Cloud Administrators","level":"3.1.3","depth":2,"path":"vic_cloud_admin/add_cloud_admins.md","ref":"vic_cloud_admin/add_cloud_admins.md","articles":[]},{"title":"Add Viewers, Developers, or DevOps Administrators to Projects","level":"3.1.4","depth":2,"path":"vic_cloud_admin/add_users.md","ref":"vic_cloud_admin/add_users.md","articles":[]},{"title":"View and Manage VCHs","level":"3.1.5","depth":2,"path":"vic_cloud_admin/vchs_and_mgmt_portal.md","ref":"vic_cloud_admin/vchs_and_mgmt_portal.md","articles":[{"title":"Add Hosts with No TLS Authentication to the Management Portal","level":"3.1.5.1","depth":3,"path":"vic_cloud_admin/add_vch_noTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_noTLS_in_portal.md","articles":[]},{"title":"Add Hosts with Server-Side TLS Authentication to the Management Portal","level":"3.1.5.2","depth":3,"path":"vic_cloud_admin/add_vch_serversideTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_serversideTLS_in_portal.md","articles":[]},{"title":"Add Hosts with Full TLS Authentication to the Management Portal","level":"3.1.5.3","depth":3,"path":"vic_cloud_admin/add_vch_fullTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_fullTLS_in_portal.md","articles":[]}]},{"title":"Add Registries","level":"3.1.6","depth":2,"path":"vic_cloud_admin/add_repos_in_portal.md","ref":"vic_cloud_admin/add_repos_in_portal.md","articles":[]},{"title":"Create a Project","level":"3.1.7","depth":2,"path":"vic_cloud_admin/create_projects.md","ref":"vic_cloud_admin/create_projects.md","articles":[{"title":"Manage Projects","level":"3.1.7.1","depth":3,"path":"vic_cloud_admin/manage_projects.md","ref":"vic_cloud_admin/manage_projects.md","articles":[]},{"title":"Access Project Logs","level":"3.1.7.2","depth":3,"path":"vic_cloud_admin/access_project_logs.md","ref":"vic_cloud_admin/access_project_logs.md","articles":[]},{"title":"Manage Repositories","level":"3.1.7.3","depth":3,"path":"vic_cloud_admin/manage_repository_registry.md","ref":"vic_cloud_admin/manage_repository_registry.md","articles":[]}]},{"title":"Replicating Images","level":"3.1.8","depth":2,"path":"vic_cloud_admin/replicating_images.md","ref":"vic_cloud_admin/replicating_images.md","articles":[{"title":"Create Replication Endpoints","level":"3.1.8.1","depth":3,"path":"vic_cloud_admin/create_replication_endpoints.md","ref":"vic_cloud_admin/create_replication_endpoints.md","articles":[]},{"title":"Create Replication Rules","level":"3.1.8.2","depth":3,"path":"vic_cloud_admin/create_replication_rules.md","ref":"vic_cloud_admin/create_replication_rules.md","articles":[]},{"title":"Manage Replication Endpoints","level":"3.1.8.3","depth":3,"path":"vic_cloud_admin/manage_replication_endpoints.md","ref":"vic_cloud_admin/manage_replication_endpoints.md","articles":[]}]},{"title":"Create and Manage Container Placements","level":"3.1.9","depth":2,"path":"vic_cloud_admin/creating_placements.md","ref":"vic_cloud_admin/creating_placements.md","articles":[]}]},"previous":{"title":"Certificate Reference","level":"2.1.9.1","depth":3,"path":"vic_vsphere_admin/vic_cert_reference.md","ref":"vic_vsphere_admin/vic_cert_reference.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/obtain_appliance_certs.md","mtime":"2017-09-07T08:42:58.230Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-07T08:48:07.557Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
