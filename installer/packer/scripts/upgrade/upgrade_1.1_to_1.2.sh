@@ -140,6 +140,21 @@ function configureHarborCfgUnset {
   fi
 }
 
+# Returns value from cfg given key to search for
+# Stored in cfg as key = value
+function readHarborCfgKey {
+  local cfg_key=$1
+  local  __resultvar=$2
+  local value
+  value=$(grep "^$cfg_key =" $cfg | cut -d'=' -f 2 | xargs)
+
+  if [ -z "$value" ]; then
+      echo "Key not found: $cfg_key"
+    else
+      eval "$__resultvar"="'$value'"
+    fi
+}
+
 # Add managed keyword to key if not already managed
 function configureHarborCfgManageKey {
   local cfg_key=$1
@@ -271,7 +286,7 @@ function performAdmiralUpgrade {
   # Copy psc-config.properties to /configs in container
   cp /etc/vmware/psc/admiral/psc-config.properties $new_admiral_data/configs
 
-  local new_admiral_xenon_opts="--publicUri=https://${APPLIANCE_IP}:8282/ --bindAddress=0.0.0.0 --port=-1 --authConfig=/configs/psc-config.properties --securePort=8282 --keyFile=/configs/server.key --certificateFile=/configs/server.crt --startMockHostAdapterInstance=false"
+  local new_admiral_xenon_opts="--publicUri=https://${new_admiral}/ --bindAddress=0.0.0.0 --port=-1 --authConfig=/configs/psc-config.properties --securePort=8282 --keyFile=/configs/server.key --certificateFile=/configs/server.crt --startMockHostAdapterInstance=false"
 
   # Start current Admiral
   docker create -p 8282:8282 \
@@ -342,6 +357,20 @@ function upgradeAdmiral {
 
   echo "Starting Admiral" | tee /dev/fd/3
   systemctl start admiral_startup.service
+  sleep 3
+}
+
+function updateAdmiralConfig {
+  echo "Updating Admiral configuration" | tee /dev/fd/3
+  curl \
+    -s --insecure \
+    -X PUT \
+    -H "x-xenon-auth-token: $(cat /etc/vmware/psc/admiral/tokens.properties)" \
+    -H 'cache-control: no-cache' \
+    -H 'content-type: application/json' \
+    -d "{ \"key\" : \"harbor.tab.url\", \"value\" : \"$(grep harbor.tab.url /data/admiral/configs/config.properties | cut -d'=' -f2)\" }" \
+    "https://${APPLIANCE_IP}:8282/config/props/harbor.tab.url" ; \
+  systemctl restart admiral.service
 }
 
 function upgradeHarbor {
@@ -439,6 +468,7 @@ function main {
     case $key in
       --dbpass)
         DB_PASSWORD="$2"
+        echo "--dbpass overriding stored password"
         shift # past argument
         ;;
       --dbuser)
@@ -469,7 +499,13 @@ function main {
   fi
 
   if [ -z "${DB_PASSWORD}" ]; then
-    echo "--dbpass not set"
+    echo "Getting password from harbor.cfg"
+    readHarborCfgKey db_password DB_PASSWORD
+  fi
+
+  # If DB_PASSWORD not set by cfg, exit
+  if [ -z "${DB_PASSWORD}" ]; then
+    echo "--dbpass not set and value not found in $cfg"
     exit 1
   fi
 
@@ -502,6 +538,7 @@ function main {
   echo "Finished preparing upgrade environment" | tee /dev/fd/3
 
   upgradeAdmiral
+  updateAdmiralConfig
   upgradeHarbor
 
   enableServicesStart

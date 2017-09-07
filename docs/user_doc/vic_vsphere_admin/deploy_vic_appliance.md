@@ -37,7 +37,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
     To use DHCP, leave the networking properties blank.
 
-    **IMPORTANT**: If you set a static IP address for the appliance, use spaces to separate DNS servers. Do not use comma separation for DNS servers.
+    **IMPORTANT**: If you set a static IP address for the appliance, use spaces to separate DNS servers. Do not use comma separation for DNS servers. 
 
 6. Expand **Registry Configuration** to configure the deployment of vSphere Integrated Containers Registry. 
 
@@ -48,21 +48,40 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 7. Expand **Management Portal Configuration** to configure the deployment of vSphere Integrated Containers Management Portal. 
 
     - In the **Management Portal Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Management Portal service.
-    - To use custom certificates to authenticate connections to vSphere Integrated Containers Management Portal, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates.
+    - To use custom certificates to authenticate connections to vSphere Integrated Containers Management Portal, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. 
+
+        **IMPORTANT**: vSphere Integrated Containers Management Portal does not support RSA format for TLS private keys. You must specify TLS private keys in PKCS8 format. Make sure there is no whitespace at the end of the key. To convert an RSA key to PKCS8 format, run the following command: <pre>$ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in <i>key_name</i>.pem -out <i>key_name</i>.pkcs8.pem</pre>
+
+    - Leave the text boxes blank to use auto-generated certificates.
 7. Expand **Fileserver Configuration** to configure the file server from which you download the vSphere Integrated Containers Engine binaries, and which publishes the plug-in packages for the vSphere Client. 
 
    - In the **Fileserver Port** text box, optionally change the port on which the vSphere Integrated Containers Engine file server runs.
-   - To use custom certificates to authenticate connections to the vSphere Integrated Containers Engine file server, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. Leave the text boxes blank to use auto-generated certificates.
+   - To use custom certificates to authenticate connections to the vSphere Integrated Containers Engine file server, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. The file server supports RSA format for TLS private keys. 
+   - Leave the text boxes blank to use auto-generated certificates.    
 
 7. Expand **Demo VCH Installer Wizard Configuration** to optionally change the port on which the interactive web installer for virtual container hosts (VCHs) runs.
+8. Expand **Configure Example Users** to configure ready-made vSphere Integrated Containers user accounts in the Platform Services Controller.
+    
+     You can use these accounts to test the different user personas that can access vSphere Integrated Containers Management Portal and Registry.
+
+    - Optionally uncheck the **Create Example Users** checkbox to disable the creation of example user accounts.
+    - In the **Username Prefix for Example Users** text box, optionally modify the prefix of the example user names from the default, `vic`. 
+    - In the **Password for Example Users** text boxes, optionally modify the password for the example user account from the default, `VicPro!23`.
 8. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
 9. When the deployment completes, power on the appliance VM.
 
     If you deployed the appliance so that it obtains its address via DHCP, go to the **Summary** tab for the appliance VM and note the address.
 
-10. Go to  http://<i>vic_appliance_address</i> and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance.
+10. (Optional) If you provided a static network configuration, view the network status of the appliance.
 
-    **IMPORTANT**: The installation process requires the single sign-on credentials to set up vSphere Integrated Containers Management Portal and Registry. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
+    1. In the **Summary** tab for the appliance VM, launch the VM console
+    2. In the VM console, press the right arrow key. 
+
+    The network status shows whether the network settings that you provided during the deployment match the settings with which the appliance is running. If there are mismatches, power off the appliance and select **Edit Settings** > **vApp Options** to correct the network settings.
+    
+11. In a browser, go to  http://<i>vic_appliance_address</i> and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance.
+
+    **IMPORTANT**: The installation process requires the single sign-on credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
 
 **Result**
 

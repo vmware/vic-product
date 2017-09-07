@@ -12,6 +12,7 @@ This topic provides instructions for deploying a virtual container host (VCH) to
   * You can use a nested ESXi host for this example
 * Verify that the ESXi host meets the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md).
 * Make sure that the correct firewall port is open on the ESXi host. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
+* Obtain the ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
 * Familiarize yourself with the vSphere Integrated Containers Engine binaries, as described in [Contents of the vSphere Integrated Containers Engine Binaries](contents_of_vic_binaries.md). 
 * Familiarize yourself with the options of the `vic-machine create` command described in [VCH Deployment Options](vch_installer_options.md).
 
@@ -29,7 +30,7 @@ This topic provides instructions for deploying a virtual container host (VCH) to
      --user root
      --password '<i>esxi_host_p@ssword</i>'
      --no-tlsverify
-     --force
+     --thumbprint <i>esxi_certificate_thumbprint</i>
      </pre>  
    - Windows:
       <pre>$ vic-machine-windows create
@@ -37,7 +38,7 @@ This topic provides instructions for deploying a virtual container host (VCH) to
      --user root
      --password "<i>esxi_host_p@ssword</i>"
      --no-tlsverify
-     --force
+     --thumbprint <i>esxi_certificate_thumbprint</i>
      </pre> 
    - Mac OS:
        <pre>$ vic-machine-darwin create
@@ -45,7 +46,7 @@ This topic provides instructions for deploying a virtual container host (VCH) to
      --user root
      --password '<i>esxi_host_p@ssword</i>'
      --no-tlsverify
-     --force
+     --thumbprint <i>esxi_certificate_thumbprint</i>
      </pre> 
 
 The `vic-machine create` command in this example specifies the minimum information required to deploy a VCH to an ESXi host:
@@ -53,7 +54,7 @@ The `vic-machine create` command in this example specifies the minimum informati
 - The address of the ESXi host on which to deploy the VCH, in the `--target` option. 
 - The ESXi host `root` user and password in the `--user` and `--password` options. 
 - Disables the verification of clients that connect to this VCH by specifying the `--no-tlsverify` option.
-- Disables the verification of the ESXi host certificate by specifying the `--force` option.
+- Specifies the thumbprint of the ESXi host certificate by specifying the `--thumbprint` option.
    
 Because the ESXi host only has only one datastore and uses the VM Network network, `vic-machine create` automatically detects and uses those resources. 
 

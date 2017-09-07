@@ -13,6 +13,8 @@ You can set environment variables for the following `vic-machine` options.
 
 **NOTE**: You cannot include the vSphere user name and password in the `VIC_MACHINE_TARGET` environment variable. You must either specify the user name and password in the `VIC_MACHINE_USER` and `VIC_MACHINE_PASSWORD` environment variables, or use the `--user` and `--password` options when you run `vic-machine`.
 
+For information about how to obtain the vCenter Server certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md). 
+
 When you run any of the different `vic-machine` commands, `vic-machine` checks whether environment variables are present in the system. If you have set any or all of the environment variables, `vic-machine` automatically uses the values from those environment variables. You only need to specify the additional `vic-machine` options.
 
 The following examples show some simplified `vic-machine` commands that you can run if you set all four environment variables.

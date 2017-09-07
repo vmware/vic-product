@@ -22,7 +22,7 @@
       "vmdk_name": "vic-disk",
       "type": "vmware-iso",
       "headless": false,
-      "disk_size": 8192,
+      "disk_size": 16384,
       "disk_additional_size": [ 51200 ],
       "disk_type_id": "thin",
       "guest_os_type": "other3xlinux-64",
@@ -67,7 +67,7 @@
       "vmdk_name": "system",
       "type": "vmware-iso",
       "headless": false,
-      "disk_size": 8192,
+      "disk_size": 16384,
       "disk_additional_size": [ 16384 ],
       "disk_type_id": 0,
       "guest_os_type": "other3xlinux-64",
@@ -353,6 +353,11 @@
       "type": "file",
       "source": "../fileserver/html",
       "destination": "/opt/vmware/fileserver"
+    },
+    {
+      "type": "file",
+      "source": "../fileserver/files/open_source_license.txt",
+      "destination": "/opt/vmware/fileserver/files/open_source_license.txt"
     },
     {
       "type": "shell",

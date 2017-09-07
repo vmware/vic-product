@@ -57,7 +57,9 @@ To update the certificate, provide the new certificate thumbprint to the VCH in 
     --id <i>vch_id</i>
     --thumbprint <i>new_certificate_thumbprint</i></pre>
 
-**NOTE**: If you run `vic-machine configure` with the `--force` option and you do not specify `--thumbprint`, `vic-machine` updates the thumbprint automatically.
+If you run `vic-machine configure` with the `--force` option and you do not specify `--thumbprint`, `vic-machine` updates the thumbprint automatically. 
+
+**CAUTION**: It is not recommended to use `--force` to automatically update thumbprints in production environments. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. For information about how to obtain the vCenter Server certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
 
 ## Add or Update Registry Server Certificates <a id="registries"></a>
 
@@ -241,9 +243,9 @@ To remove a proxy server from a VCH, set the `vic-machine configure --https-prox
 
 ## Configure Debug Mode  <a id="debug"></a>
 
-To enable or disable debug mode on a VCH, you use the `vic-machine configure --debug` option. You can also use `vic-machine configure --debug` to increase or decrease the level of debugging on a VCH that is already running in debug mode.
+To enable or disable debug mode on a VCH, you use the `vic-machine configure --debug` option. You can also use `vic-machine configure --debug` to increase or decrease the level of debugging on a VCH that is already running in debug mode. 
 
-The `vic-machine configure --debug` option functions in the same way as the equivalent `vic-machine create --debug` option. For information about the `vic-machine create --debug` option, see [`--debug`](vch_installer_options.md#debug) in VCH Deployment Options.
+The `vic-machine configure --debug` option functions in the same way as the equivalent `vic-machine create --debug` option. For information about the `vic-machine create --debug` option, see [`--debug`](vch_installer_options.md#debug) in VCH Deployment Options. By default, `vic-machine create` deploys VCHs with debugging level 1.
 
 This example increases the level of debugging to level 3, either on a VCH that is running with a lower level of debugging, or on a VCH that is not running in debug mode.
 
@@ -253,7 +255,7 @@ This example increases the level of debugging to level 3, either on a VCH that i
     --id <i>vch_id</i>
     --debug 3</pre>
 
-This example sets the `--debug` option to 0, to disable debug mode on a VCH that is already running at any level of debug mode.
+This example sets the `--debug` option to 0, to disable debug mode on a VCH. 
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>

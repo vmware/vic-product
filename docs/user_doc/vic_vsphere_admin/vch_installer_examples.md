@@ -23,9 +23,9 @@ This topic provides examples of the options of the `vic-machine create` command 
   - [Authorize Access to an Insecure Private Registry Server](#registry)
   - [Authorize Access to Secure Registries and vSphere Integrated Containers Registry](#secureregistry)
 
-For simplicity, these examples use the `--force` option to disable the verification of the vCenter Server certificate, so the `--thumbprint` option is not specified. Similarly, all examples that do not relate explicitly to certificate use specify the `--no-tls` option.
+For simplicity, all examples that do not relate explicitly to certificate use specify the `--no-tls` option.
 
-For detailed descriptions of all of the `vic-machine create` options, see [VCH Deployment Options](vch_installer_options.md).
+For detailed descriptions of all of the `vic-machine create` options, see [VCH Deployment Options](vch_installer_options.md). For information about how to obtain the certificate thumbprint before running `vic-machine`, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md). 
 
 **NOTE**: Wrap any option arguments that include spaces or special characters in quotes. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system.
 
@@ -66,7 +66,7 @@ This example deploys a VCH with the following configuration:
 --image-store datastore1
 --bridge-network vch1-bridge
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -86,7 +86,7 @@ This example deploys a VCH with the following configuration:
 --bridge-network vch1-bridge
 --compute-resource esxihost1.organization.company.com
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -105,7 +105,7 @@ This example deploys a VCH with the following configuration:
 --compute-resource 'rp 1'
 --image-store datastore1
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -125,7 +125,7 @@ This example deploys a VCH with the following configuration:
 --image-store datastore1
 --bridge-network vch1-bridge
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -137,7 +137,7 @@ If the name of the resource pool is not unique across all clusters, for example 
 --image-store datastore1
 --bridge-network vch1-bridge
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -162,7 +162,7 @@ This example deploys a VCH with the following configuration:
 --cpu-reservation 1024
 --cpu-shares low
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -198,7 +198,7 @@ This example deploys a VCH with the following configuration:
 --management-network 'network 1'
 --client-network 'network 2'
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -231,7 +231,7 @@ This example deploys a VCH with the following configuration:
 --client-network 'network 2'
 --client-network-ip 192.168.3.10/24
 --dns-server <i>dns_server_address</i>
---force
+--thumbprint <i>certificate_thumbprint</i>
 --name vch1
 </pre>
 
@@ -265,7 +265,7 @@ This example deploys a VCH with the following configuration:
 --container-network-ip-range vic-containers:192.168.100.0/24
 --container-network-firewall vic-containers:outbound
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -288,7 +288,7 @@ This example deploys a VCH with the following configuration:
 --bridge-network vch1-bridge
 --https-proxy https://<i>proxy_server_address</i>:<i>port</i>
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -316,7 +316,7 @@ This example deploys a VCH with the following configuration:
 --volume-store 'datastore 2'/volumes:volume_store_2
 --volume-store nfs://nfs_store/path/to/share/point:shared_volume
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -349,7 +349,7 @@ This example deploys a VCH with the following configuration:
 --bridge-network vch1-bridge
 --tls-cname *.example.org
 --tls-cert-path <i>path_to_cert_folder</i>
---force
+--thumbprint <i>certificate_thumbprint</i>
 --name vch1
 </pre>
 
@@ -375,7 +375,7 @@ This example deploys a VCH with the following configuration:
 --tls-server-cert ../some/relative/path/<i>certificate_file</i>.pem
 --tls-server-key ../some/relative/path/<i>key_file</i>.pem
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 </pre>
 
 For more information about using custom server certificates, see the section [Restrict Access to the Docker API with Custom Certificates](vch_installer_options.md#restrict_custom) in VCH Deployment Options.
@@ -399,7 +399,7 @@ This example deploys a VCH with the following configuration:
 --tls-server-key ../some/relative/path/<i>key_file</i>.pem
 --tls-cname <i>cname_from_server_cert</i>
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 </pre>
 
 ### Specify Different User Accounts for VCH Deployment and Operation <a id="ops-user"></a>
@@ -423,7 +423,7 @@ This example deploys a VCH with the following configuration:
 --name vch1
 --ops-user <i>vsphere_user</i>
 --ops-password <i>vsphere_user_password</i>
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 
@@ -453,7 +453,7 @@ This example deploys a VCH with the following configuration:
 --insecure-registry <i>registry_URL_1</i>
 --insecure-registry <i>registry_URL_2:5000</i>
 --name vch1
---force
+--thumbprint <i>certificate_thumbprint</i>
 --no-tls
 </pre>
 

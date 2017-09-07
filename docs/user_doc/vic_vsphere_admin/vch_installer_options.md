@@ -108,11 +108,15 @@ Short name: None
 
 The thumbprint of the vCenter Server or ESXi host certificate. Specify this option if your vSphere environment uses untrusted, self-signed certificates. If your vSphere environment uses trusted certificates that are signed by a known Certificate Authority (CA), you do not need to specify the `--thumbprint` option.
 
-**NOTE** If your vSphere environment uses untrusted, self-signed certificates, you can run `vic-machine create` without the `--thumbprint` option by using the `--force` option. However, running `vic-machine create` with the `--force` option rather than providing the certificate thumbprint is not recommended, because it permits man-in-the-middle attacks to go undetected.
+If you run `vic-machine` without the specifying the `--thumbprint` option and the operation fails, the resulting error message includes the certificate thumbprint. Always verify that the thumbprint in the error message is valid before attempting to run the command again.  
 
-To obtain the thumbprint of the vCenter Server or ESXi host certificate, run `vic-machine create` without the specifying the `--thumbprint` or `--force` options. The deployment of the VCH fails, but the resulting error message includes the required certificate thumbprint. You can copy the thumbprint from the error message and run vic-machine create again, including the `--thumbprint` option. 
+For information about how to obtain the certificate thumbprint either before running `vic-machine` or to verify a thumbprint from a `vic-machine` error message, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md). 
 
-**NOTE**: If you obtain the thumbprint by other means, use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
+You can bypass certificate thumbprint verification by specifying the `--force` option instead of `--thumbprint`. 
+
+**CAUTION**: It is not recommended to use `--force` to bypass thumbprint verification in production environments. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials.
+
+Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
 
 <pre>--thumbprint <i>certificate_thumbprint</i></pre>
 
@@ -543,7 +547,7 @@ Short name: `--mn`
 
 A port group that the VCH uses to communicate with vCenter Server and ESXi hosts. Container VMs use this network to communicate with the VCH. 
 
-**IMPORTANT**: Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network.
+**IMPORTANT**: Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network. Ideally, use separate networks for the management network and the container networks. The most secure setup is to make sure that VCHs can access vCenter Server and ESXi hosts directly over the management network, and that the management network has route entries for the subnets that contain both the target vCenter Server and the corresponding ESXi hosts. If the management network does not have route entries for the vCenter Server and ESXi host subnets, you must configure asymmetric routing. For more information about asymmetric routing, see the section on the [`--asymmetric-routes` option](#asymmetric-routes). 
 
 When you create a VCH, `vic-machine create` checks that the firewall on ESXi hosts allows connections to port 2377 from the management network of the VCH. If access to port 2377 on ESXi hosts is subject to IP address restrictions, and if those restrictions block access to the management network interface, `vic-machine create` fails with a firewall configuration error:
 <pre>Firewall configuration incorrect due to allowed IP restrictions on hosts: 
@@ -566,6 +570,17 @@ If not specified, the VCH uses the public network for management traffic. If you
 
 <pre>--management-network <i>port_group_name</i></pre>
 
+### `--asymmetric-routes` <a id="asymmetric-routes"></a>
+
+Short name: `--ar`
+
+Allows incoming connections from ESXi hosts to VCHs over the public network rather than over the management network. This option allows containers on bridge networks to indirectly access assets on the management or client networks via the public interface, if those assets are routable from the public network. If the management network does not have route entries for the vCenter Server and ESXi host subnets,  and you do not set `--asymmetric-routes`, containers that run without specifying `-d` remain in the starting state.
+
+In this scenario, use the `--asymmetric-routes` option to allow management traffic from ESXi hosts to the VCH to pass over the public network. By setting the `--asymmetric-routes` option, you set reverse path forwarding in the VCH endpoint VM to loose mode rather than the default strict mode. For information about reverse path forwarding and loose mode, see https://en.wikipedia.org/wiki/Reverse_path_forwarding.
+
+The `--asymmetric-routes` option takes no arguments. If you do not set `--asymmetric-routes`, all management traffic is routed over the management network.
+
+<pre>--asymmetric-routes</pre>
 
 ### `--container-network` <a id="container-network"></a>
 
@@ -635,9 +650,9 @@ Short name: `-f`
 
 Forces `vic-machine create` to ignore warnings and non-fatal errors and continue with the deployment of a VCH. Errors such as an incorrect compute resource still cause the deployment to fail.
 
-If your vSphere environment uses untrusted, self-signed certificates, you can use the `--force` option to deploy a VCH without providing the thumbprint of the vCenter Server or ESXi host in the `thumbprint` option. 
+If your vSphere environment uses untrusted, self-signed certificates, you can bypass certificate thumbprint verification by specifying the `--force` option instead of `--thumbprint`. 
 
-**IMPORTANT** Running `vic-machine create` with the `--force` option rather than providing the certificate thumbprint is not recommended, because it permits man-in-the-middle attacks to go undetected.
+**CAUTION**: It is not recommended to use `--force` to bypass thumbprint verification in production environments. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials.
 
 <pre>--force</pre>
 
@@ -787,6 +802,8 @@ The `--container-network-firewall` option allows you to set the following levels
 
 <pre>--container-network-firewall <i>port_group_name</i>:<i>trust_level</i></pre>
 
+If you do not set `--container-network-firewall`, the default level of trust is `published`. As a consequence, if you do not set `--container-network-firewall`, container developers must specify `-p 80` in `docker run` and `docker create` commands to publish port 80 on a container. In regular Docker, they do not need to specify `-p` to publish port 80.
+
 ## Configure VCHs to Use Proxy Servers <a id="proxy"></a>
 
 If access to the Internet or to your private image registries requires the use of a proxy server, you must configure a VCH to connect to the proxy server when you deploy it. The proxy is used only when pulling images, and not for any other purpose.
@@ -927,13 +944,14 @@ Deploy the VCH appliance to a resource pool on vCenter Server rather than to a v
 ### `--debug` <a id="debug"></a>
 Short name: `-v`
 
-Deploy the VCH with more verbose levels of logging, and optionally modify the behavior of `vic-machine` for troubleshooting purposes. Specifying the `--debug` option increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting the `--debug` option, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. If not specified, the `--debug` value is set to 0 and verbose logging is disabled.
+Deploy the VCH with more verbose levels of logging, and optionally modify the behavior of `vic-machine` for troubleshooting purposes. Specifying the `--debug` option increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting the `--debug` option, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. If not specified, the `--debug` value is set to 1 and verbose logging is enabled.
 
 **NOTE**: Do not confuse the `vic-machine create --debug` option with the `vic-machine debug` command, that enables access to the VCH endpoint VM. For information about `vic-machine debug`, see [Debugging the VCH](debug_vch.md). 
 
-When you specify `vic-machine create --debug`, you set a debugging level of 1, 2, or 3. Setting `--debug` to 2 or 3 changes the behavior of `vic-machine create` as well as increasing the level of verbosity of the logs:
+When you specify `vic-machine create --debug`, you set a debugging level of 0, 1, 2, or 3. Setting `--debug` to 2 or 3 changes the behavior of `vic-machine create` as well as increasing the level of verbosity of the logs:
 
-- `--debug 1` Provides extra verbosity in the logs, with no other changes to `vic-machine` behavior.
+- `--debug 0` Disables verbosity in the logs.
+- `--debug 1` Provides verbosity in the logs, with no other changes to `vic-machine` behavior. This is the default setting.
 - `--debug 2` Exposes servers on more interfaces, launches `pprof` in container VMs.
 - `--debug 3` Disables recovery logic and logs sensitive data. Disables the restart of failed components and prevents container VMs from shutting down. Logs environment details for user application, and collects application output in the log bundle. This is the maximum  supported debugging level.
 

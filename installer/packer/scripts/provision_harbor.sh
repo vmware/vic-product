@@ -49,6 +49,16 @@ harbor_containers_bundle=$(find /var/tmp -size +20M -type f -regextype sed -rege
 docker load -i "$harbor_containers_bundle"
 docker images
 
+# Load DCH into Harbor
+dch_image="vmware/dch-photon:1.13"
+dch_tag="dch-photon:1.13"
+docker pull $dch_image
+docker run -d --name dch-push -v /data/harbor/registry:/var/lib/registry -p 5000:5000 vmware/registry:2.6.2-photon
+docker tag $dch_image 127.0.0.1:5000/default-project/$dch_tag
+sleep 3
+docker push 127.0.0.1:5000/default-project/$dch_tag
+docker rm -f dch-push
+
 # Copy configuration data from tarball
 mkdir /etc/vmware/harbor
 cp -p /var/tmp/harbor/harbor.cfg /data/harbor
