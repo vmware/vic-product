@@ -969,7 +969,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.4" data-path="ts_cli_argument_error.html">
+        <li class="chapter " data-level="2.1.8.4" data-path="ts_cert_error.html">
+            
+                <a href="ts_cert_error.html">
+            
+                    
+                    Browser Rejects Certificates
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.5" data-path="ts_cli_argument_error.html">
             
                 <a href="ts_cli_argument_error.html">
             
@@ -982,7 +995,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.5" data-path="ts_firewall_error.html">
+        <li class="chapter " data-level="2.1.8.6" data-path="ts_firewall_error.html">
             
                 <a href="ts_firewall_error.html">
             
@@ -995,7 +1008,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.6" data-path="ts_cname_mismatch.html">
+        <li class="chapter " data-level="2.1.8.7" data-path="ts_cname_mismatch.html">
             
                 <a href="ts_cname_mismatch.html">
             
@@ -1008,7 +1021,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.7" data-path="ts_docker_api_check_error.html">
+        <li class="chapter " data-level="2.1.8.8" data-path="ts_docker_api_check_error.html">
             
                 <a href="ts_docker_api_check_error.html">
             
@@ -1021,7 +1034,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.8" data-path="ts_datastore_access_error.html">
+        <li class="chapter " data-level="2.1.8.9" data-path="ts_datastore_access_error.html">
             
                 <a href="ts_datastore_access_error.html">
             
@@ -1034,7 +1047,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.9" data-path="ts_plugin_script_fails.html">
+        <li class="chapter " data-level="2.1.8.10" data-path="ts_plugin_script_fails.html">
             
                 <a href="ts_plugin_script_fails.html">
             
@@ -1047,7 +1060,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.10" data-path="ts_ui_not_appearing.html">
+        <li class="chapter " data-level="2.1.8.11" data-path="ts_ui_not_appearing.html">
             
                 <a href="ts_ui_not_appearing.html">
             
@@ -1060,7 +1073,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.11" data-path="ts_delete_inspect_error.html">
+        <li class="chapter " data-level="2.1.8.12" data-path="ts_no_access_to_vic_services.html">
+            
+                <a href="ts_no_access_to_vic_services.html">
+            
+                    
+                    Some Users Cannot Access Services
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.13" data-path="ts_delete_inspect_error.html">
             
                 <a href="ts_delete_inspect_error.html">
             
@@ -1073,12 +1099,25 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.12" data-path="ts_clock_skew.html">
+        <li class="chapter " data-level="2.1.8.14" data-path="ts_clock_skew.html">
             
                 <a href="ts_clock_skew.html">
             
                     
                     Certificate Errors when Using Full TLS Authentication with Trusted Certificates
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8.15" data-path="ts_appliance_password_refused.html">
+            
+                <a href="ts_appliance_password_refused.html">
+            
+                    
+                    Appliance VM Password Refused
             
                 </a>
             
@@ -1096,11 +1135,43 @@
                 <a href="security_reference.html">
             
                     
-                    Security Reference
+                    Security
             
                 </a>
             
 
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.9.1" data-path="vic_cert_reference.html">
+            
+                <a href="vic_cert_reference.html">
+            
+                    
+                    Certificate Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.9.2" data-path="obtain_appliance_certs.html">
+            
+                <a href="obtain_appliance_certs.html">
+            
+                    
+                    Obtain Appliance Certificates
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -1135,11 +1206,30 @@
                 <a href="../vic_cloud_admin/logging_in_mp.html">
             
                     
-                    Logging In to the Management Portal
+                    Logging in to the Management Portal
             
                 </a>
             
 
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1.1" data-path="../vic_cloud_admin/trust_vic_certs.html">
+            
+                <a href="../vic_cloud_admin/trust_vic_certs.html">
+            
+                    
+                    Verify and Trust Certificates
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -2217,7 +2307,7 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 <h3 id="-management-network-"><code>--management-network</code> <a id="management-network"></a></h3>
 <p>Short name: <code>--mn</code></p>
 <p>A port group that the VCH uses to communicate with vCenter Server and ESXi hosts. Container VMs use this network to communicate with the VCH. </p>
-<p><strong>IMPORTANT</strong>: Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network.</p>
+<p><strong>IMPORTANT</strong>: Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network. Ideally, use separate networks for the management network and the container networks. The most secure setup is to make sure that VCHs can access vCenter Server and ESXi hosts directly over the management network, and that the management network has route entries for the subnets that contain both the target vCenter Server and the corresponding ESXi hosts. If the management network does not have route entries for the vCenter Server and ESXi host subnets, you must configure asymmetric routing. For more information about asymmetric routing, see the section on the <a href="#asymmetric-routes"><code>--asymmetric-routes</code> option</a>. </p>
 <p>When you create a VCH, <code>vic-machine create</code> checks that the firewall on ESXi hosts allows connections to port 2377 from the management network of the VCH. If access to port 2377 on ESXi hosts is subject to IP address restrictions, and if those restrictions block access to the management network interface, <code>vic-machine create</code> fails with a firewall configuration error:</p>
 <pre>Firewall configuration incorrect due to allowed IP restrictions on hosts: 
 &quot;/ha-datacenter/host/localhost.localdomain/localhost.localdomain&quot; 
@@ -2236,6 +2326,12 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 <p>If not specified, the VCH uses the public network for management traffic. If you specify an invalid port group name, <code>vic-machine create</code> fails and suggests valid port groups.</p>
 <pre>--management-network <i>port_group_name</i></pre>
 
+<h3 id="-asymmetric-routes-"><code>--asymmetric-routes</code> <a id="asymmetric-routes"></a></h3>
+<p>Short name: <code>--ar</code></p>
+<p>Allows incoming connections from ESXi hosts to VCHs over the public network rather than over the management network. This option allows containers on bridge networks to indirectly access assets on the management or client networks via the public interface, if those assets are routable from the public network. If the management network does not have route entries for the vCenter Server and ESXi host subnets,  and you do not set <code>--asymmetric-routes</code>, containers that run without specifying <code>-d</code> remain in the starting state.</p>
+<p>In this scenario, use the <code>--asymmetric-routes</code> option to allow management traffic from ESXi hosts to the VCH to pass over the public network. By setting the <code>--asymmetric-routes</code> option, you set reverse path forwarding in the VCH endpoint VM to loose mode rather than the default strict mode. For information about reverse path forwarding and loose mode, see <a href="https://en.wikipedia.org/wiki/Reverse_path_forwarding" target="_blank">https://en.wikipedia.org/wiki/Reverse_path_forwarding</a>.</p>
+<p>The <code>--asymmetric-routes</code> option takes no arguments. If you do not set <code>--asymmetric-routes</code>, all management traffic is routed over the management network.</p>
+<pre>--asymmetric-routes</pre>
 
 <h3 id="-container-network-"><code>--container-network</code> <a id="container-network"></a></h3>
 <p>Short name: <code>--cn</code></p>
@@ -2551,7 +2647,7 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"VCH Deployment Options","level":"2.1.4.7","depth":3,"next":{"title":"Set Environment Variables","level":"2.1.4.8","depth":3,"path":"vic_vsphere_admin/vic_env_variables.md","ref":"vic_vsphere_admin/vic_env_variables.md","articles":[]},"previous":{"title":"Verify the Deployment of a VCH","level":"2.1.4.6","depth":3,"path":"vic_vsphere_admin/verify_vch_deployment.md","ref":"vic_vsphere_admin/verify_vch_deployment.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_installer_options.md","mtime":"2017-09-04T16:27:48.777Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-04T16:30:02.346Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"VCH Deployment Options","level":"2.1.4.7","depth":3,"next":{"title":"Set Environment Variables","level":"2.1.4.8","depth":3,"path":"vic_vsphere_admin/vic_env_variables.md","ref":"vic_vsphere_admin/vic_env_variables.md","articles":[]},"previous":{"title":"Verify the Deployment of a VCH","level":"2.1.4.6","depth":3,"path":"vic_vsphere_admin/verify_vch_deployment.md","ref":"vic_vsphere_admin/verify_vch_deployment.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_installer_options.md","mtime":"2017-09-07T08:42:58.296Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-07T08:48:07.557Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
