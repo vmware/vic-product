@@ -22,6 +22,7 @@ This topic provides examples of the options of the `vic-machine create` command 
 - [Registry Server Examples](#regserv)
   - [Authorize Access to an Insecure Private Registry Server](#registry)
   - [Authorize Access to Secure Registries and vSphere Integrated Containers Registry](#secureregistry)
+  - [Authorize Access to a Whitelist of Registries](#whitelist)
 
 For simplicity, all examples that do not relate explicitly to certificate use specify the `--no-tls` option.
 
@@ -457,8 +458,39 @@ This example deploys a VCH with the following configuration:
 --no-tls
 </pre>
 
-For more information about configuring VCHs to allow connections to insecure private registry servers, see the section on the [`insecure-registry` option](vch_installer_options.md#insecure-registry) in VCH Deployment Options.
+For more information about configuring VCHs to allow connections to insecure private registry servers, see the section on the [`--insecure-registry` option](vch_installer_options.md#insecure-registry) in VCH Deployment Options.
 
 ### Authorize Access to Secure Registries and vSphere Integrated Containers Registry <a id="secureregistry"></a>
 
 For an example of how to use `--registry-ca` to authorize access to vSphere Integrated Containers Registry or to another secure registry, see [Deploy a VCH for Use with vSphere Integrated Containers Registry](deploy_vch_registry.md).
+
+### Authorize Access to a Whitelist of Registries <a id="whitelist"></a>
+
+To restrict the registries to which a VCH allows access, set the `--whitelist-registry` option. You can specify `--whitelist-registry` multiple times to add multiple registries to the whitelist. You use `--whitelist-registry` in combination with the `--registry-ca`  and `--insecure-registry` options.
+
+This example deploys a VCH with the following configuration:
+
+- Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
+- Adds to the whitelist:
+      - The single registry instance running at 10.2.40.40:443
+      - All registries running in the range 10.2.2.1/24 
+      - All registries in the domain *.mycompany.com
+- Provides the CA certificate for the registry instance 10.2.40.40:443.
+- Adds a single instance of an insecure registry to the whitelist by specifying `--insecure-registry`.
+
+<pre>vic-machine-<i>operating_system</i> create
+--target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
+--compute-resource cluster1
+--image-store datastore1
+--bridge-network vch1-bridge
+--whitelist-registry="10.2.40.40:443" 
+--whitelist-registry=10.2.2.1/24 
+--whitelist-registry=*.mycompany.com 
+--registry-ca=/home/admin/mycerts/ca.crt
+--insecure-registry=192.168.100.207  
+--name vch1
+--thumbprint <i>certificate_thumbprint</i>
+--no-tls
+</pre>
+
+For more information about configuring VCHs to allow connections to a whitelist of registries, see the section on the [`--whitelist-registry` option](vch_installer_options.md#whitelist-registry) in VCH Deployment Options.

@@ -14,9 +14,10 @@ If you did not provide a custom server certificate and private key for the regis
 
 1. Obtain the CA certificate of the registry instance or instances to use with this VCH.
 
-   - If you deployed the registry with custom certificates, obtain the certificate from your certificate manager. 
-   - If you deployed the registry with auto-generated certificates, log in to the vSphere Integrated Containers Management Portal as `admin` user, click the **admin** drop-down menu and click **Download Root Cert**.
-   - You can also obtain the certificate by using SCP to copy the certificate file from `/data/harbor/cert` in the vSphere Integrated Containers appliance VM.<pre>scp root@<i>vic_appliance_address</i>:/data/harbor/cert/ca.crt ./<i>destination_path</i></pre>
+      1. Log in to the vSphere Integrated Containers Management Portal with a vSphere administrator, Cloud Admin or DevOps admin user account, go to **Administration** > **Configuration**, and click the link to download the **Registry Root Cert**.
+
+         vSphere administrator accounts for the Platform Service Controller with which vSphere Integrated Containers is registered are automatically granted Cloud Admin access.
+  
 2. Use `vic-machine create` to deploy a VCH, specifying the registry's CA certificate by using the [`--registry-ca`](vch_installer_options.md#registry-ca) option. 
 
     You can configure the VCH to connect to multiple registries by specifying `--registry-ca` multiple times.
@@ -30,6 +31,18 @@ If you did not provide a custom server certificate and private key for the regis
 --thumbprint <i>vcenter_server_certificate_thumbprint</i>
 --no-tlsverify
 --registry-ca=<i>cert_path</i>/ca.crt
+</pre>
+
+    Optionally, you can use the `--whitelist-registry` option to limit this VCH so that it can only access registries in your company's domain.<pre>vic-machine-<i>operating_system</i> create
+--target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
+--compute-resource cluster1
+--image-store datastore1
+--bridge-network vch1-bridge
+--name vch_registry
+--thumbprint <i>vcenter_server_certificate_thumbprint</i>
+--no-tlsverify
+--registry-ca=<i>cert_path</i>/ca.crt
+--whitelist-registry *.mycompany.com
 </pre>
      
 
