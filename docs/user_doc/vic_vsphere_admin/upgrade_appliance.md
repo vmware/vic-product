@@ -11,7 +11,8 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
 
     **IMPORTANT:** When the OVA deployment finishes, do not power on the new appliance. Attempting to perform the upgrade procedure on a new appliance that you have already powered on and initialized causes vSphere Integrated Containers Management Portal and Registry not to function correctly and might result in data loss. 
 
-- Log in to a vSphere Client instance from which you can access both versions of the vSphere Integrated Containers appliance.
+- You can only deploy one vSphere Integrated Containers appliance per vCenter Server instance. However, when upgrading, you should deploy the appliance to the same vCenter Server instance as the one on which the previous version is running.
+- Log in to the vSphere Client for the vCenter Server instance on which the previous version is running and on which you deployed the new version.
 
 **Procedure**
 
