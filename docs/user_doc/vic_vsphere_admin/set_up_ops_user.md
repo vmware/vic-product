@@ -14,6 +14,9 @@ After deployment, a VCH must have permission to perform the following operations
 
 When you deploy a VCH, a user account that you specify in `--ops-user` must have the correct privileges to allow the VCH to perform these operations. vSphere Integrated Containers Engine does not currently create the required roles, so to assign privileges to the `--ops-user` user account, you must manually create user roles in vSphere before you deploy the VCH. You assign  privileges to those roles, and assign the roles to the user account to use in `--ops-user`. 
 
+- For information about how to create vSphere roles, see [vSphere Permissions and User Management Tasks](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-5372F580-5C23-4E9C-8A4E-EF1B4DD9033E.html) in the vSphere documentation. 
+- For information about how to assign permissions to objects in the vSphere Inventory, see [Add a Permission to an Inventory Object](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-A0F6D9C2-CE72-4FE5-BAFC-309CFC519EC8.html) in the vSphere documentation.
+
 **Procedure**
 
 1. In the vSphere Web Client, create a user group, for example `VIC Ops Users`, and add the appropriate user accounts to the user group.
@@ -53,6 +56,7 @@ When you deploy a VCH, a user account that you specify in `--ops-user` must have
 <td><p>dvPort group &gt; Modify<br>
   dvPort group &gt; Policy operation<br>
   dvPort group &gt; Scope operation<br>
+  Resource &gt; Add virtual machine *<br>
   vApp &gt; Add virtual machine<br>
   VirtualMachine &gt; Configuration &gt; Add existing disk<br>
   VirtualMachine &gt; Configuration &gt; Add new disk<br>
@@ -72,9 +76,7 @@ When you deploy a VCH, a user account that you specify in `--ops-user` must have
   </td>
 </tr></tbody></table>
 
-    For information about how to create vSphere roles, see [vSphere Permissions and User Management Tasks](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-5372F580-5C23-4E9C-8A4E-EF1B4DD9033E.html) in the vSphere documentation. 
-
-    **NOTE**: If you specify both of the `--ops-user` and  `--use-rp` options when you create a VCH, you must also add the **Resource** &gt; **Add virtual machine** permission to the `VCH - endpoint` role.
+    &#42; If you use both of the `--ops-user` and  `--use-rp` options when you create a VCH, you must include the **Resource** &gt; **Add virtual machine** permission in the `VCH - endpoint` role. The **vApp** &gt; **Add virtual machine** permission is not required if you deploy the VCH with the `--use-rp` option. 
 
 3. Go to **Networking**, create a network folder, and place the distributed virtual switches that the VCHs will use for the bridge network and any container networks into that folder.
 
@@ -140,8 +142,6 @@ When you deploy a VCH, a user account that you specify in `--ops-user` must have
 <td><code>VCH - endpoint</code></td>
 <td>Yes</td>
 </tr></tbody></table>
-
-    For information about how to assign permissions to objects in the vSphere Inventory, see [Add a Permission to an Inventory Object](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-A0F6D9C2-CE72-4FE5-BAFC-309CFC519EC8.html) in the vSphere documentation.
 
 **What to do next**
 
