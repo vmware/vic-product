@@ -34,15 +34,15 @@ function register {
   for client in "${clients[@]}"; do
     set +e
     java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar \
-    --command=register \
-    --version=6.0 \
-    --configDir=/etc/vmware/psc \
-    --clientName="${client}" \
-    --tenant="${TENANT}" \
-    --username="${VCENTER_USERNAME}" \
-    --password="${VCENTER_PASSWORD}" \
-    --domainController="${DOMAIN_CONTROLLER}" \
-    --admiralUrl="${ADMIRAL_URL}"
+      --command=register \
+      --version=6.0 \
+      --configDir=/etc/vmware/psc \
+      --clientName="${client}" \
+      --tenant="${TENANT}" \
+      --username="${VCENTER_USERNAME}" \
+      --password="${VCENTER_PASSWORD}" \
+      --domainController="${DOMAIN_CONTROLLER}" \
+      --admiralUrl="${ADMIRAL_URL}"
     if [ $? -ne 0 ]; then
       echo "Fatal error: Failed register ${client}." | tee /dev/fd/3
       exit 1
