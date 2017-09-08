@@ -231,7 +231,7 @@ vSphere Integrated Containers features four roles for user access. The viewer ro
 **Viewer**
 
 Role assigned per project.
-- If assigned, has only view access to the deployed containers, templates, and available resources for a project.
+- If assigned, has only view access to the repositories for a project.
 
 **Developer**
 
