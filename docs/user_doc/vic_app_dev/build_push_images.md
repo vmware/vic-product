@@ -1,11 +1,13 @@
-# Building and Pushing Images with vSphere Integrated Containers
+# Using `dch-photon` to Build and Push Images
 
 The current version of vSphere Integrated Containers Engine does not support `docker build` or `docker push`. As a consequence, the workflow for developing container images and pushing them to a registry server is slightly different to the workflow in a regular Docker environment.
 
-- You use standard Docker to build, tag, and push a container image to a registry. 
+- You use standard Docker to build, tag, and push a container image to a registry.
 - You pull the image from the registry to a vSphere Integrated Containers virtual container host (VCH) to use it.
 
-This topic provides an example of pushing and pulling an image to and from vSphere Integrated Containers Registry. You can use a different private registry server. For simplicity, the example uses the `busybox` container image instead of building a new image. 
+ This release of vSphere Integrated Containers includes an image repository named `dch-photon`, that is pre-loaded in the `default-project` in vSphere Integrated Containers Registry. The `dch-photon` image allows you to deploy containers that run a standard Docker engine in a Photon OS container. You can then use this Docker engine to perform `docker build` or `docker push` operations.
+
+This topic provides an example of using `dch-photon` to push an image to vSphere Integrated Containers Registry and then pull it into a VCH. For simplicity, the example uses the `busybox` container image instead of building a new image. 
 
 **Prerequisites**
 - You have access to an image repository. For example, a project repository must exist in vSphere Integrated Containers Registry and you must have a user account that can access that project repository.
