@@ -70,10 +70,9 @@ required values:
 }
 
 function main {
-  while [[ $# -gt 1 ]]
+  while [[ $# -gt 0 ]]
   do
     key="$1"
-
     case $key in
       --username)
         VCENTER_USERNAME="$2"
@@ -120,7 +119,7 @@ function main {
   fi
 
   if [ -z "${TENANT}" ] ; then
-    read -p "Enter user domain: " TENANT
+    read -p "Enter SSO domain: " TENANT
   fi
 
   if [ -z "${DOMAIN_CONTROLLER}" ] || [ -z "${VCENTER_USERNAME}" ] ||
