@@ -16,6 +16,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
    - 8GB RAM
    - 80GB free disk space on the datastore
 - Ensure that all vCenter Server instances and ESXi hosts in the environment in which you are deploying the appliance have network time protocol (NTP) running. Running NTP prevents problems arising from clock skew between the vSphere Integrated Containers appliance, virtual container hosts, and the vSphere infrastructure.
+- **IMPORTANT**: If you intend to use a custom certificates, vSphere Integrated Containers Management Portal requires the TLS private key to be supplied as a PEM-encoded PKCS#8-formatted file. For information about how to convert keys to the correct format, see [Converting Keys for Use with vSphere Integrated Containers Management Portal](vic_cert_reference.md#convertkeys).
 
 **Procedure**
 
@@ -50,7 +51,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
     - In the **Management Portal Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Management Portal service.
     - To use custom certificates to authenticate connections to vSphere Integrated Containers Management Portal, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. 
 
-        **IMPORTANT**: vSphere Integrated Containers Management Portal does not support RSA format for TLS private keys. You must specify TLS private keys in PKCS8 format. For information about how to convert RSA certificates to PKCS8, see [vSphere Integrated Containers Certificate Reference](vic_cert_reference.md#convertcerts). 
+        **IMPORTANT**: Provide the TLS private key as a PEM-encoded PKCS#8-formatted file.
 
     - Leave the text boxes blank to use auto-generated certificates.
 7. Expand **Fileserver Configuration** to configure the file server from which you download the vSphere Integrated Containers Engine binaries, and which publishes the plug-in packages for the vSphere Client. 
