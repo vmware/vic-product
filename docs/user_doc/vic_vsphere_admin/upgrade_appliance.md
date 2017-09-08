@@ -60,7 +60,7 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
 
 **What to Do Next**
 
-- If, in the previous version, you configured vSphere Integrated Containers Registry instances as replication endpoints, upgrade those registry instances.
+- If, in the previous version, you configured vSphere Integrated Containers Registry instances as replication endpoints, upgrade those registry instances. Replication of images from the 1.2.x registry instance to the 1.1.x replication endpoint still functions, but it is recommended that you upgrade the target registry.
 - Add users to the upgraded vSphere Integrated Containers instance. For information about users in this version of vSphere Integrated Containers, see the following topics:
 
   - [User Authentication](../vic_overview/introduction.md#authentication)
