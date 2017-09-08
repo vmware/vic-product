@@ -2,11 +2,10 @@
 
 To use vSphere Integrated Containers Engine with vSphere Integrated Containers Registry, you must obtain the registry certificate and pass it to a virtual container host (VCH) when you create that VCH.
 
-If you did not provide a custom server certificate and private key for the registry to the OVA installer when you deployed the vSphere Integrated Containers appliance, vSphere Integrated Containers Registry auto-generates a Certificate Authority (CA) certificate, a server certificate, and a server private key. You can download the auto-generated CA certificates from the vSphere Integrated Containers Management Portal.
+When you deployed the vSphere Integrated Containers appliance, vSphere Integrated Containers Registry auto-generated a Certificate Authority (CA) certificate. You can download the registry CA certificate from the vSphere Integrated Containers Management Portal.
 
 **Prerequisites**
 
-- You selected the option to deploy vSphere Integrated Containers Registry when you deployed the vSphere Integrated Containers appliance.
 - You downloaded the vSphere Integrated Containers Engine bundle from  http://<i>vic_appliance_address</i>.
 - Obtain the vCenter Server or ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
 
