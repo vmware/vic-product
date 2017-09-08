@@ -451,13 +451,12 @@ If you specify an invalid vSphere datastore name or an invalid NFS share point U
     <pre>nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
 - You can specify the `volume-store` option multiple times, to create multiple volume stores for the VCH.
 
-
-    You can also specify the URL, UID, GID, and access protocol of a shared NFS mount point when you specify an NFS share point.
+- You can also specify the URL, UID, GID, and access protocol of a shared NFS mount point when you specify an NFS share point.
     <pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&gid=5678&proto=tcp:<i>nfs_volume_store_label</i></pre>
 
-    If you do not specify a UID and GID, vSphere Integrated Containers Engine uses te `anon` UID and GID when creating and interacting with the volume store. The `anon` UID and GID is 1000.    
+- If you do not specify a UID and GID, vSphere Integrated Containers Engine uses the `anon` UID and GID when creating and interacting with the volume store. The `anon` UID and GID is 1000.    
 
-    You cannot specify the root folder of an NFS server as a volume store. 
+-  You cannot specify the root folder of an NFS server as a volume store. 
     
 - If you only require one volume store, set the volume store label to `default`. If you set the volume store label to `default`, container developers do not need to specify the <code>--opt VolumeStore=<i>volume_store_label</i></code> option when they run `docker volume create`. 
 
