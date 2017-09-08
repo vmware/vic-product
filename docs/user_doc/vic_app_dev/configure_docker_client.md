@@ -74,7 +74,7 @@ This example configures a Linux Docker client so that you can log into vSphere I
 2. Switch to `sudo` user.<pre>$ sudo su</pre>
 2. Create a subfolder in the Docker certificates folder, using the registry's IP address as the folder name.<pre>$ mkdir -p /etc/docker/certs.d/<i>registry_ip</i></pre>
 3. Copy the registry's CA certificate into the folder.<pre>$ cp ca.crt /etc/docker/certs.d/<i>registry_ip</i>/</pre>
-6. Open a new terminal and attempt to log in to the registry server, specifying the IP address of the registry server.<pre>$ docker login <i>registry_ip</pre>
+6. Open a new terminal and attempt to log in to the registry server, specifying the IP address of the registry server.<pre>$ docker login <i>registry_ip</i></pre>
 7. If the login fails with a certificate error, restart the Docker daemon.<pre>$ sudo systemctl daemon-reload</pre> <pre>$ sudo systemctl restart docker</pre>
 
 ### Docker on Windows ###
