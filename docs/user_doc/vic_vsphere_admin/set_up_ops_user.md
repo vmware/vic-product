@@ -14,17 +14,20 @@ After deployment, a VCH must have permission to perform the following operations
 
 When you deploy a VCH, a user account that you specify in `--ops-user` must have the correct privileges to allow the VCH to perform these operations. vSphere Integrated Containers Engine does not currently create the required roles, so to assign privileges to the `--ops-user` user account, you must manually create user roles in vSphere before you deploy the VCH. You assign  privileges to those roles, and assign the roles to the user account to use in `--ops-user`. 
 
+- For information about how to create vSphere roles, see [vSphere Permissions and User Management Tasks](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-5372F580-5C23-4E9C-8A4E-EF1B4DD9033E.html) in the vSphere documentation. 
+- For information about how to assign permissions to objects in the vSphere Inventory, see [Add a Permission to an Inventory Object](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-A0F6D9C2-CE72-4FE5-BAFC-309CFC519EC8.html) in the vSphere documentation.
+
 **Procedure**
 
 1. In the vSphere Web Client, create a user group, for example `VIC Ops Users`, and add the appropriate user accounts to the user group.
 
-   The best practice when assigning roles in vSphere is to assign the roles to user groups and then to add users to those groups, rather than assigning roles to the users directly.
+    The best practice when assigning roles in vSphere is to assign the roles to user groups and then to add users to those groups, rather than assigning roles to the users directly.
 
 2. Go to **Administration** > **Roles** and create one role for each type of inventory object that VCHs need to access.
 
-   It is possible to create a single role, but by creating multiple roles you keep the privileges of the VCH as granular as possible.
+    It is possible to create a single role, but by creating multiple roles you keep the privileges of the VCH as granular as possible.
 
-   <table>
+    <table>
 <thead>
 <tr>
 <th><strong>Role to Create</strong></th>
@@ -53,6 +56,7 @@ When you deploy a VCH, a user account that you specify in `--ops-user` must have
 <td><p>dvPort group &gt; Modify<br>
   dvPort group &gt; Policy operation<br>
   dvPort group &gt; Scope operation<br>
+  Resource &gt; Add virtual machine *<br>
   vApp &gt; Add virtual machine<br>
   VirtualMachine &gt; Configuration &gt; Add existing disk<br>
   VirtualMachine &gt; Configuration &gt; Add new disk<br>
@@ -72,19 +76,19 @@ When you deploy a VCH, a user account that you specify in `--ops-user` must have
   </td>
 </tr></tbody></table>
 
-   For information about how to create vSphere roles, see [vSphere Permissions and User Management Tasks](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-5372F580-5C23-4E9C-8A4E-EF1B4DD9033E.html) in the vSphere documentation. 
+    &#42; If you use both of the `--ops-user` and  `--use-rp` options when you create a VCH, you must include the **Resource** &gt; **Add virtual machine** permission in the `VCH - endpoint` role. The **vApp** &gt; **Add virtual machine** permission is not required if you deploy the VCH with the `--use-rp` option. 
 
 3. Go to **Networking**, create a network folder, and place the distributed virtual switches that the VCHs will use for the bridge network and any container networks into that folder.
 
-   The parent object of distributed virtual switches that the VCH uses  as the bridge network and container networks must be set to `Read-Only`, with **Propagate to Children** enabled. By placing distributed virtual switches in a network folder, you avoid setting an entire datacenter to `Read-Only`. This restriction only applies to the bridge network and container networks. When you specify the `vic-machine create --bridge-network` and `--container-network` options, include the full inventory path to the networks in the following format:<pre><i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i></pre>
+    The parent object of distributed virtual switches that the VCH uses  as the bridge network and container networks must be set to `Read-Only`, with **Propagate to Children** enabled. By placing distributed virtual switches in a network folder, you avoid setting an entire datacenter to `Read-Only`. This restriction only applies to the bridge network and container networks. When you specify the `vic-machine create --bridge-network` and `--container-network` options, include the full inventory path to the networks in the following format:<pre><i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i></pre>
 
 2. (Optional) Go to **Hosts and Clusters** and create a resource pool in which to deploy VCHs.
 
-   By creating a resource pool for VCHs, you can set the correct permissions on just that resource pool rather than on an entire host or cluster. You specify this resource pool in the `vic-machine create --compute-resource` option when you deploy the VCH. For a more granular application of privileges, you can also apply the permissions directly to VCH vApps after deployment, rather than to a resource pool.
+    By creating a resource pool for VCHs, you can set the correct permissions on just that resource pool rather than on an entire host or cluster. You specify this resource pool in the `vic-machine create --compute-resource` option when you deploy the VCH. For a more granular application of privileges, you can also apply the permissions directly to VCH vApps after deployment, rather than to a resource pool.
 
 5. In each of the **Hosts and Clusters**, **Storage**, and **Networking** views, select inventory objects and assign the user group and the appropriate role to each one.
 
-   <table>
+    <table>
 <thead>
 <tr>
 <th>Inventory Object</th>
@@ -138,8 +142,6 @@ When you deploy a VCH, a user account that you specify in `--ops-user` must have
 <td><code>VCH - endpoint</code></td>
 <td>Yes</td>
 </tr></tbody></table>
-
-   For information about how to assign permissions to objects in the vSphere Inventory, see [Add a Permission to an Inventory Object](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.security.doc/GUID-A0F6D9C2-CE72-4FE5-BAFC-309CFC519EC8.html) in the vSphere documentation.
 
 **What to do next**
 
