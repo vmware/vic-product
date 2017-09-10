@@ -44,6 +44,7 @@ type EngineInstallerConfigOptions struct {
 type EngineInstaller struct {
 	loginInfo       lib.LoginInfo
 	BridgeNetwork   string `json:"bridge-net"`
+	BridgeNetworkRange   string `json:"bridge-net-range"`
 	PublicNetwork   string `json:"public-net"`
 	ImageStore      string `json:"img-store"`
 	ComputeResource string `json:"compute"`
@@ -60,6 +61,7 @@ type AuthHTML struct {
 // ExecHTMLOptions contains fields for html templating in exec.html
 type ExecHTMLOptions struct {
 	BridgeNetwork   template.HTML
+	BridgeNetworkRange   template.HTML
 	PublicNetwork   template.HTML
 	ImageStore      template.HTML
 	ComputeResource template.HTML
@@ -147,6 +149,7 @@ func (ei *EngineInstaller) buildCreateCommand(binaryPath string) {
 	createCommand = append(createCommand, []string{"--name", ei.Name}...)
 	createCommand = append(createCommand, []string{"--public-network", ei.PublicNetwork}...)
 	createCommand = append(createCommand, []string{"--bridge-network", ei.BridgeNetwork}...)
+	createCommand = append(createCommand, []string{"--bridge-network-range", ei.BridgeNetworkRange}...)
 	createCommand = append(createCommand, []string{"--compute-resource", ei.ComputeResource}...)
 	createCommand = append(createCommand, []string{"--image-store", ei.ImageStore}...)
 	if ip, err := ip.FirstIPv4(ip.Eth0Interface); err == nil {
