@@ -212,7 +212,7 @@ In vSphere Integrated Containers Registry, you organize repositories in projects
   - **Public projects**: All users can pull images from the project. Users must be members of a project and have the appropriate privileges to push images to the project.
   - **Private projects**: Only members of the project can pull images from private private projects. Members must have the appropriate privileges to be able to push images to the project.
 
-When you first deploy vSphere Integrated Containers Registry, a default public project named `default-project` is created. You can toggle projects from public to private, or the reverse, at any moment.
+When you first deploy vSphere Integrated Containers, a default public project named `default-project` is created. You can toggle projects from public to private, or the reverse, at any moment.
 
 
 ### User Authentication <a id="authentication"></a>

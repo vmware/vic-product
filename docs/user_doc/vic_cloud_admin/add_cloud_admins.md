@@ -1,4 +1,4 @@
-# Add Cloud Administrators #
+	# Add Cloud Administrators #
 
 You can add any user or group from the Platform Services Controller to the vSphere Integrated Containers Management Portal and assign them the Cloud administrator role.  
 

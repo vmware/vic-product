@@ -9,12 +9,14 @@ You have a created project.
 **Procedure**
 
 1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
+2. Select the **Administration** tab and click **Projects**.
+3. In the list of projects, click a project.
+4. On the Summary page, click **Edit**.
+ - If the project is public, deselect the **Public access to project registry** checkbox to change the project state to private.
+   - If the project is private, select the **Public access to project registry** checkbox to change the project state to public.
 
-   Use an account with the system-wide Administrator role, or an account that has the Project Admin role for this project.
-2. Select the **Administration** tab, click **Projects** on the left, .
-7. In the list of projects, click the 3 vertical dots next to a project name and select an option.
+1.  To delete a project, on the Projects page, click the three dots next to a project and click **Delete**.
 
-   - If the project is public, select **Make private** to change the project state to private.
-   - If the project is private, select **Make public** to change the project state to public.
-   - To delete the project, select **Delete**.
+  
+
 
