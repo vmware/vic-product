@@ -32,7 +32,9 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
 3. On the **Customize template** page, under **Appliance Security**, set the root password for the appliance VM and optionally uncheck the **Permit Root Login** checkbox. 
 
-    Setting the root password for the appliance is mandatory.
+    Setting the root password for the appliance is mandatory. 
+
+    **IMPORTANT**: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Other than for upgrade, only use SSH access to the appliance under the guidance of VMware GSS.
 
 5. Expand **Networking Properties** and optionally configure a static IP address for the appliance VM. 
 
