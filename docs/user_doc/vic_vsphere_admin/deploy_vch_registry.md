@@ -2,22 +2,20 @@
 
 To use vSphere Integrated Containers Engine with vSphere Integrated Containers Registry, you must obtain the registry certificate and pass it to a virtual container host (VCH) when you create that VCH.
 
-If you did not provide a custom server certificate and private key for the registry to the OVA installer when you deployed the vSphere Integrated Containers appliance, vSphere Integrated Containers Registry auto-generates a Certificate Authority (CA) certificate, a server certificate, and a server private key. You can download the auto-generated CA certificates from the vSphere Integrated Containers Management Portal.
+When you deployed the vSphere Integrated Containers appliance, vSphere Integrated Containers Registry auto-generated a Certificate Authority (CA) certificate. You can download the registry CA certificate from the vSphere Integrated Containers Management Portal.
 
 **Prerequisites**
 
-- You selected the option to deploy vSphere Integrated Containers Registry when you deployed the vSphere Integrated Containers appliance.
 - You downloaded the vSphere Integrated Containers Engine bundle from  http://<i>vic_appliance_address</i>.
 - Obtain the vCenter Server or ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
 
 **Procedure**
 
-1. Obtain the CA certificate of the registry instance or instances to use with this VCH.
+1. Log in to the vSphere Integrated Containers Management Portal with a vSphere administrator, Cloud Admin or DevOps admin user account.
 
-   - If you deployed the registry with custom certificates, obtain the certificate from your certificate manager. 
-   - If you deployed the registry with auto-generated certificates, log in to the vSphere Integrated Containers Management Portal as `admin` user, click the **admin** drop-down menu and click **Download Root Cert**.
-   - You can also obtain the certificate by using SCP to copy the certificate file from `/data/harbor/cert` in the vSphere Integrated Containers appliance VM.<pre>scp root@<i>vic_appliance_address</i>:/data/harbor/cert/ca.crt ./<i>destination_path</i></pre>
-2. Use `vic-machine create` to deploy a VCH, specifying the registry's CA certificate by using the [`--registry-ca`](vch_installer_options.md#registry-ca) option. 
+    vSphere administrator accounts for the Platform Service Controller with which vSphere Integrated Containers is registered are automatically granted Cloud Admin access.
+2. Go to **Administration** > **Configuration**, and click the link to download the **Registry Root Cert**.
+3. Use `vic-machine create` to deploy a VCH, specifying the registry's CA certificate by using the [`--registry-ca`](vch_installer_options.md#registry-ca) option. 
 
     You can configure the VCH to connect to multiple registries by specifying `--registry-ca` multiple times.
 
@@ -30,6 +28,18 @@ If you did not provide a custom server certificate and private key for the regis
 --thumbprint <i>vcenter_server_certificate_thumbprint</i>
 --no-tlsverify
 --registry-ca=<i>cert_path</i>/ca.crt
+</pre>
+
+    Optionally, you can use the [`--whitelist-registry`](vch_installer_options.md#whitelist-registry) option to limit this VCH so that it can only access certain registries. This example limits access to registries in your company's domain, but you could specify the address of a specific registry, or a CIDR range of addresses.<pre>vic-machine-<i>operating_system</i> create
+--target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
+--compute-resource cluster1
+--image-store datastore1
+--bridge-network vch1-bridge
+--name vch_registry
+--thumbprint <i>vcenter_server_certificate_thumbprint</i>
+--no-tlsverify
+--registry-ca=<i>cert_path</i>/ca.crt
+--whitelist-registry *.mycompany.com
 </pre>
      
 
