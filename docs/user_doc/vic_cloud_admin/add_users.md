@@ -12,7 +12,7 @@ For more information about users and roles in vSphere Integrated Containers, see
 
     Use an account with Cloud administrator or DevOps administrator privileges.
 2. Select **Administration** > **Projects**, and click a project to add users to.
-3. Click the **Members** tab and click **Add** to add a new user to that project.
+3. Click the **Members** tab and click **+ Add** to add a new user to that project.
 4. In the Add Users and Groups window configure the user and the access.
 	1. In the **ID or email** text box, enter any detail for a desired user and select it from the populated list.
 	2. From the **Role in project** drop-down menu, select a role for that user and click **OK**. 

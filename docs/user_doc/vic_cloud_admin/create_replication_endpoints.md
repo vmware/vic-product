@@ -14,7 +14,7 @@ You can create replication endpoints independently of projects, or you can creat
 1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
 
    Use an account with Cloud Administrator privileges.
-2. Select the **Administration** tab, click **Replication**, then click the **+ Endpoint** button.
+2. Select the **Administration** tab, click **Registries** > **Replication Endpoints** and click the **+ Endpoint** button.
 3. Enter a suitable name for the new replication endpoint.
 4. Enter the full URL of the vSphere Integrated Containers Registry instance to set up as a replication endpoint.
 
@@ -22,7 +22,7 @@ You can create replication endpoints independently of projects, or you can creat
 
 5. Enter the user name and password for the endpoint registry instance. 
 
-   Use the `admin` account for that vSphere Integrated Containers Registry instance, an account with Administrator privileges on that instance, or an account that has write permission on the corresponding project in the endpoint registry. 
+   Use an account with Administrator privileges on that instance, or an account that has write permission on the corresponding project in the endpoint registry. 
 6. Click **Test Connection**.
 7. When you have successfully tested the connection, click **OK**.
 
