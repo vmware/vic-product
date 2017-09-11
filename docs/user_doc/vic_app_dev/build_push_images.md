@@ -7,22 +7,20 @@ The current version of vSphere Integrated Containers Engine does not support `do
 
 This release of vSphere Integrated Containers includes an image repository named `dch-photon`, that is pre-loaded in the `default-project` in vSphere Integrated Containers Registry. The `dch-photon` image allows you to deploy a standard Docker container host that runs in a Photon OS container. You can then use this Docker container host to perform `docker build` and `docker push` operations without having to install a local Docker host on your working machine.
 
-This topic provides an example of using `dch-photon` to push an image to vSphere Integrated Containers Registry and then pull it into a VCH. For simplicity, the example uses a VCH that was deployed with the `--no-tlsverify` option. If you VCH implements TLS verification of clients, you must import the VCH certificates into your Docker client and adapt the Docker commands accordingly. 
-
 **Prerequisites**
 
 - Configure your Docker client to use the vSphere Integrated Containers Registry certificate. For information about how to obtain the registry certificate and pass it to the Docker client, see [Using vSphere Integrated Containers Registry](configure_docker_client.md#registry) in Configure the Docker Client for Use with vSphere Integrated Containers.
-- You have access to a VCH that the vSphere administrator configured so that it can connect to the registry to pull the `dch-photon` image, and so that it has a default volume store. For information about how deploy a VCH for use with `dch-photon`, see the [Deploy a Virtual Container Host for Use with `dch-photon`](../vic_vsphere_admin/deploy_vch_dchphoton.md) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*
-- In the example, connections to the registry are secured by TLS, but for simplicity the connection between the Docker client and the VCH is not. As a consequence, the Docker commands to run in the VCH do not include any TLS options. If your VCH uses TLS authentication, adapt the Docker commands accordingly, and use port 2376 instead of 2375 when connecting to the VCH. For information about how to connect a Docker client to a VCH that uses TLS authentication, see [Connecting to the VCH](configure_docker_client.md#connectvch) in Configure the Docker Client for Use with vSphere Integrated Containers.  
+- You have access to a VCH that the vSphere administrator configured so that it can connect to the registry to pull the `dch-photon` image, and so that it has a default volume store. For information about how deploy a VCH for use with `dch-photon`, see the [Deploy a Virtual Container Host for Use with `dch-photon`](../vic_vsphere_admin/deploy_vch_dchphoton.md) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.
+- This topic provides an example of using `dch-photon` to push an image to vSphere Integrated Containers Registry and then pull it into a VCH. For simplicity, the example uses a VCH that was deployed with the `--no-tlsverify` option. If your VCH implements TLS verification of clients, you must import the VCH certificates into your Docker client and adapt the Docker commands accordingly. For information about how to connect a Docker client to a VCH that uses full TLS authentication, see [Connecting to the VCH](configure_docker_client.md#connectvch) in Configure the Docker Client for Use with vSphere Integrated Containers.  
 
 **Procedure**
 
 1. Log in to vSphere Integrated Containers Registry from the VCH.
 
-    <pre>$docker -H <i>vch_address</i>:2376 --tls login <i>registry_address</i></pre> 
+    <pre>docker -H <i>vch_address</i>:2376 --tls login <i>registry_address</i></pre> 
 2. Pull the `dch-photon` image from vSphere Integrated Containers Registry into your VCH.
 
-    <pre>$ docker -H <i>vch_address</i>:2376 --tls pull <i>registry_address</i>/default-project/dch-photon:1.13</pre>
+    <pre>docker -H <i>vch_address</i>:2376 --tls pull <i>registry_address</i>/default-project/dch-photon:1.13</pre>
 
 3. Run a `dch-photon` container from the image.
 
