@@ -116,7 +116,7 @@ func registerWithPSC(ctx context.Context) error {
 		// This runs the PSC tool's register command.
 		cmd := exec.Command(cmdName, cmdArgs...)
 		if output, err := cmd.CombinedOutput(); err != nil {
-			log.Infof("Error running PSC register command: %s", string(output))
+			log.Infof("Error running PSC register command for %s: %s", client, string(output))
 			return err
 		}
 		log.Infof("Successfully registered %s with PSC", client)

@@ -453,13 +453,12 @@ If you specify an invalid vSphere datastore name or an invalid NFS share point U
     <pre>nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
 - You can specify the `volume-store` option multiple times, to create multiple volume stores for the VCH.
 
-
-    You can also specify the URL, UID, GID, and access protocol of a shared NFS mount point when you specify an NFS share point.
+- You can also specify the URL, UID, GID, and access protocol of a shared NFS mount point when you specify an NFS share point.
     <pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&gid=5678&proto=tcp:<i>nfs_volume_store_label</i></pre>
 
-    If you do not specify a UID and GID, vSphere Integrated Containers Engine uses te `anon` UID and GID when creating and interacting with the volume store. The `anon` UID and GID is 1000.    
+- If you do not specify a UID and GID, vSphere Integrated Containers Engine uses the `anon` UID and GID when creating and interacting with the volume store. The `anon` UID and GID is 1000.    
 
-    You cannot specify the root folder of an NFS server as a volume store. 
+-  You cannot specify the root folder of an NFS server as a volume store. 
     
 - If you only require one volume store, set the volume store label to `default`. If you set the volume store label to `default`, container developers do not need to specify the <code>--opt VolumeStore=<i>volume_store_label</i></code> option when they run `docker volume create`. 
 
@@ -940,19 +939,20 @@ Short name: none
 
 Deploy the VCH appliance to a resource pool on vCenter Server rather than to a vApp. If you specify this option, `vic-machine create` creates a resource pool with the same name as the VCH.
 
+**NOTE**: If you specify both of the `--ops-user` and  `--use-rp` options when you create a VCH, you must specify an additional permission when you create the roles for the operations user. For information about operations user roles and permissions, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
+
 <pre>--use-rp</pre>
 
 
 ### `--debug` <a id="debug"></a>
 Short name: `-v`
 
-Deploy the VCH with more verbose levels of logging, and optionally modify the behavior of `vic-machine` for troubleshooting purposes. Specifying the `--debug` option increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting the `--debug` option, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. If not specified, the `--debug` value is set to 1 and verbose logging is enabled.
+Deploy the VCH with more verbose levels of logging, and optionally modify the behavior of `vic-machine` for troubleshooting purposes. Specifying the `--debug` option increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting the `--debug` option, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. If not specified, the `--debug` value is set to 0 and verbose logging is disabled.
 
 **NOTE**: Do not confuse the `vic-machine create --debug` option with the `vic-machine debug` command, that enables access to the VCH endpoint VM. For information about `vic-machine debug`, see [Debugging the VCH](debug_vch.md). 
 
-When you specify `vic-machine create --debug`, you set a debugging level of 0, 1, 2, or 3. Setting `--debug` to 2 or 3 changes the behavior of `vic-machine create` as well as increasing the level of verbosity of the logs:
+When you specify `vic-machine create --debug`, you set a debugging level of 1, 2, or 3. Setting `--debug` to 2 or 3 changes the behavior of `vic-machine create` as well as increasing the level of verbosity of the logs:
 
-- `--debug 0` Disables verbosity in the logs.
 - `--debug 1` Provides verbosity in the logs, with no other changes to `vic-machine` behavior. This is the default setting.
 - `--debug 2` Exposes servers on more interfaces, launches `pprof` in container VMs.
 - `--debug 3` Disables recovery logic and logs sensitive data. Disables the restart of failed components and prevents container VMs from shutting down. Logs environment details for user application, and collects application output in the log bundle. This is the maximum  supported debugging level.

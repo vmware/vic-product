@@ -17,8 +17,6 @@ In vSphere Integrated Containers, you create different projects to which you ass
 
 **Result**
 
-When you create a new project, you are automatically assigned the DevOps adminstrator role for that project.
-
 The project is added to the list of projects. You can browse existing projects and filter the list by entering text in the search box.
 
 **What to Do Next**
