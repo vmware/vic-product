@@ -26,18 +26,18 @@ This topic provides an example of using `dch-photon` to push an image to vSphere
 
 3. Run a `dch-photon` container from the image.
 
-    <pre>docker -H <i>vch_address</i>:2376 --tls run -d -p 12376:2376 <i>registry_address</i>/default-project/dch-photon:1.13 -tlsverify -vic-ip <i>vch_address</i></pre>
+    <pre>docker -H <i>vch_address</i>:2376 --tls run --name dch-photon -d -p 12376:2376 <i>registry_address</i>/default-project/dch-photon:1.13 -tlsverify</pre>
 
     This command uses the following Docker options to run the `dch-photon` container:
 
     - `-d`, to run the `dch-photon` container in the background.
     - `-p` to map port 12376 on the VCH to the Docker TLS port 2376 on the `dch-photon` container
  
-    This command also configures the Docker host that runs in the `dch-photon` container with the following options:
+    This command also configures the Docker host that runs in the `dch-photon` container with the following option:
 
     <!-- `-tls`: Enables secure communication with no verification of the remote registry. Loads certificates from `/certs` as `/certs/docker.crt` as the server certificate and `/certs/docker.key` as the key for the server certificate.-->
     - `-tlsverify`: Verifies the client and server certificates for the connection from the Docker host running in the `dch-photon` container to the registry.
-    - `-vic-ip`: Sets the IP address of the VCH for automatic certificate creation when `dch-photon` is running behind a port mapping.
+    <!-- - `-vic-ip`: Sets the IP address of the VCH for automatic certificate creation when `dch-photon` is running behind a port mapping.-->
 
 4. Run `docker ps` on the VCH to see the status of the running `dch-photon` container.
 
@@ -47,9 +47,32 @@ This topic provides an example of using `dch-photon` to push an image to vSphere
 
 4. Run `docker info` on the mapped port 12376 to obtain information about the Docker host running in the `dch-photon` container.
 
+    Note that this command specifies port 12376, because you are running the command in the Docker host in the `dch-photon` container.
+
     <pre>docker -H <i>vch_address</i>:12376 --tls info</pre>
 
     In the output you see that this is a regular Docker 1.13.1 host.
+
+6. Create the folder structure for the registry certificate in the `dch-photon` container. 
+
+    The `dch-photon` container requires the CA certificate of the registry server. Note that there commands specify port 2376, because you are running them in the VCH.
+
+    - First create a folder named `/etc/docker/certs.d`.<pre>docker -H <i>vch_address</i>:2376 --tls exec dch-photon mkdir /etc/docker/certs.d</pre>
+    - Then create a subfolder with the same name as the registry address, to contain the certificate.<pre>docker -H <i>vch_address</i>:2376 --tls exec dch-photon mkdir /etc/docker/certs.d/<i>registry_address</i></pre>
+
+7. Copy the CA certificate of the vSphere Integrated Containers Registry into the certificates folder in the `dch-photon` container. 
+
+    Note that this command specifies port 2376.
+
+    <pre>docker -H <i>vch_address</i>:2376 --tls cp <i>local_cert_path</i>/ca.crt dch-photon:/etc/docker/certs.d/<i>registry_address</i>/ca.crt</pre>
+
+7. Restart the `dch-photon` container. 
+
+    Restarting the container allows the Docker host that is running inside it to load the certificate.
+
+    Note that this command specifies port 2376.
+
+    <pre>docker -H <i>vch_address</i>:2376 --tls restart dch-photon</pre>
 
 5. Create a simple `Dockerfile` and save it in the current directory.
 
@@ -61,23 +84,10 @@ This topic provides an example of using `dch-photon` to push an image to vSphere
 
 6. Build an image from the `Dockerfile` in the `dch-photon` Docker host, and tag it with the path to a project in vSphere Integrated Containers Registry. 
 
-    Note that this command specifies port 12376, because you are running the command in the Docker host in the `dch-photon` container.
+    Note that this command specifies port 12376.
 
     <pre>docker -H <i>vch_address</i>:12376 --tls build  -t <i>registry_address</i>/default-project/test-container .</pre>
 
-6. Copy the CA certificate of the vSphere Integrated Containers Registry into the `/certs` folder in the `dch-photon` container. 
-
-    Note that this command specifies port 2376, because you are running the command in the VCH.
-
-    <pre>docker -H <i>vch_address</i>:2376 --tls cp <i>path_to_cert</i>/ca.crt <i>container_id</i>/certs/ca.crt</pre>
-
-7. Restart the `dch-photon` container. 
-
-    Restarting the container allows the Docker host that is running inside it to load the certificate.
-
-    Note that this command specifies port 2376.
-
-    <pre>docker -H <i>vch_address</i>:2376 --tls restart <i>container_id</i></pre>
 8. Log in to vSphere Integrated Containers Registry from the `dch-photon` Docker host. 
 
     Note that this command specifies port 12376.
@@ -96,8 +106,6 @@ This topic provides an example of using `dch-photon` to push an image to vSphere
 
     <pre> docker -H <i>vch_address</i>:2376 --tls pull <i>registry_address</i>/default-project/test-container</pre>
 
-    Note that this command specifies port 2376.
-
 6. Run a container from this image on the VCH. 
 
     <pre> docker -H <i>vch_address</i>:2376 --tls run <i>registry_address</i>/default-project/test-container</pre>
@@ -108,4 +116,4 @@ This topic provides an example of using `dch-photon` to push an image to vSphere
 
 **Result**
 
-The container that you ran from an image that you built and pushed to vSphere Integrated Containers Registry in `dch-photon` appears in the list of images that are running in this VCH.
+The container that you ran from an image that you built and pushed to vSphere Integrated Containers Registry in `dch-photon` appears in the list of containers that are running in this VCH.
