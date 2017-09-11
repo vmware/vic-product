@@ -223,6 +223,8 @@ For more information about, deploying, configuring, and working with Platform Se
 
 You can pull users from the Platform Services Controller and assign them roles through the vSphere Integrated Containers Management Portal.
 
+You can only deploy one vSphere Integrated Containers appliance per vCenter Server instance. However, if a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to the different vCenter Server instances. In this way, the appliances all register with the same Platform Services Controller, and can pull users from that Platform Services Controller. This setup would allow the same user to have different roles in different vSphere Integrated Containers instances.
+
 
 #### Users and Roles <a id="usersandroles"></a>
 	

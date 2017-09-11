@@ -15,7 +15,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
    - 2 vCPUs
    - 8GB RAM
    - 80GB free disk space on the datastore
-- You can only deploy one vSphere Integrated Containers appliance per vCenter Server instance.
+- You can only deploy one vSphere Integrated Containers appliance per vCenter Server instance. However, if a VMware Platform Services Controller manages multiple vCenter Server instances, you can deploy appliances to the different vCenter Server instances. In this way, the appliances all register with the same Platform Services Controller, and can all share its services.
 - Ensure that the vCenter Server instance and all ESXi hosts in the environment in which you are deploying the appliance have network time protocol (NTP) running. Running NTP prevents problems arising from clock skew between the vSphere Integrated Containers appliance, virtual container hosts, and the vSphere infrastructure.
 
 **Procedure**
