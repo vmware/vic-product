@@ -8,15 +8,23 @@ You upgrade vSphere Integrated Containers in three stages:
 
 ## Upgrade the vSphere Integrated Containers Appliance
 
-Upgrading the appliance upgrades both vSphere Integrated Containers Registry and vSphere Integrated Containers Management portal. For information about upgrading the appliance, see [Upgrade the vSphere Integrated Containers Appliance](upgrade_appliance.md). For information about the data that migrates during upgrade, see [Data That Migrates During vSphere Integrated Containers Appliance Upgrade](upgrade_data.md). 
+Upgrading the appliance upgrades both vSphere Integrated Containers Registry and vSphere Integrated Containers Management portal. 
+
+- For information about the data that migrates during upgrade, see [Data That Migrates During vSphere Integrated Containers Appliance Upgrade](upgrade_data.md). 
+- For information about how to prepare for upgrade, see [Tasks to Perform Before Upgrading the vSphere Integrated Containers Appliance](pre_upgrade_tasks.md) 
+- For information about upgrading the appliance, see [Upgrade the vSphere Integrated Containers Appliance](upgrade_appliance.md). 
 
 ## Upgrade Virtual Container Hosts
 
-After you have upgraded the appliance, you can download the new version of the vSphere Integrated Containers Engine bundle. To upgrade vSphere Integrated Containers Engine, you upgrade the virtual container hosts (VCHs) individually. For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).
+After you have upgraded the appliance, you can download the new version of the vSphere Integrated Containers Engine bundle. To upgrade vSphere Integrated Containers Engine, you upgrade the virtual container hosts (VCHs) individually. 
 
-## Upgrade the HTML5 vSphere Client Plug-In
+For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).
 
-After you have upgraded the appliance and downloaded the vSphere Integrated Containers Engine bundle, you can upgrade the HTML5 vSphere Client plug-in. For information about upgrading the vSphere Client plug-in, see [Upgrade the HTML5 vSphere Client Plug-In on vCenter Server for Windows](upgrade_h5_plugin_windows.md) or [Upgrade the HTML5 vSphere Client Plug-In on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md), depending on the type of vCenter Server that you use.
-   
-    
-**NOTE**: No new development work is planned for the plug-in for the Flex-based vSphere Web Client. In this and future releases, only the HTML5 vSphere Client will be updated. This release adds no new features to the Flex plug-in. If you installed the Flex plug-in with a previous release of vSphere Integrated Containers, there is no upgrade to perform.
+## Upgrade the vSphere Client Plug-Ins
+
+After you have upgraded the appliance and downloaded the vSphere Integrated Containers Engine bundle, you can upgrade the HTML5 vSphere Client plug-in. 
+
+For information about upgrading the vSphere Client plug-in, see the topic that corresponds to the type of vCenter Server that you use.
+
+- [Upgrade the Plug-Ins on vCenter Server for Windows](upgrade_h5_plugin_windows.md)
+- [Upgrade the Plug-Ins on vCenter Server Appliance](upgrade_h5_plugin_vcsa.md)

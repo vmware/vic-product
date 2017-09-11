@@ -9,7 +9,9 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
 - You have completed the pre-upgrade tasks listed in [Tasks to Perform Before Upgrading the vSphere Integrated Containers Appliance](pre_upgrade_tasks.md).
 - Deploy the new version of the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 
-    **IMPORTANT:** When the OVA deployment finishes, do not power on the new appliance. Attempting to perform the upgrade procedure on a new appliance that you have already powered on and initialized causes vSphere Integrated Containers Management Portal and Registry not to function correctly and might result in data loss. 
+    **IMPORTANT:**
+    - Do not disable SSH access to the new appliance. You require SSH access to the appliance during the upgrade procedure.
+    -  When the OVA deployment finishes, do not power on the new appliance. Attempting to perform the upgrade procedure on a new appliance that you have already powered on and initialized causes vSphere Integrated Containers Management Portal and Registry not to function correctly and might result in data loss. 
 
 - You can only deploy one vSphere Integrated Containers appliance per vCenter Server instance. However, when upgrading, you should deploy the appliance to the same vCenter Server instance as the one on which the previous version is running.
 - Log in to the vSphere Client for the vCenter Server instance on which the previous version is running and on which you deployed the new version.
@@ -45,18 +47,27 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
     <pre>$ cd /etc/vmware/upgrade</pre>
     <pre>$ ./upgrade_1.1_to_1.2.sh</i></pre>
 
-     When prompted, enter the address of the vCenter Server instance on which you deployed the new appliance and the Single Sign-On credentials of a vSphere administrator account. The script requires these credentials to register the new version of vSphere Integrated Containers with the vSphere Platform Services Controller.
+     When prompted, enter the address of the vCenter Server instance on which you deployed the new appliance and the Single Sign-On credentials of a vSphere administrator account. The script requires these credentials to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.
 
 11. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and use vCenter Server Single Sign-On credentials to log in.
 
      - In the **Home** tab of the vSphere Integrated Containers Management Portal, check that all existing applications, containers, networks, volumes, and virtual container hosts have migrated successfully.
-     - In the **Administration** tab, check that projects and registries have migrated successfully.
+     - In the **Administration** tab, check that projects, registries, repositories, and replication configurations have migrated successfully.
         
-        **IMPORTANT**: If you added vSphere Integrated Containers Registry to the previous version of the vSphere Integrated Containers Management Portal,  and if the address of the appliance changed during the upgrade, two instances of vSphere Integrated Containers Registry appear in the **Administration** > **Registries** > **Source Registries** view. The registry named `default-vic-registry` is the new registry instance, that is running in the new appliance. Data from the old registry has migrated to this instance. Another registry instance with the address of the old appliance is also present in the list of registries. You must delete this instance.
+        **IMPORTANT**: If you added the vSphere Integrated Containers Registry instance from the previous appliance to the previous version of the vSphere Integrated Containers Management Portal,  and if the address of the appliance changed during the upgrade, two instances of vSphere Integrated Containers Registry appear in the **Administration** > **Registries** > **Source Registries** view. The registry named `default-vic-registry` is the registry instance that is running in the new appliance. Data from the registry that was running in the previous appliance has migrated to this instance. A registry instance with the name and address from the old, and now defunct, appliance is present in the list of registries. Delete this instance from the list.
    
 
 
 **What to Do Next**
 
+- If, in the previous version, you configured vSphere Integrated Containers Registry instances as replication endpoints, upgrade those registry instances. Replication of images from the 1.2.x registry instance to the 1.1.x replication endpoint still functions, but it is recommended that you upgrade the target registry.
+- Add users to the upgraded vSphere Integrated Containers instance. For information about users in this version of vSphere Integrated Containers, see the following topics:
+
+  - [User Authentication](../vic_overview/introduction.md#authentication)
+  - [Add Cloud Administrators](../vic_cloud_admin/add_cloud_admins.md)
+  - [Add Viewers, Developers, or DevOps Administrators to Projects](../vic_cloud_admin/add_users.md)
 - Download the vSphere Integrated Containers Engine bundle and upgrade VCHs. For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).
-- Upgrade the vSphere Integrated Containers plug-in for the HTML5 vSphere Client. For information about upgrading the vSphere Client plug-in, see [Upgrade the HTML5 vSphere Client Plug-In on vCenter Server for Windows](upgrade_h5_plugin_windows.md) or [Upgrade the HTML5 vSphere Client Plug-In on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md), depending on the type of vCenter Server that you use.
+- Upgrade the vSphere Integrated Containers plug-in for the HTML5 vSphere Client. For information about upgrading the vSphere Client plug-in, see 
+
+   - [Upgrade the HTML5 vSphere Client Plug-In on vCenter Server for Windows](upgrade_h5_plugin_windows.md)
+   - [Upgrade the HTML5 vSphere Client Plug-In on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md)
