@@ -53,7 +53,7 @@ This release of vSphere Integrated Containers includes an image repository named
 
 6. Create the folder structure for the registry certificate in the `dch-photon` container. 
 
-    The `dch-photon` container requires the CA certificate of the registry server. Note that there commands specify port 2376, because you are running them in the VCH.
+    The `dch-photon` container requires the CA certificate of the registry server. Note that these commands specify port 2376, because you are running them in the VCH.
 
     - First create a folder named `/etc/docker/certs.d`.<pre>docker -H <i>vch_address</i>:2376 --tls exec dch-photon mkdir /etc/docker/certs.d</pre>
     - Then create a subfolder with the same name as the registry address, to contain the certificate.<pre>docker -H <i>vch_address</i>:2376 --tls exec dch-photon mkdir /etc/docker/certs.d/<i>registry_address</i></pre>
