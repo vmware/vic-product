@@ -15,7 +15,7 @@ In order for the `dch-photon` image to be able to authenticate with vSphere Inte
 - You have access to a VCH that the vSphere administrator configured so that it can connect to the registry to pull the `dch-photon` image, and so that it has a default volume store. For information about how deploy a VCH for use with `dch-photon`, see the [Deploy a Virtual Container Host for Use with `dch-photon`](../vic_vsphere_admin/deploy_vch_dchphoton.md) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.
 - This topic provides an example of using `dch-photon` to push an image to vSphere Integrated Containers Registry and then pull it into a VCH. For simplicity, the example uses a VCH that was deployed with the `--no-tlsverify` option. If your VCH implements TLS verification of clients, you must import the VCH certificates into your Docker client and adapt the Docker commands accordingly. For information about how to connect a Docker client to a VCH that uses full TLS authentication, see [Connecting to the VCH](configure_docker_client.md#connectvch) in Configure the Docker Client for Use with vSphere Integrated Containers.  
 
-## Adding the Certificate to a Custom Image ##
+## Adding the Registry Certificate to a Custom Image ##
 
 This section will take you through the process of building a custom `dch-photon` image, pushing it to the vSphere Integrated Containers Registry and verifying that it worked by deploying it to a Virtual Container Host.
 
@@ -72,7 +72,7 @@ You should now have a custom `dch-photon` image in your vSphere Integrated Conta
 
 See below for how to test the running Docker container host
 
-## Manually Adding the Certificate to a Running `dch-photon` VM ##
+## Manually Adding the Registry Certificate to a `dch-photon` VM ##
 
 If you wish to manually add the certificate to an existing `dch-photon` container VM, this can be done using the `docker cp` support in VIC 1.2
 
