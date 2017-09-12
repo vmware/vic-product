@@ -1,11 +1,23 @@
 # Using `dch-photon` to Build and Push Images
 
-The current version of vSphere Integrated Containers Engine does not support `docker build` or `docker push`. As a consequence, the workflow for developing container images and pushing them to a registry server is slightly different to the workflow in a regular Docker environment.
+vSphere Integrated Containers Engine is designed as an enterprise container runtime to be used as a deployment endpoint. As such, it doesn't have its own native `docker build` or `docker push` capabilities. The job of building and pushing container images is typically part of a CI pipeline which does this using standard Docker Engine instances. vSphere Integrated Containers Engine can now deploy these Docker Engine instances for you and a version of such an image is included in the hosted registry.
 
-- You use standard Docker to build, tag, and push a container image to a registry.
-- You pull the image from the registry to a vSphere Integrated Containers virtual container host (VCH) to use it.
+- You use standard Docker Engine to build, tag, and push a container image to a registry.
+- You pull the image from the registry to a vSphere Integrated Containers virtual container host (VCH) to deploy it.
 
-This release of vSphere Integrated Containers includes an image repository named `dch-photon`, that is pre-loaded in the `default-project` in vSphere Integrated Containers Registry. The `dch-photon` image allows you to deploy a standard Docker container host that runs in a Photon OS container. You can then use this Docker container host to perform `docker build` and `docker push` operations without having to install a local Docker host on your working machine.
+This release of vSphere Integrated Containers includes an image repository named `dch-photon`, that is pre-loaded in the `default-project` in vSphere Integrated Containers Registry. The `dch-photon` image allows you to deploy a container VM running Docker Engine hosted in Photon OS. You can then deploy any number of these Docker container hosts to perform `docker build` and `docker push` operations as part of your CI infrastructure. 
+
+In order for the `dch-photon` image to be able to authenticate with vSphere Integrated Containers Registry, it needs to have access to the certificate provided by the registry. There are two ways to achieve this. You can either copy it in to a `dch-photon` container running in a VCH using `docker cp` or you can build your own custom image with the certificate embedded in it. This latter method is preferable since the modification only needs to be performed once.
+
+**Adding the Certificate to a Custom Image**
+
+This section will take you through the process of building a custom `dch-photon` image, pushing it to the vSphere Integrated Containers Registry and verifying that it worked.
+
+**Procedure**
+
+1. 
+
+
 
 **Prerequisites**
 
