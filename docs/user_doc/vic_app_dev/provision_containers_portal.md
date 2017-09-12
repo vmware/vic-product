@@ -8,6 +8,7 @@ You can provision containers, templates, or images.
 - To provision a template, go to **Templates** > **Templates**, filter by templates, and click **Provision**.
 
 When you create containers from the Containers page in the management portal, you can configure the following settings:
+
 - Basic configuration
 	- Image to be used
 	- Name of the container
