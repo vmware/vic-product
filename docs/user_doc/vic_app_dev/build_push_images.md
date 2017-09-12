@@ -84,7 +84,7 @@ If you wish to manually add the certificate to an existing `dch-photon` containe
     
     Note also that the Docker container host can itself be configured to use TLS authentication, but has not in this case for simplicity.
 
-    <pre>docker -H <i>vch_address</i>:2375 create --name build-slave -p 12375:2375 <i>registry_address</i>/default-project/dch-photon:1.13-cert</pre>
+    <pre>docker -H <i>vch_address</i>:2376 --tls create --name build-slave -p 12375:2375 <i>registry_address</i>/default-project/dch-photon:1.13-cert</pre>
     
 2. Copy the certificate into the container. The simplest way to do this is to create the directory structure locally before the copy.
 
@@ -130,7 +130,7 @@ Now that you have a Docker container host configured and running, it's time to t
 
     <pre>docker -H <i>vch_address</i>:12375 build -t <i>registry_address</i>/default-project/test-container .</pre>
 
-8. If your Docker client is not already authenticated, log in to vSphere Integrated Containers Registry from the `dch-photon` Docker host. 
+5. If your Docker client is not already authenticated, log in to vSphere Integrated Containers Registry from the `dch-photon` Docker host. 
 
     <pre>docker -H <i>vch_address</i>:12375 login <i>registry_address</i></pre>
 
@@ -138,15 +138,15 @@ Now that you have a Docker container host configured and running, it's time to t
 
     <pre>docker -H <i>vch_address</i>:12375 push <i>registry_address</i>/default-project/test-container</pre>
 
-6. Pull the image from the registry into the VCH. 
+7. Pull the image from the registry into the VCH. 
 
-    <pre> docker -H <i>vch_address</i>:2376 --tls pull <i>registry_address</i>/default-project/test-container</pre>
+    <pre>docker -H <i>vch_address</i>:2376 --tls pull <i>registry_address</i>/default-project/test-container</pre>
 
-6. Run a container from this image on the VCH. 
+8. Run a container from this image on the VCH. 
 
-    <pre> docker -H <i>vch_address</i>:2376 --tls run <i>registry_address</i>/default-project/test-container</pre>
+    <pre>docker -H <i>vch_address</i>:2376 --tls run <i>registry_address</i>/default-project/test-container</pre>
 
-6. List the containers that are running in the VCH. 
+9. List the containers that are running in the VCH. 
 
     <pre>docker -H <i>vch_address</i>:2376 --tls ps</pre>
 
