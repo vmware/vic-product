@@ -18,7 +18,7 @@ data_mount=/data/harbor
 cfg=${data_mount}/harbor.cfg
 
 function harborDataSanityCheck {
-  harbor_dirs=( 
+  harbor_dirs=(
     cert
     database
     job_logs
@@ -61,7 +61,7 @@ function upgradeHarborConfiguration {
   for config in $(grep = ${source_configuration} | sed 's/ *= */=/g' | awk -F= '{ printf "%s=\"%s\"\n", $1, $2 }'); do
     local key=$(echo ${config} | cut -d= -f1)
     local value=$(echo ${config} | cut -d= -f2 | sed -e 's/^"//' -e 's/"$//')
-    if [[ x$value == "x" ]]; then 
+    if [[ x$value == "x" ]]; then
       continue
     fi
     configureHarborCfg $key $value
@@ -71,7 +71,7 @@ function upgradeHarborConfiguration {
 
 # Before trying anything on the upgrade side, let's check if there is any data
 # from harbor already in the new data folder.
-if harborDataSanityCheck $data_mount; then 
+if harborDataSanityCheck $data_mount; then
   echo "Harbor Data is already present in ${data_mount}, this script might corrupt/delete/overwrite your data."
   read -r -p "Do you want to continue? [y/N] " response
   if [[ ! "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
@@ -101,7 +101,7 @@ mount /dev/data1_vg/data $data_tmp_mount
 
 # Perform sanity check on data volume
 if ! harborDataSanityCheck $data_tmp_mount; then
-  echo "Harbor Data is not present in ${data_tmp_mount}, can't continue with upgrade operation" 
+  echo "Harbor Data is not present in ${data_tmp_mount}, can't continue with upgrade operation"
   cleanupProcedure
   exit 0
 fi

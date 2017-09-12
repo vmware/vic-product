@@ -35,15 +35,16 @@ function gc {
 
   /usr/bin/docker run --name gc --rm --volume $data_dir:/storage \
     --volume $config_dir/:/etc/registry/ \
-    $registry_image garbage-collect /etc/registry/config.yml
+    "$registry_image" garbage-collect /etc/registry/config.yml
 
   echo "===================================================="
 }
 
 gc_enabled=$(ovfenv --key registry.gc_enabled)
-
-if [ ${gc_enabled,,} == "true" ]; then
+if [ "${gc_enabled,,}" == "true" ]; then
   gc 2>&1 >> /var/log/harbor/gc.log || true
 fi
 
-/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml up
+/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml \
+                              -f /etc/vmware/harbor/docker-compose.notary.yml \
+                              -f /etc/vmware/harbor/docker-compose.clair.yml up

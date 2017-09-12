@@ -1,0 +1,72 @@
+# After any change to this file you MUST re-sign and checkin the .drone.yml.sig
+# When you are ready to submit a pull request, you must regenerate .drone.yml.sig for the vmware/vic-product repo:
+# $ export DRONE_SERVER=https://ci.vcna.io
+# $ export DRONE_TOKEN=<token>
+# $ drone sign vmware/vic-product
+# The secrets file is in our local git repo.  Ask mhagen for access.
+---
+workspace:
+  base: /go
+  path: src/github.com/vmware/vic-product
+    
+pipeline:
+  clone:
+    image: plugins/git
+    tags: true
+    recursive: false
+
+  unified-ova-build: 
+    image: gcr.io/eminent-nation-87317/vic-integration-test:1.32
+    pull: true
+    privileged: true
+    environment:
+       OVA_BUILD_SSH_KEY: ${OVA_BUILD_SSH_KEY}
+       OVA_BUILD_MACHINE_IP: ${OVA_BUILD_MACHINE_IP}
+       OVA_BUILD_USER: ${OVA_BUILD_USER}
+       PACKER_ESX_HOST: ${PACKER_ESX_HOST}
+       PACKER_USER: ${PACKER_USER}
+       PACKER_PASSWORD: ${PACKER_PASSWORD}
+       BUILD_PORTGROUP: ${BUILD_PORTGROUP}
+       BUILD_VICENGINE_REVISION: ${BUILD_VICENGINE_REVISION}
+       DRONE_TIMEOUT: ${DRONE_TIMEOUT}
+       DRONE_TIMEOUT_INACTIVITY: ${DRONE_TIMEOUT_INACTIVITY}
+       DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
+    commands:
+      - echo $OVA_BUILD_SSH_KEY > ova_id_rsa
+      - chmod 600 ova_id_rsa
+      - installer/scripts/ova-ssh-build.sh ova_id_rsa
+
+  bundle:
+     image: gcr.io/eminent-nation-87317/vic-integration-test:1.32
+     pull: true
+     commands:
+       - mkdir bundle
+       - cp bin/vic-*.ova bundle
+       - ls -al bundle
+
+  publish-gcs-builds:
+     image: maplain/drone-gcs:latest
+     pull: true
+     source: bundle
+     target: vic-product-ova-builds
+     acl:
+       - allUsers:READER
+     cache_control: public,max-age=3600
+     when:
+      status: success
+
+  publish-gcs-releases:
+     image: maplain/drone-gcs:latest
+     pull: true
+     source: bundle
+     target: vic-product-ova-releases
+     acl:
+       - allUsers:READER
+     cache_control: public,max-age=3600
+     when:
+      repo: vmware/vic-product
+      event: [ push, tag ]
+      branch: [ refs/tags/* ]
+      status: success
+
+services:

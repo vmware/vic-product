@@ -1,8 +1,8 @@
-# Putting Applications into Production with vSphere Integrated Containers Engine #
+ng Applications into Production with vSphere Integrated Containers Engine #
 
 vSphere Integrated Containers engine is designed to be a docker API compatible production endpoint for containerized workloads. As such, the design focus is on provisioning containerized applications with optimal isolation, security, data persistence, throughput performance and to take advantage of vSphere capabilities.
 
-vSphere Integrated Containers engine is designed to make existing features of vSphere easy to consume and exploit by providing compatibilty with the Docker image format and Docker client. Inevitably that means that there are some differences between a regular Docker host and a Virtual Container Host (VCH), and between a Linux container and a container VM. Some of those differences are intentional design constraints, such as there being no such thing as a "privileged" container in VIC. Some are because of a lack of functional completeness, such as support for `docker cp` (coming in VIC 1.2). Some are outside of the existing scope of the product - such as native support for `docker build`.
+vSphere Integrated Containers engine is designed to make existing features of vSphere easy to consume and exploit by providing compatibilty with the Docker image format and Docker client. Inevitably that means that there are some differences between a regular Docker host and a Virtual Container Host (VCH), and between a Linux container and a container VM. Some of those differences are intentional design constraints, such as there being no such thing as a "privileged" container in VIC. Some are because of a lack of functional completeness, while others are outside of the existing scope of the product, such as native support for `docker build`.
 
 There are other sections that discuss these topics in more depth, but this section is intented to help you to understand how to maximize business value by understanding how the capabilities of the product map to production requirements.
 
@@ -46,7 +46,7 @@ As such, VIC makes it easy to store persistent data to disks that are independen
 
 Note that an anonymous volume declared in a Dockerfile will manifest as a mounted disk of a default size (1GB) to a default datastore. This is almost always going to be the wrong option in production for the reasons stated above.
 
-In VIC 1.2 there will be the option to use NFS to mount shared read-write volumes to container VMs.
+You can use NFS to mount shared read-write volumes to container VMs.
 
 **Container Isolation**
 
@@ -66,7 +66,6 @@ This kind of strong isolation is best suited to a container workload that is a l
 Containers are very flexible abstractions however and not every container is designed to be a single service. In fact, some containers are designed to be combined to form a single service and a single unit of scale. This notion is sometimes described as a Pod. In such a circumstance, it may be beneficial to run these as Linux containers in a single VM. VIC engine is providing built-in support for this model of provisioning Linux container hosts as VIC containers in 1.2.
 
 What's important is to consider the policy needs of your application in terms of isolation. Strong isolation is a very important consideration in deploying robust applications into production and VIC makes it easy to turn that policy into plumbing.
-
 
 
 

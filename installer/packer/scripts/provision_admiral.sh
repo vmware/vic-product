@@ -14,7 +14,8 @@
 # limitations under the License.
 set -euf -o pipefail
 
-mkdir /etc/vmware/admiral
+conf_dir=/etc/vmware/admiral
+mkdir $conf_dir
 
 BUILD_ADMIRAL_REVISION="${BUILD_ADMIRAL_REVISION:-dev}"
 
@@ -32,7 +33,20 @@ docker pull ${ADMIRAL_IMAGE}
 docker tag ${ADMIRAL_IMAGE} vmware/admiral:ova
 echo "Pulled Admiral image"
 
+echo "Downloading vmware/admiral:vic_v1.1.1"
+docker pull vmware/admiral:vic_v1.1.1
+echo "Pulled Admiral upgrade image"
+
+docker images
+
 # stop docker
 echo "stopping Docker .."
 systemctl stop docker
 echo "Docker stopped"
+
+# Get the PSC binary for use during initialization
+curl -Lo $conf_dir/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar https://storage.googleapis.com/vic-product-ova-build-deps/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar
+
+# Get Admiral upgrade script
+curl -Lo /etc/vmware/admiral/migrate.sh https://raw.githubusercontent.com/vmware/admiral/master/upgrade/src/main/resources/migrate.sh
+chmod +x /etc/vmware/admiral/migrate.sh

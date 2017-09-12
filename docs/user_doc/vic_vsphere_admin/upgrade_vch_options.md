@@ -4,6 +4,8 @@ The command line utility for vSphere Integrated Containers Engine, `vic-machine`
 
 The `vic-machine upgrade` command includes the following options in addition to the common options described in [Common `vic-machine` Options](common_vic_options.md).
 
+**NOTE**: Wrap any option arguments that include spaces or special characters in quotes. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system. 
+
 ### `--appliance-iso` ###
 
 Short name: `--ai`
@@ -13,10 +15,6 @@ The path to the new version of the ISO image from which to upgrade the VCH appli
 **NOTE**: Do not use the `--appliance-iso` option to point `vic-machine` to an `--appliance-iso` file that is of a different version to the version of `vic-machine` that you are running.
 
 <pre>--appliance-iso <i>path_to_ISO_file</i>/<i>ISO_file_name</i>.iso</pre>
-
-Wrap the folder names in the path in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.
-
-<pre>--appliance-iso '<i>path to ISO file</i>'/appliance.iso</pre>
 
 ### `--bootstrap-iso` ###
 
@@ -28,17 +26,15 @@ The path to the new version of the ISO image from which to upgrade the container
 
 <pre>--bootstrap-iso <i>path_to_ISO_file</i>/bootstrap.iso</pre>
 
-Wrap the folder names in the path in single quotes (Linux or Mac OS) or double quotes (Windows) if they include spaces.
-
-<pre>--bootstrap-iso '<i>path to ISO file</i>'/<i>ISO_file_name</i>.iso</pre>
-
 ### `--force` ###
 
 Short name: `-f`
 
 Forces `vic-machine upgrade` to ignore warnings and continue with the upgrade of a VCH. Errors such as an incorrect compute resource still cause the upgrade to fail. 
 
-If your vSphere environment uses untrusted, self-signed certificates, you can use the `--force` option to upgrade a VCH without providing the thumbprint of the vCenter Server or ESXi host in the `thumbprint` option. 
+You can bypass certificate thumbprint verification by specifying the `--force` option instead of `--thumbprint`. 
+
+**CAUTION**: It is not recommended to use `--force` to bypass thumbprint verification in production environments. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials.
 
 <pre>--force</pre>
 

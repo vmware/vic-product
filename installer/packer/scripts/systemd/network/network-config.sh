@@ -20,50 +20,49 @@ mask2cdr () {
   set -- $(( ($2 - ${#3})*2 )) ${1%%${3%%.*}*}
   echo $(( $1 + (${#2}/4) ))
 }
-opts=''
+
+netConfig=''
 dhcpOpts=''
+
 fqdn=$(ovfenv --key network.fqdn)
 network_address=$(ovfenv --key network.ip0)
+netmask=$(ovfenv --key network.netmask0)
 gateway=$(ovfenv --key network.gateway)
 dns=$(ovfenv --key network.DNS | sed 's/,/ /g' | tr -s ' ')
 domains=$(ovfenv --key network.searchpath)
 
-# Set hostname
+# static OR DHCP options.
+if [[ -n $network_address || -n $netmask || -n $gateway ]]; then
+  netConfig="Address=${network_address}/$(mask2cdr $netmask)\n\
+         Gateway=$gateway\n"
+else
+  netConfig="DHCP=ipv4\n"
+fi
+
+# always set dns if it exists
+if [[ -n $dns ]]; then
+  netConfig+="DNS=$dns\n"
+  dhcpOpts+="UseDNS=false\n"
+fi
+
+# always set the domain if it exists
+if [[ -n $domains ]]; then
+  netConfig+="Domains=$domains\n"
+  dhcpOpts+="UseDomains=false\n"
+fi
+
+# always set the fqdn if it exists using hostnamectl
 if [[ -n $fqdn ]]; then
   hostnamectl set-hostname $fqdn
-  dhcpOpts=$dhcpOpts"UseHostname=false\n"
+  dhcpOpts+="UseHostname=false\n"
 fi
-
-# Set network address and mask
-if [[ -n  $network_address ]]; then
-  # If IP is configured via OVF environment, we create a file for systemd-networkd to parse
-  network_cidr=$(mask2cdr $(ovfenv --key network.netmask0))
-  opts=$opts"Address=${network_address}/${network_cidr}\n"
-fi
-
-if [[ -n $gateway ]]; then
-  opts=$opts"Gateway=$gateway\n"
-  dhcpOpts=$dhcpOpts"UseRoutes=false\n"
-fi
-
-if [[ -n $dns ]]; then
-  opts=$opts"DNS=$dns\n"
-  dhcpOpts=$dhcpOpts"UseDNS=false\n"
-fi
-
-if [[ -n $domains ]]; then
-  opts=$opts"Domains=$domains\n"
-  dhcpOpts=$dhcpOpts"UseDomains=false\n"
-fi
-
 
 cat <<EOF | tee ${network_conf_file}
 [Match]
 Name=eth0
 
 [Network]
-$(echo -e $opts)
-DHCP=ipv4
+$(echo -e $netConfig)
 
 [DHCP]
 $(echo -e $dhcpOpts)

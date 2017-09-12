@@ -39,7 +39,7 @@ fi
 set -u
 
 echo "Downloading Harbor ${HARBOR_FILE}: ${HARBOR_URL}"
-curl -L ${HARBOR_URL}  | tar xz -C /var/tmp
+curl -L "${HARBOR_URL}"  | tar xz -C /var/tmp
 
 # Start docker service
 systemctl start docker.service
@@ -47,11 +47,26 @@ sleep 2
 # Load Containers in local registry cache
 harbor_containers_bundle=$(find /var/tmp -size +20M -type f -regextype sed -regex ".*/harbor\..*\.t.*z$")
 docker load -i "$harbor_containers_bundle"
+docker images
+
+# Load DCH into Harbor
+dch_image="vmware/dch-photon:1.13"
+dch_tag="dch-photon:1.13"
+docker pull $dch_image
+docker run -d --name dch-push -v /data/harbor/registry:/var/lib/registry -p 5000:5000 vmware/registry:2.6.2-photon
+docker tag $dch_image 127.0.0.1:5000/default-project/$dch_tag
+sleep 3
+docker push 127.0.0.1:5000/default-project/$dch_tag
+docker rm -f dch-push
 
 # Copy configuration data from tarball
 mkdir /etc/vmware/harbor
 cp -p /var/tmp/harbor/harbor.cfg /data/harbor
-cp -pr /var/tmp/harbor/{prepare,common,docker-compose.yml,docker-compose.notary.yml} /etc/vmware/harbor
+cp -pr /var/tmp/harbor/{prepare,common,docker-compose.yml,docker-compose.notary.yml,docker-compose.clair.yml} /etc/vmware/harbor
+
+# Get Harbor to Admiral data migration script
+curl -Lo /etc/vmware/harbor/admiral_import https://raw.githubusercontent.com/vmware/harbor/master/tools/migration/import
+chmod +x /etc/vmware/harbor/admiral_import
 
 # Stop docker service
 systemctl stop docker.service
@@ -81,6 +96,7 @@ END
 # Replace default DataDirectories in the harbor-provided compose files
 overrideDataDirectory /etc/vmware/harbor/docker-compose.yml /data/harbor
 overrideDataDirectory /etc/vmware/harbor/docker-compose.notary.yml /data/harbor
+overrideDataDirectory /etc/vmware/harbor/docker-compose.clair.yml /data/harbor
 
 chmod 600 /data/harbor/harbor.cfg
 chmod -R 600 /etc/vmware/harbor/common

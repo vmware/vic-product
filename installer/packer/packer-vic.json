@@ -6,15 +6,14 @@
     "remote_username": "",
     "remote_password": "",
     "root_password": "2RQrZ83i79N6szpvZNX6",
+    "build_portgroup": "{{env `BUILD_PORTGROUP`}}",
     "build_vicengine_revision": "{{env `BUILD_VICENGINE_REVISION`}}",
     "build_vicengine_file": "{{env `BUILD_VICENGINE_FILE`}}",
     "build_vicengine_url": "{{env `BUILD_VICENGINE_URL`}}",
     "build_admiral_revision": "dev",
     "build_harbor_revision": "{{env `BUILD_HARBOR_REVISION`}}",
     "build_harbor_file": "{{env `BUILD_HARBOR_FILE`}}",
-    "build_harbor_url": "{{env `BUILD_HARBOR_URL`}}",
-    "build_kov_cli_revision": "dev",
-    "build_kovd_revision": "dev"
+    "build_harbor_url": "{{env `BUILD_HARBOR_URL`}}"
   },
   "builders": [
     {
@@ -23,7 +22,7 @@
       "vmdk_name": "vic-disk",
       "type": "vmware-iso",
       "headless": false,
-      "disk_size": 8192,
+      "disk_size": 16384,
       "disk_additional_size": [ 51200 ],
       "disk_type_id": "thin",
       "guest_os_type": "other3xlinux-64",
@@ -45,12 +44,13 @@
       "remote_cache_directory": "packer_cache",
       "remote_username": "{{user `remote_username`}}",
       "remote_password": "{{user `remote_password`}}",
+      "ovftool_options": ["--allowExtraConfig"],
       "vnc_disable_password": true,
       "version": 11,
       "vmx_data": {
         "scsi0.virtualDev": "pvscsi",
         "ethernet0.virtualDev": "vmxnet3",
-        "ethernet0.networkName": "VM Network"
+        "ethernet0.networkName": "{{user `build_portgroup`}}"
         },
       "vmx_data_post": {
         "usb.present": "false"
@@ -67,7 +67,7 @@
       "vmdk_name": "system",
       "type": "vmware-iso",
       "headless": false,
-      "disk_size": 8192,
+      "disk_size": 16384,
       "disk_additional_size": [ 16384 ],
       "disk_type_id": 0,
       "guest_os_type": "other3xlinux-64",
@@ -84,7 +84,7 @@
       "vmx_data": {
         "scsi0.virtualDev": "pvscsi",
         "ethernet0.virtualDev": "vmxnet3",
-        "ethernet0.networkName": "VM Network"
+        "ethernet0.networkName": "{{user `build_portgroup`}}"
         },
       "vmx_data_post": {
         "usb.present": "false"
@@ -100,6 +100,11 @@
     {
       "type": "shell",
       "script": "scripts/package_provisioning.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/filesystem_provisioning.sh",
+      "pause_before": "15s"
     },
     {
       "type": "file",
@@ -120,6 +125,16 @@
       "type": "file",
       "source": "../bin/ova-engine-installer",
       "destination": "/usr/local/bin/ova-engine-installer"
+    },
+    {
+      "type": "file",
+      "source": "../bin/toolbox",
+      "destination": "/usr/bin/toolbox"
+    },
+    {
+      "type": "file",
+      "source": "../bin/rpctool",
+      "destination": "/usr/bin/rpctool"
     },
     {
       "type": "file",
@@ -188,6 +203,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/toolbox.service",
+      "destination": "/usr/lib/systemd/system/toolbox.service"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/appliance/ova-firewall.service",
       "destination": "/usr/lib/systemd/system/ova-firewall.service"
     },
@@ -244,8 +264,8 @@
     },
     {
       "type": "file",
-      "source": "scripts/harbor/upgrade_from_0.5.sh",
-      "destination": "/etc/vmware/harbor/upgrade_from_0.5.sh"
+      "source": "scripts/upgrade/upgrade_1.1_to_1.2.sh",
+      "destination": "/etc/vmware/upgrade/upgrade_1.1_to_1.2.sh"
     },
     {
       "type": "shell",
@@ -269,6 +289,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/admiral/admiral_default_users.service",
+      "destination": "/usr/lib/systemd/system/admiral_default_users.service"
+    },
+    {
+      "type": "file",
       "source": "scripts/admiral/configure_admiral.sh",
       "destination": "/etc/vmware/admiral/configure_admiral.sh"
     },
@@ -278,11 +303,30 @@
       "destination": "/etc/vmware/admiral/start_admiral.sh"
     },
     {
+      "type": "file",
+      "source": "scripts/admiral/add_default_users.sh",
+      "destination": "/etc/vmware/admiral/add_default_users.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/systemd/psc/get_token.service",
+      "destination": "/usr/lib/systemd/system/get_token.service"
+    },
+    {
+      "type": "file",
+      "source": "scripts/psc/get_token.sh",
+      "destination": "/etc/vmware/psc/get_token.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/systemd/psc/get_token.timer",
+      "destination": "/usr/lib/systemd/system/get_token.timer"
+    },
+    {
       "type": "shell",
       "environment_vars": ["BUILD_VICENGINE_REVISION={{user `build_vicengine_revision`}}",
                            "BUILD_VICENGINE_FILE={{user `build_vicengine_file`}}",
-                           "BUILD_VICENGINE_URL={{user `build_vicengine_url`}}",
-                           "BUILD_KOV_CLI_REVISION={{user `build_kov_cli_revision`}}"],
+                           "BUILD_VICENGINE_URL={{user `build_vicengine_url`}}"],
       "script": "scripts/provision_fileserver.sh"
     },
     {
@@ -309,6 +353,11 @@
       "type": "file",
       "source": "../fileserver/html",
       "destination": "/opt/vmware/fileserver"
+    },
+    {
+      "type": "file",
+      "source": "../fileserver/files/open_source_license.txt",
+      "destination": "/opt/vmware/fileserver/files/open_source_license.txt"
     },
     {
       "type": "shell",
@@ -338,43 +387,6 @@
       "type": "file",
       "source": "../engine_installer/html",
       "destination": "/opt/vmware/engine_installer"
-    },
-    {
-      "type": "shell",
-      "environment_vars":[
-        "BUILD_KOVD_REVISION={{user `build_kovd_revision`}}"
-      ],
-      "script": "scripts/provision_kov.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/kov/configure_kov.sh",
-      "destination": "/etc/vmware/kov/configure_kov.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/kov/configure_kov_env_vars.sh",
-      "destination": "/etc/vmware/kov/configure_kov_env_vars.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/kov/configure_kov_published_env_vars.sh",
-      "destination": "/etc/vmware/kov/configure_kov_published_env_vars.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/kov/kov_published_env_vars.service",
-      "destination": "/usr/lib/systemd/system/kov_published_env_vars.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/kov/kov_env_vars.service",
-      "destination": "/usr/lib/systemd/system/kov_env_vars.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/kov/kov.service",
-      "destination": "/usr/lib/systemd/system/kov.service"
     },
     {
       "type": "shell",

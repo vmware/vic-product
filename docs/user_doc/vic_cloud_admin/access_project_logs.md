@@ -8,15 +8,13 @@ You have a created project.
 
 **Procedure**
 
-1. Log in to the vSphere Integrated Containers Registry interface at https://<i>vic_appliance_address</i>:443.
-2. Click **Projects** on the left, click a project name, and click **Logs**.
+1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
+2. Select the **Administration** tab and click **Logs**.
 
-   The Logs view lists all of the operations that users have performed on this project.
+   In the Logs view you can see system logs as well as logs of the vSphere Integrated Containers Registry.
 3. To see a reduced list of operations, enter text in the **Filter Logs** text box.
 
-   For example, enter the name of a user, repository, or image tag.
-4. To filter by the type of operation, click **Advanced** > **Operations** and select or deselect operation types.
-5. To filter by date, enter start and end dates in the format `m/d/yyyy`.
+   For example, enter the name of a repository.
 
 
 

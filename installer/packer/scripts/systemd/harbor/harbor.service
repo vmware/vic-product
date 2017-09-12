@@ -1,7 +1,7 @@
 [Unit]
 Description=Harbor Container Registry
 Documentation=http://github.com/vmware/harbor
-After=docker.service
+After=docker.service data.mount
 Requires=docker.service data.mount
 
 [Service]
@@ -9,8 +9,8 @@ Type=simple
 Restart=on-failure
 RestartSec=5
 ExecStart=/etc/vmware/harbor/start_harbor.sh
-ExecStop=/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml down -v
-ExecStopPost=/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml rm -f
+ExecStop=/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml down -v
+ExecStopPost=/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml rm -f
 
 [Install]
 WantedBy=multi-user.target

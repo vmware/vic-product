@@ -2,12 +2,14 @@
 Description=Admiral Startup Configuration
 Documentation=http://github.com/vmware/admiral
 After=docker.service data.mount systemd-networkd.service systemd-resolved.service iptables.service ova-firewall.service admiral_startup.path
-Requires=iptables.service
+Requires=iptables.service data.mount
 
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/bash /etc/vmware/admiral/configure_admiral.sh
 ExecStartPost=/usr/bin/systemctl start admiral.service
+ExecStartPost=/usr/bin/systemctl start get_token.service
+ExecStartPost=/usr/bin/systemctl start admiral_default_users.service
 
 [Install]
 WantedBy=multi-user.target

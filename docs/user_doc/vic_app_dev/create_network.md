@@ -4,7 +4,7 @@ You can create, modify, and attach network configurations to containers and cont
 
 ** Procedure **
 
-1. In the management portal, navigate to **Deployments** > **Networks** and click **Create Network**.
+1. In the management portal, navigate to **Home** > **Networks** and click **+ Network**.
 2. On the Create Network page, select the **Advanced** check box to access all available settings.
 3. Configure the new network settings and click **Create**.
 

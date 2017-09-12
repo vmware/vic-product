@@ -1,6 +1,6 @@
 # Supported Docker Commands
 
- vSphere Integrated Containers Engine 1.2 supports Docker 1.13. The supported version of the Docker API is 1.25. 
+ vSphere Integrated Containers Engine 1.2 supports Docker client 1.13.0. The supported version of the Docker API is 1.25. 
 
 - [Docker Management Commands](#mgmt)
 - [Image Commands](#image)
@@ -11,7 +11,7 @@
 - [Docker Compose Commands](#compose)
 - [Swarm Commands](#swarm)
 
-## Docker Management Commands {#mgmt}
+## Docker Management Commands <a id="mgmt"></a>
 
 | **Command** | **Docker Reference** | **Supported** |
 | --- | --- | --- |
@@ -20,12 +20,12 @@
 |`inspect`|[Inspect a container or image](https://docs.docker.com/engine/reference/commandline/inspect/)|Yes, since 1.0. Includes information about the container network.|
 |`version`|[Docker version information](https://docs.docker.com/engine/reference/commandline/version/)|Yes, since 1.0|
 
-## Image Commands {#image}
+## Image Commands <a id="image"></a>
 
 | **Command** | **Docker Reference** | **Supported** |
 | --- | --- | --- |
 |`build`|[Build an image from a Dockerfile](https://docs.docker.com/engine/reference/commandline/build/)|No|
-|`commit`|[Create a new image from a container’s changes](https://docs.docker.com/engine/reference/commandline/commit/)|No|
+|`commit`|[Create a new image from a container’s changes](https://docs.docker.com/engine/reference/commandline/commit/)|Yes, since 1.2. You can only run `docker commit` on stopped containers.|
 |`history`|[Show the history of an image](https://docs.docker.com/engine/reference/commandline/history/)|No|
 |`images`|[Images](https://docs.docker.com/engine/reference/commandline/images/)|Yes, since 1.0. Supports `--filter`, `--no-trunc`, and `--quiet`|
 |`import`|[Import the contents from a tarball to create a filesystem image](https://docs.docker.com/engine/reference/commandline/import/)|No|
@@ -34,16 +34,16 @@
 |`save`|[Save images](https://docs.docker.com/engine/reference/commandline/save/)|No|
 |`tag`|[Tag an image into a repository](https://docs.docker.com/engine/reference/commandline/tag/)|Yes, since 1.0|
 
-## Container Commands {#container}
+## Container Commands <a id="container"></a>
 
 | **Command** | **Docker Reference** | **Supported** |
 | --- | --- | --- |
 |`attach`|[Attach to a container](https://docs.docker.com/engine/reference/commandline/attach/)|Yes, since 1.0|
 |`container list`|[List Containers](https://docs.docker.com/engine/reference/api/docker_remote_api_v1.22/#list-containers)|Yes, since 1.0|
 |`container resize`|[Resize a container](https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#resize-a-container-tty)|Yes, since 1.0|
-|`cp`|[Copy files or folders between a container and the local filesystem](https://docs.docker.com/engine/reference/commandline/cp/)|No|
+|`cp`|[Copy files or folders between a container and the local filesystem](https://docs.docker.com/engine/reference/commandline/cp/)|Yes, since 1.2. You cannot copy to or from an NFS volume. You cannot copy from an unstarted container.|
 |`create`|[Create a container](https://docs.docker.com/engine/reference/commandline/create/)|Yes, since 1.0. <br>`--cpuset-cpus` in Docker specifies CPUs the container is allowed to use during execution (0-3, 0,1). In vSphere Integrated Containers Engine, this parameter specifies the number of virtual CPUs to allocate to the container VM. Minimum CPU count is 1, maximum is unlimited. Default is 2.<br>`--ip` allows you to set a static IP on the container. By default, the virtual container host  manages the container IP.<br> Minimum value for `--memory` is 512MB, maximum unlimited. If unspecified, the default is 2GB. Supports the `--attach`, `--cidfile`, `--cpuset-cpus`, `--entrypoint`, `--env`, `--env-file`, `--help`, `--interactive`, `--ip`, `--link`, `--memory`, `--name`, `--net`, `--net-alias`, `--publish`, `--rm`, `--stop-signal`, `--stop-timeout`, `--tty`, `--user`, `--volume`, and `--workdir` options.|
-|`diff`|[Inspect changes on a container's filesystem](https://docs.docker.com/engine/reference/commandline/diff/)|No|
+|`diff`|[Inspect changes on a container's filesystem](https://docs.docker.com/engine/reference/commandline/diff/)|Yes, since 1.2|
 |`events`|[Get real time events from the server](https://docs.docker.com/engine/reference/commandline/events/)|Yes, since 1.0. Supports passive Docker events for containers and images. Does not yet support events for volumes or networks.|
 |`exec`|[Run a command in a running container](https://docs.docker.com/engine/reference/commandline/exec/)|Yes, since 1.2|
 |`export`|[Export a container](https://docs.docker.com/engine/reference/commandline/export/)|No|
@@ -64,7 +64,7 @@
 |`update`| [Update a container](https://docs.docker.com/engine/reference/commandline/update/)|No|
 |`wait`|[Wait for a container](https://docs.docker.com/engine/reference/commandline/wait/)|Yes, since 1.0|
 
-## Hub and Registry Commands {#registry}
+## Hub and Registry Commands <a id="registry"></a>
 
 | **Command** | **Docker Reference** | **Supported** |
 | --- | --- | --- |
@@ -74,7 +74,7 @@
 |`push`|[Push an image or a repository to a registry](https://docs.docker.com/engine/reference/commandline/push/)|No|
 |`search`|[Search the Docker hub for images](https://docs.docker.com/engine/reference/commandline/search/)|No|
 
-## Network and Connectivity Commands {#network}
+## Network and Connectivity Commands <a id="network"></a>
 
 For more information about network operations with vSphere Integrated Containers Engine, see [Container Networking with vSphere Integrated Containers Engine](network_use_cases.md).
 
@@ -87,7 +87,7 @@ For more information about network operations with vSphere Integrated Containers
 |`network ls`|[List networks/](https://docs.docker.com/engine/reference/commandline/network_ls/)|Yes, since 1.0|
 |`network rm`|[Remove a network](https://docs.docker.com/engine/reference/commandline/network_rm/)|Yes, since 1.0. Network name and network ID are supported.|
 
-## Shared Data Volume Commands {#volume}
+## Shared Data Volume Commands <a id="volume"></a>
 
 For more information about volume operations with vSphere Integrated Containers Engine, see [Using Volumes with vSphere Integrated Containers Engine](using_volumes_with_vic.md).
 
@@ -98,9 +98,9 @@ For more information about volume operations with vSphere Integrated Containers 
 |`volume ls`|[List volumes](https://docs.docker.com/engine/reference/commandline/volume_ls/)|Yes, since 1.0|
 |`volume rm`|[Remove or delete a volume](https://docs.docker.com/engine/reference/commandline/volume_rm/)|Yes, since 1.0|
 
-## Docker Compose Commands {#compose}
+## Docker Compose Commands <a id="compose"></a>
 
-vSphere Integrated Containers Engine 1.1 supports Docker Compose version 1.9.0.
+vSphere Integrated Containers Engine 1.2 supports Docker Compose version 1.9.0.
 
 For more information about using Docker Compose with vSphere Integrated Containers Engine, see [Creating a Containerized Application with vSphere Integrated Containers Engine](creating_containerized_app_with_vic.md).
 
@@ -133,6 +133,6 @@ For information about Docker Compose file support, see [Supported Docker Compose
 | `up`  | [Create and start containers]()  | Yes, since 1.1|
 | `version`  | Show Docker Compose version information  | Yes, since 1.0  |
 
-## Swarm Commands {#swarm}
+## Swarm Commands <a id="swarm"></a>
 
 This version of vSphere Integrated Containers Engine does not support Docker Swarm.

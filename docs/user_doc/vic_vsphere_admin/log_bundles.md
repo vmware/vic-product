@@ -2,7 +2,7 @@
 
 vSphere Integrated Containers Engine provides log bundles that you can download from the VCH Admin portal for a virtual container host (VCH).
 
-You access the VCH Admin Portal at https://<i>vch_address</i>:2378. For more information about the VCH Admin portal, see [Access the VCH Administration Portal](access_vicadmin.md).
+You access the VCH Admin Portal at https://<i>vch_address</i>:2378. For more information about the VCH Admin portal, see [VCH Administration Portal](access_vicadmin.md).
 
 To aid in troubleshooting errors, you can download different log bundles:
 
@@ -30,7 +30,7 @@ You can share the non-live version of the logs with administrators or VMware Sup
 
 Logs also include the `vic-machine` commands used during VCH deployment to help you resolve issues.
 
-## Collecting Logs Manually {#manual}
+## Collecting Logs Manually <a id="manual"></a>
 If the VCH Admin portal is offline, use `vic-machine debug` to enable SSH on the VCH and use `scp -r` to capture the logs from `/var/log/vic/`.
 
 ## Setting the Log Size Cap

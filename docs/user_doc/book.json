@@ -11,7 +11,8 @@
         },
 	"pdf": {
 		"headerTemplate": "_TITLE_",
-		"footerTemplate": "_PAGENUM_"
+		"footerTemplate": "_PAGENUM_",
+                "paperSize": "letter"
 	}
-    
+         
 }

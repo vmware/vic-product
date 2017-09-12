@@ -4,6 +4,8 @@ set -e
 triggers="(.drone.yml|dinv//*)"
 mods=$(git --no-pager diff --name-only HEAD^1)
 
+git_rev=$(git rev-parse HEAD)
+
 namespace="vmware"
 
 if [[ ! $mods =~ $triggers ]]; then
@@ -25,8 +27,9 @@ function build {
     name="${version%-*}"
     rev="${version##*-}"
     echo "[${name}:${rev}] Building ${name}:${rev}"
-    docker build -t "${namespace}/${name}:${rev}" "$version"
-    echo "[${name}:${rev}] built"    
+    docker build -t "${namespace}/${name}:${rev}-${git_rev}" "$version"
+    docker tag "${namespace}/${name}:${rev}-${git_rev}" "${namespace}/${name}:${rev}"
+    echo "[${name}:${rev}] built"
   done
 
 }
@@ -45,6 +48,7 @@ function push {
     name="${version%-*}"
     rev="${version##*-}"
     echo "[${name}:${rev}] pushing ${name}:${rev}"
+    docker push "${namespace}/${name}:${rev}-${git_rev}"
     docker push "${namespace}/${name}:${rev}"
     echo "[${name}:${rev}] built"
     if [ -f "$version"/LATEST ]; then

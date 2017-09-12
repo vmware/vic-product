@@ -1,8 +1,8 @@
-# Upgrade a VCH #
+# Upgrade Virtual Container Hosts #
 
 You upgrade virtual container hosts (VCHs) by downloading a new version of vSphere Integrated Containers Engine and running the `vic-machine upgrade` command.
 
-You can use `vic-machine upgrade` to upgrade VCHs from version 0.8 and above. You can run `vic-machine upgrade` on VCHs that are either running or powered off. When you upgrade a running VCH, the VCH goes temporarily offline, but container workloads continue as normal during the upgrade process. Upgrading a VCH does not affect any mapped container networks that you defined by setting the `vic-machine create --container-network` option. The following operations are not available during upgrade:
+You can use `vic-machine upgrade` to upgrade VCHs to newer versions. You can run `vic-machine upgrade` on VCHs that are either running or powered off. When you upgrade a running VCH, the VCH goes temporarily offline, but container workloads continue as normal during the upgrade process. Upgrading a VCH does not affect any mapped container networks that you defined by setting the `vic-machine create --container-network` option. The following operations are not available during upgrade:
 
 - You cannot access container logs
 - You cannot attach to a container
@@ -14,10 +14,12 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
 
 **Prerequisites**
 
-- You deployed one or more VCHs with an older version of the `vic-machine create` command.
+- You deployed one or more VCHs with an older version of `vic-machine`.
 - You downloaded a new version of the vSphere Integrated Containers Engine bundle.
 - Run the `vic-machine ls` command by using the new version of `vic-machine` to see the upgrade status of all of the VCHs that are running on a vCenter Server instance or ESXi host. For information about running `vic-machine ls`, see [List VCHs and Obtain Their IDs](list_vch.md).
 - Optionally note the IDs of the VCHs.
+- Obtain the vCenter Server or ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
+
 
 **Procedure**
 
@@ -29,30 +31,32 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
   - You must specify the username and optionally the password, either in the `target` option or separately in the `--user` and `--password` options. 
   - If the VCH has a name other than the default name, `virtual-container-host`, you must specify the `--name` or `--id` option. 
   - If multiple compute resources exist in the datacenter, you must specify the `--compute-resource` or `--id` option. 
-  - If your vSphere environment uses untrusted, self-signed certificates, you must also specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. To obtain the thumbprint of the vCenter Server or ESXi host certificate, run `vic-machine` without the specifying the `--thumbprint` or `--force` options. The upgrade of the VCH fails, but the resulting error message includes the required certificate thumbprint. You can copy the thumbprint from the error message and run `vic-machine` again, including the `--thumbprint` option.
+  - If your vSphere environment uses untrusted, self-signed certificates, you must also specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. 
 
-     **NOTE**: If you obtain the thumbprint by other means, use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
+     Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
 --thumbprint <i>certificate_thumbprint</i>
---name <i>vch_name</i></pre>
+--id <i>vch_id</i></pre>
 
 3. If the upgrade operation fails with error messages, run `vic-machine upgrade` again, specifying a timeout longer than 3 minutes in the `--timeout` option.
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
 --thumbprint <i>certificate_thumbprint</i>
---name <i>vch_name</i>
+--id <i>vch_id</i>
 --timeout 5m0s</pre>
 
 3. If the upgrade operation continues to fail with error messages, run `vic-machine upgrade` again with the `--force` option.
 
-    If your vSphere environment uses untrusted, self-signed certificates, running `vic-machine upgrade` with the `--force` option allows you to omit the `--thumbprint` option.
+    If your vSphere environment uses untrusted, self-signed certificates, running `vic-machine upgrade` with the `--force` option allows you to omit the `--thumbprint` option. 
+
+    **CAUTION**: It is not recommended to use `--force` to bypass thumbprint verification in production environments. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. 
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---name <i>vch_name</i>
+--id <i>vch_id</i>
 --timeout 5m0s
 --force</pre>
 
@@ -60,8 +64,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---name <i>vch_name</i>
---force
+--id <i>vch_id</i>
 --rollback</pre>
 
 
@@ -76,10 +79,11 @@ During the upgrade process, `vic-machine upgrade` performs the following operati
 - Deletes the snapshot of the VCH endpoint VM once the upgrade has succeeded.
 - After you upgrade a VCH, any new container VMs will boot from the new version of the `bootstrap.iso` file.
 - If the upgrade times out while waiting for the VCH service to start, the upgrade fails and rolls back to the previous version.
+- If the upgrade fails with the error `another upgrade/configure operation is in progress`, a previous attempt at upgrading the VCH might have been interrupted without rolling back. In this case, run `vic-machine configure` with the `--reset-progress` option. For information about `vic-machine configure --reset-progress`, see [Reset Upgrade or Configuration Progress](configure_vch.md#resetprogress).
 
 **What to Do Next**
 
-Upgrade the HTML5 vSphere Client plug-in:
+Upgrade the HTML5 vSphere Client plug-in.
 
 - [Upgrade the HTML5 vSphere Client Plug-In on vCenter Server for Windows](upgrade_h5_plugin_windows.md)
 - [Upgrade the HTML5 vSphere Client Plug-In on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md)

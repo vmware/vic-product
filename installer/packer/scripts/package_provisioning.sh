@@ -14,32 +14,19 @@
 # limitations under the License.
 set -euf -o pipefail
 
+# Remove old kernel
+tdnf remove -y linux
+# Update packages
+tdnf distro-sync -y --refresh
 # Install sudo and ESX-optimized kernel
-tdnf install -y sudo linux-esx rsync lvm2 docker gawk parted tar openjre cdrkit xfsprogs
+tdnf install -y sudo linux-esx rsync lvm2 gawk parted tar openjre cdrkit xfsprogs docker
 
 # Install Docker Compose
 curl -L "https://github.com/docker/compose/releases/download/1.11.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
 # Remove unused packages
-tdnf remove -y cloud-init
+tdnf remove -y cloud-init open-vm-tools
 
-# Create directory to host VMware-specific scripts
-mkdir /etc/vmware
-mkdir "/usr/lib/systemd/system/getty@tty2.service.d"
-
-# Create directory for PSC token
-mkdir -p /etc/vmware/psc/admiral
-mkdir -p /etc/vmware/psc/harbor
-
-# Create Data Dir
-mkdir /data
-
-# Create filesystem on /dev/sdb to be mounted as /data
-parted -a optimal --script /dev/sdb 'mklabel gpt mkpart primary ext4 0% 100%'
-mkfs.ext4 /dev/sdb1
-tune2fs -L vic-data-v1 /dev/sdb1
-
-# Seed directories in /data
-mount /dev/sdb1 /data -t ext4
-mkdir -p /data/{admiral,harbor,fileserver}
+# Reboot to load new kernel
+systemctl --no-wall reboot

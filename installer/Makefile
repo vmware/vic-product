@@ -21,7 +21,7 @@ SHA256SUM ?= sha256sum
 SED ?= sed
 RM ?= rm
 CP ?= cp
-OS := $(shell uname | tr '[:upper]' '[:lower:]')
+OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 
 REV :=$(shell git rev-parse --short=8 HEAD)
 
@@ -34,17 +34,25 @@ BIN ?= bin
 
 export GOPATH ?= $(shell echo $(CURDIR) | sed -e 's,/src/.*,,')
 GVT ?= $(GOPATH)/bin/gvt$(BIN_ARCH)
+GAS ?= $(GOPATH)/bin/gas$(BIN_ARCH)
 
-.PHONY: ova-release ova-debug vagrant-local
+.PHONY: ova-release ova-debug vagrant-local gas
+
+LDFLAGS := $(shell BUILD_NUMBER=${BUILD_NUMBER} $(BASE_DIR)/scripts/version-linker-flags.sh)
 
 ovfenv := $(BIN)/ovfenv
 vic-ova-ui := $(BIN)/vic-ova-ui
 ova-webserver := $(BIN)/ova-webserver
 ova-engine-installer := $(BIN)/ova-engine-installer
+toolbox := $(BIN)/toolbox
+rpctool := $(BIN)/rpctool
+gas: $(GAS)
 ovfenv: $(ovfenv)
 vic-ova-ui: $(vic-ova-ui)
 ova-webserver: $(ova-webserver)
 ova-engine-installer: $(ova-engine-installer)
+toolbox: $(toolbox)
+rpctool: $(rpctool)
 
 # Generate Go package dependency set, skipping if the only targets specified are clean and/or distclean
 # Caches dependencies to speed repeated calls
@@ -65,21 +73,29 @@ $(ovfenv): $(call godeps,ovatools/ovfenv/*.go)
 	@echo building ovfenv linux...
 	@echo build $(dir $<)
 	@echo output $@
-	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -o ./$@ ./$(dir $<)
+	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
 $(vic-ova-ui): $(call godeps,ovatools/vic-ova-ui/*.go)
 	@echo building vic-ova-ui
-	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -o ./$@ ./$(dir $<)
+	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
 $(ova-webserver): $(call godeps,fileserver/*.go)
 	@echo building ova-webserver
-	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -o ./$@ ./$(dir $<)
+	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
 $(ova-engine-installer): $(call godeps,engine_installer/*.go)
 	@echo building ova-engine-installer
-	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -o ./$@ ./$(dir $<)
+	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
-ova-release: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
+$(toolbox): $(call godeps,toolbox/*.go)
+	@echo building toolbox
+	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
+
+$(rpctool): $(call godeps,ovatools/rpctool/*.go)
+	@echo building rpctool
+	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
+
+ova-release: gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
 	@echo building vic-unified-installer OVA using packer...
 	@cd $(BASE_DIR)packer && $(PACKER) build \
 			-only=ova-release \
@@ -90,14 +106,13 @@ ova-release: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
 			-var 'remote_password=$(PACKER_PASSWORD)'\
 			-var 'build_vicengine_revision=$(BUILD_VICENGINE_REVISION)' \
 			-var 'build_vicengine_dev_revision=$(BUILD_VICENGINE_DEV_REVISION)' \
-			-var 'build_kov_cli_revision'=${BUILD_KOV_CLI_REVISION} \
-			-var 'build_kovd_revision'=${BUILD_KOVD_REVISION} \
 			-var 'build_admiral_revision=$(BUILD_ADMIRAL_REVISION)' \
 			-var 'build_harbor_revision=$(BUILD_HARBOR_REVISION)' \
 			-var 'build_harbor_dev_revision=$(BUILD_HARBOR_DEV_REVISION)' \
 			packer-vic.json
 	@echo adding proper vic OVF file...
 	@cd $(BASE_DIR)packer/vic/vic && $(RM) vic.ovf && $(CP) ../../vic-unified.ovf vic.ovf
+	@cd $(BASE_DIR)packer/vic/vic && $(SED) -i -e s~--version--~$(BUILD_VICENGINE_REVISION)~ vic.ovf
 ifeq ($(OS),darwin)
 	@echo rebuilding OVF manifest in darwin...
 	@cd $(BASE_DIR)packer/vic/vic && $(RM) vic.mf && shasum -a 256 * | $(AWK) '{print "SHA256("$$2") = "$$1}' > vic.mf
@@ -110,7 +125,7 @@ endif
 	@echo cleaning packer directory...
 	@cd $(BASE_DIR)packer && $(RM) -rf vic
 
-ova-debug: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
+ova-debug: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
 	@echo building vic-unified-installer OVA using packer...
 	cd $(BASE_DIR)packer && PACKER_LOG=1 $(PACKER) build \
 			-only=ova-release \
@@ -121,14 +136,13 @@ ova-debug: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
 			-var 'remote_password=$(PACKER_PASSWORD)'\
 			-var 'build_vicengine_revision=$(BUILD_VICENGINE_REVISION)' \
 			-var 'build_vicengine_dev_revision=$(BUILD_VICENGINE_DEV_REVISION)' \
-			-var 'build_kov_cli_revision'=${BUILD_KOV_CLI_REVISION} \
-			-var 'build_kovd_revision'=${BUILD_KOVD_REVISION} \
 			-var 'build_admiral_revision=$(BUILD_ADMIRAL_REVISION)' \
 			-var 'build_harbor_revision=$(BUILD_HARBOR_REVISION)' \
 			-var 'build_harbor_dev_revision=$(BUILD_HARBOR_DEV_REVISION)' \
 			--on-error=abort packer-vic.json
 	@echo adding proper vic OVF file...
 	cd $(BASE_DIR)packer/vic/vic && $(RM) vic.ovf && $(CP) ../../vic-unified.ovf vic.ovf
+	@cd $(BASE_DIR)packer/vic/vic && $(SED) -i -e s~--version--~$(BUILD_VICENGINE_REVISION)~ vic.ovf
 ifeq ($(OS),darwin)
 	@echo rebuilding OVF manifest in darwin...
 	@cd $(BASE_DIR)packer/vic/vic && $(RM) vic.mf && shasum -a 256 * | $(AWK) '{print "SHA256("$$2") = "$$1}' > vic.mf
@@ -141,7 +155,7 @@ endif
 	@echo cleaning packer directory...
 	cd $(BASE_DIR)packer && $(RM) -rf vic
 
-vagrant-local: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
+vagrant-local: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
 	@echo building vic-unified-installer Vagrant box using packer...
 	@cd $(BASE_DIR)packer && $(PACKER) build \
 			-only=vagrant-local \
@@ -149,14 +163,16 @@ vagrant-local: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer)
 			-var 'iso_file=$(PHOTON_ISO)'\
 			-var 'build_vicengine_revision=$(BUILD_VICENGINE_REVISION)' \
 			-var 'build_vicengine_dev_revision=$(BUILD_VICENGINE_DEV_REVISION)' \
-			-var 'build_kov_cli_revision'=${BUILD_KOV_CLI_REVISION} \
-			-var 'build_kovd_revision'=${BUILD_KOVD_REVISION} \
 			-var 'build_admiral_revision=$(BUILD_ADMIRAL_REVISION)' \
 			-var 'build_harbor_revision=$(BUILD_HARBOR_REVISION)' \
 			-var 'build_harbor_dev_revision=$(BUILD_HARBOR_DEV_REVISION)' \
 			--on-error=abort packer-vic.json
 
 # utility targets
+$(GAS): vendor/manifest
+	@echo building $(GAS)...
+	@$(GO) build $(RACE) -o $(GAS) ./vendor/github.com/GoASTScanner/gas
+
 $(GVT): vendor/manifest
 	@echo building $(GVT)...
 	@$(GO) build $(RACE) -o $(GVT) ./vendor/github.com/FiloSottile/gvt
@@ -164,6 +180,10 @@ $(GVT): vendor/manifest
 vendor: $(GVT)
 	  @echo restoring vendor
 		  $(GVT) restore
+
+gas: $(GAS)
+	@echo running go AST tool
+	@$(GAS) -quiet engine_installer/... fileserver/... lib/... ovatools/... pkg/... tagvm/... toolbox/... 2> /dev/null
 
 clean:
 	@echo removing binaries

@@ -9,6 +9,7 @@ This version of vSphere Integrated Containers Engine supports these features:
 - Pulling images from Docker hub and private registries
 - Named data volumes
 - Anonymous data volumes
+- Sharing concurrent NFS share points between containers
 - Bridged networks
 - External networks
 - Port mapping
@@ -19,12 +20,10 @@ This version of vSphere Integrated Containers Engine supports these features:
 This version of vSphere Integrated Containers Engine does not support these features:
 
 - Pulling images via image digest 
-- Sharing concurrent data volume between containers
 - Mapping a local host folder to a container volume
 - Mapping a local host file to a container
 - `docker push`
 - `docker build`
-- `docker cp`
 
 For limitations of using vSphere Integrated Containers with volumes, see [Using Volumes with vSphere Integrated Containers Engine](using_volumes_with_vic.md).
 
@@ -44,6 +43,6 @@ vSphere Integrated Containers supports TLS v1.2, so you must configure `docker-c
 
 To use `docker-compose` with vSphere Integrated Containers and TLS, set the following environment variables:<pre>COMPOSE_TLS_VERSION=TLSv1_2
 DOCKER_TLS_VERIFY=1
-DOCKER_CERT_PATH="<i>path to your cert files</i>"</pre>
+DOCKER_CERT_PATH="<i>path to your certificate files</i>"</pre>
 
 The certificate file path must lead to `CA.pem`, `client_key.pem`, and `client cert.pem`. You can run `docker-compose` with the following command:<pre>docker-compose -H <i>vch_address</i> up</pre>

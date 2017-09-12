@@ -10,7 +10,7 @@ Unable to load certificates: cname option doesn't match existing server certific
 in certificate path <i>path_to_certificate</i></pre>
 
 ## Cause ##
-`vic-machine create` attempts to re-use certificates that it finds in `--cert-path`. The default value of `--cert-path` derives from the value that you specify in `--name`. If you are deploying a VCH from the same location and with the same name as a previous VCH, `vic-machine create` reuses the old certificates. This behavior is intentional, to allow you to easily redeploy a VCH without requiring you to re-issue client certificates to users.
+`vic-machine create` attempts to re-use certificates that it finds in `--tls-cert-path`. The default value of `--tls-cert-path` derives from the value that you specify in `--name`. If you are deploying a VCH from the same location and with the same name as a previous VCH, `vic-machine create` reuses the old certificates. This behavior is intentional, to allow you to easily redeploy a VCH without requiring you to re-issue client certificates to users.
 
 Before reusing the existing certificates, `vic-machine` confirms that the existing certificate is valid given the options supplied for the new deployment. The options that influence this in order of priority are:
 * `--tls-cname` if specified, or
@@ -26,10 +26,10 @@ The error message means that the existing certificate has a Common Name attribut
 - If you want to reuse the Certificate Authority so that client certificates remain valid, but you need to provide a different IP address:
 
   1. Manually generate the server certificates by using `openssl`, signing them with the existing CA.
-  2.  Use the `--cert` and `--key` options to pass the newly generated certificates to `vic-machine create`.
+  2.  Use the `--tls-server-cert` and `--tls-server-key` options to pass the newly generated certificates to `vic-machine create`.
 
 - If you do not want to reuse the certificates, choose one of the following options:
-  - Change the location from which you run `vic-machine`. This alters the default `--cert-path`.
-  - Change the value of `--name`. This alters the default `--cert-path`.
-  - Specify `--cert-path` explicitly.
-  - Delete the existing certificates from `--cert-path`
+  - Change the location from which you run `vic-machine`. This alters the default `--tls-cert-path`.
+  - Change the value of `--name`. This alters the default `--tls-cert-path`.
+  - Specify `--tls-cert-path` explicitly.
+  - Delete the existing certificates from `--tls-cert-path`

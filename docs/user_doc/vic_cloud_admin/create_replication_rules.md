@@ -12,15 +12,15 @@ You replicate image repositories between vSphere Integrated Containers Registry 
 
 - You have two vSphere Integrated Containers Registry instances, one that contains the images to replicate and one to act as the replication endpoint registry.
 - You created at least one project, and pushed at least one image to that project.
-- If the remote registry that you intend to use as the endpoint uses a self-signed or an untrusted certificate, you must disable certificate verification on the registry from which you are replicating. For example, disable certificate verification if the endpoint registry uses the default auto-generated certificates that vSphere Integrated Containers Registry created during the deployment of the vSphere Integrated Containers appliance. For information about disabling certificate verification, see [Configure a Registry](configure_registry.md).
+- If the remote registry that you intend to use as the endpoint uses a self-signed or an untrusted certificate, you must disable certificate verification on the registry from which you are replicating. For example, disable certificate verification if the endpoint registry uses the default auto-generated certificates that vSphere Integrated Containers Registry created during the deployment of the vSphere Integrated Containers appliance. For information about disabling certificate verification, see [Configure System Settings](configure_system.md).
 
 **Procedure**
 
-1. Log in to the vSphere Integrated Containers Registry instance that contains the images to replicate. 
+1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials. 
 
-   Log in at https://<i>vic_appliance_address</i>:443. Use the `admin` account, or an account with Administrator privileges. If the vSphere Integrated Containers appliance uses a different port for vSphere Integrated Containers Registry, replace 443 with the appropriate port.
-2. Click **Projects** on the left and click the name of the project to replicate.
-3. Click **Replication**, then click the **+ Replication Rule** button.
+   Use an account with Cloud Administrator privileges.
+2. Select the **Administration** tab, click **Projects** on the left,  and click the name of the project to replicate.
+3. Click **Registry Replication** and click the **+ Replication Rule** button.
 4. Enter a suitable name for the new replication rule and optionally add a description.
 5. Select or create an endpoint registry.
 
@@ -28,8 +28,12 @@ You replicate image repositories between vSphere Integrated Containers Registry 
      
     When you select an existing endpoint registry, the URL, user name and password are filled in automatically. If only one endpoint registry exists in the system, it is selected automatically. 
 
-   - To create a new endpoint, check the **New Endpoint** check box.
+   - To create a new endpoint, select the **New Endpoint** check box.
      1. Enter a suitable name for the new replication endpoint.
+     2. Optionally select the **Enable** checkbox.
+
+     If you select **Enable**, replication starts immediately. You can track the progress of the replication in the list of **Replication Jobs**.
+
      2.  Enter the full URL of the vSphere Integrated Containers Registry instance to set up as a replication endpoint.
  
        For example, https://<i>registry_address</i>:443.
@@ -38,9 +42,7 @@ You replicate image repositories between vSphere Integrated Containers Registry 
        Use the `admin` account for that vSphere Integrated Containers Registry instance, an account with Administrator privileges on that instance, or an account that has write permission on the corresponding project in the endpoint registry. If the project already exists and the replication user that you configure in the rule does not have write privileges in the target project, the replication fails. 
 
 6. Click **Test Connection**.
-7. When you have successfully tested the connection, optionally check the **Enable** checkbox, and click **OK**.
-
-   If you select **Enable**, replication starts immediately. You can track the progress of the replication in the list of **Replication Jobs**.
+7. When you have successfully tested the connection click **OK**.
 8. Click the icon in the **Logs** column for the replication job to check that replication succeeded without errors.
 
 **Result**

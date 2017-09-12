@@ -18,6 +18,31 @@
 			"notests": true
 		},
 		{
+			"importpath": "github.com/GoASTScanner/gas",
+			"repository": "https://github.com/GoASTScanner/gas",
+			"vcs": "git",
+			"revision": "1beec25f7754273c9672a3368ea7048d4e73138e",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/coreos/go-systemd",
+			"repository": "https://github.com/coreos/go-systemd",
+			"vcs": "git",
+			"revision": "24036eb3df68550d24a2736c5d013f4e83366866",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/coreos/pkg/dlopen",
+			"repository": "https://github.com/coreos/pkg",
+			"vcs": "git",
+			"revision": "8dbaa491b063ed47e2474b5363de0c0db91cf9f2",
+			"branch": "master",
+			"path": "/dlopen",
+			"notests": true
+		},
+		{
 			"importpath": "github.com/dustin/go-humanize",
 			"repository": "https://github.com/dustin/go-humanize",
 			"vcs": "git",
@@ -30,6 +55,14 @@
 			"repository": "https://github.com/gizak/termui",
 			"vcs": "git",
 			"revision": "798ffb9cbbe4073ef1f88e6069ca4a2c6aa6676b",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/godbus/dbus",
+			"repository": "https://github.com/godbus/dbus",
+			"vcs": "git",
+			"revision": "bd29ed602e2cf4207ebcabcd530259169e4289ba",
 			"branch": "master",
 			"notests": true
 		},
@@ -75,10 +108,26 @@
 			"notests": true
 		},
 		{
-			"importpath": "github.com/sirupsen/logrus",
-			"repository": "https://github.com/sirupsen/logrus",
+			"importpath": "github.com/Sirupsen/logrus",
+			"repository": "https://github.com/Sirupsen/logrus",
 			"vcs": "git",
 			"revision": "d26492970760ca5d33129d2d799e34be5c4782eb",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/spf13/pflag",
+			"repository": "https://github.com/spf13/pflag",
+			"vcs": "git",
+			"revision": "e57e3eeb33f795204c1ca35f56c44f83227c6e66",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/vmware/govmomi",
+			"repository": "https://github.com/vmware/govmomi",
+			"vcs": "git",
+			"revision": "8ab1a62d9c0873b8a25404c52928be2358b78963",
 			"branch": "master",
 			"notests": true
 		},

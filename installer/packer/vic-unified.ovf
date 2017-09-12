@@ -15,7 +15,7 @@
   </vmw:IpAssignmentSection>
   <DiskSection>
     <Info>List of the virtual disks and partitions needed</Info>
-    <Disk ovf:capacity="20" ovf:capacityAllocationUnits="byte * 2^30" ovf:diskId="system" ovf:fileRef="system.vmdk_id" ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#streamOptimized" ovf:populatedSize="629145600"/>
+    <Disk ovf:capacity="16" ovf:capacityAllocationUnits="byte * 2^30" ovf:diskId="system" ovf:fileRef="system.vmdk_id" ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#streamOptimized" ovf:populatedSize="629145600"/>
     <Disk ovf:capacity="50" ovf:capacityAllocationUnits="byte * 2^30" ovf:diskId="data1" ovf:fileRef="data1.vmdk_id" ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#streamOptimized" ovf:populatedSize="0"/>
   </DiskSection>
   <VirtualSystem ovf:id="vic">
@@ -170,13 +170,16 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
             Version is the actual product version in the
             form X.X.X.X where X is an unsigned 16-bit integer.
 
+            This is set by the $BUILD_VICENGINE_REVISION
+            environment variable.
+
             FullVersion is a descriptive version string
             including, for example, alpha or beta designations
             and other release criteria.
         -->
 
 
-      <Version>1.1.1.1</Version>
+      <Version>--version--</Version>
       <FullVersion/>
       <ProductUrl>https://github.com/vmware/vic</ProductUrl>
       <VendorUrl/>
@@ -225,56 +228,32 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
     <ProductSection ovf:class="registry" ovf:required="false">
       <Info>Registry Properties</Info>
       <Category>3. Registry Configuration</Category>
-      <Property ovf:key="deploy" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="true">
-        <Label>3.1. Deploy Registry</Label>
-        <Description>Specifies whether registry is enabled on the appliance.</Description>
-      </Property>
       <Property ovf:key="port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="443">
-        <Label>3.2. Registry Port</Label>
+        <Label>3.1. Registry Port</Label>
         <Description>Specifies the port on which registry will be published.</Description>
       </Property>
       <Property ovf:key="notary_port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="4443">
-        <Label>3.3. Notary Port</Label>
+        <Label>3.2. Notary Port</Label>
         <Description>Specifies the port on which Notary will be published.</Description>
       </Property>
-      <Property ovf:key="admin_password" ovf:password="true" ovf:qualifiers="MinLen(8),MaxLen(20)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>3.4. Registry Admin Password</Label>
-        <Description>The initial password of registry admin. Subsequent changes of the admin password should be performed in UI.  (8-20 characters)</Description>
-      </Property>
-      <Property ovf:key="db_password" ovf:password="true" ovf:qualifiers="MinLen(8),MaxLen(128)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>3.5. Database Password</Label>
-        <Description>The initial password of the root user of MySQL database. Subsequent changes of password should be performed in operating system. (8-128 characters)</Description>
-      </Property>
       <Property ovf:key="gc_enabled" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="false">
-        <Label>3.6. Garbage Collection</Label>
+        <Label>3.3. Garbage Collection</Label>
         <Description>When setting this to true, registry performs garbage collection everytime it boots up.</Description>
-      </Property>
-      <Property ovf:key="ssl_cert" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>3.7. SSL Cert</Label>
-        <Description>Paste in the content of a certificate file. Leave blank for a generated self-signed certificate.</Description>
-      </Property>
-      <Property ovf:key="ssl_cert_key" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>3.8. SSL Cert Key</Label>
-        <Description>Paste in the content of certificate key file. Leave blank for a generated key.</Description>
       </Property>
     </ProductSection>
     <ProductSection ovf:class="management_portal" ovf:required="false">
       <Info>Management Portal Properties</Info>
       <Category>4. Management Portal Configuration</Category>
-      <Property ovf:key="deploy" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="true">
-        <Label>4.1. Deploy Management Portal</Label>
-        <Description>Specifies whether Management Portal is enabled on the appliance.</Description>
-      </Property>
       <Property ovf:key="port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="8282">
-        <Label>4.2. Management Portal Port</Label>
+        <Label>4.1. Management Portal Port</Label>
         <Description>Specifies the port on which Management Portal will be published.</Description>
       </Property>
       <Property ovf:key="ssl_cert" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>4.3. SSL Cert</Label>
+        <Label>4.2. SSL Cert</Label>
         <Description>Paste in the content of a certificate file. Leave blank for a generated self-signed certificate.</Description>
       </Property>
       <Property ovf:key="ssl_cert_key" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>4.4. SSL Cert Key</Label>
+        <Label>4.3. SSL Cert Key</Label>
         <Description>Paste in the content of certificate key file in PKCS#8 format. Leave blank for a generated key.</Description>
       </Property>
     </ProductSection>
@@ -295,35 +274,27 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
       </Property>
     </ProductSection>
     <ProductSection ovf:class="engine_installer" ovf:required="false">
-      <Info>VIC Engine Install Wizard Properties</Info>
-      <Category>6. VIC Engine Install Wizard Configuration</Category>
+      <Info>Demo VCH Installer Wizard Properties</Info>
+      <Category>6. Demo VCH Installer Wizard Configuration</Category>
       <Property ovf:key="port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="1337">
         <Label>6.1. Engine Install Wizard Port</Label>
         <Description>Specifies the port on which fileserver will be published.</Description>
       </Property>
     </ProductSection>
-    <ProductSection ovf:class="cluster_manager" ovf:required="false">
-      <Info>vSphere Container Cluster Manager</Info>
-      <Category>7. vSphere Container Cluster Manager Configuration</Category>
-      <Property ovf:key="deploy" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="true">
-        <Label>7.1. Deploy vSphere Container Cluster Manager</Label>
-        <Description>Specifies whether vSphere Container Cluster Manager is enabled on the appliance.</Description>
+    <ProductSection ovf:class="default_users" ovf:required="false">
+      <Info>Example Users</Info>
+      <Category>7. Configure Example Users</Category>
+      <Property ovf:key="create_def_users" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="true">
+        <Label>7.1. Create Example Users</Label>
+        <Description>Uncheck to skip creation of Example Users.</Description>
       </Property>
-      <Property ovf:key="port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="5683">
-        <Label>7.2. vSphere Container Cluster Manager Port</Label>
-        <Description>Specifies the port on which vSphere Container Cluster Manager will be published.</Description>
+      <Property ovf:key="def_user_prefix" ovf:qualifiers="MinLen(0),MaxLen(64)" ovf:type="string" ovf:userConfigurable="true" ovf:value="vic">
+        <Label>7.2. Username Prefix for Example Users</Label>
+        <Description>Username prefix to be used to create Example Users for vSphere Integrated Containers.</Description>
       </Property>
-      <Property ovf:key="admin" ovf:qualifiers="MinLen(1),MaxLen(128)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>7.3. Admin username</Label>
-        <Description>Specifies the username of client admin to whom a self-signed certificate will be generated.</Description>
-      </Property>
-      <Property ovf:key="ssl_cert" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>7.4. SSL Cert</Label>
-        <Description>Paste in the content of a certificate file. Leave blank for a generated self-signed certificate.</Description>
-      </Property>
-      <Property ovf:key="ssl_cert_key" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>7.5. SSL Cert Key</Label>
-        <Description>Paste in the content of certificate key file. Leave blank for a generated key.</Description>
+      <Property ovf:key="def_user_password" ovf:password="true" ovf:qualifiers="MinLen(0),MaxLen(128)" ovf:type="string" ovf:userConfigurable="true" ovf:value="VicPro!23">
+        <Label>7.3. Password for Example Users</Label>
+        <Description>Password to be used to create Example Users. The password must follow the rules set for vSphere.</Description>
       </Property>
     </ProductSection>
     <ProductSection ovf:class="vm" ovf:required="false">
