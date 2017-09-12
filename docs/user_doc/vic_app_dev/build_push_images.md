@@ -56,21 +56,21 @@ This section will take you through the process of building a custom `dch-photon`
 
     <pre>docker push <i>registry_address</i>/default-project/dch-photon:1.13-cert</pre> 
 
-10. If one does not already exist, install a Virtual Container Host with the registry certificate added (use the `--registry-ca` option to vic-machine)
-
-11. If you're using a Docker client that's already authenticated with the registry, there should be need to log in again when running commands against the VCH. If you're using a different Docker client or you've logged out, you should now log into the registry.
+10. If you're using a Docker client that's already authenticated with the registry, there should be need to log in again when running commands against the VCH. If you're using a different Docker client or you've logged out, you should now log into the registry.
 
     <pre>docker -H <i>vch_address</i>:2376 --tls login <i>registry_address</i></pre> 
 
-12. Pull and run the image in the VCH. This example uses port mapping, but you can also use a container network.
+11. Pull and run the image in the VCH. 
+
+    This example uses port mapping, but you can also use a container network. Note that the Docker container host can itself be configured to use TLS authentication, but has not in this case for simplicity.
 
     <pre>docker -H <i>vch_address</i>:2376 --tls run --name build-slave -d -p 12375:2375 <i>registry_address</i>/default-project/dch-photon:1.13-cert</pre> 
-
-See below for how to test the running Docker container host
 
 **Result**
 
 You should now have a custom `dch-photon` image in your vSphere Integrated Containers Registry which contains the correct certificate to be able to build, pull and push images to that registry.
+
+See below for how to test the running Docker container host
 
 ## Manually Adding the Certificate to a Running `dch-photon` VM ##
 
@@ -78,7 +78,11 @@ If you wish to manually add the certificate to an existing `dch-photon` containe
 
 **Procedure**
 
-1. If a `dch-photon` container VM doesn't already exist, create one in a Virtual container host using a command similar to the one below. If one does exist, stop it using `docker stop`. The container should be stopped because the Docker engine needs to be restarted in order for it to recognize the new certificate. Note that the VCH needs to be able to authenticate with the vSphere Integrated Containers Registry. See above for details.
+1. If a `dch-photon` container VM doesn't already exist, create one in a Virtual container host using a command similar to the one below. If one does exist, stop it using `docker stop`. 
+
+    The container should be stopped because the Docker engine needs to be restarted in order for it to recognize the new certificate. Note that the VCH needs to be able to authenticate with the vSphere Integrated Containers Registry. See above for details. 
+    
+    Note also that the Docker container host can itself be configured to use TLS authentication, but has not in this case for simplicity.
 
     <pre>docker -H <i>vch_address</i>:2375 create --name build-slave -p 12375:2375 <i>registry_address</i>/default-project/dch-photon:1.13-cert</pre>
     
@@ -92,12 +96,10 @@ If you wish to manually add the certificate to an existing `dch-photon` containe
 
     <pre>docker -H <i>vch_address</i>:2376 start build-slave</pre>
     
-See below for how to test the Docker container host
-    
 **Result**
 
 You should now have a running Docker container host that's configured to push and pull from vSphere Integrated Containers Registry
-
+    
 ## Testing the Docker Container Host ##
 
 Now that you have a Docker container host configured and running, it's time to test the it works as expected.
@@ -106,7 +108,7 @@ Now that you have a Docker container host configured and running, it's time to t
 
 1. Test that your Docker container host has started correctly, by running `docker info`. 
 
-Note the new port 12375 will direct the Docker client to the Docker container host running in the Virtual container host.
+    Note the new port 12375 will direct the Docker client to the Docker container host running in the Virtual container host.
 
     <pre>docker -H <i>vch_address</i>:12375 info</pre> 
 
