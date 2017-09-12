@@ -4,9 +4,9 @@ You can access the Management Portal in a web browser by entering the vSphere In
 
 If you do not know the port number, you can access the portal by going to http://<i>vic_appliance_address</i> and following the **Go to the vSphere Integrated Containers Management Portal** link.
 
-To remove security warnings when you connect to the Getting Started page or management portal, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](obtain_appliance_certs.md) and [Verify and Trust vSphere Integrated Containers Appliance Certificates](../vic_cloud_admin/trust_vic_certs.md).
+To remove security warnings when you connect to the Getting Started page or management portal, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](../vic_vsphere_admin/obtain_appliance_certs.md) and [Verify and Trust vSphere Integrated Containers Appliance Certificates](trust_vic_certs.md).
 
-If you see a certificate error when you attempt to go to http://<i>vic_appliance_address</i>, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](ts_cert_error.md).
+If you see a certificate error when you attempt to go to http://<i>vic_appliance_address</i>, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](../vic_vsphere_admin/ts_cert_error.md).
 
 ## Default User Access to the Management Portal ##
 
