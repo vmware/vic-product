@@ -90,11 +90,11 @@ If you wish to manually add the certificate to an existing `dch-photon` containe
 
     <pre>mkdir -p certs.d/<i>registry_address</i>
    cp ca.crt certs.d/<i>registry_address</i>
-   docker -H <i>vch_address</i>:2376 cp certs.d build-slave:/etc/docker</pre>
+   docker -H <i>vch_address</i>:2376  --tls cp certs.d build-slave:/etc/docker</pre>
     
 3. Restart the Docker container host
 
-    <pre>docker -H <i>vch_address</i>:2376 start build-slave</pre>
+    <pre>docker -H <i>vch_address</i>:2376 --tls start build-slave</pre>
     
 **Result**
 
@@ -122,21 +122,21 @@ Now that you have a Docker container host configured and running, it's time to t
 
     <pre>FROM debian:latest
 
-    RUN apt-get update -y && apt-get install -y fortune-mod fortunes
+   RUN apt-get update -y && apt-get install -y fortune-mod fortunes
 
-    ENTRYPOINT ["/usr/games/fortune", "-s"]</pre>
+   ENTRYPOINT ["/usr/games/fortune", "-s"]</pre>
 
 4. Build an image from the `Dockerfile` in the `dch-photon` Docker host, and tag it with the path to a project in vSphere Integrated Containers Registry. 
 
-    <pre>docker -H <i>vch_address</i>:12375 --tls build -t <i>registry_address</i>/default-project/test-container .</pre>
+    <pre>docker -H <i>vch_address</i>:12375 build -t <i>registry_address</i>/default-project/test-container .</pre>
 
 8. If your Docker client is not already authenticated, log in to vSphere Integrated Containers Registry from the `dch-photon` Docker host. 
 
-    <pre>docker -H <i>vch_address</i>:12375 --tls login <i>registry_address</i></pre>
+    <pre>docker -H <i>vch_address</i>:12375 login <i>registry_address</i></pre>
 
 6. Push the image from the `dch-photon` Docker host to the registry. 
 
-    <pre>docker -H <i>vch_address</i>:12375 --tls push <i>registry_address</i>/default-project/test-container</pre>
+    <pre>docker -H <i>vch_address</i>:12375 push <i>registry_address</i>/default-project/test-container</pre>
 
 6. Pull the image from the registry into the VCH. 
 
