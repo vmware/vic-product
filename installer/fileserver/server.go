@@ -68,6 +68,9 @@ var (
 
 	// pscInstance holds the form input for the PSC field
 	pscInstance string
+
+	// pscDomain holds the form input for the PSC Admin Domain field
+	pscDomain string
 )
 
 const initServicesTimestamp = "./registration-timestamps.txt"
@@ -204,6 +207,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 		admin.User = req.FormValue("user")
 		admin.Password = req.FormValue("password")
 		pscInstance = req.FormValue("psc")
+		pscDomain = req.FormValue("pscDomain")
 
 		if err := admin.VerifyLogin(); err != nil {
 			log.Infof("Validation failed: %s", err.Error())
@@ -251,12 +255,12 @@ func startInitializationServices() string {
 	ctx := context.TODO()
 	if err := tagvm.Run(ctx, admin.Validator.Session); err != nil {
 		log.Debug(errors.ErrorStack(err))
-		errorMsg = append(errorMsg, "Failed to locate productVM, trusted content is not available")
+		errorMsg = append(errorMsg, "Failed to locate VIC Appliance. Please check the vCenter Server provided and try again")
 	}
 
 	if err := registerWithPSC(ctx); err != nil {
 		log.Debug(errors.ErrorStack(err))
-		errorMsg = append(errorMsg, "Failed to register with PSC. Please check the vSphere user domain PSC settings and try again")
+		errorMsg = append(errorMsg, "Failed to register with PSC. Please check the PSC settings provided and try again")
 	}
 
 	if len(errorMsg) == 0 {
