@@ -70,7 +70,7 @@ var (
 	pscInstance string
 )
 
-const initServicesTimestamp = "./registration-timestamps.txt"
+const initServicesTimestamp = "/registration-timestamps.txt"
 
 func Init(conf *config) {
 	ud := syscall.Getuid()
