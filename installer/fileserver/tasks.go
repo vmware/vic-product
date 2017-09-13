@@ -57,12 +57,12 @@ func registerWithPSC(ctx context.Context) error {
 		}
 	}
 	if pscDomain != "" {
-		log.Infof("User domain: %s does not match PSC domain: %s. Using %s", domain, pscDomain, pscDomain)
+		log.Infof("User domain: %s PSC domain: %s. Using %s", domain, pscDomain, pscDomain)
 		domain = pscDomain
 	}
 	log.Infof("vCenter user: %s", admin.User)
 	log.Infof("PSC instance: %s", pscInstance)
-	log.Infof("PSC domain: %s", pscDomain)
+	log.Infof("PSC domain: %s", domain)
 
 	// Obtain the OVA VM's IP
 	vmIP, err := ip.FirstIPv4(ip.Eth0Interface)
