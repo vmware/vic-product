@@ -29,11 +29,16 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
 
 5. Right-click the new vSphere Integrated Containers appliance, and select **Edit Settings**.
 5. Hover your pointer over **Hard disk 2**, click the **Remove** button, and check the **Delete files from this datastore** checkbox, and click **OK**.
-5. Right-click the new appliance and select **Edit Settings** again to add the disk from the old appliance to the new appliance. 
+6. In the **Storage** view of the vSphere Client, move the disk from the previous appliance into the datastore folder of the new appliance.
+
+     1. Navigate to the VDMK files of the previous appliance.
+     2. Select the VMDK file with the file name that ends in `_1`
+     3. Click **Move to...**, and move it into the datastore folder of the new appliance.
+5. In the **Hosts and Clusters** view of the vSphere Client, right-click the new appliance and select **Edit Settings** again to add the disk from the old appliance to the new appliance. 
 
    - Flex-based vSphere Web Client: Click the **New device** drop-down menu, select **Existing Hard Disk**, and click **Add**.
    - HTML5 vSphere Client: Click the **Add New Device** button and select **Existing Hard Disk**. 
-6. Navigate to the VDMK files of the previous appliance, select the VMDK file with the file name that ends in `_1`, and click **OK**.
+6. Navigate to the datastore folder into which you moved the disk, select the VMDK file from the previous appliance, and click **OK**.
 7. Expand **New Hard Disk** and make sure that the Virtual Device Node for the disk is set to **SCSI(0:1)**, then click **OK**.
 9. Power on the new vSphere Integrated Containers appliance and note its address.
 
@@ -60,6 +65,7 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
 
 **What to Do Next**
 
+- Delete the previous version of the appliance from the vCenter Server inventory.
 - If, in the previous version, you configured vSphere Integrated Containers Registry instances as replication endpoints, upgrade those registry instances. Replication of images from the 1.2.x registry instance to the 1.1.x replication endpoint still functions, but it is recommended that you upgrade the target registry.
 - Add users to the upgraded vSphere Integrated Containers instance. For information about users in this version of vSphere Integrated Containers, see the following topics:
 
