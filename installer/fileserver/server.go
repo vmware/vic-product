@@ -65,6 +65,9 @@ type IndexHTMLOptions struct {
 var (
 	admin = &lib.LoginInfo{}
 	c     config
+
+	// pscInstance holds the form input for the PSC field
+	pscInstance string
 )
 
 const initServicesTimestamp = "./registration-timestamps.txt"
@@ -200,9 +203,10 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 		admin.Target = req.FormValue("target")
 		admin.User = req.FormValue("user")
 		admin.Password = req.FormValue("password")
+		pscInstance = req.FormValue("psc")
 
 		if err := admin.VerifyLogin(); err != nil {
-			log.Infof("Validation failed")
+			log.Infof("Validation failed: %s", err.Error())
 			html.InvalidLogin = true
 
 		} else {
