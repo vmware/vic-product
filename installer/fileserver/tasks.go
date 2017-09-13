@@ -58,6 +58,7 @@ func registerWithPSC(ctx context.Context) error {
 	}
 	if pscDomain != "" && domain != pscDomain {
 		log.Warnf("User domain: %s does not match PSC domain: %s. Using %s", domain, pscDomain, pscDomain)
+		domain = pscDomain
 	}
 	log.Infof("vCenter user: %s", admin.User)
 	log.Infof("PSC instance: %s", pscInstance)
@@ -100,7 +101,7 @@ func registerWithPSC(ctx context.Context) error {
 			"--clientName=" + client,
 			// NOTE(anchal): version set to 6.0 to use SAML for both versions 6.0 and 6.5
 			"--version=6.0",
-			"--tenant=" + pscDomain,
+			"--tenant=" + domain,
 			"--domainController=" + pscInstance,
 			"--username=" + admin.User,
 			"--password=" + admin.Password,
