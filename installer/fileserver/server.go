@@ -68,6 +68,9 @@ var (
 
 	// pscInstance holds the form input for the PSC field
 	pscInstance string
+
+	// pscDomain holds the form input for the PSC Admin Domain field
+	pscDomain string
 )
 
 const initServicesTimestamp = "./registration-timestamps.txt"
@@ -204,6 +207,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 		admin.User = req.FormValue("user")
 		admin.Password = req.FormValue("password")
 		pscInstance = req.FormValue("psc")
+		pscDomain = req.FormValue("pscDomain")
 
 		if err := admin.VerifyLogin(); err != nil {
 			log.Infof("Validation failed: %s", err.Error())

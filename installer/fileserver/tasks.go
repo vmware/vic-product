@@ -56,7 +56,12 @@ func registerWithPSC(ctx context.Context) error {
 			return err
 		}
 	}
+	if domain != pscDomain {
+		log.Warnf("User domain/PSC domain mismatch: %s %s", domain, pscDomain)
+	}
+	log.Infof("vCenter user: %s", admin.User)
 	log.Infof("PSC instance: %s", pscInstance)
+	log.Infof("PSC Admin domain: %s", pscDomain)
 
 	// Obtain the OVA VM's IP
 	vmIP, err := ip.FirstIPv4(ip.Eth0Interface)
@@ -95,7 +100,7 @@ func registerWithPSC(ctx context.Context) error {
 			"--clientName=" + client,
 			// NOTE(anchal): version set to 6.0 to use SAML for both versions 6.0 and 6.5
 			"--version=6.0",
-			"--tenant=" + domain,
+			"--tenant=" + pscDomain,
 			"--domainController=" + pscInstance,
 			"--username=" + admin.User,
 			"--password=" + admin.Password,
