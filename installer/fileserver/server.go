@@ -255,12 +255,12 @@ func startInitializationServices() string {
 	ctx := context.TODO()
 	if err := tagvm.Run(ctx, admin.Validator.Session); err != nil {
 		log.Debug(errors.ErrorStack(err))
-		errorMsg = append(errorMsg, "Failed to locate productVM, trusted content is not available")
+		errorMsg = append(errorMsg, "Failed to locate VIC Appliance. Please check the vCenter Server provided and try again")
 	}
 
 	if err := registerWithPSC(ctx); err != nil {
 		log.Debug(errors.ErrorStack(err))
-		errorMsg = append(errorMsg, "Failed to register with PSC. Please check the vSphere user domain PSC settings and try again")
+		errorMsg = append(errorMsg, "Failed to register with PSC. Please check the provided PSC settings and try again")
 	}
 
 	if len(errorMsg) == 0 {
