@@ -260,7 +260,7 @@ func startInitializationServices() string {
 
 	if err := registerWithPSC(ctx); err != nil {
 		log.Debug(errors.ErrorStack(err))
-		errorMsg = append(errorMsg, "Failed to register with PSC. Please check the provided PSC settings and try again")
+		errorMsg = append(errorMsg, "Failed to register with PSC. Please check the PSC settings provided and try again")
 	}
 
 	if len(errorMsg) == 0 {
