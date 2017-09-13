@@ -56,8 +56,8 @@ func registerWithPSC(ctx context.Context) error {
 			return err
 		}
 	}
-	if domain != pscDomain {
-		log.Warnf("User domain/PSC domain mismatch: %s %s", domain, pscDomain)
+	if pscDomain != "" && domain != pscDomain {
+		log.Warnf("User domain: %s does not match PSC domain: %s. Using %s", domain, pscDomain, pscDomain)
 	}
 	log.Infof("vCenter user: %s", admin.User)
 	log.Infof("PSC instance: %s", pscInstance)
