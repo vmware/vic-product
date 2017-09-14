@@ -1897,13 +1897,20 @@
 <li><p>Right-click the new vSphere Integrated Containers appliance, and select <strong>Edit Settings</strong>.</p>
 </li>
 <li>Hover your pointer over <strong>Hard disk 2</strong>, click the <strong>Remove</strong> button, and check the <strong>Delete files from this datastore</strong> checkbox, and click <strong>OK</strong>.</li>
-<li><p>Right-click the new appliance and select <strong>Edit Settings</strong> again to add the disk from the old appliance to the new appliance. </p>
+<li><p>In the <strong>Storage</strong> view of the vSphere Client, move the disk from the previous appliance into the datastore folder of the new appliance.</p>
+<ol>
+<li>Navigate to the VDMK files of the previous appliance.</li>
+<li>Select the VMDK file with the file name that ends in <code>_1</code></li>
+<li>Click <strong>Move to...</strong>, and move it into the datastore folder of the new appliance.</li>
+</ol>
+</li>
+<li><p>In the <strong>Hosts and Clusters</strong> view of the vSphere Client, right-click the new appliance and select <strong>Edit Settings</strong> again to add the disk from the old appliance to the new appliance. </p>
 <ul>
 <li>Flex-based vSphere Web Client: Click the <strong>New device</strong> drop-down menu, select <strong>Existing Hard Disk</strong>, and click <strong>Add</strong>.</li>
 <li>HTML5 vSphere Client: Click the <strong>Add New Device</strong> button and select <strong>Existing Hard Disk</strong>. </li>
 </ul>
 </li>
-<li>Navigate to the VDMK files of the previous appliance, select the VMDK file with the file name that ends in <code>_1</code>, and click <strong>OK</strong>.</li>
+<li>Navigate to the datastore folder into which you moved the disk, select the VMDK file from the previous appliance, and click <strong>OK</strong>.</li>
 <li>Expand <strong>New Hard Disk</strong> and make sure that the Virtual Device Node for the disk is set to <strong>SCSI(0:1)</strong>, then click <strong>OK</strong>.</li>
 <li><p>Power on the new vSphere Integrated Containers appliance and note its address.</p>
 <p> <strong>IMPORTANT</strong>: Do not go to the Getting Started page of the appliance. Logging in to the Getting Started page for the first time initializes the appliance. Initialization is only applicable to new installations and causes upgraded appliances not to function correctly. </p>
@@ -1928,6 +1935,7 @@
 </ol>
 <p><strong>What to Do Next</strong></p>
 <ul>
+<li>Delete the previous version of the appliance from the vCenter Server inventory.</li>
 <li>If, in the previous version, you configured vSphere Integrated Containers Registry instances as replication endpoints, upgrade those registry instances. Replication of images from the 1.2.x registry instance to the 1.1.x replication endpoint still functions, but it is recommended that you upgrade the target registry.</li>
 <li><p>Add users to the upgraded vSphere Integrated Containers instance. For information about users in this version of vSphere Integrated Containers, see the following topics:</p>
 <ul>
@@ -1987,7 +1995,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Upgrade the Appliance","level":"2.1.6.3","depth":3,"next":{"title":"Upgrade VCHs","level":"2.1.6.4","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"2.1.6.4.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},"previous":{"title":"Pre-Upgrade Tasks","level":"2.1.6.2","depth":3,"path":"vic_vsphere_admin/pre_upgrade_tasks.md","ref":"vic_vsphere_admin/pre_upgrade_tasks.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_appliance.md","mtime":"2017-09-11T20:41:26.031Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-12T12:43:29.684Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Upgrade the Appliance","level":"2.1.6.3","depth":3,"next":{"title":"Upgrade VCHs","level":"2.1.6.4","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"2.1.6.4.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},"previous":{"title":"Pre-Upgrade Tasks","level":"2.1.6.2","depth":3,"path":"vic_vsphere_admin/pre_upgrade_tasks.md","ref":"vic_vsphere_admin/pre_upgrade_tasks.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_appliance.md","mtime":"2017-09-13T07:38:11.127Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-14T13:18:11.450Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
