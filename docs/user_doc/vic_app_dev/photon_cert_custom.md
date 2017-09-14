@@ -1,14 +1,15 @@
 ## Add the Registry Certificate to a Custom Image ##
 
-This section will take you through the process of building a custom `dch-photon` image, pushing it to the vSphere Integrated Containers Registry and verifying that it worked by deploying it to a Virtual Container Host.
+The recommended method of passing the vSphere Integrated Containers Registry CA certificate to `dch-photon` is to create a custom `dch-photon` image that includes the certificate. You can then push the image to the vSphere Integrated Containers Registry and verify that it works by deploying it to a virtual container host (VCH).
 
-For simplicity, this example uses a VCH that was deployed with the `--no-tlsverify` option. If your VCH implements TLS verification of clients, you must import the VCH certificates into your Docker client and adapt the Docker commands accordingly. For information about how to connect a Docker client to a VCH that uses full TLS authentication, see [Connecting to the VCH](configure_docker_client.md#connectvch).
+By creating a custom image, you can deploy multiple instances of `dch-photon` that have the correct registry certificate, without having to manually copy the certificate into each `dch-photon` container VM.
 
 **Prerequisites**
 
-- Ensure that you have a known user ID that has at least the Developer role in the `default-project` in vSphere Integrated Containers Management Portal.
+- You have a known user ID that has at least the Developer role in the `default-project` in vSphere Integrated Containers Management Portal.
 - You have an instance of Docker Engine running on your local sytem.
 - You installed the CA certificate for vSphere Integrated Containers Registry in your local Docker client. For information about how to install the registry certificate in a Docker client, see [Install the  vSphere Integrated Containers Registry Certificate](configure_docker_client.md#registry).
+- For simplicity, this example uses a VCH that was deployed with the `--no-tlsverify` option. If your VCH implements TLS verification of clients, you must import the VCH certificates into your Docker client and adapt the Docker commands accordingly. For information about how to connect a Docker client to a VCH that uses full TLS authentication, see [Connecting to the VCH](configure_docker_client.md#connectvch).
 
 
 **Procedure**
@@ -43,7 +44,7 @@ For simplicity, this example uses a VCH that was deployed with the `--no-tlsveri
 
     <pre>docker -H <i>vch_address</i>:2376 --tls login <i>registry_address</i></pre> 
 
-11. Pull the image from vSphere Integrated Containers Registry into the VCH and run it. 
+11. Pull the image from vSphere Integrated Containers Registry into the VCH and run it with the name `build-slave`. 
 
     This example runs `dch-photon` behind a port mapping, but you can also use a container network. 
 
@@ -52,4 +53,8 @@ For simplicity, this example uses a VCH that was deployed with the `--no-tlsveri
 **Result**
 
 - You have a custom `dch-photon` image in your vSphere Integrated Containers Registry that contains the correct certificate so that it can build, pull, and push images to and from that registry.
-- You deployed a `dch-photon` container from that image, that is running in your VCH. 
+- You deployed a `dch-photon` container VM from that image, that is running in your VCH. 
+
+**What to Do Next**
+
+To test the Docker container host, see [Build, Push, and Pull an Image with `dch-photon`](test_photon.md).
