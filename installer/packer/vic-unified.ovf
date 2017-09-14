@@ -256,6 +256,10 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
         <Label>4.3. SSL Cert Key</Label>
         <Description>Paste in the content of certificate key file in PKCS#8 format. Leave blank for a generated key.</Description>
       </Property>
+      <Property ovf:key="ca_cert" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+        <Label>4.4. CA Cert</Label>
+        <Description>Paste in the content of the CA certificate that signed the SSL Cert. Leave blank for a generated self-signed certificate.</Description>
+      </Property>
     </ProductSection>
     <ProductSection ovf:class="fileserver" ovf:required="false">
       <Info>Fileserver Properties</Info>
