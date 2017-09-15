@@ -3,7 +3,7 @@
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
 * [Configure and Manage](README.md)
-   * [Logging in to the Management Portal](logging_in_mp.md)
+   * [Logging in to the Management Portal](logging_in_MP.md)
       * [Verify and Trust Certificates](trust_vic_certs.md)
    * [Configure System Settings](configure_system.md)
    * [Add Cloud Administrators](add_cloud_admins.md)
