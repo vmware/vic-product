@@ -93,7 +93,7 @@
 ----
 
 * [Configure and Manage](vic_cloud_admin/README.md)
-   * [Logging in to the Management Portal](vic_cloud_admin/logging_in_mp.md)
+   * [Logging in to the Management Portal](vic_cloud_admin/logging_in_MP.md)
       * [Verify and Trust Certificates](vic_cloud_admin/trust_vic_certs.md)
    * [Configure System Settings](vic_cloud_admin/configure_system.md)
    * [Add Cloud Administrators](vic_cloud_admin/add_cloud_admins.md)

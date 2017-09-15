@@ -3,6 +3,8 @@
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
 * [Configure and Manage](README.md)
+   * [Logging in to the Management Portal](logging_in_MP.md)
+      * [Verify and Trust Certificates](trust_vic_certs.md)
    * [Configure System Settings](configure_system.md)
    * [Add Cloud Administrators](add_cloud_admins.md)
    * [Add Viewers, Developers, or DevOps Administrators to Projects](add_users.md)
@@ -19,4 +21,3 @@
      * [Create Replication Endpoints](create_replication_endpoints.md)
      * [Create Replication Rules](create_replication_rules.md)
      * [Manage Replication Endpoints](manage_replication_endpoints.md)
-   * [Create and Manage Container Placements](creating_placements.md)
