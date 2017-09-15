@@ -71,6 +71,7 @@
   * [Troubleshooting](vic_vsphere_admin/troubleshoot_vic.md) 
      * [Access Log Bundles](vic_vsphere_admin/log_bundles.md)
      * [VCH Deployment Times Out](vic_vsphere_admin/ts_vch_deployment_timeout.md)
+     * [Appliance Fails to Register with PSC](vic_vsphere_admin/ts_register_psc_fails.md)
      * [Certificate Verification Error](vic_vsphere_admin/ts_thumbprint_error.md)
      * [Browser Rejects Certificates](vic_vsphere_admin/ts_cert_error.md)
      * [Missing Common Name Error Even When TLS Options Are Specified Correctly](vic_vsphere_admin/ts_cli_argument_error.md)
