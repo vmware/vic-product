@@ -40,43 +40,43 @@ Your vSphere environment uses an external Platform Services Controller instance 
      --domainController=<i>psc_fqdn</i>
      --admiralUrl=https://<i>vic_appliance_IP</i>:8282
      --defaultUserPrefix=vic
-     --defaultUserPassword='<i>p@ssw0rd</i>'</b>
+     --defaultUserPassword='VicPro!23'</b>
 </pre>
 
 3. Run the command again to register vSphere Integrated Containers Engine.  
 
-    Specify `engine` in the `--clientName` parameter. Specify all of the other parameters with the same values as in the previous step.
+    Change the `--clientName` parameter to `engine`. Specify all of the other parameters with the same values as you used in the previous step.
 
     <pre>java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar
      --command=register 
      --version=6.0 
      --configDir=/etc/vmware/psc 
-     <b>--clientName=engine
+     <b>--clientName=engine</b>
      --tenant=<i>yourdomain</i>
      --username=<i>administrator@yourdomain</i>
      --password='<i>p@ssw0rd</i>'
      --domainController=<i>psc_fqdn</i>
      --admiralUrl=https://<i>vic_appliance_IP</i>:8282
      --defaultUserPrefix=vic
-     --defaultUserPassword='<i>p@ssw0rd</i>'</b>
+     --defaultUserPassword='VicPro!23'
 </pre>
 
 4. Run the command a third time to register vSphere Integrated Containers Management Portal. 
 
-    Specify `admiral` in the `--clientName` parameter. Specify all of the other parameters with the same values as in the previous step.
+    Change the `--clientName` parameter to `admiral`. Specify all of the other parameters with the same values as you used in the previous two steps.
 
     <pre>java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar
      --command=register 
      --version=6.0 
      --configDir=/etc/vmware/psc 
-     <b>--clientName=admiral
+     <b>--clientName=admiral</b>
      --tenant=<i>yourdomain</i>
      --username=<i>administrator@yourdomain</i>
      --password='<i>p@ssw0rd</i>'
      --domainController=<i>psc_fqdn</i>
      --admiralUrl=https://<i>vic_appliance_IP</i>:8282
      --defaultUserPrefix=vic
-     --defaultUserPassword='<i>p@ssw0rd</i>'</b>
+     --defaultUserPassword='VicPro!23'
 </pre>
 
 5. After you have run the command 3 times, run the following command to initialize the appliance.
