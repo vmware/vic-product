@@ -97,10 +97,12 @@ function genCert {
 function secure {
   ssl_cert=$(ovfenv -k management_portal.ssl_cert)
   ssl_cert_key=$(ovfenv -k management_portal.ssl_cert_key)
-  if [ -n "$ssl_cert" ] && [ -n "$ssl_cert_key" ]; then
-    echo "ssl_cert and ssl_cert_key are both set, using customized certificate"
+  ca_cert_input=$(ovfenv -k management_portal.ca_cert)
+  if [ -n "$ssl_cert" ] && [ -n "$ssl_cert_key" ] && [ -n "$ca_cert_input" ]; then
+    echo "ssl_cert, ssl_cert_key, and ca_cert are set, using customized certificate"
     formatCert "$ssl_cert" $cert
     formatCert "$ssl_cert_key" $key
+    formatCert "$ca_cert_input" $ca_cert
     echo "customized" > $flag
     echo "creating java keystore with provided cert for xenon"
     if [ -f "$jks" ]; then

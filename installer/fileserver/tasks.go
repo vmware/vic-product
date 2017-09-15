@@ -49,11 +49,20 @@ func registerWithPSC(ctx context.Context) error {
 		domain = userFields[1]
 	}
 
-	// Obtain the hostname of the vCenter host
-	vcHostname, err := optmanager.QueryOptionValue(ctx, admin.Validator.Session, vcHostnameOption)
-	if err != nil {
-		return err
+	if pscInstance == "" {
+		// Obtain the hostname of the vCenter host to use as PSC instance
+		pscInstance, err = optmanager.QueryOptionValue(ctx, admin.Validator.Session, vcHostnameOption)
+		if err != nil {
+			return err
+		}
 	}
+	if pscDomain != "" {
+		log.Infof("User domain: %s PSC domain: %s. Using %s", domain, pscDomain, pscDomain)
+		domain = pscDomain
+	}
+	log.Infof("vCenter user: %s", admin.User)
+	log.Infof("PSC instance: %s", pscInstance)
+	log.Infof("PSC domain: %s", domain)
 
 	// Obtain the OVA VM's IP
 	vmIP, err := ip.FirstIPv4(ip.Eth0Interface)
@@ -93,7 +102,7 @@ func registerWithPSC(ctx context.Context) error {
 			// NOTE(anchal): version set to 6.0 to use SAML for both versions 6.0 and 6.5
 			"--version=6.0",
 			"--tenant=" + domain,
-			"--domainController=" + vcHostname,
+			"--domainController=" + pscInstance,
 			"--username=" + admin.User,
 			"--password=" + admin.Password,
 			"--admiralUrl=" + fmt.Sprintf("https://%s:%s", vmIP.String(), admiralPort),

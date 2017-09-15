@@ -200,7 +200,7 @@
                                         {{ end }}
                                         <p class="mt-0 mb-1">
                                             Please enter your vCenter credentials to complete the vSphere Integrated
-                                            Containers Appliance installation.
+                                            Containers Appliance installation and PSC settings if using an external instance.
                                         </p>
                                         <div class="form-group">
                                             <label for="target" class="required">vCenter Server</label>
@@ -210,6 +210,14 @@
                                             <label for="user" class="required">vCenter Server credentials</label>
                                             <input id="user" type="text" name="user" placeholder="username@domain.local">
                                             <input type="password" name="password" placeholder="Password" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="psc">External PSC Instance</label>
+                                            <input id="psc" type="text" name="psc" placeholder="FQDN">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pscDomain">External PSC Admin Domain</label>
+                                            <input id="pscDomain" type="text" name="pscDomain" placeholder="vsphere.local">
                                         </div>
                                     </div>
                                     <div class="text-sm-right">
