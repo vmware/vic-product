@@ -79,9 +79,11 @@ Your vSphere environment uses an external Platform Services Controller instance 
      --defaultUserPassword='VicPro!23'
 </pre>
 
-5. After you have run the command 3 times, run the following command to initialize the appliance.
+5. After you have run the command 3 times, run the following command.
 
     <pre>touch /registration-timestamps.txt</pre>
+
+    This command prevents the login window from reappearing on subsequent visits to the Getting Started page.
 
 **Result** 
 
