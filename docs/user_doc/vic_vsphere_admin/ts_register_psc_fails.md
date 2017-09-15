@@ -24,8 +24,8 @@ Your vSphere environment uses an external Platform Services Controller instance 
     * `--password`: The password for the vCenter Server user account, formatted appropriately to escape special characters in the shell
     * `--domainController`: The FQDN of the Platform Service Controller instance. If the Platform Service Controller instance is hosted on the vCenter Server host, for example `https://$vCenterFQDN/psc`, the value for this parameter should just be the FQDN of the vCenter host.
     * `--admiralUrl`: The address of vSphere Integrated Containers Management Portal, for example `https://vic_appliance_address:8282`.
-    * `--defaultUserPrefix`: (Optional) The prefix for the user names of the example users. If not specified, the default is `vic`.
-    * `--defaultUserPassword`: (Optional) The password for the example users. If not specified, the default is `VicPro!23`. If you specify `--defaultUserPassword` you must also specify `--defaultUserPrefix`.
+    * `--defaultUserPrefix`: (Optional) The prefix for the user names of the example users. If you did not change this during OVA deployment, the default is `vic`. If you specify `--defaultUserPrefix` you must also specify `--defaultUserPassword`.
+    * `--defaultUserPassword`: (Optional) The password for the example users. The password must follow the rules set for vSphere. If you did not change this during OVA deployment, the default is `VicPro!23`. If you specify `--defaultUserPassword` you must also specify `--defaultUserPrefix`.
 
     In the following example, parameters that you must specify are highlighted in **bold**. 
 
@@ -38,9 +38,9 @@ Your vSphere environment uses an external Platform Services Controller instance 
      --username=<i>administrator@yourdomain</i>
      --password='<i>p@ssw0rd</i>'
      --domainController=<i>psc_fqdn</i>
-     --admiralUrl=https://<i>vic_appliance_address</i>:8282
+     --admiralUrl=https://<i>vic_appliance_address</i>:8282</b>
      --defaultUserPrefix=vic
-     --defaultUserPassword='<i>new_p@ssw0rd</i>'</b>
+     --defaultUserPassword='<i>new_p@ssw0rd</i>'
 </pre>
 
 3. Run the command again to register vSphere Integrated Containers Engine.  
@@ -51,12 +51,12 @@ Your vSphere environment uses an external Platform Services Controller instance 
      --command=register 
      --version=6.0 
      --configDir=/etc/vmware/psc 
-     <b>--clientName=engine</b>
+     <b>--clientName=engine
      --tenant=<i>yourdomain</i>
      --username=<i>administrator@yourdomain</i>
      --password='<i>p@ssw0rd</i>'
      --domainController=<i>psc_fqdn</i>
-     --admiralUrl=https://<i>vic_appliance_address</i>:8282
+     --admiralUrl=https://<i>vic_appliance_address</i>:8282</b>
      --defaultUserPrefix=vic
      --defaultUserPassword='<i>new_p@ssw0rd</i>'
 </pre>
@@ -69,12 +69,12 @@ Your vSphere environment uses an external Platform Services Controller instance 
      --command=register 
      --version=6.0 
      --configDir=/etc/vmware/psc 
-     <b>--clientName=admiral</b>
+     <b>--clientName=admiral
      --tenant=<i>yourdomain</i>
      --username=<i>administrator@yourdomain</i>
      --password='<i>p@ssw0rd</i>'
      --domainController=<i>psc_fqdn</i>
-     --admiralUrl=https://<i>vic_appliance_address</i>:8282
+     --admiralUrl=https://<i>vic_appliance_address</i>:8282</b>
      --defaultUserPrefix=vic
      --defaultUserPassword='<i>new_p@ssw0rd</i>'
 </pre>
