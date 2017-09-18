@@ -2,6 +2,7 @@
 
 Connect hosts that do not require TLS authentication over HTTP with no credentials.
 
+**IMPORTANT**: If you have deployed multiple instances of the vSphere Integrated Containers appliance, you can only register a virtual container host (VCH) with one instance of the management portal at a time.
 
 **Procedure**
 

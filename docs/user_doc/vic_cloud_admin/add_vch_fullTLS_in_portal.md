@@ -2,6 +2,8 @@
 
 Connect hosts that require full TLS authentication over HTTPS by using certificate to authenticate against the host.
 
+**IMPORTANT**: If you have deployed multiple instances of the vSphere Integrated Containers appliance, you can only register a virtual container host (VCH) with one instance of the management portal at a time.
+
 **Prerequisite**
 
 Obtain the client private key (*key.pem*) and client public key (*cert.pem*) for authentication against the VCH.
