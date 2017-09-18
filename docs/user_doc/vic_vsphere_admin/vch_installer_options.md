@@ -995,3 +995,13 @@ When you specify `vic-machine create --debug`, you set a debugging level of 1, 2
 Additionally, deploying a VCH with a `--debug 3` enables SSH access to the VCH endpoint VM console by default, with a root password of `password`, without requiring you to run the `vic-machine debug` command. This functionality enables you to perform targeted interactive diagnostics in environments in which a VCH endpoint VM failure occurs consistently and in a fashion that prevents `vic-machine debug` from functioning. 
 
 **IMPORTANT**: There is no provision for persistently changing the default root password. Only use this configuration for debugging in a secured environment.
+
+### `--syslog-address` <a id="syslog"></a>
+Short name: None`
+
+Configure a VCH so that it sends the logs in the `/var/log/vic` folder on the vSphere Integrated Containers appliance to a syslog endpoint that is not located in the appliance.
+
+You specify the address and port of the syslog endpoint in the `--syslog-address` option. You must also specify whether the transport protocol is UDP or TCP. If you do not specify a port, the default port is 514.
+
+<pre>--syslog-address udp://<i>syslog_host_address</i>[:<i>port</i>]</pre>
+<pre>--syslog-address tcp://<i>syslog_host_address</i>[:<i>port</i>]</pre>
