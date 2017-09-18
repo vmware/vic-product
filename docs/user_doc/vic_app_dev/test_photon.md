@@ -60,3 +60,5 @@ After you have loaded the vSphere Integrated Containers Registry certificate int
 **Result**
 
 The container that you ran from an image that you built and pushed to vSphere Integrated Containers Registry in `dch-photon` appears in the list of containers that have been run in this VCH.
+
+**NOTE**: Each `dch-photon` container VM that you run creates an anonymous volume in the `default` volume store. This anonymous volume is not deleted when you delete a `dch-photon` container VM. When you delete `dch-photon` container VMs, you must manually remove the anonymous volume from the volume store.
