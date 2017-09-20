@@ -1227,9 +1227,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.1" data-path="../vic_cloud_admin/logging_in_mp.html">
+        <li class="chapter " data-level="3.1.1" data-path="../vic_cloud_admin/logging_in_MP.html">
             
-                <a href="../vic_cloud_admin/logging_in_mp.html">
+                <a href="../vic_cloud_admin/logging_in_MP.html">
             
                     
                     Logging in to the Management Portal
@@ -2603,7 +2603,12 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 </ul>
 <p>Additionally, deploying a VCH with a <code>--debug 3</code> enables SSH access to the VCH endpoint VM console by default, with a root password of <code>password</code>, without requiring you to run the <code>vic-machine debug</code> command. This functionality enables you to perform targeted interactive diagnostics in environments in which a VCH endpoint VM failure occurs consistently and in a fashion that prevents <code>vic-machine debug</code> from functioning. </p>
 <p><strong>IMPORTANT</strong>: There is no provision for persistently changing the default root password. Only use this configuration for debugging in a secured environment.</p>
-
+<h3 id="-syslog-address-"><code>--syslog-address</code> <a id="syslog"></a></h3>
+<p>Short name: None`</p>
+<p>Configure a VCH so that it sends the logs in the <code>/var/log/vic</code> folder on the VCH endpoint VM to a syslog endpoint that is not located in the VCH. The VCH also sends container logs to the same syslog endpoint.</p>
+<p>You specify the address and port of the syslog endpoint in the <code>--syslog-address</code> option. You must also specify whether the transport protocol is UDP or TCP. If you do not specify a port, the default port is 514.</p>
+<pre>--syslog-address udp://<i>syslog_host_address</i>[:<i>port</i>]</pre>
+<pre>--syslog-address tcp://<i>syslog_host_address</i>[:<i>port</i>]</pre>
                                 
                                 </section>
                             
@@ -2646,7 +2651,7 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"VCH Deployment Options","level":"2.1.4.7","depth":3,"next":{"title":"Set Environment Variables","level":"2.1.4.8","depth":3,"path":"vic_vsphere_admin/vic_env_variables.md","ref":"vic_vsphere_admin/vic_env_variables.md","articles":[]},"previous":{"title":"Verify the Deployment of a VCH","level":"2.1.4.6","depth":3,"path":"vic_vsphere_admin/verify_vch_deployment.md","ref":"vic_vsphere_admin/verify_vch_deployment.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_installer_options.md","mtime":"2017-09-14T13:33:04.140Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-15T17:58:19.280Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"VCH Deployment Options","level":"2.1.4.7","depth":3,"next":{"title":"Set Environment Variables","level":"2.1.4.8","depth":3,"path":"vic_vsphere_admin/vic_env_variables.md","ref":"vic_vsphere_admin/vic_env_variables.md","articles":[]},"previous":{"title":"Verify the Deployment of a VCH","level":"2.1.4.6","depth":3,"path":"vic_vsphere_admin/verify_vch_deployment.md","ref":"vic_vsphere_admin/verify_vch_deployment.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_installer_options.md","mtime":"2017-09-20T07:36:55.230Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-20T10:54:08.143Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
