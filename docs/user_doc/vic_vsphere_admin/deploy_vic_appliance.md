@@ -17,7 +17,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
    - 80GB free disk space on the datastore
 - Ensure that all vCenter Server instances and ESXi hosts in the environment in which you are deploying the appliance have network time protocol (NTP) running. Running NTP prevents problems arising from clock skew between the vSphere Integrated Containers appliance, virtual container hosts, and the vSphere infrastructure.
 - **IMPORTANT**: If you intend to use a custom certificates, vSphere Integrated Containers Management Portal requires the TLS private key to be supplied as a PEM-encoded PKCS#8-formatted file. For information about how to convert keys to the correct format, see [Converting Keys for Use with vSphere Integrated Containers Management Portal](vic_cert_reference.md#convertkeys).
-- You can only deploy one vSphere Integrated Containers appliance per vCenter Server instance. However, if a VMware Platform Services Controller manages multiple vCenter Server instances, you can deploy appliances to the different vCenter Server instances. In this way, the appliances all register with the same Platform Services Controller, and can all share its services.
+- You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. Also, if a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller.
 
 **Procedure**
 

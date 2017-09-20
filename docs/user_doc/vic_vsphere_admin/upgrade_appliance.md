@@ -13,7 +13,7 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
     - Do not disable SSH access to the new appliance. You require SSH access to the appliance during the upgrade procedure.
     -  When the OVA deployment finishes, do not power on the new appliance. Attempting to perform the upgrade procedure on a new appliance that you have already powered on and initialized causes vSphere Integrated Containers Management Portal and Registry not to function correctly and might result in data loss. 
 
-- You can only deploy one vSphere Integrated Containers appliance per vCenter Server instance. However, when upgrading, you should deploy the appliance to the same vCenter Server instance as the one on which the previous version is running.
+- Deploy the appliance to the same vCenter Server instance as the one on which the previous version is running, or to a vCenter Server instance that is managed by the same Platform Services Controller.
 - Log in to the vSphere Client for the vCenter Server instance on which the previous version is running and on which you deployed the new version.
 
 **Procedure**

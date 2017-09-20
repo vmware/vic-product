@@ -2,6 +2,7 @@
 
 Connect hosts that require server-side TLS authentication only over HTTP with no credentials.
 
+**IMPORTANT**: If you have deployed multiple instances of the vSphere Integrated Containers appliance, you can only register a virtual container host (VCH) with one instance of the management portal at a time. 
 
 **Procedure**
 
