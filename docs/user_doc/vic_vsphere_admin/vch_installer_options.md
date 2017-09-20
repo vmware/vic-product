@@ -998,7 +998,7 @@ Additionally, deploying a VCH with a `--debug 3` enables SSH access to the VCH e
 
 ### `--syslog-address` <a id="syslog"></a>
 
-Short name: None`
+Short name: None
 
 Configure a VCH so that it sends the logs in the `/var/log/vic` folder on the VCH endpoint VM to a syslog endpoint that is not located in the VCH. The VCH also sends container logs to the same syslog endpoint.
 
