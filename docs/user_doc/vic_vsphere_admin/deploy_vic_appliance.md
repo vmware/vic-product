@@ -85,12 +85,14 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
     
 11. In a browser, go to  http://<i>vic_appliance_address</i> and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance.
 
-    **IMPORTANT**: The installation process requires the single sign-on credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
+    **IMPORTANT**: The installation process requires the single sign-on credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller and to tag the appliance VM for use in Docker content trust. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
 
 **Result**
 
 - You see the vSphere Integrated Containers Getting Started page at http://<i>vic_appliance_address</i>. The Getting Started page includes links to the vSphere Integrated Containers Management Portal, the Demo VCH Installer Wizard, the download for the vSphere Integrated Containers Engine bundle, and to documentation.
 - If you see the error `Failed to register with PSC. Please check the vSphere user domain PSC settings and try again`, see the procedure in [vSphere Integrated Containers Appliance Fails to Register with PSC](ts_register_psc_fails.md) to register vSphere Integrated Containers with the Platform Services Controller.
+- If the initialization fails with any other error, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md).
+
 
 **What to Do Next**
 
@@ -106,9 +108,5 @@ Access the different vSphere Integrated Containers components from the  vSphere 
       
 - To remove security warnings when you connect to the Getting Started page or management portal, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](obtain_appliance_certs.md) and [Verify and Trust vSphere Integrated Containers Appliance Certificates](../vic_cloud_admin/trust_vic_certs.md).
 - If you see a certificate error when you attempt to go to http://<i>vic_appliance_address</i>, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](ts_cert_error.md).
-- If necessary, you can reconfigure the appliance after deployment by editing the settings of the appliance VM. For information about reconfiguring the appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.md).   
-
-
-
-
-   
+- If necessary, you can reconfigure the appliance after deployment by editing the settings of the appliance VM. For information about reconfiguring the appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.md). 
+- If, after deployment, you need to register the appliance with a different Platform Services Controller, you can do so by reinitializing the appliance. For information about registering the appliance with a different Platform Services Controller, see [Register the vSphere Integrated Containers Appliance with a Different Platform Services Controller](register_different_psc.md).  
