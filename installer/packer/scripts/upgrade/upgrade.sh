@@ -350,7 +350,7 @@ function upgradeAdmiral {
   if [ -n "$(docker ps -q -f name=vic-upgrade-admiral)" ]; then
     echo "Admiral upgrade container already exists" | tee /dev/fd/3
     echo "If upgrade is not already running, execute the following command and rerun the upgrade script:" | tee /dev/fd/3
-    echo "    docker rm -f vic-upgrade-admrial" | tee /dev/fd/3
+    echo "    docker rm -f vic-upgrade-admiral" | tee /dev/fd/3
     exit 1
   fi
 
@@ -580,6 +580,14 @@ function main {
   echo "-------------------------"
   echo "Starting upgrade ${TIMESTAMP}" | tee /dev/fd/3
 
+  data_upgrade_needed=false
+  if [ ! -f "/data/admiral/configs/psc-config.properties" ]; then
+      echo "Detected old OVA's version as 1.1.x. Continuing upgrade operation with data migration." | tee /dev/fd/3
+      data_upgrade_needed=true
+  else
+      echo "Detected old OVA's version as 1.2.x. Continuing upgrade operation without data migration." | tee /dev/fd/3
+  fi
+
   echo "Preparing upgrade environment" | tee /dev/fd/3
   disableServicesStart
   registerAppliance
@@ -587,9 +595,25 @@ function main {
   writeTimestamp
   echo "Finished preparing upgrade environment" | tee /dev/fd/3
 
-  upgradeAdmiral
+  if [ "$data_upgrade_needed" = true ]; then
+      upgradeAdmiral
+  else
+      # Start Admiral
+      echo "Starting Admiral" | tee /dev/fd/3
+      systemctl start admiral_startup.service
+      sleep 3
+  fi
+
   updateAdmiralConfig
-  upgradeHarbor
+
+  if [ "$data_upgrade_needed" = true ]; then
+      upgradeHarbor
+  else
+      # Start Harbor
+      echo ""
+      echo "Starting Harbor" | tee /dev/fd/3
+      systemctl start harbor_startup.service
+  fi
   setDataVersion
 
   enableServicesStart
