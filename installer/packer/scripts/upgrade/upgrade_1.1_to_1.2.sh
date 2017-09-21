@@ -32,6 +32,8 @@ DB_PASSWORD=""
 VCENTER_TARGET=""
 VCENTER_USERNAME=""
 VCENTER_PASSWORD=""
+EXTERNAL_PSC=""
+PSC_DOMAIN=""
 APPLIANCE_IP=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S %z %Z")
 
@@ -436,9 +438,9 @@ function upgradeHarbor {
 
 # Register appliance for content trust
 function registerAppliance {
-  status=$(/usr/bin/curl -k --write-out '%{http_code}' --header "Content-Type: application/json" -X POST --data '{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'"}' https://localhost:9443/register)
+  status=$(/usr/bin/curl -k --write-out '%{http_code}' --header "Content-Type: application/json" -X POST --data '{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'"}' https://localhost:9443/register)
   if [[ "$status" != *"200"* ]]; then
-    echo "Failed to register appliance. Check vCenter target and credentials." | tee /dev/fd/3
+    echo "Failed to register appliance. Check vCenter target and credentials and provided PSC settings." | tee /dev/fd/3
     exit 1
   fi
 }
@@ -504,6 +506,14 @@ function main {
         VCENTER_PASSWORD="$2"
         shift # past argument
         ;;
+      --external-psc)
+          EXTERNAL_PSC="$2"
+          shift # past argument
+          ;;
+      --external-psc-domain)
+          PSC_DOMAIN="$2"
+          shift # past argument
+          ;;
       *)
         # unknown option
         ;;
@@ -538,6 +548,14 @@ function main {
     echo -n "Enter vCenter Administrator Password: "
     read -s VCENTER_PASSWORD
     echo ""
+  fi
+
+  if [ -z "${EXTERNAL_PSC}" ] ; then
+      read -p "If using an external PSC, enter the FQDN of the PSC instance (leave blank otherwise): " EXTERNAL_PSC
+  fi
+
+  if [ -z "${PSC_DOMAIN}" ] ; then
+      read -p "If using an external PSC, enter the PSC Admin Domain (leave blank otherwise): " PSC_DOMAIN
   fi
 
   systemctl start docker.service
