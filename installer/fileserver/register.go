@@ -26,9 +26,11 @@ import (
 )
 
 type registerPayload struct {
-	Target   string `json:"target"`
-	User     string `json:"user"`
-	Password string `json:"password"`
+	Target      string `json:"target"`
+	User        string `json:"user"`
+	Password    string `json:"password"`
+	ExternalPSC string `json:"externalpsc"`
+	PSCDomain   string `json:"pscdomain"`
 }
 
 func registerHandler(resp http.ResponseWriter, req *http.Request) {
@@ -62,6 +64,8 @@ func registerHandler(resp http.ResponseWriter, req *http.Request) {
 			return
 		}
 
+		pscInstance = r.ExternalPSC
+		pscDomain = r.PSCDomain
 		if err := registerWithPSC(ctx); err != nil {
 			http.Error(resp, err.Error(), http.StatusServiceUnavailable)
 			return
