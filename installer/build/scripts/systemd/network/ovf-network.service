@@ -1,0 +1,10 @@
+[Unit]
+Description=Network customization based on user provided parameter
+Before=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/etc/vmware/network-config.sh
+
+[Install]
+WantedBy=network-online.target

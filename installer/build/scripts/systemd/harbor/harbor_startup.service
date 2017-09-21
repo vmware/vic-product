@@ -1,0 +1,14 @@
+[Unit]
+Description=Harbor Startup Configuration
+Documentation=http://github.com/vmware/harbor
+After=docker.service data.mount network-online.target systemd-resolved.service iptables.service ova-firewall.service harbor_startup.path firstboot.path
+Requires=iptables.service data.mount
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/bash /etc/vmware/harbor/configure_harbor.sh
+ExecStart=/usr/bin/python /etc/vmware/harbor/prepare --conf /data/harbor/harbor.cfg --with-notary --with-clair
+ExecStartPost=/bin/systemctl start harbor.service
+
+[Install]
+WantedBy=multi-user.target
