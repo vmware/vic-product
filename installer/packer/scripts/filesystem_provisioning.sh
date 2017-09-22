@@ -42,5 +42,5 @@ mount /dev/sdb1 /data -t ext4
 mkdir -p /data/{admiral,harbor,fileserver}
 
 # Write version files
-echo "ova=${BUILD_OVA_REVISION}" > /data/version
-echo "ova=${BUILD_OVA_REVISION}" > /etc/vmware/version
+echo "appliance=${BUILD_OVA_REVISION}" > /data/version
+echo "appliance=${BUILD_OVA_REVISION}" > /etc/vmware/version
