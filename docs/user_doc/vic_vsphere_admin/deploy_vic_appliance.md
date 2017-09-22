@@ -53,7 +53,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 7. Expand **Management Portal Configuration** to configure the deployment of vSphere Integrated Containers Management Portal. 
 
     - In the **Management Portal Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Management Portal service.
-    - To use custom certificates to authenticate connections to vSphere Integrated Containers Management Portal, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. 
+    - To use custom certificates to authenticate connections to vSphere Integrated Containers Management Portal, optionally paste the content of the appropriate certificate, key, and Certificate Authority (CA) files in the **SSL Cert**, **SSL Cert Key**, and **CA Cert** text boxes. 
 
         **IMPORTANT**: Provide the TLS private key as a PEM-encoded PKCS#8-formatted file.
 
@@ -84,7 +84,9 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
     The network status shows whether the network settings that you provided during the deployment match the settings with which the appliance is running. If there are mismatches, power off the appliance and select **Edit Settings** > **vApp Options** to correct the network settings.
     
-11. In a browser, go to  http://<i>vic_appliance_address</i> and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance.
+11. In a browser, go to  http://<i>vic_appliance_address</i> and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance, and click **Continue**.
+
+    If vCenter Server is managed by an external Platform Services Controller, you must also enter the FQDN and administrator domain for the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, leave the External PSC text boxes empty.
 
     **IMPORTANT**: The installation process requires the single sign-on credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
 
@@ -97,7 +99,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
 Access the different vSphere Integrated Containers components from the  vSphere Integrated Containers Getting Started page at  http://<i>vic_appliance_address</i>.
 
-- Click the link to go to the **vSphere Integrated Containers Management Portal**. For information about how to use vSphere Integrated Containers Management Portal, see [View and Manage VCHs, Add Registries, and Provision Containers Through the Management Portal](../vic_cloud_admin/vchs_and_mgmt_portal.md).
+- Click the link to go to the **vSphere Integrated Containers Management Portal**. For information about how to use vSphere Integrated Containers Management Portal, see [Configure and Manage vSphere Integrated Containers](../vic_cloud_admin/).
 - Scroll down to **Infrastructure deployment tools** and click the link to go to the **Demo VCH Installer Wizard**. For information about how to use the interactive VCH installer, see [Deploy a Virtual Container Host Interactively](deploy_demo_vch.md).
 - Scroll down to **Infrastructure deployment tools** and click the link to **download the vSphere Integrated Containers Engine bundle**. The vSphere Integrated Containers Engine bundle allows you to perform the following tasks:
 
