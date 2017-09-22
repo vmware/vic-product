@@ -55,14 +55,14 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
 
      When prompted, enter the address of the vCenter Server instance on which you deployed the new appliance and the Single Sign-On credentials of a vSphere administrator account. The script requires these credentials to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.
 
+     If vCenter Server is managed by an external Platform Services Controller, you must also provide the FQDN and administrator domain for the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything at the External PSC prompts.
+
 11. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and use vCenter Server Single Sign-On credentials to log in.
 
      - In the **Home** tab of the vSphere Integrated Containers Management Portal, check that all existing applications, containers, networks, volumes, and virtual container hosts have migrated successfully.
      - In the **Administration** tab, check that projects, registries, repositories, and replication configurations have migrated successfully.
         
         **IMPORTANT**: If you added the vSphere Integrated Containers Registry instance from the previous appliance to the previous version of the vSphere Integrated Containers Management Portal,  and if the address of the appliance changed during the upgrade, two instances of vSphere Integrated Containers Registry appear in the **Administration** > **Registries** > **Source Registries** view. The registry named `default-vic-registry` is the registry instance that is running in the new appliance. Data from the registry that was running in the previous appliance has migrated to this instance. A registry instance with the name and address from the old, and now defunct, appliance is present in the list of registries. Delete this instance from the list.
-   
-
 
 **What to Do Next**
 

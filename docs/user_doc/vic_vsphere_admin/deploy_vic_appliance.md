@@ -86,9 +86,10 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
     
 11. In a browser, go to  http://<i>vic_appliance_address</i> and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance, and click **Continue**.
 
+    **IMPORTANT**: The installation process requires the single sign-on credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step. 
+
     If vCenter Server is managed by an external Platform Services Controller, you must also enter the FQDN and administrator domain for the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, leave the External PSC text boxes empty.
 
-    **IMPORTANT**: The installation process requires the single sign-on credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
 
 **Result**
 
