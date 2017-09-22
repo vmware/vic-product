@@ -1,14 +1,14 @@
 # Advanced `dch-photon` Deployment 
 
-You do not need to specify any options when you use `docker run` to deploy `dch-photon` container VMs for use with vSphere Integrated Containers Registry. However, you can optionally specify `dch-photon` options in the `docker run` command to implement TLS authentication between virtual container hosts (VCHs) and `dch-photon` container VMs
+You do not need to specify any options when you use `docker run` to deploy `dch-photon` container VMs for use with vSphere Integrated Containers Registry. However, you can optionally specify `dch-photon` options in the `docker run` command to run `dch-photon` with TLS authentication.
 
 You can also specify `dch-photon` options to connect `dch-photon` container VMs to registries other than vSphere Integrated Containers Registry.
 
 - [`dch-photon` Options](#options)
-- [Authenticate Connections from VCHs to `dch-photon` Container VMs](#authvch)
-  - [With Remote Verification](#authvch_tlsverify) 
-  - [Without Remote Verification](#authvch_tls)
-  - [With Automatically Generated Certificates](#authvch_auto)
+- [Using `dch-photon` with TLS Authentication](#auth)
+  - [With Remote Verification](#auth_tlsverify) 
+  - [Without Remote Verification](#auth_tls)
+  - [With Automatically Generated Certificates](#auth_auto)
 
 ## `dch-photon` Options <a id="options"></a>
 
@@ -32,31 +32,31 @@ You can specify the following options when you deploy `dch-photon` container VMs
 - `vic-ip`: Set the IP address of the virtual container host for  use in automatic certificate generation when running `dch-photon` containers behind a port mapping.
 
 
-## Authenticate Connections from VCHs to `dch-photon` Container VMs <a id="authvch"></a>
+## Using `dch-photon` with TLS Authentication <a id="auth"></a>
 
-To implement TLS authentication between VCHs and `dch-photon` container VMs, you specify the `-tls` or `-tlsverify` option when you create the container VM. You then copy the VCH certificates into the `dch-photon` container VM.
+To configure the same certificate-based authentication for a `dch-photon` as you have for your VCH endpoint, you specify the `-tls` or `-tlsverify` option when you run the `dch-photon` the container VM. You then copy the appropriate certificates into the `dch-photon` container VM.
 
-### With Remote Verification <a id="authvch_tlsverify"></a>
+### With Remote Verification <a id="auth_tlsverify"></a>
 
 1. Create a `dch-photon` container without starting it.
 
     This example runs `dch-photon` behind a port mapping and specifies the `-tlsverify` option.<pre>docker create -p 12376:2376 --name dch-photon-tlsverify <i>registry_address</i>/default-project/dch-photon:1.13 -tlsverify</pre>
 
-2. Copy the VCH certificates into the `dch-photon` container.<pre> docker cp <i>vch_cert_folder</i>/ca.pem dch-photon-tlsverify:/certs/ca.crt</pre><pre> docker cp <i>vch_cert_folder</i>/server-cert.pem dch-photon-tlsverify:/certs/docker.crt</pre><pre> docker cp <i>vch_cert_folder</i>/server-key.pem dch-photon-tlsverify:/certs/docker.key</pre>   
+2. Copy the certificates into the `dch-photon` container.<pre> docker cp <i>cert_folder</i>/ca.pem dch-photon-tlsverify:/certs/ca.crt</pre><pre> docker cp <i>cert_folder</i>/server-cert.pem dch-photon-tlsverify:/certs/docker.crt</pre><pre> docker cp <i>cert_folder</i>/server-key.pem dch-photon-tlsverify:/certs/docker.key</pre>   
 3. Start the `dch-photon` container.<pre>docker start dch-photon-tlsverify</pre>
 4. Connect to the `dch-photon` container.<pre>docker -H <i>vch_adress</i>:12376 --tlsverify info</pre>
 
-### Without Remote Verification <a id="authvch_tls"></a>
+### Without Remote Verification <a id="auth_tls"></a>
 
 1. Create a `dch-photon` container without starting it.
 
     This example runs `dch-photon` behind a port mapping and specifies the `-tls` option.<pre>docker create -p 12376:2376 --name dch-photon-tls <i>registry_address</i>/default-project/dch-photon:1.13 -tls</pre>
 
-2. Copy the VCH certificates into the `dch-photon` container.<pre> docker cp <i>vch_cert_folder</i>/server-cert.pem dch-photon-tls:/certs/docker.crt</pre><pre> docker cp <i>vch_cert_folder</i>/server-key.pem dch-photon-tls:/certs/docker.key</pre>   
+2. Copy the certificates into the `dch-photon` container.<pre> docker cp <i>cert_folder</i>/server-cert.pem dch-photon-tls:/certs/docker.crt</pre><pre> docker cp <i>cert_folder</i>/server-key.pem dch-photon-tls:/certs/docker.key</pre>   
 3. Start the `dch-photon` container.<pre>docker start dch-photon-tls</pre>
 4. Connect to the `dch-photon` container.<pre>docker -H <i>vch_adress</i>:12376 --tls info</pre>
 
-### With Automatically Generated Certificates <a id="authvch_auto"></a>
+### With Automatically Generated Certificates <a id="auth_auto"></a>
 
 To generate certificates automatically, specify either `-tls` or `-tlsverify`. If the `dch-photon` container runs behind a port mapping, specify the address of the VCH in the `-vic-ip` option. This address is used during certificate generation.
 
