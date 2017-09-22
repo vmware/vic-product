@@ -81,6 +81,8 @@ Pick one to set VIC Engine version:
 export BUILD_VICENGINE_REVISION=1.1.1                      # If specifying file or URL, REVISION is used for setting UI plugin version
                                                            # If no other BUILD_VICENGINE vars specified, also specifies VIC Engine
                                                            # version from https://console.cloud.google.com/storage/browser/vic-engine-releases
+export BUILD_OVA_REVISION=$(git describe --tags)           # Set the OVA version displayed in the
+                                                           # OVA deploy wizard and version files on disk
 export BUILD_VICENGINE_FILE=vic_10000.tar.gz               # File in `packer/scripts`
 export BUILD_VICENGINE_URL=https://example.com/vic.tar.gz  # URL to download
 ```

@@ -170,7 +170,7 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
             Version is the actual product version in the
             form X.X.X.X where X is an unsigned 16-bit integer.
 
-            This is set by the $BUILD_VICENGINE_REVISION
+            This is set by the $BUILD_OVA_REVISION
             environment variable.
 
             FullVersion is a descriptive version string
