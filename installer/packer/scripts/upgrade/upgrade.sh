@@ -22,6 +22,8 @@ harbor_psc_token_file="/etc/vmware/psc/harbor/tokens.properties"
 admiral_psc_token_file="/etc/vmware/psc/admiral/tokens.properties"
 timestamp_file="/registration-timestamps.txt"
 
+data_upgrade_needed=false
+
 admiral_upgrade_status="/etc/vmware/admiral/upgrade_status"
 harbor_upgrade_status="/etc/vmware/harbor/upgrade_status"
 upgrade_log_file="/var/log/vmware/upgrade.log"
@@ -494,6 +496,62 @@ function enableServicesStart {
   systemctl start harbor_startup.path
 }
 
+# Check for presence of Admiral's PSC config file. If the file exists, the old
+# OVA is version 1.2.x, otherwise it is 1.1.x and data migration is needed.
+function setDataUpgradeNeeded {
+  if [ ! -f "/data/admiral/configs/psc-config.properties" ]; then
+    echo "Detected old OVA's version as 1.1.x. Upgrade will perform data migration." | tee /dev/fd/3
+
+      while true; do
+        echo "" | tee /dev/fd/3
+        echo "Do you wish to proceed with a 1.1.x to 1.2.y upgrade? [y/n]" | tee /dev/fd/3
+        echo -n "If the version of the old OVA is not 1.1.x, please enter n and contact VMware support: " | tee /dev/fd/3
+        read response
+        case $response in
+            [Yy] )
+                echo "Continuing with upgrade" | tee /dev/fd/3
+                echo "" | tee /dev/fd/3
+                break
+                ;;
+            [Nn] )
+                echo "Exiting without performing upgrade" | tee /dev/fd/3
+                exit 1
+                ;;
+            *)
+                # unknown option
+                echo "Please enter [y/n]" | tee /dev/fd/3
+                ;;
+        esac
+      done
+
+      data_upgrade_needed=true
+  else
+    echo "Detected old OVA's version as 1.2.x. Upgrade will not perform data migration." | tee /dev/fd/3
+
+      while true; do
+        echo "" | tee /dev/fd/3
+        echo "Do you wish to proceed with a 1.2.x to 1.2.y upgrade? [y/n]" | tee /dev/fd/3
+        echo -n "If the version of the old OVA is not 1.2.x, please enter n and contact VMware support: " | tee /dev/fd/3
+        read response
+        case $response in
+            [Yy] )
+                echo "Continuing with upgrade" | tee /dev/fd/3
+                echo "" | tee /dev/fd/3
+                break
+                ;;
+            [Nn] )
+                echo "Exiting without performing upgrade" | tee /dev/fd/3
+                exit 1
+                ;;
+            *)
+                # unknown option
+                echo "Please enter [y/n]" | tee /dev/fd/3
+                ;;
+        esac
+      done
+  fi
+}
+
 function main {
   while [[ $# -gt 1 ]]
   do
@@ -580,13 +638,7 @@ function main {
   echo "-------------------------"
   echo "Starting upgrade ${TIMESTAMP}" | tee /dev/fd/3
 
-  data_upgrade_needed=false
-  if [ ! -f "/data/admiral/configs/psc-config.properties" ]; then
-      echo "Detected old OVA's version as 1.1.x. Continuing upgrade operation with data migration." | tee /dev/fd/3
-      data_upgrade_needed=true
-  else
-      echo "Detected old OVA's version as 1.2.x. Continuing upgrade operation without data migration." | tee /dev/fd/3
-  fi
+  setDataUpgradeNeeded
 
   echo "Preparing upgrade environment" | tee /dev/fd/3
   disableServicesStart
