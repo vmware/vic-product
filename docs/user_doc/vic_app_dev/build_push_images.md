@@ -23,7 +23,7 @@ To use `dch-photon`, your environment must satisfy the following conditions:
 
 Each `dch-photon` container VM that you run creates an anonymous volume in the `default` volume store. By default, all of the images you pull into `dch-photon` go into this volume. The anonymous volume has a 2 GB limit. If you require more than 2 GB to store images and container state, you must explicitly specify a volume with a higher limit when you run `dch-photon`. 
 
-This anonymous volumes that `dch-photon` creates are not deleted when you delete a `dch-photon` container VM.  This is by design, so that you can persist your image cache and container state beyond the lifespan of an individual `dch-photon` container VM. When you delete `dch-photon` container VMs, you must manually remove the anonymous volume from the volume store if you do not require them.
+The anonymous volumes that `dch-photon` creates are not deleted when you delete a `dch-photon` container VM.  This is by design, so that you can persist your image cache and container state beyond the lifespan of an individual `dch-photon` container VM. When you delete `dch-photon` container VMs, you must manually remove the anonymous volume from the volume store if you do not require them.
 
 ## Using `dch-photon` with vSphere Integrated Containers Registry <a href="registry"></a>
 
