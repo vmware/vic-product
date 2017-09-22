@@ -104,6 +104,7 @@ ova-release: gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer
 			-var 'esx_host=$(PACKER_ESX_HOST)'\
 			-var 'remote_username=$(PACKER_USERNAME)'\
 			-var 'remote_password=$(PACKER_PASSWORD)'\
+			-var 'build_ova_revision=$(BUILD_OVA_REVISION)' \
 			-var 'build_vicengine_revision=$(BUILD_VICENGINE_REVISION)' \
 			-var 'build_vicengine_dev_revision=$(BUILD_VICENGINE_DEV_REVISION)' \
 			-var 'build_admiral_revision=$(BUILD_ADMIRAL_REVISION)' \
@@ -112,7 +113,7 @@ ova-release: gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer
 			packer-vic.json
 	@echo adding proper vic OVF file...
 	@cd $(BASE_DIR)packer/vic/vic && $(RM) vic.ovf && $(CP) ../../vic-unified.ovf vic.ovf
-	@cd $(BASE_DIR)packer/vic/vic && $(SED) -i -e s~--version--~$(BUILD_VICENGINE_REVISION)~ vic.ovf
+	@cd $(BASE_DIR)packer/vic/vic && $(SED) -i -e s~--version--~$(BUILD_OVA_REVISION)~ vic.ovf
 ifeq ($(OS),darwin)
 	@echo rebuilding OVF manifest in darwin...
 	@cd $(BASE_DIR)packer/vic/vic && $(RM) vic.mf && shasum -a 256 * | $(AWK) '{print "SHA256("$$2") = "$$1}' > vic.mf
@@ -134,6 +135,7 @@ ova-debug: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(to
 			-var 'esx_host=$(PACKER_ESX_HOST)'\
 			-var 'remote_username=$(PACKER_USERNAME)'\
 			-var 'remote_password=$(PACKER_PASSWORD)'\
+			-var 'build_ova_revision=$(BUILD_OVA_REVISION)' \
 			-var 'build_vicengine_revision=$(BUILD_VICENGINE_REVISION)' \
 			-var 'build_vicengine_dev_revision=$(BUILD_VICENGINE_DEV_REVISION)' \
 			-var 'build_admiral_revision=$(BUILD_ADMIRAL_REVISION)' \
@@ -142,7 +144,7 @@ ova-debug: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(to
 			--on-error=abort packer-vic.json
 	@echo adding proper vic OVF file...
 	cd $(BASE_DIR)packer/vic/vic && $(RM) vic.ovf && $(CP) ../../vic-unified.ovf vic.ovf
-	@cd $(BASE_DIR)packer/vic/vic && $(SED) -i -e s~--version--~$(BUILD_VICENGINE_REVISION)~ vic.ovf
+	@cd $(BASE_DIR)packer/vic/vic && $(SED) -i -e s~--version--~$(BUILD_OVA_REVISION)~ vic.ovf
 ifeq ($(OS),darwin)
 	@echo rebuilding OVF manifest in darwin...
 	@cd $(BASE_DIR)packer/vic/vic && $(RM) vic.mf && shasum -a 256 * | $(AWK) '{print "SHA256("$$2") = "$$1}' > vic.mf
