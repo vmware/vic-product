@@ -102,6 +102,8 @@ if [ -z "${BUILD_VICENGINE_REVISION}" ]; then
   exit 1
 fi
 
+BUILD_OVA_REVISION=$(git describe --tags)
+export BUILD_OVA_REVISION=${BUILD_OVA_REVISION}
 export BUILD_PORTGROUP="${BUILD_PORTGROUP}"
 
 make ova-release
@@ -109,12 +111,12 @@ make ova-release
 OUTFILE=bin/$(ls -1t bin | grep "\.ova")
 
 if [ -n "${DRONE_BUILD_NUMBER}" ]; then
-  TMP=$(echo ${OUTFILE} | sed "s/-/-${DRONE_BUILD_NUMBER}-/")
-  mv ${OUTFILE} ${TMP}
+  TMP=$(echo "${OUTFILE}" | sed "s/-/-${DRONE_BUILD_NUMBER}-/")
+  mv "${OUTFILE}" "${TMP}"
   OUTFILE=${TMP}
 fi
 
-shasum -a 256 $OUTFILE
-shasum -a 1 $OUTFILE
-md5sum $OUTFILE
-du -ks $OUTFILE | awk '{print $1 / 1024}' | { read x; echo $x MB; }
+shasum -a 256 "$OUTFILE"
+shasum -a 1 "$OUTFILE"
+md5sum "$OUTFILE"
+du -ks "$OUTFILE" | awk '{print $1 / 1024}' | { read x; echo $x MB; }

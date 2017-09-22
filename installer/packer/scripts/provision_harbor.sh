@@ -100,3 +100,7 @@ overrideDataDirectory /etc/vmware/harbor/docker-compose.clair.yml /data/harbor
 
 chmod 600 /data/harbor/harbor.cfg
 chmod -R 600 /etc/vmware/harbor/common
+
+# Write version files
+echo "harbor=${HARBOR_FILE}" >> /data/version
+echo "harbor=${HARBOR_FILE}" >> /etc/vmware/version
