@@ -91,7 +91,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
 - You see the vSphere Integrated Containers Getting Started page at http://<i>vic_appliance_address</i>. The Getting Started page includes links to the vSphere Integrated Containers Management Portal, the Demo VCH Installer Wizard, the download for the vSphere Integrated Containers Engine bundle, and to documentation.
 - If you see the error `Failed to register with PSC. Please check the vSphere user domain PSC settings and try again`, see the procedure in [vSphere Integrated Containers Appliance Fails to Register with PSC](ts_register_psc_fails.md) to register vSphere Integrated Containers with the Platform Services Controller.
-- If the initialization fails with any other error, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md).
+- If the initialization fails with any other error, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md). You should not reinitialize the appliance in any circumstances other than those described in that topic.
 
 
 **What to Do Next**

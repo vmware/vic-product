@@ -1,6 +1,6 @@
 # Reinitialize the vSphere Integrated Containers Appliance
 
-After you power on the vSphere Integrated Containers appliance for the first time, you are prompted to enter the vCenter Server credentials. This allows performs the OVA installer to perform two tasks to  initialize the appliance:
+After you power on the vSphere Integrated Containers appliance for the first time, you are prompted to enter the vCenter Server credentials and Platform Services Controller settings. This allows the OVA installer to perform two tasks to initialize the appliance:
 
 - Tag the appliance VM for content trust
 - Register the appliance with the Platform Services Controller

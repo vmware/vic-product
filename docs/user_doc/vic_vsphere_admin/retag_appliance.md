@@ -4,7 +4,6 @@ vSphere Integrated Containers Registry implements Docker content trust to sign i
 
 In some cases, you might need to re-tag the appliance VM, for example if the tag has been accidentally deleted. 
 
-
 **Procedure**
 
 1. In the Hosts and Clusters view of the vSphere Client right-click the OVA VM and select **Tags & Custom Attributes** > **Remove Tag**.

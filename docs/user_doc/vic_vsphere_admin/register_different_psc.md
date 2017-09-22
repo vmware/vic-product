@@ -10,7 +10,7 @@ If necessary, you can register the vSphere Integrated Containers appliance with 
 2. Stop the vSphere Integrated Containers Management Portal service.
 
     <pre>systemctl stop admiral.service</pre>
-2. List all of the containers that are running in the appliance.
+2. List all of the containers in the appliance.
 
     <pre>docker ps -a</pre>
 
@@ -22,9 +22,9 @@ If necessary, you can register the vSphere Integrated Containers appliance with 
 
 2. Delete the three Platform Services Controller configuration files from the appliance.
 
-    <pre>rm /etc/vmware/psc/admiral/psc-config.properties`</pre>
-    <pre>rm /etc/vmware/psc/engine/psc-config.properties`</pre>
-    <pre>rm /etc/vmware/psc/harbor/psc-config.properties`</pre>
+    <pre>rm /etc/vmware/psc/admiral/psc-config.properties</pre>
+    <pre>rm /etc/vmware/psc/engine/psc-config.properties</pre>
+    <pre>rm /etc/vmware/psc/harbor/psc-config.properties</pre>
 3. Go to the vSphere Integrated Containers Getting Started page at http://<i>vic_appliance_address</i>.
 4. Scroll to the bottom of the page and click the  **Re-Initialize the  vSphere Integrated Containers Appliance** button. 
 5. Enter the vCenter Server address and credentials and the address of the new Platform Services Controller and click **Continue**.
