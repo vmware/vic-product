@@ -74,6 +74,7 @@
      * [Deleting or Inspecting a VCH Fails](ts_delete_inspect_error.md)
      * [Certificate Errors when Using Full TLS Authentication with Trusted Certificates](ts_clock_skew.md)
      * [Appliance VM Password Refused](ts_appliance_password_refused.md)
+     * [Default Volume Store Error](vic_app_dev/ts_volume_store_error.md)
   * [Security](security_reference.md)
      * [Certificate Reference](vic_cert_reference.md)
      * [Obtain Appliance Certificates](obtain_appliance_certs.md)
