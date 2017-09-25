@@ -85,6 +85,7 @@
      * [Deleting or Inspecting a VCH Fails](vic_vsphere_admin/ts_delete_inspect_error.md)
      * [Certificate Errors when Using Full TLS Authentication with Trusted Certificates](vic_vsphere_admin/ts_clock_skew.md)
      * [Appliance VM Password Refused](vic_vsphere_admin/ts_appliance_password_refused.md)
+     * [Default Volume Store Error](vic_app_dev/ts_volume_store_error.md)
   * [Security](vic_vsphere_admin/security_reference.md)
      * [Certificate Reference](vic_vsphere_admin/vic_cert_reference.md)
      * [Obtain Appliance Certificates](vic_vsphere_admin/obtain_appliance_certs.md)
@@ -130,13 +131,16 @@
   * [Obtain a VCH](vic_app_dev/obtain_vch.md)
   * [Configure the Docker Client](vic_app_dev/configure_docker_client.md)
   * [Building and Pushing Images](vic_app_dev/build_push_images.md)
+     * [Add Certificate to Custom Image](vic_app_dev/photon_cert_custom.md)
+     * [Manually Add Certificate](vic_app_dev/photon_cert_manual.md) 
+     * [Build, Push, and Pull and Image](vic_app_dev/test_photon.md)
+     * [Advanced `dch-photon` Deployment](vic_app_dev/dchphoton_options.md)
   * [Using Volumes](vic_app_dev/using_volumes_with_vic.md) 
   * [Container Networking](vic_app_dev/network_use_cases.md)
   * [Creating a Containerized App](vic_app_dev/creating_containerized_app_with_vic.md)
      * [Putting Apps into Production](vic_app_dev/putting_apps_into_production.md)
      * [Deploy a Single Container VM](vic_app_dev/deploy_single_containervm.md)
-     * [Deploy Container VMs with Compose](vic_app_dev/deploy_multiple_docker_compose.md) 
-  * [Default Volume Store Error](vic_app_dev/ts_volume_store_error.md)
+     * [Deploy Container VMs with Compose](vic_app_dev/deploy_multiple_docker_compose.md)
 
 
 ----
