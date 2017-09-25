@@ -14,7 +14,7 @@ You have a created project.
     In the Logs view you can see system logs as well as logs of the vSphere Integrated Containers Registry.
 3. To see a reduced list of operations, enter text in the **Filter Logs** text box.
 
-    You can filter logs by user name, repository name, tags, operation type, and time stamp.
+    For example, enter the name of a repository.
 
 
 
