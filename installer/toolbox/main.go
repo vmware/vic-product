@@ -17,6 +17,7 @@
 package main
 
 import (
+	"errors"
 	"os"
 	"os/signal"
 	"syscall"
@@ -26,6 +27,7 @@ import (
 	"github.com/spf13/pflag"
 
 	"github.com/vmware/govmomi/toolbox"
+	"github.com/vmware/govmomi/toolbox/vix"
 	"github.com/vmware/vic-product/installer/pkg/version"
 )
 
@@ -60,6 +62,11 @@ func main() {
 	if os.Getuid() == 0 {
 		service.Power.Halt.Handler = toolbox.Halt
 		service.Power.Reboot.Handler = toolbox.Reboot
+	}
+
+	// Disable all guest operations
+	service.Command.Authenticate = func(_ vix.CommandRequestHeader, _ []byte) error {
+		return errors.New("not authorized")
 	}
 
 	err := service.Start()
