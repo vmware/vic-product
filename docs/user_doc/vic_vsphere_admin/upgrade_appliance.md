@@ -51,7 +51,7 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
 11. Navigate to the upgrade script and run it. 
 
     <pre>$ cd /etc/vmware/upgrade</pre>
-    <pre>$ ./upgrade_1.1_to_1.2.sh</i></pre>
+    <pre>$ ./upgrade.sh</i></pre>
 
      When prompted, enter the address of the vCenter Server instance on which you deployed the new appliance and the Single Sign-On credentials of a vSphere administrator account. The script requires these credentials to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.
 
