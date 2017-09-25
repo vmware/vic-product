@@ -46,9 +46,13 @@ fi
 set -u
 
 echo "Downloading VIC Engine ${VIC_ENGINE_FILE}: ${VIC_ENGINE_URL}"
-curl -LO ${VIC_ENGINE_URL}
+curl -LO "${VIC_ENGINE_URL}"
 
 # Copy UI plugin zip files to fileserver directory
-tar tf ${VIC_ENGINE_FILE} | grep "vic/ui" | grep ".zip" | xargs  -I '{}' tar xzf ${VIC_ENGINE_FILE} -C ${FILES_DIR} '{}' --strip-components=3
+tar tf "${VIC_ENGINE_FILE}" | grep "vic/ui" | grep ".zip" | xargs  -I '{}' tar xzf "${VIC_ENGINE_FILE}" -C ${FILES_DIR} '{}' --strip-components=3
 
-mv ${VIC_ENGINE_FILE} ${FILES_DIR}
+mv "${VIC_ENGINE_FILE}" ${FILES_DIR}
+
+# Write version files
+echo "engine=${VIC_ENGINE_FILE}" >> /data/version
+echo "engine=${VIC_ENGINE_FILE}" >> /etc/vmware/version

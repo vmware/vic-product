@@ -461,6 +461,21 @@ function writeTimestamp {
   echo "${TIMESTAMP}" > ${timestamp_file}
 }
 
+# Copy the appliance version to /data after successful upgrade
+function setDataVersion {
+  appliance_ver="/etc/vmware/version"
+  data_ver="/data/version"
+
+  if [ -f ${data_ver} ]; then
+    old_data_ver=$(readFile ${data_ver})
+    echo "Old data version: ${old_data_ver}"
+  fi
+
+  cp -f ${appliance_ver} ${data_ver}
+  new_data_ver=$(readFile ${data_ver})
+  echo "Set new data version: ${new_data_ver}"
+}
+
 # Prevent Admiral and Harbor from starting from path units
 function disableServicesStart {
   echo "Disabling and stopping Admiral and Harbor path startup" | tee /dev/fd/3
@@ -575,6 +590,7 @@ function main {
   upgradeAdmiral
   updateAdmiralConfig
   upgradeHarbor
+  setDataVersion
 
   enableServicesStart
   echo "Upgrade script complete. Exiting." | tee /dev/fd/3
