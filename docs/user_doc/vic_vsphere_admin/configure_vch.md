@@ -20,6 +20,8 @@ To see the current configuration of a VCH before you configure it, and to check 
 
 **IMPORTANT**: Running `vic-machine inspect config` before you run `vic-machine configure` is especially important if you are adding registry certificates, volume stores, DNS servers, or container networks to a VCH that already includes one or more of those elements. When you add registry certificates, volume stores, DNS servers, or container networks to a VCH, you must specify the existing configuration as well as any new configurations in separate instances of the appropriate `vic-machine inspect config` option. 
 
+When you run a `vic-machine configure` operation, `vic-machine` takes a snapshot of the VCH endpoint VM before it makes any modifications to the VCH. However, `vic-machine` does not remove the snapshot when the configuration operation finishes. You must manually remove the snapshot, after verifying that the configuration operation was successful.
+
 ## Update vCenter Server Credentials <a id="vccreds"></a>
 
 If the vCenter Server credentials change after the deployment of a VCH, you must update that VCH with the new credentials. The VCH will not function until you update the credentials. 

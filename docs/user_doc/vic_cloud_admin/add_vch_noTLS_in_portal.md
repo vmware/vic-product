@@ -12,7 +12,7 @@ Connect hosts that do not require TLS authentication over HTTP with no credentia
 	2. Select **VCH** as type.
 	2. Enter the endpoint for the VCH as URL and click **Save**.
 
-	For example, *http://*hostname*:2375*.
+	    For example, *http://*hostname*:2375*.
 
 **Result**
 
