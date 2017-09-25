@@ -22,9 +22,9 @@ Obtain the client private key (*key.pem*) and client public key (*cert.pem*) for
 	2. Select **VCH** as Host type.
 	2. Enter the endpoint for the VCH as URL.
 
-	For example, *https://*hostname*:2376*.
+	    For example, *https://*hostname*:2376*.
 
-	3. As Credentials, select the certificates that you configured for that host and click **Save**.
+    3. As Credentials, select the certificates that you configured for that host and click **Save**.
 
 **Result**
 

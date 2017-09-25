@@ -9,7 +9,7 @@ This topic describes the interoperability of vSphere Integrated Containers Engin
 - [VMware vSphere High Availability](#ha)
 - [VMware NSX&reg;](#nsx)
 - [Maintenance Mode](#maintmode)
-- [VMware vSAN&trade;](#vsan)
+- [Storage](#vsan)
 - [Enhanced Linked Mode Environments](#elm)
 - [vSphere Features Not Supported in This Release](#notsupported)
 
@@ -42,7 +42,7 @@ In a cluster with fully automated DRS, if you put a host into maintenance mode, 
 - If VCHs and container VMs are running on a standalone ESXi host, you must power off the VCHs and container VMs before you put the host into maintenance mode.
 - If container VMs have active `docker attach` sessions, you cannot put the host into maintenance mode until the `attach` sessions end. 
 
-## VMware vSAN <a id="vsan"></a>
+## Storage <a id="vsan"></a>
 VCHs maintain file system layers inherent in container images by mapping to discrete VMDK files, all of which can be housed in shared vSphere datastores, including vSAN, NFS, Fibre Channel, and iSCSI datastores.
 
 ## Enhanced Linked Mode Environments <a id="elm"></a>
