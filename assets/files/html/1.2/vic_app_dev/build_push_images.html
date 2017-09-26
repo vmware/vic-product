@@ -61,7 +61,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="using_volumes_with_vic.html" />
+    <link rel="next" href="photon_cert_custom.html" />
     
     
     <link rel="prev" href="configure_docker_client.html" />
@@ -1151,6 +1151,19 @@
             
         </li>
     
+        <li class="chapter " data-level="2.1.8.17" data-path="ts_volume_store_error.html">
+            
+                <a href="ts_volume_store_error.html">
+            
+                    
+                    Default Volume Store Error
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -1696,6 +1709,64 @@
             
 
             
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.6.1" data-path="photon_cert_custom.html">
+            
+                <a href="photon_cert_custom.html">
+            
+                    
+                    Add Certificate to Custom Image
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6.2" data-path="photon_cert_manual.html">
+            
+                <a href="photon_cert_manual.html">
+            
+                    
+                    Manually Add Certificate
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6.3" data-path="test_photon.html">
+            
+                <a href="test_photon.html">
+            
+                    
+                    Build, Push, and Pull and Image
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6.4" data-path="dchphoton_options.html">
+            
+                <a href="dchphoton_options.html">
+            
+                    
+                    Advanced dch-photon Deployment
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
         </li>
     
         <li class="chapter " data-level="4.1.7" data-path="using_volumes_with_vic.html">
@@ -1782,19 +1853,6 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.10" data-path="ts_volume_store_error.html">
-            
-                <a href="ts_volume_store_error.html">
-            
-                    
-                    Default Volume Store Error
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1878,125 +1936,41 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="using-dch-photon-to-build-and-push-images">Using <code>dch-photon</code> to Build and Push Images</h1>
-<p>vSphere Integrated Containers Engine is designed as an enterprise container runtime to be used as a deployment endpoint. As such, it doesn&apos;t have its own native <code>docker build</code> or <code>docker push</code> capabilities. The job of building and pushing container images is typically part of a CI pipeline which does this using standard Docker Engine instances. vSphere Integrated Containers Engine can now deploy these Docker Engine instances for you and a version of such an image is included in the hosted vSphere Integrated Containers Registry.</p>
+                                <h1 id="building-and-pushing-images-with-the-dch-photon-docker-engine">Building and Pushing Images with the <code>dch-photon</code> Docker Engine</h1>
+<p>vSphere Integrated Containers Engine is an enterprise container runtime that you use as a deployment endpoint. As such, it does not have native <code>docker build</code> or <code>docker push</code> capabilities. The job of building and pushing container images is typically part of a continuous integration (CI) pipeline which does this by using standard Docker Engine instances. </p>
 <ul>
 <li>You use standard Docker Engine to build, tag, and push a container image to a registry.</li>
 <li>You pull the image from the registry to a vSphere Integrated Containers virtual container host (VCH) to deploy it.</li>
 </ul>
-<p>This release of vSphere Integrated Containers includes an image repository named <code>dch-photon</code>, that is pre-loaded in the <code>default-project</code> in vSphere Integrated Containers Registry. The <code>dch-photon</code> image allows you to deploy a container VM running Docker Engine hosted in Photon OS. You can then deploy any number of these Docker container hosts to perform <code>docker build</code> and <code>docker push</code> operations as part of your CI infrastructure. </p>
-<p>In order for the <code>dch-photon</code> image to be able to authenticate with vSphere Integrated Containers Registry, it needs to have access to the certificate provided by the registry. There are two ways to achieve this. You can either manually copy it in to a <code>dch-photon</code> container running in a VCH using <code>docker cp</code> or you can build your own custom image with the certificate embedded in it. This latter method is preferable since the modification only needs to be performed once.</p>
-<p><strong>Prerequisites</strong></p>
+<p>vSphere Integrated Containers Engine can deploy Docker Engine instances for you, in the form of a container image repository named <code>dch-photon</code>. This image is pre-loaded in the <code>default-project</code> in vSphere Integrated Containers Registry. The <code>dch-photon</code> image allows you to deploy a container VM that runs a Docker Engine instance hosted in Photon OS. You can deploy any number of these Docker Engine instances to perform <code>docker build</code> and <code>docker push</code> operations as part of your CI infrastructure. </p>
 <ul>
-<li>Configure your local Docker client to use the vSphere Integrated Containers Registry certificate. For information about how to obtain the registry certificate and pass it to the Docker client, see <a href="configure_docker_client.html#registry">Using vSphere Integrated Containers Registry</a> in Configure the Docker Client for Use with vSphere Integrated Containers.</li>
-<li>You have access to a VCH that the vSphere administrator configured so that it can connect to the registry to pull the <code>dch-photon</code> image, and so that it has a default volume store. For information about how deploy a VCH for use with <code>dch-photon</code>, see the <a href="../vic_vsphere_admin/deploy_vch_dchphoton.html">Deploy a Virtual Container Host for Use with <code>dch-photon</code></a> in <em>Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure</em>.</li>
-<li>This topic provides an example of using <code>dch-photon</code> to push an image to vSphere Integrated Containers Registry and then pull it into a VCH. For simplicity, the example uses a VCH that was deployed with the <code>--no-tlsverify</code> option. If your VCH implements TLS verification of clients, you must import the VCH certificates into your Docker client and adapt the Docker commands accordingly. For information about how to connect a Docker client to a VCH that uses full TLS authentication, see <a href="configure_docker_client.html#connectvch">Connecting to the VCH</a> in Configure the Docker Client for Use with vSphere Integrated Containers.  </li>
+<li><a href="#requirements">Requirements for Using <code>dch-photon</code></a><ul>
+<li><a href="#vols">Anonymous <code>dch-photon</code> Volumes</a> </li>
 </ul>
-<h2 id="adding-the-registry-certificate-to-a-custom-image">Adding the Registry Certificate to a Custom Image</h2>
-<p>This section will take you through the process of building a custom <code>dch-photon</code> image, pushing it to the vSphere Integrated Containers Registry and verifying that it worked by deploying it to a Virtual Container Host.</p>
-<p><strong>Procedure</strong></p>
-<ol>
-<li><p>Ensure that you have a known userid added to the <code>default-project</code> in VIC registry.</p>
 </li>
-<li><p>Download the registry certificate from the Mangagement Portal by going to Administration -&gt; Configuration -&gt; Registry Root Certificate.</p>
-</li>
-<li><p>Install the registry certificate in a local instance of Docker Engine. See prerequisites above.</p>
- <pre>mkdir -p /etc/docker/certs.d/<i>registry_address</i>
-cp ca.crt /etc/docker/certs.d/<i>registry_address</i>
-systemctl daemon-reload
-systemctl restart docker</pre>
-</li>
-<li><p>Log in to vSphere Integrated Containers Registry</p>
- <pre>docker login <i>registry_address</i></pre> 
-</li>
-<li><p>Pull the <code>dch-photon</code> image to your local image cache</p>
- <pre>docker pull <i>registry_address</i>/default-project/dch-photon:1.13</pre> 
-</li>
-<li><p>Make a new directory and copy the downloaded certificate into it</p>
-</li>
-<li><p>In the new directory, create a Dockerfile with the following format:</p>
- <pre>FROM <i>registry_address</i>/default-project/dch-photon:1.13
-
-COPY ca.crt /etc/docker/certs.d/<i>registry_address</i>/ca.crt</pre>
-</li>
-<li><p>From within the directory, build the Dockerfile as a new image and give it a meaningful new tag</p>
- <pre>docker build -t <i>registry_address</i>/default-project/dch-photon:1.13-cert .</pre> 
-</li>
-<li><p>Push the new image back to the vSphere Integrated Containers Registry</p>
- <pre>docker push <i>registry_address</i>/default-project/dch-photon:1.13-cert</pre> 
-</li>
-<li><p>If you&apos;re using a Docker client that&apos;s already authenticated with the registry, there should be need to log in again when running commands against the VCH. If you&apos;re using a different Docker client or you&apos;ve logged out, you should now log into the registry.</p>
-<pre>docker -H <i>vch_address</i>:2376 --tls login <i>registry_address</i></pre> 
-</li>
-<li><p>Pull and run the image in the VCH. </p>
-<p>This example uses port mapping, but you can also use a container network. Note that the Docker container host can itself be configured to use TLS authentication, but has not in this case for simplicity.</p>
-<pre>docker -H <i>vch_address</i>:2376 --tls run --name build-slave -d -p 12375:2375 <i>registry_address</i>/default-project/dch-photon:1.13-cert</pre> 
-
-</li>
-</ol>
-<p><strong>Result</strong></p>
-<p>You should now have a custom <code>dch-photon</code> image in your vSphere Integrated Containers Registry which contains the correct certificate to be able to build, pull and push images to that registry.</p>
-<p>See below for how to test the running Docker container host</p>
-<h2 id="manually-adding-the-registry-certificate-to-a-dch-photon-vm">Manually Adding the Registry Certificate to a <code>dch-photon</code> VM</h2>
-<p>If you wish to manually add the certificate to an existing <code>dch-photon</code> container VM, this can be done using the <code>docker cp</code> support in VIC 1.2</p>
-<p><strong>Procedure</strong></p>
-<ol>
-<li><p>If a <code>dch-photon</code> container VM doesn&apos;t already exist, create one in a Virtual container host using a command similar to the one below. If one does exist, stop it using <code>docker stop</code>. </p>
-<p> The container should be stopped because the Docker engine needs to be restarted in order for it to recognize the new certificate. Note that the VCH needs to be able to authenticate with the vSphere Integrated Containers Registry. See above for details. </p>
-<p> Note also that the Docker container host can itself be configured to use TLS authentication, but has not in this case for simplicity.</p>
- <pre>docker -H <i>vch_address</i>:2376 --tls create --name build-slave -p 12375:2375 <i>registry_address</i>/default-project/dch-photon:1.13-cert</pre>
-</li>
-<li><p>Copy the certificate into the container. The simplest way to do this is to create the directory structure locally before the copy.</p>
- <pre>mkdir -p certs.d/<i>registry_address</i>
-cp ca.crt certs.d/<i>registry_address</i>
-docker -H <i>vch_address</i>:2376  --tls cp certs.d build-slave:/etc/docker</pre>
-</li>
-<li><p>Restart the Docker container host</p>
- <pre>docker -H <i>vch_address</i>:2376 --tls start build-slave</pre>
-
-</li>
-</ol>
-<p><strong>Result</strong></p>
-<p>You should now have a running Docker container host that&apos;s configured to push and pull from vSphere Integrated Containers Registry</p>
-<h2 id="testing-the-docker-container-host">Testing the Docker Container Host</h2>
-<p>Now that you have a Docker container host configured and running, it&apos;s time to test the it works as expected.</p>
-<p><strong>Procedure</strong></p>
-<ol>
-<li><p>Test that your Docker container host has started correctly, by running <code>docker info</code>. </p>
-<p> Note the new port 12375 will direct the Docker client to the Docker container host running in the Virtual container host.</p>
- <pre>docker -H <i>vch_address</i>:12375 info</pre> 
-</li>
-<li><p>Test that you can authenticate and pull from the registry. You shouldn&apos;t need to log in again if your client is already authenticated, but the login command is included here for clarity.</p>
- <pre>docker -H <i>vch_address</i>:12375 login <i>registry_address</i>
-docker -H <i>vch_address</i>:12375 pull <i>registry_address</i>/default-project/dch-photon:1.13
-docker rmi <i>registry_address</i>/default-project/dch-photon:1.13</pre>
-</li>
-<li><p>If the above test was successful, you should now be able to build a new image and push it to the registry. Create a simple <code>Dockerfile</code> and save it in the current directory.</p>
- <pre>FROM debian:latest
-
-RUN apt-get update -y &amp;&amp; apt-get install -y fortune-mod fortunes
-
-ENTRYPOINT [&quot;/usr/games/fortune&quot;, &quot;-s&quot;]</pre>
-</li>
-<li><p>Build an image from the <code>Dockerfile</code> in the <code>dch-photon</code> Docker host, and tag it with the path to a project in vSphere Integrated Containers Registry. </p>
- <pre>docker -H <i>vch_address</i>:12375 build -t <i>registry_address</i>/default-project/test-container .</pre>
-</li>
-<li><p>Push the image from the <code>dch-photon</code> Docker host to the registry. </p>
- <pre>docker -H <i>vch_address</i>:12375 push <i>registry_address</i>/default-project/test-container</pre>
-</li>
-<li><p>Pull the image from the registry into the VCH. </p>
- <pre>docker -H <i>vch_address</i>:2376 --tls pull <i>registry_address</i>/default-project/test-container</pre>
-</li>
-<li><p>Run a container from this image on the VCH. </p>
- <pre>docker -H <i>vch_address</i>:2376 --tls run <i>registry_address</i>/default-project/test-container</pre>
-</li>
-<li><p>List the containers that are running and stopped in the VCH. </p>
- <pre>docker -H <i>vch_address</i>:2376 --tls ps -a</pre>
-
-</li>
-</ol>
-<p><strong>Result</strong></p>
-<p>The container that you ran from an image that you built and pushed to vSphere Integrated Containers Registry in <code>dch-photon</code> appears in the list of containers that have been run in this VCH.</p>
+<li><a href="#registry">Using <code>dch-photon</code> with vSphere Integrated Containers Registry</a></li>
+<li><a href="#other">Using <code>dch-photon</code> with Other Registries</a></li>
+</ul>
+<h2 id="requirements-for-using-dch-photon-">Requirements for Using <code>dch-photon</code> <a href="requirements"></a></h2>
+<p>To use <code>dch-photon</code>, your environment must satisfy the following conditions: </p>
+<ul>
+<li>Configure your local Docker client to use the vSphere Integrated Containers Registry certificate. For information about how to obtain the registry certificate and pass it to the Docker client, see <a href="configure_docker_client.html#registry">Using vSphere Integrated Containers Registry</a>.</li>
+<li>You have access to a VCH that the vSphere administrator configured so that it can connect to the registry to pull the <code>dch-photon</code> image. The VCH must also have a volume store named <code>default</code>. For information about how deploy a VCH for use with <code>dch-photon</code>, see the <a href="../vic_vsphere_admin/deploy_vch_dchphoton.html">Deploy a Virtual Container Host for Use with <code>dch-photon</code></a> in <em>Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure</em>. </li>
+</ul>
+<h3 id="anonymous-dch-photon-volumes-">Anonymous <code>dch-photon</code> Volumes <a href="vols"></a></h3>
+<p>Each <code>dch-photon</code> container VM that you run creates an anonymous volume in the <code>default</code> volume store. By default, all of the images you pull into <code>dch-photon</code> go into this volume. The anonymous volume has a 2 GB limit. If you require more than 2 GB to store images and container state, you must explicitly specify a volume with a higher limit when you run <code>dch-photon</code>. </p>
+<p>The anonymous volumes that <code>dch-photon</code> creates are not deleted when you delete a <code>dch-photon</code> container VM.  This is by design, so that you can persist your image cache and container state beyond the lifespan of an individual <code>dch-photon</code> container VM. When you delete <code>dch-photon</code> container VMs, you must manually remove the anonymous volume from the volume store if you do not require them.</p>
+<h2 id="using-dch-photon-with-vsphere-integrated-containers-registry-">Using <code>dch-photon</code> with vSphere Integrated Containers Registry <a href="registry"></a></h2>
+<p>For <code>dch-photon</code> to be able to authenticate with vSphere Integrated Containers Registry, it needs to have the registry&apos;s CA certificate. 
+The purpose of <code>dch-photon</code> is primarily to build images and push them to registries, so each <code>dch-photon</code> instance must be able to authenticate with the registry to which it pushes. Even if you use the same Docker client to pull and run the <code>dch-photon</code> image as you use to push built images back to the registry, the <code>dch-photon</code> container VM still needs to have the appropriate registry certificate so that it can successfully push images. </p>
+<p>You can provide the certificate to <code>dch-photon</code> in one of two ways:</p>
+<ul>
+<li>Build a custom image that has the certificate embedded in it, as described in <a href="photon_cert_custom.html">Add the Registry Certificate to a Custom Image</a>. This method is preferable since you only need to perform the operation once.</li>
+<li>Manually copy the certificate in to a <code>dch-photon</code> container running in a VCH by using <code>docker cp</code>, as described in <a href="photon_cert_manual.html">Manually Add the Registry Certificate to a <code>dch-photon</code> VM</a>.</li>
+</ul>
+<p>When you have deployed <code>dch-photon</code> with the registry certificate, you can use it to build an image and push that image from <code>dch-photon</code> to vSphere Integrated Containers Registry. You can then pull the image from the registry into a VCH for deployment. For information about building, pushing, and pulling an image, see <a href="test_photon.html">Build, Push, and Pull an Image with <code>dch-photon</code></a>.</p>
+<h2 id="using-dch-photon-with-tls-authentication-and-other-registries-">Using <code>dch-photon</code> with TLS Authentication and Other Registries <a href="other"></a></h2>
+<p>For information about using <code>dch-photon</code> with TLS authentication and with other registries than vSphere Integrated Containers Registry, see <a href="dchphoton_options.html">Advanced <code>dch-photon</code> Deployment</a>. </p>
 
                                 
                                 </section>
@@ -2029,7 +2003,7 @@ ENTRYPOINT [&quot;/usr/games/fortune&quot;, &quot;-s&quot;]</pre>
                 </a>
                 
                 
-                <a href="using_volumes_with_vic.html" class="navigation navigation-next " aria-label="Next page: Using Volumes">
+                <a href="photon_cert_custom.html" class="navigation navigation-next " aria-label="Next page: Add Certificate to Custom Image">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2040,7 +2014,7 @@ ENTRYPOINT [&quot;/usr/games/fortune&quot;, &quot;-s&quot;]</pre>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"next":{"title":"Using Volumes","level":"4.1.7","depth":2,"path":"vic_app_dev/using_volumes_with_vic.md","ref":"vic_app_dev/using_volumes_with_vic.md","articles":[]},"previous":{"title":"Configure the Docker Client","level":"4.1.5","depth":2,"path":"vic_app_dev/configure_docker_client.md","ref":"vic_app_dev/configure_docker_client.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/build_push_images.md","mtime":"2017-09-18T13:42:49.016Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-20T10:54:08.143Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"next":{"title":"Add Certificate to Custom Image","level":"4.1.6.1","depth":3,"path":"vic_app_dev/photon_cert_custom.md","ref":"vic_app_dev/photon_cert_custom.md","articles":[]},"previous":{"title":"Configure the Docker Client","level":"4.1.5","depth":2,"path":"vic_app_dev/configure_docker_client.md","ref":"vic_app_dev/configure_docker_client.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/build_push_images.md","mtime":"2017-09-25T13:32:35.255Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-26T08:53:51.213Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

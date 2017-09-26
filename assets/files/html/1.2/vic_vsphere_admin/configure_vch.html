@@ -1151,6 +1151,19 @@
             
         </li>
     
+        <li class="chapter " data-level="2.1.8.17" data-path="../vic_app_dev/ts_volume_store_error.html">
+            
+                <a href="../vic_app_dev/ts_volume_store_error.html">
+            
+                    
+                    Default Volume Store Error
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -1696,6 +1709,64 @@
             
 
             
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.6.1" data-path="../vic_app_dev/photon_cert_custom.html">
+            
+                <a href="../vic_app_dev/photon_cert_custom.html">
+            
+                    
+                    Add Certificate to Custom Image
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6.2" data-path="../vic_app_dev/photon_cert_manual.html">
+            
+                <a href="../vic_app_dev/photon_cert_manual.html">
+            
+                    
+                    Manually Add Certificate
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6.3" data-path="../vic_app_dev/test_photon.html">
+            
+                <a href="../vic_app_dev/test_photon.html">
+            
+                    
+                    Build, Push, and Pull and Image
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6.4" data-path="../vic_app_dev/dchphoton_options.html">
+            
+                <a href="../vic_app_dev/dchphoton_options.html">
+            
+                    
+                    Advanced dch-photon Deployment
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
         </li>
     
         <li class="chapter " data-level="4.1.7" data-path="../vic_app_dev/using_volumes_with_vic.html">
@@ -1779,19 +1850,6 @@
     
 
             </ul>
-            
-        </li>
-    
-        <li class="chapter " data-level="4.1.10" data-path="../vic_app_dev/ts_volume_store_error.html">
-            
-                <a href="../vic_app_dev/ts_volume_store_error.html">
-            
-                    
-                    Default Volume Store Error
-            
-                </a>
-            
-
             
         </li>
     
@@ -1896,6 +1954,7 @@
 </ul>
 <p>To see the current configuration of a VCH before you configure it, and to check the new configuration,  run <code>vic-machine inspect config</code> before and after you run <code>vic-machine configure</code>. For information about running <code>vic-machine inspect config</code>, see <a href="inspect_vch_config.html">Obtain VCH Configuration Information</a>. </p>
 <p><strong>IMPORTANT</strong>: Running <code>vic-machine inspect config</code> before you run <code>vic-machine configure</code> is especially important if you are adding registry certificates, volume stores, DNS servers, or container networks to a VCH that already includes one or more of those elements. When you add registry certificates, volume stores, DNS servers, or container networks to a VCH, you must specify the existing configuration as well as any new configurations in separate instances of the appropriate <code>vic-machine inspect config</code> option. </p>
+<p>When you run a <code>vic-machine configure</code> operation, <code>vic-machine</code> takes a snapshot of the VCH endpoint VM before it makes any modifications to the VCH. However, <code>vic-machine</code> does not remove the snapshot when the configuration operation finishes. You must manually remove the snapshot, after verifying that the configuration operation was successful.</p>
 <h2 id="update-vcenter-server-credentials-">Update vCenter Server Credentials <a id="vccreds"></a></h2>
 <p>If the vCenter Server credentials change after the deployment of a VCH, you must update that VCH with the new credentials. The VCH will not function until you update the credentials. </p>
 <p>You provide the new vCenter Server credentials in the <code>vic-machine configure --ops-user</code> and <code>--ops-password</code> options. You use the <code>vic-machine configure --ops-user</code> and <code>--ops-password</code> options to update the credentials even if you did not specify the <code>vic-machine create --ops-user</code> and <code>--ops-password</code> options during the initial deployment of the VCH. If you did not specify <code>vic-machine create --ops-user</code> and <code>--ops-password</code> during the deployment of the VCH, by default the VCH uses the values from <code>vic-machine create --user</code> and <code>--password</code> for the <code>--ops-user</code> and <code>--ops-password</code> settings, and it uses these credentials for day-to-day, post-deployment operation. </p>
@@ -2172,7 +2231,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configure VCHs","level":"2.1.5.3.6","depth":4,"next":{"title":"Delete VCHs","level":"2.1.5.3.7","depth":4,"path":"vic_vsphere_admin/remove_vch.md","ref":"vic_vsphere_admin/remove_vch.md","articles":[]},"previous":{"title":"Obtain VCH Configuration Information","level":"2.1.5.3.5","depth":4,"path":"vic_vsphere_admin/inspect_vch_config.md","ref":"vic_vsphere_admin/inspect_vch_config.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/configure_vch.md","mtime":"2017-09-15T18:38:50.857Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-20T10:54:08.143Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configure VCHs","level":"2.1.5.3.6","depth":4,"next":{"title":"Delete VCHs","level":"2.1.5.3.7","depth":4,"path":"vic_vsphere_admin/remove_vch.md","ref":"vic_vsphere_admin/remove_vch.md","articles":[]},"previous":{"title":"Obtain VCH Configuration Information","level":"2.1.5.3.5","depth":4,"path":"vic_vsphere_admin/inspect_vch_config.md","ref":"vic_vsphere_admin/inspect_vch_config.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/configure_vch.md","mtime":"2017-09-26T08:40:40.818Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-26T08:53:51.213Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
