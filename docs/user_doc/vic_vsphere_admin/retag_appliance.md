@@ -2,7 +2,7 @@
 
 vSphere Integrated Containers Registry implements Docker content trust to sign images. As such, the vSphere Integrated Containers appliance requires a specific VM tag to identify it as a content trust source.
 
-In some cases, you might need to re-tag the appliance VM, for example if the tag has been accidentally deleted. 
+In some cases, you might need to re-tag the appliance VM, for example if the tag has been accidentally deleted, or if the tagging of the  VM failed during the first initialization of the appliance. If the tagging of the VM failed during initialization, you see the error  `Failed to locate VIC Appliance. Please check the vCenter Server provided and try again` in the Getting Started page.
 
 **Procedure**
 
