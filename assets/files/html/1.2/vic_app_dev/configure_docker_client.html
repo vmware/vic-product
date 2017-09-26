@@ -1151,6 +1151,19 @@
             
         </li>
     
+        <li class="chapter " data-level="2.1.8.17" data-path="ts_volume_store_error.html">
+            
+                <a href="ts_volume_store_error.html">
+            
+                    
+                    Default Volume Store Error
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -1696,6 +1709,64 @@
             
 
             
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.6.1" data-path="photon_cert_custom.html">
+            
+                <a href="photon_cert_custom.html">
+            
+                    
+                    Add Certificate to Custom Image
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6.2" data-path="photon_cert_manual.html">
+            
+                <a href="photon_cert_manual.html">
+            
+                    
+                    Manually Add Certificate
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6.3" data-path="test_photon.html">
+            
+                <a href="test_photon.html">
+            
+                    
+                    Build, Push, and Pull and Image
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6.4" data-path="dchphoton_options.html">
+            
+                <a href="dchphoton_options.html">
+            
+                    
+                    Advanced dch-photon Deployment
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
         </li>
     
         <li class="chapter " data-level="4.1.7" data-path="using_volumes_with_vic.html">
@@ -1779,19 +1850,6 @@
     
 
             </ul>
-            
-        </li>
-    
-        <li class="chapter " data-level="4.1.10" data-path="ts_volume_store_error.html">
-            
-                <a href="ts_volume_store_error.html">
-            
-                    
-                    Default Volume Store Error
-            
-                </a>
-            
-
             
         </li>
     
@@ -1884,7 +1942,12 @@
 <ul>
 <li><a href="#connectvch">Connecting to the VCH</a></li>
 <li><a href="#variables">Using Docker Environment Variables</a></li>
-<li><a href="#registry">Using vSphere Integrated Containers Registry</a></li>
+<li><a href="#registry">Install the  vSphere Integrated Containers Registry Certificate</a><ul>
+<li><a href="#getcert">Obtain the vSphere Integrated Containers Registry CA Certificate</a></li>
+<li><a href="#certlinux">Configure the Docker Client on Linux</a></li>
+<li><a href="#certwindows">Configure the Docker Client on Windows</a></li>
+</ul>
+</li>
 <li><a href="#notary">Using vSphere Integrated Containers Registry with Notary</a></li>
 </ul>
 <h2 id="connecting-to-the-vch-">Connecting to the VCH <a id="connectvch"></a></h2>
@@ -1909,19 +1972,25 @@ DOCKER_TLS_VERIFY=1</pre></li>
 <p>If the vSphere administrator deploys the VCHs with TLS authentication, <code>vic-machine create</code> generates a file named <code>vch_name.env</code>. The <code>env</code> file contains Docker environment variables that are specific to the VCH. You can use the <code>env</code> file to set environment variables in your Docker client. </p>
 <p>The contents of the <code>env</code> files are different depending on the level of authentication with which the VCH was deployed.</p>
 <ul>
-<li>Mutual TLS authentication with client and server certificates: <pre>DOCKER_TLS_VERIFY=1 
+<li>Mutual TLS authentication with client and server certificates:  <pre>DOCKER_TLS_VERIFY=1 
 DOCKER_CERT_PATH=<i>client_certificate_path</i>\<i>vch_name</i> 
 DOCKER_HOST=<i>vch_address</i>:2376</pre></li>
-<li>TLS authentication with server certificates without client authentication: <pre>DOCKER_HOST=<i>vch_address</i>:2376</pre></li>
+<li>TLS authentication with server certificates without client authentication:<pre>DOCKER_HOST=<i>vch_address</i>:2376</pre></li>
 <li>No <code>env</code> file is generated if the VCH does not implement TLS authentication.</li>
 </ul>
 <p>For information about how to obtain the <code>env</code> file, see <a href="obtain_vch.html">Obtain a VCH</a>.</p>
-<h2 id="using-vsphere-integrated-containers-registry-">Using vSphere Integrated Containers Registry <a id="registry"></a></h2>
+<h2 id="install-the--vsphere-integrated-containers-registry-certificate-">Install the  vSphere Integrated Containers Registry Certificate <a id="registry"></a></h2>
 <p>If your development environment uses vSphere Integrated Containers Registry or another private registry server that uses CA server certificates, you must pass the registry&apos;s CA certificate to the Docker client. The vSphere administrator must also have configured the VCH to access the registry.  </p>
-<p>For information about how to obtain the CA certificate from vSphere Integrated Containers Registry and how to deploy a VCH so that it can access a private registry, see <a href="../vic_vsphere_admin/deploy_vch_registry.html">Deploy a VCH for Use with vSphere Integrated Containers Registry</a>.</p>
+<p>For information about how vSphere administrators deploy VCHs so that they can access a private registry, see <a href="../vic_vsphere_admin/deploy_vch_registry.html">Deploy a VCH for Use with vSphere Integrated Containers Registry</a>.</p>
 <p>The level of security of the connection between the Docker client and the VCH is independent from the level of security of the connection between the Docker client and the registry. Connections between the Docker client and the registry can be secure while connections between the Docker client and the VCH are insecure, and the reverse. </p>
 <p><strong>NOTE</strong>: VCHs cannot to connect to vSphere Integrated Containers Registry instances as insecure registries. Connections to vSphere Integrated Containers Registry always require HTTPS and a certificate.</p>
-<h3 id="docker-on-linux">Docker on Linux</h3>
+<h3 id="obtain-the-vsphere-integrated-containers-registry-ca-certificate-">Obtain the vSphere Integrated Containers Registry CA Certificate <a id="getcert"></a></h3>
+<p>To access the vSphere Integrated Containers Registry CA certificate, you must have a user account in vSphere Integrated Containers Management Portal in that has at least the Cloud administrator role. </p>
+<ol>
+<li>Log in to vSphere Integrated Containers Mangagement Portal at <a href="http://vic_appliance_address" target="_blank">http://vic_appliance_address</a> and following the <strong>Go to the vSphere Integrated Containers Management Portal</strong> link.</li>
+<li>Go to <strong>Administration</strong> -&gt; <strong>Configuration</strong> and click the download link for <strong>Registry Root Certificate</strong>.</li>
+</ol>
+<h3 id="configure-the-docker-client-on-linux-">Configure the Docker Client on Linux <a id="certlinux"></a></h3>
 <!--
 This example configures a Linux Docker client so that you can log into vSphere Integrated Containers Registry by using both its fully-qualified domain name (FQDN) and by using its IP address.
 
@@ -1942,7 +2011,7 @@ This example configures a Linux Docker client so that you can log into vSphere I
 <li>Open a new terminal and attempt to log in to the registry server, specifying the IP address of the registry server.<pre>$ docker login <i>registry_ip</i></pre></li>
 <li>If the login fails with a certificate error, restart the Docker daemon.<pre>$ sudo systemctl daemon-reload</pre> <pre>$ sudo systemctl restart docker</pre></li>
 </ol>
-<h3 id="docker-on-windows">Docker on Windows</h3>
+<h3 id="configure-the-docker-client-on-windows-">Configure the Docker Client on Windows <a id="certwindows"></a></h3>
 <p>To pass the registry&apos;s CA certificate to a Docker client that is running on Windows 10, use the Windows Certificate Import Wizard. </p>
 <ol>
 <li>Copy the <code>ca.crt</code> file to the Windows 10 machine on which you run the Docker client.</li>
@@ -1961,12 +2030,11 @@ This example configures a Linux Docker client so that you can log into vSphere I
 <p>To use the Docker Notary server from vSphere Integrated Containers Registry, you must pass the registry&apos;s CA certificate to your Docker client and set up Docker Content Trust. By default, the vSphere Integrated Containers Registry Notary server runs on port 4443 on the vSphere Integrated Containers appliance.</p>
 <ol>
 <li><p>If you are using a self-signed certificate, copy the CA root certificate to the Docker certificates folder.</p>
-<p>To pass the certificate to the Docker client, follow the procedure in <a href="#registry">Using vSphere Integrated Containers Registry</a> above.</p>
+<p> To pass the certificate to the Docker client, follow the procedure in <a href="#registry">Using vSphere Integrated Containers Registry</a> above.</p>
 </li>
 <li><p>If you are using a self-signed certificate, copy the CA certificate to the Docker TLS service.</p>
  <pre>$ cp ca.crt ~/.docker/tls/<i>registry_ip</i>:4443/</pre></li>
-<li><p>Enable Docker Content Trust by setting environment variables.</p>
- <pre>export DOCKER_CONTENT_TRUST=1
+<li>Enable Docker Content Trust by setting environment variables.<pre>export DOCKER_CONTENT_TRUST=1
 export DOCKER_CONTENT_TRUST_SERVER=https://<i>registry_ip</i>:4443
 </pre></li>
 <li><p>(Optional) Set an alias for Notary.</p>
@@ -2016,7 +2084,7 @@ export DOCKER_CONTENT_TRUST_SERVER=https://<i>registry_ip</i>:4443
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configure the Docker Client","level":"4.1.5","depth":2,"next":{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"path":"vic_app_dev/build_push_images.md","ref":"vic_app_dev/build_push_images.md","articles":[]},"previous":{"title":"Obtain a VCH","level":"4.1.4","depth":2,"path":"vic_app_dev/obtain_vch.md","ref":"vic_app_dev/obtain_vch.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/configure_docker_client.md","mtime":"2017-09-18T13:42:49.019Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-20T10:54:08.143Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configure the Docker Client","level":"4.1.5","depth":2,"next":{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"path":"vic_app_dev/build_push_images.md","ref":"vic_app_dev/build_push_images.md","articles":[{"title":"Add Certificate to Custom Image","level":"4.1.6.1","depth":3,"path":"vic_app_dev/photon_cert_custom.md","ref":"vic_app_dev/photon_cert_custom.md","articles":[]},{"title":"Manually Add Certificate","level":"4.1.6.2","depth":3,"path":"vic_app_dev/photon_cert_manual.md","ref":"vic_app_dev/photon_cert_manual.md","articles":[]},{"title":"Build, Push, and Pull and Image","level":"4.1.6.3","depth":3,"path":"vic_app_dev/test_photon.md","ref":"vic_app_dev/test_photon.md","articles":[]},{"title":"Advanced dch-photon Deployment","level":"4.1.6.4","depth":3,"path":"vic_app_dev/dchphoton_options.md","ref":"vic_app_dev/dchphoton_options.md","articles":[]}]},"previous":{"title":"Obtain a VCH","level":"4.1.4","depth":2,"path":"vic_app_dev/obtain_vch.md","ref":"vic_app_dev/obtain_vch.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/configure_docker_client.md","mtime":"2017-09-25T13:32:35.257Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-26T08:53:51.213Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
