@@ -175,37 +175,6 @@ For more information about setting resource use limitations on VCHs, see the [Ad
 The examples in this section demonstrate how to direct traffic to and from VCHs and the other elements in your environment, how to set static IPs, how to configure container VM networks, and how to configure a VCH to use a proxy server.
 
 
-### Specify Public, Management, and Client Networks <a id="networks"></a>
-
-In addition to the mandatory bridge network, if your vCenter Server environment includes multiple networks, you can direct different types of traffic to different networks. 
-
-- You can direct the traffic between the VCH and the Internet to a specific network by specifying the `--public-network` option. Any container VM traffic that routes through the VCH also uses the public network. If you do not specify the `--public-network` option, the VCH uses the VM Network for public network traffic.
-- You can direct traffic between ESXi hosts, vCenter Server, and the VCH to a specific network by specifying the `--management-network` option. If you do not specify the `--management-network` option, the VCH uses the public network for management traffic.
-- You can designate a specific network for use by the Docker API by specifying the `--client-network` option. If you do not specify the `--client-network` option, the Docker API uses the public network.
-
-**IMPORTANT**: A VCH supports a maximum of 3 distinct network interfaces. Because the bridge network requires its own port group, at least two of the public, client, and management networks must share a network interface and therefore a port group. Container networks do not go through the VCH, so they are not subject to this limitation. This limitation will be removed in a future release.
-
-This example deploys a VCH with the following configuration:
-
-- Specifies the user name, password, datacenter, cluster, image store, bridge network, and name for the VCH.
-- Directs public and management traffic to network 1 and Docker API traffic to network 2.
-
-<pre>vic-machine-<i>operating_system</i> create
---target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
---compute-resource cluster1
---image-store datastore1
---bridge-network vch1-bridge
---public-network 'network 1'
---management-network 'network 1'
---client-network 'network 2'
---name vch1
---thumbprint <i>certificate_thumbprint</i>
---no-tls
-</pre>
-
-For more information about the networking options, see the [Networking Options section](vch_installer_options.md#networking) in VCH Deployment Options.
-
-
 ### Set a Static IP Address for the VCH Endpoint VM on the Different Networks <a id="static-ip"></a>
 
 If you specify networks for any or all of the public, management, and client networks, you can deploy the VCH so that the VCH endpoint VM has a static IP address on one or more of those networks.  
