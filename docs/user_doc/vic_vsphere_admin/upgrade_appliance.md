@@ -48,16 +48,27 @@ Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrate
 
     <pre>$ ssh root@<i>new_vic_appliance_address</i></pre>
 
+    When prompted for the password, enter the appliance password that you specified when you deployed the new version of the appliance. 
+
 11. Navigate to the upgrade script and run it. 
 
     <pre>$ cd /etc/vmware/upgrade</pre>
     <pre>$ ./upgrade.sh</i></pre>
 
-     When prompted, enter the address of the vCenter Server instance on which you deployed the new appliance and the Single Sign-On credentials of a vSphere administrator account. The script requires these credentials to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.
+     As the script runs, respond to the prompts to provide the following information: 
 
-     If vCenter Server is managed by an external Platform Services Controller, you must also provide the FQDN and administrator domain for the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything at the External PSC prompts.
+     1. Enter the address of the vCenter Server instance on which you deployed the new appliance.
+     2. Enter the Single Sign-On user name and password of a vSphere administrator account. The script requires these credentials to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.
+     3. If vCenter Server is managed by an external Platform Services Controller, enter the FQDN of the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.
+     4. If vCenter Server is managed by an external Platform Services Controller, enter the administrator domain for the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.
+     5. Verify that the upgrade script has detected your upgrade path correctly.  
+      
+         If the upgrade script detects that you are performing an upgrade from 1.1.x to 1.2.y, it migrates 1.1.x data to the new data model for 1.2.y. If it detects an upgrade from 1.2.x to 1.2.y, the data model is the same, so no data migration is required. 
+      
+       - If the script detects your upgrade path correctly, enter `y` to proceed with the upgrade.
+       - If the upgrade script detects the upgrade path incorrectly, for example if it asks you to proceed with an upgrade from 1.1.x to 1.2.y when you are upgrading 1.2.x to 1.2.y, enter `n` to abort the upgrade.
 
-11. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and use vCenter Server Single Sign-On credentials to log in.
+11. When you see confirmation that the upgrade has completed successfully, go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and use vCenter Server Single Sign-On credentials to log in.
 
      - In the **Home** tab of the vSphere Integrated Containers Management Portal, check that all existing applications, containers, networks, volumes, and virtual container hosts have migrated successfully.
      - In the **Administration** tab, check that projects, registries, repositories, and replication configurations have migrated successfully.
