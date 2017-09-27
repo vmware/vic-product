@@ -49,6 +49,7 @@
      * [Data Migration](upgrade_data.md) 
      * [Pre-Upgrade Tasks](pre_upgrade_tasks.md)
      * [Upgrade the Appliance](upgrade_appliance.md)
+         * [Troubleshoot Appliance Upgrade](vic_vsphere_admin/troubleshoot_appliance_upgrade.md)
      * [Upgrade VCHs](upgrade_vch.md)
          * [VCH Upgrade Options](upgrade_vch_options.md)
      * [Upgrade Plug-In on Windows](upgrade_h5_plugin_windows.md)
