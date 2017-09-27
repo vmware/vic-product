@@ -9,7 +9,7 @@ After initialization, the vSphere Integrated Containers Getting Started page sho
 
 The Getting Started Page includes a button labeled **Re-Initialize the  vSphere Integrated Containers Appliance**. 
 
-**IMPORTANT**: Only use this button in the following circumstances:
+**CAUTION**: Clicking the reinitialize button when the appliance is functioning correctly can result in data loss. You must only reinitialize the appliance in the following circumstances:
 
 * The initialization of the appliance did not succeed and the Getting Started page includes a red error alert instead of a green success alert. For example, you see the error `Failed to locate VIC Appliance. Please check the vCenter Server provided and try again`.
 * You need to register the appliance with a different Platform Services Controller. For more information, see [Register the vSphere Integrated Containers Appliance with a Different Platform Services Controller](register_different_psc.md).
