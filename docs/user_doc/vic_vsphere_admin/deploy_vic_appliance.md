@@ -36,7 +36,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
     Setting the root password for the appliance is mandatory. 
 
-    **IMPORTANT**: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Other than for upgrade, only use SSH access to the appliance under the guidance of VMware GSS.
+    **IMPORTANT**: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Only use SSH to access the appliance when instructed to do so in the documentation, or under the guidance of VMware GSS.
 
 5. Expand **Networking Properties** and optionally configure a static IP address for the appliance VM. 
 
@@ -47,7 +47,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 6. Expand **Registry Configuration** to configure the deployment of vSphere Integrated Containers Registry. 
 
     - In the **Registry Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Registry service.
-    - In the **Notary Port** text box, optionally change the port on which to publish the Docker Notary service for vSphere Integrated Containers Registry.
+    - In the **Notary Port** text box, optionally change the port on which to publish the Docker Content Trust service for vSphere Integrated Containers Registry.
     - Optionally check the **Garbage Collection** check box to enable garbage collection on the registry when the appliance reboots. 
 
 7. Expand **Management Portal Configuration** to configure the deployment of vSphere Integrated Containers Management Portal. 
@@ -84,12 +84,14 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
     The network status shows whether the network settings that you provided during the deployment match the settings with which the appliance is running. If there are mismatches, power off the appliance and select **Edit Settings** > **vApp Options** to correct the network settings.
     
-11. In a browser, go to  http://<i>vic_appliance_address</i> and enter the address and single sign-on credentials of the vCenter Server instance on which you deployed the appliance, and click **Continue**.
+11. In a browser, go to  http://<i>vic_appliance_address</i> and when prompted, enter the connection details for the vCenter Server instance on which you deployed the appliance.
 
-    **IMPORTANT**: The installation process requires the single sign-on credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step. 
+     - The address and single sign-on credentials of vCenter Server.
+     - If vCenter Server is managed by an external Platform Services Controller, enter the FQDN and administrator domain for the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, leave the External PSC text boxes empty.
 
-    If vCenter Server is managed by an external Platform Services Controller, you must also enter the FQDN and administrator domain for the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, leave the External PSC text boxes empty.
+    **IMPORTANT**: The installation process requires this information to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step. 
 
+12. Click **Continue** to initialize the appliance.
 
 **Result**
 
@@ -101,7 +103,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 Access the different vSphere Integrated Containers components from the  vSphere Integrated Containers Getting Started page at  http://<i>vic_appliance_address</i>.
 
 - Click the link to go to the **vSphere Integrated Containers Management Portal**. For information about how to use vSphere Integrated Containers Management Portal, see [Configure and Manage vSphere Integrated Containers](../vic_cloud_admin/).
-- Scroll down to **Infrastructure deployment tools** and click the link to go to the **Demo VCH Installer Wizard**. For information about how to use the interactive VCH installer, see [Deploy a Virtual Container Host Interactively](deploy_demo_vch.md).
+- Scroll down to **Infrastructure deployment tools** and click the link to go to the **Demo VCH Installer Wizard**. For information about how to use the interactive demo VCH installer, see [Deploy a Virtual Container Host Interactively](deploy_demo_vch.md).
 - Scroll down to **Infrastructure deployment tools** and click the link to **download the vSphere Integrated Containers Engine bundle**. The vSphere Integrated Containers Engine bundle allows you to perform the following tasks:
 
    - Use `vic-machine` to configure the firewalls on all ESXi hosts to permit VCH deployment. For information about how to configure the firewalls on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
@@ -111,8 +113,3 @@ Access the different vSphere Integrated Containers components from the  vSphere 
 - To remove security warnings when you connect to the Getting Started page or management portal, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](obtain_appliance_certs.md) and [Verify and Trust vSphere Integrated Containers Appliance Certificates](../vic_cloud_admin/trust_vic_certs.md).
 - If you see a certificate error when you attempt to go to http://<i>vic_appliance_address</i>, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](ts_cert_error.md).
 - If necessary, you can reconfigure the appliance after deployment by editing the settings of the appliance VM. For information about reconfiguring the appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.md).   
-
-
-
-
-   
