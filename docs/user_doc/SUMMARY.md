@@ -67,7 +67,6 @@
   * [Managing the Appliance](vic_vsphere_admin/manage_appliance.md)
      * [Reconfigure the Appliance](vic_vsphere_admin/reconfigure_appliance.md)
      * [Reinitialize the Appliance](vic_vsphere_admin/reinitialize_appliance.md)
-         * [Register with a Different Platform Services Controller](vic_vsphere_admin/register_different_psc.md)
          * [Re-Tag the Appliance](vic_vsphere_admin/retag_appliance.md)
      * [Check Service Status](vic_vsphere_admin/service_status.md)
      * [Restart Services](vic_vsphere_admin/restart_services.md)  

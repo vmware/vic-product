@@ -12,5 +12,4 @@ The Getting Started Page includes a button labeled **Re-Initialize the  vSphere 
 **IMPORTANT**: Only reinitialize the appliance in the following circumstances:
 
 * The initialization of the appliance did not succeed and the Getting Started page includes a red error alert instead of a green success alert. For example, you see the error `Failed to locate VIC Appliance. Please check the vCenter Server provided and try again`.
-* You need to register the appliance with a different Platform Services Controller. For more information, see [Register the vSphere Integrated Containers Appliance with a Different Platform Services Controller](register_different_psc.md).
 * You need to re-tag the appliance for Docker content trust. For more information, see [Re-Tag the vSphere Integrated Containers Appliance](retag_appliance.md).

@@ -56,7 +56,6 @@
   * [Managing the Appliance](manage_appliance.md)
      * [Reconfigure the Appliance](reconfigure_appliance.md)
      * [Reinitialize the Appliance](reinitialize_appliance.md)
-         * [Register with a Different Platform Services Controller](register_different_psc.md)
          * [Re-Tag the Appliance](retag_appliance.md)
      * [Check Service Status](service_status.md)
      * [Restart Services](restart_services.md) 
