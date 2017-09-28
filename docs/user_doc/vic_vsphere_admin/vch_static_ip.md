@@ -1,0 +1,1 @@
+# Specify a Static IP Address for the VCH Endpoint VM #
