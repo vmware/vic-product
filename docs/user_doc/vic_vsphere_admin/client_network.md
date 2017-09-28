@@ -4,7 +4,7 @@ You can designate a specific network for use by the Docker API by specifying the
 
 The network on which the VCH endpoint VM makes the Docker API available to Docker clients. The client network isolates the Docker endpoints from the public network. VCHs can access vSphere Integrated Containers Registry over the client network, but it is recommended to connect to registries either over the public network or over the management network. vSphere Integrated Containers Management Portal and vSphere Integrated Containers Registry require a connection to the client network. 
 
-You define the Docker management endpoint network by setting the `--client-network` option when you run `vic-machine create`. For  more detailed information about Docker management endpoint networks, see the section on the `--client-network` option in [VCH Deployment Options](vch_installer_options.md#client-network).
+You define the Docker management endpoint network by setting the `--client-network` option when you run `vic-machine create`.
 
 ### `--client-network` <a id="client-network"></a>
 

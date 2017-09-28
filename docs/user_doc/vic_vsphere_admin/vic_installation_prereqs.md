@@ -84,7 +84,7 @@ The following network requirements apply to the deployment of VCHs to vCenter Se
 - All hosts in a cluster must be attached to the port groups that you will use for the VCH bridge network and for any mapped container networks.
 - Isolate the bridge network and any mapped container networks. You can isolate networks by using a separate VLAN for each network. 
 
-For information about bridge networks and container networks, see the [`--bridge-network`](vch_installer_options.md#bridge) and [`--container-network`](vch_installer_options.md#container-network) options in *VCH Deployment Options*. 
+For information about bridge networks and container networks, see [Bridge Networks](bridge_network.md) and [Container Networks](container-networks.md). 
 
 For information about how to create a distributed virtual switch and a port group, see [Create a vSphere Distributed Switch](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere  documentation. 
 

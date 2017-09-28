@@ -150,7 +150,7 @@ This example adds a new NFS volume store to a VCH. The VCH already has an existi
 
 If you deployed the VCH with a static IP address, you can add DNS servers or reset them to the default by using the `vic-machine configure --dns-server` option. 
 
-The `vic-machine configure --dns-server` option functions in the same way as the equivalent `vic-machine create --dns-server` option. For information about the `vic-machine create --dns-server` option, see  [`--dns-server`](vch_installer_options.md#dns-server) in VCH Deployment Options.
+The `vic-machine configure --dns-server` option functions in the same way as the equivalent `vic-machine create --dns-server` option. For information about the `vic-machine create --dns-server` option, see  [`--dns-server`](vch_static_ip.md#dns-server) in Specify a Static IP Address for the VCH Endpoint VM.
 
 If  you are adding DNS servers to a VCH that already includes one or more DNS servers, you must also specify each existing DNS server in a separate instance of `--dns-server`. This example adds a new DNS server, `dns_server_2`, to a VCH that already uses `dns_server_1`.
 
@@ -175,7 +175,7 @@ To reset the DNS servers on a VCH to the default, set the `vic-machine configure
 
 If containers that run in a VCH require a dedicated network for external communication, you can add one or more container networks to the VCH by using the `vic-machine configure --container-network` options. You can specify `--container-network` multiple times to add multiple container networks.
 
-The `vic-machine configure --container-network` options function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` container network options, see the description of the [--container-network](vch_installer_options.md#container-network) option and [Configure Container Networks](vch_installer_options.md#adv-container-net) in VCH Deployment Options.
+The `vic-machine configure --container-network` options function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` container network options,  [Container Networks](container_networks.md).
 
 This example adds a new container network to a VCH. It designates a port group named `vic-containers` for use by container VMs, gives the container network the name `vic-container-network` for use by Docker, specifies the gateway, two DNS servers, and a range of IP addresses on the container network for container VMs to use.
 
@@ -217,7 +217,7 @@ You can also configure the trust level of the container network firewall by sett
     --container-network vic-containers-2:vic-container-network-2
     --container-network-firewall vic-containers-2:outbound</pre>
 
-For information about the trust levels that you can set, see [`--container-network-firewall`](vch_installer_options.md#container-network-firewall) in VCH Deployment Options.
+For information about the trust levels that you can set, see [`--container-network-firewall`](container_networks.md#container-network-firewall) in VCH Deployment Options.
 
 You cannot modify or delete an existing container network on a VCH. 
 
@@ -225,7 +225,7 @@ You cannot modify or delete an existing container network on a VCH.
 
 If access to the Internet or to private registry servers changes to pass through a proxy server, you configure a VCH to use the new proxy server by using the `vic-machine configure --https-proxy` and `--http-proxy` options.  You also use the `vic-machine configure --https-proxy` and `--http-proxy` options if an existing proxy server changes.
  
-The `vic-machine configure --https-proxy` and `--http-proxy` options function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create --https-proxy` and `--http-proxy` options, see [Configure VCHs to Use Proxy Servers](vch_installer_options.md#proxy) in VCH Deployment Options.
+The `vic-machine configure --https-proxy` and `--http-proxy` options function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create --https-proxy` and `--http-proxy` options, see [Configure VCHs to Use Proxy Servers](vch_proxy.md).
 
 This example configures a VCH to use a new HTTPS proxy server.
 

@@ -4,9 +4,9 @@ The network or networks that container VMs use to communicate with each other. E
 
 **IMPORTANT**: Do not use the bridge network for any other VM workloads, or as a bridge for more than one VCH.
 
-You define the bridge networks by setting the `--bridge-network` option when you run `vic-machine create`.  For  more detailed information about bridge networks, see the section on the `--bridge-network` option in [VCH Deployment Options](vch_installer_options.md#bridge).
+You define the bridge networks by setting the `--bridge-network` option when you run `vic-machine create`. 
 
-Container application developers can also use `docker network create` to create additional bridge networks. These networks are represented by the User-Created Bridge Network in the image above. Additional bridge networks are created by IP address segregation and are not new port groups. You can define a range of IP addresses that additional bridge networks can use by defining the `bridge-network-range` option when you run `vic-machine create`. For  more detailed information about  how to set bridge network ranges, see the section on the `--bridge-network-range` option in [VCH Deployment Options](vch_installer_options.md#bridge-range). 
+Container application developers can also use `docker network create` to create additional bridge networks. These networks are represented by the User-Created Bridge Network in the image above. Additional bridge networks are created by IP address segregation and are not new port groups. You can define a range of IP addresses that additional bridge networks can use by defining the `bridge-network-range` option when you run `vic-machine create`. For  more detailed information about  how to set bridge network ranges, see the section on the [ `--bridge-network-range` option](#bridge-range). 
 
 ### `--bridge-network` <a id="bridge"></a>
 
@@ -32,4 +32,12 @@ The `bridge-network` option is **optional** when you are deploying a VCH to an E
 
 If you intend to use the [`--ops-user`](#ops-user) option to use different user accounts for deployment and operation of the VCH, you must place the bridge network port group in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md). 
 
-For information about how to specify a range of IP addresses for additional bridge networks, see [`bridge-network-range`](#bridge-range) in Advanced Networking Options.
+### `--bridge-network-range` <a id="bridge-range"></a>
+
+Short name: `--bnr`
+
+The range of IP addresses that additional bridge networks can use when container application developers use `docker network create` to create new bridge networks. If you do not specify the `bridge-network-range` option, the IP range for bridge networks is 172.16.0.0/12.
+
+When you specify the bridge network IP range, you specify the IP range as a CIDR. The smallest subnet that you can specify is /16. If you specify an invalid value for `--bridge-network-range`, `vic-machine create` fails with an error.
+
+<pre>--bridge-network-range 192.168.100.0/16</pre>

@@ -6,14 +6,11 @@ The command line utility for vSphere Integrated Containers Engine, `vic-machine`
 - [Security Options](#security)
 - [Private Registry Options](#registry)
 - [Datastore Options](#datastore)
-- [Networking Options](networking.md)
+- [Networking Options](vch_networking.md)
 - [General Deployment Options](#deployment)
 
 To allow you to fine-tune the deployment of VCHs, `vic-machine create` provides [Advanced Options](#advanced).
 
-- [Specify a Static IP Address for the VCH Endpoint VM](#static-ip)
-- [Configure Container Networks](#adv-container-net)
-- [Configure VCHs to Use Proxy Servers](#proxy)
 - [Advanced Resource Management Options](#adv-mgmt)
 - [Other Advanced Options](#adv-other)
 
@@ -564,160 +561,8 @@ The options in this section are exposed in the `vic-machine create` help if you 
 
 ## Specify a Static IP Address for the VCH Endpoint VM <a id="static-ip"></a>
 
-You can specify a static IP address for the VCH endpoint VM on each of the client, public, and management networks. DHCP is used for the endpoint VM for any network on which you do not specify a static IP address.
 
-To specify a static IP address for the endpoint VM on the client, public, or management network, you provide an IP address in the `client/public/management-network-ip` option. If you set a static IP address, you can optionally provide gateway addresses and specify one or more DNS server addresses.
 
-### `--dns-server` <a id="dns-server"></a>
-
-Short name: None
-
-A DNS server for the VCH endpoint VM to use on the client, public, or management networks. You can specify `dns-server` multiple times, to configure multiple DNS servers.  
-
-- If you specify `dns-server`, `vic-machine create` always uses the `--dns-server` setting for all three of the client, public, and management networks.
-- If you do not specify `dns-server` and you specify a static IP address for the endpoint VM on all three of the client, public, and management networks, `vic-machine create` uses the Google public DNS service. 
-- If you do not specify `dns-server` and you use a mixture of static IP addresses and DHCP for the client, public, and management networks, `vic-machine create` uses the DNS servers that DHCP provides.
-- If you do not specify `dns-server` and you use DHCP for all of the client, public, and management networks, `vic-machine create` uses the DNS servers that DHCP provides.
-
-<pre>--dns-server=172.16.10.10
---dns-server=172.16.10.11
-</pre>
-
-### `--client-network-ip`, `--public-network-ip`, `--management-network-ip` ###
-
-Short name: None
-
-A static IP address for the VCH endpoint VM on the public, client, or management network. 
-
-You specify a static IP address for the endpoint VM on the public, client, or management networks by using the `--public/client/management-network-ip` options. If you set a static IP address for the endpoint VM on the public network, you must specify a corresponding gateway address by using the `--public-network-gateway` option. If the management and client networks are L2 adjacent to their gateways, you do not need to specify the gateway for those networks.
-
-- You can only specify one static IP address on a given port group. If more than one of the client, public, or management networks share a port group, you can only specify a static IP address on one of those networks. All of the networks that share that port group use the IP address that you specify. 
-- If either of the client or management networks shares a port group with the public network, you can only specify a static IP address on the public network.
-- If either or both of the client or management networks do not use the same port group as the public network, you can specify a static IP address for the endpoint VM on those networks by using `--client-network-ip` or `--management-network-ip`, or both. In this case, you must specify a corresponding gateway address by using `client/management-network-gateway`. 
-- If the client and management networks both use the same port group, and the public network does not use that port group, you can set a static IP address for the endpoint VM on either or both of the client and management networks.
-- If you assign a static IP address to the VCH endpoint VM on the client network by setting the `--client-network-ip` option, and you do not specify one of the TLS options, `vic-machine create` uses this address as the Common Name with which to auto-generate trusted CA certificates. If you do not specify `--tls-cname`, `--no-tls` or `--no-tlsverify`, two-way TLS authentication with trusted certificates is implemented by default when you deploy the VCH with a static IP address on the client network. If you assign a static IP address to the endpoint VM on the client network, `vic-machine create` creates the same certificate and environment variable files as described in the [`--tls-cname` option](#tls-cname).
- 
-  **IMPORTANT**: If the client network shares a port group with the public network you cannot set a static IP address for the endpoint VM on the client network. To assign a static IP address to the endpoint VM you must set a static IP address on the public network by using the `--public-network-ip` option. In this case, `vic-machine create` uses the public network IP address as the Common Name with which to auto-generate trusted CA certificates, in the same way as it would for the client network.
-
-- If you do not specify an IP address for the endpoint VM on a given network, `vic-machine create` uses DHCP to obtain an IP address for the endpoint VM on that network.
-
-You specify addresses as IPv4 addresses with a network mask.
-
-<pre>--public-network-ip 192.168.X.N/24
---management-network-ip 192.168.Y.N/24
---client-network-ip 192.168.Z.N/24
-</pre>
-
-You can also specify addresses as resolvable FQDNs.
-
-<pre>--public-network-ip=vch27-team-a.internal.domain.com
---management-network-ip=vch27-team-b.internal.domain.com
---client-network-ip=vch27-team-c.internal.domain.com
-</pre>
-
-### `--client-network-gateway`, `--public-network-gateway`, `--management-network-gateway` ###
-
-Short name: None
-
-The gateway to use if you use `--public/client/management-network-ip` to specify a static IP address for the VCH endpoint VM on the public, client, or management networks. If you specify a static IP address on the public network, you must specify a gateway by using the `--public-network-gateway` option. If the management and client networks are L2 adjacent to their gateways, you do not need to specify the gateway for those networks.
-
-You specify gateway addresses as IP addresses without a network mask.
-
-<pre>--public-network-gateway 192.168.X.1</pre>
-
-The default route for the VCH endpoint VM is always on the public network. As a consequence, if you specify a static IP address on either of the management or client networks and those networks are not L2 adjacent to their gateways, you must specify the routing destination for those networks in the `--management-network-gateway` and `--client-network-gateway` options. You specify the routing destination or destinations in a comma-separated list, with the address of the gateway separated from the routing destinations by a colon (:).
-
-<pre>--management-network-gateway <i>routing_destination_1</i>,
-<i>routing_destination_2</i>:<i>gateway_address</i></pre>
-<pre>--client-network-gateway <i>routing_destination_1</i>,
-<i>routing_destination_2</i>:<i>gateway_address</i></pre>
-
-In the following example, `--management-network-gateway` informs the VCH that it can reach all of the vSphere management endoints that are in the ranges 192.168.3.0-255 and 192.168.128.0-192.168.131.255 by sending packets to the gateway at 192.168.2.1. Ensure that the address ranges that you specify include all of the systems that will connect to this VCH instance. 
-
-<pre>--management-network-gateway 192.168.3.0/24,192.168.128.0/24:192.168.2.1</pre>
-
-## Configure Container Networks <a id="adv-container-net"></a>
-
-If the network that you specify in the `container-network` option does not support DHCP, you must specify the `container-network-gateway` option. You can optionally specify one or more DNS servers and a range of IP addresses for container VMs on the container network. 
-
-For information about the container network, see the section on the [`container-network` option](#container-network).
-
-### `--container-network-gateway` ###
-
-Short name: `--cng`
-
-The gateway for the subnet of the container network. This option is required if the network that you specify in the `--container-network` option does not support DHCP. Specify the gateway in the format <code><i>container_network</i>:<i>subnet</i></code>. If you specify this option, it is recommended that you also specify the  `--container-network-dns` option.
-
-When you specify the container network gateway, you must use the port group that you specify in the `--container-network` option. If you specify `--container-network-gateway` but you do not specify `--container-network`, or if you specify a different port group to the one that you specify in `--container-network`, `vic-machine create` fails with an error.
-
-<pre>--container-network-gateway <i>port_group_name</i>:<i>gateway_ip_address</i>/<i>subnet_mask</i></pre>
-
-### `--container-network-dns` ###
-
-Short name: `--cnd`
-
-The address of the DNS server for the container network. This option is recommended if the network that you specify in the `--container-network` option does not support DHCP. 
-
-When you specify the container network DNS server, you must use the  port group that you specify in the `--container-network` option. You can specify `--container-network-dns` multiple times, to configure multiple DNS servers. If you specify `--container-network-dns` but you do not specify `--container-network`, or if you specify a different port group to the one that you specify in `--container-network`, `vic-machine create` fails with an error.
-
-<pre>--container-network-dns <i>port_group_name</i>:8.8.8.8</pre>
-
-### `--container-network-ip-range` <a id="container-network-ip-range"></a>
-
-Short name: `--cnr`
-
-The range of IP addresses that container VMs can use if the network that you specify in the `container-network` option does not support DHCP. If you specify `--container-network-ip-range`, VCHs manage the addresses for containers within that range. The range that you specify must not be used by other computers or VMs on the network.  You must also specify `--container-network-ip-range` if container developers need to deploy containers with static IP addresses. If you specify `container-network-gateway` but do not specify `--container-network-ip-range`, the IP range for container VMs is the entire subnet that you specify in `--container-network-gateway`. 
-
-When you specify the container network IP range, you must use the port group that you specify in the `--container-network `option. If you specify `--container-network-ip-range` but you do not specify `--container-network`, or if you specify a different port group to the one that you specify in `--container-network`, `vic-machine create` fails with an error.
-
-<pre>--container-network-ip-range <i>port_group_name</i>:192.168.100.2-192.168.100.254</pre>
-
-You can also specify the IP range as a CIDR.
-
-<pre>--container-network-ip-range <i>port_group_name</i>:192.168.100.0/24</pre>
-
-### `--container-network-firewall`  <a id="container-network-firewall"></a>
-
-Short name: `--cnf`
-
-You can configure the trust level of container networks by setting the 
-`--container-network-firewall` option. 
-
-The `--container-network-firewall` option allows you to set the following levels of trust.
-
-|Trust Level|Description|
-|---|---|
-|`closed`|No traffic can come in or out of the container interface.|
-|`outbound`|Only outbound connections permitted.|
-|`peers`|Only connections to other containers with the same `peers` interface are permitted. To enforce the `peers` trust level, you must set the `--container-network-ip-range` on the container network. The VCH applies a network rule so that container traffic is only allowed over that IP range. If you do not specify an IP range, the container network uses DHCP and there is no way that the VCH can determine whether or not a container at a given IP address is a peer to another container. In this case, the VCH defaults to the `open` setting, and it treats all connections as peer connections.|
-|`published`|Only connections to published ports permitted.|
-|`open`|All traffic permitted.|
-
-<pre>--container-network-firewall <i>port_group_name</i>:<i>trust_level</i></pre>
-
-If you do not set `--container-network-firewall`, the default level of trust is `published`. As a consequence, if you do not set `--container-network-firewall`, container developers must specify `-p 80` in `docker run` and `docker create` commands to publish port 80 on a container. In regular Docker, they do not need to specify `-p` to publish port 80.
-
-## Configure VCHs to Use Proxy Servers <a id="proxy"></a>
-
-If access to the Internet or to your private image registries requires the use of a proxy server, you must configure a VCH to connect to the proxy server when you deploy it. The proxy is used only when pulling images, and not for any other purpose.
-
-**IMPORTANT**: Configuring a VCH to use a proxy server does not configure proxy support on the containers that this VCH runs. Container developers must configure proxy servers on containers when they create them. 
-
-### `--https-proxy` ###
-
-Short name: None
-
-The address of the HTTPS proxy server through which the VCH accesses image registries when using HTTPS. Specify the address of the proxy server as either an FQDN or an IP address.
-
-<pre>--https-proxy https://<i>proxy_server_address</i>:<i>port</i></pre>
-
-### `--http-proxy` ###
-
-Short name: None
-
-The address of the HTTP proxy server through which the VCH accesses image registries when using HTTP. Specify the address of the proxy server as either an FQDN or an IP address.
-
-<pre>--http-proxy http://<i>proxy_server_address</i>:<i>port</i></pre>
 
 
 ## Advanced Resource Management Options <a id="adv-mgmt"></a>
@@ -778,18 +623,6 @@ The amount of memory for the VCH endpoint VM. The default is 2048MB. Set this op
 
 
 ## Other Advanced Options <a id="adv-other"></a>
-
-
-### `--bridge-network-range` <a id="bridge-range"></a>
-
-Short name: `--bnr`
-
-The range of IP addresses that additional bridge networks can use when container application developers use `docker network create` to create new bridge networks. If you do not specify the `bridge-network-range` option, the IP range for bridge networks is 172.16.0.0/12.
-
-When you specify the bridge network IP range, you specify the IP range as a CIDR. The smallest subnet that you can specify is /16. If you specify an invalid value for `--bridge-network-range`, `vic-machine create` fails with an error.
-
-<pre>--bridge-network-range 192.168.100.0/16</pre>
-
 
 ### `--base-image-size` ###
 

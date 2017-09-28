@@ -31,7 +31,7 @@
      * [Verify the Deployment of a VCH](vic_vsphere_admin/verify_vch_deployment.md)
      * [VCH Deployment Options](vic_vsphere_admin/vch_installer_options.md)
      * [VCH Networking](vic_vsphere_admin/vch_networking.md)
-         * [Management Network](vic_vsphere_admin/management_network.md)
+         * [Management Network](vic_vsphere_admin/mgmt_network.md)
          * [Public Network](vic_vsphere_admin/public_network.md)
          * [Client Network](vic_vsphere_admin/client_network.md)[Bridge Network](bridge_network.md)
          * [Container Networks](vic_vsphere_admin/container_networks.md)

@@ -23,7 +23,7 @@ The following sections describe each of the VCH network types.
 
 The `vic-machine create` utility allows you to specify different networks for the different types of traffic between containers, the VCH, the external internet, and your vSphere environment.
 
-By default, `vic-machine create` obtains IP addresses for VCH endpoint VMs by using DHCP. For information about how to specify a static IP address for the VCH endpoint VM on the client, public, and management networks, see [Specify a Static IP Address for the VCH Endpoint VM](#static-ip) in Advanced Options.
+By default, `vic-machine create` obtains IP addresses for VCH endpoint VMs by using DHCP. For information about how to specify a static IP address for the VCH endpoint VM on the client, public, and management networks, see [Specify a Static IP Address for the VCH Endpoint VM](vch_static_ip.md).
 
 If your network access is controlled by a proxy server, see  in Advanced Options. 
 
@@ -37,7 +37,7 @@ For information about how to open port 2377, see [Open the Required Ports on ESX
 
 In addition to the mandatory bridge network, if your vCenter Server environment includes multiple networks, you can direct different types of traffic to different networks. 
 
-- [Management Network](management_network.md)
+- [Management Network](mgmt_network.md)
 - [Public Network](public_network.md)
 - [Client Network](client_network.md)
 - [Bridge Network](bridge_network.md)
