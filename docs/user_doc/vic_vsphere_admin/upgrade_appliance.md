@@ -4,7 +4,7 @@ If you deployed a 1.1.x version of the vSphere Integrated Containers appliance, 
 
 Upgrading the vSphere Integrated Containers appliance upgrades vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal. For information about the vSphere Integrated Containers Registry and Management Portal data that migrates during upgrade, see [Data That Migrates During vSphere Integrated Containers Appliance Upgrade](upgrade_data.md).
 
-**NOTE**: This procedure reflects changes to the upgrade procedure that were introduced in vSphere Integrated Containers 1.2.1. Do not attempt to upgrade to version 1.2.0.
+**NOTE**: This topic reflects changes to the upgrade procedure that were introduced in vSphere Integrated Containers 1.2.1. Do not attempt to upgrade to version 1.2.0.
 
 **Prerequisites**
 
