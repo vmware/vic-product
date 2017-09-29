@@ -1,6 +1,6 @@
 # Data That Migrates During vSphere Integrated Containers Appliance Upgrade #
 
-To upgrade an older version of the appliance, you deploy a new appliance instance. The appliance upgrade process migrates vSphere Integrated Containers Registry and Management Portal data from the older appliance to the new appliance. Due to the change in user identity management and the merging of the user interfaces in version 1.2.x of vSphere Integrated Containers Registry and Management Portal, not all data can migrate when you upgrade the vSphere Integrated Containers appliance from 1.1.x to 1.2.x.
+To upgrade an older version of the appliance, you deploy a new appliance instance. The appliance upgrade process migrates vSphere Integrated Containers Registry and Management Portal data from the older appliance to the new appliance. Due to changes in the data model, user identity management, and the merging of the user interfaces between versions 1.1.x and 1.2.x of vSphere Integrated Containers Registry and Management Portal, not all data can migrate when you upgrade the vSphere Integrated Containers appliance from 1.1.x to 1.2.x.
 
 ## vSphere Integrated Containers Management Portal Data ##
 

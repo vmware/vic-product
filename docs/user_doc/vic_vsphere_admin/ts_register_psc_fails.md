@@ -8,9 +8,14 @@ When you enter the vCenter Server credentials at the login prompt on the vSphere
 
 ## Cause ##
 
-Your vSphere environment uses an external Platform Services Controller instance that is not embedded in the vCenter Server instance to which you deployed the appliance.
+- You are deploying vSphere Integrated Containers 1.2.0.
+- Your vSphere environment uses an external Platform Services Controller instance that is not embedded in the vCenter Server instance to which you deployed the appliance. 
 
 ## Solution ##
+
+If you are performing a fresh installation of vSphere Integrated Containers, download and deploy version 1.2.1 or later. vSphere Integrated Containers 1.2.1 allows you to register the appliance with an external Platform Services Controller.
+
+If an attempt to upgrade vSphere Integrated Containers 1.1.x to version 1.2.0 failed because vCenter Server is managed by an external Platform Services Controller, perform the following procedure. 
 
 1. Use SSH to connect to the appliance VM as `root` user, using the password that you specified during the OVA deployment.
 
