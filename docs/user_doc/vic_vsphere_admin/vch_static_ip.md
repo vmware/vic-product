@@ -68,7 +68,7 @@ The default route for the VCH endpoint VM is always on the public network. As a 
 <pre>--client-network-gateway <i>routing_destination_1</i>,
 <i>routing_destination_2</i>:<i>gateway_address</i></pre>
 
-In the following example, `--management-network-gateway` informs the VCH that it can reach all of the vSphere management endoints that are in the ranges 192.168.3.0-255 and 192.168.128.0-192.168.131.255 by sending packets to the gateway at 192.168.2.1. Ensure that the address ranges that you specify include all of the systems that will connect to this VCH instance. 
+In the following example, `--management-network-gateway` informs the VCH that it can reach all of the vSphere management endoints that are in the ranges 192.168.3.0-255 and 192.168.128.0-192.168.128.255 by sending packets to the gateway at 192.168.2.1. Ensure that the address ranges that you specify include all of the systems that will connect to this VCH instance. 
 
 <pre>--management-network-gateway 192.168.3.0/24,192.168.128.0/24:192.168.2.1</pre>
 
