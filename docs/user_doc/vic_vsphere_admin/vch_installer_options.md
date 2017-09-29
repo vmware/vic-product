@@ -1006,3 +1006,14 @@ You specify the address and port of the syslog endpoint in the `--syslog-address
 
 <pre>--syslog-address udp://<i>syslog_host_address</i>[:<i>port</i>]</pre>
 <pre>--syslog-address tcp://<i>syslog_host_address</i>[:<i>port</i>]</pre>
+
+### `--container-name-convention` <a id="container-name-convention"></a>
+
+Short name: `--cnc`
+
+Enforce a naming convention for container VMs, that applies a prefix to the names of all container VMs that run in a VCH. Applying a naming convention to container VMs facilitates organizational requirements such as chargeback. The container naming convention applies to the display name of the container VM that appears in the vSphere Client, not to the container name that Docker uses.
+
+You specify the container naming convention by providing a prefix to apply to container names, and adding `-{name}` or `-{id}` to specify whether to use the container name or the container ID for the second part of the container VM display name. If you specify `-{name}`, the container VM display names use either the name that Docker generates, or a name that the container developer specifies in `docker run --name` when they run the container.
+
+<pre>--container-name-convention <i>cVM_name_prefix</i>-{name}</pre>
+<pre>--container-name-convention <i>cVM_name_prefix</i>-{id}</pre>
