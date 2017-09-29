@@ -47,11 +47,11 @@ git push upstream v1.2.0-rc1
 ```
 
 
-## Building
+## Building Release
 
 ```
-git remote update
-git checkout upstream/releases/1.2.0
+git fetch --all --tags --prune
+git checkout tags/v1.2.0
 ```
 
 Follow instructions in [How to build VIC Product OVA](BUILD.md)

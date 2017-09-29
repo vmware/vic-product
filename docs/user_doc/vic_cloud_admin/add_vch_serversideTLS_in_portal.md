@@ -12,9 +12,10 @@ Connect hosts that require server-side TLS authentication only over HTTP with no
 	2. Select **VCH** as type.
 	2. Enter the endpoint for the VCH as URL.
 
-	For example, *https://*hostname*:2376*.
+	    For example, *https://*hostname*:2376*.
 	
-	3. Do not enter credentials and click **Save**.
+	3. Do not enter credentials and click **Save**. 
+	4. If you are prompted to trust the  certificate, click **OK**.
 
 **Result**
 

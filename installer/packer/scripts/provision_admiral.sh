@@ -29,8 +29,8 @@ echo "Docker started"
 ADMIRAL_IMAGE="vmware/admiral:vic_${BUILD_ADMIRAL_REVISION}"
 echo "Pulling Admiral Docker image.."
 echo "Downloading Admiral ${ADMIRAL_IMAGE}"
-docker pull ${ADMIRAL_IMAGE}
-docker tag ${ADMIRAL_IMAGE} vmware/admiral:ova
+docker pull "${ADMIRAL_IMAGE}"
+docker tag "${ADMIRAL_IMAGE}" vmware/admiral:ova
 echo "Pulled Admiral image"
 
 echo "Downloading vmware/admiral:vic_v1.1.1"
@@ -38,6 +38,7 @@ docker pull vmware/admiral:vic_v1.1.1
 echo "Pulled Admiral upgrade image"
 
 docker images
+ADMIRAL_IMAGE_ID=$(docker images vmware/admiral:ova -q)
 
 # stop docker
 echo "stopping Docker .."
@@ -50,3 +51,7 @@ curl -Lo $conf_dir/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar https://storage.g
 # Get Admiral upgrade script
 curl -Lo /etc/vmware/admiral/migrate.sh https://raw.githubusercontent.com/vmware/admiral/master/upgrade/src/main/resources/migrate.sh
 chmod +x /etc/vmware/admiral/migrate.sh
+
+# Write version files
+echo "admiral=${ADMIRAL_IMAGE} ${ADMIRAL_IMAGE_ID}" >> /data/version
+echo "admiral=${ADMIRAL_IMAGE} ${ADMIRAL_IMAGE_ID}" >> /etc/vmware/version

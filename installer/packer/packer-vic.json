@@ -7,6 +7,7 @@
     "remote_password": "",
     "root_password": "2RQrZ83i79N6szpvZNX6",
     "build_portgroup": "{{env `BUILD_PORTGROUP`}}",
+    "build_ova_revision": "{{env `BUILD_OVA_REVISION`}}",
     "build_vicengine_revision": "{{env `BUILD_VICENGINE_REVISION`}}",
     "build_vicengine_file": "{{env `BUILD_VICENGINE_FILE`}}",
     "build_vicengine_url": "{{env `BUILD_VICENGINE_URL`}}",
@@ -104,6 +105,7 @@
     {
       "type": "shell",
       "script": "scripts/filesystem_provisioning.sh",
+      "environment_vars": ["BUILD_OVA_REVISION={{user `build_ova_revision`}}"],
       "pause_before": "15s"
     },
     {
@@ -264,8 +266,8 @@
     },
     {
       "type": "file",
-      "source": "scripts/upgrade/upgrade_1.1_to_1.2.sh",
-      "destination": "/etc/vmware/upgrade/upgrade_1.1_to_1.2.sh"
+      "source": "scripts/upgrade/upgrade.sh",
+      "destination": "/etc/vmware/upgrade/upgrade.sh"
     },
     {
       "type": "shell",

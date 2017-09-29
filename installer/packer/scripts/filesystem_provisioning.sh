@@ -14,6 +14,11 @@
 # limitations under the License.
 set -euf -o pipefail
 
+if [ -z "${BUILD_OVA_REVISION}" ]; then
+  echo "BUILD_OVA_REVISION must be set"
+  exit 1
+fi
+
 # Create directory to host VMware-specific scripts
 mkdir /etc/vmware
 mkdir /etc/vmware/upgrade
@@ -35,3 +40,7 @@ tune2fs -L vic-data-v1 /dev/sdb1
 # Seed directories in /data
 mount /dev/sdb1 /data -t ext4
 mkdir -p /data/{admiral,harbor,fileserver}
+
+# Write version files
+echo "appliance=${BUILD_OVA_REVISION}" > /data/version
+echo "appliance=${BUILD_OVA_REVISION}" > /etc/vmware/version
