@@ -1,27 +1,32 @@
-# Client Network #
+# Configure the Client Network #
 
-You can designate a specific network for use by the Docker API by specifying the `--client-network` option. If you do not specify the `--client-network` option, the Docker API uses the public network.
+The client network is the network on which the VCH endpoint VM makes the Docker API available to Docker clients. By designating a specific client network, you isolate Docker endpoints from the public network. Virtual container hosts (VCHs) access vSphere Integrated Containers Management Portal and vSphere Integrated Containers Registry over the client network. 
 
-The network on which the VCH endpoint VM makes the Docker API available to Docker clients. The client network isolates the Docker endpoints from the public network. VCHs can access vSphere Integrated Containers Registry over the client network, but it is recommended to connect to registries either over the public network or over the management network. vSphere Integrated Containers Management Portal and vSphere Integrated Containers Registry require a connection to the client network. 
+- [`vic-machine` Option](#options)
+- [Example `vic-machine` Command](#example)
 
-You define the Docker management endpoint network by setting the `--client-network` option when you run `vic-machine create`.
+## `vic-machine` Option <a id="options"></a>
+
+You designate a specific network for traffic between Docker clients and the VCH by specifying the `vic-machine create --client-network` option when you deploy the VCH.
 
 ### `--client-network` <a id="client-network"></a>
 
-Short name: `--cln`
+**Short name**: `--cln`
 
-A port group on which the VCH will make the Docker API available to Docker clients. Docker clients use this network to issue Docker API requests to the VCH.
+A port group on which the VCH makes the Docker API available to Docker clients. Docker clients use this network to issue Docker API requests to the VCH.
 
-If not specified, the VCH uses the public network for client traffic. If you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups.
-
+**Usage**: 
 <pre>--client-network <i>port_group_name</i></pre>
 
-### Example
+If you do not specify this option, the VCH uses the public network for client traffic. If you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups.
+
+## Example `vic-machine` Command <a id="example"></a>
 
 This example deploys a VCH with the following configuration:
 
-- Specifies the user name, password, datacenter, cluster, image store, bridge network, and name for the VCH.
-- Directs public and management traffic to network 1 and Docker API traffic to network 2.
+- Specifies the target vCenter Server instance, the vCenter Server user name, password, datacenter and cluster, an image store, a port group for the bridge network, a name for the VCH, and the thumbprint of the vCenter Server certificate.
+- Secures connections to the Docker API with an automatically generated server certificate, without client certificate verification, by setting `--no-tlsverify`.
+- Directs public traffic to an existing port group named `network 1` and Docker API and management traffic to `network 2`.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
@@ -29,9 +34,9 @@ This example deploys a VCH with the following configuration:
 --image-store datastore1
 --bridge-network vch1-bridge
 --public-network 'network 1'
---management-network 'network 1'
+--management-network 'network 2'
 --client-network 'network 2'
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
---no-tls
+--no-tlsverify
 </pre>

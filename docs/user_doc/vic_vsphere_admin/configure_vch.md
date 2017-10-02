@@ -175,7 +175,7 @@ To reset the DNS servers on a VCH to the default, set the `vic-machine configure
 
 If containers that run in a VCH require a dedicated network for external communication, you can add one or more container networks to the VCH by using the `vic-machine configure --container-network` options. You can specify `--container-network` multiple times to add multiple container networks.
 
-The `vic-machine configure --container-network` options function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` container network options,  [Container Networks](container_networks.md).
+The `vic-machine configure --container-network` options function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` container network options,  [Configure Container Networks](container_networks.md).
 
 This example adds a new container network to a VCH. It designates a port group named `vic-containers` for use by container VMs, gives the container network the name `vic-container-network` for use by Docker, specifies the gateway, two DNS servers, and a range of IP addresses on the container network for container VMs to use.
 
