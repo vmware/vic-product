@@ -18,7 +18,7 @@ The image below shows how VCH networks connect to your vSphere environment, to v
 
 To understand how you can configure networks on VCHs, you first must understand how networking works in Docker.
 
-For an overview of Docker networking in general, and an overview of networking with vSphere Integrated Containers in particular, watch the Docker Networking Options and vSphere Integrated Containers Networking Overview videos on the VMware Cloud-Native YouTube Channel:
+For an overview of Docker networking in general, and an overview of networking with vSphere Integrated Containers in particular, watch the Docker Networking Options and vSphere Integrated Containers Networking Overview videos on the [VMware Cloud-Native YouTube Channel](https://www.youtube.com/channel/UCdkGV51Nu0unDNT58bHt9bg):
 
 [![Docker Networking Options video](graphics/docker_networking_small.jpg)](https://www.youtube.com/watch?v=Yr6-2ddhLVo)  [![vSphere Integrated Containers Networking Overview video](graphics/vic_networking_video_small.jpg)](https://www.youtube.com/watch?v=QLi9KasWLCM)
 
