@@ -20,8 +20,7 @@ systemctl enable docker.service
 systemctl enable data.mount repartition.service resizefs.service getty@tty2.service
 systemctl enable sshd_permitrootlogin.service firstboot.service vic-appliance.target
 systemctl enable ovf-network.service ova-firewall.service
-systemctl enable harbor_startup.path admiral_startup.path firstboot.path
-systemctl enable get_token.timer
+systemctl enable harbor_startup.path admiral_startup.path get_token.timer
 systemctl enable fileserver_startup.service fileserver.service
 systemctl enable engine_installer_startup.service engine_installer.service
 

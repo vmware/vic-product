@@ -1,9 +1,0 @@
-[Unit]
-Description=Docker images and chpasswd dependency
-Documentation=https://github.com/vmware/vic-product/installer
-
-[Path]
-PathExists=/etc/vmware/firstboot
-
-[Install]
-WantedBy=multi-user.target

@@ -50,6 +50,8 @@ function create_disk() {
   local mp="$3"
   local boot="${4:-}"
 
+  losetup -f &>/dev/null || ( echo "Cannot setup loop devices" && exit 1 )
+  
   progress "allocating raw image of ${brprpl}${disk_size}${creset}"
   fallocate -l "$disk_size" -o 1024 "$img"
 
@@ -68,7 +70,6 @@ function create_disk() {
 
   progress "reloading loop devices" 
   disk=$(losetup --show -f -P "$img")
-  partprobe ${disk}
   
   progress "formatting linux partition"
   mkfs.ext4 -F "${disk}p$part_num" &>/dev/null 

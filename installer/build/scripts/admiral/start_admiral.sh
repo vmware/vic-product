@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+source /installer.env
 set -euf -o pipefail
 
 # Populated by configure_admiral.sh
@@ -33,4 +34,4 @@ admiral_xenon_opts="--publicUri=https://${OVA_VM_IP}:8282/ --bindAddress=0.0.0.0
   --log-driver=json-file \
   --log-opt max-size=1g \
   --log-opt max-file=10 \
-  vmware/admiral:ova
+  "vmware/admiral:vic_${BUILD_ADMIRAL_REVISION}"

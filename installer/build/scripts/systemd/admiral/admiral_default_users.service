@@ -1,7 +1,7 @@
 [Unit]
 Description=Admiral Default Users
 Documentation=http://github.com/vmware/admiral
-After=admiral.service get_token.service
+After=admiral_startup.service admiral.service get_token.service
 Requires=iptables.service data.mount
 
 [Service]

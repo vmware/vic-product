@@ -96,48 +96,6 @@ $(rpctool): $(call godeps,ovatools/rpctool/*.go)
 	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
 ova: gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
-	@echo --------------------------------------------------
-	@echo preparing for ova build...
-	@$(BASE_DIR)build/cleanup.sh
-	@echo --------------------------------------------------
-	@echo caching build dependencies...
-	@mkdir -p $(BASE_DIR)build/baseimage/{bin,cache}
-	@$(BASE_DIR)build/cache.sh
-	@echo --------------------------------------------------
-	@echo building vm template...
-	@docker pull vmware/photon
-	@docker run --rm -v /dev:/dev --privileged -v $(BASE_DIR):/work -w /work \
-		-e BUILD_HARBOR_FILE=${BUILD_HARBOR_FILE} \
-		-e BUILD_VICENGINE_FILE=${BUILD_VICENGINE_FILE} \
-		-e BUILD_ADMIRAL_REVISION=${BUILD_ADMIRAL_REVISION} \
-		-e BUILD_ADMIRAL_RELEASE=${BUILD_ADMIRAL_RELEASE} \
-		-e BUILD_OVA_REVISION=${BUILD_OVA_REVISION} \
-		-e BUILD_DCHPHOTON_VERSION=${BUILD_DCHPHOTON_VERSION} \
-		-e DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER} \
-		-e TERM vmware/photon ./build/baseimage/stage.sh
-	@echo --------------------------------------------------
-	@echo packaging OVA...
-	@cp $(BASE_DIR)build/vic-unified.ovf $(BASE_DIR)build/baseimage/bin/vic-$(REV).ovf
-	@cd $(BASE_DIR)build/baseimage/bin/ && $(SED) -i -e s~--version--~$(BUILD_OVA_REVISION)~ vic-$(REV).ovf
-ifeq ($(OS),darwin)
-	@echo rebuilding OVF manifest in darwin...
-	@cd$(BASE_DIR)build/baseimage/bin/ && shasum -a 256 * | $(AWK) '{print "SHA256("$$2") = "$$1}' > vic-$(REV).mf
-else
-	@echo rebuilding OVF manifest in linux...
-	@cd $(BASE_DIR)build/baseimage/bin/ && $(SHA256SUM) --tag * | $(SED) s/SHA256\ \(/SHA256\(/ > vic-$(REV).mf
-endif
-	@cd $(BASE_DIR)build/baseimage/bin/ && tar -cvf $(BASE_DIR)bin/vic-$(REV).ova vic-$(REV).ovf vic-$(REV).mf *.vmdk
-	@echo --------------------------------------------------
-	@echo cleaning up...
-	@$(BASE_DIR)build/cleanup.sh
-
-ova-build: $(ova)
-	@echo uploading vm template
-	@gsutil cp -va public-read $(BASE_DIR)bin/vic-$(REV).ova gs://vic-product-ova-builds
-
-ova-release: $(ova)
-	@echo uploading vm template
-	@gsutil cp -va public-read $(BASE_DIR)bin/vic-$(REV).ova gs://vic-product-ova-releases
 
 # utility targets
 $(GAS): vendor/manifest

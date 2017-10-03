@@ -89,11 +89,6 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/appliance/firstboot.path",
-      "destination": "/usr/lib/systemd/system/firstboot.path"
-    },
-    {
-      "type": "file",
       "source": "scripts/systemd/appliance/firstboot.sh",
       "destination": "/etc/vmware/firstboot.sh"
     },
@@ -187,7 +182,7 @@
     },
     {
       "type": "file",
-      "source": "scripts/admiral/admiral_default_users.service",
+      "source": "scripts/systemd/admiral/admiral_default_users.service",
       "destination": "/usr/lib/systemd/system/admiral_default_users.service"
     },
     {

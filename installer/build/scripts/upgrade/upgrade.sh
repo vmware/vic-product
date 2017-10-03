@@ -320,7 +320,7 @@ function performAdmiralUpgrade {
     --log-driver=json-file \
     --log-opt max-size=1g \
     --log-opt max-file=10 \
-    "vmware/admiral:ova"
+    "vmware/admiral:vic_${BUILD_ADMIRAL_REVISION}"
   /usr/bin/docker start vic-admiral
 
   local psc_token

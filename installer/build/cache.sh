@@ -50,8 +50,6 @@ function add() {
   
 }
 
-mkdir -p "$(dirname $0)/baseimage/cache/docker/"
-
 echo "${warrow} caching container images"
 for img in "${images[@]}"; do
   echo "${barrow} checking cache for ${brprpl}${img}${creset} archive"

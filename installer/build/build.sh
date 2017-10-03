@@ -20,16 +20,48 @@ DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER:-}
 ADMIRAL=""
 VICENGINE=""
 HARBOR=""
-step="ova"
 
 function usage() {
-    echo -e "Usage:
-      [REVISION]: --[admiral] dev
-      [URL]: --[vicengine|harbor] https://storage.googleapis.com/vic-engine-builds/vic_13806.tar.gz
-      FILE]:  --[vicengine|harbor] vic_13806.tar.gz
-    ie: $0 --harbor v1.2.0-38-ge79334a --vicengine https://storage.googleapis.com/vic-engine-builds/vic_13806.tar.gz --admiral v1.2" >&2
+    echo -e "Usage: 
+      <ova-dev|ova-ci>
+      [--admiral] <given a revision, eg. 'dev'>
+      [--vicengine|--harbor] <given a url, eg. 'https://storage.googleapis.com/vic-engine-builds/vic_13806.tar.gz'>
+      [--vicengine|--harbor] <given a file in cwd, eg. 'vic_13806.tar.gz'>
+    ie: $0 ova-dev --harbor v1.2.0-38-ge79334a --vicengine https://storage.googleapis.com/vic-engine-builds/vic_13806.tar.gz --admiral v1.2" >&2
     exit 1
 }
+
+# Check if it's a file in `scripts`, URL, or REVISION
+function setenv() {
+  tmpvar=$1
+  fallback=$2
+  # if a cli argument was specified, it's a local file, gcloud bucket upload, or admiral revision number.
+  if [ -n "${!tmpvar}" ]; then
+    if [ -f "$(pwd)/build/${!tmpvar}" ]; then
+      export BUILD_$1_FILE="${!tmpvar}"
+      export BUILD_$1_URL="$(pwd)/build/${!tmpvar}"
+    elif [[ "${!tmpvar}" =~ ^http://|^https:// ]]; then
+      export BUILD_$1_URL="${!tmpvar}"
+      export BUILD_$1_FILE="$(basename "${!tmpvar}")"
+    else
+      export BUILD_$1_REVISION="${!tmpvar}"
+    fi
+  else   # if a cli argument was NOT specified, use the most recent version specified by $fallback
+    if [[ "${fallback}" =~ ^http://|^https:// ]]; then
+      export BUILD_$1_URL="${fallback}"
+      export BUILD_$1_FILE=$(basename "${fallback}")
+    else
+      export BUILD_$1_REVISION="${fallback}"
+    fi
+  fi
+}
+
+export BUILD_OVA_REVISION=$(git describe --tags)
+export BUILD_DCHPHOTON_VERSION="1.13"
+export BUILD_ADMIRAL_RELEASE="v1.1.1"
+
+step=$1; shift
+[ ! "$step" == "ova-ci" ] || [ ! "$step" == "ova-dev" ] || usage
 
 while [[ $# -gt 1 ]]
 do
@@ -61,35 +93,6 @@ do
   shift # past argument or value
 done
 
-# Check if it's a file in `scripts`, URL, or REVISION
-function setenv() {
-  tmpvar=$1
-  fallback=$2
-  # if a cli argument was specified, it's a local file, gcloud bucket upload, or admiral revision number.
-  if [ -n "${!tmpvar}" ]; then
-    if [ -f "$(pwd)/build/${!tmpvar}" ]; then
-      export BUILD_$1_FILE="${!tmpvar}"
-      export BUILD_$1_URL="$(pwd)/build/${!tmpvar}"
-    elif [[ "${!tmpvar}" =~ ^http://|^https:// ]]; then
-      export BUILD_$1_URL="${!tmpvar}"
-      export BUILD_$1_FILE="$(basename "${!tmpvar}")"
-    else
-      export BUILD_$1_REVISION="${!tmpvar}"
-    fi
-  else   # if a cli argument was NOT specified, use the most recent version specified by $fallback
-    if [[ "${fallback}" =~ ^http://|^https:// ]]; then
-      export BUILD_$1_URL="${fallback}"
-      export BUILD_$1_FILE=$(basename "${fallback}")
-    else
-      export BUILD_$1_REVISION="${fallback}"
-    fi
-  fi
-}
-
-export BUILD_OVA_REVISION=$(git describe --tags)
-export BUILD_DCHPHOTON_VERSION="1.13"
-export BUILD_ADMIRAL_RELEASE="v1.1.1"
-
 # set Admiral
 setenv ADMIRAL "dev"
 
@@ -120,7 +123,41 @@ buidling ova with env...\n
 $(cat $ENV_FILE | sed 's/export //g')
 --------------------------------------------------"
 
-make $step
+echo "--------------------------------------------------"
+echo "caching build dependencies..."
+mkdir -p build/baseimage/{bin,cache,cache/docker}
+make ova
+./build/cache.sh
+
+echo "--------------------------------------------------"
+echo "packaging OVA..."
+
+if [ "$step" == "ova-dev" ]; then
+docker run --rm --privileged -v /dev:/dev -v $(pwd):/work -w /work \
+    -e BUILD_HARBOR_FILE=${BUILD_HARBOR_FILE} \
+    -e BUILD_VICENGINE_FILE=${BUILD_VICENGINE_FILE} \
+    -e BUILD_ADMIRAL_REVISION=${BUILD_ADMIRAL_REVISION} \
+    -e BUILD_ADMIRAL_RELEASE=${BUILD_ADMIRAL_RELEASE} \
+    -e BUILD_OVA_REVISION=${BUILD_OVA_REVISION} \
+    -e BUILD_DCHPHOTON_VERSION=${BUILD_DCHPHOTON_VERSION} \
+    -e DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER} \
+    -e TERM vmware/photon ./build/baseimage/stage.sh
+elif [ "$step" == "ova-ci" ]; then
+  ./build/baseimage/stage.sh
+else
+  usage
+fi
+
+cp build/vic-unified.ovf build/baseimage/bin/vic-${BUILD_OVA_REVISION}.ovf
+cd build/baseimage/bin/ 
+sed -i -e s~--version--~${BUILD_OVA_REVISION}~ vic-${BUILD_OVA_REVISION}.ovf
+echo "rebuilding OVF manifest"
+sha256sum --tag * | sed s/SHA256\ \(/SHA256\(/ > vic-${BUILD_OVA_REVISION}.mf
+tar -cvf ../../../bin/vic-${BUILD_OVA_REVISION}.ova vic-${BUILD_OVA_REVISION}.ovf vic-${BUILD_OVA_REVISION}.mf *.vmdk
+cd ../../../
+echo "--------------------------------------------------"
+echo "cleaning up..."
+./build/cleanup.sh
 
 OUTFILE=bin/$(ls -1t bin | grep "\.ova")
 
@@ -134,4 +171,4 @@ echo "build complete"
 echo "  SHA256: $(shasum -a 256 $OUTFILE)"
 echo "  SHA1: $(shasum -a 1 $OUTFILE)"
 echo "  MD5: $(md5sum $OUTFILE)"
-du -ks $OUTFILE | awk '{printf "%sMB", $1/1024}'
+du -ks $OUTFILE | awk '{printf "%sMB\n", $1/1024}'
