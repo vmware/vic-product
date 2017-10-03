@@ -1401,9 +1401,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.1" data-path="../vic_cloud_admin/logging_in_MP.html">
+        <li class="chapter " data-level="3.1.1" data-path="../vic_cloud_admin/logging_in_mp.html">
             
-                <a href="../vic_cloud_admin/logging_in_MP.html">
+                <a href="../vic_cloud_admin/logging_in_mp.html">
             
                     
                     Logging in to the Management Portal
@@ -2112,16 +2112,16 @@
 <li><a href="#registry">Using <code>dch-photon</code> with vSphere Integrated Containers Registry</a></li>
 <li><a href="#other">Using <code>dch-photon</code> with Other Registries</a></li>
 </ul>
-<h2 id="requirements-for-using-dch-photon-">Requirements for Using <code>dch-photon</code> <a href="requirements"></a></h2>
+<h2 id="requirements-for-using-dch-photon-">Requirements for Using <code>dch-photon</code> <a id="requirements"></a></h2>
 <p>To use <code>dch-photon</code>, your environment must satisfy the following conditions: </p>
 <ul>
 <li>Configure your local Docker client to use the vSphere Integrated Containers Registry certificate. For information about how to obtain the registry certificate and pass it to the Docker client, see <a href="configure_docker_client.html#registry">Using vSphere Integrated Containers Registry</a>.</li>
 <li>You have access to a VCH that the vSphere administrator configured so that it can connect to the registry to pull the <code>dch-photon</code> image. The VCH must also have a volume store named <code>default</code>. For information about how deploy a VCH for use with <code>dch-photon</code>, see the <a href="../vic_vsphere_admin/deploy_vch_dchphoton.html">Deploy a Virtual Container Host for Use with <code>dch-photon</code></a> in <em>Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure</em>. </li>
 </ul>
-<h3 id="anonymous-dch-photon-volumes-">Anonymous <code>dch-photon</code> Volumes <a href="vols"></a></h3>
+<h3 id="anonymous-dch-photon-volumes-">Anonymous <code>dch-photon</code> Volumes <a id="vols"></a></h3>
 <p>Each <code>dch-photon</code> container VM that you run creates an anonymous volume in the <code>default</code> volume store. By default, all of the images you pull into <code>dch-photon</code> go into this volume. The anonymous volume has a 2 GB limit. If you require more than 2 GB to store images and container state, you must explicitly specify a volume with a higher limit when you run <code>dch-photon</code>. </p>
 <p>The anonymous volumes that <code>dch-photon</code> creates are not deleted when you delete a <code>dch-photon</code> container VM.  This is by design, so that you can persist your image cache and container state beyond the lifespan of an individual <code>dch-photon</code> container VM. When you delete <code>dch-photon</code> container VMs, you must manually remove the anonymous volume from the volume store if you do not require them.</p>
-<h2 id="using-dch-photon-with-vsphere-integrated-containers-registry-">Using <code>dch-photon</code> with vSphere Integrated Containers Registry <a href="registry"></a></h2>
+<h2 id="using-dch-photon-with-vsphere-integrated-containers-registry-">Using <code>dch-photon</code> with vSphere Integrated Containers Registry <a id="registry"></a></h2>
 <p>For <code>dch-photon</code> to be able to authenticate with vSphere Integrated Containers Registry, it needs to have the registry&apos;s CA certificate. 
 The purpose of <code>dch-photon</code> is primarily to build images and push them to registries, so each <code>dch-photon</code> instance must be able to authenticate with the registry to which it pushes. Even if you use the same Docker client to pull and run the <code>dch-photon</code> image as you use to push built images back to the registry, the <code>dch-photon</code> container VM still needs to have the appropriate registry certificate so that it can successfully push images. </p>
 <p>You can provide the certificate to <code>dch-photon</code> in one of two ways:</p>
@@ -2130,7 +2130,7 @@ The purpose of <code>dch-photon</code> is primarily to build images and push the
 <li>Manually copy the certificate in to a <code>dch-photon</code> container running in a VCH by using <code>docker cp</code>, as described in <a href="photon_cert_manual.html">Manually Add the Registry Certificate to a <code>dch-photon</code> VM</a>.</li>
 </ul>
 <p>When you have deployed <code>dch-photon</code> with the registry certificate, you can use it to build an image and push that image from <code>dch-photon</code> to vSphere Integrated Containers Registry. You can then pull the image from the registry into a VCH for deployment. For information about building, pushing, and pulling an image, see <a href="test_photon.html">Build, Push, and Pull an Image with <code>dch-photon</code></a>.</p>
-<h2 id="using-dch-photon-with-tls-authentication-and-other-registries-">Using <code>dch-photon</code> with TLS Authentication and Other Registries <a href="other"></a></h2>
+<h2 id="using-dch-photon-with-tls-authentication-and-other-registries-">Using <code>dch-photon</code> with TLS Authentication and Other Registries <a id="other"></a></h2>
 <p>For information about using <code>dch-photon</code> with TLS authentication and with other registries than vSphere Integrated Containers Registry, see <a href="dchphoton_options.html">Advanced <code>dch-photon</code> Deployment</a>. </p>
 
                                 
@@ -2175,7 +2175,7 @@ The purpose of <code>dch-photon</code> is primarily to build images and push the
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"next":{"title":"Add Certificate to Custom Image","level":"4.1.6.1","depth":3,"path":"vic_app_dev/photon_cert_custom.md","ref":"vic_app_dev/photon_cert_custom.md","articles":[]},"previous":{"title":"Configure the Docker Client","level":"4.1.5","depth":2,"path":"vic_app_dev/configure_docker_client.md","ref":"vic_app_dev/configure_docker_client.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/build_push_images.md","mtime":"2017-10-03T13:32:43.343Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-03T15:26:11.197Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Building and Pushing Images","level":"4.1.6","depth":2,"next":{"title":"Add Certificate to Custom Image","level":"4.1.6.1","depth":3,"path":"vic_app_dev/photon_cert_custom.md","ref":"vic_app_dev/photon_cert_custom.md","articles":[]},"previous":{"title":"Configure the Docker Client","level":"4.1.5","depth":2,"path":"vic_app_dev/configure_docker_client.md","ref":"vic_app_dev/configure_docker_client.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/build_push_images.md","mtime":"2017-10-03T15:41:09.827Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-03T15:43:10.567Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
