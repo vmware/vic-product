@@ -12,11 +12,9 @@ The following sections present examples of how to perform container networking o
 To perform certain networking operations on containers, your Docker environment and your virtual container hosts (VCHs) must be configured in a specific way.
 
 - For information about the default Docker networks, see https://docs.docker.com/engine/userguide/networking/.
-- For information about the networking options with which vSphere administrators can deploy VCHs, see the sections in VCH Deployment Options on [Networking Options](../vic_vsphere_admin/vch_installer_options.md#networking) and [Configure Container Networks](../vic_vsphere_admin/vch_installer_options.md#adv-container-net) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.
-- For an overview of the networks that vSphere Integrated Containers Engine uses, see [Virtual Container Host Networking](../vic_vsphere_admin/networks.md) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.
-- For examples of how to deploy VCHs with different network configurations, see the section in Advanced Examples of Deploying a VCH on [Networking Examples](../vic_vsphere_admin/vch_installer_examples.md#networking) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.
+- For information about the networking options with which vSphere administrators can deploy VCHs and examples, see [Virtual Container Host Networking](../vic_vsphere_admin/vch_networking.md) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.
 
-**NOTE**: The default level of trust on VCH container networks is `published`. As a consequence, if the vSphere administrator did not configure `--container-network-firewall` on the VCH, you must specify `-p 80` in `docker run` and `docker create` commands to publish port 80 on a container. Alternatively, the vSphere administrator can configure the VCH to set [`--container-network-firewall`](../vic_vsphere_admin/configure_vch.md#containernet) to a different level. 
+**NOTE**: The default level of trust on VCH container networks is `published`. As a consequence, if the vSphere administrator did not configure `--container-network-firewall` on the VCH, you must specify `-p 80` in `docker run` and `docker create` commands to publish port 80 on a container. Alternatively, the vSphere administrator can configure the VCH to set [`--container-network-firewall`](../vic_vsphere_admin/container_networks.md#container-network-firewall) to a different level. 
 
 
 ## Publish a Container Port <a id="port"></a>
@@ -160,7 +158,7 @@ Create and run the web container(s) and make sure one is on both networks. In th
 
 ## Deploy a Container with a Static IP Address <a id="staticip"></a>
 
-Deploy a container that has a static IP address on the container network. For you to be able to deploy containers with static IP addresses, the vSphere administrator must have specified the [`--container-network-ip-range`](../vic_vsphere_admin/vch_installer_options.md#container-network-ip-range) option when they deployed the VCH. The IP address that you specify in `docker network connect --ip` must be within the specified range. If you do not specify `--ip`, the VCH assigns an IP address from the range that the vSphere administrator specified in `--container-network-ip-range`.
+Deploy a container that has a static IP address on the container network. For you to be able to deploy containers with static IP addresses, the vSphere administrator must have specified the [`--container-network-ip-range`](../vic_vsphere_admin/container_networks.md#container-network-ip-range) option when they deployed the VCH. The IP address that you specify in `docker network connect --ip` must be within the specified range. If you do not specify `--ip`, the VCH assigns an IP address from the range that the vSphere administrator specified in `--container-network-ip-range`.
 
 <pre>$ docker network connect --ip <i>ip_address</i> container-net container1</pre>
 
