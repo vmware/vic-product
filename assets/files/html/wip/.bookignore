@@ -1,0 +1,14 @@
+covers/*
+graphic_sources/*
+vic_app_dev/book.json
+vic_app_dev/cover.jpg
+vic_app_dev/SUMMARY.md
+vic_cloud_admin/book.json
+vic_cloud_admin/cover.jpg
+vic_cloud_admin/SUMMARY.md
+vic_overview/book.json
+vic_overview/cover.jpg
+vic_overview/SUMMARY.md
+vic_vsphere_admin/book.json
+vic_vsphere_admin/cover.jpg
+vic_vsphere_admin/SUMMARY.md
