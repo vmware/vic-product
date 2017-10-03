@@ -109,7 +109,7 @@ In a classic container environment:
 - The vSphere administrator provisions a large Linux VM and sends them the IP address.
 - The user installs Docker, patches the OS, configures in-guest network and storage virtualization, secures the guest, isolates the containers, packages the containers efficiently, and manages upgrades and downtime. 
  
-In this scenario, what vSphere administrator has provided is similar to a nested hypervisor that they have to manage and which is opaque to them. If you scale that up to one large Linux VM per tenant, you end up creating a large distributed silo for containers.
+In this scenario, what the vSphere administrator has provided is similar to a nested hypervisor, that is opaque and that they have to manage. If they scale that up to one large Linux VM per tenant, they end up creating a large distributed silo for containers.
 
 **Scenario 2: vSphere Integrated Containers**
 
@@ -117,18 +117,18 @@ With vSphere Integrated Containers:
 
 - A user raises a ticket and says, "I need Docker". 
 - The vSphere administrator identifies datastores, networking, and compute resources on a cluster that users can use for their Docker environment. 
-- The vSphere administrator uses a utility called `vic-machine` to install a small appliance, called a virtual container host (VCH). The VCH represents an authorization to use the infrastructure that you have identified, into which users can self-provision container workloads.
+- The vSphere administrator uses a utility called `vic-machine` to install a small appliance, called a virtual container host (VCH). The VCH represents an authorization to use the infrastructure that they have identified, into which users can self-provision container workloads.
 - The appliance runs a secure remote Docker API, that is the only access that the user has to the vSphere infrastructure.
 - Instead of sending the user a Linux VM, the vSphere administrator sends them the IP address of the appliance, the port of the remote Docker API, and a certificate for secure access.
 
-In this scenario, the vSphere administrator has provided the user with a service portal. This is better for the user because they do not have to worry about isolation, patching, security, backup, and so on. It is better for the vSphere administrator because every container that the user deploys is a container VM. You can perform vMotion and monitor container VMs just like all of your other VMs.
+In this scenario, the vSphere administrator has provided the user with a service portal. This is better for the user because they do not have to worry about isolation, patching, security, backup, and so on. It is better for the vSphere administrator because every container that the user deploys is a container VM. vSphere administrators can perform vMotion and monitor container VMs just like all of their other VMs.
 
 If the user needs more compute capacity, in Scenario 1, the pragmatic choice is to power down the VM and reconfigure it, or give the user a new VM and let them deal with the clustering implications. Both of these solutions are disruptive to users. With vSphere Integrated Containers in Scenario 2, the vSphere administrator can reconfigure the VCH in vSphere, or redeploy it with a new configuration in a way that is completely transparent to the user.
 
 vSphere Integrated Containers allows the vSphere administrator to select and dictate the appropriate infrastructure for the task in hand:
 
-- Networking: You can select multiple port groups for different types of network traffic, ensuring that all of the containers that a user provisions get the appropriate interfaces on the right networks.
-- Storage: You can select different vSphere datastores for different types of state. For example, container state is ephemeral and is unlikely to need to be backed up, but volume state almost certainly should be backed up. vSphere Integrated Containers automatically ensures that state gets written to the appropriate datastore when the user provisions a container.
+- Networking: Select multiple port groups for different types of network traffic, ensuring that all of the containers that a user provisions get the appropriate interfaces on the right networks.
+- Storage: Select different vSphere datastores for different types of state. For example, container state is ephemeral and is unlikely to need to be backed up, but volume state almost certainly should be backed up. vSphere Integrated Containers automatically ensures that state gets written to the appropriate datastore when the user provisions a container.
 
 To summarize, vSphere Integrated Containers gives vSphere administrators a mechanism that allows users to self-provision VMs as containers into the virtual infrastructure.
 
@@ -210,13 +210,13 @@ The `vic-machine` utility is a binary for Windows, Linux, and OSX that manages t
 - Creates certificates for Docker client TLS authentication.
 - Checks that the prerequisites for VCH deployment are met on the cluster or host, namely that the firewall, licenses, and so on are configured correctly.
 - Configures existing VCHs for debugging.
-- Lists, inspects, upgrades, reconfigures, and deletes VCHs.
+- Lists, inspects, upgrades, configures, and deletes VCHs.
 
 ## What Is vSphere Integrated Containers Management Portal? <a id="whats_portal"></a>
 
 vSphere Integrated Containers Management Portal is a highly scalable and very lightweight container management platform for deploying and managing container based applications. It is designed to have a small footprint and boot extremely quickly. vSphere Integrated Containers Management Portal is intended to provide DevOps administrators with automated deployment and lifecycle management of containers.
 
-- Resource management, allowing DevOps administrators to set deployment preferences which let vSphere Integrated Containers Management Portal manage container placement.
+- Resource management, allowing DevOps administrators to set deployment preferences which lets vSphere Integrated Containers Management Portal manage container placement.
 - Live state updates that provide a live view of the container system.
 - Multi-container template management, that enables logical multi-container application deployments.
 
