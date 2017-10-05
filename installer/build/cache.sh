@@ -28,7 +28,7 @@ yarrow="${bryllw} ->${creset}"
 # cache docker images
 images=(
   vmware/admiral:vic_${BUILD_ADMIRAL_REVISION}
-  vmware/admiral:vic_${BUILD_ADMIRAL_RELEASE}
+  vmware/admiral:vic_v1.1.1
   vmware/dch-photon:${BUILD_DCHPHOTON_VERSION}
 )
 

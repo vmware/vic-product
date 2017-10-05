@@ -27,63 +27,25 @@ This is the recommended way to build the OVA.
 The build script pulls the desired versions of each included component into the build container.
 It accepts files in `scripts`, URLs, or revisions and automatically sets
 required environment variables.
+*You must specify build step `ova-dev` when calling build.sh*
 
 If called without any values, `build.sh` will get the latest build for each component
 ```
-./scripts/build.sh
+./scripts/build.sh ova-dev
 ```
 
 If called with the values below, `build.sh` will include the Harbor version from
 `packer/scripts/harbor.tgz`, the VIC Engine version from `packer/scripts/vic.tar.gz`, and 
 Admiral tag `vic_dev` (since `--admiral` was not specified it defaults to the `vic_dev` tag)
 ```
-./scripts/build.sh --harbor harbor.tgz --vicengine vic.tar.gz
+./scripts/build.sh ova-dev --harbor harbor.tgz --vicengine vic.tar.gz
 ```
 
 If called with the values below, `build.sh` will include the Harbor and VIC Engine versions
 specified by their respective URLs, and Admiral tag `vic_v1.1.1`
 ```
-./scripts/build.sh --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic.tar.gz
+./scripts/build.sh ova-dev --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic.tar.gz
 ```
-
-#### Manual
-
-This method of building the OVA is not recommended as it is more complicated.
-
-First, we have to set the revisions of the components we want to bundle in the OVA.
-Specifying a file takes precedence, then URL, then revision.
-
-Pick one to set VIC Engine version:
-
-```
-export BUILD_VICENGINE_REVISION=1.1.1                      # If specifying file or URL, REVISION is used for setting UI plugin version
-                                                           # If no other BUILD_VICENGINE vars specified, also specifies VIC Engine
-                                                           # version from https://console.cloud.google.com/storage/browser/vic-engine-releases
-export BUILD_OVA_REVISION=$(git describe --tags)           # Set the OVA version displayed in the
-                                                           # OVA deploy wizard and version files on disk
-export BUILD_VICENGINE_FILE=vic_10000.tar.gz               # File in `packer/scripts`
-export BUILD_VICENGINE_URL=https://example.com/vic.tar.gz  # URL to download
-```
-
-Pick one to set Harbor version:
-
-```
-export BUILD_HARBOR_REVISION=v1.1.1                     # Defaults to dev (https://console.cloud.google.com/storage/browser/harbor-builds)
-export BUILD_HARBOR_FILE=harbor-offline-installer.tgz   # File in `packer/scripts`
-export BUILD_HARBOR_URL=https://example.com/harbor.tgz  # URL to download
-```
-
-Set the Admiral tag appended to `vic_`:
-
-```
-export BUILD_ADMIRAL_REVISION=v1.1.1  # defaults to `dev` to specify `vic_dev` tag (https://hub.docker.com/r/vmware/admiral/tags/)
-```
-
-Then set the required env vars for the build environment and make the release:
-```
-make ova
-```
-
 
 #### Upload
 

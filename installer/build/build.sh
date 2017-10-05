@@ -58,7 +58,6 @@ function setenv() {
 
 export BUILD_OVA_REVISION=$(git describe --tags)
 export BUILD_DCHPHOTON_VERSION="1.13"
-export BUILD_ADMIRAL_RELEASE="v1.1.1"
 
 step=$1; shift
 [ ! "$step" == "ova-ci" ] || [ ! "$step" == "ova-dev" ] || usage
@@ -137,7 +136,6 @@ docker run --rm --privileged -v /dev:/dev -v $(pwd):/work -w /work \
     -e BUILD_HARBOR_FILE=${BUILD_HARBOR_FILE} \
     -e BUILD_VICENGINE_FILE=${BUILD_VICENGINE_FILE} \
     -e BUILD_ADMIRAL_REVISION=${BUILD_ADMIRAL_REVISION} \
-    -e BUILD_ADMIRAL_RELEASE=${BUILD_ADMIRAL_RELEASE} \
     -e BUILD_OVA_REVISION=${BUILD_OVA_REVISION} \
     -e BUILD_DCHPHOTON_VERSION=${BUILD_DCHPHOTON_VERSION} \
     -e DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER} \

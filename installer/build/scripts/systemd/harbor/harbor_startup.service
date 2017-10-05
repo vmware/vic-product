@@ -1,7 +1,7 @@
 [Unit]
 Description=Harbor Startup Configuration
 Documentation=http://github.com/vmware/harbor
-After=docker.service data.mount network-online.target systemd-resolved.service iptables.service ova-firewall.service harbor_startup.path firstboot.service get_token.service
+After=docker.service data.mount network-online.target systemd-resolved.service iptables.service ova-firewall.service harbor_startup.path firstboot.path get_token.service
 Requires=iptables.service data.mount
 
 [Service]

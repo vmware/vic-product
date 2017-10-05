@@ -299,7 +299,7 @@ function performAdmiralUpgrade {
     --log-driver=json-file \
     --log-opt max-size=1g \
     --log-opt max-file=10 \
-    "vmware/admiral:vic_${BUILD_ADMIRAL_RELEASE}"
+    "vmware/admiral:vic_v1.1.1"
   /usr/bin/docker start vic-upgrade-admiral
 
   # Copy psc-config.properties to /configs in container
@@ -555,6 +555,12 @@ function setDataUpgradeNeeded {
 }
 
 function main {
+  firstboot="/etc/vmware/firstboot"
+  if [ ! -f "$firstboot" ]; then
+    echo "Appliance first boot initialization has not completed. Please wait until firstboot.service has completed."
+    exit 1
+  fi
+
   while [[ $# -gt 1 ]]
   do
     key="$1"

@@ -89,6 +89,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/appliance/firstboot.path",
+      "destination": "/usr/lib/systemd/system/firstboot.path"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/appliance/firstboot.sh",
       "destination": "/etc/vmware/firstboot.sh"
     },

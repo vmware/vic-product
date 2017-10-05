@@ -42,9 +42,11 @@ function repartition {
 
   if [ $device_size_difference -gt $device_size_threshold ]; then
     # Resize Partition to use 100% of the block device
+    # Keep UUIDs consistent after repartition
     echo "Repartitioning ${block_device}"
+    PARTUUID=$(blkid -s PARTUUID -o value "${block_device}${data_partition}")
     sgdisk -d $data_partition $block_device
-    sgdisk -N $data_partition -c $data_partition:"Linux system" -t 1:8300 $block_device
+    sgdisk -N $data_partition -c $data_partition:"Linux system" -u $data_partition:$PARTUUID -t 1:8300 $block_device
     # Reload partition table of the device
     echo "Reloading partition table"
     partprobe ${block_device}

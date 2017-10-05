@@ -15,20 +15,11 @@
 SHELL=/bin/bash
 
 GO ?= go
-PACKER ?= packer
-OVFTOOL ?= ovftool
-SHA256SUM ?= sha256sum
 SED ?= sed
 RM ?= rm
-CP ?= cp
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 
-REV :=$(shell git describe --tags)
-
 BASE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-
-PHOTON_ISO := https://storage.googleapis.com/vic-product-ova-build-deps/photon-1.0-62c543d.iso
-PHOTON_ISO_SHA1SUM := c4c6cb94c261b162e7dac60fdffa96ddb5836d66
 
 BIN ?= bin
 
@@ -36,7 +27,7 @@ export GOPATH ?= $(shell echo $(CURDIR) | sed -e 's,/src/.*,,')
 GVT ?= $(GOPATH)/bin/gvt$(BIN_ARCH)
 GAS ?= $(GOPATH)/bin/gas$(BIN_ARCH)
 
-.PHONY: ova-release ova-debug vagrant-local gas packerless-ova upload-packerless-ova
+.PHONY: gas ova
 
 LDFLAGS := $(shell BUILD_NUMBER=${BUILD_NUMBER} $(BASE_DIR)/scripts/version-linker-flags.sh)
 
@@ -119,4 +110,6 @@ clean:
 	@rm -rf $(BIN)/*
 	@echo removing OVA installer files...
 	@rm -rf $(BASE_DIR)build/baseimage/cache
+	@rm -f $(BASE_DIR)build/baseimage/*.img
+	@rm -f build/baseimage/root/installer.env
 	@$(BASE_DIR)build/cleanup.sh

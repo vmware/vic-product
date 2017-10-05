@@ -217,6 +217,8 @@ sed -i "/\b\(keystore.file\)\b/d" $config_dir/psc-config.properties
 echo "keystore.file=/configs/psc-config.keystore" >> $config_dir/psc-config.properties
 
 # Start on startup
-echo "Enable admiral startup"
+echo "Enable admiral startup."
 systemctl enable admiral_startup.service
+echo "Enable admiral."
 systemctl enable admiral.service
+echo "Services enabled. exiting..."
