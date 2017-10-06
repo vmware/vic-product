@@ -1,0 +1,12 @@
+[Unit]
+Description=Loads Cached Docker Images
+After=data.mount docker.service
+Wants=data.mount docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/etc/vmware/firstboot.sh
+ExecStartPost=/usr/bin/systemctl disable firstboot.service
+
+[Install]
+WantedBy=vic-appliance.target

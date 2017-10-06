@@ -1,0 +1,13 @@
+[Unit]
+Description=resize data partition
+Wants=repartition.service
+After=repartition.service
+Before=data.mount
+
+[Service]
+Type=oneshot
+ExecStart=/etc/vmware/resize_volume.sh resize /dev/sda 2
+ExecStart=/etc/vmware/resize_volume.sh resize /dev/sdb 1
+
+[Install]
+WantedBy=data.mount

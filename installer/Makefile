@@ -15,20 +15,11 @@
 SHELL=/bin/bash
 
 GO ?= go
-PACKER ?= packer
-OVFTOOL ?= ovftool
-SHA256SUM ?= sha256sum
 SED ?= sed
 RM ?= rm
-CP ?= cp
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 
-REV :=$(shell git rev-parse --short=8 HEAD)
-
 BASE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-
-PHOTON_ISO := https://storage.googleapis.com/vic-product-ova-build-deps/photon-1.0-62c543d.iso
-PHOTON_ISO_SHA1SUM := c4c6cb94c261b162e7dac60fdffa96ddb5836d66
 
 BIN ?= bin
 
@@ -36,7 +27,7 @@ export GOPATH ?= $(shell echo $(CURDIR) | sed -e 's,/src/.*,,')
 GVT ?= $(GOPATH)/bin/gvt$(BIN_ARCH)
 GAS ?= $(GOPATH)/bin/gas$(BIN_ARCH)
 
-.PHONY: ova-release ova-debug vagrant-local gas
+.PHONY: gas ova
 
 LDFLAGS := $(shell BUILD_NUMBER=${BUILD_NUMBER} $(BASE_DIR)/scripts/version-linker-flags.sh)
 
@@ -95,80 +86,7 @@ $(rpctool): $(call godeps,ovatools/rpctool/*.go)
 	@echo building rpctool
 	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
-ova-release: gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
-	@echo building vic-unified-installer OVA using packer...
-	@cd $(BASE_DIR)packer && $(PACKER) build \
-			-only=ova-release \
-			-var 'iso_sha1sum=$(PHOTON_ISO_SHA1SUM)'\
-			-var 'iso_file=$(PHOTON_ISO)'\
-			-var 'esx_host=$(PACKER_ESX_HOST)'\
-			-var 'remote_username=$(PACKER_USERNAME)'\
-			-var 'remote_password=$(PACKER_PASSWORD)'\
-			-var 'build_ova_revision=$(BUILD_OVA_REVISION)' \
-			-var 'build_vicengine_revision=$(BUILD_VICENGINE_REVISION)' \
-			-var 'build_vicengine_dev_revision=$(BUILD_VICENGINE_DEV_REVISION)' \
-			-var 'build_admiral_revision=$(BUILD_ADMIRAL_REVISION)' \
-			-var 'build_harbor_revision=$(BUILD_HARBOR_REVISION)' \
-			-var 'build_harbor_dev_revision=$(BUILD_HARBOR_DEV_REVISION)' \
-			packer-vic.json
-	@echo adding proper vic OVF file...
-	@cd $(BASE_DIR)packer/vic/vic && $(RM) vic.ovf && $(CP) ../../vic-unified.ovf vic.ovf
-	@cd $(BASE_DIR)packer/vic/vic && $(SED) -i -e s~--version--~$(BUILD_OVA_REVISION)~ vic.ovf
-ifeq ($(OS),darwin)
-	@echo rebuilding OVF manifest in darwin...
-	@cd $(BASE_DIR)packer/vic/vic && $(RM) vic.mf && shasum -a 256 * | $(AWK) '{print "SHA256("$$2") = "$$1}' > vic.mf
-else
-	@echo rebuilding OVF manifest in linux...
-	@cd $(BASE_DIR)packer/vic/vic && $(RM) vic.mf && $(SHA256SUM) --tag * | $(SED) s/SHA256\ \(/SHA256\(/ > vic.mf
-endif
-	@echo packaging OVA...
-	@$(OVFTOOL) -st=ovf -tt=ova $(BASE_DIR)packer/vic/vic/vic.ovf $(BASE_DIR)$(BIN)/vic-$(REV).ova
-	@echo cleaning packer directory...
-	@cd $(BASE_DIR)packer && $(RM) -rf vic
-
-ova-debug: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
-	@echo building vic-unified-installer OVA using packer...
-	cd $(BASE_DIR)packer && PACKER_LOG=1 $(PACKER) build \
-			-only=ova-release \
-			-var 'iso_sha1sum=$(PHOTON_ISO_SHA1SUM)'\
-			-var 'iso_file=$(PHOTON_ISO)'\
-			-var 'esx_host=$(PACKER_ESX_HOST)'\
-			-var 'remote_username=$(PACKER_USERNAME)'\
-			-var 'remote_password=$(PACKER_PASSWORD)'\
-			-var 'build_ova_revision=$(BUILD_OVA_REVISION)' \
-			-var 'build_vicengine_revision=$(BUILD_VICENGINE_REVISION)' \
-			-var 'build_vicengine_dev_revision=$(BUILD_VICENGINE_DEV_REVISION)' \
-			-var 'build_admiral_revision=$(BUILD_ADMIRAL_REVISION)' \
-			-var 'build_harbor_revision=$(BUILD_HARBOR_REVISION)' \
-			-var 'build_harbor_dev_revision=$(BUILD_HARBOR_DEV_REVISION)' \
-			--on-error=abort packer-vic.json
-	@echo adding proper vic OVF file...
-	cd $(BASE_DIR)packer/vic/vic && $(RM) vic.ovf && $(CP) ../../vic-unified.ovf vic.ovf
-	@cd $(BASE_DIR)packer/vic/vic && $(SED) -i -e s~--version--~$(BUILD_OVA_REVISION)~ vic.ovf
-ifeq ($(OS),darwin)
-	@echo rebuilding OVF manifest in darwin...
-	@cd $(BASE_DIR)packer/vic/vic && $(RM) vic.mf && shasum -a 256 * | $(AWK) '{print "SHA256("$$2") = "$$1}' > vic.mf
-else
-	@echo rebuilding OVF manifest in linux...
-	@cd $(BASE_DIR)packer/vic/vic && $(RM) vic.mf && $(SHA256SUM) --tag * | $(SED) s/SHA256\ \(/SHA256\(/ > vic.mf
-endif
-	@echo packaging OVA...
-	$(OVFTOOL) -st=ovf -tt=ova $(BASE_DIR)packer/vic/vic/vic.ovf $(BASE_DIR)$(BIN)/vic-$(REV).ova
-	@echo cleaning packer directory...
-	cd $(BASE_DIR)packer && $(RM) -rf vic
-
-vagrant-local: $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
-	@echo building vic-unified-installer Vagrant box using packer...
-	@cd $(BASE_DIR)packer && $(PACKER) build \
-			-only=vagrant-local \
-			-var 'iso_sha1sum=$(PHOTON_ISO_SHA1SUM)'\
-			-var 'iso_file=$(PHOTON_ISO)'\
-			-var 'build_vicengine_revision=$(BUILD_VICENGINE_REVISION)' \
-			-var 'build_vicengine_dev_revision=$(BUILD_VICENGINE_DEV_REVISION)' \
-			-var 'build_admiral_revision=$(BUILD_ADMIRAL_REVISION)' \
-			-var 'build_harbor_revision=$(BUILD_HARBOR_REVISION)' \
-			-var 'build_harbor_dev_revision=$(BUILD_HARBOR_DEV_REVISION)' \
-			--on-error=abort packer-vic.json
+ova: gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
 
 # utility targets
 $(GAS): vendor/manifest
@@ -191,4 +109,7 @@ clean:
 	@echo removing binaries
 	@rm -rf $(BIN)/*
 	@echo removing OVA installer files...
-	@rm -rf packer/vic
+	@rm -rf $(BASE_DIR)build/baseimage/cache
+	@rm -f $(BASE_DIR)build/baseimage/*.img
+	@rm -f build/baseimage/root/installer.env
+	@$(BASE_DIR)build/cleanup.sh
