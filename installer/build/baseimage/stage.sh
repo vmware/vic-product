@@ -51,7 +51,7 @@ function create_disk() {
   local boot="${4:-}"
 
   losetup -f &>/dev/null || ( echo "Cannot setup loop devices" && exit 1 )
-  
+
   progress "allocating raw image of ${brprpl}${disk_size}${creset}"
   fallocate -l "$disk_size" -o 1024 "$img"
 
@@ -68,11 +68,11 @@ function create_disk() {
   progress "creating linux partition"
   sgdisk -N $part_num -c $part_num:"Linux system" -t $part_num:8300 "$img" &>/dev/null
 
-  progress "reloading loop devices" 
+  progress "reloading loop devices"
   disk=$(losetup --show -f -P "$img")
-  
+
   progress "formatting linux partition"
-  mkfs.ext4 -F "${disk}p$part_num" &>/dev/null 
+  mkfs.ext4 -F "${disk}p$part_num" &>/dev/null
 
   progress "mounting partition ${brprpl}${disk}p$part_num${creset} at ${brprpl}${mp}${creset}"
   mkdir -p "$mp"
@@ -87,7 +87,7 @@ function setup() {
 
   progress "installing ${brprpl}gptfdisk e2fsprogs grub2 parted${creset}"
   tdnf install -y gptfdisk e2fsprogs grub2 parted &>/dev/null
-  
+
   [ -f /usr/bin/qemu-img ] && return
 
   progress "installing ${brprpl}qemu-img${creset}"
@@ -175,7 +175,7 @@ function set_stage() {
           SOURCE=$(echo "$(cat ../ova-manifest.json | jq '.['$LINE_NUM'] | .source')" | tr -d '"' )
           DESTINATION=$(echo "${rt}/$(cat ../ova-manifest.json | jq '.['$LINE_NUM'] | .destination')" | tr -d '"' )
           mkdir -p $(dirname $DESTINATION) && cp -R ../$SOURCE "$DESTINATION"
-      fi  
+      fi
       LINE_NUM=$((LINE_NUM+1))
   done
 

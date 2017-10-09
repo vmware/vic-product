@@ -19,7 +19,7 @@ FILES_DIR="/opt/vmware/fileserver/files"
 mkdir -p /etc/vmware/fileserver # Fileserver config scripts
 mkdir -p ${FILES_DIR}            # Files to serve
 
-cd /var/tmp 
+cd /var/tmp
 
 echo "Provisioning VIC Engine ${BUILD_VICENGINE_FILE}"
 cp /etc/cache/${BUILD_VICENGINE_FILE} .

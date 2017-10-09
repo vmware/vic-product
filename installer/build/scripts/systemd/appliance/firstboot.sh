@@ -29,6 +29,7 @@ if [[ ! -f /etc/vmware/firstboot ]]; then
   set -e
 
   # Load harbor
+  echo "Loading Harbor"
   mkdir -p /tmp/harbor
   harbor_file=$(ls /etc/cache | grep harbor)
   cat /etc/cache/${BUILD_HARBOR_FILE} | tar xz -C /tmp/harbor
@@ -37,14 +38,25 @@ if [[ ! -f /etc/vmware/firstboot ]]; then
   rm -r /tmp/harbor
   rm -r /etc/cache
 
+  echo "Loading Admiral"
   # tag admiral as :ova
   ADMIRAL_IMAGE="vmware/admiral:vic_${BUILD_ADMIRAL_REVISION}"
+  docker tag "$ADMIRAL_IMAGE" vmware/admiral:ova
   ADMIRAL_IMAGE_ID=$(docker images vmware/admiral:ova -q)
-  
-  docker tag $ADMIRAL_IMAGE vmware/admiral:ova
+
   # Write version files
   echo "admiral=${ADMIRAL_IMAGE} ${ADMIRAL_IMAGE_ID}" >> /data/version
   echo "admiral=${ADMIRAL_IMAGE} ${ADMIRAL_IMAGE_ID}" >> /etc/vmware/version
+
+  echo "Loading vic-machine-server"
+  # tag vic-machine-server as :ova
+  VIC_MACHINE_SERVER_IMAGE="gcr.io/eminent-nation-87317/vic-machine-server:${BUILD_VIC_MACHINE_SERVER_REVISION}"
+  docker tag "$VIC_MACHINE_SERVER_IMAGE" vmware/vic-machine-server:ova
+  VIC_MACHINE_SERVER_IMAGE_ID="$(docker images vmware/vic-machine-server:ova -q)"
+
+  # Write version files
+  echo "vic-machine-server=${VIC_MACHINE_SERVER_IMAGE} ${VIC_MACHINE_SERVER_IMAGE_ID}" >> /data/version
+  echo "vic-machine-server=${VIC_MACHINE_SERVER_IMAGE} ${VIC_MACHINE_SERVER_IMAGE_ID}" >> /etc/vmware/version
   date -u +"%Y-%m-%dT%H:%M:%SZ" > /etc/vmware/firstboot
 fi
 

@@ -30,6 +30,7 @@ images=(
   vmware/admiral:vic_${BUILD_ADMIRAL_REVISION}
   vmware/admiral:vic_v1.1.1
   vmware/dch-photon:${BUILD_DCHPHOTON_VERSION}
+  gcr.io/eminent-nation-87317/vic-machine-server:${BUILD_VIC_MACHINE_SERVER_REVISION}
 )
 
 # cache other deps
@@ -47,7 +48,7 @@ function add() {
     cp $src $dest
     eecho "coped from local fs"
   fi
-  
+
 }
 
 echo "${warrow} caching container images"
@@ -78,7 +79,7 @@ for download in "${downloads[@]}"; do
     basefile=$(ls "$(dirname $archive)/$(echo ${filename} | cut -f1 -d"-" | cut -f1 -d"_" | cut -f1 -d".")"* 2>/dev/null)
     [ $? -eq 0 ] && [ -f "$basefile" ] && rm "$basefile"*
     set -e
-    add ${download} $archive 
+    add ${download} $archive
   fi
 done
 echo "${warrow} saved all downloads"

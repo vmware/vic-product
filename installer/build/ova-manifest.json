@@ -99,6 +99,16 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/appliance/vic-appliance-environment.service",
+      "destination": "/usr/lib/systemd/system/vic-appliance-environment.service"
+    },
+    {
+      "type": "file",
+      "source": "scripts/systemd/appliance/vic-appliance-environment.sh",
+      "destination": "/etc/vmware/vic-appliance-environment.sh"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/appliance/sshd_permitrootlogin.service",
       "destination": "/usr/lib/systemd/system/sshd_permitrootlogin.service"
     },
@@ -126,6 +136,16 @@
       "type": "file",
       "source": "scripts/systemd/network/network-config.sh",
       "destination": "/etc/vmware/network-config.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/systemd/vic_machine_server/vic_machine_server.service",
+      "destination": "/usr/lib/systemd/system/vic_machine_server.service"
+    },
+    {
+      "type": "file",
+      "source": "scripts/systemd/vic_machine_server/configure_vic_machine_server.sh",
+      "destination": "/etc/vmware/vic_machine_server/configure_vic_machine_server.sh"
     },
     {
       "type": "file",
