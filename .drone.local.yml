@@ -8,65 +8,45 @@
 workspace:
   base: /go
   path: src/github.com/vmware/vic-product
-    
+
 pipeline:
   clone:
     image: plugins/git
     tags: true
     recursive: false
 
+  dch-build:
+    environment:
+      DOCKER_HOST: tcp://127.0.0.1:2375
+    image: docker:latest
+    pull: true
+    commands:
+      - docker ps
+      - apk add --update bash git
+      - dinv/ci.sh build
+
+  dch-push:
+    environment:
+      DOCKER_HOST: tcp://127.0.0.1:2375
+    image: docker:latest
+    pull: true
+    commands:
+      - docker ps
+      - apk add --update bash git
+      - dinv/ci.sh push
+
   unified-ova-build: 
-    image: gcr.io/eminent-nation-87317/vic-integration-test:1.32
+    image: gcr.io/eminent-nation-87317/vic-product-build:latest
     pull: true
     privileged: true
     environment:
-       OVA_BUILD_SSH_KEY: ${OVA_BUILD_SSH_KEY}
-       OVA_BUILD_MACHINE_IP: ${OVA_BUILD_MACHINE_IP}
-       OVA_BUILD_USER: ${OVA_BUILD_USER}
-       PACKER_ESX_HOST: ${PACKER_ESX_HOST}
-       PACKER_USER: ${PACKER_USER}
-       PACKER_PASSWORD: ${PACKER_PASSWORD}
-       BUILD_PORTGROUP: ${BUILD_PORTGROUP}
-       BUILD_VICENGINE_REVISION: ${BUILD_VICENGINE_REVISION}
        DRONE_TIMEOUT: ${DRONE_TIMEOUT}
        DRONE_TIMEOUT_INACTIVITY: ${DRONE_TIMEOUT_INACTIVITY}
        DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
+       TERM: xterm
+    volumes:
+      - /dev:/dev
+      - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - echo $OVA_BUILD_SSH_KEY > ova_id_rsa
-      - chmod 600 ova_id_rsa
-      - installer/scripts/ova-ssh-build.sh ova_id_rsa
-
-  bundle:
-     image: gcr.io/eminent-nation-87317/vic-integration-test:1.32
-     pull: true
-     commands:
-       - mkdir bundle
-       - cp bin/vic-*.ova bundle
-       - ls -al bundle
-
-  publish-gcs-builds:
-     image: maplain/drone-gcs:latest
-     pull: true
-     source: bundle
-     target: vic-product-ova-builds
-     acl:
-       - allUsers:READER
-     cache_control: public,max-age=3600
-     when:
-      status: success
-
-  publish-gcs-releases:
-     image: maplain/drone-gcs:latest
-     pull: true
-     source: bundle
-     target: vic-product-ova-releases
-     acl:
-       - allUsers:READER
-     cache_control: public,max-age=3600
-     when:
-      repo: vmware/vic-product
-      event: [ push, tag ]
-      branch: [ refs/tags/* ]
-      status: success
-
-services:
+      - cd installer
+      - ./build/build.sh ova-ci
