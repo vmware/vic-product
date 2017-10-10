@@ -48,7 +48,6 @@ function add() {
     cp $src $dest
     eecho "coped from local fs"
   fi
-
 }
 
 echo "${warrow} caching container images"

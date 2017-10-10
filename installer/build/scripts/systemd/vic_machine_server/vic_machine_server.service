@@ -1,8 +1,8 @@
 [Unit]
 Description=VIC Machine API
 Documentation=https://github.com/vmware/vic
-After=data.mount vic-appliance-environment.service
-Requires=data.mount vic-appliance-environment.service
+After=vic-appliance.target vic-appliance-environment.service
+Requires=vic-appliance.target vic-appliance-environment.service
 
 [Service]
 Type=simple
