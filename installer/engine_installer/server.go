@@ -28,6 +28,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
+	"github.com/vmware/vic-product/installer/lib"
 	"github.com/vmware/vic/pkg/certificate"
 	"github.com/vmware/vic/pkg/trace"
 )
@@ -85,15 +86,7 @@ func main() {
 	mux.Handle("/cmd", http.HandlerFunc(parseCmdArgs))
 
 	// start the web server
-	// forcing tls 1.2, from https://github.com/denji/golang-tls
-	s := &http.Server{
-		Addr:    c.addr,
-		Handler: mux,
-		TLSConfig: &tls.Config{
-			MinVersion:   tls.VersionTLS12,
-			Certificates: []tls.Certificate{c.cert},
-		},
-	}
+	s := lib.GetTLSServer(c.addr, mux, c.cert)
 
 	log.Infof("Starting installer-engine server on %s", s.Addr)
 	log.Fatal(s.ListenAndServeTLS("", ""))
