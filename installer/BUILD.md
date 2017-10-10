@@ -49,9 +49,8 @@ specified by their respective URLs, and Admiral tag `vic_v1.1.1`
 
 #### Upload
 
-There are two additional make targets, `ova-build` and `ova-release`, that will upload the ova
-to the appropriate google storage bucket upon successful build. You can invoke them by using the `step`
-variable in build.sh, i.e. `./build/build.sh --step ova-release`
+You can upload the ova builds to the `vic-product-ova-builds` and `vic-product-ova-releases` in google cloud.
+To do this, use the gsutil cli tool: `sudo gsutil cp -va public-read vic-packerless-v1.2.1.ova gs://vic-product-ova-builds`.
 
 ## Deploy
 
