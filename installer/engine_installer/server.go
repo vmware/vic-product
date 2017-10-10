@@ -85,12 +85,14 @@ func main() {
 	mux.Handle("/cmd", http.HandlerFunc(parseCmdArgs))
 
 	// start the web server
-	t := &tls.Config{}
-	t.Certificates = []tls.Certificate{c.cert}
+	// forcing tls 1.2, from https://github.com/denji/golang-tls
 	s := &http.Server{
-		Addr:      c.addr,
-		Handler:   mux,
-		TLSConfig: t,
+		Addr:    c.addr,
+		Handler: mux,
+		TLSConfig: &tls.Config{
+			MinVersion:   tls.VersionTLS12,
+			Certificates: []tls.Certificate{c.cert},
+		},
 	}
 
 	log.Infof("Starting installer-engine server on %s", s.Addr)
