@@ -27,7 +27,7 @@ mkdir -p /usr/lib/systemd/system/getty@tty2.service.d
 mkdir -p /etc/vmware/psc/admiral
 mkdir -p /etc/vmware/psc/harbor
 mkdir -p /etc/vmware/psc/engine
-mkdir -p /data/{admiral,harbor,fileserver}
+mkdir -p /data/{admiral,harbor,fileserver,certs}
 
 # Write version files
 echo "appliance=${BUILD_OVA_REVISION}" > /data/version

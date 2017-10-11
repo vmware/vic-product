@@ -1,0 +1,19 @@
+[Unit]
+Description=VIC Machine API
+Documentation=https://github.com/vmware/vic
+After=vic-appliance.target vic-appliance-environment.service
+Requires=vic-appliance.target vic-appliance-environment.service
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+EnvironmentFile=/etc/vmware/environment
+ExecStartPre=-/usr/bin/docker kill vic-machine-server
+ExecStartPre=-/usr/bin/docker rm -f vic-machine-server
+ExecStartPre=/etc/vmware/vic_machine_server/configure_vic_machine_server.sh
+ExecStart=/usr/bin/docker run --rm --name vic-machine-server -v /data/certs:/certs -p ${VIC_MACHINE_SERVER_PORT}:443 vmware/vic-machine-server:ova
+ExecStop=/usr/bin/docker stop vic-machine-server
+
+[Install]
+WantedBy=multi-user.target

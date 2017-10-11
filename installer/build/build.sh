@@ -19,12 +19,13 @@ set -eu -o pipefail +h
 DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER:-}
 ADMIRAL=""
 VICENGINE=""
+VIC_MACHINE_SERVER=""
 HARBOR=""
 
 function usage() {
-    echo -e "Usage: 
+    echo -e "Usage:
       <ova-dev|ova-ci>
-      [--admiral] <given a revision, eg. 'dev'>
+      [--admiral|--vicmachineserver] <given a revision, eg. 'dev', 'latest'>
       [--vicengine|--harbor] <given a url, eg. 'https://storage.googleapis.com/vic-engine-builds/vic_13806.tar.gz'>
       [--vicengine|--harbor] <given a file in cwd, eg. 'vic_13806.tar.gz'>
     ie: $0 ova-dev --harbor v1.2.0-38-ge79334a --vicengine https://storage.googleapis.com/vic-engine-builds/vic_13806.tar.gz --admiral v1.2" >&2
@@ -56,7 +57,8 @@ function setenv() {
   fi
 }
 
-export BUILD_OVA_REVISION=$(git describe --tags)
+GIT_TAG="$(git describe --tags)"
+export BUILD_OVA_REVISION=${GIT_TAG}
 export BUILD_DCHPHOTON_VERSION="1.13"
 
 step=$1; shift
@@ -73,6 +75,10 @@ do
       ;;
     --vicengine)
       VICENGINE="$2"
+      shift # past argument
+      ;;
+    --vicmachineserver)
+      VIC_MACHINE_SERVER="$2"
       shift # past argument
       ;;
     --harbor)
@@ -95,6 +101,9 @@ done
 # set Admiral
 setenv ADMIRAL "dev"
 
+# set vic-machine-server
+setenv VIC_MACHINE_SERVER "latest"
+
 # set Vic-Engine
 url=$(gsutil ls -l "gs://vic-engine-builds" | grep -v TOTAL | grep vic_ | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
 setenv VICENGINE "$url"
@@ -111,6 +120,7 @@ export BUILD_HARBOR_FILE=${BUILD_HARBOR_FILE:-}
 export BUILD_HARBOR_URL=${BUILD_HARBOR_URL:-}
 export BUILD_VICENGINE_FILE=${BUILD_VICENGINE_FILE:-}
 export BUILD_VICENGINE_URL=${BUILD_VICENGINE_URL:-}
+export BUILD_VIC_MACHINE_SERVER_REVISION=${BUILD_VIC_MACHINE_SERVER_REVISION:-}
 export BUILD_ADMIRAL_REVISION=${BUILD_ADMIRAL_REVISION:-}
 export BUILD_OVA_REVISION=${BUILD_OVA_REVISION:-}
 export BUILD_DCHPHOTON_VERSION=${BUILD_DCHPHOTON_VERSION-}
@@ -135,6 +145,7 @@ if [ "$step" == "ova-dev" ]; then
 docker run --rm --privileged -v /dev:/dev -v $(pwd):/work -w /work \
     -e BUILD_HARBOR_FILE=${BUILD_HARBOR_FILE} \
     -e BUILD_VICENGINE_FILE=${BUILD_VICENGINE_FILE} \
+    -e BUILD_VIC_MACHINE_SERVER_REVISION=${BUILD_VIC_MACHINE_SERVER_REVISION} \
     -e BUILD_ADMIRAL_REVISION=${BUILD_ADMIRAL_REVISION} \
     -e BUILD_OVA_REVISION=${BUILD_OVA_REVISION} \
     -e BUILD_DCHPHOTON_VERSION=${BUILD_DCHPHOTON_VERSION} \
@@ -147,7 +158,7 @@ else
 fi
 
 cp build/vic-unified.ovf build/baseimage/bin/vic-${BUILD_OVA_REVISION}.ovf
-cd build/baseimage/bin/ 
+cd build/baseimage/bin/
 sed -i -e s~--version--~${BUILD_OVA_REVISION}~ vic-${BUILD_OVA_REVISION}.ovf
 echo "rebuilding OVF manifest"
 sha256sum --tag * | sed s/SHA256\ \(/SHA256\(/ > vic-${BUILD_OVA_REVISION}.mf

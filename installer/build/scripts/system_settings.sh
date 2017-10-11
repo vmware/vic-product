@@ -19,12 +19,13 @@ systemctl enable toolbox.service
 systemctl enable docker.service
 systemctl enable data.mount repartition.service resizefs.service getty@tty2.service
 systemctl enable sshd_permitrootlogin.service firstboot.service firstboot.path vic-appliance.target
+systemctl enable vic-appliance-environment.service
 systemctl enable ovf-network.service ova-firewall.service
 systemctl enable harbor_startup.path admiral_startup.path get_token.timer
 systemctl enable fileserver_startup.service fileserver.service
 systemctl enable engine_installer_startup.service engine_installer.service
+systemctl enable vic_machine_server.service
 
 # Clean up temporary directories
 rm -rf /tmp/* /var/tmp/*
 tdnf clean all
-

@@ -301,6 +301,14 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
         <Description>Password to be used to create Example Users. The password must follow the rules set for vSphere.</Description>
       </Property>
     </ProductSection>
+    <ProductSection ovf:class="vic_machine_api" ovf:required="false">
+      <Info>VCH Management API Properties</Info>
+      <Category>8. VCH Management API Configuration</Category>
+      <Property ovf:key="port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="8443">
+        <Label>8.1. VCH Management API Port</Label>
+        <Description>Specifies the port on which VCH Management API will be published.</Description>
+      </Property>
+    </ProductSection>
     <ProductSection ovf:class="vm" ovf:required="false">
       <Info>VM specific properties</Info>
       <Property ovf:key="vmname" ovf:type="string" ovf:value="vic"/>

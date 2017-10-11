@@ -45,6 +45,7 @@ function repartition {
     # Keep UUIDs consistent after repartition
     echo "Repartitioning ${block_device}"
     PARTUUID=$(blkid -s PARTUUID -o value "${block_device}${data_partition}")
+    sgdisk -e $block_device
     sgdisk -d $data_partition $block_device
     sgdisk -N $data_partition -c $data_partition:"Linux system" -u $data_partition:$PARTUUID -t 1:8300 $block_device
     # Reload partition table of the device
