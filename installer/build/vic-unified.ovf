@@ -302,11 +302,11 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
       </Property>
     </ProductSection>
     <ProductSection ovf:class="vic_machine_api" ovf:required="false">
-      <Info>VIC Machine API Properties</Info>
-      <Category>8. VIC Machine API Configuration</Category>
+      <Info>VCH Management API Properties</Info>
+      <Category>8. VCH Management API Configuration</Category>
       <Property ovf:key="port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="8443">
-        <Label>8.1. VIC Machine API Port</Label>
-        <Description>Specifies the port on which VIC Machine API will be published.</Description>
+        <Label>8.1. VCH Management API Port</Label>
+        <Description>Specifies the port on which VCH Management API will be published.</Description>
       </Property>
     </ProductSection>
     <ProductSection ovf:class="vm" ovf:required="false">
