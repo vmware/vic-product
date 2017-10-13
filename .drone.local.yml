@@ -6,7 +6,7 @@ workspace:
   path: src/github.com/vmware/vic-product
 
 pipeline:
-  unified-ova-build: 
+  unified-ova-build:
     image: gcr.io/eminent-nation-87317/vic-product-build:latest
     pull: true
     privileged: true
@@ -30,3 +30,16 @@ pipeline:
       event: [ push, tag ]
       branch: [ master, releases/*, refs/tags/* ]
       status: success
+
+  integration-test:
+    image: ${TEST_BUILD_IMAGE=gcr.io/eminent-nation-87317/vic-integration-test:1.36}
+    pull: true
+    environment:
+      BIN: bin
+      GOPATH: /go
+      SHELL: /bin/bash
+    volumes:
+      - /tmp
+    commands:
+      - tests/robot-run.sh tests/test-cases/Group1-OVA-Install/1-01-Install.robot
+#      - tests/robot-run.sh "--removekeywords TAG:secret --exclude skip tests/test-cases"

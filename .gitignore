@@ -1,0 +1,17 @@
+# robot
+robot-logs/
+log.html
+report.html
+output.xml
+
+# drone
+secrets.yml
+test_secrets.yml
+secrets-e2e.yml
+
+# Intellij files
+*.iml
+.idea/
+
+# Eclipse files
+.project
