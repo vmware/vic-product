@@ -54,8 +54,23 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/vic-mounts.target",
+      "destination": "/usr/lib/systemd/system/vic-mounts.target"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/data.mount",
       "destination": "/usr/lib/systemd/system/data.mount"
+    },
+    {
+      "type": "file",
+      "source": "scripts/systemd/data-harbor-database.mount",
+      "destination": "/usr/lib/systemd/system/data-harbor-database.mount"
+    },
+    {
+      "type": "file",
+      "source": "scripts/systemd/var-log-harbor.mount",
+      "destination": "/usr/lib/systemd/system/var-log-harbor.mount"
     },
     {
       "type": "file",

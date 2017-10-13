@@ -1,0 +1,8 @@
+[Unit]
+Description=Disk mounts required by VIC(Integrated containers engine on vSphere)
+Documentation=https://github.com/vmware/vic/blob/master/doc/bundle/OVA-spec.md
+Requires=data.mount data-harbor-database.mount var-log-harbor.mount
+After=data.mount data-harbor-database.mount var-log-harbor.mount
+
+[Install]
+WantedBy=multi-user.target

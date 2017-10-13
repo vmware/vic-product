@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ovf:Envelope xmlns="http://schemas.dmtf.org/ovf/envelope/1" xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" xmlns:vmw="http://www.vmware.com/schema/ovf" xmlns:vssd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_VirtualSystemSettingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <References>
-    <File ovf:href="vic-disk1.vmdk" ovf:id="system.vmdk_id" ovf:size="271498752"/>
-    <File ovf:href="vic-disk2.vmdk" ovf:id="data1.vmdk_id" ovf:size="77824"/>
+    <File ovf:href="vic-disk1.vmdk" ovf:id="system.vmdk_id"/>
+    <File ovf:href="vic-disk2.vmdk" ovf:id="data.vmdk_id"/>
+    <File ovf:href="vic-disk3.vmdk" ovf:id="db.vmdk_id"/>
+    <File ovf:href="vic-disk4.vmdk" ovf:id="log.vmdk_id"/>
   </References>
   <NetworkSection>
     <Info>List of logical networks used in the package</Info>
@@ -16,7 +18,9 @@
   <DiskSection>
     <Info>List of the virtual disks and partitions needed</Info>
     <Disk ovf:capacity="20" ovf:capacityAllocationUnits="byte * 2^30" ovf:diskId="system" ovf:fileRef="system.vmdk_id" ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#streamOptimized" ovf:populatedSize="629145600"/>
-    <Disk ovf:capacity="50" ovf:capacityAllocationUnits="byte * 2^30" ovf:diskId="data1" ovf:fileRef="data1.vmdk_id" ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#streamOptimized" ovf:populatedSize="0"/>
+    <Disk ovf:capacity="20" ovf:capacityAllocationUnits="byte * 2^30" ovf:diskId="data" ovf:fileRef="data.vmdk_id" ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#streamOptimized" ovf:populatedSize="0"/>
+    <Disk ovf:capacity="20" ovf:capacityAllocationUnits="byte * 2^30" ovf:diskId="db" ovf:fileRef="db.vmdk_id" ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#streamOptimized" ovf:populatedSize="0"/>
+    <Disk ovf:capacity="20" ovf:capacityAllocationUnits="byte * 2^30" ovf:diskId="log" ovf:fileRef="log.vmdk_id" ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#streamOptimized" ovf:populatedSize="0"/>
   </DiskSection>
   <VirtualSystem ovf:id="vic">
     <Info>A virtual machine</Info>
@@ -363,8 +367,24 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
       <Item>
         <rasd:AddressOnParent>1</rasd:AddressOnParent>
         <rasd:ElementName xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">Harddisk 2</rasd:ElementName>
-        <rasd:HostResource>ovf:/disk/data1</rasd:HostResource>
+        <rasd:HostResource>ovf:/disk/data</rasd:HostResource>
         <rasd:InstanceID xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">6</rasd:InstanceID>
+        <rasd:Parent>4</rasd:Parent>
+        <rasd:ResourceType>17</rasd:ResourceType>
+      </Item>
+      <Item>
+        <rasd:AddressOnParent>2</rasd:AddressOnParent>
+        <rasd:ElementName xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">Harddisk 3</rasd:ElementName>
+        <rasd:HostResource>ovf:/disk/db</rasd:HostResource>
+        <rasd:InstanceID xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">7</rasd:InstanceID>
+        <rasd:Parent>4</rasd:Parent>
+        <rasd:ResourceType>17</rasd:ResourceType>
+      </Item>
+      <Item>
+        <rasd:AddressOnParent>3</rasd:AddressOnParent>
+        <rasd:ElementName xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">Harddisk 4</rasd:ElementName>
+        <rasd:HostResource>ovf:/disk/log</rasd:HostResource>
+        <rasd:InstanceID xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">8</rasd:InstanceID>
         <rasd:Parent>4</rasd:Parent>
         <rasd:ResourceType>17</rasd:ResourceType>
       </Item>

@@ -1,9 +1,9 @@
 [Unit]
 Description=Demo VCH Installer Wizard Startup Configuration
 Documentation=https://github.com/vmware/vic
-After=network-online.target systemd-resolved.service iptables.service ova-firewall.service fileserver.service data.mount
+After=network-online.target systemd-resolved.service iptables.service ova-firewall.service fileserver.service vic-mounts.target
 Before=engine_installer.service
-Requires=iptables.service fileserver.service data.mount
+Requires=iptables.service fileserver.service vic-mounts.target
 
 [Service]
 Type=oneshot
