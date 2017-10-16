@@ -28,6 +28,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
+	"github.com/vmware/vic-product/installer/lib"
 	"github.com/vmware/vic/pkg/certificate"
 	"github.com/vmware/vic/pkg/trace"
 )
@@ -85,13 +86,7 @@ func main() {
 	mux.Handle("/cmd", http.HandlerFunc(parseCmdArgs))
 
 	// start the web server
-	t := &tls.Config{}
-	t.Certificates = []tls.Certificate{c.cert}
-	s := &http.Server{
-		Addr:      c.addr,
-		Handler:   mux,
-		TLSConfig: t,
-	}
+	s := lib.GetTLSServer(c.addr, mux, c.cert)
 
 	log.Infof("Starting installer-engine server on %s", s.Addr)
 	log.Fatal(s.ListenAndServeTLS("", ""))

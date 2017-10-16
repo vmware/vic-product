@@ -175,13 +175,7 @@ func main() {
 	mux.Handle("/", http.HandlerFunc(indexHandler))
 
 	// start the web server
-	t := &tls.Config{}
-	t.Certificates = []tls.Certificate{c.cert}
-	s := &http.Server{
-		Addr:      c.addr,
-		Handler:   mux,
-		TLSConfig: t,
-	}
+	s := lib.GetTLSServer(c.addr, mux, c.cert)
 
 	log.Infof("Starting fileserver server on %s", s.Addr)
 	// redirect port 80 to 9443 to improve ux on ova
