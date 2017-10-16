@@ -25,7 +25,49 @@ systemctl enable harbor_startup.path admiral_startup.path get_token.timer
 systemctl enable fileserver_startup.service fileserver.service
 systemctl enable engine_installer_startup.service engine_installer.service
 systemctl enable vic_machine_server.service
-
+ss
 # Clean up temporary directories
 rm -rf /tmp/* /var/tmp/*
 tdnf clean all
+
+# Warning message for client ssh
+message="########################################################################
+##  Welcome!                                                           #
+##  SSH access to the vSphere Integrated Containers Appliance can be   #
+##  used in exceptional cases that cannot be handled through standard  #
+##  remote management or CLI tools. This is primarily intended for use #
+##  in break-fix scenarios, under the guidance of VMware GSS.          #
+########################################################################"
+
+# Modify ssh config to display warning message before log on
+echo "$message" > "/etc/issue.net"
+banner=$(grep "Banner" /etc/ssh/sshd_config)
+if [ -z "$banner" ]; then
+    echo "Banner /etc/issue.net" >> "/etc/ssh/sshd_config"
+else
+    sed -i "s/.*Banner.*/Banner\ \/etc\/issue\.net/g" /etc/ssh/sshd_config
+fi
+
+# Overwirte /etc/motd to display warning message after log on
+echo "$message" > "/etc/motd"
+
+# Disable IPv6 redirection and router advertisements in kernel settings
+echo "net.ipv6.conf.all.accept_redirects = 0" >> "/etc/sysctl.d/40-ipv6.conf"
+echo "net.ipv6.conf.default.accept_redirects = 0" >> "/etc/sysctl.d/40-ipv6.conf"
+echo "net.ipv6.conf.all.accept_ra = 0" >> "/etc/sysctl.d/40-ipv6.conf"
+echo "net.ipv6.conf.default.accept_ra = 0" >> "/etc/sysctl.d/40-ipv6.conf"
+
+# Hardening SSH configuration
+afsetting=$(grep "AllowAgentForwarding" /etc/ssh/sshd_config)
+if [ -z "$afsetting" ]; then
+    echo "AllowAgentForwarding no" >> "/etc/ssh/sshd_config"
+else
+    sed -i "s/.*AllowAgentForwarding.*/AllowAgentForwarding\ no/g" /etc/ssh/sshd_config
+fi
+
+tcpfsetting=$(grep "AllowTcpForwarding" /etc/ssh/sshd_config)
+if [ -z "$tcpfsetting" ]; then
+    echo "AllowTcpForwarding no" >> "/etc/ssh/sshd_config"
+else
+    sed -i "s/.*AllowTcpForwarding.*/AllowTcpForwarding\ no/g" /etc/ssh/sshd_config
+fi
