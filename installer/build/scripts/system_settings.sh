@@ -52,10 +52,11 @@ fi
 echo "$message" > "/etc/motd"
 
 # Disable IPv6 redirection and router advertisements in kernel settings
-echo "net.ipv6.conf.all.accept_redirects = 0" >> "/etc/sysctl.d/40-ipv6.conf"
-echo "net.ipv6.conf.default.accept_redirects = 0" >> "/etc/sysctl.d/40-ipv6.conf"
-echo "net.ipv6.conf.all.accept_ra = 0" >> "/etc/sysctl.d/40-ipv6.conf"
-echo "net.ipv6.conf.default.accept_ra = 0" >> "/etc/sysctl.d/40-ipv6.conf"
+settings="net.ipv6.conf.all.accept_redirects = 0
+net.ipv6.conf.default.accept_redirects = 0
+net.ipv6.conf.all.accept_ra = 0
+net.ipv6.conf.default.accept_ra = 0"
+echo "$settings" > "/etc/sysctl.d/40-ipv6.conf"
 
 # Hardening SSH configuration
 afsetting=$(grep "AllowAgentForwarding" /etc/ssh/sshd_config)
