@@ -32,7 +32,6 @@ tdnf clean all
 
 # Warning message for client ssh
 message="########################################################################
-##  Welcome!                                                           #
 ##  SSH access to the vSphere Integrated Containers Appliance can be   #
 ##  used in exceptional cases that cannot be handled through standard  #
 ##  remote management or CLI tools. This is primarily intended for use #
