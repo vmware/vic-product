@@ -20,21 +20,58 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ### Requirements
 
+- A failing component MUST exit cleanly TODO describe
+- A failing component MUST exit with a nonzero exit code if it is not in usable condition
+- A normally functionoing component SHOULD NOT contain error messages in its logs
 
-- Components SHOULD be 
+
+## Filesystem layout
+
+Log files will be stored in a per component directory under `/mnt/log`
+Example:
+- `/mnt/log/admiral`
+- `/mnt/log/harbor`
+
+Data will be stored in a per component directory under `/data`
+Example:
+- `/data/admiral`
+- `/data/harbor`
+
+Databases will be stored in a per component directory under `/mnt/db`
+Example:
+- `/mnt/db/admiral`
+- `/mnt/db/harbor`
+
+System files will be stored in appropriate directories under `/` 
+Example:
+-  - component systemd unit files
+-  - component startup scripts
 
 ## Logging
 
-
-### Requirements
-
-- Components SHOULD define a 
+- Components that produce logs SHOULD log to a file
+- Components SHOULD handle log file rotation
+- Components MUST have a reasonable default configuration for log file size and number
+- Components MAY accept and follow a configuration for max log file size
+- Components MAY accept and follow a configuration for max number of log files
 
 ## Data storage
 
-## Continuous Integration
+- Components SHOULD use variables for volume mounts in compose files
+- Components MAY specify a volume for each of the following:
+  - Data such as TLS certificates and configuration files
+  - Database data
+  - Logs
 
-All components should trigger 
+  This allows for the Appliance to manage data by putting it on separate disks if necessary.
+
+## Continuous Integration (CI)
+
+The Appliance will be built by a CI pipeline that is triggered when a new build of a component is
+available. 
+
+- All components MUST trigger the CI pipeline when a new version of the component is available
+- Components MUST document what 
 
 ## Appliance Upgrade
 
