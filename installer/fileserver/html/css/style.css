@@ -24,6 +24,7 @@
 
 .content-area {
     padding: 0 !important;
+    background-color: #ececec;
 }
 
 .card.transparent {
@@ -34,10 +35,9 @@
 
 /* Custom elements and containers */
 
-#infra-deploy-tools-container {
-    margin-top: 36px;
-    padding-bottom: 36px;
-    background-color: #ececec;
+#getting-started-items-container {
+    padding: 10px 0 35px;
+    background-color: #fff;
 }
 
 #infra-deploy-tools-container .card-text {

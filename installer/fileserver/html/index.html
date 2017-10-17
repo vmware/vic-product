@@ -31,96 +31,98 @@
         </header>
         <main class="content-container">
             <div class="content-area">
-                {{if .InitErrorFeedback }}
-                <div id="feedback-alert" class="alert alert-danger">
-                    <div class="alert-item">
-                        <span class="alert-text">{{ .InitErrorFeedback }}</span>
-                        <div class="alert-actions">
-                            <a href="/?login=true" title="Login" class="alert-action">Re-initialize</a>
+                <div id="getting-started-items-container">
+                    {{if .InitErrorFeedback }}
+                    <div id="feedback-alert" class="alert alert-danger">
+                        <div class="alert-item">
+                            <span class="alert-text">{{ .InitErrorFeedback }}</span>
+                            <div class="alert-actions">
+                                <a href="/?login=true" title="Login" class="alert-action">Re-initialize</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {{ end }}
-                {{if .InitSuccessFeedback }}
-                <div id="feedback-alert" class="alert alert-success">
-                    <div class="alert-item">
-                        <span class="alert-text">{{ .InitSuccessFeedback }}</span>
+                    {{ end }}
+                    {{if .InitSuccessFeedback }}
+                    <div id="feedback-alert" class="alert alert-success">
+                        <div class="alert-item">
+                            <span class="alert-text">{{ .InitSuccessFeedback }}</span>
+                        </div>
                     </div>
-                </div>
-                {{ end }}
-                <div class="row flex-items-xs-middle my-1">
-                    <div class="col-xs"></div>
-                    <div class="col-xs">
-                        <h1 class="text-center my-0">Getting Started</h1>
+                    {{ end }}
+                    <div class="row flex-items-xs-middle my-1 mx-0">
+                        <div class="col-xs"></div>
+                        <div class="col-xs">
+                            <h1 class="text-center my-0">Getting Started</h1>
+                        </div>
+                        <div class="col-xs text-right">
+                            <a href="https://vmware.github.io/vic-product/assets/files/html/1.2/" target="_blank" title="Documentation" class="btn btn-outline mx-0">Documentation</a>
+                        </div>
                     </div>
-                    <div class="col-xs text-right">
-                        <a href="https://vmware.github.io/vic-product/assets/files/html/1.2/" target="_blank" title="Documentation" class="btn btn-outline">Documentation</a>
-                    </div>
-                </div>
 
-                <div class="row flex-items-xs-center">
-                    <div class="col-xs-10">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
-                                <div class="card">
-                                    <div class="card-block">
-                                        <div class="card-title">
-                                            <clr-icon shape="group" size="24"></clr-icon> Open the Management Portal
+                    <div class="row flex-items-xs-center mx-0">
+                        <div class="col-xs-10">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <div class="card-title">
+                                                <clr-icon shape="group" size="24"></clr-icon> Open the Management Portal
+                                            </div>
+                                            <div class="card-text">
+                                                <a href="{{ .AdmiralAddr }}" target="_blank">Go to the vSphere Integrated Containers Management Portal</a> to manage registries, provision containers, and create projects and manage users.
+                                            </div>
                                         </div>
-                                        <div class="card-text">
-                                            <a href="{{ .AdmiralAddr }}" target="_blank">Go to the vSphere Integrated Containers Management Portal</a>                                            to manage registries, provision containers, and create projects and manage users.
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <a class="btn btn-sm btn-link" href="{{ .AdmiralAddr }}" target="_blank">Open</a>
-                                        <a class="btn btn-sm btn-link" target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_cloud_admin">Read more</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
-                                <div class="card transparent">
-                                    <div class="card-block">
-                                        <div class="card-title">
-                                            <clr-icon shape="list" size="24"></clr-icon> Post-Install &amp; Deployment Tasks
-                                        </div>
-                                        <div class="card-text">
-                                            These tasks are usually performed by the vSphere admin.
-                                            <p>
-                                                1. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/install_vic_plugin.html">Install vSphere Client plug-ins on vCenter Server</a>
-                                                <br/>
-                                                2. Deploy VCHs:
-                                                <br/>
-                                                2a. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/deploy_demo_vch.html">Deploy a demo VCH</a>
-                                                <br/>
-                                                2b. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/deploy_vch.html">Deploy production VCHs</a>
-                                                <br/>
-                                                3. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/vch_admin.html">Manage VCHs</a>
-                                            </p>
+                                        <div class="card-footer">
+                                            <a class="btn btn-sm btn-link" href="{{ .AdmiralAddr }}" target="_blank">Open</a>
+                                            <a class="btn btn-sm btn-link" target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_cloud_admin">Read more</a>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
-                                <div class="card transparent">
-                                    <div class="card-block">
-                                        <div class="card-title">
-                                            <clr-icon shape="list" size="24"></clr-icon> Configuration Tasks
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                                    <div class="card transparent">
+                                        <div class="card-block">
+                                            <div class="card-title">
+                                                <clr-icon shape="list" size="24"></clr-icon> Post-Install &amp; Deployment Tasks
+                                            </div>
+                                            <div class="card-text">
+                                                These tasks are usually performed by the vSphere admin.
+                                                <p>
+                                                    1. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/install_vic_plugin.html">Install vSphere Client plug-ins on vCenter Server</a>
+                                                    <br/>
+                                                    2. Deploy VCHs:
+                                                    <br/>
+                                                    2a. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/deploy_demo_vch.html">Deploy a demo VCH</a>
+                                                    <br/>
+                                                    2b. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/deploy_vch.html">Deploy production VCHs</a>
+                                                    <br/>
+                                                    3. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/vch_admin.html">Manage VCHs</a>
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="card-text">
-                                            These tasks are usually performed by the Cloud or DevOps admins.
-                                            <p>
-                                                1. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_cloud_admin/">Configure the management portal</a>
-                                                <br/>
-                                                2. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_cloud_admin/vchs_and_mgmt_portal.html">Add hosts to the management portal</a>
-                                                <br/>
-                                                3. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_cloud_admin/add_repos_in_portal.html">Add registries to the management portal</a>
-                                                <br/>
-                                                4. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_cloud_admin/add_users.html">Add users</a>
-                                                <br/>
-                                                5. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_cloud_admin/create_projects.html">Create projects</a>
-                                                <br/>
-                                                6. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_app_dev/provision_containers_portal.html">Provision containers</a>
-                                            </p>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                                    <div class="card transparent">
+                                        <div class="card-block">
+                                            <div class="card-title">
+                                                <clr-icon shape="list" size="24"></clr-icon> Configuration Tasks
+                                            </div>
+                                            <div class="card-text">
+                                                These tasks are usually performed by the Cloud or DevOps admins.
+                                                <p>
+                                                    1. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_cloud_admin/">Configure the management portal</a>
+                                                    <br/>
+                                                    2. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_cloud_admin/vchs_and_mgmt_portal.html">Add hosts to the management portal</a>
+                                                    <br/>
+                                                    3. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_cloud_admin/add_repos_in_portal.html">Add registries to the management portal</a>
+                                                    <br/>
+                                                    4. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_cloud_admin/add_users.html">Add users</a>
+                                                    <br/>
+                                                    5. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_cloud_admin/create_projects.html">Create projects</a>
+                                                    <br/>
+                                                    6. <a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.2/vic_app_dev/provision_containers_portal.html">Provision containers</a>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +130,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row flex-items-xs-center" id="infra-deploy-tools-container">
+                <div class="row flex-items-xs-center mx-0" id="infra-deploy-tools-container">
                     <div class="col-xs-10">
                         <h4>Infrastructure Deployment Tools</h4>
                         <div class="row">
@@ -178,9 +180,6 @@
                     <div class="modal-dialog" role="dialog" aria-hidden="true">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button aria-label="Close" class="close" type="button">
-                                    <clr-icon aria-hidden="true" shape="close"></clr-icon>
-                                </button>
                                 <h3 class="modal-title">Complete VIC appliance installation</h3>
                             </div>
                             <div id="login-spinner" style="display: none">
