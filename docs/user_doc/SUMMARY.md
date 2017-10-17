@@ -124,7 +124,7 @@
      * [Create Replication Endpoints](vic_cloud_admin/create_replication_endpoints.md)
      * [Create Replication Rules](vic_cloud_admin/create_replication_rules.md)
      * [Manage Replication Endpoints](vic_cloud_admin/manage_replication_endpoints.md)
-
+   * [Vulnerability Scanning](vic_cloud_admin/vulnerability_scanning.md)
 
 ----
 
