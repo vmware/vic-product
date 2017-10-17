@@ -45,7 +45,7 @@ if [[ ! -f /etc/vmware/firstboot ]]; then
   ADMIRAL_IMAGE_ID=$(docker images vmware/admiral:ova -q)
 
   # Write version files
-  echo "admiral=${ADMIRAL_IMAGE} ${ADMIRAL_IMAGE_ID}" >> /data/version
+  echo "admiral=${ADMIRAL_IMAGE} ${ADMIRAL_IMAGE_ID}" >> /storage/data/version
   echo "admiral=${ADMIRAL_IMAGE} ${ADMIRAL_IMAGE_ID}" >> /etc/vmware/version
 
   echo "Loading vic-machine-server"
@@ -55,7 +55,7 @@ if [[ ! -f /etc/vmware/firstboot ]]; then
   VIC_MACHINE_SERVER_IMAGE_ID="$(docker images vmware/vic-machine-server:ova -q)"
 
   # Write version files
-  echo "vic-machine-server=${VIC_MACHINE_SERVER_IMAGE} ${VIC_MACHINE_SERVER_IMAGE_ID}" >> /data/version
+  echo "vic-machine-server=${VIC_MACHINE_SERVER_IMAGE} ${VIC_MACHINE_SERVER_IMAGE_ID}" >> /storage/data/version
   echo "vic-machine-server=${VIC_MACHINE_SERVER_IMAGE} ${VIC_MACHINE_SERVER_IMAGE_ID}" >> /etc/vmware/version
   date -u +"%Y-%m-%dT%H:%M:%SZ" > /etc/vmware/firstboot
 fi

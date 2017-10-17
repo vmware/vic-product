@@ -54,23 +54,23 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/vic-mounts.target",
+      "source": "scripts/systemd/mounts/vic-mounts.target",
       "destination": "/usr/lib/systemd/system/vic-mounts.target"
     },
     {
       "type": "file",
-      "source": "scripts/systemd/data.mount",
-      "destination": "/usr/lib/systemd/system/data.mount"
+      "source": "scripts/systemd/mounts/storage-data.mount",
+      "destination": "/usr/lib/systemd/system/storage-data.mount"
     },
     {
       "type": "file",
-      "source": "scripts/systemd/data-harbor-database.mount",
-      "destination": "/usr/lib/systemd/system/data-harbor-database.mount"
+      "source": "scripts/systemd/mounts/storage-db.mount",
+      "destination": "/usr/lib/systemd/system/storage-db.mount"
     },
     {
       "type": "file",
-      "source": "scripts/systemd/var-log-harbor.mount",
-      "destination": "/usr/lib/systemd/system/var-log-harbor.mount"
+      "source": "scripts/systemd/mounts/storage-log.mount",
+      "destination": "/usr/lib/systemd/system/storage-log.mount"
     },
     {
       "type": "file",

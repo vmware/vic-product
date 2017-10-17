@@ -14,7 +14,7 @@
 # limitations under the License.
 set -euf -o pipefail
 
-data_mount=/data/harbor
+data_mount=/storage/data/harbor
 cfg=${data_mount}/harbor.cfg
 
 function harborDataSanityCheck {

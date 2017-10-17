@@ -38,7 +38,11 @@ for _, s in enumerate(dataMap["services"]):
         dataMap["services"][s]["restart"] = "on-failure"
   if "volumes" in dataMap["services"][s]:
     for kvol, vol in enumerate(dataMap["services"][s]["volumes"]):
-      if vol.startswith( '/data' ):
+      if vol.startswith( '/data/database' ):
+        dataMap["services"][s]["volumes"][kvol] = vol.replace("/data/database", "/storage/db", 1)
+      elif vol.startswith( '/var/log/harbor' ):
+        dataMap["services"][s]["volumes"][kvol] = vol.replace("/var/log/harbor", "/storage/log/harbor", 1)
+      elif vol.startswith( '/data' ):
         dataMap["services"][s]["volumes"][kvol] = vol.replace("/data", dir, 1)
 f.seek(0)
 yaml.dump(dataMap, f, default_flow_style=False)

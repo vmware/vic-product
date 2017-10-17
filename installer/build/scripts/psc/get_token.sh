@@ -30,7 +30,7 @@ version=$(grep "version" /etc/vmware/psc/admiral/psc-config.properties | awk -F=
 /etc/vmware/set_guestinfo.sh -f /etc/vmware/psc/engine/tokens.properties "engine.token"
 
 # Copy harbor token to container mount path
-mkdir -p /data/harbor/psc
-cp /etc/vmware/psc/harbor/tokens.properties /data/harbor/psc/tokens.properties
-# Create path for activating harbor_startup.service to avoid its dependency on /data
+mkdir -p /storage/data/harbor/psc
+cp /etc/vmware/psc/harbor/tokens.properties /storage/data/harbor/psc/tokens.properties
+# Create path for activating harbor_startup.service to avoid its dependency on /storage/data
 mkdir -p /etc/vmware/psc/harbor/harbor_startup

@@ -16,10 +16,10 @@
 source /installer.env
 set -euf -o pipefail
 
-data_mount="/data/harbor"
+data_mount="/storage/data/harbor"
 cfg="${data_mount}/harbor.cfg"
-harbor_backup="/data/harbor_backup"
-harbor_migration="/data/harbor_migration"
+harbor_backup="/storage/data/harbor_backup"
+harbor_migration="/storage/data/harbor_migration"
 harbor_psc_token_file="/etc/vmware/psc/harbor/tokens.properties"
 admiral_psc_token_file="/etc/vmware/psc/admiral/tokens.properties"
 timestamp_file="/registration-timestamps.txt"
@@ -200,7 +200,7 @@ function migrateHarborData {
   mkdir ${harbor_migration}
 
   local migrator_image="vmware/harbor-db-migrator:1.2"
-  local harbor_database="/data/harbor/database"
+  local harbor_database="/storage/db"
 
   # Test database connection
   set +e
@@ -243,7 +243,7 @@ function admiralImportData {
 function mapHarborProject {
   set +e
   local migrator_image="vmware/harbor-db-migrator:1.2"
-  local harbor_database="/data/harbor/database"
+  local harbor_database="/storage/db"
 
   docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e MAPPROJECTFILE=/harbor_migration/harbor_map_projects.json -v ${harbor_migration}:/harbor_migration -v ${harbor_database}:/var/lib/mysql ${migrator_image} mapprojects
   if [ $? -ne 0 ]; then
@@ -254,12 +254,12 @@ function mapHarborProject {
 }
 
 function performAdmiralUpgrade {
-  local old_admiral_data="/data/admiral"
-  local admiral_cert_location="/data/admiral/cert/server.crt"
-  local admiral_key_location="/data/admiral/cert/server.key"
-  local admiral_jks_location="/data/admiral/cert/trustedcertificates.jks"
+  local old_admiral_data="/storage/data/admiral"
+  local admiral_cert_location="/storage/data/admiral/cert/server.crt"
+  local admiral_key_location="/storage/data/admiral/cert/server.key"
+  local admiral_jks_location="/storage/data/admiral/cert/trustedcertificates.jks"
 
-  local new_admiral_data="/data/admiral_new"
+  local new_admiral_data="/storage/data/admiral_new"
 
   local old_admiral="${APPLIANCE_IP}:8283"
   local new_admiral="${APPLIANCE_IP}:8282"
@@ -387,7 +387,7 @@ function updateAdmiralConfig {
     -H "x-xenon-auth-token: $(cat /etc/vmware/psc/admiral/tokens.properties)" \
     -H 'cache-control: no-cache' \
     -H 'content-type: application/json' \
-    -d "{ \"key\" : \"harbor.tab.url\", \"value\" : \"$(grep harbor.tab.url /data/admiral/configs/config.properties | cut -d'=' -f2)\" }" \
+    -d "{ \"key\" : \"harbor.tab.url\", \"value\" : \"$(grep harbor.tab.url /storage/data/admiral/configs/config.properties | cut -d'=' -f2)\" }" \
     "https://${APPLIANCE_IP}:8282/config/props/harbor.tab.url" ; \
   systemctl restart admiral.service
 }
@@ -465,10 +465,10 @@ function writeTimestamp {
   echo "${TIMESTAMP}" > ${timestamp_file}
 }
 
-# Copy the appliance version to /data after successful upgrade
+# Copy the appliance version to /storage/data after successful upgrade
 function setDataVersion {
   appliance_ver="/etc/vmware/version"
-  data_ver="/data/version"
+  data_ver="/storage/data/version"
 
   if [ -f ${data_ver} ]; then
     old_data_ver=$(readFile ${data_ver})
@@ -501,7 +501,7 @@ function enableServicesStart {
 # Check for presence of Admiral's PSC config file. If the file exists, the old
 # OVA is version 1.2.x, otherwise it is 1.1.x and data migration is needed.
 function setDataUpgradeNeeded {
-  if [ ! -f "/data/admiral/configs/psc-config.properties" ]; then
+  if [ ! -f "/storage/data/admiral/configs/psc-config.properties" ]; then
     echo "Detected old OVA's version as 1.1.x. Upgrade will perform data migration." | tee /dev/fd/3
 
       while true; do
