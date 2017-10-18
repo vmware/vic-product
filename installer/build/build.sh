@@ -105,11 +105,11 @@ setenv ADMIRAL "dev"
 setenv VIC_MACHINE_SERVER "latest"
 
 # set Vic-Engine
-url=$(gsutil ls -l "gs://vic-engine-builds" | grep -v TOTAL | grep vic_ | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
+url=$(gsutil ls -l "gs://vic-engine-builds" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
 setenv VICENGINE "$url"
 
 #set Harbor
-url=$(gsutil ls -l "gs://harbor-builds" | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
+url=$(gsutil ls -l "gs://harbor-builds" | grep -v TOTAL | sort -k2 -r | (trap '' PIPE; head -n1) | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
 setenv HARBOR "$url"
 
 
