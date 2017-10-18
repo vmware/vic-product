@@ -31,20 +31,20 @@ required environment variables.
 
 If called without any values, `build.sh` will get the latest build for each component
 ```
-./scripts/build.sh ova-dev
+./build/build.sh ova-dev
 ```
 
 If called with the values below, `build.sh` will include the Harbor version from
 `packer/scripts/harbor.tgz`, the VIC Engine version from `packer/scripts/vic.tar.gz`, and 
 Admiral tag `vic_dev` (since `--admiral` was not specified it defaults to the `vic_dev` tag)
 ```
-./scripts/build.sh ova-dev --harbor harbor.tgz --vicengine vic.tar.gz
+./build/build.sh ova-dev --harbor harbor.tgz --vicengine vic.tar.gz
 ```
 
 If called with the values below, `build.sh` will include the Harbor and VIC Engine versions
 specified by their respective URLs, and Admiral tag `vic_v1.1.1`
 ```
-./scripts/build.sh ova-dev --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic.tar.gz
+./build/build.sh ova-dev --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic.tar.gz
 ```
 
 #### Upload
