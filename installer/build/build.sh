@@ -61,6 +61,7 @@ GIT_TAG="$(git describe --tags)"
 export BUILD_OVA_REVISION=${GIT_TAG}
 export BUILD_DCHPHOTON_VERSION="1.13"
 
+[ $# -gt 0 ] || usage
 step=$1; shift
 [ ! "$step" == "ova-ci" ] || [ ! "$step" == "ova-dev" ] || usage
 
