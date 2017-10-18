@@ -111,6 +111,8 @@ practices.
 Components should generally run as a Docker container. 
 All processes on the Appliance should run with the least privilege required.
 
+TODO Add how to deprivilege Docker container
+
 ### Requirements
 
 - In the case of a failing build, the Component team that triggered the failing Appliance build MUST
@@ -135,27 +137,49 @@ All processes on the Appliance should run with the least privilege required.
   performed on the resulting appliance.
 
 
-## Filesystem layout
+## Filesystem Layout
 
 Log files will be stored in a per component directory under `/mnt/log`
 Example:
-- `/mnt/log/admiral`
-- `/mnt/log/harbor`
+```
+- /mnt/log/admiral
+- /mnt/log/harbor
+```
 
 Data will be stored in a per component directory under `/data`
 Example:
-- `/data/admiral`
-- `/data/harbor`
+```
+- /data/admiral
+- /data/harbor
+```
 
 Databases will be stored in a per component directory under `/mnt/db`
 Example:
-- `/mnt/db/admiral`
-- `/mnt/db/harbor`
+```
+- /mnt/db/admiral
+- /mnt/db/harbor
+```
 
 System files will be stored in appropriate directories under `/` 
 Example:
 -  - component systemd unit files
 -  - component startup scripts
+
+The Appliance provides a TLS certificate in `/data/certs/`. The system generates a self-signed TLS
+certificate or places a user specified TLS certificate in this directory. All components should use
+this certificate for user facing connections and can access it by mounting this directory as a read
+only volume to the Component container (`-v /data/certs:/path/on/container:ro`)
+`/data/certs/` contains:
+```
+- ca.crt
+- ca.key
+- ca.srl
+- cert_gen_type
+- extfile.cnf
+- server.cert.pem
+- server.csr
+- server.key.pem # PKCS1 format private key
+```
 
 
 ## Logging
@@ -176,6 +200,8 @@ Example:
   - Logs
 
   This allows for the Appliance to manage data by putting it on separate disks if necessary.
+  Component developers should communicate with the Appliance team the expected scale of various
+  categories of data stored by the component to ensure proper disk sizing.
 
 
 ## Continuous Integration (CI)
@@ -199,7 +225,15 @@ After power on, an Appliance upgrade script will be run (currently run by user v
 upgrade and data migration of each component by calling a component upgrade script for each
 component.
 
+The upgrade script is located at `/etc/vmware/upgrade/upgrade.sh` and its debug logs are written to
+`/var/log/vmware/upgrade.log`.
+
 ### Requirements
+
+- Component developers MUST test upgrade scenarios as part of regular development testing
+
+  Upgrade is a fully supported operation and needs to be thorougly tested. It is recommended to
+  generate a realistic dataset for testing.
 
 - Running the Appliance upgrade script MUST be idempotent
 
@@ -223,10 +257,9 @@ component.
   If the component upgrade fails, the overall upgrade script needs to be able to alert the user.
   This will also be helpful for troubleshooting.
 
-- Component developers MUST test upgrade scenarios as part of regular development testing
+- A component upgrade script SHOULD output debug level logs to stdout
 
-  Upgrade is a fully supported operation and needs to be thorougly tested. It is recommended to
-  generate a realistic dataset for testing.
+  These logs will be saved in `/var/log/vmware/upgrade.log`.
 
 - A component upgrade script MUST be versioned with the same version number as its coresponding
   component artifact
