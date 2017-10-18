@@ -14,15 +14,52 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ## Design Principles
 
+The OVA includes several components developed by various teams. Each component team is responsible
+for the software quality of their component, for delivering the component artifacts, and for
+managing upgrade functionality of the component within the guidelines of this document.
+
+The component team will work with the Appliance team to manage the lifecycle of the process and
+integrate the component with the Appliance.
+
+The Appliance is based on [Photon OS](https://github.com/vmware/photon) and uses Systemd for process
+management. Component processes are generally run as Docker containers.
+
+### Requirements
+
+- A normally functioning component SHOULD NOT contain error messages in its logs or system logs for
+  its systemd unit
+
+  During troubleshooting and testing, unnecessary error logs will cause confusion.
+
+- A degraded component SHOULD display a user friendly error message through its primary UI
+
+  Components should not silently exclude expected functionality and should notify users if the
+  component is not functioning normally.
+
+- A degraded component SHOULD log messages relevant to troubleshooting
+
+  Components should not silently exclude expected functionality and should assist in determining the
+  cause of failure.
+
+- A failed component MUST exit cleanly or degrade to displaying a user friendly error message
+  through its primary UI
+
+  Failed components should not affect other unrelated processes still running on the Appliance.
+  Components should not silently exclude expected functionality and should notify users if the
+  component is not functioning normally.
+
+- A failed component MUST exit with a nonzero exit code if it is unable to gracefully degrade
+
+  Exiting in this manner will assist in identification of the failure during troubleshooting.
+
+
+## Versioning
+
+
 
 
 ## Component Inclusion
 
-### Requirements
-
-- A failing component MUST exit cleanly TODO describe
-- A failing component MUST exit with a nonzero exit code if it is not in usable condition
-- A normally functionoing component SHOULD NOT contain error messages in its logs
 
 
 ## Filesystem layout
@@ -47,6 +84,7 @@ Example:
 -  - component systemd unit files
 -  - component startup scripts
 
+
 ## Logging
 
 - Components that produce logs SHOULD log to a file
@@ -54,6 +92,7 @@ Example:
 - Components MUST have a reasonable default configuration for log file size and number
 - Components MAY accept and follow a configuration for max log file size
 - Components MAY accept and follow a configuration for max number of log files
+
 
 ## Data storage
 
@@ -65,6 +104,7 @@ Example:
 
   This allows for the Appliance to manage data by putting it on separate disks if necessary.
 
+
 ## Continuous Integration (CI)
 
 The Appliance will be built by a CI pipeline that is triggered when a new build of a component is
@@ -72,6 +112,7 @@ available.
 
 - All components MUST trigger the CI pipeline when a new version of the component is available
 - Components MUST document what 
+
 
 ## Appliance Upgrade
 
@@ -87,6 +128,6 @@ migration of each component.
 - Running the overall upgrade script MUST be idempotent
 - Running the component upgrade script MUST be idempotent
 - A failure in the component upgrade script MUST return a nonzero exit code
-- Component developers SHOULD communicate with the Appliance development team a user friendly error
+- Component developers SHOULD communicate with the Appliance team a user friendly error
   message to display upon receiving a nonzero exit code
 - Component developers SHOULD 
