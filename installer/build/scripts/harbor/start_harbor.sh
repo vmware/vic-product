@@ -57,4 +57,3 @@ docker rm -f dch-push
 /usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml \
                               -f /etc/vmware/harbor/docker-compose.notary.yml \
                               -f /etc/vmware/harbor/docker-compose.clair.yml up
-                              
