@@ -55,11 +55,38 @@ management. Component processes are generally run as Docker containers.
 
 ## Versioning
 
+The version of each component MUST be recorded during the Appliance build and included in the
+Appliance artifact in the file `/etc/vmware/version` and `/data/version`.
 
+After a successful Appliance upgrade, the system version file MUST overwrite the previous data disk
+version file to indicate that the data has been migrated to the current version. 
+
+Included Docker containers pulled from a registry MUST include the tag and image ID in the version
+file.
+
+Example:
+```
+appliance=v1.2.0-rc1-118-ge50b7b1
+harbor=harbor-offline-installer-v1.2.0.tgz
+engine=vic_1.2.1.tar.gz
+admiral=vmware/admiral:vic_v1.2.1 1fa8a0f5ec6d
+vic-machine-server=gcr.io/eminent-nation-87317/vic-machine-server:latest 22b9d53190ff
+```
+
+Components SHOULD maintain internal versioning in their datastores. These versions should be useful
+for determining upgrade paths.
 
 
 ## Component Inclusion
 
+### Security
+
+Each component is responsible for its application security posture. The Appliance team will work
+with the component team to ensure that the component is run in accordance with security best
+practices. 
+
+Components should generally run as a Docker container. 
+All processed on the Appliance should run with the least privilege required.
 
 
 ## Filesystem layout
