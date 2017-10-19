@@ -81,17 +81,6 @@ pipeline:
       branch: [ master, releases/*, refs/tags/* ]
       status: success
 
-  notify-slack:
-    image: plugins/slack
-    webhook: ${SLACK_URL}
-    username: drone
-    template: >
-      build https://ci.vcna.io/vmware/vic-product/{{ build.number }} finished with a {{ build.status }} status
-    when:
-      repo: vmware/vic-product
-      branch: [ master, releases/*, refs/tags/* ]
-      status: [ success, failure ]
-
   publish-gcs-builds:
     image: maplain/drone-gcs:latest
     pull: true
@@ -119,6 +108,17 @@ pipeline:
       event: [ push, tag ]
       branch: [ refs/tags/* ]
       status: success
+
+  notify-slack:
+    image: plugins/slack
+    webhook: ${SLACK_URL}
+    username: drone
+    template: >
+      build https://ci.vcna.io/vmware/vic-product/{{ build.number }} finished with a {{ build.status }} status
+    when:
+      repo: vmware/vic-product
+      branch: [ master, releases/*, refs/tags/* ]
+      status: [ success, failure ]
 
 services:
   dind:
