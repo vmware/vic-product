@@ -41,18 +41,6 @@ _TODO_ Add reference service to repo
   This simplifies the service's units, but means that the configuration step needs to be designed
   with the expectation that it will be run every time the service starts.
 
-- Serv
-
-  Example: TODO
-  ```
-  [Service]
-  Type=oneshot
-  ExecStart=/usr/bin/bash /etc/vmware/admiral/configure_admiral.sh
-  ExecStartPost=/usr/bin/systemctl start admiral.service
-  ExecStartPost=/usr/bin/systemctl start get_token.service
-  ExecStartPost=/usr/bin/systemctl start admiral_default_users.service
-  ```
-
 - If configuration of a service requires a separate lifecycle, the service MAY have a separate
   `configure-<service>.service` unit in addition to `<service>.service`
 
@@ -360,7 +348,8 @@ the current version of the appliance perform this action through a UI.
   component artifact
 
   The contents of component upgrade scripts will change over time. The component upgrade script
-  needs to be treated a component TODO
+  needs to be treated a component with versioning so that the appliance build can pull in the
+  appropriate version.
 
 - A component upgrade script MUST NOT corrupt application data if run against an incompatible
   version or incompatible data
