@@ -32,26 +32,36 @@ function repartition {
   blkdev_size=`blockdev --getsize64 ${block_device}`
   check_integer $blkdev_size
 
-  partition_size=`blockdev --getsize64 ${block_device}${data_partition}`
-  check_integer $partition_size
-
   set +e
+  partition_size=`blockdev --getsize64 ${block_device}${data_partition}`
+  partition_size=${partition_size:-0}
+  check_integer $partition_size
   device_size_difference=`expr ${blkdev_size} - ${partition_size}`
   set -e
   check_integer $device_size_difference
 
-  if [ $device_size_difference -gt $device_size_threshold ]; then
+  if [ $partition_size -eq 0 ]; then
+    # partition doesn't exists. disk is raw, id db or log disk.
+    echo "Partitioning ${block_device}"
+    sgdisk -N $data_partition -c $data_partition:"Linux system" -t $data_partition:8300 $block_device
+    # Reload partition table of the device
+    echo "Reloading partition table"
+    partprobe ${block_device}
+    sleep 3
+    
+  elif [ $device_size_difference -gt $device_size_threshold ]; then
     # Resize Partition to use 100% of the block device
     # Keep UUIDs consistent after repartition
     echo "Repartitioning ${block_device}"
     PARTUUID=$(blkid -s PARTUUID -o value "${block_device}${data_partition}")
     sgdisk -e $block_device
     sgdisk -d $data_partition $block_device
-    sgdisk -N $data_partition -c $data_partition:"Linux system" -u $data_partition:$PARTUUID -t 1:8300 $block_device
+    sgdisk -N $data_partition -c $data_partition:"Linux system" -u $data_partition:$PARTUUID -t $data_partition:8300 $block_device
     # Reload partition table of the device
     echo "Reloading partition table"
     partprobe ${block_device}
     sleep 3
+
   else
     echo "No repartition performed, size threshold not met"
   fi
@@ -59,18 +69,23 @@ function repartition {
 
 function resize {
   data_partition=$1$2
+  set +e
   fs_size=`dumpe2fs -h ${data_partition} |& gawk -F: '/Block count/{count=$2} /Block size/{size=$2} END{print count*size}'`
+  fs_size=${fs_size:-0}
   check_integer $fs_size
-
+  set -e
   partition_size=`blockdev --getsize64 ${data_partition}`
   check_integer $partition_size
-
-  set +e
   fs_size_difference=`expr ${partition_size} - ${fs_size}`
-  set -e
+  
   check_integer $fs_size_difference
 
-  if [ $fs_size_difference -gt $fs_size_threshold ]; then
+  if [ $fs_size -eq 0 ]; then
+    # filesytem does not exist - must be a new partition.
+    echo "Make filesystem on ${data_partition}"
+    mkfs.ext4 ${data_partition}
+
+  elif [ $fs_size_difference -gt $fs_size_threshold ]; then
     # Force a filesystem check on the data partition
     echo "Force filesystem check on ${data_partition}"
     # check will fail for root disk
@@ -80,6 +95,7 @@ function resize {
     # Resize the filesystem
     echo "Resize filesystem on ${data_partition}"
     resize2fs ${data_partition}
+
   else
     echo "No resize performed, size threshold not met"
   fi

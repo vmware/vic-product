@@ -200,20 +200,22 @@ function migrateHarborData {
   mkdir ${harbor_migration}
 
   local migrator_image="vmware/harbor-db-migrator:1.2"
-  local harbor_database="/storage/db"
+  local harbor_old_database_dir="/storage/data/harbor"
+  local harbor_new_database_dir="/storage/db/harbor"
+  local harbor_old_database="${harbor_old_database_dir}/database"
 
   # Test database connection
   set +e
-  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql ${migrator_image} test
+  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_old_database}:/var/lib/mysql ${migrator_image} test
   if [ $? -ne 0 ]; then
     echo "Invalid database credentials" | tee /dev/fd/3
     exit 1
   fi
   set -e
 
-  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql -v ${harbor_backup}:/harbor-migration/backup ${migrator_image} backup
+  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_old_database}:/var/lib/mysql -v ${harbor_backup}:/harbor-migration/backup ${migrator_image} backup
   set +e
-  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e SKIP_CONFIRM=y -v ${harbor_database}:/var/lib/mysql ${migrator_image} up head
+  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e SKIP_CONFIRM=y -v ${harbor_old_database}:/var/lib/mysql ${migrator_image} up head
   if [ $? -ne 0 ]; then
     echo "Harbor up head command failed" | tee /dev/fd/3
     exit 1
@@ -221,10 +223,14 @@ function migrateHarborData {
   set -e
   # Overwrites ${harbor_migration}/harbor_projects.json if present
   set +e
-  docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e EXPORTPATH=/harbor_migration -v ${harbor_migration}:/harbor_migration -v ${harbor_database}:/var/lib/mysql ${migrator_image} export
+  docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e EXPORTPATH=/harbor_migration -v ${harbor_migration}:/harbor_migration -v ${harbor_old_database}:/var/lib/mysql ${migrator_image} export
   if [ $? -ne 0 ]; then
     echo "Harbor data export failed" | tee /dev/fd/3
     exit 1
+  else
+    DIR="database"  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/$DIR"
+    DIR="clair-db"  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/$DIR"
+    DIR="notary-db" mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/$DIR"
   fi
   set -e
 }
@@ -243,7 +249,7 @@ function admiralImportData {
 function mapHarborProject {
   set +e
   local migrator_image="vmware/harbor-db-migrator:1.2"
-  local harbor_database="/storage/db"
+  local harbor_database="/storage/db/harbor/database"
 
   docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e MAPPROJECTFILE=/harbor_migration/harbor_map_projects.json -v ${harbor_migration}:/harbor_migration -v ${harbor_database}:/var/lib/mysql ${migrator_image} mapprojects
   if [ $? -ne 0 ]; then
@@ -502,55 +508,33 @@ function enableServicesStart {
 # OVA is version 1.2.x, otherwise it is 1.1.x and data migration is needed.
 function setDataUpgradeNeeded {
   if [ ! -f "/storage/data/admiral/configs/psc-config.properties" ]; then
-    echo "Detected old OVA's version as 1.1.x. Upgrade will perform data migration." | tee /dev/fd/3
-
-      while true; do
-        echo "" | tee /dev/fd/3
-        echo "Do you wish to proceed with a 1.1.x to 1.2.y upgrade? [y/n]" | tee /dev/fd/3
-        echo -n "If the version of the old OVA is not 1.1.x, please enter n and contact VMware support: " | tee /dev/fd/3
-        read response
-        case $response in
-            [Yy] )
-                echo "Continuing with upgrade" | tee /dev/fd/3
-                echo "" | tee /dev/fd/3
-                break
-                ;;
-            [Nn] )
-                echo "Exiting without performing upgrade" | tee /dev/fd/3
-                exit 1
-                ;;
-            *)
-                # unknown option
-                echo "Please enter [y/n]" | tee /dev/fd/3
-                ;;
-        esac
-      done
-
-      data_upgrade_needed=true
+    echo "Detected old OVA's version as 1.1.x. We no longer support this upgrade path." | tee /dev/fd/3
+    echo -n "If the version of the old OVA is not 1.1.x, please contact VMware support: " | tee /dev/fd/3
+    exit 1
   else
-    echo "Detected old OVA's version as 1.2.x. Upgrade will not perform data migration." | tee /dev/fd/3
-
-      while true; do
-        echo "" | tee /dev/fd/3
-        echo "Do you wish to proceed with a 1.2.x to 1.2.y upgrade? [y/n]" | tee /dev/fd/3
-        echo -n "If the version of the old OVA is not 1.2.x, please enter n and contact VMware support: " | tee /dev/fd/3
-        read response
-        case $response in
-            [Yy] )
-                echo "Continuing with upgrade" | tee /dev/fd/3
-                echo "" | tee /dev/fd/3
-                break
-                ;;
-            [Nn] )
-                echo "Exiting without performing upgrade" | tee /dev/fd/3
-                exit 1
-                ;;
-            *)
-                # unknown option
-                echo "Please enter [y/n]" | tee /dev/fd/3
-                ;;
-        esac
-      done
+    echo "Detected old OVA's version as 1.2.x. Upgrade will perform data migration." | tee /dev/fd/3
+    echo -n "If the version of the old OVA is not 1.2.x, please enter n and contact VMware support: " | tee /dev/fd/3
+    while true; do
+      echo "" | tee /dev/fd/3
+      echo "Do you wish to proceed with a 1.2.x to 1.3.x upgrade? [y/n]" | tee /dev/fd/3
+      read response
+      case $response in
+          [Yy] )
+              echo "Continuing with upgrade" | tee /dev/fd/3
+              echo "" | tee /dev/fd/3
+              break
+              ;;
+          [Nn] )
+              echo "Exiting without performing upgrade" | tee /dev/fd/3
+              exit 1
+              ;;
+          *)
+              # unknown option
+              echo "Please enter [y/n]" | tee /dev/fd/3
+              ;;
+      esac
+    done
+    data_upgrade_needed=true
   fi
 }
 

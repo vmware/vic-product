@@ -12,4 +12,4 @@ ExecStart=/etc/vmware/resize_volume.sh resize /dev/sdc 1
 ExecStart=/etc/vmware/resize_volume.sh resize /dev/sdd 1
 
 [Install]
-WantedBy=local-fs.target
+WantedBy=vic-mounts.target

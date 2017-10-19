@@ -321,21 +321,15 @@ cd "$DIR"
 # These sizes are minimal for install, since partitions are resized to full disk space after firstboot.
 IMAGESIZES=(
   "4GiB"
-  "512MiB"
-  "8MiB"
-  "8MiB"
+  "1GiB"
 )
 IMAGES=(
   "vic-disk1"
   "vic-disk2"
-  "vic-disk3"
-  "vic-disk4"
 )
 IMAGEROOTS=(
   "/mnt/ova-root"
   "/mnt/ova-data"
-  "/mnt/ova-db"
-  "/mnt/ova-logs"
 )
 DEVS=()
 
