@@ -12,9 +12,9 @@ You have a created project.
 2. Navigate to **Administration** > **Projects** > **Your_project**.
 4. Click the **Configuration** tab to change the project settings.
 	1. If you want to make all repositories of that project public, select the **Public** check box.
-	2. If you want to prevent unsigned images from the project repositories of being run, select the **Enable content trust** check box.
-	3. If you want to prevent vulnerable images from your project repository to run, select the **Prevent vulnerable images from running** check box.
-	4. (Optional) Change the severity level of vulnerabilities found that prevents an image to run.
+	2. If you want to prevent unsigned images from the project repositories from being run, select the **Enable content trust** check box.
+	3. If you want to prevent vulnerable images from your project repository from running, select the **Prevent vulnerable images from running** check box.
+	4. (Optional) Change the severity level of vulnerabilities found that prevents an image from running.
 	
 		Images cannot be run if their level equals the currently selected level or higher.
 	5. If you want to activate an immediate vulnerability scan on new images that are pushed to the project registry, select the **Automatically scan images on push** check box.
