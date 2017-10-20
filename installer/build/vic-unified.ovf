@@ -281,8 +281,8 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
       <Info>Demo VCH Installer Wizard Properties</Info>
       <Category>6. Demo VCH Installer Wizard Configuration</Category>
       <Property ovf:key="port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="1337">
-        <Label>6.1. Engine Install Wizard Port</Label>
-        <Description>Specifies the port on which fileserver will be published.</Description>
+        <Label>6.1. Demo VCH Installer Wizard Port</Label>
+        <Description>Specifies the port on which Demo VCH Installer Wizard will be published.</Description>
       </Property>
     </ProductSection>
     <ProductSection ovf:class="default_users" ovf:required="false">
