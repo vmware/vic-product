@@ -39,7 +39,7 @@
         $.ajax({
         	    type: "post", url: "/cmd", contentType: "application/json", data: JSON.stringify(data),
         	    success: function(data) {
-                $("#create").text(data).html()
+                $("#create").text(data)
                 if (window["WebSocket"]) {
                   ws = new WebSocket("wss://" + document.location.host + "/ws");
                   ws.onmessage = function (msg) {
