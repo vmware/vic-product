@@ -90,6 +90,8 @@ _TODO_ Add reference service to repo
 
 ## Versioning
 
+_TODO_ Document naming convention
+
 The version of each component MUST be recorded during the appliance build and included in the
 appliance artifact in the file `/etc/vmware/version` and `/storage/data/version`.
 
@@ -346,7 +348,8 @@ the current version of the appliance perform this action through a UI.
   message to display upon receiving a nonzero exit code
 
   If the component upgrade fails, the overall upgrade script needs to be able to alert the user.
-  This will also be helpful for troubleshooting.
+  This will also be helpful for troubleshooting. Component developers should consider providing a
+  mapping of exit codes to error messages so that a relevant error message can be displayed.
 
 - A component upgrade script SHOULD output debug level logs to stdout
 
