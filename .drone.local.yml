@@ -37,7 +37,13 @@ pipeline:
     environment:
       BIN: bin
       GOPATH: /go
+      PUBLIC_NETWORK: ${PUBLIC_NETWORK}
       SHELL: /bin/bash
+      TEST_DATASTORE: ${TEST_DATASTORE}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+      TEST_RESOURCE: ${TEST_RESOURCE} 
+      TEST_URL: ${TEST_URL}
+      TEST_USERNAME: ${TEST_USERNAME}
     volumes:
       - /tmp
     commands:

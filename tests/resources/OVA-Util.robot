@@ -31,9 +31,9 @@ Set Test Environment Variables
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  PUBLIC_NETWORK
     Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  PUBLIC_NETWORK  'vm-network'
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  TEST_DATASTORE
-    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  TEST_DATASTORE  vsanDatastore
+    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  TEST_DATASTORE  datastore1
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  TEST_RESOURCE
-    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  TEST_RESOURCE  /vcqaDC/host/cls
+    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  TEST_RESOURCE  cls
 
     Set Test VCH Name
 
@@ -43,6 +43,7 @@ Set Test Environment Variables
     Set Environment Variable  GOVC_URL  %{TEST_URL}
     Set Environment Variable  GOVC_USERNAME  %{TEST_USERNAME}
     Set Environment Variable  GOVC_PASSWORD  %{TEST_PASSWORD}
+    Set Environment Variable  GOVC_INSECURE  1
     
     Set Environment Variable  VCH_USERNAME_ROOT  root
     Set Environment Variable  VCH_PASSWORD_ROOT  e2eFunctionalTest
@@ -58,14 +59,13 @@ Install VIC Product OVA
     :FOR  ${line}  IN  @{output}
     \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  Received IP address:
     \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
-    \   Run Keyword If  ${status}  Set Environment Variable  VCH_IP  ${ip}
+    \   Run Keyword If  ${status}  Set Environment Variable  OVA_IP  ${ip}
     \   Return From Keyword If  ${status}  ${ip}
 
 Cleanup VIC Product OVA
     [Arguments]  ${ova_target_vm_name}
-    Set Environment Variable  GOVC_INSECURE  1
     ${rc}  ${output}=  Run And Return Rc And Output  govc vm.destroy ${ova_target_vm_name}
     Log  ${output}
     Should Be Equal As Integers  ${rc}  0
-    Run Keyword And Ignore Error  Run  govc object.destroy /%{TEST_DATASTORE}/vm/${ova_target_vm_name}
+    Run Keyword And Ignore Error  Run  govc datastore.rm /%{TEST_DATASTORE}/vm/${ova_target_vm_name}
     Log To Console  \nVIC Product OVA deployment ${ova_target_vm_name} is cleaned up on test server %{TEST_URL}

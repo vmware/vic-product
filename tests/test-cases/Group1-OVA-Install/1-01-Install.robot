@@ -16,6 +16,7 @@
 Documentation  Test 1-01 - Install Test
 Resource  ../../resources/Util.robot
 Test Timeout  40 minutes
+Suite Teardown  Cleanup VIC Product OVA  %{VCH_NAME}
 
 *** Keywords ***
 Check service running
@@ -27,11 +28,11 @@ Check service running
 *** Test Cases ***
 Install OVA and verify services
     Install VIC Product OVA  installer/bin/vic-*.ova
-    Log  %{VCH_IP}
+    Log  %{OVA_IP}
 
     Log To Console  \nWaiting for Getting Started Page to Come Up...
     :FOR  ${i}  IN RANGE  10
-    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}"}' https://%{VCH_IP}:9443/register
+    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}"}' https://%{OVA_IP}:9443/register
     \   Exit For Loop If  '200' in '''${out}'''
     \   Sleep  5s
     Log To Console  ${rc}
@@ -39,9 +40,9 @@ Install OVA and verify services
     Should Contain  ${out}  200
 
     Log To Console  ssh into appliance...
-    ${out}=  Run  sshpass -p %{VCH_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no %{VCH_USERNAME_ROOT}@%{VCH_IP}
+    ${out}=  Run  sshpass -p %{VCH_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no %{VCH_USERNAME_ROOT}@%{OVA_IP}
 
-    Open Connection  %{VCH_IP}
+    Open Connection  %{OVA_IP}
     Wait Until Keyword Succeeds  2 min  30 sec  Login  %{VCH_USERNAME_ROOT}  %{VCH_PASSWORD_ROOT}
 
     Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
@@ -50,5 +51,3 @@ Install OVA and verify services
     Wait Until Keyword Succeeds  10x  20s  Check service running  engine_installer
 
     Close connection
-
-    [Teardown]  Cleanup VIC Product OVA  %{VCH_NAME}
