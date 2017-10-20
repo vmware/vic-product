@@ -117,3 +117,13 @@ export DOCKER_CONTENT_TRUST_SERVER=https://<i>registry_ip</i>:4443
     By default, the local directory for storing meta files for the Notary client is different from the folder for the Docker client. Set an alias to make it easier to use the Notary client to manipulate the keys and meta files that Docker Content Trust generates. 
 
     <pre>alias notary="notary -s https//<i>registry_ip</i>:4443 -d ~/.docker/trust --tlscacert  /etc/docker/certs.d/<i>registry_ip</i>/ca.crt"</pre>
+
+4. When you push an image for the first time, define and confirm passphrases for the root key and the repository key for that image.
+	
+	The root key is generated at: <pre>/root/.docker/trust/private/root_keys</pre>
+	The repository key is generated at: <pre>/root/.docker/trust/private/tuf_keys/[registry_name]/[image_path]</pre>
+
+You can see that the signed image that you pushed is marked with a green tick on the Project Repositories page in the Management Portal.
+
+	
+	
