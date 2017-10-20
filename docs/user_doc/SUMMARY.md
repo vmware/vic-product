@@ -124,8 +124,10 @@
      * [Create Replication Endpoints](vic_cloud_admin/create_replication_endpoints.md)
      * [Create Replication Rules](vic_cloud_admin/create_replication_rules.md)
      * [Manage Replication Endpoints](vic_cloud_admin/manage_replication_endpoints.md)
-
-
+   * [Vulnerability Scanning](vic_cloud_admin/vulnerability_scanning.md)
+     * [Configure Scheduled Vulnerability Scan on All Images](vic_cloud_admin/configure_scheduled_vulnerability.md)
+     * [Configure Vulnerability Scanning on a Per-Project Level](vic_cloud_admin/configure_vulnerability_scanning_per_project.md)
+     * [Perform a Vulnerability Scan on a Single Image](vic_cloud_admin/perform_vulnerability_scan_single_image.md)
 ----
 
 
