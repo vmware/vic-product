@@ -1,70 +1,90 @@
-# Backup and Restore Virtual Container Hosts #
+# Backing Up Virtual Container Host Data #
 
-A VCH is a pool of virtual resource where images are deployed as containers. A VCH consists of at least one VM, which we’ll call the endpoint VM, since it represents an API endpoint for a tenant. It may also have any number of container VMs, which can themselves be in various runtime states - most simply expressed as either running or not.
+A virtual container host (VCH) is a pool of virtual resources in which images are deployed as containers. A VCH consists of the VCH endpoint VM, and any number of container VMs. Container VMs can be in various runtime states, which can be as simple as either running or not running.
 
-2.1 Components and State
+This topic provides information about different types of VCH data, what data you should back up, what data does not require backup, and why.
 
-Containers
+- [VCH Components and State](#state)
+- [High Availability](#highavailabilty)
+- [Data Integrity](#dataintegrity)
+- [Conclusions](#conclusions)
 
-The nature of containers is that they encourage application designers to think about where state belongs and the nature of that state. The container file system (any part that is not a mounted volume) is ephemeral by nature and is lost when the container is deleted. This is by design. A container volume is intentionally persistent by nature and can exist beyond the lifespan of a container or even a VCH.
+## VCH Components and State <a id="state"></a>
 
-Container Volumes
+To understand the requirements when backing up VCH data, you must first understand state for the different components of a VCH.
 
-Containers themselves can be considered either stateful or stateless. The simplest way to distinguish between the two is whether or not one or more volume(s) are attached. A stateless container that reads and writes to a remote database can be easily scaled up or down and can be run in multiple failure domains behind a load-balancer. A stateful container however is tied to running in a location where its volume store is accessible.
+### Containers
 
-The question of whether or not a volume is sharable is also important. If a volume is an NFS share, it’s feasible to have multiple containers in multiple failure domains share the same persistent data, assuming they have the correct locking semantics. If a volume is not sharable, then the ability for compute to move host is constrained by the use of a shared datastore or physically copying the data. vSphere makes it possible to live-migrate workloads between hosts in a cluster while keeping persistent data on a shared datastore. This is one of the reasons why vSphere Integrated Containers is well-suited to running stateful workloads.
+Containers encourage application designers to think about where state belongs and the nature of that state. By design, any part of the container file system that is not a mounted volume is ephemeral by nature and is lost when the container is deleted. 
 
-Anonymous Volumes
+### Container Volumes
 
-It’s worth examining the difference between anonymous and named volumes. An anonymous volume is created in the default volume store every time a container is run from an image build using a Dockerfile with VOLUME as a command. Anonymous volumes are not desirable for production, since you cannot specify the size, the name or the class of storage. This inevitably has an implication for a backup strategy - if you backup anonymous volumes, you may have a hard time figuring out what they were being used for.
+Containers can be either stateless or stateful: 
 
-Container Images
+- A stateless container that reads and writes to a remote database can be easily scaled up or down and can be run in multiple failure domains behind a load-balancer. 
+- A stateful container is a container that has one or more volumes attached to it. A stateful container is tied to running in a location from which it can access its volume store. A container volume is intentionally persistent by nature and can exist beyond the lifespan of a container or even of a VCH.
 
-Container images are immutable and should persist in a container registry. This is one of the reasons why a Registry is provided with vSphere Integrated Containers. When an image is pulled, either explicitly or as part of a container execution, it is cached locally in the VCH. The cache should be considered as ephemeral, even though the containers depend on the images being present in the cache in order to run.
+You must also consider whether a volume is sharable between containers. If a volume is an NFS share, it is possible for multiple containers in multiple failure domains to share the same persistent data, provided that they have the correct locking semantics. If a volume is not sharable, the ability for compute resources to move between hosts is constrained by the use of a shared datastore or by physically copying the data. vSphere makes it possible to live-migrate workloads between hosts in a cluster while keeping persistent data on a shared datastore. For this reason, vSphere Integrated Containers is well-suited to running stateful workloads.
 
-Configuration State
+### Anonymous Volumes
 
-There is also configuration state to consider. When a VCH is deployed, there is a significant amount of configuration provided to vic-machine including networks, datastores, credentials and such like. All of this data is stored in the endpoint VM’s VMX file. There is then also the configuration state of each of the running containers. This configuration state is stored in the VMX file of each container VM. 
+An anonymous volume is created in the `default` volume store every time a container is run from an image that uses a Dockerfile with a `VOLUME` command. Anonymous volumes are not desirable for production, because you cannot specify the volume size, name, or class of storage. This has implications for your backup strategy, because it might not be clear what anonymous volumes are being used for.
 
-Containers and the endpoint VM are designed to be stateless with respect to guest configuration - nothing is persisted in the guest. When a container starts up, it discovers its state from its VMX file. When a VCH endpoint VM starts up, it discovers both its own state and also the state of the image cache and the existing containers. The stateless nature of the endpoint VM is designed to simplify upgrades considerably - it’s just a case of powering it down, swapping out the ISO and powering it back up again.
+### Container Images
 
-2.2 High Availability
+Container images are immutable and should persist in a container registry. This is one of the reasons why vSphere Integrated Containers includes vSphere Integrated Containers Registry. When a developer pulls an image, either explicitly or as part of a container execution, the VCH caches the image locally. You can consider the VCH image cache to be ephemeral, even though the containers depend on the images being present in the cache when they run.
 
-The VCH is designed in such a way that containers should be able to run independent of the availability of the endpoint VM. However it’s important to note that this is dependent on how the containers are deployed. 
+### Configuration State
 
-The most important consideration is how networking for the container is configured. If port mapping is used, it is expected that the container should be accessible over a network via a port on the endpoint VM. If the endpoint VM goes down for any reason - planned or unplanned - that network connect is no longer available. This is why vSphere Integrated Containers offers the ability to connect directly to a vSphere network as a container-network. The container has its own identity on that network and the network and the container have no dependency on the endpoint VM for execution. 
+When you deploy a VCH, you provide a significant amount of configuration to `vic-machine`, including networks, datastores, credentials, and so on. All of this configuration data is stored in the VMX file for the VCH endpoint VM. Running containers also have a configuration state, which is stored in the VMX file of each container VM. 
 
-It is possible to configure vSphere High Availability to restore the endpoint VM in the case of a an ESXi host failure. If a host goes down and an endpoint VM is lost, the only impact should be a temporary loss of the control plane - the ability to manage the lifecycle of containers, networks and volumes. 
+Containers and the VCH endpoint VM are designed to be stateless with respect to guest configuration. Nothing is persisted in the guest OS. When a container VM starts up, it discovers its state from its VMX file. When a VCH endpoint VM starts up, it discovers both its own state and also the state of the image cache and the existing containers. The stateless nature of the VCH endpoint VM simplifies upgrades. Upgrade is just a case of powering down the VCH endpoint VM, swapping out the ISO from which it boots, and powering it back up again.
 
-2.3 Data Integrity
+## High Availability <a id="highavailabilty"></a>
+
+The VCH is designed so that containers can run independently of the availability of the VCH endpoint VM. However, it is important to note that this is dependent on how the containers are deployed. 
+
+The most important consideration is how the networking for the container is configured. If containers use port mapping, the containers are accessible over a network via a port on the VCH endpoint VM. If the endpoint VM goes down for any reason, that network connection is no longer available. This is why vSphere Integrated Containers offers the ability to connect containers directly to a vSphere network by using the `--container-network` option. If you use container networks, containers have their own identity on the container network. Consequently, the network and the container have no dependency on the VCH endpoint VM for execution. 
+
+You can configure vSphere High Availability to restore the VCH endpoint VM in the case of an ESXi host failure. If a host goes down and a VCH endpoint VM is lost, the only impact should be a temporary loss of the control plane, namely the ability to manage the lifecycle of containers, networks, and volumes. 
+
+## Data Integrity <a id="dataintegrity"></a>
 
 Data integrity for persistent data is extremely important, but a backup strategy is not the only way to ensure data integrity.
 
-Data Replication
+### Data Replication
 
 vSphere Integrated Containers supports different classes of storage, of which VMware vSAN is an example. vSAN offers built-in redundancy by replicating data to multiple physical drives and can tolerate hardware failure or nodes becoming unavailable. 
 
-Replication of container image data is possible in the same way by installing the vSphere Integrated Containers appliance onto vSAN storage, but the vSphere Integrated Containers Registry also has the capability to replicate image data with other instances of itself. We will be exploring this capability more in the section on backing up below.
+You can replicate container image data by installing the vSphere Integrated Containers appliance on vSAN storage. vSphere Integrated Containers Registry also offers the ability to replicate image data to other registry instances.
 
-Data Encryption
+### Data Encryption
 
-Encryption of persistent data is typically a capability provided by the class of data storage being used and VMware vSAN provides built-in encryption capabilities. 
+Encryption of persistent data is typically provided by the class of data storage that you use. For example, vSAN provides built-in encryption capabilities. 
 
-vSphere Integrated Containers makes it easy to specify different classes of datastore for different classes of data, via the vic-machine options --image-store and --volume-store. You specify a single image store where immutable image and ephemeral container state are stored. You can then specify any number of volume stores which map to different vSphere datastores and can be specified by label when provisioning a container.
+vSphere Integrated Containers makes it easy to specify different classes of datastore for different classes of data, by using the `vic-machine create --image-store` and `--volume-store` options. You specify a single image store in which to store immutable image and ephemeral container state for a VCH. You can then specify any number of volume stores which map to different vSphere datastores, which container developers can specify by their label when they provision a container.
 
-Making Backups
+### Making Backups
 
-Replication and Encryption are great for protecting known good data within a given isolation domain, but if an entire isolation domain is lost or if data becomes corrupted, keeping backups is essential.
+Replication and Encryption are good solutions for protecting data integrity within a given isolation domain. However, if an entire isolation domain is lost or if data becomes corrupted, keeping backups is essential.
 
-The fact that vSphere Integrated Containers volumes are first-class citizens on vSphere datastores means that they can be backed up by any solution that knows how to backup virtual disks. 
+The fact that vSphere Integrated Containers volumes are first-class citizens on vSphere datastores means that you can back up container volumes by using any solution that knows how to backup virtual disks. 
 
-2.4 A Backup Strategy
+## Conclusions <a id="conclusions"></a>
 
-As can be seen, the question of what to back up, when to back it up and how to restore it isn’t necessarily simple. The best approach is to draw clear lines between persistent and ephemeral state and build those into well-defined strategies for application deployment, configuration and backup. 
+The best approach to backing up VCH data is to make a clear distinction  between persistent state and ephemeral state, and to build well-defined strategies for application deployment, configuration, and backup. 
 
-For the VIC 1.2 release, the only state which should be considered eligible for backup is persistent state stored in container volumes and immutable state built into container images. This document will explain in detail how to backup and restore this state.
+### Data that Does Not Require Back Up
 
-Configuration state (see 2.1 above) - that of the containers and the VIC endpoint itself - is not a good candidate for backup. This is because it’s highly dependent on tight coupling between itself and the current state of the vSphere environment it’s deployed to. As such, there’s a strong possibility that a container or VIC endpoint brought back from a backup may not have configuration state consistent with the environment it’s being restored into. This is not the case with volumes or container images - these can exist independently of any vSphere environment and can be copied or moved without issue.
+Configuration state of container VMs and of the VCH endpoint VM is not a good candidate for backup. This is because configuration state is highly dependent on a tight coupling between itself and the current state of the vSphere environment. As such, there is a strong possibility that a container VM or VCH endpoint VM that you bring back from a backup will not have a configuration state that is consistent with the environment to which you are restoring it. This is not the case with volumes or container images, which can exist independently of any vSphere environment and which can be copied or moved without problems.
 
-What’s important is that if the VIC endpoint goes down or becomes unavailable for some reason, only the ability to manage the lifecycle of the containers is impacted. The containers themselves continue to run unimpeded (assuming container networks have been used - see above). If the issues with the VCH or vSphere environment are unrecoverable, it should be possible to create a new VCH in a different vSphere environment, deploy new instances of the same container workloads and switch to those new instances. Of course that depends on having appropriate load-balancing and data migration, but those are elements that should be addressed in the application and system architecture.
+It is important to remember that if the VCH endpoint VM becomes unavailable, this only impacts the ability to manage the lifecycle of the containers running in that VCH. If you have used container networks, the containers themselves continue to run unimpeded. If you cannot resolve the issues affecting the VCH endpoint VM or vSphere environment, you should be able to create a new VCH in a different vSphere environment, deploy new instances of the same container workloads, and switch to those new instances. This depends on having  the appropriate load-balancing and data migration in place, but those are elements should be built into your application and system architecture.
 
+### Data that Requires Back Up
+
+In this release of vSphere Integrated Containers, the only VCH data that you should consider for backup is the following: 
+
+- Immutable state that is built into container images. 
+- Persistent state that is stored in container volumes. 
+
+For information about how to backup and restore container volumes, see [Backing Up and Restoring Container Volumes](backup_volumes.md).

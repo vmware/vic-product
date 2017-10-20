@@ -1,18 +1,26 @@
-# Backup and Restore the vSphere Integrated Containers Appliance #
+# Back Up and Restore the vSphere Integrated Containers Appliance #
 
-vSphere Integrated Containers Appliance (the OVA you download) runs various services such as the management UI and registry. In vSphere Integrated Containers 1.2 it has two virtual disks attached - a system disk and a data disk. The system disk has all of the operating system and application state of the vSphere Integrated Containers appliance and the data disk has all of the important persistent data. 
+The vSphere Integrated Containers appliance runs various services, such as vSphere Integrated Containers Management Portal and vSphere Integrated Containers Registry. In this version of vSphere Integrated Containers, the appliance has two virtual disks attached to it:
 
-This separation allows for the OVA to be upgraded with an existing data disk, but it also allows for the data disk to be backed up and restored if necessary.
+- A system disk, that contains the operating system and application state of the vSphere Integrated Containers appliance.
+- A data disk, that contains all important persistent data. 
 
-## Snapshotting and Cloning ##
+The separation of different types of data between disks allows you to upgrade the appliance with an existing data disk from a previous installation. It also allows you to back up and restore the data disk, if necessary.
 
-You can take a conventional approach to backing up the OVA appliance, the same as you would to any other stateful VM. Its disks are not independent of the VM, so if you take a snapshot of the appliance, it will also take snapshots of the data and system disks. 
+## Snapshots and Clones ##
 
-Bear in mind that if you don’t snapshot the memory of the OVA appliance, it will come back in a powered-off state. This is likely the preferred approach, but it means that the registry will be temporarily unavailable while the appliance boots up.
+You can take a conventional approach to backing up the appliance, in the same way as for any other stateful VM. The appliance disks are not independent of the appliance VM, so if you take a snapshot of the appliance VM, it also takes snapshots of the data and system disks. 
 
-Once you’ve created a snapshot of the entire VM, you can clone the snapshot of the data disk, even while the appliance is running. You can use a tools like vmkfstools (see below) and copy the data disk to a backup datastore.
+**NOTE**: If you do not take a snapshot the of the memory of the appliance, it comes back up in a powered-off state. This is probably the preferred approach, but it means that the registry is temporarily unavailable while the appliance boots up.
 
-## Restoring ##
+Once you have created a snapshot of the appliance VM, you can clone the snapshot of the data disk, even while the appliance is running. You can use tools like `vmkfstools` to copy the data disk to a backup datastore.
 
-Restoring the data disk is a case of either reverting to a VM snapshot or copying a cloned VMDK into the datastore and making sure it’s attached to the correct virtual device node on the appliance. In vSphere Integrated Containers 1.2 this is SCSI(0:1) by convention. Unless restoring from a live snapshot, the appliance will need to be shut down before the restore and restarted.
+## Restoring the Data Disk ##
+
+You have two choices to restore the data disk:
+
+- Revert the appliance to a VM snapshot.
+- Copy a cloned VMDK into the appliance datastore and attach it to the `SCSI(0:1)` virtual device node on the appliance VM. 
+
+If you are not restoring the data disk from a live snapshot, you must shut down the appliance before the you restore the disk.
 

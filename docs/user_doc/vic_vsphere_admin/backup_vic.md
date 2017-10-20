@@ -1,20 +1,17 @@
-# Backup and Restore vSphere Integrated Containers #
+# Back Up and Restore vSphere Integrated Containers #
 
-A vSphere Integrated Containers installation is inherently stateful, even if the containers running on it are not. As such, the question of how it should be backed up and restored is an important one for vSphere admins to consider.
+A vSphere Integrated Containers installation is inherently stateful, even if the containers running on it are not. As such, the question of how to back up and restore vSphere Integrated Containers is an important one.
 
-The executive summary of this document is:
+The main components of vSphere Integrated Containers store the following persistent data:
+ 
+- vSphere Integrated Containers Registry stores immutable image data. You can back up vSphere Integrated Containers Registry state by using VM snapshots and clones.
+- vSphere Integrated Containers Management Portal stores user and project metadata. You can back up vSphere Integrated Containers Management Portal state by using VM snapshots and clones.
+- Container volumes store data that container VMs use and share. You can back up container volumes by using snapshots and clones only if the container is not running. You restore container volumes by copying virtual disks to a known location.
 
-- Persistent data consists of Container Volumes, Registry and Management UI data
-- Everything else in vSphere Integrated Containers should be considered ephemeral state, not suitable for backup
-- Registry and Management state can be backed up using VM snapshots and clones
-- Container volumes can be backed up using snapshots and clones only when the container is not running
-- Restoring container volumes is a matter of copying virtual disks to a known location
-- There are different approaches to backup and the relative merits are explored
+You can consider all other data in vSphere Integrated Containers to be ephemeral state, that is not suitable for backup.
 
-In exploring the detail of this topic, the best place to start is to examine the types of state stored by a typical vSphere Integrated Containers installation, where it resides, the nature of it and why you might care about it.
+The following topics describe the types of state that a typical vSphere Integrated Containers installation stores, where it resides, the nature of the data, and why you might need to back it up. The topics describe different approaches to backup and their relative merits.
 
-A vSphere Integrated Containers installation consists of three main components:
-
-- Registry - which stores immutable image data
-- Management UI - which stores user and project metadata
-- One or more Virtual Container Hosts (VCH)
+* [Backup and Restore the vSphere Integrated Containers Appliance](backup_vic_appliance.md)
+* [Backing Up Virtual Container Host Data](backup_vch.md)
+* [Backing Up and Restoring Container Volumes](backup_volumes.md)
