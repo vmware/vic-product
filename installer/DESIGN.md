@@ -44,8 +44,16 @@ _TODO_ Add reference service to repo
 - If configuration of a service requires a separate lifecycle, the service MAY have a separate
   `configure-<service>.service` unit in addition to `<service>.service`
 
-- The component unit SHOULD directly execute the `docker run` command in `ExecStart` and SHOULD NOT
+- A component unit SHOULD directly execute the `docker run` command in `ExecStart` and SHOULD NOT
   execute a script that then starts the service
+
+- A component unit SHOULD specify starting another service through unit dependency directives and
+  SHOULD NOT directly execute `systemctl`
+
+- A component's dependencies SHOULD be separate Systemd services
+
+  This allows the component to specify the startup and shutdown behavior through unit dependency
+  directives such as `Wants`, `Requires`, `Before`, and `After`.
 
 ### Requirements
 
