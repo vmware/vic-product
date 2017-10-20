@@ -20,7 +20,8 @@
     $( document ).ready(function() {
       var ws;
       function appendLog(item) {
-        $("#log").append(document.createTextNode(item))
+        $("#log").append(document.createTextNode(item));
+        $("#log").append("<br />");
       }
       $("#execute").click(function() {
         $("#log").html("");
