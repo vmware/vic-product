@@ -242,11 +242,13 @@ Component startup scripts:
 - /etc/vmware/harbor
 ```
 
-The appliance provides a TLS certificate in `/data/certs/`. The system generates a self-signed TLS
-certificate or places a user specified TLS certificate in this directory. All components should use
-this certificate for user facing connections and can access it by mounting this directory as a read
-only volume to the component container (`-v /data/certs:/path/on/container:ro`)
-`/data/certs/` contains:
+The appliance provides a TLS certificate in `/storage/data/certs/`. The system generates a
+self-signed TLS certificate or places a user specified TLS certificate in this directory. All
+components should use this certificate for user facing connections and can access it by mounting
+this directory as a read only volume to the component container
+(`-v /storage/data/certs:/path/on/container:ro`)
+
+`/storage/data/certs/` contains:
 ```
 - ca.crt
 - ca.key
@@ -300,6 +302,14 @@ time of the build.
 - All components MUST trigger the CI pipeline when a new version of the component is available
 
   The recommended way to trigger the build is by using Drone downstream project triggers.
+
+- It is recommended for components to have a staging branch and staging artifact upload workflow
+  integrated with the CI system to test integration with the appliance before making available
+  component artifacts for inclusion in the appliance development or release build
+
+  This architecture will prevent the main appliance build from being blocked by a failing component
+  build. The component team should work with the appliance team to integrate this workflow with the
+  respective CI systems.
 
 
 ## Appliance Upgrade
