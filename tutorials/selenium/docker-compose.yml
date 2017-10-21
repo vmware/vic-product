@@ -9,6 +9,21 @@ services:
     environment:
       - HUB_PORT_4444_TCP_ADDR=hub
       - HUB_PORT_4444_TCP_PORT=4444
+      - NODE_MAX_INSTANCES=5
+      - NODE_X_SESSION=3 
+      - GRID_MAX_SESSION=10
+    links:
+      - "hub"
+    expose:
+      - "5555"
+  firefox:
+    image: "selenium/node-firefox"
+    environment:
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+      - NODE_MAX_INSTANCES=5
+      - NODE_X_SESSION=3 
+      - GRID_MAX_SESSION=10
     links:
       - "hub"
     expose:
