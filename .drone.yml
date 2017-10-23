@@ -82,7 +82,7 @@ pipeline:
       status: success
 
   publish-gcs-builds:
-    image: maplain/drone-gcs:latest
+    image: victest/drone-gcs:1
     pull: true
     source: bundle
     target: vic-product-ova-builds
@@ -96,7 +96,7 @@ pipeline:
       status: success
 
   publish-gcs-releases:
-    image: maplain/drone-gcs:latest
+    image: victest/drone-gcs:1
     pull: true
     source: bundle
     target: vic-product-ova-releases
