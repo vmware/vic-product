@@ -47,11 +47,11 @@ if [ "${gc_enabled,,}" == "true" ]; then
 fi
 
 # Load DCH into Harbor
-dch_image="vmware/dch-photon:${BUILD_DCHPHOTON_VERSION}"
+dch_tag="dch-photon:${BUILD_DCHPHOTON_VERSION}"
 docker run -d --name dch-push -v /data/harbor/registry:/var/lib/registry -p 5000:5000 vmware/registry:2.6.2-photon
-docker tag $dch_image 127.0.0.1:5000/default-project/$dch_image
+docker tag "vmware/$dch_tag" "127.0.0.1:5000/default-project/$dch_tag"
 sleep 3
-docker push 127.0.0.1:5000/default-project/$dch_image
+docker push "127.0.0.1:5000/default-project/$dch_tag"
 docker rm -f dch-push
 
 /usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml \
