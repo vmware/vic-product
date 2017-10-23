@@ -1,0 +1,16 @@
+version: '2'
+services:
+  dch:
+    image: "vmware/dch-photon"
+    mem_limit: 32g
+    volumes:
+    - mydchdisk2:/var/lib/docker
+    ports:
+      - "2375"
+
+volumes:
+  mydchdisk2:
+    driver: "vsphere"
+    driver_opts:
+      Capacity: "100G"
+      VolumeStore: "default"
