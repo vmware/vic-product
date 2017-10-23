@@ -20,7 +20,8 @@
     $( document ).ready(function() {
       var ws;
       function appendLog(item) {
-        $("#log").append("<h6>"+item+"</h6>")
+        $("#log").append(document.createTextNode(item));
+        $("#log").append("<br />");
       }
       $("#execute").click(function() {
         $("#log").html("");
@@ -38,7 +39,7 @@
         $.ajax({
         	    type: "post", url: "/cmd", contentType: "application/json", data: JSON.stringify(data),
         	    success: function(data) {
-                $("#create").html("<p>"+data+"</p>")
+                $("#create").text(data)
                 if (window["WebSocket"]) {
                   ws = new WebSocket("wss://" + document.location.host + "/ws");
                   ws.onmessage = function (msg) {
