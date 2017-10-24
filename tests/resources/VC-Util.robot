@@ -13,12 +13,13 @@
 # limitations under the License
 
 *** Settings ***
-Library  OperatingSystem
-Library  String
-Library  Collections
-Library  requests
-Library  Process
-Library  SSHLibrary  5 minute
-Library  DateTime
-Resource  OVA-Util.robot
-Resource  VC-Util.robot
+Documentation  This resource contains any keywords dealing with operations being performed on a Vsphere instance, mostly govc wrappers
+
+*** Keywords ***
+Check vCenter
+    Set Test Environment Variables
+    Log To Console  \nChecking vCenter availability...
+    ${rc}  ${output}=  Run And Return Rc And Output  govc about -u=%{TEST_URL}
+    Log To Console  ${output}
+    Should Be Equal As Integers  ${rc}  0  vCenter %{TEST_URL} seems unavailable
+    Should Contain  ${output}  VMware vCenter Server

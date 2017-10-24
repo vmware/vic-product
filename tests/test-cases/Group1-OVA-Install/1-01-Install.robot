@@ -16,6 +16,7 @@
 Documentation  Test 1-01 - Install Test
 Resource  ../../resources/Util.robot
 Test Timeout  40 minutes
+Suite Setup  Check vCenter
 Suite Teardown  Cleanup VIC Product OVA  %{VCH_NAME}
 
 *** Keywords ***
