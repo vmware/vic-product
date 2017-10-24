@@ -109,17 +109,18 @@ pipeline:
       branch: [ refs/tags/* ]
       status: success
 
-  notify-slack:
+  notify-slack-on-fail:
     image: plugins/slack
     webhook: ${SLACK_URL}
     username: drone
     template: >
-      build https://ci.vcna.io/vmware/vic-product/{{ build.number }} finished with a {{ build.status }} status
+        Build {{ build.link }} failed from the event {{ build.event }} by {{ lowercase build.author }}.
     when:
       repo: vmware/vic-product
       branch: [ master, releases/*, refs/tags/* ]
-      status: [ success, failure ]
+      status: [ failure ]
 
+# https://hooks.slack.com/services/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
 services:
   dind:
     image: docker:dind
