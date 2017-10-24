@@ -13,26 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# This file contains general upgrade processes for the ova appliance, such as psc registration and data versioning.
+# File includes
 source /installer.env
+. ${0%/*}/util.sh
+
 set -euf -o pipefail
 
-data_mount="/storage/data/harbor"
-cfg="${data_mount}/harbor.cfg"
-harbor_backup="/storage/data/harbor_backup"
-harbor_migration="/storage/data/harbor_migration"
-harbor_psc_token_file="/etc/vmware/psc/harbor/tokens.properties"
-admiral_psc_token_file="/etc/vmware/psc/admiral/tokens.properties"
-timestamp_file="/registration-timestamps.txt"
-
-data_upgrade_needed=false
-
-admiral_upgrade_status="/etc/vmware/admiral/upgrade_status"
-harbor_upgrade_status="/etc/vmware/harbor/upgrade_status"
 upgrade_log_file="/var/log/vmware/upgrade.log"
 mkdir -p "/var/log/vmware"
+timestamp_file="/registration-timestamps.txt"
 
-DB_USER=""
-DB_PASSWORD=""
 VCENTER_TARGET=""
 VCENTER_USERNAME=""
 VCENTER_PASSWORD=""
@@ -41,410 +32,6 @@ PSC_DOMAIN=""
 APPLIANCE_IP=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S %z %Z")
 
-MANAGED_KEY="# Managed by configure_harbor.sh"
-export LC_ALL="C"
-
-function harborDataSanityCheck {
-  harbor_dirs=(
-    cert
-    database
-    job_logs
-    registry
-  )
-
-  for harbor_dir in "${harbor_dirs[@]}"
-  do
-    if [ ! -d "$1"/"$harbor_dir" ]; then
-      echo "Harbor directory $1/${harbor_dir} not found"
-      return 1
-    fi
-  done
-
-}
-
-# Check if directory is present
-function checkDir {
-  if [ -d "$1" ]; then
-    echo "Directory $1 already exists. If upgrade is not already running or previously completed, remove the directory and retry upgrade." | tee /dev/fd/3
-    exit 1
-  fi
-}
-
-# Check if required PSC token is present
-function checkHarborPSCToken {
-  if [ ! -f "${harbor_psc_token_file}" ]; then
-    echo "PSC token ${harbor_psc_token_file} not present. Unable to perform data migration to Admiral." | tee /dev/fd/3
-    exit 1
-  fi
-  if [ ! -s "${harbor_psc_token_file}" ]; then
-    echo "PSC token ${harbor_psc_token_file} has zero size. Unable to perform data migration to Admiral." | tee /dev/fd/3
-    exit 1
-  fi
-}
-
-# Check if required PSC token is present
-function checkAdmiralPSCToken {
-  if [ ! -f "${admiral_psc_token_file}" ]; then
-    echo "PSC token ${admiral_psc_token_file} not present." | tee /dev/fd/3
-    exit 1
-  fi
-  if [ ! -s "${admiral_psc_token_file}" ]; then
-    echo "PSC token ${admiral_psc_token_file} has zero size." | tee /dev/fd/3
-    exit 1
-  fi
-}
-
-function readFile {
- cat "$1" ; echo
-}
-
-# Check if Admiral is running
-function checkAdmiralRunning {
-  if [ "$(systemctl is-active admiral.service)" != "active" ]; then
-    echo "Admiral is not running. Unable to perform data migration to Admiral." | tee /dev/fd/3
-    exit 1
-  fi
-}
-
-# Check timestamp file, skip if already upgraded
-function checkUpgradeStatus {
-  if [ -f "$2" ]; then
-    echo "$1 upgrade status show previously completed" | tee /dev/fd/3
-    echo "If upgrade is not already running or completed, execute the following command and rerun the upgrade script:" | tee /dev/fd/3
-    echo "    rm $2" | tee /dev/fd/3
-    return 1
-  fi
-  return 0
-}
-
-# Generate random password
-function genPass {
-  openssl rand -base64 32 | shasum -a 256 | head -c 32 ; echo
-}
-
-# Add key if it is not present in the config
-# Does not handle if key is present, but value unset
-function configureHarborCfgUnset {
-  local cfg_key=$1
-  local cfg_value=$2
-  local managed="${3:-false}"
-  local line
-  line=$(sed -n "/^$cfg_key\s*=/p" $cfg)
-
-  if [ -z "$line" ]; then
-    echo "Key not found: $cfg_key, adding key"
-    if [ "$managed" = true ]; then
-      echo "Setting managed key $cfg_key"
-      echo "${MANAGED_KEY}" >> $cfg
-      echo "$cfg_key = $cfg_value" >> $cfg
-    else
-      echo "Setting $cfg_key"
-      echo "$cfg_key = $cfg_value" >> $cfg
-    fi
-  else
-    echo "Key found: $cfg_key, skipping"
-  fi
-}
-
-# Returns value from cfg given key to search for
-# Stored in cfg as key = value
-function readHarborCfgKey {
-  local cfg_key=$1
-  local  __resultvar=$2
-  local value
-  value=$(grep "^$cfg_key =" $cfg | cut -d'=' -f 2 | xargs)
-
-  if [ -z "$value" ]; then
-      echo "Key not found: $cfg_key"
-    else
-      eval "$__resultvar"="'$value'"
-    fi
-}
-
-# Add managed keyword to key if not already managed
-function configureHarborCfgManageKey {
-  local cfg_key=$1
-  local prev_line
-  prev_line=$(sed -n "/^$cfg_key\s*=/{x;p;d;}; x" $cfg)
-  local line
-  line=$(sed -n "/^$cfg_key\s*=/p" $cfg)
-
-  if [ -z "$line" ]; then
-    echo "Key not found: $cfg_key"
-    return
-  fi
-
-  if [[ $prev_line != *"${MANAGED_KEY}"* ]]; then
-    echo "Setting managed key $cfg_key"
-    sed -i -r "s/^$cfg_key\s*=.*/${MANAGED_KEY}\n$line/g" $cfg
-  else
-    echo "Key $cfg_key already managed, skipping."
-  fi
-}
-
-# Upgrade config file in place
-function upgradeHarborConfiguration {
-  # Add generated clair_db_password as managed key if not present
-  configureHarborCfgUnset clair_db_password "$(genPass)" true
-
-  # Add managed tags to db_password and clair_db_password
-  configureHarborCfgManageKey db_password
-  configureHarborCfgManageKey clair_db_password
-}
-
-# https://github.com/vmware/harbor/blob/master/docs/migration_guide.md
-function migrateHarborData {
-  checkDir ${harbor_backup}
-  checkDir ${harbor_migration}
-  mkdir ${harbor_backup}
-  mkdir ${harbor_migration}
-
-  local migrator_image="vmware/harbor-db-migrator:1.2"
-  local harbor_old_database_dir="/storage/data/harbor"
-  local harbor_new_database_dir="/storage/db/harbor"
-  local harbor_old_database="${harbor_old_database_dir}/database"
-
-  # Test database connection
-  set +e
-  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_old_database}:/var/lib/mysql ${migrator_image} test
-  if [ $? -ne 0 ]; then
-    echo "Invalid database credentials" | tee /dev/fd/3
-    exit 1
-  fi
-  set -e
-
-  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_old_database}:/var/lib/mysql -v ${harbor_backup}:/harbor-migration/backup ${migrator_image} backup
-  set +e
-  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e SKIP_CONFIRM=y -v ${harbor_old_database}:/var/lib/mysql ${migrator_image} up head
-  if [ $? -ne 0 ]; then
-    echo "Harbor up head command failed" | tee /dev/fd/3
-    exit 1
-  fi
-  set -e
-  # Overwrites ${harbor_migration}/harbor_projects.json if present
-  set +e
-  docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e EXPORTPATH=/harbor_migration -v ${harbor_migration}:/harbor_migration -v ${harbor_old_database}:/var/lib/mysql ${migrator_image} export
-  if [ $? -ne 0 ]; then
-    echo "Harbor data export failed" | tee /dev/fd/3
-    exit 1
-  else
-    DIR="database"  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/$DIR"
-    DIR="clair-db"  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/$DIR"
-    DIR="notary-db" mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/$DIR"
-  fi
-  set -e
-}
-
-function admiralImportData {
-  checkHarborPSCToken
-  set +e
-  /etc/vmware/harbor/admiral_import --admiralendpoint https://localhost:8282 --tokenfile ${harbor_psc_token_file} --projectsfile ${harbor_migration}/harbor_projects.json --mapprojectsfile ${harbor_migration}/harbor_map_projects.json
-  if [ $? -ne 0 ]; then
-    echo "Importing Harbor data to Admiral failed" | tee /dev/fd/3
-    exit 1
-  fi
-  set -e
-}
-
-function mapHarborProject {
-  set +e
-  local migrator_image="vmware/harbor-db-migrator:1.2"
-  local harbor_database="/storage/db/harbor/database"
-
-  docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e MAPPROJECTFILE=/harbor_migration/harbor_map_projects.json -v ${harbor_migration}:/harbor_migration -v ${harbor_database}:/var/lib/mysql ${migrator_image} mapprojects
-  if [ $? -ne 0 ]; then
-    echo "Map Harbor data failed" | tee /dev/fd/3
-    exit 1
-  fi
-  set -e
-}
-
-function performAdmiralUpgrade {
-  local old_admiral_data="/storage/data/admiral"
-  local admiral_cert_location="/storage/data/admiral/cert/server.crt"
-  local admiral_key_location="/storage/data/admiral/cert/server.key"
-  local admiral_jks_location="/storage/data/admiral/cert/trustedcertificates.jks"
-
-  local new_admiral_data="/storage/data/admiral_new"
-
-  local old_admiral="${APPLIANCE_IP}:8283"
-  local new_admiral="${APPLIANCE_IP}:8282"
-
-  local admiral_backup="/etc/vmware/upgrade/admiral_backup.tgz"
-
-  if [ -d $new_admiral_data ]; then
-    echo "Admiral upgrade target exists" | tee /dev/fd/3
-    echo "If upgrade is not already running or completed, execute the following command and rerun the upgrade script:" | tee /dev/fd/3
-    echo "    rm -r $new_admiral_data" | tee /dev/fd/3
-    exit 1
-  fi
-  if [ -f $admiral_backup ]; then
-    echo "Admiral upgrade backup exists" | tee /dev/fd/3
-    echo "If upgrade is not already running or completed, execute the following command and rerun the upgrade script:" | tee /dev/fd/3
-    echo "    rm $admiral_backup" | tee /dev/fd/3
-    exit 1
-  fi
-
-  mkdir -p $new_admiral_data/configs
-
-  # Copy old certificates to new data
-  cp -r $old_admiral_data/cert/. $new_admiral_data/configs
-
-  # Start Admiral v1.1.1
-  # https://github.com/vmware/vic/blob/56a309fb855dc29f4dca576aba712c657acb44d0/installer/packer/scripts/admiral/start_admiral.sh
-  /usr/bin/docker create -p 8283:8282 \
-    --name vic-upgrade-admiral \
-    -e ADMIRAL_PORT=8282 \
-    -e JAVA_OPTS="-Ddcp.net.ssl.trustStore=/tmp/trusted_certificates.jks -Ddcp.net.ssl.trustStorePassword=changeit" \
-    -e XENON_OPTS="--port=-1 --securePort=8282 --certificateFile=/tmp/server.crt --keyFile=/tmp/server.key" \
-    -v "$admiral_cert_location:/tmp/server.crt" \
-    -v "$admiral_key_location:/tmp/server.key" \
-    -v "$admiral_jks_location:/tmp/trusted_certificates.jks" \
-    -v "$old_admiral_data/custom.conf:/admiral/config/configuration.properties" \
-    -v "$old_admiral_data:/var/admiral" \
-    --log-driver=json-file \
-    --log-opt max-size=1g \
-    --log-opt max-file=10 \
-    "vmware/admiral:vic_v1.1.1"
-  /usr/bin/docker start vic-upgrade-admiral
-
-  # Copy psc-config.properties to /configs in container
-  cp /etc/vmware/psc/admiral/psc-config.properties $new_admiral_data/configs
-
-  local new_admiral_xenon_opts="--publicUri=https://${new_admiral}/ --bindAddress=0.0.0.0 --port=-1 --authConfig=/configs/psc-config.properties --securePort=8282 --keyFile=/configs/server.key --certificateFile=/configs/server.crt --startMockHostAdapterInstance=false"
-
-  # Start current Admiral
-  docker create -p 8282:8282 \
-    --name vic-admiral \
-    -v "$new_admiral_data/configs:/configs" \
-    -v "$new_admiral_data:/var/admiral" \
-    -v "/etc/vmware/psc/admiral:/etc/vmware/psc/admiral" \
-    -e ADMIRAL_PORT=-1 \
-    -e JAVA_OPTS="-Ddcp.net.ssl.trustStore=/configs/trustedcertificates.jks -Ddcp.net.ssl.trustStorePassword=changeit" \
-    -e CONFIG_FILE_PATH="/configs/config.properties" \
-    -e XENON_OPTS="$new_admiral_xenon_opts" \
-    --log-driver=json-file \
-    --log-opt max-size=1g \
-    --log-opt max-file=10 \
-    "vmware/admiral:vic_${BUILD_ADMIRAL_REVISION}"
-  /usr/bin/docker start vic-admiral
-
-  local psc_token
-  psc_token=$(readFile ${admiral_psc_token_file})
-  set +e
-  /etc/vmware/admiral/migrate.sh "$old_admiral" "$new_admiral" "$psc_token"
-  if [ $? -ne 0 ]; then
-    echo "Data migration to new Admiral failed" | tee /dev/fd/3
-    exit 1
-  fi
-  set -e
-
-  echo "Admiral migration complete" | tee /dev/fd/3
-  docker stop vic-upgrade-admiral
-  docker stop vic-admiral
-
-  echo "Archiving previous Admiral data" | tee /dev/fd/3
-  /usr/bin/tar czf $admiral_backup $old_admiral_data
-  rm -rf $old_admiral_data
-  mv $new_admiral_data $old_admiral_data
-
-  echo "Cleaning up" | tee /dev/fd/3
-  docker rm -f vic-upgrade-admiral
-}
-
-function upgradeAdmiral {
-  echo "Performing pre-upgrade checks" | tee /dev/fd/3
-  checkAdmiralPSCToken
-  checkUpgradeStatus "Admiral" ${admiral_upgrade_status}
-
-  if [ -n "$(docker ps -q -f name=vic-upgrade-admiral)" ]; then
-    echo "Admiral upgrade container already exists" | tee /dev/fd/3
-    echo "If upgrade is not already running, execute the following command and rerun the upgrade script:" | tee /dev/fd/3
-    echo "    docker rm -f vic-upgrade-admiral" | tee /dev/fd/3
-    exit 1
-  fi
-
-  echo "Starting Admiral upgrade" | tee /dev/fd/3
-
-  echo "[=] Shutting down Harbor and Admiral" | tee /dev/fd/3
-  systemctl stop harbor.service harbor_startup.service
-  systemctl stop admiral.service admiral_startup.service
-  iptables -A INPUT -p tcp --dport 8282 -j ACCEPT
-  iptables -A INPUT -p tcp --dport 8283 -j ACCEPT
-
-  echo "[=] Upgrade Admiral" | tee /dev/fd/3
-  performAdmiralUpgrade
-
-  echo "Admiral upgrade complete" | tee /dev/fd/3
-  # Set timestamp file
-  /usr/bin/touch ${admiral_upgrade_status}
-  iptables -D INPUT -p tcp --dport 8283 -j ACCEPT
-
-  echo "Starting Admiral" | tee /dev/fd/3
-  systemctl start admiral_startup.service
-  sleep 3
-}
-
-function updateAdmiralConfig {
-  echo "Updating Admiral configuration" | tee /dev/fd/3
-  curl \
-    -s --insecure \
-    -X PUT \
-    -H "x-xenon-auth-token: $(cat /etc/vmware/psc/admiral/tokens.properties)" \
-    -H 'cache-control: no-cache' \
-    -H 'content-type: application/json' \
-    -d "{ \"key\" : \"harbor.tab.url\", \"value\" : \"$(grep harbor.tab.url /storage/data/admiral/configs/config.properties | cut -d'=' -f2)\" }" \
-    "https://${APPLIANCE_IP}:8282/config/props/harbor.tab.url" ; \
-  systemctl restart admiral.service
-}
-
-function upgradeHarbor {
-  echo "Performing pre-upgrade checks" | tee /dev/fd/3
-  checkUpgradeStatus "Harbor" ${harbor_upgrade_status}
-
-  # Perform sanity check on data volume
-  if ! harborDataSanityCheck ${data_mount}; then
-    echo "Harbor Data is not present in ${data_mount}, can't continue with upgrade operation" | tee /dev/fd/3
-    exit 1
-  fi
-
-  checkDir ${harbor_backup}
-  checkDir ${harbor_migration}
-  checkHarborPSCToken
-
-  # Start Admiral for data migration
-  systemctl start admiral_startup.service
-
-  echo "Starting Harbor upgrade" | tee /dev/fd/3
-
-  echo "[=] Shutting down Harbor" | tee /dev/fd/3
-  systemctl stop harbor_startup.service
-  systemctl stop harbor.service
-
-  echo "[=] Migrating Harbor data" | tee /dev/fd/3
-  migrateHarborData
-  echo "[=] Finished migrating Harbor data" | tee /dev/fd/3
-
-  echo "[=] Migrating Harbor configuration" | tee /dev/fd/3
-  upgradeHarborConfiguration
-  echo "[=] Finished migrating Harbor configuration" | tee /dev/fd/3
-
-  echo "[=] Importing project data into Admiral" | tee /dev/fd/3
-  checkAdmiralRunning
-  admiralImportData
-  echo "[=] Finished importing project data into Admiral" | tee /dev/fd/3
-
-  echo "[=] Mapping project data into Harbor" | tee /dev/fd/3
-  mapHarborProject
-  echo "[=] Finished mapping project data into Harbor" | tee /dev/fd/3
-
-  echo "Harbor upgrade complete" | tee /dev/fd/3
-  # Set timestamp file
-  /usr/bin/touch ${harbor_upgrade_status}
-
-  echo "Starting Harbor" | tee /dev/fd/3
-  systemctl start harbor_startup.service
-}
 
 # Register appliance for content trust
 function registerAppliance {
@@ -505,8 +92,8 @@ function enableServicesStart {
 }
 
 # Check for presence of Admiral's PSC config file. If the file exists, the old
-# OVA is version 1.2.x, otherwise it is 1.1.x and data migration is needed.
-function setDataUpgradeNeeded {
+# OVA is version 1.2.x.
+function proceedWithUpgrade {
   if [ ! -f "/storage/data/admiral/configs/psc-config.properties" ]; then
     echo "Detected old OVA's version as 1.1.x. We no longer support this upgrade path." | tee /dev/fd/3
     echo -n "If the version of the old OVA is not 1.1.x, please contact VMware support: " | tee /dev/fd/3
@@ -534,11 +121,15 @@ function setDataUpgradeNeeded {
               ;;
       esac
     done
-    data_upgrade_needed=true
   fi
 }
 
 function main {
+
+  ### ------------------ ###
+  ###  Appliance Upgrade ###
+  ### ------------------ ###
+
   firstboot="/etc/vmware/firstboot"
   if [ ! -f "$firstboot" ]; then
     echo "Appliance first boot initialization has not completed. Please wait until firstboot.service has completed."
@@ -586,21 +177,6 @@ function main {
     shift # past argument or value
   done
 
-  if [ -z "${DB_USER}" ]; then
-    DB_USER="root"
-  fi
-
-  if [ -z "${DB_PASSWORD}" ]; then
-    echo "Getting password from harbor.cfg"
-    readHarborCfgKey db_password DB_PASSWORD
-  fi
-
-  # If DB_PASSWORD not set by cfg, exit
-  if [ -z "${DB_PASSWORD}" ]; then
-    echo "--dbpass not set and value not found in $cfg"
-    exit 1
-  fi
-
   if [ -z "${VCENTER_TARGET}" ] ; then
     read -p "Enter vCenter Server FQDN or IP: " VCENTER_TARGET
   fi
@@ -626,11 +202,9 @@ function main {
   systemctl start docker.service
 
   exec 3>&1 1>>${upgrade_log_file} 2>&1
-  echo ""
-  echo "-------------------------"
-  echo "Starting upgrade ${TIMESTAMP}" | tee /dev/fd/3
+  echo -e "\n-------------------------\nStarting upgrade ${TIMESTAMP}" | tee /dev/fd/3
 
-  setDataUpgradeNeeded
+  proceedWithUpgrade
 
   echo "Preparing upgrade environment" | tee /dev/fd/3
   disableServicesStart
@@ -639,27 +213,13 @@ function main {
   writeTimestamp
   echo "Finished preparing upgrade environment" | tee /dev/fd/3
 
-  if [ "$data_upgrade_needed" = true ]; then
-      upgradeAdmiral
-  else
-      # Start Admiral
-      echo "Starting Admiral" | tee /dev/fd/3
-      systemctl start admiral_startup.service
-      sleep 3
-  fi
+  ### -------------------- ###
+  ###  Component Upgrades  ###
+  ### -------------------- ###
+  ${0%/*}/upgrade-admiral.sh
+  ${0%/*}/upgrade-harbor.sh
 
-  updateAdmiralConfig
-
-  if [ "$data_upgrade_needed" = true ]; then
-      upgradeHarbor
-  else
-      # Start Harbor
-      echo ""
-      echo "Starting Harbor" | tee /dev/fd/3
-      systemctl start harbor_startup.service
-  fi
   setDataVersion
-
   enableServicesStart
   echo "Upgrade script complete. Exiting." | tee /dev/fd/3
   echo "-------------------------"

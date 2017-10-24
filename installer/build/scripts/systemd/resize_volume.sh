@@ -73,11 +73,10 @@ function resize {
   fs_size=`dumpe2fs -h ${data_partition} |& gawk -F: '/Block count/{count=$2} /Block size/{size=$2} END{print count*size}'`
   fs_size=${fs_size:-0}
   check_integer $fs_size
-  set -e
   partition_size=`blockdev --getsize64 ${data_partition}`
   check_integer $partition_size
   fs_size_difference=`expr ${partition_size} - ${fs_size}`
-  
+  set -e
   check_integer $fs_size_difference
 
   if [ $fs_size -eq 0 ]; then
