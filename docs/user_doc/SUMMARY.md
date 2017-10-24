@@ -80,7 +80,8 @@
      * [Check Service Status](vic_vsphere_admin/service_status.md)
      * [Restart Services](vic_vsphere_admin/restart_services.md)  
   * [Troubleshooting](vic_vsphere_admin/troubleshoot_vic.md) 
-     * [Access Log Bundles](vic_vsphere_admin/log_bundles.md)
+     * [Access Appliance Logs](vic_vsphere_admin/appliance_logs.md)
+     * [Access VCH Logs](vic_vsphere_admin/log_bundles.md)
      * [VCH Deployment Times Out](vic_vsphere_admin/ts_vch_deployment_timeout.md)
      * [Appliance Fails to Register with PSC](vic_vsphere_admin/ts_register_psc_fails.md)
      * [Certificate Verification Error](vic_vsphere_admin/ts_thumbprint_error.md)
@@ -98,7 +99,7 @@
      * [Appliance VM Password Refused](vic_vsphere_admin/ts_appliance_password_refused.md)
      * [Default Volume Store Error](vic_app_dev/ts_volume_store_error.md)
      * [Docker Login Fails](vic_vsphere_admin/ts_dockerlogin_error.md)
-  * [Security](vic_vsphere_admin/security_reference.md)
+  * [Security Reference](vic_vsphere_admin/security_reference.md)
      * [Certificate Reference](vic_vsphere_admin/vic_cert_reference.md)
      * [Obtain Appliance Certificates](vic_vsphere_admin/obtain_appliance_certs.md)
      
