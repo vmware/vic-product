@@ -199,7 +199,7 @@ TODO Add how to deprivilege Docker container
   performed before handing off an artifact to the appliance team and end to end testing should be
   performed on the resulting appliance.
 
-- User ID `999` MUST be used as the unprivileged user for components
+- User ID `10000` MUST be used as the unprivileged user for components
 
 
 ## Filesystem Layout
