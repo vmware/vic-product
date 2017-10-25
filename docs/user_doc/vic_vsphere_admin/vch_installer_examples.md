@@ -9,11 +9,6 @@ This topic provides examples of the options of the `vic-machine create` command 
   - [Deploy to a Resource Pool in a vCenter Server Cluster](#rp_cluster)
   - [Set Limits on Resource Use](#customized)
 - [Specify One or More Volume Stores](#volume-stores)
-- [Security Examples](#security)
-  - [Use Auto-Generated Trusted CA Certificates](#auto_cert)
-  - [Use Custom Server Certificates](#custom_cert)
-  - [Combine Custom Server Certificates and Auto-Generated Client Certificates](#certcombo)
-  - [Specify Different User Accounts for VCH Deployment and Operation](#ops-user)
 - [Registry Server Examples](#regserv)
   - [Authorize Access to an Insecure Private Registry Server](#registry)
   - [Authorize Access to Secure Registries and vSphere Integrated Containers Registry](#secureregistry)
@@ -198,106 +193,10 @@ For more information about volume stores, see the [volume-store section](vch_ins
 The examples in this section demonstrate how to configure a VCH to use Certificate Authority (CA) certificates to enable `TLSVERIFY` in your Docker environment, and to allow access to insecure registries of Docker images.
 
 
-###  Use Auto-Generated Trusted CA Certificates <a id="auto_cert"></a>
-
-You can deploy a VCH that implements two-way authentication with trusted auto-generated TLS certificates that are signed by a CA. 
-
-To automatically generate a server certificate that can pass client verification, you must specify the Common Name (CN) for the certificate by using the [`--tls-cname`](vch_installer_options.md#tls-cname) option. The CN should be the FQDN or IP address of the server, or a domain with a wildcard. The CN value must match the name or address that clients will use to connect to the server. You can use the `--organization` option to add basic descriptive information to the server certificate. This information is visible to clients if they inspect the server certificate.
-
-If you specify an existing CA file with which to validate clients, you must also provide an existing server certificate that is compatible with the `--tls-cname` value or the IP address of the client interface.
-
-This example deploys a VCH with the following configuration:
-
-- Specifies the user, password, datacenter, image store, cluster, bridge network, and name for the VCH.
-- Provides a wildcard domain `*.example.org` as the FQDN for the VCH, for use as the Common Name in the certificate. This assumes that there is a DHCP server offering IP addresses on VM Network, and that those addresses have corresponding DNS entries such as `dhcp-a-b-c.example.com`.
-- Specifies a folder in which to store the auto-generated certificates.
-
-<pre>vic-machine-<i>operating_system</i> create
---target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
---compute-resource cluster1
---image-store datastore1
---bridge-network vch1-bridge
---tls-cname *.example.org
---tls-cert-path <i>path_to_cert_folder</i>
---thumbprint <i>certificate_thumbprint</i>
---name vch1
-</pre>
-
-The Docker API for this VCH will be accessible at `https://dhcp-a-b-c.example.com:2376`.
-
-For more information about using auto-generated CA certificates, see the section [Restrict Access to the Docker API with Auto-Generated Certificates](vch_installer_options.md#restrict_auto) in VCH Deployment Options.
 
 
-### Use Custom Server Certificates <a id="custom_cert"></a>
 
-You can create a VCH that uses a custom server certificate, for example  a server certificate that has been signed by Verisign or another public root. You use the `--tls-server-cert` and `--tls-server-key` options to provide the paths to a custom X.509 certificate and its key when you deploy a VCH. The paths to the certificate and key files must be relative to the location from which you are running `vic-machine create`.
 
-This example deploys a VCH with the following configuration:
-
-- Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
-- Provides the paths relative to the current location of the `*.pem` files for the custom server certificate and key files.
-
-<pre>vic-machine-<i>operating_system</i> create
---target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
---compute-resource cluster1
---image-store datastore1
---bridge-network vch1-bridge
---tls-server-cert ../some/relative/path/<i>certificate_file</i>.pem
---tls-server-key ../some/relative/path/<i>key_file</i>.pem
---name vch1
---thumbprint <i>certificate_thumbprint</i>
-</pre>
-
-For more information about using custom server certificates, see the section [Restrict Access to the Docker API with Custom Certificates](vch_installer_options.md#restrict_custom) in VCH Deployment Options.
-
-### Combine Custom Server Certificates and Auto-Generated Client Certificates <a id="certcombo"></a>
-
-You can create a VCH with a custom server certificate by specifying the paths to custom `server-cert.pem` and `server-key.pem` files in the `--tls-server-cert` and `--tls-server-key` options. The key should be un-encrypted. Specifying the `--tls-server-cert` and `--tls-server-key` options for the server certificate does not affect the automatic generation of client certificates. If you specify the `--tls-cname` option to match the common name value of the server certificate, `vic-machine create` generates self-signed certificates for Docker client authentication and deployment of the VCH succeeds.
-
-This example deploys a VCH with the following configuration:
-
-- Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
-- Provides the paths relative to the current location of the `*.pem` files for the custom server certificate and key files.
-- Specifies the common name from the server certificate in the `--tls-cname` option. The `--tls-cname` option is used in this case to ensure that the certificate is valid for the resulting VCH, given the network configuration.
-
-<pre>vic-machine-<i>operating_system</i> create
---target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
---compute-resource cluster1
---image-store datastore1
---bridge-network vch1-bridge
---tls-server-cert ../some/relative/path/<i>certificate_file</i>.pem
---tls-server-key ../some/relative/path/<i>key_file</i>.pem
---tls-cname <i>cname_from_server_cert</i>
---name vch1
---thumbprint <i>certificate_thumbprint</i>
-</pre>
-
-### Specify Different User Accounts for VCH Deployment and Operation <a id="ops-user"></a>
-
-When you deploy a VCH, you can use different vSphere user accounts for deployment and for operation. This allows you to run VCHs with lower levels of privileges than are required for deployment.
-
-This example deploys a VCH with the following configuration:
-
-- Specifies the image store and name for the VCH.
-- Specifies <i>vsphere_admin</i> in the `--target` option, to identify the user account with vSphere Administrator privileges with which to deploy the VCH.
-- Specifies <i>vsphere_user</i> and its password in the `--ops-user` and `--ops-password` options, to identify the user account with which the VCH runs. The user account that you specify in `--ops-user` must  is different to the vSphere Administrator account that you use for deployment, and must exist before you deploy the VCH. 
-- Specifies a resource pool in which to deploy the VCH in the `--compute-resource` option.
-- Specifies the VCH port groups in the `--bridge-network` and `--container-network` options.
-
-<pre>vic-machine-<i>operating_system</i> create
---target <i>vsphere_admin</i>:<i>vsphere_admin_password</i>@<i>vcenter_server_address</i>/dc1
---compute-resource cluster1/VCH_pool
---image-store datastore1
---bridge-network vch1-bridge
---container-network vic-containers:vic-container-network
---name vch1
---ops-user <i>vsphere_user</i>
---ops-password <i>vsphere_user_password</i>
---thumbprint <i>certificate_thumbprint</i>
---no-tls
-</pre>
-
-For information about the permissions that the `--ops-user` account requires, and the permissions to set on the resource pool for the VCH and on the network folders, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
 
 ## Registry Server Examples <a id="regserv"></a>
 

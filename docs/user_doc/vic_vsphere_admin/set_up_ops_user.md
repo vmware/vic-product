@@ -145,4 +145,54 @@ When you deploy a VCH, a user account that you specify in `--ops-user` must have
 
 **What to do next**
 
-Use `vic-machine create --ops-user=<user_account>` to deploy VCHs that operate with restricted privileges. Ensure that the various vSphere inventory objects that you specify as arguments have the user group with the appropriate role. For an example of a `vic-machine` command with the `--ops-user` option, see the section *Specify Different User Accounts for VCH Deployment and Operation* [Advanced Examples of Deploying a VCH](vch_installer_examples.md#ops-user).
+Use `vic-machine create --ops-user=<user_account>` to deploy VCHs that operate with restricted privileges. Ensure that the various vSphere inventory objects that you specify as arguments have the user group with the appropriate role.
+
+- [`vic-machine `Options](#options)
+- [Example `vic-machine` Command](#example)
+
+## `vic-machine` Options <a id="options"></a>
+
+Because deploying a VCH requires greater levels of permissions than running a VCH, you can configure a VCH so that it uses different user accounts for deployment and for operation. In this way, you can limit the day-to-day operation of a VCH to an account that does not have full administrator permissions on the target vCenter Server.
+
+### `--ops-user` <a id="ops-user"></a>
+
+Short name: None
+
+A vSphere user account with which the VCH runs after deployment. If not specified, the VCH runs with the vSphere Administrator credentials with which you deploy the VCH, that you specify in either `--target` or `--user`.
+
+<pre>--ops-user <i>user_name</i></pre>
+
+The user account that you specify in `--ops-user` must exist before you deploy the VCH. For information about the permissions that the `--ops-user` account requires, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
+
+### `--ops-password` ###
+
+Short name: None
+
+The password or token for the operations user that you specify in `--ops-user`. If not specified, `vic-machine create` prompts you to enter the password for the `--ops-user` account.
+
+<pre>--ops-password <i>password</i></pre>
+
+## Example `vic-machine` Command <a id="example"></a>
+
+When you deploy a VCH, you can use different vSphere user accounts for deployment and for operation. This allows you to run VCHs with lower levels of privileges than are required for deployment.
+
+This example deploys a VCH with the following configuration:
+
+- Specifies the image store and name for the VCH.
+- Specifies <i>vsphere_admin</i> in the `--target` option, to identify the user account with vSphere Administrator privileges with which to deploy the VCH.
+- Specifies <i>vsphere_user</i> and its password in the `--ops-user` and `--ops-password` options, to identify the user account with which the VCH runs. The user account that you specify in `--ops-user` must  is different to the vSphere Administrator account that you use for deployment, and must exist before you deploy the VCH. 
+- Specifies a resource pool in which to deploy the VCH in the `--compute-resource` option.
+- Specifies the VCH port groups in the `--bridge-network` and `--container-network` options.
+
+<pre>vic-machine-<i>operating_system</i> create
+--target <i>vsphere_admin</i>:<i>vsphere_admin_password</i>@<i>vcenter_server_address</i>/dc1
+--compute-resource cluster1/VCH_pool
+--image-store datastore1
+--bridge-network vch1-bridge
+--container-network vic-containers:vic-container-network
+--name vch1
+--ops-user <i>vsphere_user</i>
+--ops-password <i>vsphere_user_password</i>
+--thumbprint <i>certificate_thumbprint</i>
+--no-tls
+</pre>

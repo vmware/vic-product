@@ -97,7 +97,7 @@ You can configure the security settings of a VCH by using the different TLS opti
 - To disable verification of client certificates, use the `vic-machine configure --no-tlsverify` option.
 - To change the location in which to search for and store certificates, use the `vic-machine configure --tls-cert-path` option.
 
-The `vic-machine configure` TLS options function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` security options, see [Security Options](vch_installer_options.md#security) in VCH Deployment Options.
+The `vic-machine configure` TLS options function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` security options, see [Virtual Container Hosts Security](vch_security.md).
 
 **NOTE**: The `vic-machine configure` command does not include an equivalent to `vic-machine create --tls-ca` option.
 
