@@ -26,6 +26,7 @@ The vSphere Integrated Containers appliance makes the core vSphere Integrated Co
 |---|---|---|
 |443|HTTPS|Connections to vSphere Integrated Containers Registry from vSphere Integrated Containers Management Portal, VCHs, and Docker clients|
 |1337|HTTPS|Connections to the Demo VCH Installer|
+|4443|HTTPS|Connections to the Docker Content Trust service for vSphere Integrated Containers Registry|
 |8282|HTTPS|Connections to vSphere Integrated Containers Management Portal UI and API|
 |9443|HTTPS|Connections to the appliance intialization and Getting Started page, vSphere Integrated Containers Engine download, and vSphere Client plug-in installer|
 

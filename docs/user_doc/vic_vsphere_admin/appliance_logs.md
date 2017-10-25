@@ -12,10 +12,10 @@ Make sure that SSH access to the appliance is enabled. To enable SSH access to t
 2. To access the logs for the appliance, navigate to `/var/log`.<pre>$ cd /var/log</pre>The `/var/log` folder contains the appliance installation log, `installation.log`.
 3. To access logs for vSphere Integrated Containers Registry, navigate to `/var/log/harbor`.<pre>$ cd /var/log/harbor</pre>The `/var/log` folder contains the log files for the following services:
 
-   - `adminserver.log`: Registry administration service.
+   - `adminserver.log`: Registry administration service
    - `clair-db.log`: Clair database used for vulnerability scanning of images
    - `clair.log`: Clair service used for vulnerability scanning of images
-   - `jobservice.log`
+   - `jobservice.log`: Registry job service log
    - `mysql.log`: Embedded registry database
    - `notary-db.log`: Notary database by Docker Content Trust
    - `notary-server.log`: Notary server used by Docker Content Trust
