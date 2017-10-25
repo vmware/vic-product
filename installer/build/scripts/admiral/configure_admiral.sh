@@ -217,7 +217,7 @@ sed -i "/\b\(keystore.file\)\b/d" $config_dir/psc-config.properties
 echo "keystore.file=/configs/psc-config.keystore" >> $config_dir/psc-config.properties
 
 # Set access for UID 999 used by Admiral container
-chown -R 999:999 $data_dir
+chown -R 10000:10000 $data_dir
 
 # Start on startup
 echo "Enable admiral startup."
