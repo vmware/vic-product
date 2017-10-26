@@ -43,7 +43,7 @@ pipeline:
       repo: vmware/vic-product
       event: [ push, tag, deployment ]
 
-  unified-ova-build: 
+  unified-ova-build:
     image: gcr.io/eminent-nation-87317/vic-product-build:latest
     pull: true
     privileged: true
@@ -120,7 +120,17 @@ pipeline:
       branch: [ master, releases/*, refs/tags/* ]
       status: [ failure ]
 
-# https://hooks.slack.com/services/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
+  notify-slack:
+    image: plugins/slack
+    webhook: ${PRODUCT_SLACK_URL}
+    username: drone
+    template: >
+        Build '{{ build.link }}' completed with a '{{ build.status }}' status from the event '{{ build.event }}' by '{{ lowercase build.author }}'
+    when:
+      repo: vmware/vic-product
+      branch: [ master, releases/*, refs/tags/* ]
+      status: [ success, failure ]
+
 services:
   dind:
     image: docker:dind
