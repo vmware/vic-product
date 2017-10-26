@@ -1,6 +1,8 @@
 # Restrict Access to the Docker API with Custom Certificates <a id="restrict_custom"></a>
 
-To exercise fine control over the certificates that VCHs use, obtain or generate custom certificates yourself before you deploy a VCH. Use the `--tls-server-key`, `--tls-server-cert`, and `--tls-ca` options to pass the custom certificates to `vic-machine create`.
+To exercise fine control over the certificates that VCHs use, obtain or generate custom certificates yourself before you deploy a VCH. For information about how to create custom certificates for use with Docker, see [Protect the Docker daemon socket](https://docs.docker.com/engine/security/https/) in the Docker documentation. 
+
+When you have created or obtained custom certificates, you use the `--tls-server-key`, `--tls-server-cert`, and `--tls-ca` options to pass the custom certificates to `vic-machine create`.
 
 **IMPORTANT**: PKCS#7 certificates do not work with `vic-machine`. For information about how to convert certificates to the correct format, see [Converting Certificates for Use with vSphere Integrated Containers Engine](vic_cert_reference.md#convertcerts). 
 
@@ -9,7 +11,7 @@ To exercise fine control over the certificates that VCHs use, obtain or generate
 
 ## `vic-machine` Options <a id="options"></a>
 
-#### `--tls-server-cert` <a id="cert"></a>
+### `--tls-server-cert` <a id="cert"></a>
 
 Short name: none
 
@@ -29,7 +31,7 @@ The path to a custom X.509 server certificate. This certificate identifies the V
 --tls-server-key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
 </pre> 
 
-#### `--tls-server-key` <a id="key"></a>
+### `--tls-server-key` <a id="key"></a>
 
 Short name: none
 
@@ -41,7 +43,7 @@ The path to the private key file to use with a custom server certificate. This o
 --tls-server-key <i>path_to_key_file</i>/<i>key_file_name</i>.pem
 </pre> 
 
-#### `--tls-ca` <a id="tls-ca"></a>
+### `--tls-ca` <a id="tls-ca"></a>
 
 Short name: `--ca`
 
@@ -51,7 +53,7 @@ You can specify `--tls-ca` multiple times, to point `vic-machine create` to a fi
 
 **NOTE**: The `--tls-ca` option appears in the extended help that you see by running <code>vic-machine-<i>os</i> create --extended-help</code> or <code>vic-machine-<i>os</i> create -x</code>.
 
-## Example `vic-machine` Command <a id="example"></a>
+## Example `vic-machine` Commands <a id="example"></a>
 
 You can create a VCH that uses a custom server certificate, for example  a server certificate that has been signed by Verisign or another public root. You use the `--tls-server-cert` and `--tls-server-key` options to provide the paths to a custom X.509 certificate and its key when you deploy a VCH. The paths to the certificate and key files must be relative to the location from which you are running `vic-machine create`.
 

@@ -46,8 +46,6 @@ To facilitate IP address changes in your infrastructure, provide an FQDN wheneve
   
     If you do not include the user name in the target URL, you must specify the `user` option. If you do not specify the `password` option or include the password in the target URL, `vic-machine create` prompts you to enter the password.
 
-    You can configure a VCH so that it uses a non-administrator account for post-deployment operations by specifying the `--ops-user` option. For information about `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
-
 - If you are deploying a VCH on a vCenter Server instance that includes more than one datacenter, include the datacenter name in the target URL. If you include an invalid datacenter name, `vic-machine create` fails and suggests the available datacenters that you can specify. 
 
   <pre>--target <i>vcenter_server_address</i>/<i>datacenter_name</i></pre>
@@ -64,7 +62,8 @@ If you are deploying a VCH on vCenter Server, specify a username for an account 
 
 You can specify the username in the URL that you pass to `vic-machine create` in the `target` option, in which case the `user` option is not required.
 
-You can configure a VCH so that it uses a non-administrator account for post-deployment operations by specifying the [`--ops-user`](#--ops-user) option. If you do not specify `--ops-user`, VCHs use the vSphere administrator account that you specify in `--user` for general post-deployment operations.
+You can configure a VCH so that it uses a non-administrator account for post-deployment operations by specifying the `--ops-user` option. If you do not specify `--ops-user`, VCHs use the vSphere administrator account that you specify in `--user` for general post-deployment operations. For information about using a separate account for post-deployment operation, [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
+
 
 ### `--password` ###
 
@@ -358,12 +357,6 @@ The timeout period for uploading the vSphere Integrated Containers Engine files 
 # Advanced Options <a id="advanced"></a>
 
 The options in this section are exposed in the `vic-machine create` help if you run <code>vic-machine create --extended-help</code>, or <code>vic-machine create -x</code>. 
-
-## Specify a Static IP Address for the VCH Endpoint VM <a id="static-ip"></a>
-
-
-
-
 
 ## Advanced Resource Management Options <a id="adv-mgmt"></a>
 

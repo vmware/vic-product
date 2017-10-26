@@ -174,8 +174,6 @@ The password or token for the operations user that you specify in `--ops-user`. 
 
 ## Example `vic-machine` Command <a id="example"></a>
 
-When you deploy a VCH, you can use different vSphere user accounts for deployment and for operation. This allows you to run VCHs with lower levels of privileges than are required for deployment.
-
 This example deploys a VCH with the following configuration:
 
 - Specifies the image store and name for the VCH.

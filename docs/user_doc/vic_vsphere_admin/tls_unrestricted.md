@@ -1,7 +1,13 @@
-# Do Not Restrict Access to the Docker API <a id="unrestricted"></a>
+# Unrestricted Access to the Docker API <a id="unrestricted"></a>
+
 To deploy a VCH that does not restrict access to the Docker API, use the `--no-tlsverify` option. To completely disable TLS authentication, use the `--no-tls` option.
 
-#### `--no-tlsverify` <a id="no-tlsverify"></a>
+- [`vic-machine `Options](#options)
+- [Example `vic-machine` Command](#example)
+
+## `vic-machine` Options <a id="options"></a>
+
+### `--no-tlsverify` <a id="no-tlsverify"></a>
 
 Short name: `--kv`
 
@@ -19,7 +25,7 @@ The `--no-tlsverify` option takes no arguments.
 
 <pre>--no-tlsverify</pre>
 
-#### `--no-tls` <a id="no-tls"></a>
+### `--no-tls` <a id="no-tls"></a>
 
 Short name: `-k`
 
@@ -30,3 +36,5 @@ Set the `no-tls` option if you do not require TLS authentication between the VCH
 If you use the `no-tls` option, container developers connect Docker clients to the VCH via port 2375, instead of via port 2376.
 
 <pre>--no-tls</pre>
+
+## Example `vic-machine` Commands <a id="example"></a>
