@@ -201,6 +201,11 @@ TODO Add how to deprivilege Docker container
 
 - User ID `10000` MUST be used as the unprivileged user for components
 
+- All shell scripts MUST be checked using ShellCheck and errors all errors resolved prior to
+  inclusion
+
+  https://github.com/koalaman/shellcheck
+
 
 ## Filesystem Layout
 
