@@ -22,13 +22,13 @@ The `vmkfstools` utility maintains the thinness of a volume disk when it makes a
 
 You should experiment with the clone and backup solutions that you use to be aware of the consequences of making thin disks fat, particularly when it comes to the impact of restoring disks from a backup.
 
-## Approaches to Backing Up VDMK Volumes
+## Approaches to Backing Up VMDK Volumes
 
-The following examples show how you can use different approaches to back up the iSCI and vSAN volume stores used in [Example: Persistent Container State](backup_volumes.md#persistentstate) in the previous topic.
+The following examples show how you can use different approaches to back up the iSCSI and vSAN volume stores used in [Example: Persistent Container State](backup_volumes.md#persistentstate) in the previous topic.
 
 ### Datastore Approach <a id="datastore"></a>
 
-Your backup solution might have the ability to create snapshots or clones of entire datastores. This is a good way to ensure that you have  backed up everything, but it also makes it more important to use different datastores for different types of state. For example, it would potentially be a waste of bandwidth to back up ephemeral state.
+Your backup solution might have the ability to create snapshots or clones of entire datastores. This is a good way to ensure that you have  backed up everything, but it also makes it more important to use different datastores for different types of state. For example, it would potentially be a waste of bandwidth to back up ephemeral state or cached immutable image state.
 
 ### File Copy Approach <a id="filecopy"></a>
 
