@@ -52,16 +52,14 @@ You can also use the `vic-machine configure --ops-user` and `--ops-password` opt
 
 If the vCenter Server certificate changes, you must update any VCHs running on that vCenter Server instance, otherwise they will no longer function.
 
-To update the certificate, provide the new certificate thumbprint to the VCH in the `--thumbprint` option:
+To update the certificate, provide the new certificate thumbprint to the VCH in the `--thumbprint` option. For information about how to obtain the vCenter Server certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
     --id <i>vch_id</i>
     --thumbprint <i>new_certificate_thumbprint</i></pre>
 
-If you run `vic-machine configure` with the `--force` option and you do not specify `--thumbprint`, `vic-machine` updates the thumbprint automatically. 
-
-**CAUTION**: It is not recommended to use `--force` to automatically update thumbprints in production environments. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. For information about how to obtain the vCenter Server certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
+**CAUTION**: Specifying the `--force` option bypasses certificate thumbprint verification. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` also bypasses other checks, and can result in data loss.
 
 ## Add or Update Registry Server Certificates <a id="registries"></a>
 

@@ -40,9 +40,9 @@ If the delete operation fails with a message about container VMs that are powere
 
 If your vSphere environment uses untrusted, self-signed certificates, running `vic-machine delete` with the `--force` option allows you to omit the `--thumbprint` option.  
 
-**CAUTION**: It is not recommended to use `--force` to bypass thumbprint verification in production environments.  Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. 
-
 <pre>$ vic-machine-<i>operating_system</i> delete
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
 --name <i>vch_name</i></i>
 --force</pre>
+
+**CAUTION**: Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` also bypasses other checks, and can result in data loss.
