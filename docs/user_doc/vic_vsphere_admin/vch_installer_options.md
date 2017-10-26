@@ -404,12 +404,13 @@ The `vic-machine` utility allows you to specify the datastore in which to store 
   may not work as intended.</pre> 
 - VCHs do not support datastore name changes. If a datastore changes name after you have deployed a VCH that uses that datastore, that VCH will no longer function.
 
+When selecting datastores for use as image and volume stores, it is important to consider the implications for backing up the data that they contain. For information about backing up VCH data, see [Backing Up Virtual Container Host Data](backup_vch.md).
 
 ### `--image-store` <a id="image"></a>
 
 Short name: `-i`
 
-The datastore in which to store container image files, container VM files, and the files for the VCH. The `--image-store` option is **mandatory** if there is more than one datastore in your vSphere environment. If there is only one datastore in your vSphere environment, the `--image-store` option is not required. 
+The datastore in which to locally store container image files that developers pull from registries. The image store is also used to store container VM files and the files for the VCH. The `--image-store` option is **mandatory** if there is more than one datastore in your vSphere environment. If there is only one datastore in your vSphere environment, the `--image-store` option is not required. 
 
 If you do not specify the `--image-store` option and multiple possible datastores exist, or if you specify an invalid datastore name, `vic-machine create` fails and suggests valid datastores in the failure message. 
 
