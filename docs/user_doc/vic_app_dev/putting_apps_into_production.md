@@ -1,4 +1,4 @@
-# Putting Applications into Production with vSphere Integrated Containers Engine #
+ng Applications into Production with vSphere Integrated Containers Engine #
 
 vSphere Integrated Containers engine is designed to be a docker API compatible production endpoint for containerized workloads. As such, the design focus is on provisioning containerized applications with optimal isolation, security, data persistence, throughput performance and to take advantage of vSphere capabilities.
 
@@ -66,7 +66,6 @@ This kind of strong isolation is best suited to a container workload that is a l
 Containers are very flexible abstractions however and not every container is designed to be a single service. In fact, some containers are designed to be combined to form a single service and a single unit of scale. This notion is sometimes described as a Pod. In such a circumstance, it may be beneficial to run these as Linux containers in a single VM. VIC engine is providing built-in support for this model of provisioning Linux container hosts as VIC containers in 1.2.
 
 What's important is to consider the policy needs of your application in terms of isolation. Strong isolation is a very important consideration in deploying robust applications into production and VIC makes it easy to turn that policy into plumbing.
-
 
 
 
