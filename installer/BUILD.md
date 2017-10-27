@@ -93,6 +93,29 @@ $ make gvt vendor
 This will install the [gvt](https://github.com/FiloSottile/gvt) utility and retrieve the build dependencies via `gvt restore`
 
 
+## Staging and Release
+To perform staging and release process using Drone CI, refer to following commands. 
+Please note that you cannot trigger new CI builds manually, but have to promote existing build to either staging or release.
+
+Make sure `DRONE_SERVER` and `DRONE_TOKEN` environment variables are set before executing these commands.
+
+To promote existing successful CI build to staging...
+``
+$ drone deploy --param VICENGINE=<vic_engine_version> --param VIC_MACHINE_SERVER=<vic_machine_server> --param ADMIRAL=<admiral_tag> --param HARBOR=<harbor_version> vmware/vic-product <ci_build_number_to_promote> staging
+``
+
+To promote existing successful CI build to release...
+``
+$ drone deploy --param VICENGINE=<vic_engine_version> --param VIC_MACHINE_SERVER=<vic_machine_server> --param ADMIRAL=<admiral_tag> --param HARBOR=<harbor_version> vmware/vic-product <ci_build_number_to_promote> release
+``
+
+`vic_engine_version` and `harbor_version` can be specified as a URL or a file in `cwd`, eg. 'https://storage.googleapis.com/vic-engine-releases/vic_1.2.1.tar.gz'
+
+`admiral_tag` and `vic_machine_server` should be specified as docker image revision tag, eg. 'latest'
+
+`ci_build_number_to_promote` is the drone build number which will be promoted
+
+
 ## Troubleshooting
 
 #### Building the OVA outside of the CI workflow

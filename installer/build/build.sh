@@ -171,12 +171,6 @@ echo "cleaning up..."
 
 OUTFILE=bin/$(ls -1t bin | grep "\.ova")
 
-if [ -n "${DRONE_BUILD_NUMBER}" ]; then
-  TMP=$(echo "${OUTFILE}" | sed "s/-/-${DRONE_BUILD_NUMBER}-/")
-  mv "${OUTFILE}" "${TMP}"
-  OUTFILE=${TMP}
-fi
-
 echo "build complete"
 echo "  SHA256: $(shasum -a 256 $OUTFILE)"
 echo "  SHA1: $(shasum -a 1 $OUTFILE)"

@@ -19,6 +19,7 @@ pipeline:
       DRONE_TIMEOUT_INACTIVITY: ${DRONE_TIMEOUT_INACTIVITY}
       HARBOR: ${HARBOR}
       TERM: xterm
+      VIC_MACHINE_SERVER: ${VIC_MACHINE_SERVER}
       VICENGINE: ${VICENGINE}
     volumes:
       - /dev:/dev
