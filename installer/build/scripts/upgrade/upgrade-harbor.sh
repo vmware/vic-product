@@ -137,6 +137,7 @@ function upgradeHarborConfiguration {
 }
 
 # https://github.com/vmware/harbor/blob/master/docs/migration_guide.md
+# TODO: Update version of DB Migrator
 function migrateHarborData {
   checkDir ${harbor_backup}
   checkDir ${harbor_migration}
@@ -173,22 +174,23 @@ function migrateHarborData {
   DIR="notary-db"; mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
 }
 
-function mapHarborProject {
-  set +e
-  local migrator_image="vmware/harbor-db-migrator:1.2"
-  # this step runs after migrateHarborData, so we assume the database is now in /storage/db/harbor
-  local harbor_database="/storage/db/harbor/database"
+# TODO: Find out if we still need this step in 1.3
+# function mapHarborProject {
+#   set +e
+#   local migrator_image="vmware/harbor-db-migrator:1.2"
+#   # this step runs after migrateHarborData, so we assume the database is now in /storage/db/harbor
+#   local harbor_database="/storage/db/harbor/database"
 
-  docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e MAPPROJECTFILE=/harbor_migration/harbor_map_projects.json -v ${harbor_migration}:/harbor_migration -v ${harbor_database}:/var/lib/mysql ${migrator_image} mapprojects
-  if [ $? -ne 0 ]; then
-    echo "Map Harbor data failed" | tee /dev/fd/3
-    exit 1
-  fi
-  set -e
-}
+#   docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e MAPPROJECTFILE=/harbor_migration/harbor_projects.json -v ${harbor_migration}:/harbor_migration -v ${harbor_database}:/var/lib/mysql ${migrator_image} mapprojects
+#   if [ $? -ne 0 ]; then
+#     echo "Map Harbor data failed" | tee /dev/fd/3
+#     exit 1
+#   fi
+#   set -e
+# }
 
 # Upgrade entry point from upgrade.sh
-function main {
+function upgradeHarbor {
   if [ -z "${DB_USER}" ]; then
     DB_USER="root"
   fi
@@ -244,5 +246,3 @@ function main {
   echo "Starting Harbor" | tee /dev/fd/3
   systemctl start harbor_startup.service
 }
-
-main "$@"

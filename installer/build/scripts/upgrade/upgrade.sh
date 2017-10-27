@@ -17,6 +17,8 @@
 # File includes
 source /installer.env
 . ${0%/*}/util.sh
+. ${0%/*}/upgrade-admiral.sh
+. ${0%/*}/upgrade-harbor.sh
 
 set -euf -o pipefail
 
@@ -99,7 +101,7 @@ function proceedWithUpgrade {
     echo -n "If the version of the old OVA is not 1.1.x, please contact VMware support: " | tee /dev/fd/3
     exit 1
   else
-    echo "Detected old OVA's version as 1.2.x. Upgrade will perform data migration." | tee /dev/fd/3
+    echo "Detected old OVA's version as 1.2.x. Upgrade will perform data migration, but previous component logs won't be transferred." | tee /dev/fd/3
     echo -n "If the version of the old OVA is not 1.2.x, please enter n and contact VMware support: " | tee /dev/fd/3
     while true; do
       echo "" | tee /dev/fd/3
@@ -216,8 +218,10 @@ function main {
   ### -------------------- ###
   ###  Component Upgrades  ###
   ### -------------------- ###
-  ${0%/*}/upgrade-admiral.sh
-  ${0%/*}/upgrade-harbor.sh
+  echo -e "\n-------------------------\nStarting Admiral Upgrade ${TIMESTAMP}\n" | tee /dev/fd/3
+  upgradeAdmiral
+  echo -e "\n-------------------------\nStarting Harbor Upgrade ${TIMESTAMP}\n" | tee /dev/fd/3
+  upgradeHarbor
 
   setDataVersion
   enableServicesStart

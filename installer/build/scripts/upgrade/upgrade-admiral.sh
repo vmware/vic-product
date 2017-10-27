@@ -36,7 +36,7 @@ function checkAdmiralPSCToken {
 }
 
 # Upgrade entry point from upgrade.sh
-function main {
+function upgradeAdmiral {
   echo "Performing pre-upgrade checks" | tee /dev/fd/3
   checkAdmiralPSCToken
   checkUpgradeStatus "Admiral" ${admiral_upgrade_status}
@@ -59,5 +59,3 @@ function main {
   /usr/bin/touch ${admiral_upgrade_status}
   sleep 5
 }
-
-main "$@"

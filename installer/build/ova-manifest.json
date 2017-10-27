@@ -202,6 +202,21 @@
       "destination": "/etc/vmware/upgrade/upgrade.sh"
     },
     {
+      "type": "file",
+      "source": "scripts/upgrade/upgrade-admiral.sh",
+      "destination": "/etc/vmware/upgrade/upgrade-admiral.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/upgrade/upgrade-harbor.sh",
+      "destination": "/etc/vmware/upgrade/upgrade-harbor.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/upgrade/util.sh",
+      "destination": "/etc/vmware/upgrade/util.sh"
+    },
+    {
       "type": "shell",
       "script": "scripts/provision_admiral.sh"
     },
