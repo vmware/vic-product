@@ -33,9 +33,10 @@ git push upstream
 
 ## Tagging
 
-At the commit for the first release candidate, tag both the ongoing development and the release
-candidate. If the current release is `1.2.0`, the tag for ongoing development will be `1.3.0` and
-the first release candidate will be `1.2.0-rc1`.
+On the master branch, tag the commit for the first release candidate. On the
+subsequent commit, tag `dev` for ongoing development.  For example, if the
+current release is `1.2.0`, the first release candidate will be `1.2.0-rc1` and
+the tag for ongoing development will be `1.3.0-dev`.
 
 When the team is ready to release, tag the commit in the release branch and push the tag to Github. 
 
