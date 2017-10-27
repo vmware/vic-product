@@ -37,11 +37,11 @@ This example uses a VCH with two VMDK volume stores and one NFS volume store to 
 
 **Procedure**
 
-1. Run `vic-machine create` with the following options to deploy a VCH with three volume stores,<pre>--volume-store vsanDatastore/volumes/my-vch-data:backed-up-encrypted 
+1. Run `vic-machine create` with the following options to deploy a VCH with three volume stores,<pre>--volume-store vsanDatastore/volumes/my-vch-data:replicated-encrypted 
 --volume-store iSCSI-nvme/volumes/my-vch-logs:default
 --volume-store nfs://10.118.68.164/mnt/nfs-vol?uid=0&gid=0&proto=tcp:shared</pre>
 
- - The first volume store is on a vSAN datastore and uses the label `backed-up-encrypted`. Container developers can create a volume in that volume store by running the following command:<pre>docker volume create --opt VolumeStore=backed-up-encrypted myData</pre> 
+ - The first volume store is on a vSAN datastore and uses the label `replicated-encrypted`. Container developers can create a volume in that volume store by running the following command:<pre>docker volume create --opt VolumeStore=replicated-encrypted myData</pre> 
   - The second volume store uses cheaper storage backed by a FreeNAS server mounted using iSCSI. It is used for storing log data. It has the label `default`, which means that any volume that is created without a specifying a volume store is created here. 
   - The third volume store is an NFS export called `/mnt/nfs-vol` on an NFS server.
 
@@ -51,7 +51,7 @@ This example uses a VCH with two VMDK volume stores and one NFS volume store to 
   - `iSCSI-nvme/volumes/my-vch-logs/volumes`
   - `nfs://10.118.68.164/mnt/nfs-vol/volumes`
 
-2. Run the following commands in the Docker client to create three volumes.<pre>$ docker volume create --opt VolumeStore=backed-up-encrypted --opt Capacity=10G mydata</pre><pre>$ docker volume create --opt Capacity=5G mylogs</pre><pre>$ docker volume create --opt VolumeStore=shared myshared</pre>
+2. Run the following commands in the Docker client to create three volumes.<pre>$ docker volume create --opt VolumeStore=replicated-encrypted --opt Capacity=10G mydata</pre><pre>$ docker volume create --opt Capacity=5G mylogs</pre><pre>$ docker volume create --opt VolumeStore=shared myshared</pre>
 
     Note that the second example does not specify a volume store, which implies the use of the `default` volume store.
 
@@ -72,7 +72,7 @@ This example uses a VCH with two VMDK volume stores and one NFS volume store to 
    "Driver":"local",
    "DriverOpts":{  
       "Capacity":"10G",
-      "VolumeStore":"backed-up-encrypted"
+      "VolumeStore":"replicated-encrypted"
    },
    "Name":"mydata",
    "Labels":{  

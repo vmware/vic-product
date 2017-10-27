@@ -1,6 +1,6 @@
 # Backing Up Virtual Container Host Data #
 
-A virtual container host (VCH) is a pool of virtual resources in which images are deployed as containers. A VCH consists of the VCH endpoint VM, and any number of container VMs. Container VMs can be in various runtime states, which can be as simple as either running or not running.
+A virtual container host (VCH) is a pool of virtual resources in which container images are deployed as lightweight VMs. A VCH consists of the VCH endpoint VM, and any number of container VMs. The endpoint VM runs the control plane and container VMs are created, powered on, powered off and deleted in response to container client calls to create, start, stop and delete containers. 
 
 This topic provides information about different types of VCH data, what data you should back up, what data does not require backup, and why.
 
@@ -19,12 +19,12 @@ Containers encourage application designers to think about where state belongs an
 
 ### Container Volumes
 
-Containers can be either stateless or stateful: 
+Let's assume that a stateful container has one or more volumes attached and a stateless container does not.
 
 - A stateless container that reads and writes to a remote database can be easily scaled up or down and can be run in multiple failure domains behind a load-balancer. 
-- A stateful container is a container that has one or more volumes attached to it. A stateful container is tied to running in a location from which it can access its volume store. A container volume is intentionally persistent by nature and can exist beyond the lifespan of a container or even of a VCH.
+- A stateful container is tied to running in a location from which it can access its volume store. A container volume is intentionally persistent by nature and can exist beyond the lifespan of a container or even of a VCH.
 
-You must also consider whether a volume is sharable between containers. If a volume is an NFS share, it is possible for multiple containers in multiple failure domains to share the same persistent data, provided that they have the correct locking semantics. If a volume is not sharable, the ability for compute resources to move between hosts is constrained by the use of a shared datastore or by physically copying the data. vSphere makes it possible to live-migrate workloads between hosts in a cluster while keeping persistent data on a shared datastore. For this reason, vSphere Integrated Containers is well-suited to running stateful workloads.
+You must also consider whether a volume is sharable between containers. If a volume is an NFS share, it is possible for multiple containers in multiple failure domains to share the same persistent data, provided that they have the correct locking semantics. If a volume is not sharable, the ability for compute resources to move between ESXi hosts is constrained by the use of a shared datastore or by physically copying the data. vSphere makes it possible to live-migrate workloads between hosts in a cluster while keeping persistent data on a shared datastore. For this reason, vSphere Integrated Containers is well-suited to running stateful workloads.
 
 ### Anonymous Volumes
 
@@ -54,9 +54,9 @@ Data integrity for persistent data is extremely important, but a backup strategy
 
 ### Data Replication
 
-vSphere Integrated Containers supports different classes of storage, of which VMware vSAN is an example. vSAN offers built-in redundancy by replicating data to multiple physical drives and can tolerate hardware failure or nodes becoming unavailable. 
+vSphere Integrated Containers supports different classes of storage, of which VMware vSAN is an example. vSAN offers built-in redundancy by replicating data to multiple physical drives and can tolerate hardware failure or nodes becoming unavailable. This is particularly useful for persistent volumes.
 
-You can replicate container image data by installing the vSphere Integrated Containers appliance on vSAN storage. vSphere Integrated Containers Registry also offers the ability to replicate image data to other registry instances.
+You can also replicate container image data by installing the vSphere Integrated Containers appliance on vSAN storage. vSphere Integrated Containers Registry also offers the ability to replicate image data to other registry instances.
 
 ### Data Encryption
 
@@ -72,19 +72,20 @@ The fact that vSphere Integrated Containers volumes are first-class citizens on 
 
 ## Conclusions <a id="conclusions"></a>
 
-The best approach to backing up VCH data is to make a clear distinction  between persistent state and ephemeral state, and to build well-defined strategies for application deployment, configuration, and backup. 
+The best approach to backing up VCH data is to make a clear distinction between persistent state and ephemeral state, and to build well-defined strategies for application deployment, configuration, and backup. 
 
 ### Data that Does Not Require Back Up
 
 Configuration state of container VMs and of the VCH endpoint VM is not a good candidate for backup. This is because configuration state is highly dependent on a tight coupling between itself and the current state of the vSphere environment. As such, there is a strong possibility that a container VM or VCH endpoint VM that you bring back from a backup will not have a configuration state that is consistent with the environment to which you are restoring it. This is not the case with volumes or container images, which can exist independently of any vSphere environment and which can be copied or moved without problems.
 
-It is important to remember that if the VCH endpoint VM becomes unavailable, this only impacts the ability to manage the lifecycle of the containers running in that VCH. If you have used container networks, the containers themselves continue to run unimpeded. If you cannot resolve the issues affecting the VCH endpoint VM or vSphere environment, you should be able to create a new VCH in a different vSphere environment, deploy new instances of the same container workloads, and switch to those new instances. This depends on having  the appropriate load-balancing and data migration in place, but those are elements should be built into your application and system architecture.
+Images cached in the VCH Image Store are not good candidates for backup because they are copies of immutable state already stored and backed up in a container registry.
+
+It is important to remember that if the VCH endpoint VM becomes unavailable, this only impacts the ability to manage the lifecycle of the containers running in that VCH. If you have used container networks, the containers themselves continue to run unimpeded. If you cannot resolve the issues affecting the VCH endpoint VM or vSphere environment, you should be able to create a new VCH in a different vSphere environment, deploy new instances of the same container workloads, and switch to those new instances. This depends on having the appropriate load-balancing and data migration in place however, which is typically provided by a higher-level scheduler.
 
 ### Data that Requires Back Up
 
 In this release of vSphere Integrated Containers, the only VCH data that you should consider for backup is the following: 
 
-- Immutable state that is built into container images. 
 - Persistent state that is stored in container volumes. 
 
 For information about how to backup and restore container volumes, see [Backing Up and Restoring Container Volumes](backup_volumes.md).
