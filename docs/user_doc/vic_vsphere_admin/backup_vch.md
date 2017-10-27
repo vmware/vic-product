@@ -19,7 +19,7 @@ Containers encourage application designers to think about where state belongs an
 
 ### Container Volumes
 
-Let's assume that a stateful container has one or more volumes attached and a stateless container does not.
+Assume that a stateful container has one or more volumes attached and a stateless container does not.
 
 - A stateless container that reads and writes to a remote database can be easily scaled up or down and can be run in multiple failure domains behind a load-balancer. 
 - A stateful container is tied to running in a location from which it can access its volume store. A container volume is intentionally persistent by nature and can exist beyond the lifespan of a container or even of a VCH.
