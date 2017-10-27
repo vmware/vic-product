@@ -48,4 +48,3 @@ pipeline:
       - /tmp
     commands:
       - tests/robot-run.sh tests/test-cases/Group1-OVA-Install/1-01-Install.robot
-#      - tests/robot-run.sh "--removekeywords TAG:secret --exclude skip tests/test-cases"

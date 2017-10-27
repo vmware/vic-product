@@ -13,19 +13,67 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -e
+set -x
+gsutil version -l
+set +x
+
+dpkg -l > package.list
 
 # check parameters
-if [ $# -ne 1 ]; then
-    echo usage: $0 pybot_options
+if [ $# -gt 1 ]; then
+    echo "Usage: robot-run.sh <test_path>, runs all tests by default if test_path is not passed"
     exit 1
+elif [ $# -eq 1 ]; then
+    echo "Running specific test $1 ..."
+    pybot_options=$1
+else
+    echo "Running all tests by default ..."
+    pybot_options="--removekeywords TAG:secret --exclude skip tests/test-cases"
 fi
 
-# get pybot options
-pybot_options=$1
+if [ "${DRONE_BUILD_NUMBER}" -eq 0 ]; then
+    # get current date time stamp
+    now=`date +%Y-%m-%d.%H:%M:%S`
+    # run pybot cmd locally
+    echo "Running integration tests locally..."
+    pybot -d robot-logs/robot-log-$now $pybot_options
+else
+    # run pybot cmd on CI
+    echo "Running integration tests on CI..."
+    pybot $pybot_options
 
-# get current date time
-now=`date +%Y-%m-%d.%H:%M:%S`
+    rc="$?"
 
-# run pybot cmd
-pybot -d robot-logs/robot-log-$now $pybot_options
+    outfile="ova_integration_logs_"$DRONE_BUILD_NUMBER"_"$DRONE_COMMIT".zip"
+
+    zip -9 $outfile output.xml log.html report.html package.list
+
+    # GC credentials
+    keyfile="/root/vic-ci-logs.key"
+    botofile="/root/.boto"
+    echo -en $GS_PRIVATE_KEY > $keyfile
+    chmod 400 $keyfile
+    echo "[Credentials]" >> $botofile
+    echo "gs_service_key_file = $keyfile" >> $botofile
+    echo "gs_service_client_id = $GS_CLIENT_EMAIL" >> $botofile
+    echo "[GSUtil]" >> $botofile
+    echo "content_language = en" >> $botofile
+    echo "default_project_id = $GS_PROJECT_ID" >> $botofile
+
+    if [ -f "$outfile" ]; then
+      gsutil cp $outfile gs://vic-ci-logs
+
+      echo "----------------------------------------------"
+      echo "Download test logs:"
+      echo "https://console.cloud.google.com/m/cloudstorage/b/vic-ci-logs/o/$outfile?authuser=1"
+      echo "----------------------------------------------"
+    else
+      echo "No log output file to upload"
+    fi
+
+    if [ -f "$keyfile" ]; then
+      rm -f $keyfile
+    fi
+
+    exit $rc
+fi

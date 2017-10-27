@@ -29,13 +29,11 @@ Set Test Environment Variables
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  DRONE_BUILD_NUMBER
     Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  DRONE_BUILD_NUMBER  0
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  PUBLIC_NETWORK
-    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  PUBLIC_NETWORK  'vm-network'
+    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  PUBLIC_NETWORK  'VM Network'
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  TEST_DATASTORE
     Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  TEST_DATASTORE  datastore1
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  TEST_RESOURCE
-    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  TEST_RESOURCE  cls
-
-    Set Test VCH Name
+    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  TEST_RESOURCE  /dc1/host/cls
 
     Set Environment Variable  VCH_USERNAME_ROOT  root
     Set Environment Variable  VCH_PASSWORD_ROOT  e2eFunctionalTest
@@ -51,6 +49,7 @@ Set Test Environment Variables
 Install VIC Product OVA
     [Arguments]  ${ova-file}
     Set Test Environment Variables
+    Set Test VCH Name
     ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=%{VCH_NAME} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='%{VCH_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
     Should Contain  ${output}  Completed successfully
     Should Contain  ${output}  Received IP address:
