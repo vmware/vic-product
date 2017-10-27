@@ -1,18 +1,25 @@
 # vSphere Integrated Containers Security Reference
 The Security Reference provides information to allow you to secure your vSphere Integrated Containers implementation.
 
+- [Service Accounts, Privileges, and User Authentication](#accounts)
 - [Network Security](#network)
 - [External Interfaces, Ports, and Services](#open_ports)
-- [Service Accounts and Privileges](#accounts)
 - [Apply Security Updates and Patches](#patches)
 - [Security Related Log Messages](#logs)
 - [Sensitive Data](#data)
 
+## Service Accounts, Privileges, and User Authentication <a id="accounts"></a>
+vSphere Integrated Containers does not create service accounts and does not assign any vSphere privileges. The vSphere Integrated Containers appliance uses vCenter Single Sign-On user accounts to manage user authentication. You can optionally create example Single Sign-On user accounts for vSphere Integrated Containers Management Portal when you deploy the appliance. For information about the example user accounts, see [User Authentication](../vic_overview/introduction.html#authentication) and [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
+
+Using `vic-machine` to deploy and manage virtual container hosts (VCHs) requires a user account with vSphere administrator privileges. The `vic-machine create --ops-user` and `--ops-password` options allow a VCH to operate with less-privileged credentials than those that are required to deploy a new VCH. For information about the `--ops-user` option and the permissions that it requires, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
+
+VCHs authenticate Docker API clients by using client certificates. For information about VCHs and client authentication, see [Virtual Container Host Security](vch_security.md).
 
 ## Network Security <a id="network"></a>
-VMware highly recommends using a secure management network for vSphere Integrated Containers Engine. Container VMs communicate with the virtual container host (VCH) endpoint VM over the management network when an interactive shell is required. While the communication is encrypted, the public keys are not validated, which leaves scope for man-in-the-middle attacks. This connection is only used when the interactive console is enabled (stdin/out/err), and not for any other purpose.
 
-All connections to vSphere Integrated Containers Management Portal and Registry are encrypted and secured by HTTPS.
+All connections to vSphere Integrated Containers Management Portal and Registry are encrypted and secured by HTTPS. 
+
+VMware highly recommends using a secure network for the VCH management network. For more information about connections to VCHs in general and the management network in particular, see [Virtual Container Host Networking](vch_networking.md) and [Configure the Management Network](mgmt_network.md).
 
 ## External Interfaces, Ports, and Services <a id="open_ports"></a>
 
@@ -42,9 +49,6 @@ Container developers can forward any VCH port that is not used elsewhere to a co
 #### Bridge Interface
 
 For information about the VCH bridge interface, see [Configure Bridge Networks](bridge_network.md).
-
-## Service Accounts and Privileges <a id="accounts"></a>
-vSphere Integrated Containers Engine does not create service accounts and does not assign privileges. The `--ops-user` and `--ops-password` options allow a VCH to operate with less-privileged credentials than those that are required for deploying a new VCH. For information about the `--ops-user` option and the permissions that it requires, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
 
 |Port|Protocol|Description|
 |---|---|---|
@@ -78,11 +82,6 @@ If container developers do not explicitly expose ports, container VMs do not exp
 |Port|Protocol|Description|
 |---|---|---|
 |6060|HTTPS|Exposes `pprof` debug data about a container VM when a VCH is running with `vic-machine create --debug` enabled|
-
-## Service Accounts and Privileges <a id="accounts"></a>
-vSphere Integrated Containers does not create service accounts and does not assign any vSphere privileges. The vSphere Integrated Containers appliance uses vCenter Single Sign-On user accounts to manage user authentication. You can optionally create example Single Sign-On user accounts for vSphere Integrated Containers Management Portal when you deploy the appliance. For information about the example user accounts, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md) and [User Authentication](../vic_overview/introduction.html#authentication).
-
-The `vic-machine create --ops-user` and `--ops-password` options allow a VCH to operate with less-privileged credentials than those that are required for deploying a new VCH. For information about the `--ops-user` option and the permissions that it requires, see the descriptions of `--ops-user` in [VCH Deployment Options](vch_installer_options.md#ops-user) and [Advanced Examples of Deploying a VCH](vch_installer_examples.md#ops-user), and the section [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
 
 ## Security Updates and Patches <a id="patches"></a>
 Download a new version of vSphere Integrated Containers and upgrade your existing appliances, vSphere Client plug-ins, and VCHs. For information about installing security patches, see [Upgrading vSphere Integrated Containers](upgrading_vic.md).

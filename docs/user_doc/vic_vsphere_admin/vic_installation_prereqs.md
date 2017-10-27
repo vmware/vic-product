@@ -60,8 +60,7 @@ ESXi hosts in vCenter Server clusters must meet the following storage requiremen
 - Be attached to the datastores that you will use for image stores and volume stores. 
 - Have access to shared storage to allow VCHs to use more than one host in the cluster.
 
-For information about image stores and volumes stores, see the [Datastore Options](vch_installer_options.md#datastore) section of *VCH Deployment Options*.
-
+For information about image stores and volumes stores, see [Virtual Container Host Storage](vch_storage.md).
 
 ## Networking Requirements <a id="networkreqs"></a>
 

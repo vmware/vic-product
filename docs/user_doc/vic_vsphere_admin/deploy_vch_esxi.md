@@ -12,9 +12,9 @@ This topic provides instructions for deploying a virtual container host (VCH) to
   * You can use a nested ESXi host for this example
 * Verify that the ESXi host meets the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md).
 * Make sure that the correct firewall port is open on the ESXi host. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
-* Obtain the ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
+* Obtain the ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 * Familiarize yourself with the vSphere Integrated Containers Engine binaries, as described in [Contents of the vSphere Integrated Containers Engine Binaries](contents_of_vic_binaries.md). 
-* Familiarize yourself with the options of the `vic-machine create` command described in [VCH Deployment Options](vch_installer_options.md).
+* Familiarize yourself with the basic options of the `vic-machine create` command described in [VCH Placement](vch_placement.md).
 
 **Procedure**
 
@@ -81,5 +81,3 @@ Installer completed successfully</pre>
 **What to Do Next** 
 
 To test your VCH, see [Verify the Deployment of a VCH](verify_vch_deployment.md).
-    
-For examples of commands to deploy a VCH in various other vSphere configurations, see [Advanced Examples of Deploying a VCH](vch_installer_examples.md). 

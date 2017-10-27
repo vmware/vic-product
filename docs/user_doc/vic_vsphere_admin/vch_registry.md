@@ -1,0 +1,135 @@
+# Connect Virtual Container Hosts to Registries #
+
+## Private Registry Options <a id="registry"></a>
+
+If you use vSphere Integrated Containers Registry, or if container developers need to access Docker images that are stored in other private registry servers, you must configure VCHs to allow them to connect to these private registry servers when you deploy the VCHs. VCHs can connect to both secure and insecure private registry servers. You can also configure VCHs so that they can only access images from a whitelist of approved registries.
+
+
+### `--registry-ca` <a id="registry-ca"></a>
+
+Short name: `--rc`
+
+The path to a CA certificate that can validate the server certificate of a private registry. You can specify `--registry-ca` multiple times to specify multiple CA certificates for different registries. This allows a VCH to connect to multiple registries. 
+
+The use of registry certificates is independent of the Docker client security options that you specify. For example, it is possible to use the `--no-tls` option to disable TLS authentication between Docker clients and the VCH, and to use the `--registry-ca` option to enable TLS authentication  between the VCH and a private registry. 
+
+You must use this option to allow a VCH to connect to vSphere Integrated Containers Registry. For information about how to obtain the CA certificate from vSphere Integrated Containers Registry, see [Deploy a VCH for Use with vSphere Integrated Containers Registry](deploy_vch_registry.md).
+
+<pre>--registry-ca <i>path_to_ca_cert_1</i>
+--registry-ca <i>path_to_ca_cert_2</i>
+</pre>
+
+**NOTE**: The `--registry-ca` option appears in the extended help that you see by running <code>vic-machine-<i>os</i> create --extended-help</code> or <code>vic-machine-<i>os</i> create -x</code>.
+
+
+### `--insecure-registry` <a id="insecure-registry"></a>
+
+Short name: `--dir`
+
+If you set the `--insecure-registry` option, the VCH does not verify the certificate of that registry when it pulls images. Insecure private registries are not recommended in production environments.
+
+If you authorize a VCH to connect to an insecure private registry server, the VCH attempts to access the registry server via HTTP if access via HTTPS fails. VCHs always use HTTPS when connecting to registry servers for which you have not authorized insecure access.
+
+**NOTE**: You cannot configure VCHs to connect to vSphere Integrated Containers Registry instances as insecure registries. Connections to vSphere Integrated Containers Registry always require HTTPS and a certificate.
+
+You can specify `--insecure-registry` multiple times if multiple insecure registries are permitted. If the registry server listens on a specific port, add the port number to the URL
+
+<pre>--insecure-registry <i>registry_URL_1</i>
+--insecure-registry <i>registry_URL_2</i>:<i>port_number</i>
+</pre>
+
+
+### `--whitelist-registry` <a id="whitelist-registry"></a>
+
+You can restrict the registries to which a VCH allows access by setting the `--whitelist-registry` option. You can specify `--whitelist-registry` multiple times to allow access to multiple registries. If you specify `--whitelist-registry` at least once, the VCH runs in whitelist mode. In whitelist mode, users can only access those registries that you have specified in the `--whitelist-registry` option. Users cannot access any registries that are not in the whitelist, even if they are public registries, such as Docker Hub.
+
+You can specify whitelisted registries in the following formats:
+ 
+- IP addresses or FQDN to identify individual registry instances. During deployment, `vic-machine` validates the IP address of the registry.
+- CIDR formatted ranges, for example, 192.168.1.1/24. If you specify a CIDR range, the VCH adds to the whitelist any IP addresses within that subnet. Note that `vic-machine` does not validate CIDR defined ranges during deployment.
+- Wildcard domains, for example, . *.company.com. If you specify a wildcard domain, the VCH adds to the whitelist any IP addresses or FQDNs that it can validate against that domain. A numeric IP address causes VCHs to perform a reverse DNS lookup to validate against that wild card domain. Note that `vic-machine` does not validate wildcard domains during deployment. 
+
+You use `--whitelist-registry` in combination with the `--registry-ca`  and `--insecure-registry` options. You can configure a VCH so that it includes both secure and insecure registries in its whitelist.
+
+#### Whitelisting Secure Registries
+
+VCHs include a base set of well-known certificates from public CAs. If a registry requires a certificate to authenticate access, and if that registry does not use one of the CAs in the VCH, you must provide the CA certificate for that registry in the `--registry-ca` option. You must also specify that registry in the `--whitelist-registry` option if the VCH is running in whitelist mode.
+
+- If you provide a certificate in the `--registry-ca` option but you do not specify that registry in the `--whitelist-registry` option, the VCH does not allow access to that registry. 
+- If you specify a registry in the `--whitelist-registry` option, but you do not provide a certificate in `--registry-ca` and the registry's CA is not in the set of well-known certificates in the VCH, the VCH does not allow access to that registry.
+
+<pre>--whitelist-registry <i>registry_address</i> 
+--registry-ca <i>path_to_ca_cert_1</i>
+</pre>
+
+#### Whitelisting Insecure Registries
+
+You can add registries that you designate as insecure registries to the whitelist by specifying both of the `--insecure-registry` and `--whitelist-registry` options. 
+
+- If you specify a registry in the `--whitelist-registry` option, but you do not specify that registry in `--insecure-registry`, the VCH attempts to verify the registry by using certificates. If it does not find a certificate, the VCH does not allow access to that registry.
+- If you specify a registry in the `--insecure-registry` option but you do not specify this registry in `--whitelist-registry`, `vic-machine` adds the registry to the whitelist only if at least one other registry is specified in `--whitelist-registry`.
+
+<pre>--whitelist-registry <i>registry_address</i> 
+--insecure-registry <i>registry_address</i>
+</pre>
+
+## Registry Server Examples <a id="regserv"></a>
+
+The examples in this section demonstrate how to configure a VCH to use a private registry server, for example vSphere Integrated Containers Registry.
+
+### Authorize Access to an Insecure Private Registry Server <a id="registry"></a>
+
+To authorize connections from a VCH to a private registry server without verifying the certificate of that registry, set the `--insecure-registry` option. If you authorize a VCH to connect to an insecure private registry server, the VCH attempts to access the registry server via HTTP if access via HTTPS fails. VCHs always use HTTPS when connecting to registry servers for which you have not authorized insecure access. You can specify `insecure-registry` multiple times to allow connections from the VCH to multiple insecure private registry servers.
+
+**NOTE**: You cannot configure VCHs to connect to vSphere Integrated Containers Registry instances as insecure registries. Connections to vSphere Integrated Containers Registry always require HTTPS and a certificate.
+
+This example deploys a VCH with the following configuration:
+
+- Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
+- Authorizes the VCH to pull Docker images from the insecure private registry servers located at the URLs <i>registry_URL_1</i> and <i>registry_URL_2</i>.
+- The registry server at <i>registry_URL_2</i> listens for connections on port 5000. 
+
+<pre>vic-machine-<i>operating_system</i> create
+--target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
+--compute-resource cluster1
+--image-store datastore1
+--bridge-network vch1-bridge
+--insecure-registry <i>registry_URL_1</i>
+--insecure-registry <i>registry_URL_2:5000</i>
+--name vch1
+--thumbprint <i>certificate_thumbprint</i>
+--no-tls
+</pre>
+
+### Authorize Access to Secure Registries and vSphere Integrated Containers Registry <a id="secureregistry"></a>
+
+For an example of how to use `--registry-ca` to authorize access to vSphere Integrated Containers Registry or to another secure registry, see [Deploy a VCH for Use with vSphere Integrated Containers Registry](deploy_vch_registry.md).
+
+### Authorize Access to a Whitelist of Registries <a id="whitelist"></a>
+
+To restrict the registries to which a VCH allows access, set the `--whitelist-registry` option. You can specify `--whitelist-registry` multiple times to add multiple registries to the whitelist. You use `--whitelist-registry` in combination with the `--registry-ca`  and `--insecure-registry` options.
+
+This example deploys a VCH with the following configuration:
+
+- Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
+- Adds to the whitelist:
+      - The single registry instance running at 10.2.40.40:443
+      - All registries running in the range 10.2.2.1/24 
+      - All registries in the domain *.mycompany.com
+- Provides the CA certificate for the registry instance 10.2.40.40:443.
+- Adds a single instance of an insecure registry to the whitelist by specifying `--insecure-registry`.
+
+<pre>vic-machine-<i>operating_system</i> create
+--target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
+--compute-resource cluster1
+--image-store datastore1
+--bridge-network vch1-bridge
+--whitelist-registry="10.2.40.40:443" 
+--whitelist-registry=10.2.2.1/24 
+--whitelist-registry=*.mycompany.com 
+--registry-ca=/home/admin/mycerts/ca.crt
+--insecure-registry=192.168.100.207  
+--name vch1
+--thumbprint <i>certificate_thumbprint</i>
+--no-tls
+</pre>

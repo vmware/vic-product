@@ -7,7 +7,7 @@ When you deployed the vSphere Integrated Containers appliance, vSphere Integrate
 **Prerequisites**
 
 - You downloaded the vSphere Integrated Containers Engine bundle from  http://<i>vic_appliance_address</i>.
-- Obtain the vCenter Server or ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
+- Obtain the vCenter Server or ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 
 **Procedure**
 
@@ -15,7 +15,7 @@ When you deployed the vSphere Integrated Containers appliance, vSphere Integrate
 
     vSphere administrator accounts for the Platform Service Controller with which vSphere Integrated Containers is registered are automatically granted Cloud Admin access.
 2. Go to **Administration** > **Configuration**, and click the link to download the **Registry Root Cert**.
-3. Use `vic-machine create` to deploy a VCH, specifying the registry's CA certificate by using the [`--registry-ca`](vch_installer_options.md#registry-ca) option. 
+3. Use `vic-machine create` to deploy a VCH, specifying the registry's CA certificate by using the [`--registry-ca`](vch_registry.md#registry-ca) option. 
 
     You can configure the VCH to connect to multiple registries by specifying `--registry-ca` multiple times.
 
@@ -30,7 +30,7 @@ When you deployed the vSphere Integrated Containers appliance, vSphere Integrate
 --registry-ca=<i>cert_path</i>/ca.crt
 </pre>
 
-    Optionally, you can use the [`--whitelist-registry`](vch_installer_options.md#whitelist-registry) option to limit this VCH so that it can only access certain registries. This example limits access to registries in your company's domain, but you could specify the address of a specific registry, or a CIDR range of addresses.<pre>vic-machine-<i>operating_system</i> create
+    Optionally, you can use the [`--whitelist-registry`](vch_registry.md#whitelist-registry) option to limit this VCH so that it can only access certain registries. This example limits access to registries in your company's domain, but you could specify the address of a specific registry, or a CIDR range of addresses.<pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
 --compute-resource cluster1
 --image-store datastore1

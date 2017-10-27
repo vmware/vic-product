@@ -9,7 +9,7 @@ For container developers to be able to deploy containers from the `dch-photon` i
 **Prerequisites**
 
 - You downloaded the vSphere Integrated Containers Engine bundle from  http://<i>vic_appliance_address</i>.
-- Obtain the vCenter Server or ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
+- Obtain the vCenter Server or ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 
 **Procedure**
 
@@ -19,7 +19,7 @@ For container developers to be able to deploy containers from the `dch-photon` i
 2. Go to **Administration** > **Configuration**, and click the link to download the **Registry Root Cert**.
 3. Use `vic-machine create` to deploy a VCH.
 
-    - The VCH must be able to pull the `dch-photon` image from the vSphere Integrated Containers Registry instance. You must specify the registry's CA certificate by using the [`--registry-ca`](vch_installer_options.md#registry-ca) option.
+    - The VCH must be able to pull the `dch-photon` image from the vSphere Integrated Containers Registry instance. You must specify the registry's CA certificate by using the [`--registry-ca`](vch_registry.md#registry-ca) option.
     - A `dch-photon` container creates an anonymous volume, and as such requires named `default`.
 
      For simplicity, this example deploys a VCH with the `--no-tls` flag, so that container application developers do not need to use a TLS certificate to connect a Docker client to the VCH. However, the connection between the VCH and the registry still requires certificate authentication.<pre>vic-machine-<i>operating_system</i> create

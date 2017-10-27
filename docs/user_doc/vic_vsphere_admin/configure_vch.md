@@ -52,7 +52,7 @@ You can also use the `vic-machine configure --ops-user` and `--ops-password` opt
 
 If the vCenter Server certificate changes, you must update any VCHs running on that vCenter Server instance, otherwise they will no longer function.
 
-To update the certificate, provide the new certificate thumbprint to the VCH in the `--thumbprint` option. For information about how to obtain the vCenter Server certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
+To update the certificate, provide the new certificate thumbprint to the VCH in the `--thumbprint` option. For information about how to obtain the vCenter Server certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
@@ -65,7 +65,7 @@ To update the certificate, provide the new certificate thumbprint to the VCH in 
 
 If a VCH requires access to a new vSphere Integrated Containers Registry instance, or to another private registry, you can add new registry CA certificates by using the `vic-machine configure --registry-ca` option. You also use the `vic-machine configure --registry-ca` option if the certificate for an existing registry changes.
 
-The `vic-machine configure --registry-ca` option functions in the same way as the equivalent `vic-machine create --registry-ca` option. For information about the `vic-machine create --registry-ca` option, see [Private Registry Options](vch_installer_options.md#registry) in VCH Deployment Options.
+The `vic-machine configure --registry-ca` option functions in the same way as the equivalent `vic-machine create --registry-ca` option. For information about the `vic-machine create --registry-ca` option, see [Connect Virtual Container Hosts to Registries](vch_registry.md).
 
 This example updates the certificate for a registry that this VCH already uses.
 
@@ -129,7 +129,7 @@ This example sets `--no-tlsverify` to disable the verification of client certifi
 
 You can add volume stores to VCHs by using the `vic-machine configure --volume-store` option. You can add vSphere datastores and NFS datastores with shared mount points to a VCH. 
 
-The `vic-machine configure --volume-store` option functions in the same way as the equivalent `vic-machine create --volume-store` option. For information about the `vic-machine create --volume-store` option, see [`--volume-store`](vch_installer_options.md#volume-store) in VCH Deployment Options.
+The `vic-machine configure --volume-store` option functions in the same way as the equivalent `vic-machine create --volume-store` option. For information about the `vic-machine create --volume-store` option, see [Specify Volume Stores](volume_stores.md) in VCH Deployment Options.
 
 If you are adding volume stores to a VCH that already has one or more volume stores, you must specify each existing volume store in a separate instance of `--volume-store`.
 
@@ -245,7 +245,7 @@ To remove a proxy server from a VCH, set the `vic-machine configure --https-prox
 
 To enable or disable debug mode on a VCH, you use the `vic-machine configure --debug` option. You can also use `vic-machine configure --debug` to increase or decrease the level of debugging on a VCH that is already running in debug mode. 
 
-The `vic-machine configure --debug` option functions in the same way as the equivalent `vic-machine create --debug` option. For information about the `vic-machine create --debug` option, see [`--debug`](vch_installer_options.md#debug) in VCH Deployment Options. By default, `vic-machine create` deploys VCHs with debugging level 0.
+The `vic-machine configure --debug` option functions in the same way as the equivalent `vic-machine create --debug` option. For information about the `vic-machine create --debug` option, see [Debugging Virtual Container Host Deployment](vch_debug.md). By default, `vic-machine create` deploys VCHs with debugging level 0.
 
 This example increases the level of debugging to level 3, either on a VCH that is running with a lower level of debugging, or on a VCH that is not running in debug mode.
 
@@ -268,7 +268,7 @@ This example sets the `--debug` option to 0, to disable debug mode on a VCH.
 
 If a VCH requires more resources, or if it consumes too many resources, you can configure CPU and memory allocations on the VCH vApp by using the different `vic-machine configure --memory` and `--cpu` options.
 
-The `vic-machine configure` options for memory and CPU allocations function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create --cpu` and `--memory` options, see [General Deployment Options](vch_installer_options.md#deployment) in VCH Deployment Options. For information about the memory and CPU reservation and shares options, see [Advanced Resource Management Options](vch_installer_options.md#adv-mgmt).
+The `vic-machine configure` options for memory and CPU allocations function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` memory and CPU reservation and shares options, see [Virtual Container Host Configuration](vch_config.md).
 
 This example configures a VCH to impose memory and CPU reservations, limits, and shares.
 
