@@ -11,9 +11,15 @@ The Security Reference provides information to allow you to secure your vSphere 
 ## Service Accounts, Privileges, and User Authentication <a id="accounts"></a>
 vSphere Integrated Containers does not create service accounts and does not assign any vSphere privileges. The vSphere Integrated Containers appliance uses vCenter Single Sign-On user accounts to manage user authentication. You can optionally create example Single Sign-On user accounts for vSphere Integrated Containers Management Portal when you deploy the appliance. For information about the example user accounts, see [User Authentication](../vic_overview/introduction.html#authentication) and [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 
+### VCH Authentication with vSphere
+
 Using `vic-machine` to deploy and manage virtual container hosts (VCHs) requires a user account with vSphere administrator privileges. The `vic-machine create --ops-user` and `--ops-password` options allow a VCH to operate with less-privileged credentials than those that are required to deploy a new VCH. For information about the `--ops-user` option and the permissions that it requires, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
 
-VCHs authenticate Docker API clients by using client certificates. For information about VCHs and client authentication, see [Virtual Container Host Security](vch_security.md).
+When deploying VCHs, you must provide the certificate thumbprint of the vCenter Server or ESXi host on which you are deploying the VCH. For information about how to obtain and verify vSphere certificate thumbprints, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). Be aware that it is possible to use the `--force` option to run `vic-machine` commands that bypass vSphere certificate verification. For information about the `--force` option, see [Debugging Virtual Container Host Deployment](vch_debug_deployment.md).
+
+### Docker Client Authentication with VCHs
+
+VCHs authenticate Docker API clients by using client certificates. For information about VCHs and client authentication, see [Virtual Container Host Security](vch_security.md). Be aware that it is possible to use the `--no-tlsverify` and `--no-tls` options to deploy VCHs that do not authenticate client connections. For information about the `--no-tlsverify` and `--no-tls` options, see [Unrestricted Access to the Docker API](tls_unrestricted.md).
 
 ## Network Security <a id="network"></a>
 
@@ -24,6 +30,15 @@ VMware highly recommends using a secure network for the VCH management network. 
 ## External Interfaces, Ports, and Services <a id="open_ports"></a>
 
 The following ports must be open on the vSphere Integrated Containers appliance, VCH endpoint VMs, and container VMs:
+
+### ESXi Hosts
+
+ESXi hosts must have the following firewall configuration for VCH deployment:
+
+- Allow outbound TCP traffic to port 2377 on the endpoint VM, for use by the interactive container shell.
+- Allow inbound HTTPS/TCP traffic on port 443, for uploading to and downloading from datastores.
+
+For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 
 ### vSphere Integrated Containers Appliance
 

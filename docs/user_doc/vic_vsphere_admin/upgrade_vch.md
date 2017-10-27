@@ -50,7 +50,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
 
 3. If the upgrade operation continues to fail with error messages, run `vic-machine upgrade` again with the `--force` option.
 
-    **CAUTION**: Specifying the `--force` option bypasses certificate thumbprint verification. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` also bypasses other checks, and can result in data loss. 
+    **CAUTION**: Specifying the `--force` option bypasses certificate thumbprint verification. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` also bypasses other checks, and can result in data loss. As consequence, only use `--force` for troubleshooting purposes. Do not use `--force` in production environments.  
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
 --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>

@@ -59,7 +59,7 @@ To update the certificate, provide the new certificate thumbprint to the VCH in 
     --id <i>vch_id</i>
     --thumbprint <i>new_certificate_thumbprint</i></pre>
 
-**CAUTION**: Specifying the `--force` option bypasses certificate thumbprint verification. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` also bypasses other checks, and can result in data loss.
+**CAUTION**: Specifying the `--force` option bypasses certificate thumbprint verification. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` also bypasses other checks, and can result in data loss. As consequence, only use `--force` for troubleshooting purposes. Do not use `--force` in production environments. 
 
 ## Add or Update Registry Server Certificates <a id="registries"></a>
 
@@ -245,7 +245,7 @@ To remove a proxy server from a VCH, set the `vic-machine configure --https-prox
 
 To enable or disable debug mode on a VCH, you use the `vic-machine configure --debug` option. You can also use `vic-machine configure --debug` to increase or decrease the level of debugging on a VCH that is already running in debug mode. 
 
-The `vic-machine configure --debug` option functions in the same way as the equivalent `vic-machine create --debug` option. For information about the `vic-machine create --debug` option, see [Debugging Virtual Container Host Deployment](vch_debug.md). By default, `vic-machine create` deploys VCHs with debugging level 0.
+The `vic-machine configure --debug` option functions in the same way as the equivalent `vic-machine create --debug` option. For information about the `vic-machine create --debug` option, see [Debugging Virtual Container Host Deployment](vch_debug_deployment.md). By default, `vic-machine create` deploys VCHs with debugging level 0.
 
 This example increases the level of debugging to level 3, either on a VCH that is running with a lower level of debugging, or on a VCH that is not running in debug mode.
 

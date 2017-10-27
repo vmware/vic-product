@@ -39,7 +39,7 @@
      * [Container VM Configuration](containervm_config.md)
      * [Connect VCHs to Registries](vch_registry.md)
          * [VCH for Use with Registry](deploy_vch_registry.md)
-     * [VCH Debugging](vch_debug.md)
+     * [VCH Debugging](vch_debug_deployment.md)
      * [VCH for Use with `dch-photon`](deploy_vch_dchphoton.md)
   * [VCH Administration](vch_admin.md)
      * [Interoperability](interop.md)

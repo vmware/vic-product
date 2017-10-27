@@ -54,7 +54,7 @@ If you run `vic-machine` without the specifying the `--thumbprint` option and th
 
 For information about how to obtain the certificate thumbprint either before running `vic-machine` or to verify a thumbprint from a `vic-machine` error message, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). 
 
-**CAUTION**: Specifying the `--force` option bypasses certificate thumbprint verification. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` also bypasses other checks, and can result in data loss.
+**CAUTION**: Specifying the `--force` option bypasses certificate thumbprint verification. Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` also bypasses other checks, and can result in data loss. As consequence, only use `--force` for troubleshooting purposes. Do not use `--force` in production environments. 
 
 Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
 

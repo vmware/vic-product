@@ -53,7 +53,7 @@
          * [Container VM Configuration](vic_vsphere_admin/containervm_config.md)
          * [Connect VCHs to Registries](vic_vsphere_admin/vch_registry.md)
              * [VCH for Use with Registry](vic_vsphere_admin/deploy_vch_registry.md)
-         * [Debugging VCH Deployment](vic_vsphere_admin/vch_debug.md)
+         * [Debugging VCH Deployment](vic_vsphere_admin/vch_debug_deployment.md)
      * [Deploy VCH for dch-photon](vic_vsphere_admin/deploy_vch_dchphoton.md)
   * [VCH Administration](vic_vsphere_admin/vch_admin.md)
      * [Interoperability](vic_vsphere_admin/interop.md)
