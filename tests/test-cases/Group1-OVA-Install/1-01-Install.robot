@@ -44,7 +44,7 @@ Install OVA and verify services
     ${out}=  Run  sshpass -p %{VCH_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no %{VCH_USERNAME_ROOT}@%{OVA_IP}
 
     Open Connection  %{OVA_IP}
-    Wait Until Keyword Succeeds  2 min  30 sec  Login  %{VCH_USERNAME_ROOT}  %{VCH_PASSWORD_ROOT}
+    Wait Until Keyword Succeeds  10x  5s  Login  %{VCH_USERNAME_ROOT}  %{VCH_PASSWORD_ROOT}
 
     Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
     Wait Until Keyword Succeeds  10x  20s  Check service running  admiral

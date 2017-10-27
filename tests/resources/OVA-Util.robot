@@ -63,8 +63,6 @@ Install VIC Product OVA
 
 Cleanup VIC Product OVA
     [Arguments]  ${ova_target_vm_name}
-    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.destroy ${ova_target_vm_name}
-    Log  ${output}
-    Should Be Equal As Integers  ${rc}  0
-    Run Keyword And Ignore Error  Run  govc datastore.rm /%{TEST_DATASTORE}/vm/${ova_target_vm_name}
-    Log To Console  \nVIC Product OVA deployment ${ova_target_vm_name} is cleaned up on test server %{TEST_URL}
+    ${rc}=  Wait Until Keyword Succeeds  10x  5s  Run GOVC  vm.destroy ${ova_target_vm_name}
+    Run Keyword And Ignore Error  Run GOVC  datastore.rm /%{TEST_DATASTORE}/vm/${ova_target_vm_name}
+    Run Keyword if  ${rc}==0  Log To Console  \nVIC Product OVA deployment ${ova_target_vm_name} is cleaned up on test server %{TEST_URL}
