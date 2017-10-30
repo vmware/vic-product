@@ -16,7 +16,6 @@ pipeline:
     recursive: false
 
   dch-build:
-    group: build
     environment:
       DOCKER_HOST: tcp://127.0.0.1:2375
     image: docker:latest
@@ -43,10 +42,8 @@ pipeline:
       branch: master
       repo: vmware/vic-product
       event: [ push, tag, deployment ]
-      status: success
 
   unified-ova-build:
-    group: build
     image: gcr.io/eminent-nation-87317/vic-product-build:latest
     pull: true
     privileged: true
@@ -179,7 +176,6 @@ pipeline:
       status: success
 
   notify-slack-on-fail:
-    group: slack
     image: plugins/slack
     webhook: ${SLACK_URL}
     username: drone
@@ -191,7 +187,6 @@ pipeline:
       status: [ failure ]
 
   notify-slack:
-    group: slack
     image: plugins/slack
     webhook: ${PRODUCT_SLACK_URL}
     username: drone
@@ -203,7 +198,6 @@ pipeline:
       status: [ success, failure ]
 
   notify-slack-on-successful-release:
-    group: slack
     image: plugins/slack
     webhook: ${PRODUCT_SLACK_URL}
     username: drone
