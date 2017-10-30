@@ -30,6 +30,21 @@ pipeline:
       repo: vmware/vic-product
       event: [ push, pull_request, tag, deployment ]
 
+  dch-push:
+    environment:
+      DOCKER_HOST: tcp://127.0.0.1:2375
+    image: docker:latest
+    pull: true
+    commands:
+      - docker ps
+      - apk add --update bash git
+      - dinv/ci.sh push
+    when:
+      branch: master
+      repo: vmware/vic-product
+      event: [ push, tag, deployment ]
+      status: success
+
   unified-ova-build:
     group: build
     image: gcr.io/eminent-nation-87317/vic-product-build:latest
@@ -55,20 +70,6 @@ pipeline:
       repo: vmware/vic-product
       event: [ push, pull_request, tag, deployment ]
       branch: [ master, releases/*, refs/tags/* ]
-
-  dch-push:
-    environment:
-      DOCKER_HOST: tcp://127.0.0.1:2375
-    image: docker:latest
-    pull: true
-    commands:
-      - docker ps
-      - apk add --update bash git
-      - dinv/ci.sh push
-    when:
-      branch: master
-      repo: vmware/vic-product
-      event: [ push, tag, deployment ]
       status: success
 
 #  integration-test:
