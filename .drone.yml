@@ -148,28 +148,14 @@ pipeline:
   publish-gcs-builds:
     image: victest/drone-gcs:1
     pull: true
-    source: bundle-dev-builds
+    source: bundle
     target: vic-product-ova-builds
     acl:
       - allUsers:READER
     cache_control: public,max-age=3600
     when:
       repo: vmware/vic-product
-      event: [ push, tag ]
-      branch: [ master, releases/*, refs/tags/* ]
-      status: success
-
-  publish-gcs-staging:
-    image: victest/drone-gcs:1
-    pull: true
-    source: bundle-stage-builds
-    target: vic-product-ova-builds
-    acl:
-      - allUsers:READER
-    cache_control: public,max-age=3600
-    when:
-      repo: vmware/vic-product
-      event: [ deployment ]
+      event: [ push, tag, deployment ]
       environment: [ staging ]
       branch: [ master, releases/*, refs/tags/* ]
       status: success
@@ -177,7 +163,7 @@ pipeline:
   publish-gcs-releases:
     image: victest/drone-gcs:1
     pull: true
-    source: bundle-release-builds
+    source: bundle
     target: vic-product-ova-releases
     acl:
       - allUsers:READER
