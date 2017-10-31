@@ -18,7 +18,7 @@ echo "Provisioning Harbor ${BUILD_HARBOR_FILE}"
 cat /etc/cache/${BUILD_HARBOR_FILE}  | tar xz -C /var/tmp
 
 (find /tmp/harbor -size +20M -type f -regextype sed -regex ".*/harbor\..*\.t.*z$" > /dev/null 2>&1) \
-  || (echo "Harbor archive invalid - cannot fine docker image archive." && exit 1);
+  || (echo "Harbor archive invalid - cannot find docker image archive." && exit 1);
 
 # Copy configuration data from tarball
 cp -p /var/tmp/harbor/harbor.cfg /data/harbor
