@@ -149,7 +149,6 @@ function set_stage() {
     cpio procps-ng \
     cracklib-dicts &>/dev/null
 
-
   progress "installing ${brprpl}tzdata glibc-lang vim${creset}"
   tdnf install -q --installroot "${rt}/" -y tzdata glibc-lang vim &>/dev/null
 
@@ -178,7 +177,6 @@ function set_stage() {
       fi
       LINE_NUM=$((LINE_NUM+1))
   done
-
 }
 
 function setup_grub() {
@@ -320,47 +318,52 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 cd "$DIR"
 
-export BUILDROOT=${BUILDROOT-"/mnt/photon-root"}
-export DATAROOT=${DATAROOT-"/mnt/photon-data-root"}
-
-IMG1NAME=${IMGNAME-"base1.img"}
-VMDK1NAME=${VMDKNAME-"vic-disk1.vmdk"}
-
-IMG2NAME=${IMGNAME-"base2.img"}
-VMDK2NAME=${VMDKNAME-"vic-disk2.vmdk"}
-
-DISK1SIZE=${DISK1SIZE-"4GiB"}
-DISK2SIZE=${DISK2SIZE-"2GiB"}
+# These sizes are minimal for install, since partitions are resized to full disk space after firstboot.
+IMAGESIZES=(
+  "4GiB"
+  "1GiB"
+)
+IMAGES=(
+  "vic-disk1"
+  "vic-disk2"
+)
+IMAGEROOTS=(
+  "/mnt/ova-root"
+  "/mnt/ova-data"
+)
+DEVS=()
 
 section "setup build environment"
 setup
 
-task "create OS image"
-dev1="$(create_disk "$IMG1NAME" "$DISK1SIZE" "$BUILDROOT" boot)"
+task "create disk images"
+for i in "${!IMAGES[@]}"; do
+   BOOT=""
+  [ "$i" == "0" ] && BOOT="1"
+  progress "creating ${IMAGES[$i]}.img"
+  DEVS+=("$(create_disk "${IMAGES[$i]}.img" "${IMAGESIZES[$i]}" "${IMAGEROOTS[$i]}" $BOOT)")
+done
 
-task "create data disk"
-dev2="$(create_disk "$IMG2NAME" "$DISK2SIZE" "$DATAROOT")"
+section "install OS to ${DEVS[0]}"
 
-section "install OS to $dev1"
+set_stage "$DIR" "${IMAGEROOTS[0]}"
 
-set_stage "$DIR" "$BUILDROOT"
-
-install_os "$dev1" "$BUILDROOT" "$DATAROOT"
+install_os "${DEVS[0]}" "${IMAGEROOTS[0]}" "${IMAGEROOTS[1]}"
 
 task "cleanup installer"
 progress "remove build scripts"
-rm -rf "${BUILDROOT}/build"
+rm -rf "${IMAGEROOTS[0]}/build"
 # TODO: Use local yum repo in CI
 # progress "reset yum repos to remote"
-# REPOS=$(find ${BUILDROOT}/etc/yum.repos.d/ | grep -E "*-remote.repo|*-local.repo")
+# REPOS=$(find ${IMG1ROOT}/etc/yum.repos.d/ | grep -E "*-remote.repo|*-local.repo")
 # [ -n "$REPOS" ] && echo $REPOS | while read repo; do rm $repo; done
-# cp repo/*-remote.repo "${BUILDROOT}/etc/yum.repos.d/"
+# cp repo/*-remote.repo "${IMG1ROOT}/etc/yum.repos.d/"
 
-section "extract to VMDKs data disk"
-task "convert OS disk"
-convert "$dev1" "$BUILDROOT" "$IMG1NAME" "$VMDK1NAME"
-task "convert data disk"
-convert "$dev2" "$DATAROOT" "$IMG2NAME" "$VMDK2NAME"
+section "export images to VMDKs"
+for i in "${!IMAGES[@]}"; do
+  progress "exporting ${IMAGES[$i]}.img to ${IMAGES[$i]}.vmdk"
+  convert "${DEVS[$i]}" "${IMAGEROOTS[$i]}" "${IMAGES[$i]}.img" "${IMAGES[$i]}.vmdk"
+done
 
 task "VMDK Sizes"
 du -h bin/*

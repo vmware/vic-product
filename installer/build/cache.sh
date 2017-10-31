@@ -28,7 +28,6 @@ yarrow="${bryllw} ->${creset}"
 # cache docker images
 images=(
   vmware/admiral:vic_${BUILD_ADMIRAL_REVISION}
-  vmware/admiral:vic_v1.1.1
   vmware/dch-photon:${BUILD_DCHPHOTON_VERSION}
   gcr.io/eminent-nation-87317/vic-machine-server:${BUILD_VIC_MACHINE_SERVER_REVISION}
 )
@@ -43,7 +42,7 @@ function add() {
   src=$1
   dest=$2
   if [[ "$src" =~ ^http://|^https:// ]]; then
-    curl -L"#" $src > $dest
+    curl -fL"#" $src -o $dest
   else
     cp $src $dest
     eecho "coped from local fs"

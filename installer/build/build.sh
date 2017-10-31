@@ -143,7 +143,7 @@ echo "--------------------------------------------------"
 echo "packaging OVA..."
 
 if [ "$step" == "ova-dev" ]; then
-docker run --rm --privileged -v /dev:/dev -v $(pwd):/work -w /work \
+docker run -it --rm --privileged -v /dev:/dev -v $(pwd):/work -w /work \
     -e BUILD_HARBOR_FILE=${BUILD_HARBOR_FILE} \
     -e BUILD_VICENGINE_FILE=${BUILD_VICENGINE_FILE} \
     -e BUILD_VIC_MACHINE_SERVER_REVISION=${BUILD_VIC_MACHINE_SERVER_REVISION} \
