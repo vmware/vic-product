@@ -257,6 +257,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/admiral/logging-vic.properties",
+      "destination": "/etc/vmware/admiral/logging-vic.properties"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/psc/get_token.service",
       "destination": "/usr/lib/systemd/system/get_token.service"
     },

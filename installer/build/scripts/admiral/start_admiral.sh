@@ -28,6 +28,7 @@ admiral_xenon_opts="--publicUri=https://${OVA_VM_IP}:8282/ --bindAddress=0.0.0.0
   -v "$ADMIRAL_DATA_LOCATION:/var/admiral" \
   -v "$ADMIRAL_DATA_LOCATION/configs:/configs" \
   -v /storage/log/admiral:/admiral/log \
+  -v /etc/vmware/admiral/logging-vic.properties:/config/logging.properties \
   -e ADMIRAL_PORT=-1 \
   -e JAVA_OPTS="-Ddcp.net.ssl.trustStore=/configs/trustedcertificates.jks -Ddcp.net.ssl.trustStorePassword=changeit -Dencryption.key.file=/var/admiral/8282/encryption.key -Dinit.encryption.key.file=true" \
   -e CONFIG_FILE_PATH="/configs/config.properties" \
