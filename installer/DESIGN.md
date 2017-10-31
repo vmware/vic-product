@@ -199,7 +199,12 @@ TODO Add how to deprivilege Docker container
   performed before handing off an artifact to the appliance team and end to end testing should be
   performed on the resulting appliance.
 
-- User ID `999` MUST be used as the unprivileged user for components
+- User ID `10000` MUST be used as the unprivileged user for components
+
+- All shell scripts MUST be checked using ShellCheck and errors all errors resolved prior to
+  inclusion
+
+  https://github.com/koalaman/shellcheck
 
 
 ## Filesystem Layout
