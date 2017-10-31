@@ -174,21 +174,6 @@ function migrateHarborData {
   DIR="notary-db"; mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
 }
 
-# TODO: Find out if we still need this step in 1.3
-# function mapHarborProject {
-#   set +e
-#   local migrator_image="vmware/harbor-db-migrator:1.2"
-#   # this step runs after migrateHarborData, so we assume the database is now in /storage/db/harbor
-#   local harbor_database="/storage/db/harbor/database"
-
-#   docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e MAPPROJECTFILE=/harbor_migration/harbor_projects.json -v ${harbor_migration}:/harbor_migration -v ${harbor_database}:/var/lib/mysql ${migrator_image} mapprojects
-#   if [ $? -ne 0 ]; then
-#     echo "Map Harbor data failed" | tee /dev/fd/3
-#     exit 1
-#   fi
-#   set -e
-# }
-
 # Upgrade entry point from upgrade.sh
 function upgradeHarbor {
   if [ -z "${DB_USER}" ]; then
@@ -234,10 +219,6 @@ function upgradeHarbor {
   echo "[=] Migrating Harbor configuration" | tee /dev/fd/3
   upgradeHarborConfiguration
   echo "[=] Finished migrating Harbor configuration" | tee /dev/fd/3
-
-  echo "[=] Mapping project data into Harbor" | tee /dev/fd/3
-  mapHarborProject
-  echo "[=] Finished mapping project data into Harbor" | tee /dev/fd/3
 
   echo "Harbor upgrade complete" | tee /dev/fd/3
   # Set timestamp file
