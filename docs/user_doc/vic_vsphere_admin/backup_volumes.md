@@ -98,9 +98,10 @@ $ exit</pre>
 
     The volumes and the data that they contain are still available after you have deleted the containers.
     <pre>
-DRIVER              VOLUME NAME
-vsphere             mydata
-vsphere             mylogs
-vsphere             myshared
-</pre>
+    DRIVER              VOLUME NAME
+    vsphere             mydata
+    vsphere             mylogs
+    vsphere             myshared
+    </pre>
+
 2. Browse the three datastores to see that the files that the container created are still present.
