@@ -17,6 +17,9 @@ set -euf -o pipefail
 echo "Provisioning Harbor ${BUILD_HARBOR_FILE}"
 cat /etc/cache/${BUILD_HARBOR_FILE}  | tar xz -C /var/tmp
 
+harbor_containers_bundle=$(find /tmp/harbor -size +20M -type f -regextype sed -regex ".*/harbor\..*\.t.*z$")
+[ -f $harbor_containers_bundle ] || (echo "Harbor archive invalid - cannot fine docker image archive." && exit 1)
+
 # Copy configuration data from tarball
 cp -p /var/tmp/harbor/harbor.cfg /data/harbor
 cp -pr /var/tmp/harbor/{prepare,common,docker-compose.yml,docker-compose.notary.yml,docker-compose.clair.yml} /etc/vmware/harbor
