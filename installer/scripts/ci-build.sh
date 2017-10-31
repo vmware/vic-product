@@ -40,5 +40,9 @@ if [ -n "${VICENGINE}" ]; then
   OPTIONS="$OPTIONS --vicengine $VICENGINE"
 fi
 
+if [ -n "${VIC_MACHINE_SERVER}" ]; then
+  OPTIONS="$OPTIONS --vicmachineserver $VIC_MACHINE_SERVER"
+fi
+
 # invoke build script
 $INSTALLER_DIR/build/build.sh ova-ci $OPTIONS

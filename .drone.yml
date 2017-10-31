@@ -56,6 +56,7 @@ pipeline:
       DRONE_TIMEOUT_INACTIVITY: ${DRONE_TIMEOUT_INACTIVITY}
       HARBOR: ${HARBOR}
       TERM: xterm
+      VIC_MACHINE_SERVER: ${VIC_MACHINE_SERVER}
       VICENGINE: ${VICENGINE}
     volumes:
       - /dev:/dev
@@ -94,45 +95,84 @@ pipeline:
 #      branch: [ master, releases/*, refs/tags/* ]
 #      status: success
 
-  bundle:
+  bundle-dev-builds:
     image: harbor.ci.drone.local/library/golang:1.8
     pull: true
     commands:
       - mkdir bundle
-      - cp installer/bin/vic-*.ova bundle
-      - ls -al bundle
+      - cd installer/bin
+      - TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-dev-${DRONE_BUILD_NUMBER}-/")
+      - echo "Renaming build artifact to $TMP..."
+      - mv vic-*.ova ../../bundle/$TMP
+      - ls -l ../../bundle
     when:
       repo: vmware/vic-product
       event: [ push, tag ]
       branch: [ master, releases/*, refs/tags/* ]
       status: success
 
+  bundle-stage-builds:
+    image: harbor.ci.drone.local/library/golang:1.8
+    pull: true
+    commands:
+      - mkdir bundle
+      - cd installer/bin
+      - TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-stage-${DRONE_BUILD_NUMBER}-/")
+      - echo "Renaming build artifact to $TMP..."
+      - mv vic-*.ova ../../bundle/$TMP
+      - ls -l ../../bundle
+    when:
+      repo: vmware/vic-product
+      event: [ deployment ]
+      environment: [ staging ]
+      branch: [ master, releases/*, refs/tags/* ]
+      status: success
+
+  bundle-release-builds:
+    image: harbor.ci.drone.local/library/golang:1.8
+    pull: true
+    commands:
+      - mkdir bundle
+      - cd installer/bin
+      - TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-${DRONE_BUILD_NUMBER}-/")
+      - echo "Renaming build artifact to $TMP..."
+      - mv vic-*.ova ../../bundle/$TMP
+      - ls -l ../../bundle
+    when:
+      repo: vmware/vic-product
+      event: [ deployment ]
+      environment: [ release ]
+      branch: [ releases/*, refs/tags/* ]
+      status: success
+
   publish-gcs-builds:
     image: victest/drone-gcs:1
     pull: true
-    source: bundle
+    source: bundle-dev-builds
     target: vic-product-ova-builds
     acl:
       - allUsers:READER
     cache_control: public,max-age=3600
     when:
       repo: vmware/vic-product
-      event: [ push ]
-      branch: [ master, releases/* ]
+      event: [ push, tag, deployment ]
+      environment: [ staging ]
+      branch: [ master, releases/*, refs/tags/* ]
       status: success
 
   publish-gcs-releases:
     image: victest/drone-gcs:1
     pull: true
-    source: bundle
+    source: bundle-release-builds
     target: vic-product-ova-releases
     acl:
       - allUsers:READER
     cache_control: public,max-age=3600
     when:
       repo: vmware/vic-product
-      event: [ push, tag ]
-      branch: [ refs/tags/* ]
+      event: [ deployment ]
+      environment: [ release ]
+      branch: [ releases/*, refs/tags/* ]
       status: success
 
   notify-slack-on-fail:
@@ -156,6 +196,19 @@ pipeline:
       repo: vmware/vic-product
       branch: [ master, releases/*, refs/tags/* ]
       status: [ success, failure ]
+
+  notify-slack-on-successful-release:
+    image: plugins/slack
+    webhook: ${PRODUCT_SLACK_URL}
+    username: drone
+    template: >
+      The latest version of VIC OVA has been released, find the build here: https://console.cloud.google.com/storage/browser/vic-product-ova-releases
+    when:
+      repo: vmware/vic-product
+      event: [ deployment ]
+      environment: [ release ]
+      branch: [ releases/*, refs/tags/* ]
+      status: [ success ]
 
 services:
   dind:
