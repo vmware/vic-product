@@ -57,6 +57,14 @@ function setenv() {
   fi
 }
 
+function cleanup() {
+  echo "--------------------------------------------------"
+  echo "cleaning up..."
+  ./build/cleanup.sh
+}
+
+trap cleanup EXIT
+
 GIT_TAG="$(git describe --tags)"
 export BUILD_OVA_REVISION=${GIT_TAG}
 export BUILD_DCHPHOTON_VERSION="1.13"
@@ -165,9 +173,6 @@ echo "rebuilding OVF manifest"
 sha256sum --tag * | sed s/SHA256\ \(/SHA256\(/ > vic-${BUILD_OVA_REVISION}.mf
 tar -cvf ../../../bin/vic-${BUILD_OVA_REVISION}.ova vic-${BUILD_OVA_REVISION}.ovf vic-${BUILD_OVA_REVISION}.mf *.vmdk
 cd ../../../
-echo "--------------------------------------------------"
-echo "cleaning up..."
-./build/cleanup.sh
 
 OUTFILE=bin/$(ls -1t bin | grep "\.ova")
 
