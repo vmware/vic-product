@@ -17,7 +17,7 @@ set -euf -o pipefail
 echo "Provisioning Harbor ${BUILD_HARBOR_FILE}"
 cat /etc/cache/${BUILD_HARBOR_FILE}  | tar xz -C /var/tmp
 
-(find /tmp/harbor -size +20M -type f -regextype sed -regex ".*/harbor\..*\.t.*z$" > /dev/null 2>&1) \
+(find /var/tmp/harbor -size +20M -type f -regextype sed -regex ".*/harbor\..*\.t.*z$" > /dev/null 2>&1) \
   || (echo "Harbor archive invalid - cannot find docker image archive." && exit 1);
 
 # Copy configuration data from tarball
