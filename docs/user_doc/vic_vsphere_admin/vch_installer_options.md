@@ -2,7 +2,7 @@
 
 You use the `vic-machine create` command to deploy virtual container hosts (VCHs).
 
-The `vic-machine create` command provides many options that allow you to customize the deployment of virtual container hosts (VCHs) to correspond to your vSphere environment and to meet your development requirements. The following sections present the `vic-machine create` options, grouped by subject matter.
+The `vic-machine create` command provides many options that allow you to customize the deployment of virtual container hosts (VCHs) to correspond to your vSphere environment and to meet your development requirements. The following sections present the `vic-machine create` options, grouped by subject area.
 
 - [Virtual Container Host Placement](vch_placement.md)
 - [Virtual Container Host Security](vch_security.md)
@@ -13,7 +13,7 @@ The `vic-machine create` command provides many options that allow you to customi
 - [Container VM Configuration](containervm_config.md)
 - [Virtual Container Host Debugging](vic_vsphere_admin/vch_debug_deployment.md)
 
-## Specifying Option Arguments ##
+## Specifying Option Arguments <a id="args"></a>
 
 When you run `vic-machine` commands, wrap any option arguments that include spaces or special characters in quotes. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system. 
 

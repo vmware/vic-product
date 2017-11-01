@@ -28,7 +28,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
 
      The following example includes the options required to upgrade a VCH in a simple vCenter Server environment. 
 
-  - You must specify the username and optionally the password, either in the `target` option or separately in the `--user` and `--password` options. 
+  - You must specify the user name and optionally the password, either in the `target` option or separately in the `--user` and `--password` options. 
   - If the VCH has a name other than the default name, `virtual-container-host`, you must specify the `--name` or `--id` option. 
   - If multiple compute resources exist in the datacenter, you must specify the `--compute-resource` or `--id` option. 
   - If your vSphere environment uses untrusted, self-signed certificates, you must also specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. 

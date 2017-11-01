@@ -5,7 +5,7 @@ You can obtain a list of the virtual container hosts (VCHs) that are running in 
 The `vic-machine ls` command does not include any options in addition to the common options described in [Common `vic-machine` Options](common_vic_options.md).
 
 - To obtain a list of all VCHs that are running on an ESXi host or vCenter Server instance, you must provide the address of the target ESXi host or vCenter Server. 
-- You must specify the username and optionally the password, either in the `--target` option or separately in the `--user` and `--password` options. 
+- You must specify the user name and optionally the password, either in the `--target` option or separately in the `--user` and `--password` options. 
 - If your vSphere environment uses untrusted, self-signed certificates, you must specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). 
 
    Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.

@@ -2,6 +2,25 @@
 
 You can set limits on the memory and CPU shares and reservations on the VCH. For information about memory and CPU shares and reservations, see [Allocate Memory Resources](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-49D7217C-DB6C-41A6-86B3-7AFEB8BF575F.html), and [Allocate CPU Resources](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-6C9023B2-3A8F-48EB-8A36-44E3D14958F6.html) in the vSphere documentation.
 
+- [`vic-machine `Options](#options)
+- [Example `vic-machine` Commands](#examples)
+
+## `vic-machine` Options <a id="options"></a>
+
+The following `vic-machine create` options modify the configuration of the VCH appliance itself. 
+
+Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
+
+### `--use-rp` ###
+
+Short name: none
+
+By default, a VCH is deployed as a vApp. You can optioanlly deploy the VCH appliance in a resource pool on vCenter Server rather than as a vApp. Use this option if the VCH is likely to manage multiple container VMs that run concurrent operations. If you specify this option, `vic-machine create` creates a resource pool with the same name as the VCH, instead of creating a vApp. 
+
+**NOTE**: If you specify both the `--use-rp` and `--ops-user` options when you create a VCH, you must specify an additional permission when you create the roles for the operations user. For information about operations user roles and permissions, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
+
+<pre>--use-rp</pre>
+
 ### `--memory` ###
 
 Short name: `--mem`
@@ -81,6 +100,11 @@ The path to the ISO image from which the VCH appliance boots. Set this option if
 
 <pre>--appliance-iso <i>path_to_ISO_file</i>/appliance.iso</pre>
 
+## Example `vic-machine` Commands <a id="examples"></a>
+
+- [Set Limits on Resource Use](#customized)
+- [Deploy VCH as a Resource Pool Instead of as a vApp](#not_vapp)
+
 ### Set Limits on Resource Use <a id="customized"></a>
 
 To limit the amount of system resources that the container VMs in a VCH can use, you can set resource limits on the VCH vApp. 
@@ -104,4 +128,27 @@ This example deploys a VCH with the following configuration:
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tls
+</pre>
+
+### Deploy VCH as a Resource Pool Instead of as a vApp <a id="not_vapp"></a> 
+
+If a VCH is likely to handle heavy loads, with multiple concurrent operations running in container VMs, it is recommended to deploy that VCH as a resource pool rather than as a vApp.
+
+This example deploys a VCH with the following configuration:
+
+- Provides the vCenter Single Sign-On user name and password for a vSphere administrator account in the `--target` option. The user name is wrapped in quotes, because it contains the `@` character.
+- Deploys a VCH named `vch1` to the cluster `cluster1` in datacenter `dc1`. 
+- Uses an existing port group named `vch1-bridge` for the bridge network. 
+- Designates `datastore1` as the image store. 
+- Specifies `--use-rp` so that the VCH is deployed as a resource pool rather than as a vApp.
+
+<pre>vic-machine-<i>operating_system</i> create
+--target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
+--compute-resource cluster1
+--image-store datastore1
+--bridge-network vch1-bridge
+--name vch1
+--thumbprint <i>certificate_thumbprint</i>
+--no-tlsverify
+--use-rp
 </pre>

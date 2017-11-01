@@ -4,7 +4,7 @@ You delete virtual container hosts (VCHs) by using the `vic-machine delete` comm
 
 The `vic-machine delete` includes one option in addition to the [Common `vic-machine` Options](common_vic_options.md), `--force`.
 
-- You must specify the username and optionally the password, either in the `--target` option or separately in the `--user` and `--password` options. 
+- You must specify the user name and optionally the password, either in the `--target` option or separately in the `--user` and `--password` options. 
 - If the VCH has a name other than the default name, `virtual-container-host`, you must specify the `--name` or `--id` option. 
 - If multiple compute resources exist in the datacenter, you must specify the `--compute-resource` or `--id` option.
 - Specifying the `--force` option forces `vic-machine delete` to ignore warnings and continue with the deletion of a VCH. Any running container VMs and any volume stores associated with the VCH are deleted. Errors such as an incorrect compute resource still cause the deletion to fail. 

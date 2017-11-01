@@ -1,6 +1,6 @@
 # Restrict Access to the Docker API with Auto-Generated Certificates
 
-As a convenience, `vic-machine create` provides the option of   automatically generating a client certificate, server certificate, and certificate authority (CA) as appropriate when you deploy a VCH. The generated certificates are functional, but they do not allow for fine control over aspects such as expiration, intermediate certificate authorities, and so on. 
+As a convenience, `vic-machine create` provides the option of   automatically generating a client certificate, server certificate, and certificate authority (CA) as appropriate when you deploy a VCH. The generated certificates are functional, but they do not allow for fine control over aspects such as expiration, intermediate certificate authorities, and so on. To use more finely configured certificates, see  [Restrict Access to the Docker API with Custom Certificates](tls_custom_certs.md).
 
 VCHs accept client certificates if they are signed by a CA that you provide by specifying one or more instances of the `--tls-ca` option. In the case of the certificates that `vic-machine create` generates, `vic-machine create` creates a CA and uses it to create and sign a single client certificate.
 
@@ -17,11 +17,13 @@ This topic includes the following sections.
 
 ## `vic-machine` Options <a id="options"></a>
 
-**NOTE**: Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
+The `vic-machine create` options in this section allow you to deploy a VCH that uses auto-generated certificates to validate client connections.
+
+Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
 
 ### `--tls-cname` <a id="tls-cname"></a>
 
-Short name: None
+**Short name**: None
 
 The FQDN or IP address to embed in an auto-generated server certificate. Specify an FQDN, IP address, or a domain wildcard. If you provide a custom server certificate by using the `--tls-server-cert` option, you can use `--tls-cname` as a sanity check to ensure that the certificate is valid for the deployment.
 
@@ -50,51 +52,63 @@ Running `vic-machine create` with the `--tls-cname` option also creates an envir
 - The address of the VCH.<pre>DOCKER_HOST=<i>vch_address</i>:2376</pre>
 
 You must provide copies of the `cert.pem` and `key.pem` client certificate files and the environment file to container developers so that they can connect Docker clients to the VCH. If you deploy the VCH with the `--tls-cname` option, container developers must configure the client appropriately with one of the following options:
-- By using the following `tlsverify`, `tlscert`, and `tlskey` Docker options, adding `tlscacert` if a custom CA was used to sign the server certificate.
-- By setting `DOCKER_CERT_PATH=/path/to/client/cert.pem` and `DOCKER_TLS_VERIFY=1`.
+- By using the `tlsverify`, `tlscert`, and `tlskey` options in Docker commands, adding `tlscacert` if a custom CA was used to sign the server certificate.
+- By setting the `DOCKER_CERT_PATH=/path/to/client/cert.pem` and `DOCKER_TLS_VERIFY=1` Docker environment variables. 
+
+For more information about how to connect Docker clients to VCHs, see [Configure the Docker Client for Use with vSphere Integrated Containers](../vic_app_dev/configure_docker_client.md).
+
+**Usage**:
 
 <pre>--tls-cname vch-name.example.org</pre>
 <pre>--tls-cname *.example.org</pre>
 
 ### `--tls-cert-path` <a id="cert-path"></a>
 
-Short name: none
+**Short name**: none
 
-By default `--tls-cert-path` is a folder in the current directory, that takes its name from the VCH name that you specify in the `--name` option. `vic-machine create` checks in `--tls-cert-path` for existing certificates with the standard names and uses those certificates if they are present:
+By default `--tls-cert-path` is a folder in the current directory, that takes its name from the VCH name that you specify in the `--name` option. If specified, `vic-machine create` checks in `--tls-cert-path` for existing certificates with the standard names and uses those certificates if they are present:
+
 * `server-cert.pem` 
 * `server-key.pem`
 * `ca.pem`
 
-If `vic-machine create` does not find existing certificates with the standard names in `--tls-cert-path`, or if you do not specify certificates directly by using the `--tls-server-cert`, `--tls-server-key`, and `--tls-ca` options, `vic-machine create` generates certificates. Generated certificates are saved in the `--tls-cert-path` folder with the standard names listed. `vic-machine create` additionally generates other certificates:
+If `vic-machine create` does not find existing certificates with the standard names in the folder you specify in `--tls-cert-path`, or if you do not specify certificates directly by using the `--tls-server-cert`, `--tls-server-key`, and `--tls-ca` options, `vic-machine create` generates certificates. Generated certificates are saved in the `--tls-cert-path` folder with the standard names listed. `vic-machine create` additionally generates other certificates:
+
 * `cert.pem` and `key.pem` for client certificates, if required.
 * `ca-key.pem`, the private key for the certificate authority. 
+
+**Usage**:
 
 <pre>--tls-cert-path '<i>path_to_certificate_folder</i>'
 </pre>
 
 ### `--certificate-key-size` ###
 
-Short name: `--ksz`
+**Short name**: `--ksz`
 
-The size of the key for `vic-machine create` to use when it creates auto-generated trusted certificates. You can optionally use `--certificate-key-size` if you specify `--tls-cname`. If not specified, `vic-machine create` creates keys with default size of 2048 bits. It is not recommended to use key sizes of less than 2048 bits. 
+The size of the key for `vic-machine create` to use when it creates auto-generated trusted certificates. If you specify `--tls-cname`, you can optionally specify `--certificate-key-size`. If not specified, `vic-machine create` creates keys with default size of 2048 bits. It is not recommended to use key sizes of less than 2048 bits. 
+
+**Usage**:
 
 <pre>--certificate-key-size 3072</pre>
 
 ### `--organization` ###
 
-Short name: None
+**Short name**: None
 
-A list of identifiers to record in certificates generated by `vic-machine`. You can optionally use `--organization` if you specify `--tls-cname`. If not specified,`vic-machine create` uses the name of the VCH as the organization value.
+A list of identifiers to record in certificates generated by `vic-machine`. If you specify `--tls-cname`, you can optionally use `--organization` to add basic descriptive information to the server certificate. This information is visible to clients if they inspect the server certificate. If not specified,`vic-machine create` uses the name of the VCH as the `organization` value.
 
 **NOTE**: The `client-ip-address` is used for `CommonName` but not  for  `Organisation`.
 
-<pre>--organization <i>organization_name</i></pre>
+**Usage**:
+
+<pre>--organization <i>my_organization_name</i></pre>
 
 ## Example `vic-machine` Command <a id="example"></a>
 
-You can deploy a VCH that implements two-way authentication with trusted auto-generated TLS certificates that are signed by a CA. 
+This example deploys a VCH that implements client authentication with trusted auto-generated TLS certificates that are signed by a CA. 
 
-To automatically generate a server certificate that can pass client verification, you must specify the Common Name (CN) for the certificate by using the [`--tls-cname`](#tls-cname) option. The CN should be the FQDN or IP address of the server, or a domain with a wildcard. The CN value must match the name or address that clients will use to connect to the server. You can use the `--organization` option to add basic descriptive information to the server certificate. This information is visible to clients if they inspect the server certificate.
+To automatically generate a server certificate that can pass client verification, you must specify the Common Name (CN) for the certificate by using the [`--tls-cname`](#tls-cname) option. The CN should be the FQDN or IP address of the server, or a domain with a wildcard. The CN value must match the name or address that clients will use to connect to the server. 
 
 If you specify an existing CA file with which to validate clients, you must also provide an existing server certificate that is compatible with the `--tls-cname` value or the IP address of the client interface.
 
@@ -103,6 +117,8 @@ This example deploys a VCH with the following configuration:
 - Specifies the user, password, datacenter, image store, cluster, bridge network, and name for the VCH.
 - Provides a wildcard domain `*.example.org` as the FQDN for the VCH, for use as the Common Name in the certificate. This assumes that there is a DHCP server offering IP addresses on VM Network, and that those addresses have corresponding DNS entries such as `dhcp-a-b-c.example.com`.
 - Specifies a folder in which to store the auto-generated certificates.
+- Sets the certificate's `organization` (`O`) field to `My Organization`.
+- Generates a certificate with a key size of 3072 bits.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
@@ -111,8 +127,12 @@ This example deploys a VCH with the following configuration:
 --bridge-network vch1-bridge
 --tls-cname *.example.org
 --tls-cert-path <i>path_to_cert_folder</i>
+--organization 'My Organization'
+--certificate-key-size 3072
 --thumbprint <i>certificate_thumbprint</i>
 --name vch1
 </pre>
 
-The Docker API for this VCH will be accessible at `https://dhcp-a-b-c.example.com:2376`.
+The Docker API for this VCH will be accessible at https://dhcp-a-b-c.example.org:2376.
+
+You can also deploy a VCH to use custom server certificates in combination with auto-generated client certificates, as demonstrated in the example [Combine Custom Server Certificates and Auto-Generated Client Certificates](tls_custom_certs.md#certcombo).

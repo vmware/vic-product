@@ -19,9 +19,11 @@ When you run any of the different `vic-machine` commands, `vic-machine` checks w
 
 The following examples show some simplified `vic-machine` commands that you can run if you set all four environment variables.
 
+- Create a basic VCH:<pre>vic-machine-<i>operating_system</i> create --bridge-network vic-bridge --no-tls --name vch-no-tls</pre> 
 - List VCHs:<pre>vic-machine-<i>operating_system</i> ls</pre>
 - Inspect a VCH: <pre>vic-machine-<i>operating_system</i> inspect --id vm-123</pre>
-- Create a basic VCH:<pre>vic-machine-<i>operating_system</i> create --bridge-network vic-bridge --no-tls --name vch-no-tls</pre> 
 - Upgrade a VCH: <pre>vic-machine-<i>operating_system</i> upgrade --id vm-123</pre>
 - Configure a VCH, for example to add a new volume store: <pre>vic-machine-<i>operating_system</i> configure --id vm-123 --volume-store <i>datastore_name</i>/<i>datastore_path</i>:default</pre>
 - Delete a VCH: <pre>vic-machine-<i>operating_system</i> delete --id vm-123</pre>
+
+For more information about the `vic-machine ls`, `inspect`, `upgrade`, `configure`, and `delete` commands, see [Virtual Container Host Administration with `vic-machine`](vch_admin_vicmachine.md).
