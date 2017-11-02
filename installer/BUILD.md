@@ -25,17 +25,18 @@ This is the recommended way to build the OVA.
 
 
 The build script pulls the desired versions of each included component into the build container.
-It accepts files in `scripts`, URLs, or revisions and automatically sets
+It accepts files in the `installer/build` directory, URLs, or revisions and automatically sets
 required environment variables.
+
 *You must specify build step `ova-dev` when calling build.sh*
 
 If called without any values, `build.sh` will get the latest build for each component
 ```
-./build/build.sh ova-dev
+sudo ./build/build.sh ova-dev
 ```
 
 If called with the values below, `build.sh` will include the Harbor version from
-`packer/scripts/harbor.tgz`, the VIC Engine version from `packer/scripts/vic.tar.gz`, and 
+`installer/build/harbor.tgz`, the VIC Engine version from `installer/build/vic.tar.gz`, and 
 Admiral tag `vic_dev` (since `--admiral` was not specified it defaults to the `vic_dev` tag)
 ```
 ./build/build.sh ova-dev --harbor harbor.tgz --vicengine vic.tar.gz
@@ -50,12 +51,15 @@ specified by their respective URLs, and Admiral tag `vic_v1.1.1`
 #### Upload
 
 You can upload the ova builds to the `vic-product-ova-builds` and `vic-product-ova-releases` in google cloud.
-To do this, use the gsutil cli tool: `sudo gsutil cp -va public-read vic-packerless-v1.2.1.ova gs://vic-product-ova-builds`.
+
+*Personal development builds MUST be renamed with the username as a prefix before upload*
+
+To do this, use the gsutil cli tool: `sudo gsutil cp -va public-read johndoe-vic-v1.2.1.ova gs://vic-product-ova-builds`.
 
 ## Deploy
 
 The OVA must be deployed to a vCenter.
-Deploying to ESX host is not supported.
+Deploying to ESX host is NOT supported.
 
 The recommended method for deploying the OVA:
 - Access the vCenter Web UI, click `vCenter Web Client (Flash)`
@@ -124,4 +128,3 @@ Use Drone exec to kickoff the OVA build.
 
 drone exec --timeout "1h0m0s" --timeout.inactivity "1h0m0s" --repo.trusted .drone.local.yml
 ```
-
