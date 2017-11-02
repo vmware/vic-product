@@ -20,18 +20,20 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
+	"github.com/vmware/govmomi/object"
+	"github.com/vmware/vic/lib/guest"
 	"github.com/vmware/vic/pkg/errors"
-	"github.com/vmware/vic/pkg/vsphere/guest"
 	"github.com/vmware/vic/pkg/vsphere/session"
 	"github.com/vmware/vic/pkg/vsphere/tags"
 )
 
 const (
-	VicProductCategory    = "VsphereIntegratedContainers"
-	VicProductDescription = "VIC product"
-	VicProductType        = "VirtualMachine"
-	ProductVMTag          = "ProductVM"
-	ProductVMDescription  = "Product VM"
+	VicProductCategory      = "VsphereIntegratedContainers"
+	VicProductDescription   = "VIC product"
+	VicProductType          = "VirtualMachine"
+	ProductVMTag            = "ProductVM"
+	ProductVMDescription    = "Product VM"
+	ProductManagedObjectKey = "vic-ova-identifier"
 )
 
 func setupClient(ctx context.Context, sess *session.Session) (*tags.RestClient, error) {
@@ -48,35 +50,51 @@ func setupClient(ctx context.Context, sess *session.Session) (*tags.RestClient, 
 
 func createProductVMtag(ctx context.Context, client *tags.RestClient) (string, error) {
 	// create category first, then create tag
-	categoryId, err := client.CreateCategoryIfNotExist(ctx, VicProductCategory, VicProductDescription, VicProductType, false)
+	categoryID, err := client.CreateCategoryIfNotExist(ctx, VicProductCategory, VicProductDescription, VicProductType, false)
 	if err != nil {
 		return "", errors.Errorf("failed to create vic product category: %s", errors.ErrorStack(err))
 	}
 
-	tagId, err := client.CreateTagIfNotExist(ctx, ProductVMTag, ProductVMDescription, *categoryId)
+	tagID, err := client.CreateTagIfNotExist(ctx, ProductVMTag, ProductVMDescription, *categoryID)
 	if err != nil {
 		return "", errors.Errorf("failed to create product vm tag: %s", errors.ErrorStack(err))
 	}
 
-	return *tagId, nil
+	return *tagID, nil
 }
 
-func attachTag(ctx context.Context, client *tags.RestClient, sess *session.Session, tagId string) error {
-	if tagId == "" || sess == nil {
+func attachTag(ctx context.Context, client *tags.RestClient, sess *session.Session, tagID string, vm *object.VirtualMachine) error {
+	if tagID == "" || sess == nil {
 		return errors.Errorf("failed to attach product vm tag")
 	}
 
-	vm, err := guest.GetSelf(ctx, sess)
-	if err != nil {
-		return errors.Errorf("failed to get product vm : %s", errors.ErrorStack(err))
-	}
-
-	err = client.AttachTagToObject(ctx, tagId, vm.Reference().Value, vm.Reference().Type)
+	err := client.AttachTagToObject(ctx, tagID, vm.Reference().Value, vm.Reference().Type)
 	if err != nil {
 		return errors.Errorf("failed to apply the tag on product vm : %s", errors.ErrorStack(err))
 	}
 
 	log.Debugf("successfully attached the product tag")
+	return nil
+}
+
+func addManagedObjectValue(ctx context.Context, sess *session.Session, vm *object.VirtualMachine) error {
+	fieldManager, err := object.GetCustomFieldsManager(sess.Vim25())
+	if err != nil {
+		return err
+	}
+
+	def, err := fieldManager.Add(ctx, ProductManagedObjectKey, "", nil, nil)
+	if err != nil {
+		// TODO: Ignore Duplicate Name errors: http://pubs.vmware.com/vsphere-6-5/index.jsp?topic=%2Fcom.vmware.vspsdk.apiref.doc%2Fvim.CustomFieldsManager.html
+		return err
+	}
+
+	// TODO: add ova version here
+	err = fieldManager.Set(ctx, vm.Reference(), def.Key, "some-version-number")
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -87,12 +105,22 @@ func Run(ctx context.Context, sess *session.Session) error {
 		return err
 	}
 
-	tagId, err := createProductVMtag(ctx, client)
+	tagID, err := createProductVMtag(ctx, client)
 	if err != nil {
 		return err
 	}
 
-	err = attachTag(ctx, client, sess, tagId)
+	vm, err := guest.GetSelf(ctx, sess)
+	if err != nil {
+		return errors.Errorf("failed to get product vm : %s", errors.ErrorStack(err))
+	}
+
+	err = attachTag(ctx, client, sess, tagID, vm)
+	if err != nil {
+		return err
+	}
+
+	err = addManagedObjectValue(ctx, sess, vm)
 	if err != nil {
 		return err
 	}
