@@ -42,17 +42,17 @@ function add() {
   src=$1
   dest=$2
   if [[ "$src" =~ ^http://|^https:// ]]; then
-    curl -fL"#" $src -o $dest
+    curl -fL"#" "$src" -o "$dest"
   else
-    cp $src $dest
-    eecho "coped from local fs"
+    cp "$src" "$dest"
+    eecho "copied from local fs"
   fi
 }
 
 echo "${warrow} caching container images"
 for img in "${images[@]}"; do
   echo "${barrow} checking cache for ${brprpl}${img}${creset} archive"
-  archive=$(dirname $0)/baseimage/cache/docker/$(echo "${img##*/}" | tr ':' '-').tar.gz
+  archive=$(dirname "$0")/baseimage/cache/docker/$(echo "${img##*/}" | tr ':' '-').tar.gz
   echo "${yarrow} pulling ${brprpl}${img}${creset}"
   pull=$(docker pull "$img")
   if [[ -f "$archive" && "$pull" == *"Image is up to date"* ]]; then
@@ -66,18 +66,18 @@ echo "${warrow} saved all images"
 
 echo "${warrow} caching other dependencies"
 for download in "${downloads[@]}"; do
-  filename=$(basename ${download})
+  filename=$(basename "${download}")
   echo "${barrow} checking cache for ${brprpl}${filename}${creset} archive"
-  archive="$(dirname $0)/baseimage/cache/${filename}"
+  archive="$(dirname "$0")/baseimage/cache/${filename}"
   if [ -f "$archive" ]; then
     echo "${yarrow} cache is up to date - not saving ${brprpl}${filename}${creset}"
   else
     echo "${yarrow} downloading and saving ${brprpl}${filename}${creset}"
     set +e
-    basefile=$(ls "$(dirname $archive)/$(echo ${filename} | cut -f1 -d"-" | cut -f1 -d"_" | cut -f1 -d".")"* 2>/dev/null)
+    basefile=$(ls "$(dirname "$archive")/$(echo "${filename}" | cut -f1 -d"-" | cut -f1 -d"_" | cut -f1 -d".")"* 2>/dev/null)
     [ $? -eq 0 ] && [ -f "$basefile" ] && rm "$basefile"*
     set -e
-    add ${download} $archive
+    add "${download}" "$archive"
   fi
 done
 echo "${warrow} saved all downloads"
