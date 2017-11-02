@@ -23,3 +23,10 @@ Check vCenter
     Log To Console  ${output}
     Should Be Equal As Integers  ${rc}  0  vCenter %{TEST_URL} seems unavailable
     Should Contain  ${output}  VMware vCenter Server
+
+Run GOVC
+    [Arguments]  ${cmd_options}
+    ${rc}  ${output}=  Run And Return Rc And Output  govc ${cmd_options}
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    [Return]  ${rc}
