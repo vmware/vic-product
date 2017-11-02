@@ -11,7 +11,7 @@ The following `vic-machine create` options modify the configuration of the VCH a
 
 Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
 
-### `--use-rp` ###
+### `--use-rp` <a id="use-rp"></a>
 
 Short name: none
 
@@ -112,6 +112,7 @@ To limit the amount of system resources that the container VMs in a VCH can use,
 This example deploys a VCH with the following configuration:
 
 - Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
+- Secures connections to the Docker API with an automatically generated server certificate, without client certificate verification, by setting `--no-tlsverify`.
 - Sets resource limits on the VCH by imposing memory and CPU reservations, limits, and shares.
 
 <pre>vic-machine-<i>operating_system</i> create
@@ -127,7 +128,7 @@ This example deploys a VCH with the following configuration:
 --cpu-shares low
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
---no-tls
+--no-tlsverify
 </pre>
 
 ### Deploy VCH as a Resource Pool Instead of as a vApp <a id="not_vapp"></a> 

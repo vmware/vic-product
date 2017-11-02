@@ -76,6 +76,7 @@ This example deploys a VCH with the following configuration:
 - Specifies the `volumes` folder on `datastore 1` as the default volume store. Creating a volume store named `default` allows container application developers to create anonymous or named volumes by using `docker create -v`. 
 - Specifies a second volume store named `volume_store_2` in the `volumes` folder on `datastore 2`. 
 - Specifies a volume store named `shared_volume` in a NFS share point, from which containers can mount shared volumes.
+- Secures connections to the Docker API with an automatically generated server certificate, without client certificate verification, by setting `--no-tlsverify`.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
@@ -87,5 +88,5 @@ This example deploys a VCH with the following configuration:
 --volume-store nfs://nfs_store/path/to/share/point:shared_volume
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
---no-tls
+--no-tlsverify
 </pre> 

@@ -86,8 +86,10 @@ To authorize connections from a VCH to a private registry server without verifyi
 This example deploys a VCH with the following configuration:
 
 - Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
+- Secures connections to the Docker API with an automatically generated server certificate, without client certificate verification, by setting `--no-tlsverify`.
 - Authorizes the VCH to pull Docker images from the insecure private registry servers located at the URLs <i>registry_URL_1</i> and <i>registry_URL_2</i>.
 - The registry server at <i>registry_URL_2</i> listens for connections on port 5000. 
+
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
@@ -98,7 +100,7 @@ This example deploys a VCH with the following configuration:
 --insecure-registry <i>registry_URL_2:5000</i>
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
---no-tls
+--no-tlsverify
 </pre>
 
 ### Authorize Access to Secure Registries and vSphere Integrated Containers Registry <a id="secureregistry"></a>
@@ -112,6 +114,7 @@ To restrict the registries to which a VCH allows access, set the `--whitelist-re
 This example deploys a VCH with the following configuration:
 
 - Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
+- Secures connections to the Docker API with an automatically generated server certificate, without client certificate verification, by setting `--no-tlsverify`.
 - Adds to the whitelist:
       - The single registry instance running at 10.2.40.40:443
       - All registries running in the range 10.2.2.1/24 
@@ -131,5 +134,5 @@ This example deploys a VCH with the following configuration:
 --insecure-registry=192.168.100.207  
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
---no-tls
+--no-tlsverify
 </pre>
