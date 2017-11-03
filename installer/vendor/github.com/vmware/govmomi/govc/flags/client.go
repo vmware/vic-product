@@ -25,10 +25,12 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/vmware/govmomi/session"
 	"github.com/vmware/govmomi/vim25"
@@ -37,18 +39,19 @@ import (
 )
 
 const (
-	envURL           = "GOVC_URL"
-	envUsername      = "GOVC_USERNAME"
-	envPassword      = "GOVC_PASSWORD"
-	envCertificate   = "GOVC_CERTIFICATE"
-	envPrivateKey    = "GOVC_PRIVATE_KEY"
-	envInsecure      = "GOVC_INSECURE"
-	envPersist       = "GOVC_PERSIST_SESSION"
-	envMinAPIVersion = "GOVC_MIN_API_VERSION"
-	envVimNamespace  = "GOVC_VIM_NAMESPACE"
-	envVimVersion    = "GOVC_VIM_VERSION"
-	envTLSCaCerts    = "GOVC_TLS_CA_CERTS"
-	envTLSKnownHosts = "GOVC_TLS_KNOWN_HOSTS"
+	envURL                 = "GOVC_URL"
+	envUsername            = "GOVC_USERNAME"
+	envPassword            = "GOVC_PASSWORD"
+	envCertificate         = "GOVC_CERTIFICATE"
+	envPrivateKey          = "GOVC_PRIVATE_KEY"
+	envInsecure            = "GOVC_INSECURE"
+	envPersist             = "GOVC_PERSIST_SESSION"
+	envMinAPIVersion       = "GOVC_MIN_API_VERSION"
+	envVimNamespace        = "GOVC_VIM_NAMESPACE"
+	envVimVersion          = "GOVC_VIM_VERSION"
+	envTLSCaCerts          = "GOVC_TLS_CA_CERTS"
+	envTLSKnownHosts       = "GOVC_TLS_KNOWN_HOSTS"
+	envTLSHandshakeTimeout = "GOVC_TLS_HANDSHAKE_TIMEOUT"
 )
 
 const cDescr = "ESX or vCenter URL"
@@ -58,21 +61,21 @@ type ClientFlag struct {
 
 	*DebugFlag
 
-	url           *url.URL
-	username      string
-	password      string
-	cert          string
-	key           string
-	insecure      bool
-	persist       bool
-	minAPIVersion string
-	vimNamespace  string
-	vimVersion    string
-	tlsCaCerts    string
-	tlsKnownHosts string
-	tlsHostHash   string
-
-	client *vim25.Client
+	url                 *url.URL
+	username            string
+	password            string
+	cert                string
+	key                 string
+	insecure            bool
+	persist             bool
+	minAPIVersion       string
+	vimNamespace        string
+	vimVersion          string
+	tlsCaCerts          string
+	tlsKnownHosts       string
+	tlsHostHash         string
+	tlsHandshakeTimeout time.Duration
+	client              *vim25.Client
 }
 
 var (
@@ -215,6 +218,15 @@ func (flag *ClientFlag) Register(ctx context.Context, f *flag.FlagSet) {
 			usage := fmt.Sprintf("TLS known hosts file [%s]", envTLSKnownHosts)
 			f.StringVar(&flag.tlsKnownHosts, "tls-known-hosts", value, usage)
 		}
+
+		{
+			value, err := time.ParseDuration(os.Getenv(envTLSHandshakeTimeout))
+			if err != nil {
+				value = 10 * time.Second
+			}
+			usage := fmt.Sprintf("TLS handshake timeout [%s]", envTLSHandshakeTimeout)
+			f.DurationVar(&flag.tlsHandshakeTimeout, "tls-handshake-timeout", value, usage)
+		}
 	})
 }
 
@@ -273,6 +285,10 @@ func (flag *ClientFlag) configure(sc *soap.Client) (soap.RoundTripper, error) {
 
 	if err := sc.LoadThumbprints(flag.tlsKnownHosts); err != nil {
 		return nil, err
+	}
+
+	if t, ok := sc.Transport.(*http.Transport); ok {
+		t.TLSHandshakeTimeout = flag.tlsHandshakeTimeout
 	}
 
 	// Retry twice when a temporary I/O error occurs.
@@ -458,6 +474,11 @@ func (flag *ClientFlag) localTicket(ctx context.Context, m *session.Manager) (*u
 	return url.UserPassword(ticket.UserName, string(password)), nil
 }
 
+func isDevelopmentVersion(apiVersion string) bool {
+	// Skip version check for development builds which can be in the form of "r4A70F" or "6.5.x"
+	return strings.Count(apiVersion, ".") == 0 || strings.HasSuffix(apiVersion, ".x")
+}
+
 // apiVersionValid returns whether or not the API version supported by the
 // server the client is connected to is not recent enough.
 func apiVersionValid(c *vim25.Client, minVersionString string) error {
@@ -467,23 +488,22 @@ func apiVersionValid(c *vim25.Client, minVersionString string) error {
 	}
 
 	apiVersion := c.ServiceContent.About.ApiVersion
-	if strings.HasSuffix(apiVersion, ".x") {
-		// Skip version check for development builds
+	if isDevelopmentVersion(apiVersion) {
 		return nil
 	}
 
 	realVersion, err := ParseVersion(apiVersion)
 	if err != nil {
-		return err
+		return fmt.Errorf("Error parsing API version %q: %s", apiVersion, err)
 	}
 
 	minVersion, err := ParseVersion(minVersionString)
 	if err != nil {
-		return err
+		return fmt.Errorf("Error parsing %s=%q: %s", envMinAPIVersion, minVersionString, err)
 	}
 
 	if !minVersion.Lte(realVersion) {
-		err = fmt.Errorf("Require API version %s, connected to API version %s (set %s to override)",
+		err = fmt.Errorf("Require API version %q, connected to API version %q (set %s to override)",
 			minVersionString,
 			c.ServiceContent.About.ApiVersion,
 			envMinAPIVersion)

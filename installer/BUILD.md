@@ -91,11 +91,14 @@ docker run -it --net=host -v $GOPATH/src/github.com/vmware/vic-product/installer
 
 To build the installer dependencies, ensure `GOPATH` is set, then issue the following.
 ``
-$ make gvt vendor
+$ make vendor
 ``
 
-This will install the [gvt](https://github.com/FiloSottile/gvt) utility and retrieve the build dependencies via `gvt restore`
+This will install the [dep](https://github.com/golang/dep) utility and retrieve the build dependencies via `dep ensure`.
 
+NOTE: Dep is slow the first time you run it - it may take 10+ minutes to download all of the dependencies. This is because
+dep automatically falttens the vendor folders of all dependencies. In most cases, you shouldn't need to run `make vendor`,
+as our vendor directory is checked in to git.
 
 ## Staging and Release
 To perform staging and release process using Drone CI, refer to following commands. 
@@ -128,3 +131,4 @@ Use Drone exec to kickoff the OVA build.
 
 drone exec --timeout "1h0m0s" --timeout.inactivity "1h0m0s" --repo.trusted .drone.local.yml
 ```
+

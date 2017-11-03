@@ -26,6 +26,19 @@ import (
 	"github.com/vmware/govmomi/vim25/types"
 )
 
+// This is a map from a reference type name to a reference value name prefix.
+// It's a convention that VirtualCenter follows. The map is not complete, but
+// it should cover the most popular objects.
+var refValueMap = map[string]string{
+	"DistributedVirtualPortgroup":    "dvportgroup",
+	"EnvironmentBrowser":             "envbrowser",
+	"HostSystem":                     "host",
+	"ResourcePool":                   "resgroup",
+	"VirtualMachine":                 "vm",
+	"VirtualMachineSnapshot":         "snapshot",
+	"VmwareDistributedVirtualSwitch": "dvs",
+}
+
 // Map is the default Registry instance.
 var Map = NewRegistry()
 
@@ -54,9 +67,18 @@ func NewRegistry() *Registry {
 	return r
 }
 
-// TypeName returns the type of the given object.
-func TypeName(item mo.Reference) string {
+// typeName returns the type of the given object.
+func typeName(item mo.Reference) string {
 	return reflect.TypeOf(item).Elem().Name()
+}
+
+// valuePrefix returns the value name prefix of a given object
+func valuePrefix(typeName string) string {
+	if v, ok := refValueMap[typeName]; ok {
+		return v
+	}
+
+	return strings.ToLower(typeName)
 }
 
 // newReference returns a new MOR, where Type defaults to type of the given item
@@ -65,12 +87,12 @@ func (r *Registry) newReference(item mo.Reference) types.ManagedObjectReference 
 	ref := item.Reference()
 
 	if ref.Type == "" {
-		ref.Type = TypeName(item)
+		ref.Type = typeName(item)
 	}
 
 	if ref.Value == "" {
 		r.counter++
-		ref.Value = fmt.Sprintf("%s-%d", strings.ToLower(ref.Type), r.counter)
+		ref.Value = fmt.Sprintf("%s-%d", valuePrefix(ref.Type), r.counter)
 	}
 
 	return ref
@@ -135,6 +157,12 @@ func (r *Registry) Put(item mo.Reference) mo.Reference {
 		ref = r.newReference(item)
 		// mo.Reference() returns a value, not a pointer so use reflect to set the Self field
 		reflect.ValueOf(item).Elem().FieldByName("Self").Set(reflect.ValueOf(ref))
+	}
+
+	if me, ok := item.(mo.Entity); ok {
+		me.Entity().ConfigStatus = types.ManagedEntityStatusGreen
+		me.Entity().OverallStatus = types.ManagedEntityStatusGreen
+		me.Entity().EffectiveRole = []int32{-1} // Admin
 	}
 
 	r.objects[ref] = item
@@ -226,10 +254,10 @@ func (r *Registry) getEntityComputeResource(item mo.Entity) mo.Entity {
 // a HostStorageSystem or HostSystem within a ClusterComputeResource.
 func (r *Registry) FindByName(name string, refs []types.ManagedObjectReference) mo.Entity {
 	for _, ref := range refs {
-		e := r.Get(ref).(mo.Entity)
-
-		if name == e.Entity().Name {
-			return e
+		if e, ok := r.Get(ref).(mo.Entity); ok {
+			if name == e.Entity().Name {
+				return e
+			}
 		}
 	}
 
@@ -296,6 +324,11 @@ func (r *Registry) SearchIndex() *SearchIndex {
 // FileManager returns the FileManager singleton
 func (r *Registry) FileManager() *FileManager {
 	return r.Get(r.content().FileManager.Reference()).(*FileManager)
+}
+
+// VirtualDiskManager returns the VirtualDiskManager singleton
+func (r *Registry) VirtualDiskManager() *VirtualDiskManager {
+	return r.Get(r.content().VirtualDiskManager.Reference()).(*VirtualDiskManager)
 }
 
 // ViewManager returns the ViewManager singleton
