@@ -24,7 +24,7 @@ BASE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 BIN ?= bin
 
 export GOPATH ?= $(shell echo $(CURDIR) | sed -e 's,/src/.*,,')
-GVT ?= $(GOPATH)/bin/gvt$(BIN_ARCH)
+DEP ?= $(GOPATH)/bin/dep$(BIN_ARCH)
 GAS ?= $(GOPATH)/bin/gas$(BIN_ARCH)
 
 .PHONY: gas ova
@@ -89,17 +89,17 @@ $(rpctool): $(call godeps,ovatools/rpctool/*.go)
 ova: gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
 
 # utility targets
-$(GAS): vendor/manifest
+$(GAS): Gopkg.lock
 	@echo building $(GAS)...
 	@$(GO) build $(RACE) -o $(GAS) ./vendor/github.com/GoASTScanner/gas
 
-$(GVT): vendor/manifest
-	@echo building $(GVT)...
-	@$(GO) build $(RACE) -o $(GVT) ./vendor/github.com/FiloSottile/gvt
+$(DEP): Gopkg.lock
+	@echo building $(DEP)...
+	@$(GO) build $(RACE) -o $(DEP) ./vendor/github.com/golang/dep/cmd/dep
 
-vendor: $(GVT)
-	  @echo restoring vendor
-		  $(GVT) restore
+vendor: $(DEP)
+	@echo restoring vendor
+	$(DEP) ensure
 
 gas: $(GAS)
 	@echo running go AST tool

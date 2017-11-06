@@ -59,6 +59,14 @@ func (f *Folder) update(o mo.Reference, u func(types.ManagedObjectReference, []t
 	}
 }
 
+func networkSummary(n *mo.Network) *types.NetworkSummary {
+	return &types.NetworkSummary{
+		Network:    &n.Self,
+		Name:       n.Name,
+		Accessible: true,
+	}
+}
+
 func (f *Folder) putChild(o mo.Entity) {
 	Map.PutEntity(f, o)
 
@@ -68,6 +76,15 @@ func (f *Folder) putChild(o mo.Entity) {
 	f.ChildEntity = AddReference(o.Reference(), f.ChildEntity)
 
 	f.update(o, AddReference)
+
+	switch e := o.(type) {
+	case *mo.Network:
+		e.Summary = networkSummary(e)
+	case *mo.OpaqueNetwork:
+		e.Summary = networkSummary(&e.Network)
+	case *DistributedVirtualPortgroup:
+		e.Summary = networkSummary(&e.Network)
+	}
 }
 
 func (f *Folder) removeChild(o mo.Reference) {
@@ -233,7 +250,7 @@ type createVM struct {
 }
 
 func (c *createVM) Run(task *Task) (types.AnyType, types.BaseMethodFault) {
-	vm, err := NewVirtualMachine(&c.req.Config)
+	vm, err := NewVirtualMachine(c.Folder.Self, &c.req.Config)
 	if err != nil {
 		return nil, err
 	}
@@ -259,9 +276,16 @@ func (c *createVM) Run(task *Task) (types.AnyType, types.BaseMethodFault) {
 		vm.Runtime.Host = c.req.Host
 	}
 
+	vm.Guest = &types.GuestInfo{
+		ToolsStatus:  types.VirtualMachineToolsStatusToolsNotInstalled,
+		ToolsVersion: "0",
+	}
+
+	vm.Summary.Guest = &types.VirtualMachineGuestSummary{
+		ToolsStatus: vm.Guest.ToolsStatus,
+	}
 	vm.Summary.Config.VmPathName = vm.Config.Files.VmPathName
 	vm.Summary.Runtime.Host = vm.Runtime.Host
-	vm.Parent = &c.Folder.Self
 
 	err = vm.create(&c.req.Config, c.register)
 	if err != nil {
@@ -309,24 +333,32 @@ type registerVM struct {
 }
 
 func (c *registerVM) Run(task *Task) (types.AnyType, types.BaseMethodFault) {
-	if c.req.AsTemplate {
-		return nil, &types.NotSupported{}
-	}
+	host := c.req.Host
+	pool := c.req.Pool
 
-	if c.req.Pool == nil {
-		return nil, &types.InvalidArgument{InvalidProperty: "pool"}
+	if c.req.AsTemplate {
+		if host == nil {
+			return nil, &types.InvalidArgument{InvalidProperty: "host"}
+		} else if pool != nil {
+			return nil, &types.InvalidArgument{InvalidProperty: "pool"}
+		}
+
+		pool = hostParent(&Map.Get(*host).(*HostSystem).HostSystem).ResourcePool
+	} else {
+		if pool == nil {
+			return nil, &types.InvalidArgument{InvalidProperty: "pool"}
+		}
 	}
 
 	if c.req.Path == "" {
 		return nil, &types.InvalidArgument{InvalidProperty: "path"}
 	}
 
-	p := Map.Get(*c.req.Pool).(mo.Entity)
 	s := Map.SearchIndex()
 	r := s.FindByDatastorePath(&types.FindByDatastorePath{
 		This:       s.Reference(),
 		Path:       c.req.Path,
-		Datacenter: Map.getEntityDatacenter(p).Reference(),
+		Datacenter: Map.getEntityDatacenter(c.Folder).Reference(),
 	})
 
 	if ref := r.(*methods.FindByDatastorePathBody).Res.Returnval; ref != nil {
@@ -353,8 +385,8 @@ func (c *registerVM) Run(task *Task) (types.AnyType, types.BaseMethodFault) {
 					VmPathName: c.req.Path,
 				},
 			},
-			Pool: *c.req.Pool,
-			Host: c.req.Host,
+			Pool: *pool,
+			Host: host,
 		},
 	})
 
@@ -408,10 +440,11 @@ func (f *Folder) MoveIntoFolderTask(c *types.MoveIntoFolder_Task) soap.HasFault 
 	}
 }
 
-func (f *Folder) CreateDVSTask(c *types.CreateDVS_Task) soap.HasFault {
+func (f *Folder) CreateDVSTask(req *types.CreateDVS_Task) soap.HasFault {
 	task := CreateTask(f, "createDVS", func(t *Task) (types.AnyType, types.BaseMethodFault) {
-		dvs := &VmwareDistributedVirtualSwitch{}
-		dvs.Name = c.Spec.ConfigSpec.GetDVSConfigSpec().Name
+		spec := req.Spec.ConfigSpec.GetDVSConfigSpec()
+		dvs := &DistributedVirtualSwitch{}
+		dvs.Name = spec.Name
 		dvs.Entity().Name = dvs.Name
 
 		if Map.FindByName(dvs.Name, f.ChildEntity) != nil {
@@ -421,6 +454,25 @@ func (f *Folder) CreateDVSTask(c *types.CreateDVS_Task) soap.HasFault {
 		dvs.Uuid = uuid.New().String()
 
 		f.putChild(dvs)
+
+		dvs.Summary = types.DVSSummary{
+			Name:        dvs.Name,
+			Uuid:        dvs.Uuid,
+			NumPorts:    spec.NumStandalonePorts,
+			ProductInfo: req.Spec.ProductInfo,
+			Description: spec.Description,
+		}
+
+		if dvs.Summary.ProductInfo == nil {
+			product := Map.content().About
+			dvs.Summary.ProductInfo = &types.DistributedVirtualSwitchProductSpec{
+				Name:            "DVS",
+				Vendor:          product.Vendor,
+				Version:         product.Version,
+				Build:           product.Build,
+				ForwardingClass: "etherswitch",
+			}
+		}
 
 		return dvs.Reference(), nil
 	})
