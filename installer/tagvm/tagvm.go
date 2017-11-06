@@ -17,10 +17,13 @@ package tagvm
 import (
 	"context"
 	"net/url"
+	"strings"
 
 	log "github.com/Sirupsen/logrus"
 
 	"github.com/vmware/govmomi/object"
+	"github.com/vmware/govmomi/vim25/types"
+	"github.com/vmware/vic-product/installer/pkg/version"
 	"github.com/vmware/vic/lib/guest"
 	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/vsphere/session"
@@ -41,7 +44,7 @@ func setupClient(ctx context.Context, sess *session.Session) (*tags.RestClient, 
 	client := tags.NewClient(endpoint, sess.Insecure, sess.Thumbprint)
 	err = client.Login(ctx)
 	if err != nil {
-		log.Debugf("failed to connect rest API for %s", errors.ErrorStack(err))
+		log.Errorf("failed to connect rest API for %s", errors.ErrorStack(err))
 		return client, errors.Errorf("Rest is not accessible")
 	}
 
@@ -80,21 +83,31 @@ func attachTag(ctx context.Context, client *tags.RestClient, sess *session.Sessi
 func addManagedObjectValue(ctx context.Context, sess *session.Session, vm *object.VirtualMachine) error {
 	fieldManager, err := object.GetCustomFieldsManager(sess.Vim25())
 	if err != nil {
+		log.Debugf("failed to attach identifier tag: %s", errors.ErrorStack(err))
 		return err
 	}
 
-	def, err := fieldManager.Add(ctx, ProductManagedObjectKey, "", nil, nil)
+	// Find the custom field key for ProductManagedObjectKey
+	var def *types.CustomFieldDef
+	var key int32
+	def, err = fieldManager.Add(ctx, ProductManagedObjectKey, "", nil, nil)
+	if strings.Contains(err.Error(), "already exists") {
+		key, err = fieldManager.FindKey(ctx, ProductManagedObjectKey)
+		def = &types.CustomFieldDef{Key: key}
+	}
 	if err != nil {
-		// TODO: Ignore Duplicate Name errors: http://pubs.vmware.com/vsphere-6-5/index.jsp?topic=%2Fcom.vmware.vspsdk.apiref.doc%2Fvim.CustomFieldsManager.html
+		log.Errorf("failed to attach identifier tag: %s", errors.ErrorStack(err))
 		return err
 	}
 
-	// TODO: add ova version here
-	err = fieldManager.Set(ctx, vm.Reference(), def.Key, "some-version-number")
+	// set the ProductManagedObject Value on the vm
+	err = fieldManager.Set(ctx, vm.Reference(), def.Key, version.GetBuild().ShortVersion())
 	if err != nil {
+		log.Errorf("failed to attach identifier tag: %s", errors.ErrorStack(err))
 		return err
 	}
 
+	log.Debugf("successfully attached identifier tag")
 	return nil
 }
 
