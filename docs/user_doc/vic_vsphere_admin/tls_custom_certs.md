@@ -8,7 +8,7 @@ You can deploy a VCH to use custom server certificates in combination with auto-
 
 **IMPORTANT**: PKCS#7 certificates do not work with `vic-machine`. For information about how to convert certificates to the correct format, see [Converting Certificates for Use with vSphere Integrated Containers Engine](vic_cert_reference.md#convertcerts). 
 
-- [`vic-machine `Options](#options)
+- [`vic-machine` Options](#options)
 - [Example `vic-machine` Command](#examples)
 
 ## `vic-machine` Options <a id="options"></a>

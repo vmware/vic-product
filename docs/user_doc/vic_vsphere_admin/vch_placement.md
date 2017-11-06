@@ -2,7 +2,7 @@
 
 The `create` command of the `vic-machine` utility requires you to provide information about where in your vSphere environment to deploy the VCH and the vCenter Server or ESXi user account to use for deployment.
 
-- [`vic-machine `Options](#options)
+- [`vic-machine` Options](#options)
 - [Example `vic-machine` Commands](#examples)
 
 ## `vic-machine` Options <a id="options"></a>

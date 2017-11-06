@@ -1,5 +1,12 @@
 # Specify Volume Stores #
 
+For information about how Docker containers use volumes, see [Use volumes](https://docs.docker.com/engine/admin/volumes/volumes/) in the Docker documentation.
+
+- [`vic-machine` Option](#option)
+- [Example `vic-machine` Command](#example)
+
+## `vic-machine` Options <a id="options"></a>
+
 ### `--volume-store` <a id="volume-store"></a>
 
 Short name: `--vs`
@@ -64,7 +71,7 @@ If you specify an invalid vSphere datastore name or an invalid NFS share point U
 --volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i>
 </pre>
 
-## Specify Volume Stores <a id="volume-stores"></a>
+## Example `vic-machine` Commmand <a id="example"></a>
 
 If container application developers will use the `docker volume create` command to create containers that use volumes, you must create volume stores when you deploy VCHs. You specify volume stores in the `--volume-store` option. You can specify `--volume-store` multiple times to create multiple volume stores. 
 

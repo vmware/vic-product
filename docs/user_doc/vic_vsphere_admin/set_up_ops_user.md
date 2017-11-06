@@ -10,7 +10,7 @@ To avoid this situation, you can configure a VCH so that it uses different user 
 
 - [How `--ops-user` Works](#behavior)
 - [Create a User Account for `--ops-user`](#createuser)
-- [`vic-machine `Options](#options)
+- [`vic-machine` Options](#options)
 - [Example `vic-machine` Command](#example)
 
 ## How `--ops-user` Works  <a id="behavior"></a>

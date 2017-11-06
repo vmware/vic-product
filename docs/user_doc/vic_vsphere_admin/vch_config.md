@@ -2,7 +2,7 @@
 
 You can set limits on the memory and CPU shares and reservations on the VCH. For information about memory and CPU shares and reservations, see [Allocate Memory Resources](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-49D7217C-DB6C-41A6-86B3-7AFEB8BF575F.html), and [Allocate CPU Resources](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-6C9023B2-3A8F-48EB-8A36-44E3D14958F6.html) in the vSphere documentation.
 
-- [`vic-machine `Options](#options)
+- [`vic-machine` Options](#options)
 - [Example `vic-machine` Commands](#examples)
 
 ## `vic-machine` Options <a id="options"></a>

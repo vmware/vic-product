@@ -2,7 +2,7 @@
 
 To deploy a VCH that does not restrict access to the Docker API but still encrypts communication between clients and the VCH, use the `--no-tlsverify` option. To completely disable TLS authentication and encryption, use the `--no-tls` option.
 
-- [`vic-machine `Options](#options)
+- [`vic-machine` Options](#options)
 - [Example `vic-machine` Commands](#examples)
 
 ## `vic-machine` Options <a id="options"></a>

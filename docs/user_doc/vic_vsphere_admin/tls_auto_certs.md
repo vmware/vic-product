@@ -12,7 +12,7 @@ When using the Docker client, the client validates the server either by using CA
 
 This topic includes the following sections.
 
-- [`vic-machine `Options](#options)
+- [`vic-machine` Options](#options)
 - [Example `vic-machine` Command](#example)
 
 ## `vic-machine` Options <a id="options"></a>

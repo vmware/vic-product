@@ -1,5 +1,12 @@
 # Specify the Image Store #
 
+
+
+- [`vic-machine `Option](#option)
+- [Example `vic-machine` Commands](#examples)
+
+## `vic-machine` Options <a id="option"></a>
+
 ### `--image-store` <a id="image"></a>
 
 Short name: `-i`
@@ -35,3 +42,5 @@ If you designate a datastore folder as the image store, `vic-machine` creates th
 By specifying the path to a datastore folder in the `--image-store` option, you can designate the same datastore folder as the image store for multiple VCHs. In this way, `vic-machine create` creates only one `VIC` folder in the datastore, at the path that you specify. The `VIC` folder contains one <code><i>vch_uuid</i>/images</code> folder for each VCH that you deploy. By creating one <code><i>vch_uuid</i>/images</code> folder for each VCH, vSphere Integrated Containers Engine limits the potential for conflicts of image use between VCHs, even if you share the same image store folder between multiple hosts.
 
 When container developers create containers, vSphere Integrated Containers Engine stores the files for container VMs at the top level of the image store, in folders that have the same name as the containers.
+
+## Example `vic-machine` Commmand <a id="example"></a>
