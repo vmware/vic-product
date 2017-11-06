@@ -359,6 +359,12 @@ the current version of the appliance perform this action through a UI.
   The appliance upgrade script needs to be able to detect any failure in the component upgrade
   script, otherwise the upgrade is assumed to be successful.
 
+- Component teams MUST handle configuration migration/upgrade as part of the upgrade process
+
+  Configuration migration may happen within the component upgrade script or as a separate script.
+  Testing for configuration migration with a comprehensive set of values must be included by the
+  component team during the upgrade development process.
+
 - Component developers SHOULD communicate with the appliance team a user friendly error
   message to display upon receiving a nonzero exit code
 
