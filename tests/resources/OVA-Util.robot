@@ -16,9 +16,9 @@
 Documentation  This resource provides any keywords related to VIC Product OVA
 
 *** Keywords ***
-Set Test VCH Name
-    ${name}=  Evaluate  'VCH-%{DRONE_BUILD_NUMBER}-' + str(random.randint(1000,9999))  modules=random
-    Set Environment Variable  VCH_NAME  ${name}
+Set Test OVA Name
+    ${name}=  Evaluate  'OVA-%{DRONE_BUILD_NUMBER}-' + str(random.randint(1000,9999))  modules=random
+    Set Environment Variable  OVA-NAME  ${name}
 
 Set Test Environment Variables
     Environment Variable Should Be Set  TEST_URL
@@ -29,28 +29,30 @@ Set Test Environment Variables
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  DRONE_BUILD_NUMBER
     Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  DRONE_BUILD_NUMBER  0
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  PUBLIC_NETWORK
-    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  PUBLIC_NETWORK  'VM Network'
+    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  PUBLIC_NETWORK  'vm-network'
+    ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  PUBLIC_NETWORK
+    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  BRIDGE_NETWORK  'bridge'
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  TEST_DATASTORE
     Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  TEST_DATASTORE  datastore1
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  TEST_RESOURCE
     Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  TEST_RESOURCE  /dc1/host/cls
 
-    Set Environment Variable  VCH_USERNAME_ROOT  root
-    Set Environment Variable  VCH_PASSWORD_ROOT  e2eFunctionalTest
+    Set Environment Variable  OVA_USERNAME_ROOT  root
+    Set Environment Variable  OVA_PASSWORD_ROOT  e2eFunctionalTest
+
+    ${thumbprint}=  Get vCenter Thumbprint
+    Set Environment Variable  TEST_THUMBPRINT  ${thumbprint}
 
     Set Environment Variable  GOVC_URL  %{TEST_URL}
     Set Environment Variable  GOVC_USERNAME  %{TEST_USERNAME}
     Set Environment Variable  GOVC_PASSWORD  %{TEST_PASSWORD}
     Set Environment Variable  GOVC_INSECURE  1
-    
-    Set Environment Variable  VCH_USERNAME_ROOT  root
-    Set Environment Variable  VCH_PASSWORD_ROOT  e2eFunctionalTest
 
 Install VIC Product OVA
     [Arguments]  ${ova-file}
     Set Test Environment Variables
-    Set Test VCH Name
-    ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=%{VCH_NAME} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='%{VCH_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
+    Set Test OVA Name
+    ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=%{OVA-NAME} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='%{OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
     Should Contain  ${output}  Completed successfully
     Should Contain  ${output}  Received IP address:
     
@@ -60,6 +62,14 @@ Install VIC Product OVA
     \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
     \   Run Keyword If  ${status}  Set Environment Variable  OVA_IP  ${ip}
     \   Return From Keyword If  ${status}  ${ip}
+
+Download VIC engine
+    [Arguments]  ${target_dir}=bin
+    Log To Console  \nDownloading VIC engine...
+    ${download_url}=  Run command and Return output  curl -k https://%{OVA_IP}:9443 | tac | tac | grep -Po -m 1 '(?<=href=")[^"]*tar.gz'
+    Run command and Return output  mkdir -p ${target_dir}
+    Run command and Return output  curl -k ${download_url} --output ${target_dir}/vic.tar.gz
+    Run command and Return output  tar -xvzf ${target_dir}/vic.tar.gz --strip-components=1 --directory=${target_dir}
 
 Cleanup VIC Product OVA
     [Arguments]  ${ova_target_vm_name}
