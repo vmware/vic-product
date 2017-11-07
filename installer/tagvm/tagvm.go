@@ -23,11 +23,12 @@ import (
 
 	"github.com/vmware/govmomi/object"
 	"github.com/vmware/govmomi/vim25/types"
-	"github.com/vmware/vic-product/installer/pkg/version"
 	"github.com/vmware/vic/lib/guest"
 	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/vsphere/session"
 	"github.com/vmware/vic/pkg/vsphere/tags"
+
+	"github.com/vmware/vic-product/installer/pkg/version"
 )
 
 const (
@@ -90,7 +91,7 @@ func addManagedObjectValue(ctx context.Context, sess *session.Session, vm *objec
 	// Find the custom field key for ProductManagedObjectKey
 	var def *types.CustomFieldDef
 	var key int32
-	def, err = fieldManager.Add(ctx, ProductManagedObjectKey, "", nil, nil)
+	def, err = fieldManager.Add(ctx, ProductManagedObjectKey, "VirtualMachine", nil, nil)
 	if strings.Contains(err.Error(), "already exists") {
 		key, err = fieldManager.FindKey(ctx, ProductManagedObjectKey)
 		def = &types.CustomFieldDef{Key: key}
