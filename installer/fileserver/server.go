@@ -49,6 +49,7 @@ type config struct {
 	admiralPort   string
 	installerPort string
 	vicTarName    string
+	logLevel      string
 }
 
 // IndexHTMLOptions contains fields for html templating in index.html
@@ -90,8 +91,18 @@ func Init(conf *config) {
 	flag.StringVar(&conf.certPath, "cert", "", "Path to server certificate in PEM format")
 	flag.StringVar(&conf.keyPath, "key", "", "Path to server certificate key in PEM format")
 	flag.StringVar(&conf.serveDir, "dir", "/opt/vmware/fileserver", "Directory to serve and contain html data")
+	flag.StringVar(&conf.logLevel, "level", "debug", "Set's the log level to [info|debug|warning]; defaults to debug")
 
 	flag.Parse()
+
+	switch conf.logLevel {
+	case "warning":
+		log.SetLevel(log.WarnLevel)
+	case "info":
+		log.SetLevel(log.InfoLevel)
+	default:
+		log.SetLevel(log.DebugLevel)
+	}
 
 	if (conf.certPath == "" && conf.keyPath != "") || (conf.certPath != "" && conf.keyPath == "") {
 		log.Errorf("Both certificate and key must be specified")
