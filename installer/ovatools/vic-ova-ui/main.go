@@ -34,16 +34,16 @@ import (
 )
 
 const (
-	VT_ACTIVATE   = 0x5606
-	VT_WAITACTIVE = 0x5607
-	refreshTime   = "1m"
+	VtActivate   = 0x5606
+	VtWaitActive = 0x5607
+	refreshTime  = "1m"
 )
 
 func main() {
 
 	// If we're running under linux, switch to virtual terminal 2 on startup
-	ioctl(uintptr(os.Stdout.Fd()), VT_ACTIVATE, 2)
-	ioctl(uintptr(os.Stdout.Fd()), VT_WAITACTIVE, 2)
+	ioctl(uintptr(os.Stdout.Fd()), VtActivate, 2)
+	ioctl(uintptr(os.Stdout.Fd()), VtWaitActive, 2)
 
 	if err := ui.Init(); err != nil {
 		panic(err)
