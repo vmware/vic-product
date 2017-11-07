@@ -145,7 +145,7 @@ $(cat $ENV_FILE | sed 's/export //g')
 echo "--------------------------------------------------"
 echo "caching build dependencies..."
 mkdir -p build/baseimage/{bin,cache,cache/docker}
-make ova
+make all
 ./build/cache.sh
 
 echo "--------------------------------------------------"
