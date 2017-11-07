@@ -46,7 +46,7 @@ ova-engine-installer: $(ova-engine-installer)
 toolbox: $(toolbox)
 rpctool: $(rpctool)
 tools: $(DEP) $(GOLINT) $(GAS)
-all: golint gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
+all: golint gofmt govet gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
 
 vendor: $(DEP)
 	@echo restoring vendor
@@ -56,15 +56,6 @@ gas: $(GAS)
 	@echo running go AST tool
 	@$(GAS) -quiet engine_installer/... fileserver/... lib/... ovatools/... pkg/... tagvm/... toolbox/... 2> /dev/null
 
-clean:
-	@echo removing binaries
-	@rm -rf $(BIN)/*
-	@echo removing OVA installer files...
-	@rm -rf $(BASE_DIR)build/baseimage/cache
-	@rm -f $(BASE_DIR)build/baseimage/*.img
-	@rm -f build/baseimage/root/installer.env
-	@$(BASE_DIR)build/cleanup.sh
-
 golint: $(GOLINT)
 	@echo checking go lint...
 	@$(call golintf,github.com/vmware/vic-product/installer/engine_installer/...)
@@ -72,8 +63,15 @@ golint: $(GOLINT)
 	@$(call golintf,github.com/vmware/vic-product/installer/lib/...)
 	@$(call golintf,github.com/vmware/vic-product/installer/ovatools/...)
 	@$(call golintf,github.com/vmware/vic-product/installer/pkg/...)
-	@$(call golintf,github.com/vmware/vic-product/installer/tagvm/...)
 	@$(call golintf,github.com/vmware/vic-product/installer/toolbox/...)
+
+gofmt:
+	@echo checking gofmt...
+	@! gofmt -d -e -s $$(find . -mindepth 1 -maxdepth 1 -type d -not -name vendor) 2>&1 | egrep -v '^$$'
+
+govet:
+	@echo checking go vet...
+	@$(GO) tool vet -all -lostcancel -tests $$(find . -mindepth 1 -maxdepth 1 -type d -not -name vendor)
 
 # Generate Go package dependency set, skipping if the only targets specified are clean and/or distclean
 # Caches dependencies to speed repeated calls
@@ -89,6 +87,15 @@ define godeps
 		) \
 	)
 endef
+
+clean:
+	@echo removing binaries
+	@rm -rf $(BIN)/*
+	@echo removing OVA installer files...
+	@rm -rf $(BASE_DIR)build/baseimage/cache
+	@rm -f $(BASE_DIR)build/baseimage/*.img
+	@rm -f build/baseimage/root/installer.env
+	@$(BASE_DIR)build/cleanup.sh
 
 # exit 1 if golint complains about anything other than comments
 golintf = $(GOLINT) $(1) | sh -c "! grep -v 'lib/apiservers/portlayer/restapi/operations'" | sh -c "! grep -v 'lib/config/dynamic/admiral/client'" | sh -c "! grep -v 'should have comment'" | sh -c "! grep -v 'comment on exported'" | sh -c "! grep -v 'by other packages, and that stutters'" | sh -c "! grep -v 'error strings should not be capitalized'"

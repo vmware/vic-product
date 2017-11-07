@@ -91,6 +91,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/golang/lint"
+  packages = [".","golint"]
+  revision = "6aaf7c34af0f4c36a57e0c429bace4d706d8e931"
+
+[[projects]]
+  branch = "master"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
   revision = "1643683e1b54a9e88ad26d98f81400c8c9d9f4f9"
@@ -245,6 +251,12 @@
   revision = "6dc17368e09b0e8634d71cac8168d853e869a0c7"
 
 [[projects]]
+  branch = "master"
+  name = "golang.org/x/tools"
+  packages = ["go/gcexportdata","go/gcimporter15","go/types/typeutil"]
+  revision = "c84da9fa1c1dbcae4557e8c8509abeb814ed9632"
+
+[[projects]]
   name = "gopkg.in/urfave/cli.v1"
   packages = ["."]
   revision = "0bdeddeeb0f650497d603c4ad7b20cfe685682f6"
@@ -253,6 +265,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "09d3a0b11b2e61ab13f81f62353f073844c10e08cc2dbfe4eae8c358d791b187"
+  inputs-digest = "28106800a5d54389bbd45d0249c5e5f02432b6763089a6d3f032c977a2354728"
   solver-name = "gps-cdcl"
   solver-version = 1

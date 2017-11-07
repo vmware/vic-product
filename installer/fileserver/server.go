@@ -137,7 +137,7 @@ func Init(conf *config) {
 			log.Fatalf("impossible to fetch ovf environment, exiting")
 			os.Exit(1)
 		case lib.UnmarshalError:
-			fmt.Errorf("error: %s", err.Error())
+			log.Errorf("error: %s", err.Error())
 		}
 	}
 
