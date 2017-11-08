@@ -20,14 +20,9 @@ Set Test OVA Name
     ${name}=  Evaluate  'OVA-%{DRONE_BUILD_NUMBER}-' + str(random.randint(1000,9999))  modules=random
     Set Environment Variable  OVA_NAME  ${name}
 
-Set Test OVA Variables
-    ${thumbprint}=  Get VCenter Thumbprint
-    Set Global Variable  ${TEST_THUMBPRINT}  ${thumbprint}
-
 Install VIC Product OVA
     [Arguments]  ${ova-file}
     Log To Console  \nInstalling VIC appliance...
-    Set Test OVA Variables
     Set Test OVA Name
     ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=%{OVA_NAME} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
     Should Contain  ${output}  Completed successfully
@@ -57,6 +52,11 @@ Download VIC Engine
     Run command and Return output  mkdir -p ${target_dir}
     Run command and Return output  curl -k ${download_url} --output ${target_dir}/vic.tar.gz
     Run command and Return output  tar -xvzf ${target_dir}/vic.tar.gz --strip-components=1 --directory=${target_dir}
+
+Download VIC Engine If Not Already
+    [Arguments]  ${target_dir}=bin
+    ${status}=  Run Keyword And Return Status  Directory Should Not Be Empty  ${target_dir}
+    Run Keyword Unless  ${status}  Download VIC engine
 
 Cleanup VIC Product OVA
     [Arguments]  ${ova_target_vm_name}

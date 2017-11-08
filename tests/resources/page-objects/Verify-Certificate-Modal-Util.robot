@@ -13,24 +13,20 @@
 # limitations under the License
 
 *** Settings ***
-Documentation  This resource contains any keywords dealing with Getting Started UI page
+Documentation  This resource contains any keywords dealing with Verify Certificate modal page
 
 *** Variables ***
 # css locators
-${gsp-alert-message}  css=.alert-text
+${vc-title}  css=.modal .modal .modal-title
+${vc-button-yes}  css=.modal .modal .btn-primary
 
 # expected text values
-${gsp-page-title}  VIC Appliance Getting Started
-${gsp-install-complete-message}  Installation successful. Refer to the Post-install and Deployment tasks below.
+${vc-title-text}  Verify Certficate
 
 *** Keywords ***
-Navigate To Getting Started Page
-    Go To  ${GS_PAGE_BASE_URL}
+Verify Modal for Verify Certificate
+    Wait Until Element Is Visible  ${vc-title}  timeout=${EXPLICIT_WAIT}
+    Element Text Should Be  ${vc-title}  ${vc-title-text}
 
-Verify Getting Started Page Title
-    ${result}=  Get Title
-    Should Contain  ${result}  ${gsp-page-title}
-
-Verify Complete Installation Message
-    Wait Until Element Is Visible  ${gsp-alert-message}  timeout=${EXPLICIT_WAIT}
-    Element Text Should Be  ${gsp-alert-message}  ${gsp-install-complete-message}
+Click Yes On Verify Certificate
+    Click Button  ${vc-button-yes}

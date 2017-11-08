@@ -13,24 +13,26 @@
 # limitations under the License
 
 *** Settings ***
-Documentation  This resource contains any keywords dealing with Getting Started UI page
+Documentation  This resource contains any keywords dealing with side navigation UI
+Resource  Container-Hosts-Page-Util.robot
+Resource  Containers-Page-Util.robot
 
 *** Variables ***
 # css locators
-${gsp-alert-message}  css=.alert-text
+${sn-title}  css=#main .title
+${sn-container-hosts-link}  css=a[routerlink=clusters]
+${sn-containers-link}  css=a[routerlink=containers]
 
 # expected text values
-${gsp-page-title}  VIC Appliance Getting Started
-${gsp-install-complete-message}  Installation successful. Refer to the Post-install and Deployment tasks below.
+
 
 *** Keywords ***
-Navigate To Getting Started Page
-    Go To  ${GS_PAGE_BASE_URL}
+Navigate To VIC UI Home Page
+    Go To  ${BASE_URL}
 
-Verify Getting Started Page Title
-    ${result}=  Get Title
-    Should Contain  ${result}  ${gsp-page-title}
+Navigate To Container Hosts Page
+    Click Link  ${sn-container-hosts-link}
+    Verify Container Hosts Page
 
-Verify Complete Installation Message
-    Wait Until Element Is Visible  ${gsp-alert-message}  timeout=${EXPLICIT_WAIT}
-    Element Text Should Be  ${gsp-alert-message}  ${gsp-install-complete-message}
+Navigate To Containers Page
+    Click Link  ${sn-containers-link}

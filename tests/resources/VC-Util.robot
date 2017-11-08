@@ -28,6 +28,10 @@ Get VCenter Thumbprint
     Should Be Equal As Integers  ${rc}  0
     [Return]  ${thumbprint}
 
+Set Test VC Variables
+    ${thumbprint}=  Get VCenter Thumbprint
+    Set Global Variable  ${TEST_THUMBPRINT}  ${thumbprint}
+
 Check Delete Success
     [Arguments]  ${name}
     ${out}=  Run  govc ls vm
