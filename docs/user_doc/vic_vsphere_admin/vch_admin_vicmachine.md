@@ -9,4 +9,4 @@ The `vic-machine` utility provides commands that allow you to manage existing vi
   * [Obtain Virtual Container Host Configuration Information](inspect_vch_config.md)
   * [Configure Virtual Container Hosts](configure_vch.md)
   * [Delete Virtual Container Hosts](remove_vch.md)
-  * [Debug Virtual Container Hosts](debug_vch.md)
+  * [Debug Running Virtual Container Hosts](debug_vch.md)

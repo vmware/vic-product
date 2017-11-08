@@ -1,4 +1,4 @@
-# Debug Virtual Container Hosts #
+# Debug Running Virtual Container Hosts #
 
 By default, all shell access to the virtual container host (VCH) endpoint VM is disabled. Login shells for all users are set to `/bin/false`. The  `vic-machine` utility provides a `debug` command that allows you to enable shell access to the VCH endpoint VM, either by using the VM console or via SSH.
 

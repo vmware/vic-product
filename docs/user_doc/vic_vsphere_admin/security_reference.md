@@ -71,15 +71,17 @@ For information about the VCH bridge interface, see [Configure Bridge Networks](
 
 #### Client Interface
 
-For information about the VCH client interface, see [Configure the Client Network](client_network.md).
+For information about the VCH client interface, see [Configure the Client Network](client_network.md). 
 
 |Port|Protocol|Description|
 |---|---|---|
-|22|SSH|Connections to the VCH when using `vic-machine debug --enable-ssh`|
+|22|SSH|Connections to the VCH when using `vic-machine debug --enable-ssh` or `vic-machine create/configure --debug 3`.|
 |2375|HTTP|Insecure port for Docker API access if VCH is deployed with `--no-tls`|
 |2376|HTTPS|Secure port for Docker API access if VCH is not deployed with `--no-tls`|
 |2378|HTTPS|Connections to the VCH Administration Portal server|
 |6060|HTTPS|Exposes `pprof` debug data about the VCH if the VCH is running with `vic-machine create --debug` or `vic-machine configure --debug` enabled|
+
+For information about VCH TLS options, see [Virtual Container Host Security](vch_security.md). For information about how debugging VCHs affects VCH behavior, see [Debugging Virtual Container Host Deployment](vch_debug_deployment.md) and [Debug Running Virtual Container Hosts](debug_vch.md) 
 
 #### Management Interface
 

@@ -21,13 +21,15 @@ To facilitate IP address changes in your infrastructure, provide an FQDN wheneve
 
 **Usage**:
 
-- If the target ESXi host is not managed by vCenter Server, provide the address of the ESXi host.<pre>--target <i>esxi_host_address</i></pre>
-- If the target ESXi host is managed by vCenter Server, or if you are deploying to a cluster, provide the address of vCenter Server.<pre>--target <i>vcenter_server_address</i></pre>
-- You can include the user name and password in the target URL. If you are deploying a VCH on vCenter Server, specify the user name for an account that has the Administrator role on that vCenter Server instance. <pre>--target <i>vcenter_or_esxi_username</i>:<i>password</i>@<i>vcenter_or_esxi_address</i></pre>
-  
-    If you do not include the user name in the target URL, you must specify the `--user` option. If you do not specify the `--password` option or include the password in the target URL, `vic-machine create` prompts you to enter the password.
+If the target ESXi host is not managed by vCenter Server, provide the address of the ESXi host.<pre>--target <i>esxi_host_address</i></pre>
 
-- If you are deploying a VCH on a vCenter Server instance that includes more than one datacenter, include the datacenter name in the target URL. If you include an invalid datacenter name, `vic-machine create` fails and suggests the available datacenters that you can specify.  <pre>--target <i>vcenter_server_address</i>/<i>datacenter_name</i></pre>
+If the target ESXi host is managed by vCenter Server, or if you are deploying to a cluster, provide the address of vCenter Server.<pre>--target <i>vcenter_server_address</i></pre>
+
+You can include the user name and password in the target URL. If you are deploying a VCH on vCenter Server, specify the user name for an account that has the Administrator role on that vCenter Server instance. <pre>--target <i>vcenter_or_esxi_username</i>:<i>password</i>@<i>vcenter_or_esxi_address</i></pre>
+  
+If you do not include the user name in the target URL, you must specify the `--user` option. If you do not specify the `--password` option or include the password in the target URL, `vic-machine create` prompts you to enter the password.
+
+If you are deploying a VCH on a vCenter Server instance that includes more than one datacenter, include the datacenter name in the target URL. If you include an invalid datacenter name, `vic-machine create` fails and suggests the available datacenters that you can specify.  <pre>--target <i>vcenter_server_address</i>/<i>datacenter_name</i></pre>
 
 ### `--user` <a id="user"></a>
 
@@ -57,7 +59,7 @@ You can also specify the user name and password in the URL that you pass to `vic
 
 You can set an environment variable so that you do not have to specify `--password` in every `vic-machine` command. For information about setting `vic-machine` environment variables, see [Set Environment Variables for Key `vic-machine` Options](vic_env_variables.md).
 
-**Usage**:
+##**Usage**:
 
 <pre>--password <i>esxi_host_or_vcenter_server_password</i></pre>
 
@@ -80,12 +82,17 @@ If you do not specify the `--compute-resource` option and multiple possible reso
 
 **Usage**:
 
-* To deploy to a specific resource pool on an ESXi host that is not managed by vCenter Server, specify the name of the resource pool: <pre>--compute-resource  <i>resource_pool_name</i></pre>
-* To deploy to a vCenter Server instance that has multiple standalone hosts that are not part of a cluster, specify the IPv4 address or fully qualified domain name (FQDN) of the target host:<pre>--compute-resource <i>host_address</i></pre>
-* To deploy to a vCenter Server with multiple clusters, specify the name of the target cluster: <pre>--compute-resource <i>cluster_name</i></pre>
-* To deploy to a specific resource pool on a standalone host that is managed by vCenter Server, or to a specific resource pool in a cluster, if the resource pool name is unique across all hosts and clusters, specify the name of the resource pool:<pre>--compute-resource <i>resource_pool_name</i></pre>
-* To deploy to a specific resource pool on a standalone host that is managed by vCenter Server, if the resource pool name is not unique across all hosts, specify the IPv4 address or FQDN of the target host and name of the resource pool:<pre>--compute-resource <i>host_name</i>/<i>resource_pool_name</i></pre>
-* To deploy to a specific resource pool in a cluster, if the resource pool name is not unique across all clusters, specify the full path to the resource pool:<pre>--compute-resource <i>cluster_name</i>/Resources/<i>resource_pool_name</i></pre>
+To deploy to a specific resource pool on an ESXi host that is not managed by vCenter Server, specify the name of the resource pool: <pre>--compute-resource  <i>resource_pool_name</i></pre>
+
+To deploy to a vCenter Server instance that has multiple standalone hosts that are not part of a cluster, specify the IPv4 address or fully qualified domain name (FQDN) of the target host:<pre>--compute-resource <i>host_address</i></pre>
+
+To deploy to a vCenter Server with multiple clusters, specify the name of the target cluster: <pre>--compute-resource <i>cluster_name</i></pre>
+
+To deploy to a specific resource pool on a standalone host that is managed by vCenter Server, or to a specific resource pool in a cluster, if the resource pool name is unique across all hosts and clusters, specify the name of the resource pool:<pre>--compute-resource <i>resource_pool_name</i></pre>
+
+To deploy to a specific resource pool on a standalone host that is managed by vCenter Server, if the resource pool name is not unique across all hosts, specify the IPv4 address or FQDN of the target host and name of the resource pool:<pre>--compute-resource <i>host_name</i>/<i>resource_pool_name</i></pre>
+
+To deploy to a specific resource pool in a cluster, if the resource pool name is not unique across all clusters, specify the full path to the resource pool:<pre>--compute-resource <i>cluster_name</i>/Resources/<i>resource_pool_name</i></pre>
 
 ### `--name` <a id="name"></a>
 
@@ -119,7 +126,7 @@ Use upper-case letters and colon delimitation in the thumbprint. Do not use spac
 
 ## Example `vic-machine` Commmands <a id="examples"></a>
 
-The following sections provide examples of `vic-machine create` commands that deploy VCHs in different vSphere setups. For simplicity, the examples all use the `--no-tlsverify` option to disable client authentication. In all of the examples, the thumbprint of the vCenter Server or ESXi host is specified in the `--thumbprint` option.
+The following sections provide examples of `vic-machine create` commands that deploy VCHs in different vSphere setups. For simplicity, the examples all use the `--no-tlsverify` option to automatically generate server certificates but disable client authentication. In all of the examples, the thumbprint of the vCenter Server or ESXi host is specified in the `--thumbprint` option.
 
 - [Deploy to a vCenter Server Cluster with Multiple Datacenters and Datastores](#cluster)
 - [Deploy to a Specific Standalone Host in vCenter Server](#standalone)
@@ -223,4 +230,3 @@ If the name of the resource pool is not unique across all clusters, for example 
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
 </pre>
-

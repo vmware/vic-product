@@ -68,7 +68,7 @@
          * [Obtain VCH Configuration Information](vic_vsphere_admin/inspect_vch_config.md)
          * [Configure VCHs](vic_vsphere_admin/configure_vch.md)
          * [Delete VCHs](vic_vsphere_admin/remove_vch.md)
-         * [Debug VCHs](vic_vsphere_admin/debug_vch.md)
+         * [Debug Running VCHs](vic_vsphere_admin/debug_vch.md)
              * [Enable Shell Access](vic_vsphere_admin/vch_shell_access.md)
              * [Authorize SSH Access](vic_vsphere_admin/vch_ssh_access.md) 
      * [VCH Admin Portal](vic_vsphere_admin/access_vicadmin.md)

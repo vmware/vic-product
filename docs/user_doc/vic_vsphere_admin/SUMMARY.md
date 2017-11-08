@@ -54,7 +54,7 @@
          * [Obtain VCH Configuration Information](inspect_vch_config.md)
          * [Configure VCHs](configure_vch.md)
          * [Delete VCHs](remove_vch.md)
-         * [Debug VCHs](debug_vch.md)
+         * [Debug Running VCHs](debug_vch.md)
              * [Enable Shell Access](vch_shell_access.md)
              * [Authorize SSH Access](vch_ssh_access.md) 
      * [VCH Admin Portal](access_vicadmin.md)
