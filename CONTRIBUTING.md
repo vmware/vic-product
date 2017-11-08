@@ -113,6 +113,22 @@ _TODO_ Document testing
 
 When opening a new issue, try to roughly follow the commit message format conventions above.
 
+
+
+For cross-component or VIC Appliance issues, please use the [vic-product Github issue tracker](https://github.com/vmware/vic-product/issues)
+
+For issues relating to individual components, please use the component specific Github issue tracker:
+
+[VIC Engine](https://github.com/vmware/vic/issues)
+
+[Harbor](https://github.com/vmware/harbor/issues)
+
+[Admiral](https://github.com/vmware/admiral/issues)
+
+If you are unsure which component your issue relates to, submit it here and we will triage it.
+Thank you for contributing to VIC Product!
+
+
 ## Repository structure
 
 The layout in the repo is as follows:
