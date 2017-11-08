@@ -24,7 +24,7 @@ Please refer to the [documentation](https://vmware.github.io/vic-product/#docume
 Contributors and users are encouraged to collaborate using the following resources:
 
 
-For cross-component issues, please use the [vic-product Github issue tracker](https://github.com/vmware/vic-product/issues)
+For cross-component or VIC Appliance issues, please use the [vic-product Github issue tracker](https://github.com/vmware/vic-product/issues)
 
 
 
@@ -35,6 +35,11 @@ For issues relating to individual components, please use the component specific 
 [Harbor](https://github.com/vmware/harbor/issues)
 
 [Admiral](https://github.com/vmware/admiral/issues)
+
+### Contributing
+
+Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for contribution process.
+
 
 
 ## License
