@@ -18,41 +18,18 @@ Documentation  This resource provides any keywords related to VIC Product OVA
 *** Keywords ***
 Set Test OVA Name
     ${name}=  Evaluate  'OVA-%{DRONE_BUILD_NUMBER}-' + str(random.randint(1000,9999))  modules=random
-    Set Environment Variable  OVA-NAME  ${name}
+    Set Environment Variable  OVA_NAME  ${name}
 
-Set Test Environment Variables
-    Environment Variable Should Be Set  TEST_URL
-    Environment Variable Should Be Set  TEST_USERNAME
-    Environment Variable Should Be Set  TEST_PASSWORD
-
-    # Finish setting up environment variables
-    ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  DRONE_BUILD_NUMBER
-    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  DRONE_BUILD_NUMBER  0
-    ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  PUBLIC_NETWORK
-    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  PUBLIC_NETWORK  'vm-network'
-    ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  PUBLIC_NETWORK
-    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  BRIDGE_NETWORK  'bridge'
-    ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  TEST_DATASTORE
-    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  TEST_DATASTORE  datastore1
-    ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  TEST_RESOURCE
-    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  TEST_RESOURCE  /dc1/host/cls
-
-    Set Environment Variable  OVA_USERNAME_ROOT  root
-    Set Environment Variable  OVA_PASSWORD_ROOT  e2eFunctionalTest
-
-    ${thumbprint}=  Get vCenter Thumbprint
-    Set Environment Variable  TEST_THUMBPRINT  ${thumbprint}
-
-    Set Environment Variable  GOVC_URL  %{TEST_URL}
-    Set Environment Variable  GOVC_USERNAME  %{TEST_USERNAME}
-    Set Environment Variable  GOVC_PASSWORD  %{TEST_PASSWORD}
-    Set Environment Variable  GOVC_INSECURE  1
+Set Test OVA Variables
+    ${thumbprint}=  Get VCenter Thumbprint
+    Set Global Variable  ${TEST_THUMBPRINT}  ${thumbprint}
 
 Install VIC Product OVA
     [Arguments]  ${ova-file}
-    Set Test Environment Variables
+    Log To Console  \nInstalling VIC appliance...
+    Set Test OVA Variables
     Set Test OVA Name
-    ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=%{OVA-NAME} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='%{OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
+    ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=%{OVA_NAME} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
     Should Contain  ${output}  Completed successfully
     Should Contain  ${output}  Received IP address:
     
@@ -61,9 +38,19 @@ Install VIC Product OVA
     \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  Received IP address:
     \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
     \   Run Keyword If  ${status}  Set Environment Variable  OVA_IP  ${ip}
-    \   Return From Keyword If  ${status}  ${ip}
 
-Download VIC engine
+    Log To Console  \nWaiting for Getting Started Page to Come Up...
+    :FOR  ${i}  IN RANGE  10
+    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}"}' https://%{OVA_IP}:9443/register
+    \   Exit For Loop If  '200' in '''${out}'''
+    \   Sleep  5s
+    Log To Console  ${rc}
+    Log To Console  ${out}
+    Should Contain  ${out}  200
+
+    Log  %{OVA_IP}
+
+Download VIC Engine
     [Arguments]  ${target_dir}=bin
     Log To Console  \nDownloading VIC engine...
     ${download_url}=  Run command and Return output  curl -k https://%{OVA_IP}:9443 | tac | tac | grep -Po -m 1 '(?<=href=")[^"]*tar.gz'
@@ -73,6 +60,7 @@ Download VIC engine
 
 Cleanup VIC Product OVA
     [Arguments]  ${ova_target_vm_name}
+    Log To Console  \nCleaning up VIC appliance...
     ${rc}=  Wait Until Keyword Succeeds  10x  5s  Run GOVC  vm.destroy ${ova_target_vm_name}
     Run Keyword And Ignore Error  Run GOVC  datastore.rm /%{TEST_DATASTORE}/vm/${ova_target_vm_name}
     Run Keyword if  ${rc}==0  Log To Console  \nVIC Product OVA deployment ${ova_target_vm_name} is cleaned up on test server %{TEST_URL}

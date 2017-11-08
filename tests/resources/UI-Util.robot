@@ -13,16 +13,9 @@
 # limitations under the License
 
 *** Settings ***
-Library  OperatingSystem
-Library  String
-Library  Collections
-Library  requests
-Library  Process
-Library  SSHLibrary  5 minute
-Library  DateTime
-Resource  OVA-Util.robot
-Resource  VC-Util.robot
-Resource  VCH-Util.robot
-Resource  UI-Util.robot
-Resource  page-objects/Getting-Started-Page-Util.robot
-Library  Selenium2Library  timeout=30  implicit_wait=15  run_on_failure=Capture Page Screenshot  screenshot_root_directory=test-screenshots
+Documentation  This resource contains any keywords dealing with browser testing
+
+*** Keywords ***
+Open Firefox Browser
+    Log To Console  \nOpening firefox browser...
+    Open Browser  about:  browser=${FIREFOX_BROWSER}  remote_url=${GRID_URL}

@@ -1,8 +1,13 @@
+*.log
+package.list
+
 # robot
 robot-logs/
 log.html
 report.html
 output.xml
+test-screenshots
+bin
 
 # drone
 secrets.yml
@@ -15,3 +20,6 @@ secrets-e2e.yml
 
 # Eclipse files
 .project
+
+# VIC
+VCH-*

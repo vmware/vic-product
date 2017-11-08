@@ -16,15 +16,8 @@
 Documentation  Test 1-01 - Install Test
 Resource  ../../resources/Util.robot
 Test Timeout  50 minutes
-Suite Setup  Setup VIC Product OVA
-Suite Teardown  Cleanup VIC Product OVA  %{OVA-NAME}
 
 *** Keywords ***
-Setup VIC Product OVA
-    Check vCenter
-    Install VIC Product OVA  installer/bin/vic-*.ova
-    Log  %{OVA_IP}
-
 Run command and Return output
     [Arguments]  ${command}
     ${rc}  ${output}=  Run And Return Rc And Output  ${command}
@@ -40,20 +33,11 @@ Check service running
 
 *** Test Cases ***
 Verify OVA services
-    Log To Console  \nWaiting for Getting Started Page to Come Up...
-    :FOR  ${i}  IN RANGE  10
-    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}"}' https://%{OVA_IP}:9443/register
-    \   Exit For Loop If  '200' in '''${out}'''
-    \   Sleep  5s
-    Log To Console  ${rc}
-    Log To Console  ${out}
-    Should Contain  ${out}  200
-
     Log To Console  ssh into appliance...
-    ${out}=  Run  sshpass -p %{OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no %{OVA_USERNAME_ROOT}@%{OVA_IP}
+    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@%{OVA_IP}
 
     Open Connection  %{OVA_IP}
-    Wait Until Keyword Succeeds  10x  5s  Login  %{OVA_USERNAME_ROOT}  %{OVA_PASSWORD_ROOT}
+    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
 
     Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
     Wait Until Keyword Succeeds  10x  20s  Check service running  admiral
@@ -63,10 +47,10 @@ Verify OVA services
     Close connection
 
 Verify VIC engine download and create VCH
-    Download VIC engine
+    Download VIC Engine
 
     ${vch-name}=  Install VCH  certs=${false}
-    ${output}=  Run command and Return output  docker %{VCH-PARAMS} info
+    ${output}=  Run command and Return output  docker ${VCH-PARAMS} info
     Should Contain  ${output}  Storage Driver: vSphere Integrated Container
     Should Contain  ${output}  Backend Engine: RUNNING
 

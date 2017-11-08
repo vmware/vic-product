@@ -21,7 +21,7 @@ dpkg -l > package.list
 
 # check parameters
 if [ $# -gt 1 ]; then
-    echo "Usage: robot-run.sh <test_path>, runs all tests by default if test_path is not passed"
+    echo "Usage: robot-run.sh <test_suite_option>, runs all tests by default if test_suite_option is not passed"
     exit 1
 elif [ $# -eq 1 ]; then
     echo "Running specific test $1 ..."
@@ -36,7 +36,7 @@ if [ "${DRONE_BUILD_NUMBER}" -eq 0 ]; then
     now=`date +%Y-%m-%d.%H:%M:%S`
     # run pybot cmd locally
     echo "Running integration tests locally..."
-    pybot -d robot-logs/robot-log-$now $pybot_options
+    pybot -d robot-logs/robot-log-$now $pybot_options tests/test-cases
 else
     # run pybot cmd on CI
     echo "Running integration tests on CI..."
@@ -46,7 +46,7 @@ else
 
     outfile="ova_integration_logs_"$DRONE_BUILD_NUMBER"_"$DRONE_COMMIT".zip"
 
-    zip -9 $outfile output.xml log.html report.html package.list
+    zip -9 $outfile output.xml log.html report.html package.list test-screenshots
 
     # GC credentials
     keyfile="/root/vic-ci-logs.key"

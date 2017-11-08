@@ -22,4 +22,18 @@ pipeline:
     volumes:
       - /tmp
     commands:
-      - tests/robot-run.sh tests/test-cases/Group1-OVA-Install/1-01-Install.robot
+      - tests/robot-run.sh "-s 2-01-Getting-Started"
+
+services:
+  selenium-grid-hub:
+    image: selenium/hub:3.7.1
+    ports:
+      - "4444:4444"
+
+  selenium-node-firefox:
+    image: selenium/node-firefox:3.7.1
+    environment:
+      SE_OPTS: "-port 4445"
+      HUB_PORT_4444_TCP_ADDR: 127.0.0.1
+      HUB_PORT_4444_TCP_PORT: 4444
+      DISPLAY: ":98.0"

@@ -16,17 +16,11 @@
 Documentation  This resource provides any keywords related to VIC Product OVA
 
 *** Keywords ***
-Set VCH Test Environment Variables
-    Set Environment Variable  TEST_DATACENTER  /datacenter1
-    Set Environment Variable  VCH_TIMEOUT  20m0s
-
+Set Test VCH Variables
     # set the TLS config options suitable for vic-machine in this env
     ${domain}=  Get Environment Variable  DOMAIN  ''
     Run Keyword If  $domain == ''  Set Suite Variable  ${vicmachinetls}  --no-tlsverify
     Run Keyword If  $domain != ''  Set Suite Variable  ${vicmachinetls}  --tls-cname=*.${domain}
-
-    ${thumbprint}=  Get vCenter Thumbprint
-    Set Environment Variable  TEST_THUMBPRINT  ${thumbprint}
 
 Get Random Test VCH Name
     ${name}=  Evaluate  'VCH-%{DRONE_BUILD_NUMBER}-' + str(random.randint(1000,9999))  modules=random
@@ -51,21 +45,18 @@ Run VIC Machine Command
     [Tags]  secret
     [Arguments]  ${vch-name}  ${vic-machine}  ${appliance-iso}  ${bootstrap-iso}  ${certs}  ${vol}  ${debug}  ${additional-args}
 
-    Set VCH Test Environment Variables
+    Set Test VCH Variables
 
-    ${output}=  Run Keyword If  ${certs}  Run  ${vic-machine} create --debug ${debug} --name=${vch-name} --target=%{TEST_URL} --thumbprint=%{TEST_THUMBPRINT} --user=%{TEST_USERNAME} --password=%{TEST_PASSWORD} --image-store=%{TEST_DATASTORE} --appliance-iso=${appliance-iso} --bootstrap-iso=${bootstrap-iso} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --compute-resource=%{TEST_RESOURCE} --timeout %{VCH_TIMEOUT} --insecure-registry harbor.ci.drone.local --volume-store=%{TEST_DATASTORE}/${vch-name}-VOL:${vol} ${vicmachinetls} ${additional-args}
+    ${output}=  Run Keyword If  ${certs}  Run  ${vic-machine} create --debug ${debug} --name=${vch-name} --target=%{TEST_URL} --thumbprint=${TEST_THUMBPRINT} --user=%{TEST_USERNAME} --password=%{TEST_PASSWORD} --image-store=%{TEST_DATASTORE} --appliance-iso=${appliance-iso} --bootstrap-iso=${bootstrap-iso} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --compute-resource=%{TEST_RESOURCE} --timeout %{VCH_TIMEOUT} --insecure-registry harbor.ci.drone.local --volume-store=%{TEST_DATASTORE}/${vch-name}-VOL:${vol} ${vicmachinetls} ${additional-args}
     Run Keyword If  ${certs}  Should Contain  ${output}  Installer completed successfully
     Return From Keyword If  ${certs}  ${output}
 
-    ${output}=  Run Keyword Unless  ${certs}  Run  ${vic-machine} create --debug ${debug} --name=${vch-name} --target=%{TEST_URL} --thumbprint=%{TEST_THUMBPRINT} --user=%{TEST_USERNAME} --password=%{TEST_PASSWORD} --image-store=%{TEST_DATASTORE} --appliance-iso=${appliance-iso} --bootstrap-iso=${bootstrap-iso} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --compute-resource=%{TEST_RESOURCE} --timeout %{VCH_TIMEOUT} --insecure-registry harbor.ci.drone.local --volume-store=%{TEST_DATASTORE}/${vch-name}-VOL:${vol} --no-tlsverify ${additional-args}
+    ${output}=  Run Keyword Unless  ${certs}  Run  ${vic-machine} create --debug ${debug} --name=${vch-name} --target=%{TEST_URL} --thumbprint=${TEST_THUMBPRINT} --user=%{TEST_USERNAME} --password=%{TEST_PASSWORD} --image-store=%{TEST_DATASTORE} --appliance-iso=${appliance-iso} --bootstrap-iso=${bootstrap-iso} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --compute-resource=%{TEST_RESOURCE} --timeout %{VCH_TIMEOUT} --insecure-registry harbor.ci.drone.local --volume-store=%{TEST_DATASTORE}/${vch-name}-VOL:${vol} --no-tlsverify ${additional-args}
     Run Keyword Unless  ${certs}  Should Contain  ${output}  Installer completed successfully
     [Return]  ${output}
 
 Get VCH Docker Params
     [Arguments]  ${output}  ${certs}
-
-    # Ensure we start from a clean slate with docker env vars
-    Remove Environment Variable  DOCKER_HOST  DOCKER_TLS_VERIFY  DOCKER_CERT_PATH  CURL_CA_BUNDLE  COMPOSE_PARAMS  COMPOSE_TLS_VERSION
 
     @{output}=  Split To Lines  ${output}
     :FOR  ${item}  IN  @{output}
@@ -78,18 +69,16 @@ Get VCH Docker Params
     @{vars}=  Split String  ${vars}
     :FOR  ${var}  IN  @{vars}
     \   ${varname}  ${varval}=  Split String  ${var}  =
-    \   Set Environment Variable  ${varname}  ${varval}
+    \   Run Keyword If  '${varname}' == 'DOCKER_HOST'  Set Test Variable  ${DOCKER_HOST}  ${varval}
 
-    ${dockerHost}=  Get Environment Variable  DOCKER_HOST
-
-    @{hostParts}=  Split String  ${dockerHost}  :
+    @{hostParts}=  Split String  ${DOCKER_HOST}  :
     ${ip}=  Strip String  @{hostParts}[0]
     ${port}=  Strip String  @{hostParts}[1]
-    Set Environment Variable  VCH-IP  ${ip}
-    Set Environment Variable  VCH-PORT  ${port}
+    Set Test Variable  ${VCH-IP}  ${ip}
+    Set Test Variable  ${VCH-PORT}  ${port}
 
-    Run Keyword If  ${port} == 2376  Set Environment Variable  VCH-PARAMS  -H ${dockerHost} --tls
-    Run Keyword If  ${port} == 2375  Set Environment Variable  VCH-PARAMS  -H ${dockerHost}
+    Run Keyword If  ${port} == 2376  Set Test Variable  ${VCH-PARAMS}  -H ${DOCKER_HOST} --tls
+    Run Keyword If  ${port} == 2375  Set Test Variable  ${VCH-PARAMS}  -H ${DOCKER_HOST}
 
 Cleanup VCH
     [Arguments]  ${vch-name}

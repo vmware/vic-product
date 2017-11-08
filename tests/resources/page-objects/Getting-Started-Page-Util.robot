@@ -13,16 +13,15 @@
 # limitations under the License
 
 *** Settings ***
-Library  OperatingSystem
-Library  String
-Library  Collections
-Library  requests
-Library  Process
-Library  SSHLibrary  5 minute
-Library  DateTime
-Resource  OVA-Util.robot
-Resource  VC-Util.robot
-Resource  VCH-Util.robot
-Resource  UI-Util.robot
-Resource  page-objects/Getting-Started-Page-Util.robot
-Library  Selenium2Library  timeout=30  implicit_wait=15  run_on_failure=Capture Page Screenshot  screenshot_root_directory=test-screenshots
+Documentation  This resource contains any keywords dealing with Getting Started UI page
+
+*** Variables ***
+${page-title}  VIC Appliance Getting Started
+
+*** Keywords ***
+Navigate To Getting Started Page
+    Go To  ${GS_PAGE_BASE_URL}
+
+Verify Getting Started Page Title
+    ${result}=  Get Title
+    Should Contain  ${result}  ${page-title}
