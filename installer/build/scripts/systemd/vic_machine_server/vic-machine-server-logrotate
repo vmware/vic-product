@@ -1,0 +1,10 @@
+/storage/log/vic-machine-server/vic-machine-server.log {
+	daily
+    size 1M
+	rotate 31
+	compress
+	delaycompress
+	missingok
+	notifempty
+	create 644 root root
+}

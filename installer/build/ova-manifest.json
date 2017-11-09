@@ -169,6 +169,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/vic_machine_server/vic-machine-server-logrotate",
+      "destination": "/etc/logrotate.d/vic-machine-server"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/harbor/harbor_startup.service",
       "destination": "/usr/lib/systemd/system/harbor_startup.service"
     },
