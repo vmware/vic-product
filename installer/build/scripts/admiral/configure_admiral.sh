@@ -19,7 +19,7 @@ umask 077
 ADMIRAL_PORT=$(ovfenv -k management_portal.port)
 
 data_dir="/storage/data/admiral"
-log_dir="/storage/data/admiral"
+log_dir="/storage/log/admiral"
 conf_dir="/etc/vmware/admiral"
 script_dir="/etc/vmware"
 keytool="/usr/bin/keytool"
