@@ -19,6 +19,7 @@ umask 077
 ADMIRAL_PORT=$(ovfenv -k management_portal.port)
 
 data_dir="/storage/data/admiral"
+log_dir="/storage/data/admiral"
 conf_dir="/etc/vmware/admiral"
 script_dir="/etc/vmware"
 keytool="/usr/bin/keytool"
@@ -216,8 +217,9 @@ cp $admiral_psc_dir/psc-config.properties $config_dir
 sed -i "/\b\(keystore.file\)\b/d" $config_dir/psc-config.properties
 echo "keystore.file=/configs/psc-config.keystore" >> $config_dir/psc-config.properties
 
-# Set access for UID 999 used by Admiral container
+# Set access for UID 10000 used by Admiral container
 chown -R 10000:10000 $data_dir
+chown -R 10000:10000 $log_dir
 
 # Start on startup
 echo "Enable admiral startup."
