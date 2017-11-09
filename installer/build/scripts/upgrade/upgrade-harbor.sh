@@ -89,13 +89,29 @@ function configureHarborCfgUnset {
   fi
 }
 
+# Remove key if it is not needed in the config
+# Does not handle the comments of key
+function removeHarborCfgKey {
+  local cfg_key=$1
+  local line
+  line=$(sed -n "/^$cfg_key\s*=/p" $cfg)
+
+  if [ -z "$line" ]; then
+    echo "Key removed: $cfg_key, skipping"
+  else
+    echo "Key found: $cfg_key, removing key"
+    sed -i "/$line/d" $cfg
+  fi
+}
+
+
 # Returns value from cfg given key to search for
 # Stored in cfg as key = value
 function readHarborCfgKey {
   local cfg_key=$1
   local  __resultvar=$2
   local value
-  value=$(grep "^$cfg_key =" $cfg | cut -d'=' -f 2 | xargs)
+  value=$(grep "^$cfg_key " $cfg | cut -d' ' -f 3 | xargs)
 
   if [ -z "$value" ]; then
       echo "Key not found: $cfg_key"
@@ -128,23 +144,34 @@ function configureHarborCfgManageKey {
 
 # Upgrade config file in place
 function upgradeHarborConfiguration {
-  # Add generated clair_db_password as managed key if not present
-  configureHarborCfgUnset clair_db_password "$(genPass)" true
+  # Add generated log_rotate_days, log_rotate_size, db_host, db_port, db_user, uaa_endpoint, 
+  # uaa_clientid, uaa_clientsecret and uaa_ca_root as managed key if not present
+  configureHarborCfgUnset log_rotate_days 3  
+  configureHarborCfgUnset log_rotate_size 200M
+  configureHarborCfgUnset db_host mysql
+  configureHarborCfgUnset db_port 3306
+  configureHarborCfgUnset db_user root 
+  configureHarborCfgUnset uaa_endpoint uaa.mydomain.org 
+  configureHarborCfgUnset uaa_clientid id
+  configureHarborCfgUnset uaa_clientsecret secret
+  configureHarborCfgUnset uaa_ca_root /path/to/uaa_ca.pem
 
   # Add managed tags to db_password and clair_db_password
   configureHarborCfgManageKey db_password
   configureHarborCfgManageKey clair_db_password
+
+  # Remove key verify_remote_cert
+  removeHarborCfgKey verify_remote_cert
 }
 
 # https://github.com/vmware/harbor/blob/master/docs/migration_guide.md
-# TODO: Update version of DB Migrator
 function migrateHarborData {
   checkDir ${harbor_backup}
   checkDir ${harbor_migration}
   mkdir ${harbor_backup}
   mkdir ${harbor_migration}
 
-  local migrator_image="vmware/harbor-db-migrator:1.2"
+  local migrator_image="vmware/harbor-db-migrator:1.3"
   local harbor_old_database_dir="/storage/data/harbor"
   local harbor_new_database_dir="/storage/db/harbor"
   local harbor_database="${harbor_old_database_dir}/database"
@@ -160,11 +187,6 @@ function migrateHarborData {
   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e SKIP_CONFIRM=y -v ${harbor_database}:/var/lib/mysql ${migrator_image} up head
   if [ $? -ne 0 ]; then
     echo "Harbor up head command failed" | tee /dev/fd/3
-    exit 1
-  fi
-  docker run -ti --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e EXPORTPATH=/harbor_migration -v ${harbor_migration}:/harbor_migration -v ${harbor_database}:/var/lib/mysql ${migrator_image} export
-  if [ $? -ne 0 ]; then
-    echo "Harbor data export failed" | tee /dev/fd/3
     exit 1
   fi
 
