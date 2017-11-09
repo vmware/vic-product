@@ -27,16 +27,21 @@ This is a rough outline of what a contributor's workflow looks like:
 - Make sure your commit messages are in the proper format (see below).
 - Push your changes to a topic branch in your fork of the repository.
 - Test your changes as detailed in the [Automated Testing](#automated-testing) section.
-- Submit a pull request to vmware/vic.
+- Submit a pull request to vmware/vic-product.
 - Your PR must receive approvals from component owners before merging.
 
 Example:
 
 ``` shell
+cd $GOPATH/src/github.com/vmware/vic-product
 git checkout -b my-new-feature
+$ <change or add files>
 git commit -a
 git push $USER my-new-feature
 ```
+
+Submit a pull request (PR) to vic-product through
+[GitHub](https://help.github.com/articles/about-pull-requests/).
 
 ### Stay in sync with upstream
 
@@ -58,7 +63,8 @@ If your pull request contains a single commit or your changes are related to the
 amend the commit.
 
 ``` shell
-git add .
+$ <change or add files>
+git add <changed or added files>
 git commit --amend
 git push --force-with-lease $USER my-new-feature
 ```
@@ -66,7 +72,8 @@ git push --force-with-lease $USER my-new-feature
 If you need to squash changes into an earlier commit, you can use:
 
 ``` shell
-git add .
+$ <change or add files>
+git add <changed or added files>
 git commit --fixup <commit>
 git rebase -i --autosquash vmware/master
 git push --force-with-lease $USER my-new-feature
@@ -90,7 +97,7 @@ Be sure to include any related GitHub issue references in the commit message. Se
 [GFM syntax](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown) for referencing issues
 and commits.
 
-To help write conforming commit messages, it is recommended to set up the [git-good-commit][commithook] commit hook. Run this command in the VIC repo's root directory:
+To help write conforming commit messages, it is recommended to set up the [git-good-commit][commithook] commit hook. Run this command in the vic-product root directory:
 
 ```shell
 curl https://cdn.rawgit.com/tommarshall/git-good-commit/v0.6.1/hook.sh > .git/hooks/commit-msg && chmod +x .git/hooks/commit-msg
