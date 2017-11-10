@@ -92,7 +92,7 @@ func addManagedObjectValue(ctx context.Context, sess *session.Session, vm *objec
 	var def *types.CustomFieldDef
 	var key int32
 	def, err = fieldManager.Add(ctx, ProductManagedObjectKey, "VirtualMachine", nil, nil)
-	if strings.Contains(err.Error(), "already exists") {
+	if err != nil && strings.Contains(err.Error(), "already exists") {
 		key, err = fieldManager.FindKey(ctx, ProductManagedObjectKey)
 		def = &types.CustomFieldDef{Key: key}
 	}
