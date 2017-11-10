@@ -33,6 +33,7 @@ ca_download_dir="${data_dir}/ca_download"
 mkdir -p "${cert_dir}"
 rm -rf "${ca_download_dir}"
 mkdir -p "${ca_download_dir}"
+mkdir -p "${log_dir}"
 
 cert="${cert_dir}/server.crt"
 key="${cert_dir}/server.key"
