@@ -1,8 +1,8 @@
 [Unit]
 Description=Admiral Startup Configuration
 Documentation=http://github.com/vmware/admiral
-After=docker.service vic-mounts.target systemd-resolved.service iptables.service ova-firewall.service admiral_startup.path firstboot.path
-Requires=iptables.service vic-mounts.target
+After=vic-appliance-ready.target admiral_startup.path firstboot.path
+Requires=vic-appliance-ready.target
 
 [Service]
 Type=oneshot

@@ -1,8 +1,8 @@
 [Unit]
 Description=Harbor Container Registry
 Documentation=http://github.com/vmware/harbor
-After=docker.service vic-mounts.target
-Requires=docker.service vic-mounts.target
+After=vic-appliance-ready.target
+Requires=vic-appliance-ready.target
 
 [Service]
 Type=simple

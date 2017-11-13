@@ -1,8 +1,8 @@
 [Unit]
 Description=Harbor Startup Configuration
 Documentation=http://github.com/vmware/harbor
-After=docker.service vic-mounts.target network-online.target systemd-resolved.service iptables.service ova-firewall.service harbor_startup.path firstboot.path get_token.service
-Requires=iptables.service vic-mounts.target
+After=vic-appliance-ready.target harbor_startup.path get_token.service
+Requires=vic-appliance-ready.target
 
 [Service]
 Type=oneshot

@@ -1,7 +1,7 @@
 [Unit]
 Description=Loads Cached Docker Images
 After=vic-mounts.target docker.service
-Wants=vic-mounts.target docker.service
+Requires=vic-mounts.target docker.service
 
 [Service]
 Type=oneshot

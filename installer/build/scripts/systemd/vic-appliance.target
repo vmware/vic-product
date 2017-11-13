@@ -1,6 +1,6 @@
 [Unit]
-Description=System customization for VIC(Integrated containers engine on vSphere) based on user provided parameters
-Documentation=https://github.com/vmware/vic/blob/master/doc/bundle/OVA-spec.md
+Description=System customization for VIC Appliance
+Documentation=https://github.com/vmware/vic-product/blob/master/installer/DESIGN.md
 Requires=vic-mounts.target firstboot.service
 After=vic-mounts.target firstboot.service
 

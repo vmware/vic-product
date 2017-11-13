@@ -94,6 +94,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/vic-appliance-ready.target",
+      "destination": "/usr/lib/systemd/system/vic-appliance-ready.target"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/network/ovf-network.service",
       "destination": "/usr/lib/systemd/system/ovf-network.service"
     },

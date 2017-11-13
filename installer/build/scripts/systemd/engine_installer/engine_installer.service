@@ -1,8 +1,8 @@
 [Unit]
 Description=Demo VCH Installer Wizard Service
 Documentation=https://github.com/vmware/vic
-After=engine_installer_startup.service vic-mounts.target
-Requires=vic-mounts.target
+After=vic-appliance-ready.target engine_installer_startup.service
+Requires=vic-appliance-ready.target engine_installer_startup.service
 
 [Service]
 Type=simple
