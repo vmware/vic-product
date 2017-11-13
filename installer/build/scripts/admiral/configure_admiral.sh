@@ -157,10 +157,6 @@ function secure {
 function detectHostname {
   hostname=$(hostnamectl status --static) || true
   if [ -n "$hostname" ]; then
-    if [ "$hostname" = "localhost.localdomain" ]; then
-      hostname=""
-      return
-    fi
     echo "Get hostname from command 'hostnamectl status --static': $hostname"
     return
   fi

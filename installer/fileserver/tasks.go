@@ -76,6 +76,13 @@ func registerWithPSC(ctx context.Context) error {
 		return err
 	}
 	admiralPort := ovf.Properties["management_portal.port"]
+	fqdn := ovf.Properties["network.fqdn"]
+	var url string
+	if fqdn == "" {
+		url = fmt.Sprintf("https://%s:%s", vmIP.String(), admiralPort)
+	} else {
+		url = fmt.Sprintf("https://%s:%s", fqdn, admiralPort)
+	}
 
 	// Out of the box users
 	defCreateUsers, foundCreateUsers := ovf.Properties["default_users.create_def_users"]
@@ -105,7 +112,7 @@ func registerWithPSC(ctx context.Context) error {
 			"--domainController=" + pscInstance,
 			"--username=" + admin.User,
 			"--password=" + admin.Password,
-			"--admiralUrl=" + fmt.Sprintf("https://%s:%s", vmIP.String(), admiralPort),
+			"--admiralUrl=" + url,
 			"--configDir=" + pscConfDir,
 		}
 
