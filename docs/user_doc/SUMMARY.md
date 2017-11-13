@@ -108,7 +108,7 @@
      * [Deleting or Inspecting a VCH Fails](vic_vsphere_admin/ts_delete_inspect_error.md)
      * [Certificate Errors when Using Full TLS Authentication with Trusted Certificates](vic_vsphere_admin/ts_clock_skew.md)
      * [Appliance VM Password Refused](vic_vsphere_admin/ts_appliance_password_refused.md)
-     * [Default Volume Store Error](vic_app_dev/ts_volume_store_error.md)
+     * [Default Volume Store Error](vic_vsphere_admin/ts_volume_store_error.md)
      * [Docker Login Fails](vic_vsphere_admin/ts_dockerlogin_error.md)
   * [Security Reference](vic_vsphere_admin/security_reference.md)
      * [Certificate Reference](vic_vsphere_admin/vic_cert_reference.md)
