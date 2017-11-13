@@ -144,9 +144,9 @@ function configureHarborCfgManageKey {
 
 # Upgrade config file in place
 function upgradeHarborConfiguration {
-  # Add generated log_rotate_days, log_rotate_size, db_host, db_port, db_user, uaa_endpoint, 
+  # Add generated log_rotate_count, log_rotate_size, db_host, db_port, db_user, uaa_endpoint, 
   # uaa_clientid, uaa_clientsecret and uaa_ca_root as managed key if not present
-  configureHarborCfgUnset log_rotate_days 3  
+  configureHarborCfgUnset log_rotate_count 50  
   configureHarborCfgUnset log_rotate_size 200M
   configureHarborCfgUnset db_host mysql
   configureHarborCfgUnset db_port 3306
