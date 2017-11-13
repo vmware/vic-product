@@ -183,11 +183,11 @@ secure
 
 configureScript $admiral_start_script ADMIRAL_DATA_LOCATION $data_dir
 configureScript $admiral_start_script ADMIRAL_EXPOSED_PORT "$ADMIRAL_PORT"
-configureScript $admiral_start_script OVA_VM_IP "$ip_address"
+configureScript $admiral_start_script OVA_VM_IP "${hostname}"
 
 configureScript $admiral_add_default_users_script ADMIRAL_DATA_LOCATION $data_dir
 configureScript $admiral_add_default_users_script ADMIRAL_EXPOSED_PORT "$ADMIRAL_PORT"
-configureScript $admiral_add_default_users_script OVA_VM_IP "$ip_address"
+configureScript $admiral_add_default_users_script OVA_VM_IP "${hostname}"
 
 iptables -w -A INPUT -j ACCEPT -p tcp --dport "$ADMIRAL_PORT"
 
