@@ -13,7 +13,7 @@ The `--no-tls` option is exposed in the `vic-machine create` help if you run `vi
 
 **Short name**: `--kv`
 
-The `--no-tlsverify` option prevents the use of CAs for client authentication. You still require a server certificate if you use `--no-tlsverify`. You can supply a custom server certificate by using the  [`--tls-server-cert`](tls_custom_cert.md#cert) and [`--tls-server-key`](tls_custom_cert.md#key) options. If you specify `--no-tlsverify` but do not use `--tls-server-cert` and `--tls-server-key` to supply a custom server certificate, `vic-machine create` generates a self-signed server certificate. If you specify `--no-tlsverify` there is no access control, however connections remain encrypted.
+The `--no-tlsverify` option prevents the use of CAs for client authentication. You still require a server certificate if you use `--no-tlsverify`. You can supply a custom server certificate by using the  [`--tls-server-cert`](tls_custom_certs.md#cert) and [`--tls-server-key`](tls_custom_certs.md#key) options. If you specify `--no-tlsverify` but do not use `--tls-server-cert` and `--tls-server-key` to supply a custom server certificate, `vic-machine create` generates a self-signed server certificate. If you specify `--no-tlsverify` there is no access control, however connections remain encrypted.
 
 When you specify the `--no-tlsverify` option, `vic-machine create` performs the following actions during the deployment of the VCH.
 

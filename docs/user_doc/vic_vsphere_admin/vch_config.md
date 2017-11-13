@@ -2,7 +2,7 @@
 
 The `vic-machine create` utility provides options that customize the settings with which it deploys the virtual container host (VCH) appliance. These options allow you to tailor the VCH to your vSphere environment and to the loads under which it will run.
 
-You can increase or decrease the memory and CPU shares and reservations on the VCH. For information about memory and CPU shares and reservations, see [Allocate Memory Resources](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-49D7217C-DB6C-41A6-86B3-7AFEB8BF575F.html), and [Allocate CPU Resources](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.vm_admin.doc/GUID-6C9023B2-3A8F-48EB-8A36-44E3D14958F6.html) in the vSphere documentation. You can also deploy a VCH as a vSphere resource pool rather than as a vApp, and provide an alternate path to the ISO from which the VCH boots up.
+You can increase or decrease the memory and CPU shares and reservations on the VCH. For information about memory and CPU shares and reservations, see [Allocate Memory Resources](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.vm_admin.doc/GUID-49D7217C-DB6C-41A6-86B3-7AFEB8BF575F.html), and [Allocate CPU Resources](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.vm_admin.doc/GUID-6C9023B2-3A8F-48EB-8A36-44E3D14958F6.html) in the vSphere documentation. You can also deploy a VCH as a vSphere resource pool rather than as a vApp, and provide an alternate path to the ISO from which the VCH boots up.
 
 - [`vic-machine` Options](#options)
 - [Example `vic-machine` Commands](#examples)
