@@ -76,12 +76,12 @@ func registerWithPSC(ctx context.Context) error {
 		return err
 	}
 	admiralPort := ovf.Properties["management_portal.port"]
-	fqdn := ovf.Properties["network.fqdn"]
+	fqdn, err := os.Hostname()
 	var url string
-	if fqdn == "" {
-		url = fmt.Sprintf("https://%s:%s", vmIP.String(), admiralPort)
-	} else {
+	if err == nil && fqdn != "" {
 		url = fmt.Sprintf("https://%s:%s", fqdn, admiralPort)
+	} else {
+		url = fmt.Sprintf("https://%s:%s", vmIP.String(), admiralPort)
 	}
 
 	// Out of the box users

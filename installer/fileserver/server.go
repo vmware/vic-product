@@ -21,7 +21,6 @@ import (
 	"fmt"
 	"html/template"
 	"io/ioutil"
-	"net"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -40,16 +39,16 @@ import (
 )
 
 type config struct {
-	addr          string
-	certPath      string
-	keyPath       string
-	cert          tls.Certificate
-	serveDir      string
-	serverIP      net.IP
-	admiralPort   string
-	installerPort string
-	vicTarName    string
-	logLevel      string
+	addr           string
+	certPath       string
+	keyPath        string
+	cert           tls.Certificate
+	serveDir       string
+	serverHostname string
+	admiralPort    string
+	installerPort  string
+	vicTarName     string
+	logLevel       string
 }
 
 // IndexHTMLOptions contains fields for html templating in index.html
@@ -142,7 +141,12 @@ func Init(conf *config) {
 	}
 
 	if ip, err := ip.FirstIPv4(ip.Eth0Interface); err == nil {
-		conf.serverIP = ip
+		fqdn, err := os.Hostname()
+		if err == nil && fqdn != "" {
+			conf.serverHostname = fqdn
+		} else {
+			conf.serverHostname = ip.String()
+		}
 		if port, ok := ovf.Properties["management_portal.port"]; ok {
 			conf.admiralPort = port
 		}
@@ -230,9 +234,9 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	html.AdmiralAddr = fmt.Sprintf("https://%s:%s", c.serverIP.String(), c.admiralPort)
-	html.DemoVCHAddr = fmt.Sprintf("https://%s:%s", c.serverIP.String(), c.installerPort)
-	html.FileserverAddr = fmt.Sprintf("https://%s/files/%s", c.serverIP.String()+c.addr, c.vicTarName)
+	html.AdmiralAddr = fmt.Sprintf("https://%s:%s", c.serverHostname, c.admiralPort)
+	html.DemoVCHAddr = fmt.Sprintf("https://%s:%s", c.serverHostname, c.installerPort)
+	html.FileserverAddr = fmt.Sprintf("https://%s:%s/files/%s", c.serverHostname, c.addr, c.vicTarName)
 
 	renderTemplate(resp, "html/index.html", html)
 }
