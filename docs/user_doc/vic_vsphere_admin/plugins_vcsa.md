@@ -19,8 +19,8 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 
 1. Connect as root user to the vCenter Server Appliance by using SSH.<pre>$ ssh root@<i>vcsa_address</i></pre>
 4. Start bash.<pre>$ shell</i></pre>
-5. Use `curl` to copy the vSphere Integrated Containers Engine binaries from the vSphere Integrated Containers appliance file server to the vCenter Server Appliance.<pre>$ curl -kL  http://<i>vic_appliance_address</i>/files/vic_1.2.x.tar.gz -o vic_1.2.x.tar.gz</pre>**NOTE**: Update `vic_1.2.x` to the appropriate version in the command above and in the next step. You can see the full file name by going to http://<i>vic_appliance_address</i>/files/ in a browser.
-5. Unpack the vSphere Integrated Containers binaries.<pre>$ tar -zxf vic_1.2.x.tar.gz</pre>
+5. Use `curl` to copy the vSphere Integrated Containers Engine binaries from the vSphere Integrated Containers appliance file server to the vCenter Server Appliance.<pre>$ curl -kL  http://<i>vic_appliance_address</i>:9443/files/vic_<i>version</i>.tar.gz -o vic_<i>version</i>.tar.gz</pre>**NOTE**: Update <i>version</i> to the appropriate version in the command above and in the next step. You can see the full file name by going to http://<i>vic_appliance_address</i>:9443/files/ in a browser.
+5. Unpack the vSphere Integrated Containers binaries.<pre>$ tar -zxf vic_<i>version</i>.tar.gz</pre>
 9. Navigate to `/vic/ui/VCSA`, run the installer script, and follow the prompts.<pre>$ cd vic/ui/VCSA</pre><pre>$ ./install.sh</pre>
 	1. Enter the IP address of the vCenter Server instance.
 	1. Enter the user name and password for the vCenter Server administrator account.

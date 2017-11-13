@@ -1,4 +1,4 @@
-# Configure Virtual Container Hosts #
+# Configure Running Virtual Container Hosts #
 
 You can configure certain settings on an existing virtual container host (VCH) by using the `vic-machine configure` command.
 
@@ -268,7 +268,7 @@ This example sets the `--debug` option to 0, to disable debug mode on a VCH.
 
 If a VCH requires more resources, or if it consumes too many resources, you can configure CPU and memory allocations on the VCH vApp by using the different `vic-machine configure --memory` and `--cpu` options.
 
-The `vic-machine configure` options for memory and CPU allocations function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` memory and CPU reservation and shares options, see [Virtual Container Host Configuration](vch_config.md).
+The `vic-machine configure` options for memory and CPU allocations function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` memory and CPU reservation and shares options, see [Virtual Container Host  Appliance Configuration](vch_config.md).
 
 This example configures a VCH to impose memory and CPU reservations, limits, and shares.
 

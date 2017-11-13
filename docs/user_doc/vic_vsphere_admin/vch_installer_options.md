@@ -9,7 +9,7 @@ The `vic-machine create` command provides many options that allow you to customi
 - [Virtual Container Host Networking](vch_networking.md)
 - [Virtual Container Host Storage](vch_storage.md)
 - [Connect Virtual Container Hosts to Registries](vch_registry.md)
-- [VCH Configuration](vch_config.md)
+- [Virtual Container Host Appliance Configuration](vch_config.md)
 - [Container VM Configuration](containervm_config.md)
 - [Virtual Container Host Debugging](vic_vsphere_admin/vch_debug_deployment.md)
 

@@ -19,7 +19,7 @@ Because container networks do not go through the VCH, the limitation of VCHs onl
 - [Configure the Firewall on Container Networks](#container-network-firewall)
 - [Example `vic-machine` Command](#example)
 
-**NOTE**: You can add or reconfigure container networks after you have deployed a VCH by using the `vic-machine configure --container-network` options. For information about adding or reconfiguring container networks, see Configure Container Network Settings in [Configure Virtual Container Hosts](configure_vch.md#containernet).
+**NOTE**: You can add or reconfigure container networks after you have deployed a VCH by using the `vic-machine configure --container-network` options. For information about adding or reconfiguring container networks, see Configure Container Network Settings in [Configure Running Virtual Container Hosts](configure_vch.md#containernet).
 
 ## Basic `vic-machine` Option <a id="options"></a>
 

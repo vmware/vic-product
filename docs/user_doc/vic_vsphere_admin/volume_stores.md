@@ -22,7 +22,7 @@ You specify a volume store by using the `vic-machine create --volume-store` opti
 
 ### `--volume-store` <a id="volume-store"></a>
 
-**Short name**: `--vs
+**Short name**: `--vs`
 
 To specify a datastore for use as a volume store, you provide the datastore name or NFS mount point, an optional path to a specific folder in that datastore, and a volume store label.  
 

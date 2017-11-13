@@ -47,7 +47,7 @@ For information about how to obtain the `env` file, see [Obtain a VCH](obtain_vc
 
 If your development environment uses vSphere Integrated Containers Registry or another private registry server that uses CA server certificates, you must pass the registry's CA certificate to the Docker client. The vSphere administrator must also have configured the VCH to access the registry.  
 
-For information about how vSphere administrators deploy VCHs so that they can access a private registry, see [Deploy a VCH for Use with vSphere Integrated Containers Registry](../vic_vsphere_admin/deploy_vch_registry.md).
+For information about how vSphere administrators deploy VCHs so that they can access a private registry, see [Connect Virtual Container Hosts to Registries](../vic_vsphere_admin/vch_registry.md).
 
 The level of security of the connection between the Docker client and the VCH is independent from the level of security of the connection between the Docker client and the registry. Connections between the Docker client and the registry can be secure while connections between the Docker client and the VCH are insecure, and the reverse. 
 

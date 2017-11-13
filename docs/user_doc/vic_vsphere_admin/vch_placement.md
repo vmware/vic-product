@@ -59,7 +59,7 @@ You can also specify the user name and password in the URL that you pass to `vic
 
 You can set an environment variable so that you do not have to specify `--password` in every `vic-machine` command. For information about setting `vic-machine` environment variables, see [Set Environment Variables for Key `vic-machine` Options](vic_env_variables.md).
 
-##**Usage**:
+**Usage**:
 
 <pre>--password <i>esxi_host_or_vcenter_server_password</i></pre>
 
