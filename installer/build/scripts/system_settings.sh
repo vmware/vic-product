@@ -15,11 +15,16 @@
 set -euf -o pipefail
 
 # Enable systemd services
-systemctl enable toolbox.service 
+systemctl enable toolbox.service
 systemctl enable docker.service
-systemctl enable vic-mounts.target repartition.service resizefs.service 
-systemctl enable sshd_permitrootlogin.service firstboot.service firstboot.path vic-appliance.target
-systemctl enable vic-appliance-environment.service getty@tty2.service
+systemctl enable vic-mounts.target repartition.service resizefs.service
+systemctl enable sshd_permitrootlogin.service
+systemctl enable vic-appliance-load-docker-images.service
+systemctl enable vic-appliance-docker-images-loaded.path
+systemctl enable vic-appliance.target
+systemctl enable vic-appliance-ready.target
+systemctl enable vic-appliance-environment.service
+systemctl enable getty@tty2.service
 systemctl enable ovf-network.service ova-firewall.service
 systemctl enable harbor_startup.path admiral_startup.path get_token.timer
 systemctl enable fileserver_startup.service fileserver.service

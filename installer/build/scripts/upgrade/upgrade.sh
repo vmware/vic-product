@@ -134,7 +134,7 @@ function main {
 
   firstboot="/etc/vmware/firstboot"
   if [ ! -f "$firstboot" ]; then
-    echo "Appliance first boot initialization has not completed. Please wait until firstboot.service has completed."
+    echo "Appliance services not ready. Please wait until vic-appliance-load-docker-images.service has completed."
     exit 1
   fi
 

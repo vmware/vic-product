@@ -1,9 +1,10 @@
 [Unit]
-Description=Docker images dependency
+Description=Docker images loaded
 Documentation=https://github.com/vmware/vic-product/installer
 
 [Path]
 PathExists=/etc/vmware/firstboot
+Unit=vic-appliance.target
 
 [Install]
 WantedBy=multi-user.target
