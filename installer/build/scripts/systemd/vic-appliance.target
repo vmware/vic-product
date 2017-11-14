@@ -1,8 +1,8 @@
 [Unit]
 Description=System customization for VIC Appliance
 Documentation=https://github.com/vmware/vic-product/blob/master/installer/DESIGN.md
-Requires=vic-mounts.target firstboot.service
-After=vic-mounts.target firstboot.service
+Requires=vic-mounts.target vic-appliance-docker-images-loaded.path
+After=vic-mounts.target vic-appliance-docker-images-loaded.path
 
 [Install]
 WantedBy=multi-user.target

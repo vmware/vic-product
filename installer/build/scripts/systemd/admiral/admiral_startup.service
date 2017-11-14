@@ -1,7 +1,7 @@
 [Unit]
 Description=Admiral Startup Configuration
 Documentation=http://github.com/vmware/admiral
-After=vic-appliance-ready.target admiral_startup.path firstboot.path
+After=vic-appliance-ready.target admiral_startup.path
 Requires=vic-appliance-ready.target
 
 [Service]

@@ -104,18 +104,18 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/appliance/firstboot.service",
-      "destination": "/usr/lib/systemd/system/firstboot.service"
+      "source": "scripts/systemd/appliance/vic-appliance-load-docker-images.service",
+      "destination": "/usr/lib/systemd/system/vic-appliance-load-docker-images.service"
     },
     {
       "type": "file",
-      "source": "scripts/systemd/appliance/firstboot.path",
-      "destination": "/usr/lib/systemd/system/firstboot.path"
+      "source": "scripts/systemd/appliance/vic-appliance-docker-images-loaded.path",
+      "destination": "/usr/lib/systemd/system/vic-appliance-docker-images-loaded.path"
     },
     {
       "type": "file",
-      "source": "scripts/systemd/appliance/firstboot.sh",
-      "destination": "/etc/vmware/firstboot.sh"
+      "source": "scripts/systemd/appliance/load-docker-images.sh",
+      "destination": "/etc/vmware/load-docker-images.sh"
     },
     {
       "type": "file",

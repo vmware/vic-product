@@ -18,7 +18,9 @@ set -euf -o pipefail
 systemctl enable toolbox.service
 systemctl enable docker.service
 systemctl enable vic-mounts.target repartition.service resizefs.service
-systemctl enable sshd_permitrootlogin.service firstboot.service firstboot.path
+systemctl enable sshd_permitrootlogin.service
+systemctl enable vic-appliance-load-docker-images.service
+systemctl enable vic-appliance-docker-images-loaded.path
 systemctl enable vic-appliance.target
 systemctl enable vic-appliance-ready.target
 systemctl enable vic-appliance-environment.service
