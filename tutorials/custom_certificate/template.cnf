@@ -1,0 +1,28 @@
+[ req ]
+default_bits = 2048
+default_keyfile = mykey.key
+encrypt_key = no
+distinguished_name = req_distinguished_name
+prompt = no
+string_mask = nombstr
+default_days = 365
+req_extension = v3_req
+
+[ v3_req ]
+keyUsage = digitalSignature, keyEncipherment, keyAgreement
+extendedKeyUsage = serverAuth, clientAuth
+subject = @alt_names
+
+[ alt_names ] 
+IP.1 = 192.168.10.10
+DNS.1 = server.domain
+DNS.2 = server
+
+[ req_distinguished_name ]
+countryName = US
+stateOrProvinceName = California
+localityName = San Francisco
+0.organizationName = VMware
+organizationalUnitName = Cloud Native Apps
+emailAddress = user@domain
+commonName = server
