@@ -17,21 +17,27 @@ package tagvm
 import (
 	"context"
 	"net/url"
+	"strings"
 
 	log "github.com/Sirupsen/logrus"
 
+	"github.com/vmware/govmomi/object"
+	"github.com/vmware/govmomi/vim25/types"
+	"github.com/vmware/vic/lib/guest"
 	"github.com/vmware/vic/pkg/errors"
-	"github.com/vmware/vic/pkg/vsphere/guest"
 	"github.com/vmware/vic/pkg/vsphere/session"
 	"github.com/vmware/vic/pkg/vsphere/tags"
+
+	"github.com/vmware/vic-product/installer/pkg/version"
 )
 
 const (
-	VicProductCategory    = "VsphereIntegratedContainers"
-	VicProductDescription = "VIC product"
-	VicProductType        = "VirtualMachine"
-	ProductVMTag          = "ProductVM"
-	ProductVMDescription  = "Product VM"
+	VicProductCategory      = "VsphereIntegratedContainers"
+	VicProductDescription   = "VIC product"
+	VicProductType          = "VirtualMachine"
+	ProductVMTag            = "ProductVM"
+	ProductVMDescription    = "Product VM"
+	ProductManagedObjectKey = "vic-ova-identifier"
 )
 
 func setupClient(ctx context.Context, sess *session.Session) (*tags.RestClient, error) {
@@ -39,7 +45,7 @@ func setupClient(ctx context.Context, sess *session.Session) (*tags.RestClient, 
 	client := tags.NewClient(endpoint, sess.Insecure, sess.Thumbprint)
 	err = client.Login(ctx)
 	if err != nil {
-		log.Debugf("failed to connect rest API for %s", errors.ErrorStack(err))
+		log.Errorf("failed to connect rest API for %s", errors.ErrorStack(err))
 		return client, errors.Errorf("Rest is not accessible")
 	}
 
@@ -48,35 +54,61 @@ func setupClient(ctx context.Context, sess *session.Session) (*tags.RestClient, 
 
 func createProductVMtag(ctx context.Context, client *tags.RestClient) (string, error) {
 	// create category first, then create tag
-	categoryId, err := client.CreateCategoryIfNotExist(ctx, VicProductCategory, VicProductDescription, VicProductType, false)
+	categoryID, err := client.CreateCategoryIfNotExist(ctx, VicProductCategory, VicProductDescription, VicProductType, false)
 	if err != nil {
 		return "", errors.Errorf("failed to create vic product category: %s", errors.ErrorStack(err))
 	}
 
-	tagId, err := client.CreateTagIfNotExist(ctx, ProductVMTag, ProductVMDescription, *categoryId)
+	tagID, err := client.CreateTagIfNotExist(ctx, ProductVMTag, ProductVMDescription, *categoryID)
 	if err != nil {
 		return "", errors.Errorf("failed to create product vm tag: %s", errors.ErrorStack(err))
 	}
 
-	return *tagId, nil
+	return *tagID, nil
 }
 
-func attachTag(ctx context.Context, client *tags.RestClient, sess *session.Session, tagId string) error {
-	if tagId == "" || sess == nil {
+func attachTag(ctx context.Context, client *tags.RestClient, sess *session.Session, tagID string, vm *object.VirtualMachine) error {
+	if tagID == "" || sess == nil {
 		return errors.Errorf("failed to attach product vm tag")
 	}
 
-	vm, err := guest.GetSelf(ctx, sess)
-	if err != nil {
-		return errors.Errorf("failed to get product vm : %s", errors.ErrorStack(err))
-	}
-
-	err = client.AttachTagToObject(ctx, tagId, vm.Reference().Value, vm.Reference().Type)
+	err := client.AttachTagToObject(ctx, tagID, vm.Reference().Value, vm.Reference().Type)
 	if err != nil {
 		return errors.Errorf("failed to apply the tag on product vm : %s", errors.ErrorStack(err))
 	}
 
 	log.Debugf("successfully attached the product tag")
+	return nil
+}
+
+func addManagedObjectValue(ctx context.Context, sess *session.Session, vm *object.VirtualMachine) error {
+	fieldManager, err := object.GetCustomFieldsManager(sess.Vim25())
+	if err != nil {
+		log.Debugf("failed to attach identifier tag: %s", errors.ErrorStack(err))
+		return err
+	}
+
+	// Find the custom field key for ProductManagedObjectKey
+	var def *types.CustomFieldDef
+	var key int32
+	def, err = fieldManager.Add(ctx, ProductManagedObjectKey, "VirtualMachine", nil, nil)
+	if err != nil && strings.Contains(err.Error(), "already exists") {
+		key, err = fieldManager.FindKey(ctx, ProductManagedObjectKey)
+		def = &types.CustomFieldDef{Key: key}
+	}
+	if err != nil {
+		log.Errorf("failed to attach identifier tag: %s", errors.ErrorStack(err))
+		return err
+	}
+
+	// set the ProductManagedObject Value on the vm
+	err = fieldManager.Set(ctx, vm.Reference(), def.Key, version.GetBuild().ShortVersion())
+	if err != nil {
+		log.Errorf("failed to attach identifier tag: %s", errors.ErrorStack(err))
+		return err
+	}
+
+	log.Debugf("successfully attached identifier tag")
 	return nil
 }
 
@@ -87,12 +119,22 @@ func Run(ctx context.Context, sess *session.Session) error {
 		return err
 	}
 
-	tagId, err := createProductVMtag(ctx, client)
+	tagID, err := createProductVMtag(ctx, client)
 	if err != nil {
 		return err
 	}
 
-	err = attachTag(ctx, client, sess, tagId)
+	vm, err := guest.GetSelf(ctx, sess)
+	if err != nil {
+		return errors.Errorf("failed to get product vm : %s", errors.ErrorStack(err))
+	}
+
+	err = attachTag(ctx, client, sess, tagID, vm)
+	if err != nil {
+		return err
+	}
+
+	err = addManagedObjectValue(ctx, sess, vm)
 	if err != nil {
 		return err
 	}

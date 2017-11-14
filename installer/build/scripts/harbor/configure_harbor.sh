@@ -16,7 +16,7 @@ set -euf -o pipefail
 
 umask 077
 
-data_dir="/data/harbor"
+data_dir="/storage/data/harbor"
 conf_dir="/etc/vmware/harbor"
 harbor_compose_file="${conf_dir}/docker-compose.yml"
 
@@ -26,11 +26,11 @@ cfg="${data_dir}/harbor.cfg"
 ca_download_dir="${data_dir}/ca_download"
 rm -rf "${ca_download_dir}"
 mkdir -p "${ca_download_dir}"
-ca_cert="/data/admiral/cert/ca.crt"
+ca_cert="/storage/data/admiral/cert/ca.crt"
 cp ${ca_cert} ${ca_download_dir}
 
 
-cert_dir="/data/admiral/cert"
+cert_dir="/storage/data/admiral/cert"
 cert="${cert_dir}/server.crt"
 key="${cert_dir}/server.key"
 

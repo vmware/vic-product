@@ -58,7 +58,8 @@ func (info *LoginInfo) VerifyLogin() error {
 	input.User = username
 	input.Password = &passwd
 
-	ctx, _ := context.WithTimeout(context.Background(), loginTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), loginTimeout)
+	defer cancel()
 	loginResponse := make(chan error, 1)
 	var v *validate.Validator
 	var err error

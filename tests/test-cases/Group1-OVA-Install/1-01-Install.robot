@@ -15,10 +15,23 @@
 *** Settings ***
 Documentation  Test 1-01 - Install Test
 Resource  ../../resources/Util.robot
-Test Timeout  40 minutes
-Suite Teardown  Cleanup VIC Product OVA  %{VCH_NAME}
+Test Timeout  50 minutes
+Suite Setup  Setup VIC Product OVA
+Suite Teardown  Cleanup VIC Product OVA  %{OVA-NAME}
 
 *** Keywords ***
+Setup VIC Product OVA
+    Check vCenter
+    Install VIC Product OVA  installer/bin/vic-*.ova
+    Log  %{OVA_IP}
+
+Run command and Return output
+    [Arguments]  ${command}
+    ${rc}  ${output}=  Run And Return Rc And Output  ${command}
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    [Return]  ${output}
+
 Check service running
     [Arguments]  ${service-name}
     Log To Console  Checking status of ${service-name}...
@@ -26,10 +39,7 @@ Check service running
     Should Contain  ${out}  Active: active (running)
 
 *** Test Cases ***
-Install OVA and verify services
-    Install VIC Product OVA  installer/bin/vic-*.ova
-    Log  %{OVA_IP}
-
+Verify OVA services
     Log To Console  \nWaiting for Getting Started Page to Come Up...
     :FOR  ${i}  IN RANGE  10
     \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}"}' https://%{OVA_IP}:9443/register
@@ -40,10 +50,10 @@ Install OVA and verify services
     Should Contain  ${out}  200
 
     Log To Console  ssh into appliance...
-    ${out}=  Run  sshpass -p %{VCH_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no %{VCH_USERNAME_ROOT}@%{OVA_IP}
+    ${out}=  Run  sshpass -p %{OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no %{OVA_USERNAME_ROOT}@%{OVA_IP}
 
     Open Connection  %{OVA_IP}
-    Wait Until Keyword Succeeds  2 min  30 sec  Login  %{VCH_USERNAME_ROOT}  %{VCH_PASSWORD_ROOT}
+    Wait Until Keyword Succeeds  10x  5s  Login  %{OVA_USERNAME_ROOT}  %{OVA_PASSWORD_ROOT}
 
     Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
     Wait Until Keyword Succeeds  10x  20s  Check service running  admiral
@@ -51,3 +61,13 @@ Install OVA and verify services
     Wait Until Keyword Succeeds  10x  20s  Check service running  engine_installer
 
     Close connection
+
+Verify VIC engine download and create VCH
+    Download VIC engine
+
+    ${vch-name}=  Install VCH  certs=${false}
+    ${output}=  Run command and Return output  docker %{VCH-PARAMS} info
+    Should Contain  ${output}  Storage Driver: vSphere Integrated Container
+    Should Contain  ${output}  Backend Engine: RUNNING
+
+    [Teardown]  Cleanup VCH  ${vch-name}

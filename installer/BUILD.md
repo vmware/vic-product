@@ -25,17 +25,18 @@ This is the recommended way to build the OVA.
 
 
 The build script pulls the desired versions of each included component into the build container.
-It accepts files in `scripts`, URLs, or revisions and automatically sets
+It accepts files in the `installer/build` directory, URLs, or revisions and automatically sets
 required environment variables.
+
 *You must specify build step `ova-dev` when calling build.sh*
 
 If called without any values, `build.sh` will get the latest build for each component
 ```
-./build/build.sh ova-dev
+sudo ./build/build.sh ova-dev
 ```
 
 If called with the values below, `build.sh` will include the Harbor version from
-`packer/scripts/harbor.tgz`, the VIC Engine version from `packer/scripts/vic.tar.gz`, and 
+`installer/build/harbor.tgz`, the VIC Engine version from `installer/build/vic.tar.gz`, and 
 Admiral tag `vic_dev` (since `--admiral` was not specified it defaults to the `vic_dev` tag)
 ```
 ./build/build.sh ova-dev --harbor harbor.tgz --vicengine vic.tar.gz
@@ -50,12 +51,15 @@ specified by their respective URLs, and Admiral tag `vic_v1.1.1`
 #### Upload
 
 You can upload the ova builds to the `vic-product-ova-builds` and `vic-product-ova-releases` in google cloud.
-To do this, use the gsutil cli tool: `sudo gsutil cp -va public-read vic-packerless-v1.2.1.ova gs://vic-product-ova-builds`.
+
+*Personal development builds MUST be renamed with the username as a prefix before upload*
+
+To do this, use the gsutil cli tool: `sudo gsutil cp -va public-read johndoe-vic-v1.2.1.ova gs://vic-product-ova-builds`.
 
 ## Deploy
 
 The OVA must be deployed to a vCenter.
-Deploying to ESX host is not supported.
+Deploying to ESX host is NOT supported.
 
 The recommended method for deploying the OVA:
 - Access the vCenter Web UI, click `vCenter Web Client (Flash)`
@@ -87,10 +91,36 @@ docker run -it --net=host -v $GOPATH/src/github.com/vmware/vic-product/installer
 
 To build the installer dependencies, ensure `GOPATH` is set, then issue the following.
 ``
-$ make gvt vendor
+$ make vendor
 ``
 
-This will install the [gvt](https://github.com/FiloSottile/gvt) utility and retrieve the build dependencies via `gvt restore`
+This will install the [dep](https://github.com/golang/dep) utility and retrieve the build dependencies via `dep ensure`.
+
+NOTE: Dep is slow the first time you run it - it may take 10+ minutes to download all of the dependencies. This is because
+dep automatically falttens the vendor folders of all dependencies. In most cases, you shouldn't need to run `make vendor`,
+as our vendor directory is checked in to git.
+
+## Staging and Release
+To perform staging and release process using Drone CI, refer to following commands. 
+Please note that you cannot trigger new CI builds manually, but have to promote existing build to either staging or release.
+
+Make sure `DRONE_SERVER` and `DRONE_TOKEN` environment variables are set before executing these commands.
+
+To promote existing successful CI build to staging...
+``
+$ drone deploy --param VICENGINE=<vic_engine_version> --param VIC_MACHINE_SERVER=<vic_machine_server> --param ADMIRAL=<admiral_tag> --param HARBOR=<harbor_version> vmware/vic-product <ci_build_number_to_promote> staging
+``
+
+To promote existing successful CI build to release...
+``
+$ drone deploy --param VICENGINE=<vic_engine_version> --param VIC_MACHINE_SERVER=<vic_machine_server> --param ADMIRAL=<admiral_tag> --param HARBOR=<harbor_version> vmware/vic-product <ci_build_number_to_promote> release
+``
+
+`vic_engine_version` and `harbor_version` can be specified as a URL or a file in `cwd`, eg. 'https://storage.googleapis.com/vic-engine-releases/vic_1.2.1.tar.gz'
+
+`admiral_tag` and `vic_machine_server` should be specified as docker image revision tag, eg. 'latest'
+
+`ci_build_number_to_promote` is the drone build number which will be promoted
 
 
 ## Troubleshooting

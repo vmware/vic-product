@@ -17,6 +17,7 @@
 set -eu -o pipefail +h
 
 DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER:-}
+export BUILD_NUMBER=${DRONE_BUILD_NUMBER:-}
 ADMIRAL=""
 VICENGINE=""
 VIC_MACHINE_SERVER=""
@@ -56,6 +57,14 @@ function setenv() {
     fi
   fi
 }
+
+function cleanup() {
+  echo "--------------------------------------------------"
+  echo "cleaning up..."
+  ./build/cleanup.sh
+}
+
+trap cleanup EXIT
 
 GIT_TAG="$(git describe --tags)"
 export BUILD_OVA_REVISION=${GIT_TAG}
@@ -136,14 +145,14 @@ $(cat $ENV_FILE | sed 's/export //g')
 echo "--------------------------------------------------"
 echo "caching build dependencies..."
 mkdir -p build/baseimage/{bin,cache,cache/docker}
-make ova
+make all
 ./build/cache.sh
 
 echo "--------------------------------------------------"
 echo "packaging OVA..."
 
 if [ "$step" == "ova-dev" ]; then
-docker run --rm --privileged -v /dev:/dev -v $(pwd):/work -w /work \
+docker run -it --rm --privileged -v /dev:/dev -v $(pwd):/work -w /work \
     -e BUILD_HARBOR_FILE=${BUILD_HARBOR_FILE} \
     -e BUILD_VICENGINE_FILE=${BUILD_VICENGINE_FILE} \
     -e BUILD_VIC_MACHINE_SERVER_REVISION=${BUILD_VIC_MACHINE_SERVER_REVISION} \
@@ -165,17 +174,8 @@ echo "rebuilding OVF manifest"
 sha256sum --tag * | sed s/SHA256\ \(/SHA256\(/ > vic-${BUILD_OVA_REVISION}.mf
 tar -cvf ../../../bin/vic-${BUILD_OVA_REVISION}.ova vic-${BUILD_OVA_REVISION}.ovf vic-${BUILD_OVA_REVISION}.mf *.vmdk
 cd ../../../
-echo "--------------------------------------------------"
-echo "cleaning up..."
-./build/cleanup.sh
 
 OUTFILE=bin/$(ls -1t bin | grep "\.ova")
-
-if [ -n "${DRONE_BUILD_NUMBER}" ]; then
-  TMP=$(echo "${OUTFILE}" | sed "s/-/-${DRONE_BUILD_NUMBER}-/")
-  mv "${OUTFILE}" "${TMP}"
-  OUTFILE=${TMP}
-fi
 
 echo "build complete"
 echo "  SHA256: $(shasum -a 256 $OUTFILE)"

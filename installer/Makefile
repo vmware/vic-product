@@ -24,8 +24,9 @@ BASE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 BIN ?= bin
 
 export GOPATH ?= $(shell echo $(CURDIR) | sed -e 's,/src/.*,,')
-GVT ?= $(GOPATH)/bin/gvt$(BIN_ARCH)
+DEP ?= $(GOPATH)/bin/dep$(BIN_ARCH)
 GAS ?= $(GOPATH)/bin/gas$(BIN_ARCH)
+GOLINT ?= $(GOPATH)/bin/golint$(BIN_ARCH)
 
 .PHONY: gas ova
 
@@ -44,6 +45,33 @@ ova-webserver: $(ova-webserver)
 ova-engine-installer: $(ova-engine-installer)
 toolbox: $(toolbox)
 rpctool: $(rpctool)
+tools: $(DEP) $(GOLINT) $(GAS)
+all: golint gofmt govet gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
+
+vendor: $(DEP)
+	@echo restoring vendor
+	$(DEP) ensure
+
+gas: $(GAS)
+	@echo running go AST tool
+	@$(GAS) -quiet engine_installer/... fileserver/... lib/... ovatools/... pkg/... tagvm/... toolbox/... 2> /dev/null
+
+golint: $(GOLINT)
+	@echo checking go lint...
+	@$(call golintf,github.com/vmware/vic-product/installer/engine_installer/...)
+	@$(call golintf,github.com/vmware/vic-product/installer/fileserver/...)
+	@$(call golintf,github.com/vmware/vic-product/installer/lib/...)
+	@$(call golintf,github.com/vmware/vic-product/installer/ovatools/...)
+	@$(call golintf,github.com/vmware/vic-product/installer/pkg/...)
+	@$(call golintf,github.com/vmware/vic-product/installer/toolbox/...)
+
+gofmt:
+	@echo checking gofmt...
+	@! gofmt -d -e -s $$(find . -mindepth 1 -maxdepth 1 -type d -not -name vendor) 2>&1 | egrep -v '^$$'
+
+govet:
+	@echo checking go vet...
+	@$(GO) tool vet -all -lostcancel -tests $$(find . -mindepth 1 -maxdepth 1 -type d -not -name vendor)
 
 # Generate Go package dependency set, skipping if the only targets specified are clean and/or distclean
 # Caches dependencies to speed repeated calls
@@ -59,6 +87,18 @@ define godeps
 		) \
 	)
 endef
+
+clean:
+	@echo removing binaries
+	@rm -rf $(BIN)/*
+	@echo removing OVA installer files...
+	@rm -rf $(BASE_DIR)build/baseimage/cache
+	@rm -f $(BASE_DIR)build/baseimage/*.img
+	@rm -f build/baseimage/root/installer.env
+	@$(BASE_DIR)build/cleanup.sh
+
+# exit 1 if golint complains about anything other than comments
+golintf = $(GOLINT) $(1) | sh -c "! grep -v 'lib/apiservers/portlayer/restapi/operations'" | sh -c "! grep -v 'lib/config/dynamic/admiral/client'" | sh -c "! grep -v 'should have comment'" | sh -c "! grep -v 'comment on exported'" | sh -c "! grep -v 'by other packages, and that stutters'" | sh -c "! grep -v 'error strings should not be capitalized'"
 
 $(ovfenv): $(call godeps,ovatools/ovfenv/*.go)
 	@echo building ovfenv linux...
@@ -86,30 +126,15 @@ $(rpctool): $(call godeps,ovatools/rpctool/*.go)
 	@echo building rpctool
 	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
-ova: gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
-
 # utility targets
-$(GAS): vendor/manifest
+$(GAS): Gopkg.lock Gopkg.toml
 	@echo building $(GAS)...
 	@$(GO) build $(RACE) -o $(GAS) ./vendor/github.com/GoASTScanner/gas
 
-$(GVT): vendor/manifest
-	@echo building $(GVT)...
-	@$(GO) build $(RACE) -o $(GVT) ./vendor/github.com/FiloSottile/gvt
+$(DEP): Gopkg.lock Gopkg.toml
+	@echo building $(DEP)...
+	@$(GO) build $(RACE) -o $(DEP) ./vendor/github.com/golang/dep/cmd/dep
 
-vendor: $(GVT)
-	  @echo restoring vendor
-		  $(GVT) restore
-
-gas: $(GAS)
-	@echo running go AST tool
-	@$(GAS) -quiet engine_installer/... fileserver/... lib/... ovatools/... pkg/... tagvm/... toolbox/... 2> /dev/null
-
-clean:
-	@echo removing binaries
-	@rm -rf $(BIN)/*
-	@echo removing OVA installer files...
-	@rm -rf $(BASE_DIR)build/baseimage/cache
-	@rm -f $(BASE_DIR)build/baseimage/*.img
-	@rm -f build/baseimage/root/installer.env
-	@$(BASE_DIR)build/cleanup.sh
+$(GOLINT): Gopkg.lock Gopkg.toml
+	@echo building $(GOLINT)...
+	@$(GO) build $(RACE) -o $(GOLINT) ./vendor/github.com/golang/lint/golint

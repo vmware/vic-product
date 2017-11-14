@@ -2,7 +2,7 @@
 Description=Admiral Default Users
 Documentation=http://github.com/vmware/admiral
 After=admiral.service get_token.service
-Requires=iptables.service data.mount
+Requires=iptables.service vic-mounts.target
 
 [Service]
 Type=oneshot

@@ -20,13 +20,6 @@ cd installer
 INSTALLER_DIR=$(pwd)
 OPTIONS=""
 
-# TODO remove after #353 is fixed
-# Grab the dependencies from vic if we're running ci
-if [[ $DRONE ]]; then
-  mkdir -p /go/src/github.com/vmware/vic/
-  git clone https://github.com/vmware/vic.git /go/src/github.com/vmware/vic/
-fi
-
 # set options
 if [ -n "${ADMIRAL}" ]; then
   OPTIONS="--admiral $ADMIRAL"
@@ -38,6 +31,10 @@ fi
 
 if [ -n "${VICENGINE}" ]; then
   OPTIONS="$OPTIONS --vicengine $VICENGINE"
+fi
+
+if [ -n "${VIC_MACHINE_SERVER}" ]; then
+  OPTIONS="$OPTIONS --vicmachineserver $VIC_MACHINE_SERVER"
 fi
 
 # invoke build script

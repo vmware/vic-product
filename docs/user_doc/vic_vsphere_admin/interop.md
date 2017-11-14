@@ -1,7 +1,7 @@
-# Interoperability of vSphere Integrated Containers with Other VMware Software
+# Interoperability of Virtual Container Hosts with Other VMware Software
 vSphere administrators can use vSphere to view and manage the vSphere Integrated Containers appliance, virtual container hosts (VCHs), and container VMs. You can use any vSphere feature to manage the vSphere Integrated Containers appliance without affecting its behavior.
 
-This topic describes the interoperability of vSphere Integrated Containers Engine with other vSphere features and VMware products. 
+This topic describes the interoperability of VCHs with other vSphere features and VMware products. 
 
 - [Performing Operations on VCHs and Container VMs in vSphere](#vms)
 - [VMware vRealize&reg; Suite](#vrealize)
@@ -29,7 +29,7 @@ You can use vMotion to move VCHs without needing to take the container VMs offli
 
 ## VMware vSphere High Availability <a id="ha"></a>
 
-You can apply vSphere High Availability to clusters on which VCHs and container VMs run. If the host on which a VCH or container VMs are running goes offline, the VCH and container VMs migrate to another host in the cluster. VCHs restart on the new host immediately. Container VMs that were running before the migration restart one by one, after the VCH has restarted.
+You can apply vSphere High Availability to clusters on which VCHs and container VMs run. If the host on which a VCH or container VMs are running goes offline, the VCH and container VMs migrate to another host in the cluster. VCHs restart on the new host immediately. Container VMs that were running before the migration restart one by one, after the VCH has restarted. For more information about VCHs and High Availability, see [Backing Up Virtual Container Host Data](backup_vch.md).
 
 ## VMware NSX <a id="nsx"></a>
 

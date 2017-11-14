@@ -54,8 +54,23 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/data.mount",
-      "destination": "/usr/lib/systemd/system/data.mount"
+      "source": "scripts/systemd/mounts/vic-mounts.target",
+      "destination": "/usr/lib/systemd/system/vic-mounts.target"
+    },
+    {
+      "type": "file",
+      "source": "scripts/systemd/mounts/storage-data.mount",
+      "destination": "/usr/lib/systemd/system/storage-data.mount"
+    },
+    {
+      "type": "file",
+      "source": "scripts/systemd/mounts/storage-db.mount",
+      "destination": "/usr/lib/systemd/system/storage-db.mount"
+    },
+    {
+      "type": "file",
+      "source": "scripts/systemd/mounts/storage-log.mount",
+      "destination": "/usr/lib/systemd/system/storage-log.mount"
     },
     {
       "type": "file",
@@ -187,6 +202,21 @@
       "destination": "/etc/vmware/upgrade/upgrade.sh"
     },
     {
+      "type": "file",
+      "source": "scripts/upgrade/upgrade-admiral.sh",
+      "destination": "/etc/vmware/upgrade/upgrade-admiral.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/upgrade/upgrade-harbor.sh",
+      "destination": "/etc/vmware/upgrade/upgrade-harbor.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/upgrade/util.sh",
+      "destination": "/etc/vmware/upgrade/util.sh"
+    },
+    {
       "type": "shell",
       "script": "scripts/provision_admiral.sh"
     },
@@ -224,6 +254,11 @@
       "type": "file",
       "source": "scripts/admiral/add_default_users.sh",
       "destination": "/etc/vmware/admiral/add_default_users.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/admiral/logging-vic.properties",
+      "destination": "/etc/vmware/admiral/logging-vic.properties"
     },
     {
       "type": "file",

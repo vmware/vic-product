@@ -21,3 +21,5 @@ Library  Process
 Library  SSHLibrary  5 minute
 Library  DateTime
 Resource  OVA-Util.robot
+Resource  VC-Util.robot
+Resource  VCH-Util.robot

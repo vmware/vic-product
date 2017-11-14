@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 
 	"github.com/vmware/govmomi/object"
 	"github.com/vmware/govmomi/simulator/esx"
@@ -37,6 +38,9 @@ type Model struct {
 
 	ServiceContent types.ServiceContent
 	RootFolder     mo.Folder
+
+	// Autostart will power on Model created VMs when true
+	Autostart bool
 
 	// Datacenter specifies the number of Datacenter entities to create
 	Datacenter int
@@ -86,6 +90,7 @@ func ESX() *Model {
 	return &Model{
 		ServiceContent: esx.ServiceContent,
 		RootFolder:     esx.RootFolder,
+		Autostart:      true,
 		Datastore:      1,
 		Machine:        2,
 	}
@@ -96,6 +101,7 @@ func VPX() *Model {
 	return &Model{
 		ServiceContent: vpx.ServiceContent,
 		RootFolder:     vpx.RootFolder,
+		Autostart:      true,
 		Datacenter:     1,
 		Portgroup:      1,
 		Host:           1,
@@ -202,6 +208,7 @@ func (m *Model) Create() error {
 	addMachine := func(prefix string, host *object.HostSystem, pool *object.ResourcePool, folders *object.DatacenterFolders) {
 		nic := esx.EthernetCard
 		nic.Backing = vmnet
+		ds := types.ManagedObjectReference{}
 
 		f := func() error {
 			for i := 0; i < m.Machine; i++ {
@@ -224,8 +231,10 @@ func (m *Model) Create() error {
 				scsi, _ := devices.CreateSCSIController("pvscsi")
 				ide, _ := devices.CreateIDEController()
 				cdrom, _ := devices.CreateCdrom(ide.(*types.VirtualIDEController))
+				disk := devices.CreateDisk(scsi.(types.BaseVirtualController), ds,
+					config.Files.VmPathName+" "+path.Join(name, "disk1.vmdk"))
 
-				devices = append(devices, scsi, cdrom, &nic)
+				devices = append(devices, scsi, cdrom, disk, &nic)
 
 				config.DeviceChange, _ = devices.ConfigSpec(types.VirtualDeviceConfigSpecOperationAdd)
 
@@ -234,9 +243,15 @@ func (m *Model) Create() error {
 					return err
 				}
 
-				err = task.Wait(ctx)
+				info, err := task.WaitForResult(ctx, nil)
 				if err != nil {
 					return err
+				}
+
+				vm := object.NewVirtualMachine(client, info.Result.(types.ManagedObjectReference))
+
+				if m.Autostart {
+					_, _ = vm.PowerOn(ctx)
 				}
 			}
 
@@ -377,7 +392,7 @@ func (m *Model) Create() error {
 			addMachine(prefix+"0", nil, pool, folders)
 
 			for npool := 1; npool <= m.Pool; npool++ {
-				spec := NewResourceConfigSpec()
+				spec := types.DefaultResourceConfigSpec()
 
 				_, err = pool.Create(ctx, m.fmtName(prefix, npool), spec)
 				if err != nil {
@@ -388,7 +403,7 @@ func (m *Model) Create() error {
 			prefix = clusterName + "_APP"
 
 			for napp := 0; napp < m.App; napp++ {
-				rspec := NewResourceConfigSpec()
+				rspec := types.DefaultResourceConfigSpec()
 				vspec := NewVAppConfigSpec()
 				name := m.fmtName(prefix, napp)
 

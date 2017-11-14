@@ -14,7 +14,7 @@
 # limitations under the License.
 set -euf -o pipefail
 
-cert_dir="/data/certs"
+cert_dir="/storage/data/certs"
 cert="${cert_dir}/server.cert.pem"
 key="${cert_dir}/server.key.pem"
 ca_cert="${cert_dir}/ca.crt"
