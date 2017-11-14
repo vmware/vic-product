@@ -53,7 +53,9 @@ func registerHandler(resp http.ResponseWriter, req *http.Request) {
 		admin.Target = r.Target
 		admin.User = r.User
 		admin.Password = r.Password
-		if err := admin.VerifyLogin(); err != nil {
+		cancel, err := admin.VerifyLogin()
+		defer cancel()
+		if err != nil {
 			http.Error(resp, err.Error(), http.StatusUnauthorized)
 			return
 		}

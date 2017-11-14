@@ -54,7 +54,8 @@ type EngineInstaller struct {
 
 // AuthHTML holds the invalid login variable
 type AuthHTML struct {
-	InvalidLogin bool
+	InvalidLogin    bool
+	ConnectionError bool
 }
 
 // ExecHTMLOptions contains fields for html templating in exec.html
@@ -75,7 +76,7 @@ func NewEngineInstaller() *EngineInstaller {
 	return &EngineInstaller{Name: "default-vch"}
 }
 
-func (ei *EngineInstaller) populateConfigOptions() *EngineInstallerConfigOptions {
+func (ei *EngineInstaller) populateConfigOptions() (*EngineInstallerConfigOptions, error) {
 	defer trace.End(trace.Begin(""))
 
 	vc := ei.loginInfo.Validator.IsVC()
@@ -84,7 +85,7 @@ func (ei *EngineInstaller) populateConfigOptions() *EngineInstallerConfigOptions
 	dcs, err := ei.loginInfo.Validator.ListDatacenters()
 	if err != nil {
 		log.Infoln(err)
-		return nil
+		return nil, err
 	}
 	for _, d := range dcs {
 		log.Infof("DC: %s\n", d)
@@ -93,7 +94,7 @@ func (ei *EngineInstaller) populateConfigOptions() *EngineInstallerConfigOptions
 	comp, err := ei.loginInfo.Validator.ListComputeResource()
 	if err != nil {
 		log.Infoln(err)
-		return nil
+		return nil, err
 	}
 	for _, c := range comp {
 		log.Infof("compute: %s\n", c)
@@ -102,7 +103,7 @@ func (ei *EngineInstaller) populateConfigOptions() *EngineInstallerConfigOptions
 	rp, err := ei.loginInfo.Validator.ListResourcePool("*")
 	if err != nil {
 		log.Infoln(err)
-		return nil
+		return nil, err
 	}
 	for _, p := range rp {
 		log.Infof("rp: %s\n", p)
@@ -111,7 +112,7 @@ func (ei *EngineInstaller) populateConfigOptions() *EngineInstallerConfigOptions
 	nets, err := ei.loginInfo.Validator.ListNetworks(!vc) // set to false for vC
 	if err != nil {
 		log.Infoln(err)
-		return nil
+		return nil, err
 	}
 	for _, n := range nets {
 		log.Infof("net: %s\n", n)
@@ -120,7 +121,7 @@ func (ei *EngineInstaller) populateConfigOptions() *EngineInstallerConfigOptions
 	dss, err := ei.loginInfo.Validator.ListDatastores()
 	if err != nil {
 		log.Infoln(err)
-		return nil
+		return nil, err
 	}
 	for _, d := range dss {
 		log.Infof("ds: %s\n", d)
@@ -130,7 +131,7 @@ func (ei *EngineInstaller) populateConfigOptions() *EngineInstallerConfigOptions
 		Networks:      nets,
 		Datastores:    dss,
 		ResourcePools: rp,
-	}
+	}, nil
 }
 
 func (ei *EngineInstaller) buildCreateCommand(binaryPath string) {

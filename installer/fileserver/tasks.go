@@ -154,8 +154,9 @@ func getHostname(ovf lib.Environment, vmIP net.IP) string {
 		log.Errorf(err.Error())
 		return vmIP.String()
 	}
-	if string(out) == "" {
+	outString := strings.TrimSpace(string(out))
+	if outString == "" {
 		return vmIP.String()
 	}
-	return string(out)
+	return outString
 }

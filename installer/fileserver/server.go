@@ -212,8 +212,9 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 		admin.Password = req.FormValue("password")
 		pscInstance = req.FormValue("psc")
 		pscDomain = req.FormValue("pscDomain")
-
-		if err := admin.VerifyLogin(); err != nil {
+		cancel, err := admin.VerifyLogin()
+		defer cancel()
+		if err != nil {
 			log.Infof("Validation failed: %s", err.Error())
 			html.InvalidLogin = true
 

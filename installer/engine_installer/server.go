@@ -115,13 +115,20 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 		engineInstaller.loginInfo.Target = req.FormValue("target")
 		engineInstaller.loginInfo.User = req.FormValue("user")
 		engineInstaller.loginInfo.Password = req.FormValue("password")
-		if err := engineInstaller.loginInfo.VerifyLogin(); err != nil {
+		cancel, err := engineInstaller.loginInfo.VerifyLogin()
+		defer cancel()
+		if err != nil {
 			// login failed so show login form again
 			log.Errorf("error logging in: %s", err.Error())
-			renderTemplate(resp, "html/auth.html", &AuthHTML{InvalidLogin: true})
+			renderTemplate(resp, "html/auth.html", &AuthHTML{InvalidLogin: true, ConnectionError: false})
 		} else {
 			// vCenter login successful, set resource drop downs
-			opts := engineInstaller.populateConfigOptions()
+			opts, err := engineInstaller.populateConfigOptions()
+			if err != nil {
+				log.Errorf("error populating config options: %s", err.Error())
+				renderTemplate(resp, "html/auth.html", &AuthHTML{InvalidLogin: false, ConnectionError: true})
+				return
+			}
 			html := &ExecHTMLOptions{}
 
 			html.PublicNetwork = getSelectOptionHTML(opts.Networks, publicNetName)
