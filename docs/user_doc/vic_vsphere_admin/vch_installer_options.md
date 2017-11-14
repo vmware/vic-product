@@ -11,7 +11,7 @@ The `vic-machine create` command provides many options that allow you to customi
 - [Connect Virtual Container Hosts to Registries](vch_registry.md)
 - [Virtual Container Host Appliance Configuration](vch_config.md)
 - [Container VM Configuration](containervm_config.md)
-- [Virtual Container Host Debugging](vch_debug_deployment.md)
+- [Debugging Virtual Container Host Deployment](vch_debug_deployment.md)
 
 ## Specifying Option Arguments <a id="args"></a>
 
