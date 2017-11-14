@@ -17,6 +17,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"net"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -76,13 +77,6 @@ func registerWithPSC(ctx context.Context) error {
 		return err
 	}
 	admiralPort := ovf.Properties["management_portal.port"]
-	fqdn, err := os.Hostname()
-	var url string
-	if err == nil && fqdn != "" {
-		url = fmt.Sprintf("https://%s:%s", fqdn, admiralPort)
-	} else {
-		url = fmt.Sprintf("https://%s:%s", vmIP.String(), admiralPort)
-	}
 
 	// Out of the box users
 	defCreateUsers, foundCreateUsers := ovf.Properties["default_users.create_def_users"]
@@ -112,7 +106,7 @@ func registerWithPSC(ctx context.Context) error {
 			"--domainController=" + pscInstance,
 			"--username=" + admin.User,
 			"--password=" + admin.Password,
-			"--admiralUrl=" + url,
+			"--admiralUrl=" + fmt.Sprintf("https://%s:%s", getHostname(ovf, vmIP), admiralPort),
 			"--configDir=" + pscConfDir,
 		}
 
@@ -139,4 +133,29 @@ func registerWithPSC(ctx context.Context) error {
 	}
 
 	return nil
+}
+
+func getHostname(ovf lib.Environment, vmIP net.IP) string {
+
+	// Until we gix transient hostnames, use the static hostname reported by hostnamectl.
+	// os.Hostname() returns the kernel hostname, with no regard to transient or static classifications.
+	// fqdn, err := os.Hostname()
+	// var url string
+	// if err == nil && fqdn != "" {
+	// 	return fqdn
+	// } else {
+	// 	return vmIP.String()
+	// }
+
+	command := "hostnamectl status --static"
+	// #nosec: Subprocess launching with variable.
+	out, err := exec.Command("/bin/bash", "-c", command).Output()
+	if err != nil {
+		log.Errorf(err.Error())
+		return vmIP.String()
+	}
+	if string(out) == "" {
+		return vmIP.String()
+	}
+	return string(out)
 }
