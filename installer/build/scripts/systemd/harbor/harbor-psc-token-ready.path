@@ -4,6 +4,7 @@ Documentation=https://github.com/vmware/vic-product/installer
 
 [Path]
 PathExists=/etc/vmware/psc/harbor/harbor_startup
+Unit=harbor.service
 
 [Install]
 WantedBy=multi-user.target

@@ -169,13 +169,8 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/harbor/harbor_startup.service",
-      "destination": "/usr/lib/systemd/system/harbor_startup.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/harbor/harbor_startup.path",
-      "destination": "/usr/lib/systemd/system/harbor_startup.path"
+      "source": "scripts/systemd/harbor/harbor-psc-token-ready.path",
+      "destination": "/usr/lib/systemd/system/harbor-psc-token-ready.path"
     },
     {
       "type": "file",
