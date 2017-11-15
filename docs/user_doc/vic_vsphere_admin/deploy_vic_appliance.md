@@ -70,11 +70,13 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 7. Expand **Demo VCH Installer Wizard Configuration** to optionally change the port on which the interactive web installer for virtual container hosts (VCHs) runs.
 8. Expand **Configure Example Users** to configure the ready-made  example user accounts that vSphere Integrated Containers creates by default in the Platform Services Controller.
     
-     You can use these accounts to test the different user personas that can access vSphere Integrated Containers Management Portal and Registry. 
+     You can use these accounts to test the different user personas that can access vSphere Integrated Containers Management Portal and Registry.
 
     - Uncheck the **Create Example Users** checkbox if you do not want vSphere Integrated Containers to create user accounts in the Platform Services Controller.
     - In the **Username Prefix for Example Users** text box, optionally modify the prefix of the example user names from the default, `vic`. If you unchecked the **Create Example Users** checkbox, this option is ignored.
-    - In the **Password for Example Users** text boxes, optionally modify the password for the example user account from the default, `VicPro!23`. The password must comply with the password policy for the Platform Services Controller, otherwise the creation of the example user accounts fails.  If you unchecked the **Create Example Users** checkbox, this option is ignored.
+    - In the **Password for Example Users** text boxes, modify the password for the example user account from the default, `VicPro!23`. The new password must comply with the password policy for the Platform Services Controller, otherwise the creation of the example user accounts fails. If you unchecked the **Create Example Users** checkbox, this option is ignored. 
+
+        **IMPORTANT**: If you did not uncheck the **Create Example Users** checkbox, it is strongly recommended that you change the default password for the example users.
 8. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
 9. When the deployment completes, power on the appliance VM.
 
