@@ -13,6 +13,8 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 - Deploy the appliance to a vCenter Server instance. Deploying the appliance directly on an ESXi host is not supported.
 - Deploy the appliance to a vCenter Server system that meets the minimum system requirements:
 
+   - vCenter Server 6.0 or 6.5
+   - ESXi 6.0 or 6.5 for all hosts
    - 2 vCPUs
    - 8GB RAM
    - 80GB free disk space on the datastore
