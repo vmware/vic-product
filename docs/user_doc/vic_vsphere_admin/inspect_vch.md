@@ -4,10 +4,10 @@ You can obtain general information about a virtual container host (VCH) and its 
 
 In addition to the common options described in [Common `vic-machine` Options](common_vic_options.md), the `vic-machine inspect` command only includes one option, `--tls-cert-path`. 
 
-  - You must specify the username and optionally the password, either in the `--target` option or separately in the `--user` and `--password` options. 
+  - You must specify the user name and optionally the password, either in the `--target` option or separately in the `--user` and `--password` options. 
   - If the VCH has a name other than the default name, `virtual-container-host`, you must specify the `--name` or `--id` option. 
   - If multiple compute resources exist in the datacenter, you must specify the `--compute-resource` or `--id` option. 
-  -  If your vSphere environment uses untrusted, self-signed certificates, you must specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md). 
+  -  If your vSphere environment uses untrusted, self-signed certificates, you must specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). 
 
      Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
   

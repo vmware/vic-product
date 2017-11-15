@@ -2,7 +2,7 @@
 
 vSphere Integrated Containers Engine provides a Web-based administration portal for virtual container hosts (VCHs), called VCH Admin.
 
-If you deployed the VCH with `--no-tls` or `--no-tlsverify`, you log in to VCH Admin by specifying the username and password of the ESXi host or vCenter Server on which you deployed the VCH. If you deployed the VCH with client and server authentication by using `--tls-cname` or by specifying a static IP address on the client network, you can use the generated `*.pfx` certificate to authenticate with the VCH Admin portal. For information about using the `*.pfx` certificate to log into VCH admin, see [Browser-Based Certificate Login](browser_login.md) and [Command Line Certificate Login](cmdline_login.md).
+If you deployed the VCH with `--no-tls` or `--no-tlsverify`, you log in to VCH Admin by specifying the user name and password of the ESXi host or vCenter Server on which you deployed the VCH. If you deployed the VCH with client and server authentication by using `--tls-cname` or by specifying a static IP address on the client network, you can use the generated `*.pfx` certificate to authenticate with the VCH Admin portal. For information about using the `*.pfx` certificate to log into VCH admin, see [Browser-Based Certificate Login](browser_login.md) and [Command Line Certificate Login](cmdline_login.md).
 
 You access the VCH Admin portal in the following places:
  

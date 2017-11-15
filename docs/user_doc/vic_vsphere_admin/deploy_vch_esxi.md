@@ -1,6 +1,8 @@
-# Deploy a VCH to an ESXi Host with No vCenter Server #
+# Deploy a Virtual Container Host to an ESXi Host with No vCenter Server #
 
 This topic provides instructions for deploying a virtual container host (VCH) to an ESXi host that is not managed by vCenter Server. This is the most straightforward way to deploy a VCH, and is ideal for testing.
+
+The ESXi host to which you deploy the VCH must match the specifications listed in the prerequisites. This example deploys a VCH by using the minimum `vic-machine create` options possible, for demonstration purposes.
 
 **Prerequisites**
 
@@ -12,9 +14,9 @@ This topic provides instructions for deploying a virtual container host (VCH) to
   * You can use a nested ESXi host for this example
 * Verify that the ESXi host meets the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md).
 * Make sure that the correct firewall port is open on the ESXi host. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
-* Obtain the ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
+* Obtain the ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 * Familiarize yourself with the vSphere Integrated Containers Engine binaries, as described in [Contents of the vSphere Integrated Containers Engine Binaries](contents_of_vic_binaries.md). 
-* Familiarize yourself with the options of the `vic-machine create` command described in [VCH Deployment Options](vch_installer_options.md).
+* Familiarize yourself with the basic options of the `vic-machine create` command described in [Virtual Container Host Placement](vch_placement.md).
 
 **Procedure**
 
@@ -22,10 +24,10 @@ This topic provides instructions for deploying a virtual container host (VCH) to
 2. Navigate to the directory that contains the `vic-machine` utility:
 3. Run the `vic-machine create` command.
 
-  In these examples, the password is wrapped in quotes because it contains `@`.
+    In these examples, the password is wrapped in quotes because it contains `@`.
 
    - Linux OS:
-      <pre>$ vic-machine-linux create
+        <pre>$ vic-machine-linux create
      --target <i>esxi_host_address</i>
      --user root
      --password '<i>esxi_host_p@ssword</i>'
@@ -33,7 +35,7 @@ This topic provides instructions for deploying a virtual container host (VCH) to
      --thumbprint <i>esxi_certificate_thumbprint</i>
      </pre>  
    - Windows:
-      <pre>$ vic-machine-windows create
+        <pre>$ vic-machine-windows create
      --target <i>esxi_host_address</i>
      --user root
      --password "<i>esxi_host_p@ssword</i>"
@@ -41,7 +43,7 @@ This topic provides instructions for deploying a virtual container host (VCH) to
      --thumbprint <i>esxi_certificate_thumbprint</i>
      </pre> 
    - Mac OS:
-       <pre>$ vic-machine-darwin create
+         <pre>$ vic-machine-darwin create
      --target <i>esxi_host_address</i>
      --user root
      --password '<i>esxi_host_p@ssword</i>'
@@ -53,7 +55,7 @@ The `vic-machine create` command in this example specifies the minimum informati
 
 - The address of the ESXi host on which to deploy the VCH, in the `--target` option. 
 - The ESXi host `root` user and password in the `--user` and `--password` options. 
-- Disables the verification of clients that connect to this VCH by specifying the `--no-tlsverify` option.
+- For simplicity, disables the verification of clients that connect to this VCH by specifying the `--no-tlsverify` option.
 - Specifies the thumbprint of the ESXi host certificate by specifying the `--thumbprint` option.
    
 Because the ESXi host only has only one datastore and uses the VM Network network, `vic-machine create` automatically detects and uses those resources. 
@@ -81,5 +83,3 @@ Installer completed successfully</pre>
 **What to Do Next** 
 
 To test your VCH, see [Verify the Deployment of a VCH](verify_vch_deployment.md).
-    
-For examples of commands to deploy a VCH in various other vSphere configurations, see [Advanced Examples of Deploying a VCH](vch_installer_examples.md). 

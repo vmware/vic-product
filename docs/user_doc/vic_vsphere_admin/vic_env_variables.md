@@ -13,15 +13,17 @@ You can set environment variables for the following `vic-machine` options.
 
 **NOTE**: You cannot include the vSphere user name and password in the `VIC_MACHINE_TARGET` environment variable. You must either specify the user name and password in the `VIC_MACHINE_USER` and `VIC_MACHINE_PASSWORD` environment variables, or use the `--user` and `--password` options when you run `vic-machine`.
 
-For information about how to obtain the vCenter Server certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md). 
+For information about how to obtain the vCenter Server certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). 
 
 When you run any of the different `vic-machine` commands, `vic-machine` checks whether environment variables are present in the system. If you have set any or all of the environment variables, `vic-machine` automatically uses the values from those environment variables. You only need to specify the additional `vic-machine` options.
 
 The following examples show some simplified `vic-machine` commands that you can run if you set all four environment variables.
 
+- Create a basic VCH:<pre>vic-machine-<i>operating_system</i> create --bridge-network vic-bridge --no-tls --name vch-no-tls</pre> 
 - List VCHs:<pre>vic-machine-<i>operating_system</i> ls</pre>
 - Inspect a VCH: <pre>vic-machine-<i>operating_system</i> inspect --id vm-123</pre>
-- Create a basic VCH:<pre>vic-machine-<i>operating_system</i> create --bridge-network vic-bridge --no-tls --name vch-no-tls</pre> 
 - Upgrade a VCH: <pre>vic-machine-<i>operating_system</i> upgrade --id vm-123</pre>
 - Configure a VCH, for example to add a new volume store: <pre>vic-machine-<i>operating_system</i> configure --id vm-123 --volume-store <i>datastore_name</i>/<i>datastore_path</i>:default</pre>
 - Delete a VCH: <pre>vic-machine-<i>operating_system</i> delete --id vm-123</pre>
+
+For more information about the `vic-machine ls`, `inspect`, `upgrade`, `configure`, and `delete` commands, see [Virtual Container Host Administration with `vic-machine`](vch_admin_vicmachine.md).

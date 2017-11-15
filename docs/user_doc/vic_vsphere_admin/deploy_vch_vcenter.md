@@ -2,7 +2,7 @@
 
 This topic provides instructions for deploying a virtual container host (VCH) in a very basic vCenter Server environment. This basic deployment allows you to test vSphere Integrated Containers Engine with vCenter Server before attempting a more complex deployment that corresponds to your real vSphere environment.
 
-The vCenter Server instance to which you deploy the VCH must match the specifications listed in the prerequisites.
+The vCenter Server instance to which you deploy the VCH must match the specifications listed in the prerequisites. This example deploys a VCH by using the minimum `vic-machine create` options possible, for demonstration purposes.
 
 **Prerequisites**
 
@@ -16,9 +16,10 @@ The vCenter Server instance to which you deploy the VCH must match the specifica
   * One distributed virtual switch with one port group named `vic-bridge`
 * Verify that your vCenter Server instance and both of the ESXi hosts in the cluster meet the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md).
 * Make sure that the correct firewall ports are open on the ESXi hosts. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
-* Obtain the vCenter Server certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain the Certificate Thumbprint of vCenter Server or an ESXi Host](obtain_thumbprint.md).
+* Obtain the vCenter Server certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 * Familiarize yourself with the vSphere Integrated Containers Engine binaries, as described in [Contents of the vSphere Integrated Containers Engine Binaries](contents_of_vic_binaries.md). 
-* Familiarize yourself with the options of the `vic-machine create` command described in [VCH Deployment Options](vch_installer_options.md).
+* Familiarize yourself with the basic options of the `vic-machine create` command described in [VCH Placement](vch_placement.md).
+* Familiarize yourself with the bridge network and image store, as described in [Configure Bridge Networks](bridge_network.md) and [Specify the Image Store](image_store.md).
  
 
 **Procedure**
@@ -63,7 +64,7 @@ The vCenter Server instance to which you deploy the VCH must match the specifica
 The `vic-machine create` command in this example specifies the minimum information required to deploy a VCH to vCenter Server:
 
 - The address of the vCenter Server instance on which to deploy the VCH, in the `--target` option.  
-- The vCenter Single Sign-On user and password in the `--user` and `--password` options. 
+- A vCenter Single Sign-On user and password for a vSphere administrator account, in the `--user` and `--password` options. 
 - The port group named `vic-bridge`, for use as the container bridge network. 
 - The name of the shared datastore to use as the image store, in which to store container images.
 - Disables the verification of clients that connect to this VCH by specifying the `--no-tlsverify` option.
@@ -92,5 +93,3 @@ Installer completed successfully</pre>
 **What to Do Next** 
 
 To test your VCH, see [Verify the Deployment of a VCH](verify_vch_deployment.md).
-    
-For examples of commands to deploy a VCH in various other vSphere configurations, see [Advanced Examples of Deploying a VCH](vch_installer_examples.md). 

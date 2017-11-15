@@ -1,6 +1,8 @@
 # Configure Bridge Networks #
 
-Bridge networks are the network or networks that container VMs use to communicate with each other. Every virtual container host (VCH) must have a unique bridge network. In Docker terminology, the bridge network corresponds to the default bridge network on a Docker host. You can also create additional bridge networks, that correspond to Docker user-defined networks.
+Bridge networks are the network or networks that container VMs use to communicate with each other. Every virtual container host (VCH) must have a unique bridge network. 
+
+In Docker terminology, the bridge network corresponds to the default bridge network on a Docker host. You can also create additional bridge networks, that correspond to Docker user-defined networks. For information about default bridge networks and user-defined networks, see [Docker container networking](https://docs.docker.com/engine/userguide/networking/) in the Docker documentation.
 
 **IMPORTANT**: Do not use the bridge network for any other VM workloads, or as a bridge for more than one VCH.
 

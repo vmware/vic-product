@@ -22,7 +22,7 @@ In the example above, <i>cert_folder</i> is either of the following locations:
 
 ## Without Client Authentication ##
 
-If you deployed the VCH without client authentication by using either of `--no-tls` or `--no-tlsverify`, you can use curl to access the logs but you must first authenticate connections to VCH Admin by using the  vSphere username and password. 
+If you deployed the VCH without client authentication by using either of `--no-tls` or `--no-tlsverify`, you can use curl to access the logs but you must first authenticate connections to VCH Admin by using the  vSphere user name and password. 
 
 1. Log in to VCH Admin to gather an authentication cookie for subsequent access:
    <pre>curl -sk https://<i>vch_address</i>:2378/authentication 

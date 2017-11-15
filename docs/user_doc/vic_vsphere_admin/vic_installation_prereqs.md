@@ -22,7 +22,6 @@ The vSphere Integrated Containers management utility, `vic-machine`, has been te
 
 Other recent 64-bit OS versions should work but are untested.
 
-
 ## Supported vSphere Configurations <a id="configs"></a>
 
 You can deploy vSphere Integrated Containers Engine in the following vSphere setups:
@@ -60,15 +59,14 @@ ESXi hosts in vCenter Server clusters must meet the following storage requiremen
 - Be attached to the datastores that you will use for image stores and volume stores. 
 - Have access to shared storage to allow VCHs to use more than one host in the cluster.
 
-For information about image stores and volumes stores, see the [Datastore Options](vch_installer_options.md#datastore) section of *VCH Deployment Options*.
-
+For information about image stores and volumes stores, see [Virtual Container Host Storage](vch_storage.md).
 
 ## Networking Requirements <a id="networkreqs"></a>
 
 The following network requirements apply to deployment of VCHs to standalone ESXi hosts and to vCenter Server:
 
 - Use a trusted network for the deployment and use of vSphere Integrated Containers Engine.
-- Use a trusted network for the management network.
+- Use a trusted network for the management network. For more information about the role and requirements of the management network, see [Configure the Management Network](mgmt_network.md).
 - Connections between Docker clients and the VCH are encrypted via TLS unless you explicitly disable TLS. The client network does not need to be trusted.
 - Each VCH requires an IPv4 address on each of the networks that it is connected to. The bridge network is handled internally, but other interfaces must have a static IP configured on them, or be able to acquire one via DHCP.
 - Each VCH requires access to at least one network, for use as the public network. You can share this network between multiple VCHs. The public network does not need to be trusted.
@@ -82,8 +80,8 @@ The following network requirements apply to the deployment of VCHs to vCenter Se
 
 For information about bridge networks and container networks, see [Configure Bridge Networks](bridge_network.md) and [Configure Container Networks](container_networks.md). 
 
-For information about how to create a distributed virtual switch and a port group, see [Create a vSphere Distributed Switch](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere  documentation. 
+For information about how to create a distributed virtual switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere  documentation. 
 
-For information about how to add hosts to a distributed virtual switch, see [Add Hosts to a vSphere Distributed Switch](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
+For information about how to add hosts to a distributed virtual switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
 
 For information about how to assign a VLAN ID to a port group, see [VMware KB 1003825](https://kb.vmware.com/kb/1003825). For more information about private VLAN, see [VMware KB 1010691](https://kb.vmware.com/kb/1010691).

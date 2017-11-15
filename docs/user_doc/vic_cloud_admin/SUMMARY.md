@@ -3,7 +3,7 @@
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
 * [Configure and Manage](README.md)
-   * [Logging in to the Management Portal](logging_in_MP.md)
+   * [Logging in to the Management Portal](logging_in_mp.md)
       * [Verify and Trust Certificates](trust_vic_certs.md)
    * [Configure System Settings](configure_system.md)
    * [Add Cloud Administrators](add_cloud_admins.md)
@@ -21,3 +21,7 @@
      * [Create Replication Endpoints](create_replication_endpoints.md)
      * [Create Replication Rules](create_replication_rules.md)
      * [Manage Replication Endpoints](manage_replication_endpoints.md)
+   * [Vulnerability Scanning](vulnerability_scanning.md)
+     * [Configure Scheduled Vulnerability Scan on All Images](configure_scheduled_vulnerability.md)
+     * [Configure Vulnerability Scanning on a Per-Project Level](configure_vulnerability_scanning_per_project.md)
+     * [Perform a Vulnerability Scan on a Single Image](perform_vulnerability_scan_single_image.md)
