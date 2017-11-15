@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Management Network · VMware vSphere Integrated Containers 1.2 Documentation</title>
+        <title>Container Volumes · VMware vSphere Integrated Containers 1.2 Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="container_networks.html" />
+    <link rel="next" href="backup_vmdk.html" />
     
     
-    <link rel="prev" href="client_network.html" />
+    <link rel="prev" href="backup_vch.html" />
     
 
     </head>
@@ -564,7 +564,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.1.3.4.3.4" data-path="mgmt_network.html">
+        <li class="chapter " data-level="2.1.3.4.3.4" data-path="mgmt_network.html">
             
                 <a href="mgmt_network.html">
             
@@ -1309,7 +1309,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.7.3" data-path="backup_volumes.html">
+        <li class="chapter active" data-level="2.1.7.3" data-path="backup_volumes.html">
             
                 <a href="backup_volumes.html">
             
@@ -2435,7 +2435,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Management Network</a>
+        <a href=".." >Container Volumes</a>
     </h1>
 </div>
 
@@ -2450,84 +2450,104 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="configure-the-management-network">Configure the Management Network</h1>
-<p>The management network is the network on which the VCH endpoint VM connects to vCenter Server and ESXi hosts. By designating a specific management network, you isolate connections to vSphere resources from the public network. The VCH uses this network to provide the <code>attach</code> function of the Docker API. </p>
+                                <h1 id="backing-up-and-restoring-container-volumes">Backing Up and Restoring Container Volumes</h1>
+<p>This topic describes the types of volumes that vSphere Integrated Container supports, and provides an example of how containers persist data in container volumes.</p>
+<p>vSphere Integrated Containers supports two types of volumes, each of which has different characteristics.</p>
 <ul>
-<li><a href="#options"><code>vic-machine</code> Options</a></li>
-<li><a href="#example">Example <code>vic-machine</code> Commands</a></li>
+<li>VMFS virtual disks (VMDKs), mounted as formatted disks directly on container VMs. These volumes are supported on multiple vSphere datastore types, including NFS, iSCSI and VMware vSAN. They are thin, lazy zeroed disks.</li>
+<li>NFS shared volumes. These volumes are distinct from a block-level VMDK on an NFS datastore. They are Linux guest-level mounts of an NFS file-system share.</li>
 </ul>
-<h2 id="vic-machine-options-"><code>vic-machine</code> Options <a id="options"></a></h2>
-<p>You designate a specific network for traffic between the VCH and vSphere resources by specifying the <code>vic-machine create --management-network</code> option when you deploy the VCH. You can also route incoming connections from ESXi hosts to VCHs over the public network rather than over the management network by specifying the <code>--asymmetric-routes</code> option.</p>
-<h3 id="-management-network-"><code>--management-network</code> <a id="management-network"></a></h3>
-<p><strong>Short name</strong>: <code>--mn</code></p>
-<p>A port group that the VCH uses to communicate with vCenter Server and ESXi hosts. Container VMs use this network to communicate with the VCH. </p>
-<p><strong>IMPORTANT NOTES</strong>: </p>
+<h3 id="vmdk-volumes">VMDK Volumes</h3>
+<p>A VMDK volume comprises two elements: </p>
 <ul>
-<li>Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network.</li>
-<li>Container VMs communicate with the VCH endpoint VM over the management network when an interactive shell is required. While the communication is encrypted, the public keys are not validated, which leaves scope for man-in-the-middle attacks. This connection is only used when the interactive console is enabled (<code>stdin</code>/<code>out</code>/<code>err</code>), and not for any other purpose. </li>
-<li>Ideally, use separate networks for the management network and the container networks. </li>
-<li>The most secure setup is to make sure that VCHs can access vCenter Server and ESXi hosts directly over the management network, and that the management network has route entries for the subnets that contain both the target vCenter Server and the corresponding ESXi hosts. If the management network does not have route entries for the vCenter Server and ESXi host subnets, you must configure asymmetric routing. For more information about asymmetric routing, see the section on the <a href="#asymmetric-routes"><code>--asymmetric-routes</code> option</a>. </li>
+<li>A <code>.vmdk</code> file which is a formatted virtual disk mounted at a configured location in a container guest file system</li>
+<li>Some metadata that describes the volume. </li>
 </ul>
-<p>When you create a VCH, <code>vic-machine create</code> checks that the firewall on ESXi hosts allows connections to port 2377 from the management network of the VCH. If access to port 2377 on ESXi hosts is subject to IP address restrictions, and if those restrictions block access to the management network interface, <code>vic-machine create</code> fails with a firewall configuration error:</p>
-<pre>Firewall configuration incorrect due to allowed IP restrictions on hosts: 
-&quot;/ha-datacenter/host/localhost.localdomain/localhost.localdomain&quot; 
-Firewall must permit dst 2377/tcp outbound to the VCH management interface
-</pre>
-
-<p>For information about how to open port 2377, see <a href="open_ports_on_hosts.html">Open the Required Ports on ESXi Hosts</a>.</p>
-<p><strong>NOTE</strong>: If the management network uses DHCP, <code>vic-machine</code> checks the firewall status of the management network before the VCH receives an IP address. It is therefore not possible to fully assess whether the firewall permits the IP address of the VCH. In this case, <code>vic-machine create</code> issues a warning. </p>
-<pre>Unable to fully verify firewall configuration due to DHCP use on management network 
-VCH management interface IP assigned by DHCP must be permitted by allowed IP settings 
-Firewall allowed IP configuration may prevent required connection on hosts: 
-&quot;/ha-datacenter/host/localhost.localdomain/localhost.localdomain&quot; 
-Firewall must permit dst 2377/tcp outbound to the VCH management interface
-</pre>
-
-<p><strong>Usage</strong>: </p>
-<pre>--management-network <i>port_group_name</i></pre>
-
-<p>If you do not specify this option, the VCH uses the public network for management traffic. If you specify an invalid port group name, <code>vic-machine create</code> fails and suggests valid port groups.</p>
-<h3 id="-asymmetric-routes-"><code>--asymmetric-routes</code> <a id="asymmetric-routes"></a></h3>
-<p><strong>Short name</strong>: <code>--ar</code></p>
-<p>Allows incoming connections from ESXi hosts to VCHs over the public network rather than over the management network. This option allows containers on bridge networks to indirectly access assets on the management or client networks via the public interface, if those assets are routable from the public network. If the management network does not have route entries for the vCenter Server and ESXi host subnets,  and you do not set <code>--asymmetric-routes</code>, containers that run without specifying <code>-d</code> remain in the starting state.</p>
-<p>In this scenario, use the <code>--asymmetric-routes</code> option to allow management traffic from ESXi hosts to the VCH to pass over the public network. By setting the <code>--asymmetric-routes</code> option, you set reverse path forwarding in the VCH endpoint VM to loose mode rather than the default strict mode. For information about reverse path forwarding and loose mode, see <a href="https://en.wikipedia.org/wiki/Reverse_path_forwarding" target="_blank">https://en.wikipedia.org/wiki/Reverse_path_forwarding</a>.</p>
-<p><strong>Usage</strong>: </p>
-<pre>--asymmetric-routes</pre>
-
-<p>The <code>--asymmetric-routes</code> option takes no arguments. If you do not set <code>--asymmetric-routes</code>, all management traffic is routed over the management network.</p>
-<h2 id="example-vic-machine-commands-">Example <code>vic-machine</code> Commands <a id="example"></a></h2>
-<p>This example deploys a VCH with the following configuration:</p>
+<p>These volumes are stored directly on a vSphere datastore in a location that you specify when you deploy a virtual container host (VCH). </p>
+<p>VMDK volume disks are locked for exclusive use while a container VM runs, so other running containers cannot share them. It is possible to configure multiple containers with the same volume disk, but only one  container can run at a time. </p>
+<p>Another limitation of VMDK disks is that you cannot clone them while they are in use. You can take snapshots and then clone the snapshots, but vSphere Integrated Containers  does not currently have built-in support for doing this. Consequently, you can only clone vSphere Integrated Containers volume disks while a container is not running.</p>
+<p>For information about backing up and restoring VMDK volumes, see the following topics. </p>
 <ul>
-<li>Specifies the target vCenter Server instance, the vCenter Server user name, password, datacenter and cluster, an image store, a port group for the bridge network, a name for the VCH, and the thumbprint of the vCenter Server certificate.</li>
-<li>Secures connections to the Docker API with an automatically generated server certificate, without client certificate verification, by setting <code>--no-tlsverify</code>.</li>
-<li>Directs public and management traffic to an existing port group named <code>network 1</code> and Docker API traffic to <code>network 2</code>.</li>
-<li>Does not specify the <code>--public-network</code> option, so traffic from container VMs and the VCH default to the VM Network. </li>
+<li><a href="backup_vmdk.html">Backing Up VMDK Volumes</a></li>
+<li><a href="restore_vmdk.html">Restoring VMDK Volumes</a></li>
 </ul>
-<pre>vic-machine-<i>operating_system</i> create
---target &apos;Administrator@vsphere.local&apos;:<i>password</i>@<i>vcenter_server_address</i>/dc1
---compute-resource cluster1
---image-store datastore1
---bridge-network vch1-bridge
---management-network &apos;network 1&apos;
---client-network &apos;network 2&apos;
---name vch1
---thumbprint <i>certificate_thumbprint</i>
---no-tls
-</pre>
+<h3 id="nfs-shared-volumes">NFS Shared Volumes</h3>
+<p>NFS volume support is designed for use-cases where multiple containers need read-write access to the same volume.</p>
+<p>Taking snapshots and making clones of NFS volumes is handled by the system that provides the NFS server, which should have its own backup strategy. If the NFS server is running as a VM, you can use the same backup strategy as for other stateful VMs.</p>
+<h2 id="example-persistent-container-state-">Example: Persistent Container State <a id="persistentstate"></a></h2>
+<p>This example uses a VCH with two VMDK volume stores and one NFS volume store to demonstrate how data persists in container volumes. </p>
+<p><strong>Procedure</strong></p>
+<ol>
+<li><p>Run <code>vic-machine create</code> with the following options to deploy a VCH with three volume stores,<pre>--volume-store vsanDatastore/volumes/my-vch-data:replicated-encrypted 
+--volume-store iSCSI-nvme/volumes/my-vch-logs:default
+--volume-store nfs://10.118.68.164/mnt/nfs-vol?uid=0&amp;gid=0&amp;proto=tcp:shared</pre></p>
+<ul>
+<li>The first volume store is on a vSAN datastore and uses the label <code>replicated-encrypted</code>. Container developers can create a volume in that volume store by running the following command:<pre>docker volume create --opt VolumeStore=replicated-encrypted myData</pre> </li>
+<li>The second volume store uses cheaper storage backed by a FreeNAS server mounted using iSCSI. It is used for storing log data. It has the label <code>default</code>, which means that any volume that is created without a specifying a volume store is created here. </li>
+<li>The third volume store is an NFS export called <code>/mnt/nfs-vol</code> on an NFS server.</li>
+</ul>
+</li>
+<li><p>Browse the three datastores to see the folders that deploying this VCH created.</p>
+<ul>
+<li><code>vsanDatastore/volumes/my-vch-data/volumes</code></li>
+<li><code>iSCSI-nvme/volumes/my-vch-logs/volumes</code></li>
+<li><code>nfs://10.118.68.164/mnt/nfs-vol/volumes</code></li>
+</ul>
+</li>
+<li><p>Run the following commands in the Docker client to create three volumes.<pre>$ docker volume create --opt VolumeStore=replicated-encrypted --opt Capacity=10G mydata</pre><pre>$ docker volume create --opt Capacity=5G mylogs</pre><pre>$ docker volume create --opt VolumeStore=shared myshared</pre></p>
+<p> Note that the second example does not specify a volume store, which implies the use of the <code>default</code> volume store.</p>
+</li>
+<li><p>Browse the three datastores to see the files that these commands created.</p>
+<ul>
+<li><code>vsanDatastore/volumes/my-vch-data/volumes/mydata/mydata.vmdk</code></li>
+<li><code>vsanDatastore/volumes/my-vch-data/volumes/mydata/ImageMetadata/DockerMetaData</code></li>
+<li><code>iSCSI-nvme/volumes/my-vch-logs/volumes/mylogs/mylogs.vmdk</code></li>
+<li><code>iSCSI-nvme/volumes/my-vch-logs/volumes/mylogs/ImageMetadata/DockerMetaData</code></li>
+<li><code>nfs://10.118.68.164/mnt/nfs-vol/volumes/myshared</code></li>
+<li><p><code>nfs://10.118.68.164/mnt/nfs-vol/volumes_metadata/myshared/DockerMetaData</code></p>
+<p>As a vSphere administrator, you would not normally need to know the conventions and contents of these folders, but it is important for the purposes of demonstrating backup and restore.</p>
+</li>
+</ul>
+</li>
+<li><p>Examine the <code>DockerMetaData</code> file of the <code>mydata</code> volume.</p>
+<p> You see JSON data that adds some context to this particular disk. This is the same data that would be returned by running <code>docker volume inspect mydata</code> in the Docker client:<pre>{  
+&quot;Driver&quot;:&quot;local&quot;,
+&quot;DriverOpts&quot;:{  
+   &quot;Capacity&quot;:&quot;10G&quot;,
+   &quot;VolumeStore&quot;:&quot;replicated-encrypted&quot;
+},
+&quot;Name&quot;:&quot;mydata&quot;,
+&quot;Labels&quot;:{  
+},
+&quot;AttachHistory&quot;:[  
+   &quot;&quot;
+],
+&quot;Image&quot;:&quot;&quot;
+}</pre></p>
+</li>
+<li><p>In the Docker client, mount the volumes to a container and add some data to them.<pre>$ docker run -it --name test -v mydata:/data -v mylogs:/logs -v shared:/shared ubuntu
+$ echo &#x201C;some data&#x201D; &gt; /data/some-data 
+$ echo &#x201C;some logs&#x201D; &gt; /logs/some-logs
+$ echo &#x201C;some shared&#x201D; &gt; /shared/some-shared
+$ exit</pre></p>
+<p> This operation creates a new container VM with volumes mounted at the specified locations. The <code>echo</code> command sends some data to the <code>mydata</code> volume, some logs to the <code>mylogs</code> volume, and some shared data to the <code>shared</code> volume. The fact that container has exited means that the container VM is now powered off, but the volume disks are still part of its configuration. If you restart the container, the volumes are mounted again. </p>
+<p> If you start a new container with the same volumes configured on it, the new container will be able to see the existing data and modify it. Remember that the <code>logs</code> and <code>data</code> volumes are exclusive to a single running container, whereas the <code>shared</code> volume is not.</p>
+</li>
+<li><p>Run <code>docker rm test</code> to delete the container.</p>
+</li>
+<li><p>Run <code>docker volume ls</code> to list the available volumes.</p>
+<p> The volumes and the data that they contain are still available after you have deleted the containers.</p>
+ <pre>
+ DRIVER              VOLUME NAME
+ vsphere             mydata
+ vsphere             mylogs
+ vsphere             myshared
+ </pre>
+</li>
+<li><p>Browse the three datastores to see that the files that the container created are still present.</p>
+</li>
+</ol>
 
-<p>The following example deploys a similar VCH, but specifies <code>--asymmetric-routes</code> to allow incoming connections from ESXi hosts to VCHs over the public network rather than over the management network.</p>
-<pre>vic-machine-<i>operating_system</i> create
---target &apos;Administrator@vsphere.local&apos;:<i>password</i>@<i>vcenter_server_address</i>/dc1
---compute-resource cluster1
---image-store datastore1
---bridge-network vch1-bridge
---management-network &apos;network 1&apos;
---client-network &apos;network 2&apos;
---name vch1
---thumbprint <i>certificate_thumbprint</i>
---no-tlsverify
---asymmetric-routes
-</pre>
                                 
                                 </section>
                             
@@ -2554,12 +2574,12 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
 
             
                 
-                <a href="client_network.html" class="navigation navigation-prev " aria-label="Previous page: Client Network">
+                <a href="backup_vch.html" class="navigation navigation-prev " aria-label="Previous page: VCHs">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="container_networks.html" class="navigation navigation-next " aria-label="Next page: Container Networks">
+                <a href="backup_vmdk.html" class="navigation navigation-next " aria-label="Next page: Backing Up VMDK Volumes">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2570,7 +2590,7 @@ Firewall must permit dst 2377/tcp outbound to the VCH management interface
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Management Network","level":"2.1.3.4.3.4","depth":5,"next":{"title":"Container Networks","level":"2.1.3.4.3.5","depth":5,"path":"vic_vsphere_admin/container_networks.md","ref":"vic_vsphere_admin/container_networks.md","articles":[]},"previous":{"title":"Client Network","level":"2.1.3.4.3.3","depth":5,"path":"vic_vsphere_admin/client_network.md","ref":"vic_vsphere_admin/client_network.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/mgmt_network.md","mtime":"2017-11-15T15:48:01.175Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-11-15T15:55:46.054Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Container Volumes","level":"2.1.7.3","depth":3,"next":{"title":"Backing Up VMDK Volumes","level":"2.1.7.3.1","depth":4,"path":"vic_vsphere_admin/backup_vmdk.md","ref":"vic_vsphere_admin/backup_vmdk.md","articles":[]},"previous":{"title":"VCHs","level":"2.1.7.2","depth":3,"path":"vic_vsphere_admin/backup_vch.md","ref":"vic_vsphere_admin/backup_vch.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.2 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/backup_volumes.md","mtime":"2017-11-15T15:48:01.117Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-11-15T15:55:46.054Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
