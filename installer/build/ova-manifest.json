@@ -227,8 +227,8 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/admiral/admiral_startup.path",
-      "destination": "/usr/lib/systemd/system/admiral_startup.path"
+      "source": "scripts/systemd/admiral/admiral-psc-token-ready.path",
+      "destination": "/usr/lib/systemd/system/admiral-psc-token-ready.path"
     },
     {
       "type": "file",

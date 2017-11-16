@@ -33,4 +33,6 @@ version=$(grep "version" /etc/vmware/psc/admiral/psc-config.properties | awk -F=
 mkdir -p /storage/data/harbor/psc
 cp /etc/vmware/psc/harbor/tokens.properties /storage/data/harbor/psc/tokens.properties
 # Create path for activating harbor.service to avoid its dependency on /storage/data
-mkdir -p /etc/vmware/psc/harbor/harbor_startup
+if [ ! -d /etc/vmware/psc/harbor/harbor_startup ]; then
+  mkdir -p /etc/vmware/psc/harbor/harbor_startup
+fi

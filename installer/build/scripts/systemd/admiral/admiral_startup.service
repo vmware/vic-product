@@ -1,8 +1,8 @@
 [Unit]
 Description=Admiral Startup Configuration
 Documentation=http://github.com/vmware/admiral
-After=vic-appliance-ready.target admiral_startup.path
-Requires=vic-appliance-ready.target
+After=vic-appliance-ready.target admiral-psc-token-ready.path
+Requires=vic-appliance-ready.target admiral-psc-token-ready.path
 
 [Service]
 Type=oneshot

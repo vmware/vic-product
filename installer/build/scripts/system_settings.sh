@@ -26,7 +26,8 @@ systemctl enable vic-appliance-ready.target
 systemctl enable vic-appliance-environment.service
 systemctl enable getty@tty2.service
 systemctl enable ovf-network.service ova-firewall.service
-systemctl enable admiral_startup.path get_token.timer harbor-psc-token-ready.path
+systemctl enable admiral-psc-token-ready.path harbor-psc-token-ready.path
+systemctl enable get_token.timer
 systemctl enable fileserver_startup.service fileserver.service
 systemctl enable engine_installer_startup.service engine_installer.service
 systemctl enable vic_machine_server.service
