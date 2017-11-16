@@ -232,7 +232,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 
 	html.AdmiralAddr = fmt.Sprintf("https://%s:%s", c.serverHostname, c.admiralPort)
 	html.DemoVCHAddr = fmt.Sprintf("https://%s:%s", c.serverHostname, c.installerPort)
-	html.FileserverAddr = fmt.Sprintf("https://%s:%s/files/%s", c.serverHostname, c.addr, c.vicTarName)
+	html.FileserverAddr = fmt.Sprintf("https://%s%s/files/%s", c.serverHostname, c.addr, c.vicTarName)
 
 	renderTemplate(resp, "html/index.html", html)
 }
