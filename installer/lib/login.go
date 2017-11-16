@@ -37,7 +37,7 @@ type LoginInfo struct {
 }
 
 // Verify login based on info given, return non nil error if validation fails.
-func (info *LoginInfo) VerifyLogin() error {
+func (info *LoginInfo) VerifyLogin() (context.CancelFunc, error) {
 	defer trace.End(trace.Begin(""))
 
 	var u url.URL
@@ -59,7 +59,6 @@ func (info *LoginInfo) VerifyLogin() error {
 	input.Password = &passwd
 
 	ctx, cancel := context.WithTimeout(context.Background(), loginTimeout)
-	defer cancel()
 	loginResponse := make(chan error, 1)
 	var v *validate.Validator
 	var err error
@@ -83,5 +82,5 @@ func (info *LoginInfo) VerifyLogin() error {
 
 	}
 
-	return <-loginResponse
+	return cancel, <-loginResponse
 }

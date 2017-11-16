@@ -45,6 +45,13 @@
             </span>
           </div>
           {{end}}
+          {{if .ConnectionError}}
+          <div class="alert-item">
+            <span class="alert-text">
+                Unable to gather config options from vCenter.
+            </span>
+          </div>
+          {{end}}
           <form method="post">
             <h4>Login to vCenter: </h4>
             <div class="form-group">
