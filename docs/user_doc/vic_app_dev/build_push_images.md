@@ -11,6 +11,7 @@ vSphere Integrated Containers Engine can deploy Docker Engine instances for you,
   - [Anonymous `dch-photon` Volumes](#vols) 
 - [Using `dch-photon` with vSphere Integrated Containers Registry](#registry)
 - [Using `dch-photon` with Other Registries](#other)
+- [Instantiating Docker Swarms with `dch-photon`](#swarm)
 
 ## Requirements for Using `dch-photon` <a id="requirements"></a>
 
@@ -40,3 +41,7 @@ When you have deployed `dch-photon` with the registry certificate, you can use i
 ## Using `dch-photon` with TLS Authentication and Other Registries <a id="other"></a>
 
 For information about using `dch-photon` with TLS authentication and with other registries than vSphere Integrated Containers Registry, see [Advanced `dch-photon` Deployment](dchphoton_options.md). 
+
+## Instantiating Docker Swarms with `dch-photon` <a id="swarm"></a>
+
+You can use the `dch-photon` Docker Engine to instantiate a Docker swarm. For information about instantiating a Docker swarm, see [Automating Swarm Creation with vSphere Integrated Containers 1.2](https://blogs.vmware.com/cloudnative/2017/10/03/automating-swarm-creation-with-vic-1-2/).
