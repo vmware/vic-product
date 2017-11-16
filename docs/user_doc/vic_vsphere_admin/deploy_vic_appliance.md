@@ -13,6 +13,8 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 - Deploy the appliance to a vCenter Server instance. Deploying the appliance directly on an ESXi host is not supported.
 - Deploy the appliance to a vCenter Server system that meets the minimum system requirements:
 
+   - vCenter Server 6.0 or 6.5
+   - ESXi 6.0 or 6.5 for all hosts
    - 2 vCPUs
    - 8GB RAM
    - 80GB free disk space on the datastore
@@ -66,13 +68,15 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
    - Leave the text boxes blank to use auto-generated certificates.    
 
 7. Expand **Demo VCH Installer Wizard Configuration** to optionally change the port on which the interactive web installer for virtual container hosts (VCHs) runs.
-8. Expand **Configure Example Users** to configure ready-made vSphere Integrated Containers user accounts in the Platform Services Controller.
+8. Expand **Configure Example Users** to configure the ready-made  example user accounts that vSphere Integrated Containers creates by default in the Platform Services Controller.
     
      You can use these accounts to test the different user personas that can access vSphere Integrated Containers Management Portal and Registry.
 
-    - Optionally uncheck the **Create Example Users** checkbox to disable the creation of example user accounts.
-    - In the **Username Prefix for Example Users** text box, optionally modify the prefix of the example user names from the default, `vic`. 
-    - In the **Password for Example Users** text boxes, optionally modify the password for the example user account from the default, `VicPro!23`.
+    - Uncheck the **Create Example Users** checkbox if you do not want vSphere Integrated Containers to create user accounts in the Platform Services Controller.
+    - In the **Username Prefix for Example Users** text box, optionally modify the prefix of the example user names from the default, `vic`. If you unchecked the **Create Example Users** checkbox, this option is ignored.
+    - In the **Password for Example Users** text boxes, modify the password for the example user account from the default, `VicPro!23`. The new password must comply with the password policy for the Platform Services Controller, otherwise the creation of the example user accounts fails. If you unchecked the **Create Example Users** checkbox, this option is ignored. 
+
+        **IMPORTANT**: If you did not uncheck the **Create Example Users** checkbox, it is strongly recommended that you change the default password for the example users.
 8. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
 9. When the deployment completes, power on the appliance VM.
 
