@@ -100,6 +100,7 @@
      * [Access Appliance Logs](vic_vsphere_admin/appliance_logs.md)
      * [Access VCH Logs](vic_vsphere_admin/log_bundles.md)
      * [VCH Deployment Times Out](vic_vsphere_admin/ts_vch_deployment_timeout.md)
+     * [Appliance OVF Error](vic_vsphere_admin/ts_ovf_error.md)
      * [Appliance Fails to Register with PSC](vic_vsphere_admin/ts_register_psc_fails.md)
      * [Certificate Verification Error](vic_vsphere_admin/ts_thumbprint_error.md)
      * [Browser Rejects Certificates](vic_vsphere_admin/ts_cert_error.md)
