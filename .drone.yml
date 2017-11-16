@@ -85,6 +85,7 @@ pipeline:
       TEST_RESOURCE: ${TEST_RESOURCE}
       TEST_URL: ${TEST_URL}
       TEST_USERNAME: ${TEST_USERNAME}
+      VCH_TIMEOUT: ${VCH_TIMEOUT}
     volumes:
       - /tmp
     commands:
@@ -229,3 +230,16 @@ services:
     image: docker:dind
     privileged: true
     pull: true
+
+  selenium-grid-hub:
+    image: selenium/hub:3.7.1
+    ports:
+      - "4444:4444"
+
+  selenium-node-firefox:
+    image: selenium/node-firefox:3.7.1
+    environment:
+      SE_OPTS: "-port 4445"
+      HUB_PORT_4444_TCP_ADDR: 127.0.0.1
+      HUB_PORT_4444_TCP_PORT: 4444
+      DISPLAY: ":98.0"

@@ -16,15 +16,14 @@
 Documentation  This resource contains any keywords dealing with operations being performed on a Vsphere instance, mostly govc wrappers
 
 *** Keywords ***
-Check vCenter
-    Set Test Environment Variables
+Check VCenter
     Log To Console  \nChecking vCenter availability...
     ${rc}  ${output}=  Run And Return Rc And Output  govc about -u=%{TEST_URL}
     Log To Console  ${output}
     Should Be Equal As Integers  ${rc}  0  vCenter %{TEST_URL} seems unavailable
     Should Contain  ${output}  VMware vCenter Server
 
-Get vCenter Thumbprint
+Get VCenter Thumbprint
     ${rc}  ${thumbprint}=  Run And Return Rc And Output  openssl s_client -connect %{TEST_URL}:443 </dev/null 2>/dev/null | openssl x509 -fingerprint -noout | cut -d= -f2
     Should Be Equal As Integers  ${rc}  0
     [Return]  ${thumbprint}
