@@ -104,9 +104,9 @@ When you deploy a VCH, the user account that you specify in `--ops-user` must ha
 
     &#42; If you use both of the `--ops-user` and  [`--use-rp`](vch_config.md#use-rp) options when you create a VCH, you must include the **Resource** &gt; **Add virtual machine** permission in the `VCH - endpoint` role. The **vApp** &gt; **Add virtual machine** permission is not required if you deploy the VCH with the `--use-rp` option. 
 
-3. Go to **Networking**, create a network folder, and place the distributed virtual switches that the VCHs will use for the bridge network and any container networks into that folder.
+3. Go to **Networking**, create a network folder, and place the vSphere Distributed Switches that the VCHs will use for the bridge network and any container networks into that folder.
 
-    The parent object of distributed virtual switches that the VCH uses  as the bridge network and container networks must be set to `Read-Only`, with **Propagate to Children** enabled. By placing distributed virtual switches in a network folder, you avoid setting an entire datacenter to `Read-Only`. This restriction only applies to the bridge network and container networks. When you specify the `vic-machine create --bridge-network` and `--container-network` options, include the full inventory path to the networks in the following format:<pre><i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i></pre>
+    The parent object of vSphere Distributed Switches that the VCH uses  as the bridge network and container networks must be set to `Read-Only`, with **Propagate to Children** enabled. By placing vSphere Distributed Switches in a network folder, you avoid setting an entire datacenter to `Read-Only`. This restriction only applies to the bridge network and container networks. When you specify the `vic-machine create --bridge-network` and `--container-network` options, include the full inventory path to the networks in the following format:<pre><i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i></pre>
 
 2. (Optional) Go to **Hosts and Clusters** and create a resource pool in which to deploy VCHs.
 
