@@ -1,9 +1,9 @@
 # Configuring Health Checks #
 
 You can configure a health check method to update the status of a container based on custom criteria.
+vSphere Integrated Containers uses an own implementation of health checks and not the standard Docker implementation.
 
 You can use HTTP or TCP protocols when executing a command on the container. You can also specify a health check method. The available health configuration modes are described below.
-
 
 
 Mode | Description
