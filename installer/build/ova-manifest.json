@@ -74,12 +74,12 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/repartition.service",
+      "source": "scripts/systemd/mounts/repartition.service",
       "destination": "/usr/lib/systemd/system/repartition.service"
     },
     {
       "type": "file",
-      "source": "scripts/systemd/resizefs.service",
+      "source": "scripts/systemd/mounts/resizefs.service",
       "destination": "/usr/lib/systemd/system/resizefs.service"
     },
     {
@@ -89,13 +89,8 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/vic-appliance.target",
+      "source": "scripts/systemd/appliance/vic-appliance.target",
       "destination": "/usr/lib/systemd/system/vic-appliance.target"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/vic-appliance-ready.target",
-      "destination": "/usr/lib/systemd/system/vic-appliance-ready.target"
     },
     {
       "type": "file",
@@ -234,11 +229,6 @@
       "type": "file",
       "source": "scripts/systemd/admiral/admiral.service",
       "destination": "/usr/lib/systemd/system/admiral.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/admiral/admiral_default_users.service",
-      "destination": "/usr/lib/systemd/system/admiral_default_users.service"
     },
     {
       "type": "file",

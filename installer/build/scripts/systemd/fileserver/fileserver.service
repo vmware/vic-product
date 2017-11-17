@@ -1,8 +1,8 @@
 [Unit]
 Description=VIC Unified Installer Web Server
 Documentation=https://github.com/vmware/vic
-After=vic-appliance-ready.target fileserver_startup.service
-Requires=vic-appliance-ready.target
+After=fileserver_startup.service
+Requires=fileserver_startup.service
 
 [Service]
 Type=simple

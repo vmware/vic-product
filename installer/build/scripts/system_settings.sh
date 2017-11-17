@@ -22,14 +22,13 @@ systemctl enable sshd_permitrootlogin.service
 systemctl enable vic-appliance-load-docker-images.service
 systemctl enable vic-appliance-docker-images-loaded.path
 systemctl enable vic-appliance.target
-systemctl enable vic-appliance-ready.target
 systemctl enable vic-appliance-environment.service
 systemctl enable getty@tty2.service
 systemctl enable ovf-network.service ova-firewall.service
 systemctl enable admiral-psc-token-ready.path harbor-psc-token-ready.path
 systemctl enable get_token.timer
-systemctl enable fileserver_startup.service fileserver.service
-systemctl enable engine_installer_startup.service engine_installer.service
+systemctl enable fileserver.service fileserver.service 
+systemctl enable engine_installer.service engine_installer_startup.service
 systemctl enable vic_machine_server.service
 
 # Clean up temporary directories

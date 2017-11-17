@@ -1,8 +1,8 @@
 [Unit]
 Description=Harbor Container Registry
 Documentation=http://github.com/vmware/harbor
-After=vic-appliance-ready.target harbor-psc-token-ready.path
-Requires=vic-appliance-ready.target harbor-psc-token-ready.path
+After=vic-appliance.target harbor-psc-token-ready.path
+Requires=vic-appliance.target harbor-psc-token-ready.path
 
 [Service]
 Type=simple

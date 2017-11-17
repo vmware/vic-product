@@ -1,7 +1,7 @@
 [Unit]
 Description=Load Cached Docker Images
-After=vic-mounts.target docker.service
-Requires=vic-mounts.target docker.service
+After=docker.service
+Requires=docker.service
 
 [Service]
 Type=oneshot
@@ -9,4 +9,4 @@ ExecStart=/etc/vmware/load-docker-images.sh
 ExecStartPost=/usr/bin/systemctl disable vic-appliance-load-docker-images.service
 
 [Install]
-WantedBy=vic-appliance.target
+WantedBy=multi-user.target

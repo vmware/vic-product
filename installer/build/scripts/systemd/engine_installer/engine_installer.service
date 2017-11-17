@@ -1,8 +1,8 @@
 [Unit]
 Description=Demo VCH Installer Wizard Service
 Documentation=https://github.com/vmware/vic
-After=vic-appliance-ready.target engine_installer_startup.service
-Requires=vic-appliance-ready.target engine_installer_startup.service
+After=engine_installer_startup.service
+Requires=engine_installer_startup.service
 
 [Service]
 Type=simple

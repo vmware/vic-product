@@ -5,4 +5,4 @@ Requires=storage-data.mount storage-db.mount storage-log.mount
 After=storage-data.mount storage-db.mount storage-log.mount
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=vic-appliance.target
