@@ -16,7 +16,9 @@ Perform the following steps to rewrite corrupted or missing `ovfenv` data.
 
 1. In the Flex-based vSphere Client, right-click the appliance VM and select **Power** > **Shut Down Guest OS**.
 2. Right-click the appliance again and select **Edit Settings**.
-3. Select **vApp Options** and click **OK**.
+
+  - In the Flex-based vSphere Web Client, select **vApp Options** and click **OK**.
+  - In the HTML5 vSphere Client, select **VM Options** and click **OK**.
 4. Verify under **Recent Tasks** that a `Reconfigure virtual machine` task has run on the appliance.
 5. Power on the appliance.
 6. Open the appliance VM console to verify that the error message does not appear.
