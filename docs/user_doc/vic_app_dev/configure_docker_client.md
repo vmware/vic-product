@@ -41,7 +41,7 @@ DOCKER_HOST=<i>vch_address</i>:2376</pre>
 - TLS authentication with server certificates without client authentication:<pre>DOCKER_HOST=<i>vch_address</i>:2376</pre>
 - No `env` file is generated if the VCH does not implement TLS authentication.
 
-For information about how to obtain the `env` file, see [Obtain a VCH](obtain_vch.md).
+For information about how to obtain the `env` file, see [Obtain a VCH](obtain_vch.md). For information about the `env` files in Docker, see [`docker-machine env`](docker-machine env) in the Docker documentation.
 
 ## Install the  vSphere Integrated Containers Registry Certificate <a id="registry"></a>
 
