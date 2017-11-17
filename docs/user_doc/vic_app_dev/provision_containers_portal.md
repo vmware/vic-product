@@ -27,7 +27,13 @@ When you create containers from the Containers page in the management portal, yo
 	- Anti-affinity rules
 - Custom environment variables
 - Health checks
+	- HTTP
+	- TCP connection
+	- Command
 - Logging
+
+When you configure a container, on the **Environment** tab, you can add industry standard variables.
+For information about using Docker environment variables, see [Environment variables in Compose](https://docs.docker.com/compose/environment-variables/) in the Docker documentation.
 
 **Related topics**
 
