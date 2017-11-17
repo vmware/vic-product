@@ -5,6 +5,7 @@ This section provides solutions for common problems that you might encounter dur
 * [Access Appliance Logs](appliance_logs.md)
 * [Access VCH Logs](log_bundles.md)
 * [VCH Deployment Times Out](ts_vch_deployment_timeout.md)
+* [Appliance OVF Error](ts_ovf_error.md)
 * [vSphere Integrated Containers Appliance Fails to Register with PSC](ts_register_psc_fails.md)
 * [VCH Deployment Fails with a Certificate Verification Error](ts_thumbprint_error.md)
 * [Browser Rejects Certificates with ERR_CERT_INVALID Error](ts_cert_error.md)
