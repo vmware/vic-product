@@ -22,7 +22,7 @@ pipeline:
     volumes:
       - /tmp
     commands:
-      - tests/robot-run.sh "-s 2-01-Getting-Started"
+      - tests/robot-run.sh "-s 3-01-Admiral-UI"
 
 services:
   selenium-grid-hub:

@@ -49,6 +49,8 @@ Global Setup
     # ova variables
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
+    # vCenter variables
+    Set Test VC Variables
     # common vch variables
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  VCH_TIMEOUT
     Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  VCH_TIMEOUT  20m0s
@@ -59,10 +61,17 @@ Global Setup
     # UI tests variables
     Set Global Variable  ${FIREFOX_BROWSER}  firefox
     Set Global Variable  ${GRID_URL}  http://127.0.0.1:4444/wd/hub
+    Set Global Variable  ${EXPLICIT_WAIT}  30
+    Set Global Variable  ${EXTRA_EXPLICIT_WAIT}  50
     Set Global Variable  ${PRIMARY_PORT}  8282
     Set Global Variable  ${GS_PAGE_PORT}  9443
     Set Global Variable  ${BASE_URL}  https://%{OVA_IP}:${PRIMARY_PORT}
     Set Global Variable  ${GS_PAGE_BASE_URL}  https://%{OVA_IP}:${GS_PAGE_PORT}
+    Set Global Variable  ${COMPLETE_INSTALL_URL}  https://%{OVA_IP}:${GS_PAGE_PORT}/?login=true
+    # complete installation on UI
+    Open Firefox Browser
+    Log In And Complete OVA Installation
+    Close All Browsers
 
 Global Teardown
     Log To Console  Running global teardown...

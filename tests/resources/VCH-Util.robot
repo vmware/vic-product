@@ -69,20 +69,22 @@ Get VCH Docker Params
     @{vars}=  Split String  ${vars}
     :FOR  ${var}  IN  @{vars}
     \   ${varname}  ${varval}=  Split String  ${var}  =
-    \   Run Keyword If  '${varname}' == 'DOCKER_HOST'  Set Test Variable  ${DOCKER_HOST}  ${varval}
+    \   Run Keyword If  '${varname}' == 'DOCKER_HOST'  Set Test Variable  ${DOCKER-HOST}  ${varval}
 
-    @{hostParts}=  Split String  ${DOCKER_HOST}  :
+    Set Test Variable  ${VCH-URL}  https://${DOCKER-HOST}
+
+    @{hostParts}=  Split String  ${DOCKER-HOST}  :
     ${ip}=  Strip String  @{hostParts}[0]
     ${port}=  Strip String  @{hostParts}[1]
     Set Test Variable  ${VCH-IP}  ${ip}
     Set Test Variable  ${VCH-PORT}  ${port}
 
-    Run Keyword If  ${port} == 2376  Set Test Variable  ${VCH-PARAMS}  -H ${DOCKER_HOST} --tls
-    Run Keyword If  ${port} == 2375  Set Test Variable  ${VCH-PARAMS}  -H ${DOCKER_HOST}
+    Run Keyword If  ${port} == 2376  Set Test Variable  ${VCH-PARAMS}  -H ${DOCKER-HOST} --tls
+    Run Keyword If  ${port} == 2375  Set Test Variable  ${VCH-PARAMS}  -H ${DOCKER-HOST}
 
 Cleanup VCH
     [Arguments]  ${vch-name}
-    Log To Console  Deleting the VCH appliance ${vch-name}
+    Log To Console  Deleting the VCH ${vch-name}
     ${rc}  ${output}=  Run And Return Rc And Output  bin/vic-machine-linux delete --name=${vch-name} --target=%{TEST_URL} --user=%{TEST_USERNAME} --password=%{TEST_PASSWORD} --force=true --compute-resource=%{TEST_RESOURCE} --timeout %{VCH_TIMEOUT}
     Wait Until Keyword Succeeds  6x  5s  Check Delete Success  ${vch-name}
     Should Be Equal As Integers  ${rc}  0

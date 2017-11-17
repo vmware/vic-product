@@ -13,24 +13,22 @@
 # limitations under the License
 
 *** Settings ***
-Documentation  This resource contains any keywords dealing with Getting Started UI page
+Documentation  This resource contains any keywords dealing with vCenter Single Sign-On UI page
+Resource  Header-Util.robot
 
 *** Variables ***
 # css locators
-${gsp-alert-message}  css=.alert-text
+${vcsso-image-title}  id=VCSSO-Title
+${vcsso-username}  id=username
+${vcsso-password}  id=password
+${vcsso-button-login}  id=submit
 
 # expected text values
-${gsp-page-title}  VIC Appliance Getting Started
-${gsp-install-complete-message}  Installation successful. Refer to the Post-install and Deployment tasks below.
 
 *** Keywords ***
-Navigate To Getting Started Page
-    Go To  ${GS_PAGE_BASE_URL}
-
-Verify Getting Started Page Title
-    ${result}=  Get Title
-    Should Contain  ${result}  ${gsp-page-title}
-
-Verify Complete Installation Message
-    Wait Until Element Is Visible  ${gsp-alert-message}  timeout=${EXPLICIT_WAIT}
-    Element Text Should Be  ${gsp-alert-message}  ${gsp-install-complete-message}
+Login On Single Sign-On Page
+    Wait Until Element Is Visible  ${vcsso-image-title}  timeout=${EXPLICIT_WAIT}
+    Input Text  ${vcsso-username}  %{TEST_USERNAME}
+    Input Text  ${vcsso-password}  %{TEST_PASSWORD}
+    Click Button  ${vcsso-button-login}
+    Verify VIC UI Header Display

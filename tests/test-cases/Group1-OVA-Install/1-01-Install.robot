@@ -18,13 +18,6 @@ Resource  ../../resources/Util.robot
 Test Timeout  50 minutes
 
 *** Keywords ***
-Run command and Return output
-    [Arguments]  ${command}
-    ${rc}  ${output}=  Run And Return Rc And Output  ${command}
-    Log  ${output}
-    Should Be Equal As Integers  ${rc}  0
-    [Return]  ${output}
-
 Check service running
     [Arguments]  ${service-name}
     Log To Console  Checking status of ${service-name}...

@@ -13,7 +13,7 @@
 # limitations under the License
 
 *** Settings ***
-Documentation  This resource contains any keywords dealing with browser testing
+Documentation  This resource contains any keywords dealing with browser UI testing
 
 *** Keywords ***
 Open Firefox Browser
