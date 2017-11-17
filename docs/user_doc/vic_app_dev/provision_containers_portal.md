@@ -27,6 +27,9 @@ When you create containers from the Containers page in the management portal, yo
 	- Anti-affinity rules
 - Custom environment variables
 - Health checks
+	- HTTP
+	- TCP connection
+	- Command
 - Logging
 
 **Related topics**
