@@ -103,6 +103,7 @@ pipeline:
       - mkdir bundle
       - cd installer/bin
       - TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-dev-${DRONE_BUILD_NUMBER}-/")
+      - echo "Find build artifact at https://storage.googleapis.com/vic-product-ova-builds/$TMP"
       - echo "Renaming build artifact to $TMP..."
       - mv vic-*.ova ../../bundle/$TMP
       - ls -l ../../bundle
@@ -119,6 +120,7 @@ pipeline:
       - mkdir bundle
       - cd installer/bin
       - TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-stage-${DRONE_BUILD_NUMBER}-/")
+      - echo "Find build artifact at https://storage.googleapis.com/vic-product-ova-builds/$TMP"
       - echo "Renaming build artifact to $TMP..."
       - mv vic-*.ova ../../bundle/$TMP
       - ls -l ../../bundle
@@ -136,6 +138,7 @@ pipeline:
       - mkdir bundle
       - cd installer/bin
       - TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-${DRONE_BUILD_NUMBER}-/")
+      - echo "Find build artifact at https://storage.googleapis.com/vic-product-ova-releases/$TMP"
       - echo "Renaming build artifact to $TMP..."
       - mv vic-*.ova ../../bundle/$TMP
       - ls -l ../../bundle
