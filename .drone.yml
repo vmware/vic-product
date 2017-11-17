@@ -72,6 +72,7 @@ pipeline:
   integration-test:
     image: harbor.ci.drone.local/library/vic-integration-test:1.36
     pull: true
+    privileged: true
     environment:
       BIN: bin
       GOPATH: /go
