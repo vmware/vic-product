@@ -148,6 +148,7 @@ function upgradeHarborConfiguration {
   # uaa_clientid, uaa_clientsecret and uaa_ca_root as managed key if not present
   configureHarborCfgUnset log_rotate_count 50  
   configureHarborCfgUnset log_rotate_size 200M
+  configureHarborCfgUnset email_insecure false
   configureHarborCfgUnset db_host mysql
   configureHarborCfgUnset db_port 3306
   configureHarborCfgUnset db_user root 
