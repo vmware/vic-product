@@ -45,7 +45,7 @@ function add() {
     curl -fL"#" "$src" -o "$dest"
   else
     cp "$src" "$dest"
-    eecho "copied from local fs"
+    echo "copied from local fs"
   fi
 }
 
