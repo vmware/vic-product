@@ -7,4 +7,4 @@ Type=oneshot
 ExecStart=/etc/vmware/sshd_permitrootlogin.sh
 
 [Install]
-WantedBy=vic-appliance.target
+WantedBy=network-online.target

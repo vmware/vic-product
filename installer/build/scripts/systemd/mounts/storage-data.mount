@@ -10,4 +10,4 @@ Where=/storage/data
 Type=ext4
 
 [Install]
-RequiredBy=local-fs.target
+RequiredBy=vic-mounts.target

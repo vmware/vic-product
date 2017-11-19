@@ -94,6 +94,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/appliance/vic-components.target",
+      "destination": "/usr/lib/systemd/system/vic-components.target"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/network/ovf-network.service",
       "destination": "/usr/lib/systemd/system/ovf-network.service"
     },
@@ -217,11 +222,6 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/admiral/admiral_startup.service",
-      "destination": "/usr/lib/systemd/system/admiral_startup.service"
-    },
-    {
-      "type": "file",
       "source": "scripts/systemd/admiral/admiral-psc-token-ready.path",
       "destination": "/usr/lib/systemd/system/admiral-psc-token-ready.path"
     },
@@ -271,11 +271,6 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/fileserver/fileserver_startup.service",
-      "destination": "/usr/lib/systemd/system/fileserver_startup.service"
-    },
-    {
-      "type": "file",
       "source": "scripts/systemd/fileserver/fileserver.service",
       "destination": "/usr/lib/systemd/system/fileserver.service"
     },
@@ -302,11 +297,6 @@
     {
       "type": "shell",
       "script": "scripts/provision_engine_installer.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/engine_installer/engine_installer_startup.service",
-      "destination": "/usr/lib/systemd/system/engine_installer_startup.service"
     },
     {
       "type": "file",

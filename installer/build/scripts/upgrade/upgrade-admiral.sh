@@ -42,7 +42,7 @@ function upgradeAdmiral {
   checkUpgradeStatus "Admiral" ${admiral_upgrade_status}
 
   echo "Starting Admiral upgrade" | tee /dev/fd/3
-  systemctl start admiral_startup.service
+  systemctl start admiral.service
   echo "Updating Admiral configuration" | tee /dev/fd/3
   curl \
     -s --insecure \

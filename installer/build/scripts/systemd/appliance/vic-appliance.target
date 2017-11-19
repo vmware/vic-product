@@ -2,17 +2,14 @@
 Description=System customization for VIC Appliance
 Documentation=https://github.com/vmware/vic-product/blob/master/installer/DESIGN.md
 
-Requires=vic-mounts.target vic-appliance-docker-images-loaded.path
-After=vic-mounts.target vic-appliance-docker-images-loaded.path
+Requires=vic-mounts.target vic-appliance-environment.service vic-appliance-docker-images-loaded.path
+After=vic-mounts.target vic-appliance-environment.service vic-appliance-docker-images-loaded.path
 
 Requires=network-online.target systemd-resolved.service systemd-timesyncd.service
 After=network-online.target systemd-resolved.service systemd-timesyncd.service
 
 Requires=ovf-network.service ova-firewall.service
 After=ovf-network.service ova-firewall.service
-
-Requires=vic-appliance-environment.service 
-After=vic-appliance-environment.service 
 
 [Install]
 WantedBy=multi-user.target

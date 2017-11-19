@@ -227,7 +227,7 @@ function upgradeHarbor {
   checkHarborPSCToken
 
   # Start Admiral for data migration
-  systemctl start admiral_startup.service
+  systemctl start admiral.service
 
   echo "Starting Harbor upgrade" | tee /dev/fd/3
 
