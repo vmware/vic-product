@@ -78,19 +78,19 @@ function setDataVersion {
 # Prevent Admiral and Harbor from starting from path units
 function disableServicesStart {
   echo "Disabling and stopping Admiral and Harbor path startup" | tee /dev/fd/3
-  systemctl stop admiral.service
-  systemctl stop harbor.servce
-  systemctl disable admiral.servce
-  systemctl disable harbor.servce
+  systemctl stop admiral.service admiral-psc-token-ready.path
+  systemctl stop harbor.servce harbor-psc-token-ready.path
+  systemctl disable admiral.servce admiral-psc-token-ready.path
+  systemctl disable harbor.servce harbor-psc-token-ready.path
 }
 
 # Enable Admiral and Harbor starting from path units
 function enableServicesStart {
   echo "Enabling and starting Admiral and Harbor path startup" | tee /dev/fd/3
-  systemctl enable admiral.servce
-  systemctl enable harbor.servce
-  systemctl start admiral.servce
-  systemctl start harbor.servce
+  systemctl enable admiral.servce admiral-psc-token-ready.path
+  systemctl enable harbor.servce harbor-psc-token-ready.path
+  systemctl start admiral.servce admiral-psc-token-ready.path
+  systemctl start harbor.servce harbor-psc-token-ready.path
 }
 
 # Check for presence of Admiral's PSC config file. If the file exists, the old

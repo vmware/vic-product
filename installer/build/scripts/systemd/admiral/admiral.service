@@ -1,14 +1,15 @@
 [Unit]
 Description=Admiral is a highly scalable and very lightweight Container Management platform for deploying and managing container based applications.
 Documentation=https://github.com/vmware/admiral
-After=vic-appliance.target
-Requires=vic-appliance.target
-AssertPathExists=/etc/vmware/psc/admiral/psc-config.properties
+After=vic-appliance.target admiral-psc-token-ready.path
+Requires=vic-appliance.target admiral-psc-token-ready.path
+#AssertPathExists=/etc/vmware/psc/admiral/psc-config.properties
 
 [Service]
 Type=simple
 Restart=on-failure
 RestartSec=15
+ExecStartPre=/etc/vmware/wait_for_file.sh /etc/vmware/psc/admiral/psc-config.properties
 ExecStartPre=-/usr/bin/docker stop vic-admiral
 ExecStartPre=-/usr/bin/docker rm vic-admiral
 ExecStartPre=/usr/bin/bash /etc/vmware/admiral/configure_admiral.sh

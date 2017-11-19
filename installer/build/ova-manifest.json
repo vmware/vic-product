@@ -49,6 +49,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/wait_for_file.sh",
+      "destination": "/etc/vmware/wait_for_file.sh"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/resize_volume.sh",
       "destination": "/etc/vmware/resize_volume.sh"
     },
