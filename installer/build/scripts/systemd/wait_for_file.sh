@@ -4,7 +4,7 @@
 
 file=$1
 intervalInSeconds=60 # 1 minute
-while [[ ! -e $file ]]; then
+while [[ ! -e $file ]]; do
     echo "File $file does not yet exist. sleeping $intervalInSeconds seconds..."
     sleep $intervalInSeconds
 done

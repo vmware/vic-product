@@ -17,17 +17,16 @@ set -euf -o pipefail
 # Enable systemd services
 systemctl enable toolbox.service
 systemctl enable docker.service
-systemctl enable vic-mounts.target 
-systemctl enable vic-appliance.target vic-appliance-docker-images-loaded.path
-systemctl enable vic-components.target
+systemctl enable vic-mounts.target vic-mounts.target repartition.service resizefs.service 
+systemctl enable vic-appliance.target vic-appliance-docker-images-loaded.path vic-appliance-load-docker-images.service
 systemctl enable sshd_permitrootlogin.service
-systemctl enable vic-appliance-load-docker-images.service
 systemctl enable vic-appliance-environment.service
 systemctl enable getty@tty2.service
 systemctl enable ovf-network.service ova-firewall.service
 systemctl enable get_token.timer
 
 # Enable systemd component services
+systemctl enable vic-components.target
 systemctl enable admiral.service admiral-psc-token-ready.path
 systemctl enable harbor.service harbor-psc-token-ready.path
 systemctl enable fileserver.service
