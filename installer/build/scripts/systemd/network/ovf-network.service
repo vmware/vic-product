@@ -8,4 +8,4 @@ Type=oneshot
 ExecStart=/etc/vmware/network-config.sh
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=vic-appliance.target

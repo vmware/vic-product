@@ -9,5 +9,5 @@ What=/dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:1:0-part1
 Where=/storage/data
 Type=ext4
 
-[Install]
-RequiredBy=local-fs.target
+[Install] 
+RequiredBy=local-fs.target vic-mounts.target

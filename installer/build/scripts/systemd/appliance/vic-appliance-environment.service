@@ -1,8 +1,6 @@
 [Unit]
 Description=VIC Appliance Environment
 Documentation=https://github.com/vmware/vic-product
-After=vic-appliance.target
-Requires=vic-appliance.target
 
 [Service]
 Type=simple
@@ -11,4 +9,4 @@ RestartSec=5
 ExecStart=/etc/vmware/vic-appliance-environment.sh
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=vic-appliance.target

@@ -4,6 +4,7 @@ Documentation=https://github.com/vmware/vic-product/installer
 
 [Path]
 PathExists=/etc/vmware/psc/admiral/psc-config.properties
+Unit=admiral.service
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=paths.target

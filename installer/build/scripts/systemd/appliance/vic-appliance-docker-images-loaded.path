@@ -7,4 +7,4 @@ PathExists=/etc/vmware/firstboot
 Unit=vic-appliance.target
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=paths.target

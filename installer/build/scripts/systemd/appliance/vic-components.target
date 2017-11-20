@@ -1,0 +1,12 @@
+[Unit]
+Description=Component customization for VIC Appliance
+Documentation=https://github.com/vmware/vic-product/blob/master/installer/DESIGN.md
+
+Requires=vic-appliance.target
+After=vic-appliance.target
+
+Requires=admiral.service harbor.service fileserver.service engine_installer.service engine_installer.service vic_machine_server.service
+After=harbor.service harbor.service fileserver.service engine_installer.service engine_installer.service vic_machine_server.service
+
+[Install]
+WantedBy=multi-user.target

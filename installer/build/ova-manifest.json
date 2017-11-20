@@ -49,6 +49,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/wait_for_file.sh",
+      "destination": "/etc/vmware/wait_for_file.sh"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/resize_volume.sh",
       "destination": "/etc/vmware/resize_volume.sh"
     },
@@ -74,12 +79,12 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/repartition.service",
+      "source": "scripts/systemd/mounts/repartition.service",
       "destination": "/usr/lib/systemd/system/repartition.service"
     },
     {
       "type": "file",
-      "source": "scripts/systemd/resizefs.service",
+      "source": "scripts/systemd/mounts/resizefs.service",
       "destination": "/usr/lib/systemd/system/resizefs.service"
     },
     {
@@ -89,13 +94,13 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/vic-appliance.target",
+      "source": "scripts/systemd/appliance/vic-appliance.target",
       "destination": "/usr/lib/systemd/system/vic-appliance.target"
     },
     {
       "type": "file",
-      "source": "scripts/systemd/vic-appliance-ready.target",
-      "destination": "/usr/lib/systemd/system/vic-appliance-ready.target"
+      "source": "scripts/systemd/appliance/vic-components.target",
+      "destination": "/usr/lib/systemd/system/vic-components.target"
     },
     {
       "type": "file",
@@ -169,13 +174,8 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/harbor/harbor_startup.service",
-      "destination": "/usr/lib/systemd/system/harbor_startup.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/harbor/harbor_startup.path",
-      "destination": "/usr/lib/systemd/system/harbor_startup.path"
+      "source": "scripts/systemd/harbor/harbor-psc-token-ready.path",
+      "destination": "/usr/lib/systemd/system/harbor-psc-token-ready.path"
     },
     {
       "type": "file",
@@ -227,23 +227,13 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/admiral/admiral_startup.service",
-      "destination": "/usr/lib/systemd/system/admiral_startup.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/admiral/admiral_startup.path",
-      "destination": "/usr/lib/systemd/system/admiral_startup.path"
+      "source": "scripts/systemd/admiral/admiral-psc-token-ready.path",
+      "destination": "/usr/lib/systemd/system/admiral-psc-token-ready.path"
     },
     {
       "type": "file",
       "source": "scripts/systemd/admiral/admiral.service",
       "destination": "/usr/lib/systemd/system/admiral.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/admiral/admiral_default_users.service",
-      "destination": "/usr/lib/systemd/system/admiral_default_users.service"
     },
     {
       "type": "file",
@@ -286,11 +276,6 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/fileserver/fileserver_startup.service",
-      "destination": "/usr/lib/systemd/system/fileserver_startup.service"
-    },
-    {
-      "type": "file",
       "source": "scripts/systemd/fileserver/fileserver.service",
       "destination": "/usr/lib/systemd/system/fileserver.service"
     },
@@ -317,11 +302,6 @@
     {
       "type": "shell",
       "script": "scripts/provision_engine_installer.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/engine_installer/engine_installer_startup.service",
-      "destination": "/usr/lib/systemd/system/engine_installer_startup.service"
     },
     {
       "type": "file",

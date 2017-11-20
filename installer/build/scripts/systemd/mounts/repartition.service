@@ -12,4 +12,4 @@ ExecStart=/etc/vmware/resize_volume.sh repartition /dev/sdc 1
 ExecStart=/etc/vmware/resize_volume.sh repartition /dev/sdd 1
 
 [Install]
-WantedBy=resizefs.service
+WantedBy=local-fs.target vic-mounts.target

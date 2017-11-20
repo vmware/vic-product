@@ -58,6 +58,8 @@ if [[ ! -f /etc/vmware/firstboot ]]; then
   echo "vic-machine-server=${VIC_MACHINE_SERVER_IMAGE} ${VIC_MACHINE_SERVER_IMAGE_ID}" >> /storage/data/version
   echo "vic-machine-server=${VIC_MACHINE_SERVER_IMAGE} ${VIC_MACHINE_SERVER_IMAGE_ID}" >> /etc/vmware/version
   date -u +"%Y-%m-%dT%H:%M:%SZ" > /etc/vmware/firstboot
+else
+  echo "No images to load...."
 fi
 
 # We then obscure the root password, if the VM is reconfigured with another

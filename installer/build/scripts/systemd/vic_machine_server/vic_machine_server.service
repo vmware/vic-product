@@ -1,13 +1,13 @@
 [Unit]
 Description=VIC Machine API
 Documentation=https://github.com/vmware/vic
-After=vic-appliance-ready.target
-Requires=vic-appliance-ready.target
+After=vic-appliance.target
+Requires=vic-appliance.target
 
 [Service]
 Type=simple
 Restart=on-failure
-RestartSec=5
+RestartSec=15
 EnvironmentFile=/etc/vmware/environment
 ExecStartPre=-/usr/bin/docker kill vic-machine-server
 ExecStartPre=-/usr/bin/docker rm -f vic-machine-server
@@ -16,4 +16,4 @@ ExecStart=/usr/bin/docker run --rm --name vic-machine-server -v /storage/data/ce
 ExecStop=/usr/bin/docker stop vic-machine-server
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=vic-components.target

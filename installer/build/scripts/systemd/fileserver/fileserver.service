@@ -1,14 +1,15 @@
 [Unit]
 Description=VIC Unified Installer Web Server
 Documentation=https://github.com/vmware/vic
-After=vic-appliance-ready.target fileserver_startup.service
-Requires=vic-appliance-ready.target
+After=vic-appliance.target
+Requires=vic-appliance.target
 
 [Service]
 Type=simple
 Restart=on-failure
-RestartSec=5
+RestartSec=15
+ExecStartPre=/usr/bin/bash /etc/vmware/fileserver/configure_fileserver.sh
 ExecStart=/etc/vmware/fileserver/start_fileserver.sh
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=vic-components.target

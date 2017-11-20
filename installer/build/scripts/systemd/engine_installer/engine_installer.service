@@ -1,14 +1,15 @@
 [Unit]
 Description=Demo VCH Installer Wizard Service
 Documentation=https://github.com/vmware/vic
-After=vic-appliance-ready.target engine_installer_startup.service
-Requires=vic-appliance-ready.target engine_installer_startup.service
+After=vic-appliance.target fileserver.service
+Requires=vic-appliance.target fileserver.service
 
 [Service]
 Type=simple
 Restart=on-failure
-RestartSec=5
+RestartSec=15
+ExecStartPre=/usr/bin/bash /etc/vmware/engine_installer/configure_engine_installer.sh
 ExecStart=/etc/vmware/engine_installer/start_engine_installer.sh
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=vic-components.target
