@@ -221,6 +221,4 @@ chown -R 10000:10000 $log_dir
 # Start on startup
 echo "Enable admiral startup."
 systemctl enable admiral_startup.service
-echo "Enable admiral."
-systemctl enable admiral.service
 echo "Services enabled. exiting..."

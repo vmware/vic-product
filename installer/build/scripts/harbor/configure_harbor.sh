@@ -156,7 +156,6 @@ iptables -w -A INPUT -j ACCEPT -p tcp --dport "${NOTARY_PORT}"
 # Start on startup
 echo "Enable harbor startup"
 systemctl enable harbor_startup.service
-systemctl enable harbor.service
 
 # cleanup common/config directory in preparation for running the harbor "prepare" script
 rm -rf /etc/vmware/harbor/common/config
