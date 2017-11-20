@@ -1,0 +1,9 @@
+/storage/log/vic-machine-server/vic-machine-server.log {
+    daily
+    size 1G
+    rotate 10
+    compress
+    delaycompress
+    missingok
+    create 644 10000 10000
+}
