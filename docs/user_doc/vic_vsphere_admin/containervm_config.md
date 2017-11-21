@@ -44,12 +44,6 @@ The size of the base image from which to create other images. You should not nor
 
 <pre>--base-image-size 4GB</pre>
 
-### `--container-store` ###
-
-**Short name**: `--cs`
-
-The `container-store` option is not enabled. Container VM files are stored in the datastore that you designate as the image store. 
-
 ## Example `vic-machine` Commands <a id="examples"></a>
 
 - [Set a Container Name Convention](#convention)
