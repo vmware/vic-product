@@ -65,7 +65,9 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
    - To use custom certificates to authenticate connections to the vSphere Integrated Containers Engine file server, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. The file server supports RSA format for TLS private keys. 
    - Leave the text boxes blank to use auto-generated certificates.    
 
-7. Expand **Demo VCH Installer Wizard Configuration** to optionally change the port on which the interactive web installer for virtual container hosts (VCHs) runs.
+7. Expand **Demo VCH Installer Wizard Configuration** to optionally change the port on which the interactive web installer for virtual container hosts (VCHs) runs. 
+
+    **NOTE**: The demo VCH installer wizard is deprecated in this release. 
 8. Expand **Configure Example Users** to configure the ready-made  example user accounts that vSphere Integrated Containers creates by default in the Platform Services Controller.
     
      You can use these accounts to test the different user personas that can access vSphere Integrated Containers Management Portal and Registry.

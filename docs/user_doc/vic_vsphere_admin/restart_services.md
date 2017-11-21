@@ -15,3 +15,5 @@ You deployed the vSphere Integrated Containers appliance.
   - vSphere Integrated Containers Management Portal services: `systemctl restart admiral.service`
   - Embedded file server: `systemctl restart fileserver.service`
   - Demo VCH Installer Wizard: `systemctl restart engine_installer.service`
+
+        **NOTE**: The demo VCH installer wizard is deprecated in this release. 
