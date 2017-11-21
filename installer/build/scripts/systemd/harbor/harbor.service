@@ -1,7 +1,7 @@
 [Unit]
 Description=Harbor Container Registry
 Documentation=http://github.com/vmware/harbor
-After=vic-appliance-ready.target
+After=vic-appliance-ready.target admiral.service
 Requires=vic-appliance-ready.target
 
 [Service]

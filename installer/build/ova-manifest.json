@@ -39,11 +39,6 @@
     },
     {
       "type": "file",
-      "source": "scripts/systemd/docker.service",
-      "destination": "/usr/lib/systemd/system/docker.service"
-    },
-    {
-      "type": "file",
       "source": "scripts/systemd/boot.local",
       "destination": "/etc/rc.d/init.d/boot.local"
     },
