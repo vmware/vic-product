@@ -63,8 +63,10 @@ Get VCH Docker Params
     \   ${status}  ${message}=  Run Keyword And Ignore Error  Should Contain  ${item}  DOCKER_HOST=
     \   Run Keyword If  '${status}' == 'PASS'  Set Suite Variable  ${line}  ${item}
 
-    # Split the log log into pieces, discarding the initial log decoration, and assign to env vars
-    ${logmon}  ${logday}  ${logyear}  ${logtime}  ${loglevel}  ${vars}=  Split String  ${line}  max_split=5
+    # If using the default logrus format
+    ${status}=  Run Keyword And Return Status  Should Match Regexp  ${line}  msg\="([^"]*)"
+    ${match}  ${vars}=  Run Keyword If  ${status}  Should Match Regexp  ${line}  msg\="([^"]*)"
+
     # Set env variables
     @{vars}=  Split String  ${vars}
     :FOR  ${var}  IN  @{vars}
