@@ -24,7 +24,7 @@ pipeline:
       COMMIT: ${DRONE_COMMIT}
     commands:
       - echo "Expecting ${DRONE_COMMIT}"
-      - git log -5 --pretty=oneline`
+      - git log -5 --pretty=oneline
       - git log -1 --pretty=oneline | grep "^${DRONE_COMMIT}" > /dev/null && echo 'Build matches' || (git log -1 --pretty=oneline | grep "Merge ${DRONE_COMMIT" > /dev/null && echo 'Build is of a merge commit' || (echo 'Build does not match!' && exit 1))
 
   dch-build:
