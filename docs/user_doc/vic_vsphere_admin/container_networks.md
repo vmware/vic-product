@@ -12,14 +12,12 @@ By using container networks, you can connect container VMs to any specific distr
 - **No NAT conflicts**: There is no need for port mapping because every container VM gets its own IP address. Container services are directly exposed on the network without NAT, so applications that once could not run on containers can now run by using vSphere Integrated Containers. 
 - **No port conflicts**: Since every container VM gets its own IP address, you can have multiple application containers that require an exclusive port running on the same VCH. 
 
-Because container networks do not go through the VCH, the limitation of VCHs only supporting a maximum of 3 distinct network interfaces does not apply container networks.
+**NOTE**: You can add or reconfigure container networks after you have deployed a VCH by using the `vic-machine configure --container-network` options. For information about adding or reconfiguring container networks, see Configure Container Network Settings in [Configure Running Virtual Container Hosts](configure_vch.md#containernet).
 
 - [Basic `vic-machine` Option](#options)
 - [Configure Non-DHCP Container Networks](#adv-container-net)
 - [Configure the Firewall on Container Networks](#container-network-firewall)
 - [Example `vic-machine` Command](#example)
-
-**NOTE**: You can add or reconfigure container networks after you have deployed a VCH by using the `vic-machine configure --container-network` options. For information about adding or reconfiguring container networks, see Configure Container Network Settings in [Configure Running Virtual Container Hosts](configure_vch.md#containernet).
 
 ## Basic `vic-machine` Option <a id="options"></a>
 
