@@ -1,6 +1,6 @@
 # Summary
 
-## vSphere Integrated Containers 1.2
+## vSphere Integrated Containers 1.3
 
 
 ----

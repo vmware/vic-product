@@ -77,10 +77,10 @@ docker rm web db
 
 ***Blocking on Container Readiness***
 
-In the above example, the Wordpress container waits for about 10 seconds for the database to come up and be ready. What if it needs to wait longer than that? This is one of the ways `docker exec` (coming in VIC 1.2) can be useful. For example:
+In the above example, the Wordpress container waits for about 10 seconds for the database to come up and be ready. What if it needs to wait longer than that? This is one of the ways `docker exec` can be useful. For example:
 
 ```
-# wait until the database is up - VIC 1.2+
+# wait until the database is up
 while true; do
    docker exec -it db mysqladmin --user=$DB_USER --password=$DB_PASSWORD version > /dev/null 2>&1
    if [ $? -eq 0 ]; then

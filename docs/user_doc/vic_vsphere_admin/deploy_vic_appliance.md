@@ -2,8 +2,6 @@
 
 You install vSphere Integrated Containers by deploying a virtual appliance. The appliance runs the vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal services, and publishes the downloads of the vSphere Integrated Containers Engine binaries. 
 
-**NOTE**: This topic reflects changes to the deployment procedure that were introduced in vSphere Integrated Containers 1.2.1. Do not attempt to deploy version 1.2.0.
-
 **Prerequisites**
 
 - You downloaded an official build or an open-source build of the OVA installer.

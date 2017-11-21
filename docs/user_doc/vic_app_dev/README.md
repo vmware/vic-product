@@ -2,9 +2,9 @@
 
 *Develop Container Applications with vSphere Integrated Containers* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as the endpoint for Docker container application development.
 
-**Product version: 1.2**
+**Product version: 1.3**
 
-This documentation applies to all 1.2.x releases.
+This documentation applies to all 1.3.x releases.
 
 ## Intended Audience
 

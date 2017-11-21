@@ -25,7 +25,7 @@ docker volume create --opt Capacity=10G --opt VolumeStore=shared-backedup pgdata
 docker run --name db -d -v pgdata:/var/lib/postgresql/data -e PGDATA=/var/lib/postgresql/data/data -e POSTGRES_PASSWORD=y7u8i9o0p --cpus 2 -m 4g --net datanet postgres:9.6
 ```
 
-Once the container has started, you can use `docker ps` to make sure it's running. You can use `docker logs db` to see the logs. You can use `docker exec -it db /bin/bash` (only available in VIC 1.2+) to get a shell into the container.
+Once the container has started, you can use `docker ps` to make sure it's running. You can use `docker logs db` to see the logs. You can use `docker exec -it db /bin/bash` to get a shell into the container.
 
 Now let's check that it's visible on the private network and it's running correctly. We can do this using a VIC container running on the same private network:
 
@@ -181,7 +181,7 @@ Let's build VIC using the volume created above. That's a simple matter of approp
 ```
 docker run --rm -m 4g -v vic-build:/go/src/github.com/vmware/ -w /go/src/github.com/vmware/vic golang:1.8 make all
 ```
-The output of the build also lives on the volume. You need to ensure that the volume is big enough. VIC engine 1.2 will support NFS volume mounts which could be a great alternative for the build source and output.
+The output of the build also lives on the volume. You need to ensure that the volume is big enough. VIC engine supports NFS volume mounts which could be a great alternative for the build source and output.
 
 
 

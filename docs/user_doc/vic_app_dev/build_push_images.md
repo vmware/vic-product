@@ -44,4 +44,4 @@ For information about using `dch-photon` with TLS authentication and with other 
 
 ## Instantiating Docker Swarms with `dch-photon` <a id="swarm"></a>
 
-You can use the `dch-photon` Docker Engine to instantiate a Docker swarm. For information about instantiating a Docker swarm, see [Automating Swarm Creation with vSphere Integrated Containers 1.2](https://blogs.vmware.com/cloudnative/2017/10/03/automating-swarm-creation-with-vic-1-2/).
+You can use the `dch-photon` Docker Engine to instantiate a Docker swarm. For information about instantiating a Docker swarm, see [Automating Swarm Creation with vSphere Integrated Containers](https://blogs.vmware.com/cloudnative/2017/10/03/automating-swarm-creation-with-vic-1-2/).

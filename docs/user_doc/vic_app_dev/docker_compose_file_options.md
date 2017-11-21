@@ -1,8 +1,8 @@
 # Supported Docker Compose File Options #
 
-vSphere Integrated Containers Engine 1.2 supports [Docker Compose file version 2 and 2.1](https://docs.docker.com/compose/compose-file/compose-file-v2/).
+vSphere Integrated Containers Engine 1.3 supports [Docker Compose file version 2 and 2.1](https://docs.docker.com/compose/compose-file/compose-file-v2/).
 
-This topic provides information about the Docker Compose file options that vSphere Integrated Containers Engine 1.2 supports.
+This topic provides information about the Docker Compose file options that vSphere Integrated Containers Engine 1.3 supports.
 
 - [Service Configuration Options](#service)
 - [Volume Configuration Options](#volume)
