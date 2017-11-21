@@ -16,6 +16,8 @@ You deployed the vSphere Integrated Containers appliance
   - Embedded file server: `systemctl status fileserver.service`
   - Demo VCH Installer Wizard: `systemctl status engine_installer.service`
 
+        **NOTE**: The demo VCH installer wizard is deprecated in this release. 
+
 **Result**
 
 The output shows the status of the service that you specified, as well as the most recent log entries.

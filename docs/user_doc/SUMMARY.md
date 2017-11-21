@@ -21,7 +21,7 @@
          * [vCenter Server for Windows](vic_vsphere_admin/plugins_vc_windows.md)
          * [vCenter Server Appliance](vic_vsphere_admin/plugins_vcsa.md)
      * [Open the Required Ports on ESXi Hosts](vic_vsphere_admin/open_ports_on_hosts.md)
-  * [Deploy VCHs Interactively](vic_vsphere_admin/deploy_demo_vch.md)
+  * [Deploy Demo VCHs](vic_vsphere_admin/deploy_demo_vch.md)
   * [Deploy VCHs with `vic-machine`](vic_vsphere_admin/deploy_vch.md)
      * [Contents of the vSphere Integrated Containers Engine Binaries](vic_vsphere_admin/contents_of_vic_binaries.md)
      * [Environment Prerequisites for VCH Deployment](vic_vsphere_admin/vic_installation_prereqs.md)
