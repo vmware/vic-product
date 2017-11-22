@@ -15,6 +15,7 @@
 set -euf -o pipefail
 
 cert_dir="/storage/data/certs"
+log_dir="/storage/log/vic-machine-server"
 cert="${cert_dir}/server.cert.pem"
 key="${cert_dir}/server.key.pem"
 ca_cert="${cert_dir}/ca.crt"
@@ -107,6 +108,9 @@ function detectHostname {
     return
   fi
 }
+
+chown -R 10000:10000 ${cert_dir}
+chown -R 10000:10000 ${log_dir}
 
 hostname=""
 ip_address=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
