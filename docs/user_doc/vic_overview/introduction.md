@@ -82,6 +82,8 @@ These components currently support the Docker image format. vSphere Integrated C
 
 vSphere Integrated Containers is designed to solve many of the challenges associated with putting containerized applications into production. It directly uses the clustering, dynamic scheduling, and virtualized infrastructure in vSphere and bypasses the need to maintain discrete Linux VMs as container hosts.
 
+![vSphere Integrated Containers Conceptual Overview](graphics/conceptual-overview.png)
+
 vSphere Integrated Containers allows the vSphere administrator to provide a container management endpoint to a user as a service. At the same time, the vSphere administrator remains in complete control over the infrastructure that the container management endpoint service depends on. The main differences between vSphere Integrated Containers and a classic container environment are the following:
 
 - vSphere, not Linux, is the container host:
@@ -142,8 +144,6 @@ vSphere Integrated Containers Engine exploits the portability of the Docker imag
 ### vSphere Integrated Containers Engine Concepts <a id="concepts"></a>
 
 If you consider a Venn diagram with "What vSphere Does" in one circle and "What Docker Does" in another, the overlap is significant. The objective of vSphere Integrated Containers Engine is to take as much of vSphere as possible and layer whatever Docker capabilities are missing on top, reusing as much of Docker's own code as possible. The  result should not sacrifice the portability of the Docker image format and should be completely transparent to a Docker client. The following sections describe key concepts and components that make this possible.
-
-![vSphere Integrated Containers Engine components](graphics/vice-components.png)
 
 
 #### Container VMs <a id="containervm"></a>
