@@ -42,6 +42,7 @@ func init() {
 
 func main() {
 	if version.Show() {
+		// #nosec - ignore unhandled error
 		fmt.Fprintf(os.Stdout, "%s\n", version.String())
 		return
 	}

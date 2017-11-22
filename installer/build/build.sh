@@ -16,7 +16,7 @@
 # exit on failure and configure debug, include util functions
 set -eu -o pipefail +h
 
-DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER:-}
+DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER:-0}
 export BUILD_NUMBER=${DRONE_BUILD_NUMBER:-}
 ADMIRAL=""
 VICENGINE=""
@@ -66,8 +66,9 @@ function cleanup() {
 
 trap cleanup EXIT
 
-GIT_TAG="$(git describe --tags)"
-export BUILD_OVA_REVISION=${GIT_TAG}
+TAG=$(git for-each-ref --format="%(refname:short)" --sort=-authordate --count=1 refs/tags) # e.g. `v0.9.0`
+REV=$(git rev-parse --short=8 HEAD)
+export BUILD_OVA_REVISION="$TAG-$DRONE_BUILD_NUMBER-$REV"
 export BUILD_DCHPHOTON_VERSION="1.13"
 
 [ $# -gt 0 ] || usage
