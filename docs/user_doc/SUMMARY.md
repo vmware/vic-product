@@ -152,7 +152,7 @@
 
 
 * [Develop Container Apps](vic_app_dev/README.md)
-  * [Manage a Development Project](vic_app_dev/manage_project.md) 
+  * [Running Development Projects](vic_app_dev/run_dev_project.md) 
      * [Create New Networks for Provisioning Containers](vic_app_dev/create_network.md)
      * [Provisioning Container VMs in the Management Portal](vic_app_dev/provision_containers_portal.md)
          * [Configuring Links for Templates and Images](vic_app_dev/configuring_links.md)

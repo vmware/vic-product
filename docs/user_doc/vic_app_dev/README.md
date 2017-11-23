@@ -8,7 +8,7 @@ This documentation applies to all 1.3.x releases.
 
 ## Intended Audience
 
-This information is intended for container application developers whose Docker environment uses vSphere Integrated Containers. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is assumed.
+This information is intended for DevOps administrators and container application developers whose development environment uses vSphere Integrated Containers. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is assumed.
 
 ----------
 
