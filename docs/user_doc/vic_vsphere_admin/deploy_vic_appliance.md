@@ -39,9 +39,9 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
     **IMPORTANT**: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Only use SSH to access the appliance when instructed to do so in the documentation, or under the guidance of VMware GSS.
 
-5. Expand **Networking Properties** and optionally configure a static IP address for the appliance VM. 
+5. Expand **Networking Properties** and optionally configure a static IP address and fully qualified domain name (FQDN) for the appliance VM. 
 
-    To use DHCP, leave the networking properties blank.
+    To use DHCP, leave the networking properties blank. If you specify an FQDN, the appliance uses this FQDN to register with the Platform Services Controller and runs the Registry, Management Portal, and file server services at that FQDN.
 
     **IMPORTANT**: If you set a static IP address for the appliance, use spaces to separate DNS servers. Do not use comma separation for DNS servers. 
 
@@ -89,7 +89,7 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
     The network status shows whether the network settings that you provided during the deployment match the settings with which the appliance is running. If there are mismatches, power off the appliance and select **Edit Settings** > **vApp Options** to correct the network settings.
     
-11. In a browser, go to  http://<i>vic_appliance_address</i> and when prompted, enter the connection details for the vCenter Server instance on which you deployed the appliance.
+11. Wait for a few minutes to allow the appliance services to start, then in a browser, go to http://<i>vic_appliance_address</i> and enter the connection details for the vCenter Server instance on which you deployed the appliance.
 
      - The address and single sign-on credentials of vCenter Server.
      - If vCenter Server is managed by an external Platform Services Controller, enter the FQDN and administrator domain for the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, leave the External PSC text boxes empty.
