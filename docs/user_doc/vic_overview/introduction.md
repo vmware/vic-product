@@ -82,8 +82,6 @@ These components currently support the Docker image format. vSphere Integrated C
 
 vSphere Integrated Containers is designed to solve many of the challenges associated with putting containerized applications into production. It directly uses the clustering, dynamic scheduling, and virtualized infrastructure in vSphere and bypasses the need to maintain discrete Linux VMs as container hosts.
 
-![vSphere Integrated Containers Conceptual Overview](graphics/conceptual-overview.png)
-
 vSphere Integrated Containers allows the vSphere administrator to provide a container management endpoint to a user as a service. At the same time, the vSphere administrator remains in complete control over the infrastructure that the container management endpoint service depends on. The main differences between vSphere Integrated Containers and a classic container environment are the following:
 
 - vSphere, not Linux, is the container host:
@@ -242,41 +240,6 @@ You can pull users from the Platform Services Controller and assign them roles t
 
 You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. Also, if a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller. In either of these setups, the appliances all register with the same Platform Services Controller, and can pull users from that Platform Services Controller. These setups allow the same user to have different roles in different vSphere Integrated Containers instances.
 
-
-#### Users and Roles <a id="usersandroles"></a>
-	
-vSphere Integrated Containers features four roles for user access. The viewer role has the lowest level of access with the global administrator having the highest. Permissions per role are described below, as every next role inherits the permissions of the previous role and has additional ones.
-
-**Viewer**
-
-Role assigned per project.
-- If assigned, role only has view access to the repositories for a project.
-
-**Developer**
-
-Role assigned per project. In addition to the view access, a developer can also:
-- Provision containers
-- Push images
-- Create and import templates
-
-**DevOps Administrator**
-
-Role assigned per project. For their assigned projects DevOps administrators can perform additional actions:
-- Add developers and viewers and assign other DevOps administrators
-- Change the project configurations, such as making the project registry public, changing deployment security settings, and enabling vulnerability scanning
-
-**Cloud administrator / Global Administrator for all projects**
-
-The cloud administrator role is assigned to the Administrators group for vCenter Server during the installation of vSphere Integrated Containers. Through the management portal, you can revoke that role for the Administrators group, only after you assign the role to another group. Cloud administrators can also assign the role to individual users.
-
-The following global permissions are unique to the cloud administrator role:
-- Add new cloud administrators
-- Create new projects and assign the first DevOps administrator to them
-- Add hosts and clusters as resources to a given project
-- Add and manage registries, replication endpoints, and replication rules
-- Add predefined credentials and certificates for authentication
-- Set global configurations for registries handling
-- View system logs
 
 ##### Example Users #####
 
