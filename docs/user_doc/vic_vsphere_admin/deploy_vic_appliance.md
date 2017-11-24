@@ -2,23 +2,12 @@
 
 You install vSphere Integrated Containers by deploying a virtual appliance. The appliance runs the vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal services, and publishes the downloads of the vSphere Integrated Containers Engine binaries. 
 
+You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. Also, if a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller.
+
 **Prerequisites**
 
-- You downloaded an official build or an open-source build of the OVA installer.
-
-  - Download official builds from the [vSphere Integrated Containers downloads page on vmware.com](http://www.vmware.com/go/download-vic).
-  - Download open-source builds from the [vSphere Integrated Containers repository on Google Cloud Platform](https://console.cloud.google.com/storage/browser/vic-product-ova-builds/).
-- Deploy the appliance to a vCenter Server instance. Deploying the appliance directly on an ESXi host is not supported.
-- Deploy the appliance to a vCenter Server system that meets the minimum system requirements:
-
-   - vCenter Server 6.0 or 6.5
-   - ESXi 6.0 or 6.5 for all hosts
-   - 2 vCPUs
-   - 8GB RAM
-   - 80GB free disk space on the datastore
-- Ensure that all vCenter Server instances and ESXi hosts in the environment in which you are deploying the appliance have network time protocol (NTP) running. Running NTP prevents problems arising from clock skew between the vSphere Integrated Containers appliance, virtual container hosts, and the vSphere infrastructure.
-- **IMPORTANT**: If you intend to use a custom certificates, vSphere Integrated Containers Management Portal requires the TLS private key to be supplied as a PEM-encoded PKCS#8-formatted file. For information about how to convert keys to the correct format, see [Converting Keys for Use with vSphere Integrated Containers Management Portal](vic_cert_reference.md#convertkeys).
-- You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. Also, if a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller.
+- You downloaded an official build or an open-source build of the OVA installer. For information about where to download the installer, see [Download the vSphere Integrated Containers Installer](download_vic.md).
+- Verify that the environment in which you are deploying the appliance meets the prerequisites described in [Deployment Prerequisites for vSphere Integrated Containers](vic_installation_prereqs.md).
 - Use the Flex-based vSphere Web Client to deploy the appliance. You cannot deploy OVA files from the HTML5 vSphere Client or from the legacy Windows client.
 
 **Procedure**
@@ -61,8 +50,8 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
     - Leave the text boxes blank to use auto-generated certificates.
 7. Expand **Fileserver Configuration** to configure the file server from which you download the vSphere Integrated Containers Engine binaries, and which publishes the plug-in packages for the vSphere Client. 
 
-   - In the **Fileserver Port** text box, optionally change the port on which the vSphere Integrated Containers Engine file server runs.
-   - To use custom certificates to authenticate connections to the vSphere Integrated Containers Engine file server, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. The file server supports RSA format for TLS private keys. 
+   - In the **Fileserver Port** text box, optionally change the port on which the vSphere Integrated Containers file server runs.
+   - To use custom certificates to authenticate connections to the vSphere Integrated Containers file server, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. The file server supports RSA format for TLS private keys. 
    - Leave the text boxes blank to use auto-generated certificates.    
 
 7. Expand **Demo VCH Installer Wizard Configuration** to optionally change the port on which the interactive web installer for virtual container hosts (VCHs) runs. 
@@ -100,24 +89,22 @@ You install vSphere Integrated Containers by deploying a virtual appliance. The 
 
 **Result**
 
-- You see the vSphere Integrated Containers Getting Started page at http://<i>vic_appliance_address</i>. The Getting Started page includes links to the vSphere Integrated Containers Management Portal, the Demo VCH Installer Wizard, the download for the vSphere Integrated Containers Engine bundle, and to documentation.
-- If you see the error `Failed to register with PSC. Please check the vSphere user domain PSC settings and try again`, see the procedure in [vSphere Integrated Containers Appliance Fails to Register with PSC](ts_register_psc_fails.md) to register vSphere Integrated Containers with the Platform Services Controller.
-- If the initialization fails with any other error, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md). You should not reinitialize the appliance in any circumstances other than those described in that topic.
+You see the vSphere Integrated Containers Getting Started page at http://<i>vic_appliance_address</i>. The Getting Started page includes the following links: 
 
+- vSphere Integrated Containers Management Portal
+- The download for the vSphere Integrated Containers Engine bundle
+- Documentation
 
 **What to Do Next**
 
-Access the different vSphere Integrated Containers components from the  vSphere Integrated Containers Getting Started page at  http://<i>vic_appliance_address</i>.
-
-- Click the link to go to the **vSphere Integrated Containers Management Portal**. For information about how to use vSphere Integrated Containers Management Portal, see [Configure and Manage vSphere Integrated Containers](../vic_cloud_admin/).
-- Scroll down to **Infrastructure deployment tools** and click the link to go to the **Demo VCH Installer Wizard**. For information about how to use the interactive demo VCH installer, see [Deploy a Virtual Container Host Interactively](deploy_demo_vch.md).
-- Scroll down to **Infrastructure deployment tools** and click the link to **download the vSphere Integrated Containers Engine bundle**. The vSphere Integrated Containers Engine bundle allows you to perform the following tasks:
-
-   - Use `vic-machine` to configure the firewalls on all ESXi hosts to permit VCH deployment. For information about how to configure the firewalls on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
-   - Install the vSphere Client plug-ins for vSphere Integrated Containers. For information about installing the plug-ins, see [Installing the vSphere Client Plug-ins](install_vic_plugin.md).       
-   - Use `vic-machine` to deploy production VCHs. For information about deploying VCHs with `vic-machine`, see [Deploy Virtual Container Hosts with `vic-machine`](deploy_vch.md).
-      
-- To remove security warnings when you connect to the Getting Started page or management portal, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](obtain_appliance_certs.md) and [Verify and Trust vSphere Integrated Containers Appliance Certificates](../vic_cloud_admin/trust_vic_certs.md).
-- If you see a certificate error when you attempt to go to http://<i>vic_appliance_address</i>, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](ts_cert_error.md).
-
+- [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md).
+- [Install the vSphere Client Plug-ins](install_vic_plugin.md).
+- Log in to vSphere Integrated Containers Management Portal. For information about the management portal, see [Configure and Manage vSphere Integrated Containers](../vic_cloud_admin/).      
 - If necessary, you can reconfigure the appliance after deployment by editing the settings of the appliance VM. For information about reconfiguring the appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.md).   
+
+**Troubleshooting**
+
+- To remove security warnings when you connect to the Getting Started page or management portal, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](obtain_appliance_certs.md) and [Verify and Trust vSphere Integrated Containers Appliance Certificates](../vic_cloud_admin/trust_vic_certs.md).
+- If you see the error `Failed to register with PSC. Please check the vSphere user domain PSC settings and try again`, see the procedure in [vSphere Integrated Containers Appliance Fails to Register with PSC](ts_register_psc_fails.md) to register vSphere Integrated Containers with the Platform Services Controller.
+- If you see a certificate error when you attempt to go to http://<i>vic_appliance_address</i>, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](ts_cert_error.md).
+- If the initialization fails with any other error, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md). You should not reinitialize the appliance in any circumstances other than those described in that topic.
