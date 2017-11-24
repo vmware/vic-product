@@ -15,11 +15,11 @@ If you have a previous installation of the HTML5 vSphere Client plug-in for vSph
 
 **Procedure**
 
-3. Run the upgrade script and follow the prompts.<pre>%USERPROFILE%\Desktop\vic\ui\vCenterForWindows\upgrade.bat</pre>
+1. Run the upgrade script and follow the prompts.<pre>%USERPROFILE%\Desktop\vic\ui\vCenterForWindows\upgrade.bat</pre>
 	1. Enter the IP address of the vCenter Server instance.
 	1. Enter the user name and password for the vCenter Server administrator account.
 	2. Enter **yes** if the vCenter Server certificate thumbprint is legitimate, and wait for the install process to finish. 
-10. When the upgrade finishes, stop and restart the vSphere Client service.<pre>service-control --stop vsphere-ui</pre><pre>service-control --start vsphere-ui</pre>
+2. When the upgrade finishes, stop and restart the vSphere Client service.<pre>service-control --stop vsphere-ui</pre><pre>service-control --start vsphere-ui</pre>
 
 **What to Do Next**
 
