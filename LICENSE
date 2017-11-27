@@ -5,8 +5,7 @@ vSphere Integrated Containers
 Copyright (c) 2017 VMware, Inc.  All rights reserved.
 
 This project is licensed to you under the Apache License version 2.0 (the
-"License").
-You may not use this project except in compliance with the License.
+License.) You may not use this project except in compliance with the License.
 
                            Apache License
                      Version 2.0, January 2004
@@ -1123,6 +1122,7 @@ SOFTWARE.
 
 ==================== APPENDIX. Standard License Files ========================
 
+
 -------------------- SECTION 1: Apache License, V2.0 -------------------------
 
 Apache License
@@ -1300,6 +1300,8 @@ warranty or additional liability.
 
 END OF TERMS AND CONDITIONS
 
+
+
 ===========================================================================
 
 To the extent any open source components are licensed under the GPL
@@ -1318,4 +1320,4 @@ Source Files is valid for three years from the date you acquired this
 Software product. Alternatively, the Source Files may accompany the
 VMware product.
 
-[VIC-PRODUCT1.2.0GACH082217]
+[VICPRODUCT130GASR112017]
