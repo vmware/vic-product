@@ -21,11 +21,13 @@ set -euf -o pipefail
 
 data_mount="/storage/data/harbor"
 cfg="${data_mount}/harbor.cfg"
-harbor_backup="/storage/data/harbor_backup"
+harbor_backup_prev="/storage/data/harbor_backup"
+harbor_backup="/storage/data/harbor_backup_1.3"
 harbor_migration="/storage/data/harbor_migration"
 harbor_psc_token_file="/etc/vmware/psc/harbor/tokens.properties"
 
-harbor_upgrade_status="/etc/vmware/harbor/upgrade_status"
+harbor_upgrade_status_prev="/etc/vmware/harbor/upgrade_status"
+harbor_upgrade_status="/etc/vmware/harbor/upgrade_status_1.3"
 
 DB_USER=""
 DB_PASSWORD=""
@@ -144,15 +146,15 @@ function configureHarborCfgManageKey {
 
 # Upgrade config file in place
 function upgradeHarborConfiguration {
-  # Add generated log_rotate_count, log_rotate_size, email_insecure, db_host, db_port, db_user, uaa_endpoint, 
+  # Add generated log_rotate_count, log_rotate_size, email_insecure, db_host, db_port, db_user, uaa_endpoint,
   # uaa_clientid, uaa_clientsecret and uaa_ca_root as managed key if not present
-  configureHarborCfgUnset log_rotate_count 50  
+  configureHarborCfgUnset log_rotate_count 50
   configureHarborCfgUnset log_rotate_size 200M
   configureHarborCfgUnset email_insecure false
   configureHarborCfgUnset db_host mysql
   configureHarborCfgUnset db_port 3306
-  configureHarborCfgUnset db_user root 
-  configureHarborCfgUnset uaa_endpoint uaa.mydomain.org 
+  configureHarborCfgUnset db_user root
+  configureHarborCfgUnset uaa_endpoint uaa.mydomain.org
   configureHarborCfgUnset uaa_clientid id
   configureHarborCfgUnset uaa_clientsecret secret
   configureHarborCfgUnset uaa_ca_root /path/to/uaa_ca.pem
@@ -168,9 +170,7 @@ function upgradeHarborConfiguration {
 # https://github.com/vmware/harbor/blob/master/docs/migration_guide.md
 function migrateHarborData {
   checkDir ${harbor_backup}
-  checkDir ${harbor_migration}
   mkdir ${harbor_backup}
-  mkdir ${harbor_migration}
 
   local migrator_image="vmware/harbor-db-migrator:1.3"
   local harbor_old_database_dir="/storage/data/harbor"
@@ -212,7 +212,7 @@ function upgradeHarbor {
   if [ -z "${DB_PASSWORD}" ]; then
     echo "--dbpass not set and value not found in $cfg"
     exit 1
-  fi 
+  fi
   echo "Performing pre-upgrade checks" | tee /dev/fd/3
   checkUpgradeStatus "Harbor" ${harbor_upgrade_status}
 
@@ -223,8 +223,18 @@ function upgradeHarbor {
   fi
 
   checkDir ${harbor_backup}
-  checkDir ${harbor_migration}
   checkHarborPSCToken
+
+  # Remove files from old upgrade
+  if [ -f "${harbor_upgrade_status_prev}" ]; then
+    rm -rf ${harbor_upgrade_status_prev}
+  fi
+  if [ -d "${harbor_backup_prev}" ]; then
+    rm -rf ${harbor_backup_prev}
+  fi
+  if [ -d "${harbor_migration}" ]; then
+    rm -rf ${harbor_migration}
+  fi
 
   # Start Admiral for data migration
   systemctl start admiral_startup.service
@@ -244,7 +254,13 @@ function upgradeHarbor {
   echo "[=] Finished migrating Harbor configuration" | tee /dev/fd/3
 
   echo "Harbor upgrade complete" | tee /dev/fd/3
-  # Set timestamp file
+
+  # Cleanup
+  if [ -d "${harbor_backup}" ]; then
+    rm -rf ${harbor_backup}
+  fi
+
+  # Set upgrade completed file
   /usr/bin/touch ${harbor_upgrade_status}
 
   echo "Starting Harbor" | tee /dev/fd/3

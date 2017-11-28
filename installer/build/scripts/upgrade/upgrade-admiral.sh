@@ -20,7 +20,8 @@ source /installer.env
 set -euf -o pipefail
 
 admiral_psc_token_file="/etc/vmware/psc/admiral/tokens.properties"
-admiral_upgrade_status="/etc/vmware/admiral/upgrade_status"
+admiral_upgrade_status_prev="/etc/vmware/admiral/upgrade_status"
+admiral_upgrade_status="/etc/vmware/admiral/upgrade_status_1.3"
 APPLIANCE_IP=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
 
 # Check if required PSC token is present
@@ -41,6 +42,11 @@ function upgradeAdmiral {
   checkAdmiralPSCToken
   checkUpgradeStatus "Admiral" ${admiral_upgrade_status}
 
+  # Remove files from old upgrade
+  if [ -f "${harbor_upgrade_status_prev}" ]; then
+    rm -rf ${harbor_upgrade_status_prev}
+  fi
+
   echo "Starting Admiral upgrade" | tee /dev/fd/3
   systemctl start admiral_startup.service
   echo "Updating Admiral configuration" | tee /dev/fd/3
@@ -55,7 +61,7 @@ function upgradeAdmiral {
   systemctl restart admiral.service
 
   echo "Admiral upgrade complete" | tee /dev/fd/3
-  # Set timestamp file
+  # Set upgrade completed file
   /usr/bin/touch ${admiral_upgrade_status}
   sleep 5
 }
