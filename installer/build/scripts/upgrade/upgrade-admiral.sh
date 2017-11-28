@@ -43,8 +43,8 @@ function upgradeAdmiral {
   checkUpgradeStatus "Admiral" ${admiral_upgrade_status}
 
   # Remove files from old upgrade
-  if [ -f "${harbor_upgrade_status_prev}" ]; then
-    rm -rf ${harbor_upgrade_status_prev}
+  if [ -f "${admiral_upgrade_status_prev}" ]; then
+    rm -rf "${admiral_upgrade_status_prev}"
   fi
 
   echo "Starting Admiral upgrade" | tee /dev/fd/3

@@ -227,13 +227,13 @@ function upgradeHarbor {
 
   # Remove files from old upgrade
   if [ -f "${harbor_upgrade_status_prev}" ]; then
-    rm -rf ${harbor_upgrade_status_prev}
+    rm -rf "${harbor_upgrade_status_prev}"
   fi
   if [ -d "${harbor_backup_prev}" ]; then
-    rm -rf ${harbor_backup_prev}
+    rm -rf "${harbor_backup_prev}"
   fi
   if [ -d "${harbor_migration}" ]; then
-    rm -rf ${harbor_migration}
+    rm -rf "${harbor_migration}"
   fi
 
   # Start Admiral for data migration
@@ -257,7 +257,7 @@ function upgradeHarbor {
 
   # Cleanup
   if [ -d "${harbor_backup}" ]; then
-    rm -rf ${harbor_backup}
+    rm -rf "${harbor_backup}"
   fi
 
   # Set upgrade completed file
