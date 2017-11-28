@@ -17,27 +17,22 @@ package tagvm
 import (
 	"context"
 	"net/url"
-	"strings"
 
 	log "github.com/Sirupsen/logrus"
 
 	"github.com/vmware/govmomi/object"
-	"github.com/vmware/govmomi/vim25/types"
 	"github.com/vmware/vic/lib/guest"
 	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/vsphere/session"
 	"github.com/vmware/vic/pkg/vsphere/tags"
-
-	"github.com/vmware/vic-product/installer/pkg/version"
 )
 
 const (
-	VicProductCategory      = "VsphereIntegratedContainers"
-	VicProductDescription   = "VIC product"
-	VicProductType          = "VirtualMachine"
-	ProductVMTag            = "ProductVM"
-	ProductVMDescription    = "Product VM"
-	ProductManagedObjectKey = "vic-ova-identifier"
+	VicProductCategory    = "VsphereIntegratedContainers"
+	VicProductDescription = "VIC product"
+	VicProductType        = "VirtualMachine"
+	ProductVMTag          = "ProductVM"
+	ProductVMDescription  = "Product VM"
 )
 
 func setupClient(ctx context.Context, sess *session.Session) (*tags.RestClient, error) {
@@ -81,37 +76,6 @@ func attachTag(ctx context.Context, client *tags.RestClient, sess *session.Sessi
 	return nil
 }
 
-func addManagedObjectValue(ctx context.Context, sess *session.Session, vm *object.VirtualMachine) error {
-	fieldManager, err := object.GetCustomFieldsManager(sess.Vim25())
-	if err != nil {
-		log.Debugf("failed to attach identifier tag: %s", errors.ErrorStack(err))
-		return err
-	}
-
-	// Find the custom field key for ProductManagedObjectKey
-	var def *types.CustomFieldDef
-	var key int32
-	def, err = fieldManager.Add(ctx, ProductManagedObjectKey, "VirtualMachine", nil, nil)
-	if err != nil && strings.Contains(err.Error(), "already exists") {
-		key, err = fieldManager.FindKey(ctx, ProductManagedObjectKey)
-		def = &types.CustomFieldDef{Key: key}
-	}
-	if err != nil {
-		log.Errorf("failed to attach identifier tag: %s", errors.ErrorStack(err))
-		return err
-	}
-
-	// set the ProductManagedObject Value on the vm
-	err = fieldManager.Set(ctx, vm.Reference(), def.Key, version.GetBuild().ShortVersion())
-	if err != nil {
-		log.Errorf("failed to attach identifier tag: %s", errors.ErrorStack(err))
-		return err
-	}
-
-	log.Debugf("successfully attached identifier tag")
-	return nil
-}
-
 // Run takes in a url and session and tag the ova vm.
 func Run(ctx context.Context, sess *session.Session) error {
 	client, err := setupClient(ctx, sess)
@@ -130,11 +94,6 @@ func Run(ctx context.Context, sess *session.Session) error {
 	}
 
 	err = attachTag(ctx, client, sess, tagID, vm)
-	if err != nil {
-		return err
-	}
-
-	err = addManagedObjectValue(ctx, sess, vm)
 	if err != nil {
 		return err
 	}
