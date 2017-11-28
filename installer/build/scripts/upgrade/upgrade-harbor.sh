@@ -27,12 +27,9 @@ harbor_migration="/storage/data/harbor_migration"
 harbor_psc_token_file="/etc/vmware/psc/harbor/tokens.properties"
 
 harbor_upgrade_status_prev="/etc/vmware/harbor/upgrade_status"
-harbor_upgrade_status="/etc/vmware/harbor/upgrade_status_1.3"
 
 DB_USER=""
 DB_PASSWORD=""
-APPLIANCE_IP=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
-TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S %z %Z")
 
 MANAGED_KEY="# Managed by configure_harbor.sh"
 export LC_ALL="C"
@@ -214,7 +211,6 @@ function upgradeHarbor {
     exit 1
   fi
   echo "Performing pre-upgrade checks" | tee /dev/fd/3
-  checkUpgradeStatus "Harbor" ${harbor_upgrade_status}
 
   # Perform sanity check on data volume
   if ! harborDataSanityCheck ${data_mount}; then
@@ -259,9 +255,6 @@ function upgradeHarbor {
   if [ -d "${harbor_backup}" ]; then
     rm -rf "${harbor_backup}"
   fi
-
-  # Set upgrade completed file
-  /usr/bin/touch ${harbor_upgrade_status}
 
   echo "Starting Harbor" | tee /dev/fd/3
   systemctl start harbor_startup.service
