@@ -66,7 +66,7 @@ function cleanup() {
 
 trap cleanup EXIT
 
-TAG=$(git for-each-ref --format="%(refname:short)" --sort=-authordate --count=1 refs/tags) # e.g. `v0.9.0`
+TAG=$(git describe --abbrev=0 --tags) # e.g. `v0.9.0`
 REV=$(git rev-parse --short=8 HEAD)
 export BUILD_OVA_REVISION="$TAG-$DRONE_BUILD_NUMBER-$REV"
 export BUILD_DCHPHOTON_VERSION="1.13"
