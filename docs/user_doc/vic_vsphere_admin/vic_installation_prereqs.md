@@ -4,12 +4,14 @@ Before you deploy the vSphere Integrated Containers appliance and virtual contai
 
 - [License Requirements](#license)
 - [Virtual Infrastructure Requirements](#vireqs)
+  - [vSphere Client Requirements](#client)
   - [Supported Configurations for VCH Deployment](#configs)
   - [ESXi Host Firewall Requirements](#firewall)
   - [ESXi Host Storage Requirements for vCenter Server Clusters](#storage)
   - [Clock Synchronization](#clocksync)
-- [Networking Requirement](#networkreqs)
+- [Networking Requirements](#networkreqs)
   - [Networking Requirements for VCH Deployment](#vchnetworkreqs)
+- [Custom Certificates](#customcerts)
 
 ## License Requirements <a id="license"></a>
 vSphere Integrated Containers requires a vSphere Enterprise Plus license.
@@ -20,15 +22,22 @@ All of the ESXi hosts in a cluster require an appropriate license. Deployment of
 
 You deploy the vSphere Integrated Containers appliance on a vCenter Server instance. Deploying the appliance directly on an ESXi host is not supported.
 
-- vCenter Server 6.0 or 6.5
-- ESXi 6.0 or 6.5 for all hosts
-- At least 2 vCPUs
-- At least 8GB RAM
-- At least 80GB free disk space on the datastore
+- vCenter Server 6.0 or 6.5.
+- ESXi 6.0 or 6.5 for all hosts.
+- At least 2 vCPUs.
+- At least 8GB RAM.
+- At least 80GB free disk space on the datastore. The disk space for the appliance uses thin provisioning.
 
-### Supported Configurations for VCH Deployment <a id="configs"></a>
+### vSphere Client Requirements <a id="client"></a>
 
-You can deploy VCHs in the following types of setup:
+vSphere Integrated Containers provides a basic plug-in for both the Flex-based vSphere Web Client and a more feature-complete plug-in for the HTML5 vSphere Client: 
+
+- The Flex-based plug-in for vSphere 6.0 and 6.5 has limited functionality and only provides information about VCHs and container VMs. 
+- The HTML5 plug-in for vSphere 6.5 has a more extensive feature set that allows you to deploy and interact with VCHs. The HTML5 vSphere Client plug-in for vSphere Integrated Containers requires vCenter Server 6.5.0d or later.
+
+### Supported Configurations for Virtual Container Host Deployment <a id="configs"></a>
+
+You can deploy virtual container hosts (VCHs) in the following types of setup:
 
 * vCenter Server 6.0 or 6.5, managing a cluster of ESXi 6.0 or 6.5 hosts, with VMware vSphere Distributed Resource Scheduler&trade; (DRS) enabled.
 * vCenter Server 6.0 or 6.5, managing one or more standalone ESXi 6.0 or 6.5 hosts.
@@ -37,7 +46,7 @@ You can deploy VCHs in the following types of setup:
 Caveats and limitations:
 
 - VMware does not support the use of nested ESXi hosts, namely running ESXi in virtual machines. Deploying vSphere Integrated Containers Engine to a nested ESXi host is acceptable for testing purposes only.
-- If you deploy a virtual container host (VCH) onto an ESXi host that is not managed by vCenter Server, and you then move that host into a cluster, the VCH might not function correctly.
+- If you deploy a VCH onto an ESXi host that is not managed by vCenter Server, and you then move that host into a cluster, the VCH might not function correctly.
 
 ### ESXi Host Firewall Requirements <a id="firewall"></a>
 
@@ -92,6 +101,6 @@ The following network requirements apply to the deployment of VCHs to vCenter Se
 - All hosts in a cluster must be attached to the port groups that you will use for the VCH bridge network and for any mapped container networks.
 - Isolate the bridge network and any mapped container networks. You can isolate networks by using a separate VLAN for each network. For information about how to assign a VLAN ID to a port group, see [VMware KB 1003825](https://kb.vmware.com/kb/1003825). For more information about private VLAN, see [VMware KB 1010691](https://kb.vmware.com/kb/1010691).
 
-## Custom Certificates ##
+## Custom Certificates <a id="customcerts"></a>
 
 If you intend to use custom certificates, vSphere Integrated Containers Management Portal requires the TLS private key to be supplied as a PEM-encoded PKCS#8-formatted file. For information about how to convert keys to the correct format, see [Converting Keys for Use with vSphere Integrated Containers Management Portal](vic_cert_reference.md#convertkeys).
