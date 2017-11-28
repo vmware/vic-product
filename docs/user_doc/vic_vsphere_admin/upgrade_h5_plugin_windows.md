@@ -1,4 +1,4 @@
-# Upgrade the Plug-In on vCenter Server for Windows #
+# Upgrade the HTML5 Plug-In on vCenter Server for Windows #
 
 If you have a previous installation of the HTML5 vSphere Client plug-in for vSphere Integrated Containers, you must upgrade it. This procedure describes how to upgrade an existing plug-in for a vCenter Server running on Windows.
 
@@ -10,7 +10,7 @@ If you have a previous installation of the HTML5 vSphere Client plug-in for vSph
 - Log in to the Windows system on which vCenter Server is running. You must perform all of the steps in this procedure on this Windows system.
 
     **IMPORTANT**: The upgrade script does not function if you have set the `VIC_MACHINE_THUMBPRINT` environment variable on the system on which you run the script. Delete the `VIC_MACHINE_THUMBPRINT` environment variable before running the script.
-- Go to http://<i>upgraded_vic_appliance_address</i> in a Web browser, download the new version of the vSphere Integrated Containers Engine package, `vic_1.3.x.tar.gz`, and unpack it on the Desktop. 
+- Go to http://<i>upgraded_vic_appliance_address</i> in a Web browser, download the new version of the vSphere Integrated Containers Engine bundle and unpack it on the Desktop. 
 - Obtain the vCenter Server certificate thumbprint. For information about how to obtain and verify the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 
 **Procedure**

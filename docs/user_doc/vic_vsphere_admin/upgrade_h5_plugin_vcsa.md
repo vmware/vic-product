@@ -1,4 +1,4 @@
-# Upgrade the Plug-In on vCenter Server Appliance #
+# Upgrade the HTML5 Plug-In on vCenter Server Appliance #
 
 If you have a previous 1.2.x installation of the HTML5 vSphere Client plug-in for vSphere Integrated Containers, you must upgrade it. This procedure describes how to upgrade an existing plug-in for a vCenter Server Appliance.
 
@@ -16,8 +16,8 @@ If you have a previous 1.2.x installation of the HTML5 vSphere Client plug-in fo
 **Procedure**
 
 1. Connect as root user to the vCenter Server Appliance by using SSH.<pre>ssh root@<i>vcsa_address</i></pre>
-4. Use `curl` to copy the new vSphere Integrated Containers Engine binaries from the file server in the upgraded vSphere Integrated Containers appliance to the vCenter Server Appliance.<pre>curl -k https://<i>upgraded_vic_appliance_address</i>:9443/files/vic_1.3.x.tar.gz -o vic_1.3.x.tar.gz</pre>**NOTE**: Update `vic_1.3.x` to the appropriate version in the command above and in the next step.
-5. Unpack the vSphere Integrated Containers binaries.<pre>tar -zxf vic_1.3.x.tar.gz</pre>
+4. Use `curl` to copy the new vSphere Integrated Containers Engine binaries from the file server in the upgraded vSphere Integrated Containers appliance to the vCenter Server Appliance.<pre>curl -k https://<i>upgraded_vic_appliance_address</i>:9443/files/vic_<i>version</i>.tar.gz -o vic_<i>version</i>.tar.gz</pre>**NOTE**: Update `vic_version` to the appropriate version in the command above and in the next step.
+5. Unpack the vSphere Integrated Containers binaries.<pre>tar -zxf vic_<i>version</i>.tar.gz</pre>
 6. Navigate to `/vic/ui/VCSA`, run the upgrade script, and follow the prompts.<pre>cd vic/ui/VCSA</pre><pre>./upgrade.sh</pre>
 	1. Enter the IP address of the vCenter Server instance.
 	1. Enter the user name and password for the vCenter Server administrator account.
