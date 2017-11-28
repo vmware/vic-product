@@ -38,7 +38,7 @@ You can configure static IP addresses for the VCH on the different networks, and
 
 ## Networking Limitations <a id="limitations"></a>
 
-A VCH supports a maximum of 3 distinct network interfaces. The bridge network requires its own port group, so at least two of the public, client, and management networks must share a network interface and therefore a port group. Container networks do not go through the VCH, so they are not subject to this limitation. This limitation will be removed in a future release
+In previous releases of vSphere Integrated Containers, VCHs supported a maximum of 3 distinct network interfaces. Due to this limitation, at least two of the public, client, and management networks had to share a network interface and therefore a port group. This limitation has been removed in this release and you can specify a separate network interface for each of the bridge, public, client, management, and container networks. 
 
 ## Host Firewall Configuration <a id="firewall"></a>
 

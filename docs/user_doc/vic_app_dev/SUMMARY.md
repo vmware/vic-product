@@ -3,7 +3,7 @@
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
 * [Develop Container Apps](README.md)
-  * [Manage a Development Project](manage_project.md) 
+  * [Running Development Projects](run_dev_project.md) 
      * [Create New Networks for Provisioning Containers](create_network.md)
      * [Provisioning Container VMs in the Management Portal](provision_containers_portal.md)
          * [Configuring Links for Templates and Images](configuring_links.md)

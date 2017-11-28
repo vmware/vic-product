@@ -2,18 +2,18 @@
 
 Bridge networks are the network or networks that container VMs use to communicate with each other. Every virtual container host (VCH) must have a unique bridge network. 
 
-In Docker terminology, the bridge network corresponds to the default bridge network on a Docker host. You can also create additional bridge networks, that correspond to Docker user-defined networks. For information about default bridge networks and user-defined networks, see [Docker container networking](https://docs.docker.com/engine/userguide/networking/) in the Docker documentation.
+In Docker terminology, the bridge network corresponds to the default bridge network, or `docker0` interface, on a Docker host. You can also create additional bridge networks, that correspond to Docker user-defined networks. For information about default bridge networks and user-defined networks, see [Docker container networking](https://docs.docker.com/engine/userguide/networking/) in the Docker documentation.
 
 **IMPORTANT**: Do not use the bridge network for any other VM workloads, or as a bridge for more than one VCH.
 
-Container application developers can use `docker network create` to create additional, user-defined bridge networks when they run containers. VCHs create additional user-defined bridge networks by using IP address segregation within an address range that you specify, so user-defined bridge networks do not require new port groups. 
+Container application developers can use `docker network create` to create additional, user-defined bridge networks when they run containers. VCHs create additional user-defined bridge networks by using IP address segregation within an address range that you can specify, so user-defined bridge networks do not require new port groups. 
 
 - [`vic-machine` Options](#options)
 - [Example `vic-machine` Command](#example)
 
 ## `vic-machine` Options <a id="options"></a>
 
-You designate the bridge network by specifying the `vic-machine create --bridge-network` option. You can also provide a range of IP addresses for use by additional user-defined bridge networks by specifying the `bridge-network-range` option. For information about how to set bridge network ranges, see the section on the [ `--bridge-network-range` option](#bridge-range). 
+You designate the bridge network by specifying the `vic-machine create --bridge-network` option. You can also provide a range of IP addresses for use by additional user-defined bridge networks by specifying the [ `--bridge-network-range` option](#bridge-range). 
 
 ### `--bridge-network` <a id="bridge"></a>
 
@@ -40,14 +40,15 @@ If you do not specify `--bridge-network` or if you specify an invalid port group
 
 **Short name**: `--bnr`
 
-A range of IP addresses that additional bridge networks can use when container application developers use `docker network create` to create new bridge networks. 
-
-When you specify the bridge network IP range, you specify the IP range as a CIDR. The smallest subnet that you can specify is /16. 
+A range of IP addresses that additional bridge networks can use when container application developers use `docker network create` to create new user-defined networks. By default, all VCHs use the Docker default range of 172.16.0.0.0/12 for additional user-defined networks. You can override the default range by using the `--bridge-network-range` option if that range is already in use in your network. You can reuse the same network address range across all VCHs. 
 
 **Usage**: 
+
+When you specify a bridge network IP range, you specify the IP range as a CIDR. The smallest subnet that you can specify is /16.  If you do not specify `--bridge-network-range`, the default range is 172.16.0.0.0/12.
+ 
 <pre>--bridge-network-range <i>network_address</i>/<i>subnet</i></pre>
 
-If you do not specify the `bridge-network-range` option, the IP range for bridge networks is 172.16.0.0/12. If you specify an invalid value for `--bridge-network-range`, `vic-machine create` fails with an error.
+If you specify an invalid value for `--bridge-network-range`, `vic-machine create` fails with an error.
 
 ## Example `vic-machine` Command <a id="example"></a>
 
