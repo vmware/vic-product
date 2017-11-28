@@ -30,7 +30,7 @@ You deploy the vSphere Integrated Containers appliance on a vCenter Server insta
 
 ### vSphere Client Requirements <a id="client"></a>
 
-vSphere Integrated Containers provides a basic plug-in for both the Flex-based vSphere Web Client and a more feature-complete plug-in for the HTML5 vSphere Client: 
+vSphere Integrated Containers provides a basic plug-in for the Flex-based vSphere Web Client and a more feature-complete plug-in for the HTML5 vSphere Client: 
 
 - The Flex-based plug-in for vSphere 6.0 and 6.5 has limited functionality and only provides information about VCHs and container VMs. 
 - The HTML5 plug-in for vSphere 6.5 has a more extensive feature set that allows you to deploy and interact with VCHs. The HTML5 vSphere Client plug-in for vSphere Integrated Containers requires vCenter Server 6.5.0d or later.
