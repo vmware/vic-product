@@ -15,7 +15,7 @@ The ESXi host to which you deploy the VCH must match the specifications listed i
 * Verify that the ESXi host meets the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md).
 * Make sure that the correct firewall port is open on the ESXi host. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 * Obtain the ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
-* Familiarize yourself with the vSphere Integrated Containers Engine binaries, as described in [Contents of the vSphere Integrated Containers Engine Binaries](contents_of_vic_binaries.md). 
+* Familiarize yourself with the vSphere Integrated Containers Engine binaries, as described in [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md). 
 * Familiarize yourself with the basic options of the `vic-machine create` command described in [Virtual Container Host Placement](vch_placement.md).
 
 **Procedure**

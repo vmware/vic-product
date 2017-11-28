@@ -1,4 +1,4 @@
-# Download vSphere Integrated Containers #
+# Download the vSphere Integrated Containers Installer #
 
 You can download different versions of vSphere Integrated Containers, that have different levels of stability and support.
 
