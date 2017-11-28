@@ -13,7 +13,7 @@ The vCenter Server instance to which you deploy the VCH must match the specifica
   * One cluster with two ESXi hosts and DRS enabled. You can use nested ESXi hosts for this example.
   * A shared datastore, that is accessible by both of the ESXi hosts.
   * The VM Network is present
-  * One distributed virtual switch with one port group named `vic-bridge`
+  * One VMware vSphere Distributed Switch with one port group named `vic-bridge`
 * Verify that your vCenter Server instance and both of the ESXi hosts in the cluster meet the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md).
 * Make sure that the correct firewall ports are open on the ESXi hosts. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 * Obtain the vCenter Server certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
