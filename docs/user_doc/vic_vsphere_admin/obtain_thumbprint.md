@@ -2,6 +2,8 @@
 
 If your vSphere environment uses untrusted, self-signed certificates to authenticate connections, you must specify the thumbprint of the vCenter Server or ESXi host certificate in all `vic-machine` commands to deploy and manage virtual container hosts (VCHs). If your vSphere environment uses trusted certificates that are signed by a known Certificate Authority (CA), you do not need to specify the `--thumbprint` option.
 
+If you deploy VCHs from the vSphere Client, the Create Virtual Container Host wizard obtains the thumbprint automatically. However, you might still need to obtain the thumbprint for use in other `vic-machine` commands, for example `vic-machine update firewall` or `vic-machine configure`.
+
 You can use either SSH and OpenSSL or the Platform Services Controller to obtain certificate thumbprints, either before you run `vic-machine` commands, or to confirm that a thumbprint in an error message is valid.
 
 - [vCenter Server Appliance or ESXi Host](#cert_vc_esx) 

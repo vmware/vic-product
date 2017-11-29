@@ -1,4 +1,4 @@
-# Use Different User Accounts for VCH Deployment and Operation #
+# Configure Operations User #
 
 A virtual container host (VCH) appliance requires the appropriate permissions in vSphere to perform various tasks during VCH operation. 
 

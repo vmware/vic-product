@@ -46,7 +46,7 @@ To specify a container network, you provide the name of a port group for the con
 - The descriptive name that you provide appears under `Networks` when you run `docker info` or `docker network ls` on the deployed VCH. The descriptive name cannot include spaces. The descriptive name is optional unless the port group name contains spaces. If the port group name contains spaces, you must specify a descriptive name.
 - Container developers use the descriptive name in the `--net` option when they run `docker run` or `docker create`.
 - If you use shared NFS share points as volumes stores, it is recommended to make the NFS target accessible from the container network. If you use NFS volume stores and you do not specify a container network, containers use NAT to route traffic to the NFS target through the VCH endpoint VM. This can create potential bottlenecks and a single point of failure. 
-- If you intend to use the `--ops-user` option to use different user accounts for deployment and operation of the VCH, you must place any container network port groups in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md). 
+- If you intend to use the `--ops-user` option to use different user accounts for deployment and operation of the VCH, you must place any container network port groups in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Configure Operations User](set_up_ops_user.md). 
 
 **Usage**: 
 <pre>--container-network <i>port_group_name</i>:<i>docker_display_name</i></pre>

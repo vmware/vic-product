@@ -1,4 +1,4 @@
-# Virtual Container Host Networking #
+# Virtual Container Host Networks #
 
 You can configure networks on a virtual container host (VCH) that tie your Docker development environment into the vSphere infrastructure. You define which networks are available to a VCH when you use `vic-machine create` to deploy the VCH.
 
@@ -28,8 +28,8 @@ See also [Docker container networking](https://docs.docker.com/engine/userguide/
 
 You can direct traffic between containers, the VCH, the external Internet, and your vSphere environment to different networks. Each network that a VCH uses is a distributed port group or an NSX logical switch on either a vCenter Server instance or an ESXi host. You must create the port groups or logical switches in vSphere before you deploy a VCH. For information about how to create a distributed virtual switch and port group, see [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
 
-- **Public Network:** The network that container VMs and VCHs use to access the Internet. For information about VCH public networks, see [Configure the Public Network](public_network.md).
 - **Bridge Networks**: In Docker terminology, the VCH bridge network corresponds to the default bridge network on a Docker host. You can also create additional bridge networks, that correspond to Docker user-defined networks. For information about VCH bridge networks, see [Configure Bridge Networks](bridge_network.md).
+- **Public Network:** The network that container VMs and VCHs use to access the Internet. For information about VCH public networks, see [Configure the Public Network](public_network.md).
 - **Client Network**: You can isolate traffic between Docker clients and the VCH from traffic on the public network by specifying a dedicated network for client connections. For information about VCH client networks, see  [Configure the Client Network](client_network.md).
 - **Management Network**: You can also isolate the traffic between the VCH and vCenter Server and ESXi hosts from traffic on the public network by specifying a dedicated management network. For information about VCH management networks, see  [Configure the Management Network](mgmt_network.md).
 - **Container Networks**: User-defined networks that you can use to connect container VMs directly to a routable network. Container networks allow vSphere administrators to make vSphere networks directly available to containers. Container networks are specific to vSphere Integrated Containers and have no equivalent in regular Docker. For information about container networks, see [Configure Container Networks](container_networks.md).

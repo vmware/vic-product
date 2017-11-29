@@ -16,7 +16,7 @@ If you have installed the HTML5 plug-in for vSphere Integrated Containers, you c
 1. Log in to the HTML5 vSphere Client and click the **vSphere Client** logo in the top left corner.
 2. Under Inventories, click **vSphere Integrated Containers**.
 
-    The vSphere Integrated Containers view presents the number of VCHs and container VMs that you have deployed.
+    The vSphere Integrated Containers view presents the number of VCHs and container VMs that you have deployed to this vCenter Server instance.
 
 3. Click **vSphere Integrated Containers** in the main panel and select the **Summary** tab.
 

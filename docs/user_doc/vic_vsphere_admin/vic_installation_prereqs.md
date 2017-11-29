@@ -76,7 +76,7 @@ The vSphere Integrated Containers appliance requires access to the external Inte
 
 ![VCH Networking](graphics/vic_networking.png)
 
-For more information about the networks that VCHs connect to, see [Virtual Container Host Networking](vch_networking.md)
+For more information about the networks that VCHs connect to, see [Virtual Container Host Networks](vch_networking.md)
 
 **IMPORTANT**: If you configure a VCH to use separate networks for the public, management, and client networks, these networks must be accessible by the vSphere Integrated Containers appliance.
 

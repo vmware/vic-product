@@ -1,4 +1,4 @@
-# Virtual Container Host Storage #
+# Virtual Container Host Storage Capacity #
 
 Virtual container hosts (VCHs) require a datastore in which to store container image files, container VM files, and the files for the VCH itself. You can also specify one or more datastores in which to create container volumes. 
 

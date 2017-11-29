@@ -47,6 +47,16 @@ If you designate a datastore folder as the image store, `vic-machine` creates th
 
 By specifying the path to a datastore folder in the `--image-store` option, you can designate the same datastore folder as the image store for multiple VCHs. In this way, `vic-machine create` creates only one `VIC` folder in the datastore, at the path that you specify. The `VIC` folder contains one <code><i>vch_uuid</i>/images</code> folder for each VCH that you deploy. By creating one <code><i>vch_uuid</i>/images</code> folder for each VCH, vSphere Integrated Containers Engine limits the potential for conflicts of image use between VCHs, even if you share the same image store folder between multiple hosts.
 
+### `--base-image-size` ###
+
+**Short name**: None
+
+The size of the base image from which to create other images. You should not normally need to use this option. Specify the size in `GB` or `MB`. The default size is 8GB. Images are thin-provisioned, so they do not usually consume 8GB of space. For information about container base images, see [Create a base image](https://docs.docker.com/engine/userguide/eng-image/baseimages/) in the Docker documentation. 
+
+**Usage**:
+
+<pre>--base-image-size 4GB</pre>
+
 ## Example `vic-machine` Commmand <a id="example"></a>
 
 This example deploys a VCH with the following configuration:

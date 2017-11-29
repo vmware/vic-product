@@ -19,97 +19,13 @@ Certain options in this section are exposed in the `vic-machine create` help if 
 
 By default, a VCH is deployed in vCenter Server as a vApp. You can optionally deploy the VCH appliance as a resource pool rather than as a vApp. Use this option if the VCH is likely to manage multiple container VMs that run concurrent operations. If you specify this option, `vic-machine create` creates a resource pool with the same name as the VCH, instead of creating a vApp. 
 
-**NOTE**: If you specify both the `--use-rp` and `--ops-user` options when you create a VCH, you must specify an additional permission when you create the roles for the operations user. For information about operations user roles and permissions, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
+**NOTE**: If you specify both the `--use-rp` and `--ops-user` options when you create a VCH, you must specify an additional permission when you create the roles for the operations user. For information about operations user roles and permissions, see [Configure Operations User](set_up_ops_user.md).
 
 **Usage**:
 
 The `--use-rp` option takes no arguments.
 
 <pre>--use-rp</pre>
-
-### `--memory` ###
-
-Short name: `--mem`
-
-Limit the amount of memory that is available for use by the VCH vApp in vCenter Server, or for the VCH resource pool on an ESXi host. This limit also applies to the container VMs that run in the VCH vApp or resource pool. Specify the memory limit value in MB. If not specified, `vic-machine create` sets the limit to 0 (unlimited).
-
-**Usage**:
-
-<pre>--memory 1024</pre>
-
-### `--cpu` ###
-
-**Short name**: None
-
-Limit the amount of CPU capacity that is available for use by the VCH vApp in vCenter Server, or for the VCH resource pool on an ESXi host. This limit also applies to the container VMs that run in the VCH vApp or resource pool. Specify the CPU limit value in MHz. If not specified, `vic-machine create` sets the limit to 0 (unlimited).
-
-**Usage**:
-
-<pre>--cpu 1024</pre>
-
-### `--memory-reservation` ###
-
-**Short name**: `--memr`
-
-Reserve a quantity of memory for use by the VCH vApp in vCenter Server, or for the VCH resource pool on an ESXi host. This limit also applies to the container VMs that run in the VCH vApp or resource pool. Specify the memory reservation value in MB. If not specified, `vic-machine create` sets the reservation to 1.
-
-**Usage**:
-
-<pre>--memory-reservation 1024</pre>
-
-### `--memory-shares` ###
-
-**Short name**: `--mems`
-
-Set memory shares on the VCH vApp in vCenter Server, or on the VCH resource pool on an ESXi host.  This limit also applies to the container VMs that run in the VCH vApp or resource pool. Specify the share value as a level or a number, for example `high`, `normal`, `low`, or `163840`. If not specified, `vic-machine create` sets the share to `normal`.
-
-**Usage**:
-
-<pre>--memory-shares low</pre>
-
-### `--cpu-reservation` ###
-
-**Short name**: `--cpur`
-
-Reserve a quantity of CPU capacity for use by the VCH vApp in vCenter Server, or for the VCH resource pool on an ESXi host. This limit also applies to the container VMs that run in the VCH vApp or resource pool.  Specify the CPU reservation value in MHz. If not specified, `vic-machine create` sets the reservation to 1.
-
-**Usage**:
-
-<pre>--cpu-reservation 1024</pre>
-
-### `--cpu-shares` ###
-
-**Short name**: `--cpus`
-
-Set CPU shares on the VCH vApp in vCenter Server, or on the VCH resource pool on an ESXi host.  This limit also applies to the container VMs that run in the VCH vApp or resource pool. Specify the share value as a level or a number, for example `high`, `normal`, `low`, or `163840`. If not specified, `vic-machine create` sets the share to `normal`.
-
-**Usage**:
-
-<pre>--cpu-shares low</pre>
-
-### `--endpoint-cpu ` ###
-
-**Short name**: none
-
-The number of virtual CPUs for the VCH endpoint VM. The default is 1. Set this option to increase the number of CPUs in the VCH endpoint VM.
-
-**NOTE** Always use the `--cpu` option instead of the `--endpoint-cpu` option to increase the overall CPU capacity of the VCH vApp, rather than increasing the number of CPUs on the VCH endpoint VM. The `--endpoint-cpu` option is mainly intended for use by VMware Support.
-
-**Usage**:
-
-<pre>--endpoint-cpu <i>number_of_CPUs</i></pre>
-
-### `--endpoint-memory ` ###
-
-**Short name**: none
-
-The amount of memory for the VCH endpoint VM. The default is 2048MB. Set this option to increase the amount of memory in the VCH endpoint VM if the VCH will pull large container images.
-
-**NOTE** With the exception of VCHs that pull large container images, always use the `--memory` option instead of the `--endpoint-memory` option to increase the overall amount of memory for the VCH vApp, rather than on the VCH endpoint VM. Use `docker create -m` to set the memory on container VMs. The `--endpoint-memory` option is mainly intended for use by VMware Support.
-
-**Usage**:
-
-<pre>--endpoint-memory <i>amount_of_memory</i></pre>
 
 ### `--appliance-iso` ###
 

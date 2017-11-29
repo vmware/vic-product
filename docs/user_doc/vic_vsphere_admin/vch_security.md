@@ -6,5 +6,5 @@ VCHs authenticate Docker API client connections by using client certificates. Th
 - [Restrict Access to the Docker API with Custom Certificates](tls_custom_certs.md)
 - [Unrestricted Access to the Docker API](tls_unrestricted.md)
 
-You must run all `vic-machine` commands with a vSphere administrator account. However, you can configure a VCH so that it uses an account with reduced privileges for post-deployment operation, instead of using the vSphere administrator account. For information about using a separate account for post-deployment operation, [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
+You must run all `vic-machine` commands with a vSphere administrator account. However, you can configure a VCH so that it uses an account with reduced privileges for post-deployment operation, instead of using the vSphere administrator account. For information about using a separate account for post-deployment operation, [Configure Operations User](set_up_ops_user.md).
 
