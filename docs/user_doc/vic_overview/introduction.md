@@ -240,14 +240,6 @@ You can pull users from the Platform Services Controller and assign them roles t
 
 You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. Also, if a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller. In either of these setups, the appliances all register with the same Platform Services Controller, and can pull users from that Platform Services Controller. These setups allow the same user to have different roles in different vSphere Integrated Containers instances.
 
-
-##### Example Users #####
-
-You can create example Cloud administrator, DevOps administrator, and a Developer users during the deployment of vSphere Integrated Containers appliance. These users are created as local users in the Platform Services Controller. By default, when you use the option to create example users, you end up with the following users:
-- vic-cloud-admin@*local_domain*
-- vic-devops-admin@*local_domain*
-- vic-developer@*local_domain*
-
 ## What Is vSphere Integrated Containers Registry? <a id="whats_registry"></a>
 
 vSphere Integrated Containers Registry is an enterprise-class registry server that you can use to store and distribute container images. vSphere Integrated Containers Registry allows DevOps administrators to organize image repositories in projects, and to set up role-based access control to those projects to define which users can access which repositories. vSphere Integrated Containers Registry also provides rule-based replication of images between registries, implements Docker Content Trust and vulnerability scanning, and provides detailed logging for project and user auditing.
