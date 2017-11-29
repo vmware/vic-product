@@ -74,7 +74,6 @@ During the upgrade, all configurations transfer to the upgraded appliance.
 **What to Do Next**
 
 - If, in the previous version, you configured vSphere Integrated Containers Registry instances as replication endpoints, upgrade those registry instances. Replication of images from the 1.3.x registry instance to the 1.2.x replication endpoint still functions, but it is recommended that you upgrade the target registry.
-- Due to changes in the data model, user identity management, and the merging of the user interfaces for vSphere Integrated Containers Registry and Management Portal in version 1.2.x, you must perform some manual tasks after you upgrade the appliance. For information about post-upgrade tasks, see [Tasks to Perform After Upgrading the vSphere Integrated Containers Appliance](post_upgrade_tasks.md).  
 - Download the vSphere Integrated Containers Engine bundle and upgrade  your VCHs. For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).
 - Upgrade the vSphere Integrated Containers plug-in for the HTML5 vSphere Client. For information about upgrading the vSphere Client plug-in, see 
 
