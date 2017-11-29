@@ -16,7 +16,7 @@
 # This file contains upgrade processes specific to the Admiral component.
 
 source /installer.env
-. ${0%/*}/util.sh
+. "${0%/*}"/util.sh
 set -euf -o pipefail
 
 admiral_psc_token_file="/etc/vmware/psc/admiral/tokens.properties"

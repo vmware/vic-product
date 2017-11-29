@@ -16,9 +16,9 @@
 # This file contains general upgrade processes for the ova appliance, such as psc registration and data versioning.
 # File includes
 source /installer.env
-. ${0%/*}/util.sh
-. ${0%/*}/upgrade-admiral.sh
-. ${0%/*}/upgrade-harbor.sh
+. "${0%/*}"/util.sh
+. "${0%/*}"/upgrade-admiral.sh
+. "${0%/*}"/upgrade-harbor.sh
 
 set -euf -o pipefail
 
