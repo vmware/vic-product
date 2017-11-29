@@ -19,7 +19,7 @@ During the upgrade, all configurations transfer to the upgraded appliance.
 
 **Procedure**
 
-2. Shut down the older vSphere Integrated Containers appliance by selecting **Shut Down Guest OS**.
+1. Shut down the older vSphere Integrated Containers appliance by selecting **Shut Down Guest OS**.
 
      **IMPORTANT**: Do not select **Power Off**.
 4. Right-click the older vSphere Integrated Containers appliance, and select **Edit Settings**.
