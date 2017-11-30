@@ -79,7 +79,6 @@
      * [Pre-Upgrade Tasks](vic_vsphere_admin/pre_upgrade_tasks.md)
      * [Upgrade the Appliance](vic_vsphere_admin/upgrade_appliance.md)
          * [Post-Upgrade Tasks](vic_vsphere_admin/post_upgrade_tasks.md)
-         * [Troubleshoot Appliance Upgrade](vic_vsphere_admin/troubleshoot_appliance_upgrade.md)
      * [Upgrade VCHs](vic_vsphere_admin/upgrade_vch.md)
          * [VCH Upgrade Options](vic_vsphere_admin/upgrade_vch_options.md)
      * [Upgrade Plug-In on Windows](vic_vsphere_admin/upgrade_h5_plugin_windows.md)
