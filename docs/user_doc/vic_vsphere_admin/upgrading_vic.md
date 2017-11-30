@@ -26,5 +26,5 @@ After you have upgraded the appliance and downloaded the vSphere Integrated Cont
 
 For information about upgrading the vSphere Client plug-in, see the topic that corresponds to the type of vCenter Server that you use.
 
-- [Upgrade the HTML5 Plug-In on vCenter Server for Windows](upgrade_h5_plugin_windows.md)
-- [Upgrade the HTML5 Plug-In on vCenter Server Appliance](upgrade_h5_plugin_vcsa.md)
+- [Upgrade the vSphere Client Plug-Ins on vCenter Server for Windows](upgrade_h5_plugin_windows.md)
+- [Upgrade the vSphere Client Plug-Ins on vCenter Server Appliance](upgrade_h5_plugin_vcsa.md)
