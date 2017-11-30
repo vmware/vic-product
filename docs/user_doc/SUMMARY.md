@@ -9,6 +9,7 @@
 * [Introduction](README.md)
   * [Quick Start Links](vic_quickstart.md)
   * [Overview](vic_overview/introduction.md)
+  * [Roles and Personas](vic_overview/roles_and_personas.md)
 
 ----
 

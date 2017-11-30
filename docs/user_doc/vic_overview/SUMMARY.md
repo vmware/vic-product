@@ -4,3 +4,4 @@
 
 * [Introduction](README.md)
 * [Overview of vSphere Integrated Containers](introduction.md)
+* [Roles and Personas](roles_and_personas.md)
