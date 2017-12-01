@@ -22,10 +22,11 @@ set -euf -o pipefail
 data_mount="/storage/data/harbor"
 cfg="${data_mount}/harbor.cfg"
 harbor_backup_prev="/storage/data/harbor_backup"
-harbor_backup="/storage/data/harbor_backup_1.3"
+harbor_backup="/storage/data/harbor_backup_1.3.0"
 harbor_migration="/storage/data/harbor_migration"
 harbor_psc_token_file="/etc/vmware/psc/harbor/tokens.properties"
 
+# File used in previous upgrades to indicate Harbor upgrade was complete
 harbor_upgrade_status_prev="/etc/vmware/harbor/upgrade_status"
 
 DB_USER=""

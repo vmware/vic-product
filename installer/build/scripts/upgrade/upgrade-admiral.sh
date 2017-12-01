@@ -20,6 +20,7 @@ source /installer.env
 set -euf -o pipefail
 
 admiral_psc_token_file="/etc/vmware/psc/admiral/tokens.properties"
+# File used in previous upgrades to indicate Admiral upgrade was complete
 admiral_upgrade_status_prev="/etc/vmware/admiral/upgrade_status"
 APPLIANCE_IP=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
 
