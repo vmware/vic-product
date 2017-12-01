@@ -3,6 +3,7 @@ package.list
 
 # robot
 robot-logs/
+pabot_results/
 log.html
 report.html
 output.xml

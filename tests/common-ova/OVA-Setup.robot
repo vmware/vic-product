@@ -13,8 +13,17 @@
 # limitations under the License
 
 *** Settings ***
-Documentation  Global Variables, Setup and Teardown
+Documentation  Common OVA Install
 Resource  ../resources/Util.robot
-Suite Setup  Global Setup With Complete OVA Installation
+Test Timeout  30 minutes
+Suite Setup  Global Environment Setup
+
+*** Variables ***
+${default-ova-file-path}  installer/bin/vic-*.ova
 
 *** Keywords ***
+
+
+*** Test Cases ***
+Install Common OVA
+    Install Common OVA If Not Already  ${default-ova-file-path}
