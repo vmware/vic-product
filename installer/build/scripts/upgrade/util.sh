@@ -15,11 +15,30 @@
 
 # utility functions that may be used by multiple component upgrade scripts
 
-# Check if directory is present
+# Check if directory is present, prompt user to continue
 function checkDir {
   if [ -d "$1" ]; then
-    echo "Directory $1 already exists. If upgrade is not already running or previously completed, remove the directory and retry upgrade." | tee /dev/fd/3
-    exit 1
+    echo "Directory $1 already exists. If upgrade to this version is already running or previously completed, data corruption may occur if you proceed." | tee /dev/fd/3
+    while true; do
+      echo "" | tee /dev/fd/3
+      echo "Do you wish to proceed? [y/n]" | tee /dev/fd/3
+      read response
+      case $response in
+          [Yy] )
+              echo "Continuing with upgrade" | tee /dev/fd/3
+              echo "" | tee /dev/fd/3
+              break
+              ;;
+          [Nn] )
+              echo "Exiting without performing upgrade" | tee /dev/fd/3
+              exit 1
+              ;;
+          *)
+              # unknown option
+              echo "Please enter [y/n]" | tee /dev/fd/3
+              ;;
+      esac
+    done
   fi
 }
 
@@ -27,13 +46,31 @@ function readFile {
  cat "$1" ; echo
 }
 
-# Check timestamp file, skip if already upgraded
+# Check status file, prompt user to continue
 function checkUpgradeStatus {
   if [ -f "$2" ]; then
-    echo "$1 upgrade status show previously completed" | tee /dev/fd/3
-    echo "If upgrade is not already running or completed, execute the following command and rerun the upgrade script:" | tee /dev/fd/3
-    echo "    rm $2" | tee /dev/fd/3
-    return 1
+    echo "Detected $1 upgrade was previously completed" | tee /dev/fd/3
+    echo "If upgrade to this version is already running or previously completed, data corruption may occur if you proceed." | tee /dev/fd/3
+    while true; do
+      echo "" | tee /dev/fd/3
+      echo "Do you wish to proceed? [y/n]" | tee /dev/fd/3
+      read response
+      case $response in
+          [Yy] )
+              echo "Continuing with upgrade" | tee /dev/fd/3
+              echo "" | tee /dev/fd/3
+              break
+              ;;
+          [Nn] )
+              echo "Exiting without performing upgrade" | tee /dev/fd/3
+              exit 1
+              ;;
+          *)
+              # unknown option
+              echo "Please enter [y/n]" | tee /dev/fd/3
+              ;;
+      esac
+    done
   fi
   return 0
 }
