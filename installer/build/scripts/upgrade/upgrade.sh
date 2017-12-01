@@ -16,13 +16,14 @@
 # This file contains general upgrade processes for the ova appliance, such as psc registration and data versioning.
 # File includes
 source /installer.env
-. ${0%/*}/util.sh
-. ${0%/*}/upgrade-admiral.sh
-. ${0%/*}/upgrade-harbor.sh
+. "${0%/*}"/util.sh
+. "${0%/*}"/upgrade-admiral.sh
+. "${0%/*}"/upgrade-harbor.sh
 
 set -euf -o pipefail
 
 upgrade_log_file="/var/log/vmware/upgrade.log"
+appliance_upgrade_status="/etc/vmware/upgrade_status_1.3.0"
 mkdir -p "/var/log/vmware"
 timestamp_file="/registration-timestamps.txt"
 
@@ -31,7 +32,6 @@ VCENTER_USERNAME=""
 VCENTER_PASSWORD=""
 EXTERNAL_PSC=""
 PSC_DOMAIN=""
-APPLIANCE_IP=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S %z %Z")
 
 
@@ -55,9 +55,9 @@ function getPSCTokens {
   set -e
 }
 
-# Write timestamp so credentials prompt is skipped on Getting Started
+# Write timestamp to a file
 function writeTimestamp {
-  echo "${TIMESTAMP}" > ${timestamp_file}
+  echo "${TIMESTAMP}" > "$1"
 }
 
 # Copy the appliance version to /storage/data after successful upgrade
@@ -96,6 +96,8 @@ function enableServicesStart {
 # Check for presence of Admiral's PSC config file. If the file exists, the old
 # OVA is version 1.2.x.
 function proceedWithUpgrade {
+  checkUpgradeStatus "VIC Appliance" ${appliance_upgrade_status}
+
   if [ ! -f "/storage/data/admiral/configs/psc-config.properties" ]; then
     echo "Detected old OVA's version as 1.1.x. We no longer support this upgrade path." | tee /dev/fd/3
     echo -n "If the version of the old OVA is not 1.1.x, please contact VMware support: " | tee /dev/fd/3
@@ -212,7 +214,9 @@ function main {
   disableServicesStart
   registerAppliance
   getPSCTokens
-  writeTimestamp
+
+  # Write timestamp so credentials prompt is skipped on Getting Started
+  writeTimestamp ${timestamp_file}
   echo "Finished preparing upgrade environment" | tee /dev/fd/3
 
   ### -------------------- ###
@@ -224,6 +228,7 @@ function main {
   upgradeHarbor
 
   setDataVersion
+  writeTimestamp ${appliance_upgrade_status}
   enableServicesStart
   echo "Upgrade script complete. Exiting." | tee /dev/fd/3
   echo "-------------------------"
