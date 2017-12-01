@@ -1,4 +1,4 @@
-# Roles and Personas # <a id="usersandroles"></a>
+# Roles and Personas <a id="usersandroles"></a>
 
 vSphere Integrated Containers requires a vSphere administrator role for deployment and provides four additional roles for user access. The viewer role has the lowest level of access with the global cloud administrator having the highest.
 
