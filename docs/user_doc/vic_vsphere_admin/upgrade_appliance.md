@@ -75,7 +75,7 @@ During the upgrade, all configurations transfer to the upgraded appliance.
 
 - If, in the previous version, you configured vSphere Integrated Containers Registry instances as replication endpoints, upgrade those registry instances. Replication of images from the 1.3.x registry instance to the 1.2.x replication endpoint still functions, but it is recommended that you upgrade the target registry.
 - Download the vSphere Integrated Containers Engine bundle and upgrade  your VCHs. For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).
-- Upgrade the vSphere Integrated Containers plug-in for the HTML5 vSphere Client. For information about upgrading the vSphere Client plug-in, see 
+- Upgrade the vSphere Integrated Containers plug-ins for the vSphere Client. For information about upgrading the vSphere Client plug-ins, see 
 
-   - [Upgrade the HTML5 vSphere Client Plug-In on vCenter Server for Windows](upgrade_h5_plugin_windows.md)
-   - [Upgrade the HTML5 vSphere Client Plug-In on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md)
+   - [Upgrade the vSphere Client Plug-Ins on vCenter Server for Windows](upgrade_h5_plugin_windows.md)
+   - [Upgrade the vSphere Client Plug-Ins on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md)

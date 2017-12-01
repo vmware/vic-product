@@ -21,17 +21,7 @@ You designate the bridge network by specifying the `vic-machine create --bridge-
 
 A port group that container VMs use to communicate with each other. 
 
-The `--bridge-network` option is **mandatory** if you are deploying a VCH to vCenter Server. Before you run `vic-machine create`, you must perform the following tasks in vCenter Server:
-
-- Create a VMware vSphere Distributed Switch and a port group for the bridge network. You can create multiple port groups on the same vSphere Distributed Switch, but each VCH requires a unique port group for the bridge network. The port group must be an isolated L2 broadcast domain. For information about how to create a vSphere Distributed Switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere  documentation. 
-- Add the target ESXi host or hosts to the vSphere Distributed Switch. For information about how to add hosts to a vSphere Distributed Switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
-- Assign a VLAN ID to the port group, to ensure that the bridge network is isolated. The bridge network has its own DHCP service that must be on an isolated VLAN that is trunked between the ESXi hosts in the cluster to which you are deploying the VCH. Use Virtual Switch Tagging for the VLAN ID. You require a separate VLAN ID and vSphere Distributed Switch port group for each VCH. 
-
-  - For information about how to assign a VLAN ID to a port group, see [VMware KB 1003825](https://kb.vmware.com/kb/1003825). 
-  - For information about private VLAN, see [VMware KB 1010691](https://kb.vmware.com/kb/1010691). 
-  - For information about VLAN tagging, see [VMware KB 1003806](https://kb.vmware.com/s/article/1003806).
-
-By design, containers that are connected to the bridge network are not accessible on the public network. This behavior reflects Docker behavior. To make containers available on the network, container developers must use either `-p` to map network ports, or use an external network.
+The `--bridge-network` option is **mandatory** if you are deploying a VCH to vCenter Server. Before you run `vic-machine create`, you must create a distributed virtual switch and a port group for the bridge network. You must add the target ESXi host or hosts to the distributed virtual switch, and assign a VLAN ID to the port group, to ensure that the bridge network is isolated. For information about how to create a distributed virtual switch and port group, see [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
 
 The `--bridge-network` option is **optional** if you are deploying a VCH to an ESXi host that is not managed by vCenter Server. In this case, if you do not specify `--bridge-network`, `vic-machine` creates a  virtual switch and a port group that each have the same name as the VCH. You can optionally specify this option to assign an existing port group for use as the bridge network for container VMs. You can also optionally specify this option to create a new virtual switch and port group that have a different name to the VCH.
 

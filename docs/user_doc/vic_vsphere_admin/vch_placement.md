@@ -139,7 +139,7 @@ If vCenter Server has more than one datacenter, you specify the datacenter in th
 
 If vCenter Server manages more than one cluster, you use the `--compute-resource` option to specify the cluster on which to deploy the VCH.
 
-When deploying a VCH to vCenter Server, you must use the [`--bridge-network`](bridge_network.md) option to specify an existing port group for container VMs to use to communicate with each other. For information about how to create a VMware vSphere Distributed Switch and port group, see the section on vCenter Server Network Requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md#networkreqs).
+When deploying a VCH to vCenter Server, you must use the [`--bridge-network`](bridge_network.md) option to specify an existing port group for container VMs to use to communicate with each other. For information about how to create a distributed virtual switch and port group, see [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
 
 If vCenter Server manages more than one datastore, you must specify the [`--image-store`](image_store.md) option to designate a datastore in which to store container images, the files for the VCH appliance, and container VMs.
 

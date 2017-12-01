@@ -26,7 +26,7 @@ See also [Docker container networking](https://docs.docker.com/engine/userguide/
 
 ## VCH Networks <a id="vchnetworks"></a>
 
-You can direct traffic between containers, the VCH, the external Internet, and your vSphere environment to different networks. Each network that a VCH uses is a distributed port group or an VMware NSX logical switch on either a vCenter Server instance or an ESXi host. You must create the port groups or logical switches in vSphere before you deploy a VCH. For information about how to create a VMware vSphere Distributed Switch and port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) and [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere documentation.
+You can direct traffic between containers, the VCH, the external Internet, and your vSphere environment to different networks. Each network that a VCH uses is a distributed port group or an NSX logical switch on either a vCenter Server instance or an ESXi host. You must create the port groups or logical switches in vSphere before you deploy a VCH. For information about how to create a distributed virtual switch and port group, see [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
 
 - **Public Network:** The network that container VMs and VCHs use to access the Internet. For information about VCH public networks, see [Configure the Public Network](public_network.md).
 - **Bridge Networks**: In Docker terminology, the VCH bridge network corresponds to the default bridge network on a Docker host. You can also create additional bridge networks, that correspond to Docker user-defined networks. For information about VCH bridge networks, see [Configure Bridge Networks](bridge_network.md).
@@ -38,7 +38,7 @@ You can configure static IP addresses for the VCH on the different networks, and
 
 ## Networking Limitations <a id="limitations"></a>
 
-A VCH supports a maximum of 3 distinct network interfaces. The bridge network requires its own port group, so at least two of the public, client, and management networks must share a network interface and therefore a port group. Container networks do not go through the VCH, so they are not subject to this limitation. This limitation will be removed in a future release
+In previous releases of vSphere Integrated Containers, VCHs supported a maximum of 3 distinct network interfaces. Due to this limitation, at least two of the public, client, and management networks had to share a network interface and therefore a port group. This limitation has been removed in this release and you can specify a separate network interface for each of the bridge, public, client, management, and container networks. 
 
 ## Host Firewall Configuration <a id="firewall"></a>
 

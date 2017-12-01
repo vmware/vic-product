@@ -4,6 +4,6 @@ If you want to start experimenting with vSphere Integrated Containers straight a
 
 - [Overview of vSphere Integrated Containers](vic_overview/introduction.md)
 - [Deploy the vSphere Integrated Containers Appliance](vic_vsphere_admin/deploy_vic_appliance.md)
-- [Deploy Virtual Container Hosts Interactively](vic_vsphere_admin/deploy_demo_vch.md)
+- [Deploy Virtual Container Hosts](vic_vsphere_admin/deploy_vch.md)
 - [Configure and Manage vSphere Integrated Containers in the Management Portal](vic_cloud_admin/README.md)
 - [Supported Docker Commands](vic_app_dev/container_operations.md)

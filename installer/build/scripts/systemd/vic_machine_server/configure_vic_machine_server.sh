@@ -109,6 +109,7 @@ function detectHostname {
   fi
 }
 
+mkdir -p ${cert_dir}
 chown -R 10000:10000 ${cert_dir}
 mkdir -p ${log_dir}
 chown -R 10000:10000 ${log_dir}
