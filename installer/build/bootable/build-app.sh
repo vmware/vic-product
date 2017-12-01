@@ -13,52 +13,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -eu -o pipefail +h
-
-brwhte="$(tput setaf 15)"
-brblue="$(tput setaf 12)"
-bryllw="$(tput setaf 11)"
-brprpl="$(tput setaf 13)"
-creset="$(tput sgr0)"
-
-warrow="${brwhte}=>${creset}"
-barrow="${brblue}==>${creset}"
-yarrow="${bryllw}  ->${creset}"
-
-function task() {
-  >&2 printf "${barrow} %s\n" "$*"
-}
-
-function progress() {
-  >&2 printf "${yarrow} %s\n" "$*"
-}
+# this build file is responsible for parsing cli args and spinning up a build container
+set -e -o pipefail +h && [ -n "$DEBUG" ] && set -x
+DIR=$(dirname $(readlink -f "$0"))
+. ${DIR}/log.sh
 
 # Importing the pubkey
-task "configuring base os"
-progress "importing local gpg key"
+log2 "configuring os"
+log3 "importing local gpg key"
 rpm --import /etc/pki/rpm-gpg/VMWARE-RPM-GPG-KEY
 
-progress "configuring grub"
-sed -i '/linux/ s/$/ consoleblank=0/' /boot/grub2/grub.cfg
-
-progress "setting umask to 022"
+log3 "setting umask to 022"
 sed -i 's/umask 027/umask 022/' /etc/profile
 
-progress "setting root password"
+log3 "setting root password"
 echo 'root:Vmw@re!23' | chpasswd
 
-progress "configuring password expiration"
+log3 "configuring password expiration"
 chage -I -1 -m 0 -M 99999 -E -1 root
 
-progress "configuring ${brprpl}UTC${creset} timezone"
+log3 "configuring ${brprpl}UTC${creset} timezone"
 ln --force --symbolic /usr/share/zoneinfo/UTC /etc/localtime
-progress "configuring ${brprpl}en_US.UTF-8${creset} locale"
+log3 "configuring ${brprpl}en_US.UTF-8${creset} locale"
 /usr/bin/touch /etc/locale.conf
 /bin/echo "LANG=en_US.UTF-8" > /etc/locale.conf
 /sbin/locale-gen.sh
 
-progress "installing system dependencies"
-tdnf install -q --refresh -y \
+log3 "installing system dependencies"
+tdnf install --refresh -y \
     haveged ethtool gawk \
     socat git nfs-utils \
     cifs-utils ebtables \
@@ -68,28 +50,25 @@ tdnf install -q --refresh -y \
     e2fsprogs docker gzip\
     net-tools logrotate &>/dev/null
 
-progress "installing package dependencies"
+log3 "installing package dependencies"
 tdnf install -q --refresh -y \
     openjre python-pip &>/dev/null
 
-progress "configuring with overlay"
-cp -r /build/root/* /
 
-progress "configuring ${brprpl}haveged${creset}"
+log3 "configuring ${brprpl}haveged${creset}"
 systemctl enable haveged
 
-progress "configuring ${brprpl}sshd${creset}"
+log3 "configuring ${brprpl}sshd${creset}"
 echo "UseDNS no" >> /etc/ssh/sshd_config
 systemctl enable sshd
 
-task "running provisioners"
+log2 "running provisioners"
 ls script-provisioners | while read SCRIPT; do
-  progress "running ${brprpl}$SCRIPT${creset}"
+  log3 "running ${brprpl}$SCRIPT${creset}"
   ./script-provisioners/$SCRIPT
 done;
 
-
-task "cleaning up base os disk"
+log2 "cleaning up base os disk"
 tdnf clean all
 
 /sbin/ldconfig
@@ -100,46 +79,50 @@ tdnf clean all
 rm /etc/resolv.conf
 ln -sf ../run/systemd/resolve/resolv.conf /etc/resolv.conf
 
-progress "cleaning up tmp"
+log3 "cleaning up tmp"
 rm -rf /tmp/*
 
-progress "removing man pages"
+log3 "removing man pages"
 rm -rf /usr/share/man/*
-progress "removing any docs"
+log3 "removing any docs"
 rm -rf /usr/share/doc/*
-progress "removing caches"
+log3 "removing caches"
 find /var/cache -type f -exec rm -rf {} \;
 
-progress "removing bash history"
+log3 "removing bash history"
 # Remove Bash history
 unset HISTFILE
 echo -n > /root/.bash_history
 
 # Clean up log files
-progress "cleaning log files"
+log3 "cleaning log files"
 find /var/log -type f | while read f; do echo -ne '' > $f; done;
 
-progress "clearing last login information"
+log3 "clearing last login information"
 echo -ne '' >/var/log/lastlog
 echo -ne '' >/var/log/wtmp
 echo -ne '' >/var/log/btmp
 
+<<<<<<< HEAD
 progress "resetting bashrc"
+=======
+log3 "resetting bashrs"
+>>>>>>> [BROKEN] tar needs fixing
 echo -ne '' > /root/.bashrc
 echo -ne '' > /root/.bash_profile
 echo 'shopt -s histappend' >> /root/.bash_profile
 echo 'export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"' >> /root/.bash_profile
 
 # Clear SSH host keys
-progress "resetting ssh host keys"
+log3 "resetting ssh host keys"
 rm -f /etc/ssh/{ssh_host_dsa_key,ssh_host_dsa_key.pub,ssh_host_ecdsa_key,ssh_host_ecdsa_key.pub,ssh_host_ed25519_key,ssh_host_ed25519_key.pub,ssh_host_rsa_key,ssh_host_rsa_key.pub}
 
 # Zero out the free space to save space in the final image
-progress "zero out free space"
+log3 "zero out free space"
 dd if=/dev/zero of=/EMPTY bs=1M  2>/dev/null || echo "dd exit code $? is suppressed"
 rm -f /EMPTY
 
-progress "syncing fs"
+log3 "syncing fs"
 sync
 
 # seal the template

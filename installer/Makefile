@@ -90,12 +90,10 @@ endef
 
 clean:
 	@echo removing binaries
-	@rm -rf $(BIN)/*
+	rm -rf $(BIN)/*
+	rm -rf $(BIN)/.*
 	@echo removing OVA installer files...
-	@rm -rf $(BASE_DIR)build/baseimage/cache
-	@rm -f $(BASE_DIR)build/baseimage/*.img
-	@rm -f build/baseimage/root/installer.env
-	@$(BASE_DIR)build/cleanup.sh
+	$(BASE_DIR)build/bootable/cleanup.sh
 
 # exit 1 if golint complains about anything other than comments
 golintf = $(GOLINT) $(1) | sh -c "! grep -v 'lib/apiservers/portlayer/restapi/operations'" | sh -c "! grep -v 'lib/config/dynamic/admiral/client'" | sh -c "! grep -v 'should have comment'" | sh -c "! grep -v 'comment on exported'" | sh -c "! grep -v 'by other packages, and that stutters'" | sh -c "! grep -v 'error strings should not be capitalized'"

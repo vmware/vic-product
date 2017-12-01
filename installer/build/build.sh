@@ -13,15 +13,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# exit on failure and configure debug, include util functions
-set -eu -o pipefail +h
+# this file is responsible for parsing cli args and spinning up a build container
+# wraps bootable/build-main.sh in a docker container
+set -e -o pipefail +h && [ -n "$DEBUG" ] && set -x
+ROOT_DIR="$GOPATH/src/github.com/vmware/vic-product/"
+ROOT_WORK_DIR="/go/src/github.com/vmware/vic-product/"
 
-DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER:-0}
-export BUILD_NUMBER=${DRONE_BUILD_NUMBER:-}
+ROOT_INSTALLER_DIR="${ROOT_DIR}/installer"
+ROOT_INSTALLER_WORK_DIR="${ROOT_WORK_DIR}/installer"
+
 ADMIRAL=""
 VICENGINE=""
 VIC_MACHINE_SERVER=""
 HARBOR=""
+TAG=$(git describe --abbrev=0 --tags) # e.g. `v0.9.0`
+REV=$(git rev-parse --short=8 HEAD)
+DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER:-0}
+BUILD_OVA_REVISION="${TAG}-${DRONE_BUILD_NUMBER}-${REV}"
+BUILD_NUMBER=${DRONE_BUILD_NUMBER:-}
 
 function usage() {
     echo -e "Usage:
@@ -33,153 +42,26 @@ function usage() {
     exit 1
 }
 
-# Check if it's a file in `scripts`, URL, or REVISION
-function setenv() {
-  tmpvar=$1
-  fallback=$2
-  # if a cli argument was specified, it's a local file, gcloud bucket upload, or admiral revision number.
-  if [ -n "${!tmpvar}" ]; then
-    if [ -f "$(pwd)/build/${!tmpvar}" ]; then
-      export BUILD_$1_FILE="${!tmpvar}"
-      export BUILD_$1_URL="$(pwd)/build/${!tmpvar}"
-    elif [[ "${!tmpvar}" =~ ^http://|^https:// ]]; then
-      export BUILD_$1_URL="${!tmpvar}"
-      export BUILD_$1_FILE="$(basename "${!tmpvar}")"
-    else
-      export BUILD_$1_REVISION="${!tmpvar}"
-    fi
-  else   # if a cli argument was NOT specified, use the most recent version specified by $fallback
-    if [[ "${fallback}" =~ ^http://|^https:// ]]; then
-      export BUILD_$1_URL="${fallback}"
-      export BUILD_$1_FILE=$(basename "${fallback}")
-    else
-      export BUILD_$1_REVISION="${fallback}"
-    fi
-  fi
-}
-
-function cleanup() {
-  echo "--------------------------------------------------"
-  echo "cleaning up..."
-  ./build/cleanup.sh
-}
-
-trap cleanup EXIT
-
-TAG=$(git describe --abbrev=0 --tags) # e.g. `v0.9.0`
-REV=$(git rev-parse --short=8 HEAD)
-export BUILD_OVA_REVISION="$TAG-$DRONE_BUILD_NUMBER-$REV"
-export BUILD_DCHPHOTON_VERSION="1.13"
-
 [ $# -gt 0 ] || usage
 step=$1; shift
 [ ! "$step" == "ova-ci" ] || [ ! "$step" == "ova-dev" ] || usage
 
-while [[ $# -gt 1 ]]
-do
-  key="$1"
-
-  case $key in
-    --admiral)
-      ADMIRAL="$2"
-      shift # past argument
-      ;;
-    --vicengine)
-      VICENGINE="$2"
-      shift # past argument
-      ;;
-    --vicmachineserver)
-      VIC_MACHINE_SERVER="$2"
-      shift # past argument
-      ;;
-    --harbor)
-      HARBOR="$2"
-      shift # past argument
-      ;;
-    --step)
-      STEP="$2"
-      shift
-      ;;
-    *)
-      # unknown option
-      usage
-      exit 1
-      ;;
-  esac
-  shift # past argument or value
-done
-
-# set Admiral
-setenv ADMIRAL "dev"
-
-# set vic-machine-server
-setenv VIC_MACHINE_SERVER "dev"
-
-# set Vic-Engine
-url=$(gsutil ls -l "gs://vic-engine-builds" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
-setenv VICENGINE "$url"
-
-#set Harbor
-url=$(gsutil ls -l "gs://harbor-builds" | grep "harbor-offline-installer" | grep -v TOTAL | grep -v latest | sort -k2 -r | (trap '' PIPE; head -n1) | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
-setenv HARBOR "$url"
-
-
-ENV_FILE=build/baseimage/root/installer.env
-touch $ENV_FILE
-cat > $ENV_FILE <<EOF
-export BUILD_HARBOR_FILE=${BUILD_HARBOR_FILE:-}
-export BUILD_HARBOR_URL=${BUILD_HARBOR_URL:-}
-export BUILD_VICENGINE_FILE=${BUILD_VICENGINE_FILE:-}
-export BUILD_VICENGINE_URL=${BUILD_VICENGINE_URL:-}
-export BUILD_VIC_MACHINE_SERVER_REVISION=${BUILD_VIC_MACHINE_SERVER_REVISION:-}
-export BUILD_ADMIRAL_REVISION=${BUILD_ADMIRAL_REVISION:-}
-export BUILD_OVA_REVISION=${BUILD_OVA_REVISION:-}
-export BUILD_DCHPHOTON_VERSION=${BUILD_DCHPHOTON_VERSION-}
-export DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER:-}
-EOF
-
-echo -e "--------------------------------------------------
-buidling ova with env...\n
-$(cat $ENV_FILE | sed 's/export //g')
---------------------------------------------------"
-
 echo "--------------------------------------------------"
-echo "caching build dependencies..."
-mkdir -p build/baseimage/{bin,cache,cache/docker}
-make all
-./build/cache.sh
-
-echo "--------------------------------------------------"
-echo "packaging OVA..."
-
 if [ "$step" == "ova-dev" ]; then
-docker run -it --rm --privileged -v /dev:/dev -v $(pwd):/work -w /work \
-    -e BUILD_HARBOR_FILE=${BUILD_HARBOR_FILE} \
-    -e BUILD_VICENGINE_FILE=${BUILD_VICENGINE_FILE} \
-    -e BUILD_VIC_MACHINE_SERVER_REVISION=${BUILD_VIC_MACHINE_SERVER_REVISION} \
-    -e BUILD_ADMIRAL_REVISION=${BUILD_ADMIRAL_REVISION} \
+  echo "starting docker dev build container..."
+  docker run -it --rm --privileged -v /dev:/dev \
+    -v ${ROOT_DIR}/:/${ROOT_WORK_DIR}/:ro \
+    -v ${ROOT_INSTALLER_DIR}/bin/:/${ROOT_INSTALLER_WORK_DIR}/bin/ \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -e DEBUG=${DEBUG} \
     -e BUILD_OVA_REVISION=${BUILD_OVA_REVISION} \
-    -e BUILD_DCHPHOTON_VERSION=${BUILD_DCHPHOTON_VERSION} \
+    -e BUILD_NUMBER=${BUILD_NUMBER} \
     -e DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER} \
-    -e TERM vmware/photon ./build/baseimage/stage.sh
+    -e TERM -w ${ROOT_INSTALLER_WORK_DIR} \
+    gcr.io/eminent-nation-87317/vic-product-build ./build/build-ova.sh $*
 elif [ "$step" == "ova-ci" ]; then
-  ./build/baseimage/stage.sh
+  echo "starting ci build..."
+  ./build/build-ova.sh $*
 else
   usage
 fi
-
-cp build/vic-unified.ovf build/baseimage/bin/vic-${BUILD_OVA_REVISION}.ovf
-cd build/baseimage/bin/
-sed -i -e s~--version--~${BUILD_OVA_REVISION}~ vic-${BUILD_OVA_REVISION}.ovf
-echo "rebuilding OVF manifest"
-sha256sum --tag * | sed s/SHA256\ \(/SHA256\(/ > vic-${BUILD_OVA_REVISION}.mf
-tar -cvf ../../../bin/vic-${BUILD_OVA_REVISION}.ova vic-${BUILD_OVA_REVISION}.ovf vic-${BUILD_OVA_REVISION}.mf *.vmdk
-cd ../../../
-
-OUTFILE=bin/$(ls -1t bin | grep "\.ova")
-
-echo "build complete"
-echo "  SHA256: $(shasum -a 256 $OUTFILE)"
-echo "  SHA1: $(shasum -a 1 $OUTFILE)"
-echo "  MD5: $(md5sum $OUTFILE)"
-du -ks $OUTFILE | awk '{printf "%sMB\n", $1/1024}'
