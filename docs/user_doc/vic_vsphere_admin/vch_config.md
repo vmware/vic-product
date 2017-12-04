@@ -2,7 +2,7 @@
 
 The `vic-machine create` utility provides options that customize the settings with which it deploys the virtual container host (VCH) appliance. These options allow you to tailor the VCH to your vSphere environment and to the loads under which it will run.
 
-You can increase or decrease the memory and CPU shares and reservations on the VCH. For information about memory and CPU shares and reservations, see [Allocate Memory Resources](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.vm_admin.doc/GUID-49D7217C-DB6C-41A6-86B3-7AFEB8BF575F.html), and [Allocate CPU Resources](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.vm_admin.doc/GUID-6C9023B2-3A8F-48EB-8A36-44E3D14958F6.html) in the vSphere documentation. You can also deploy a VCH as a vSphere resource pool rather than as a vApp, and provide an alternate path to the ISO from which the VCH boots up.
+You can increase or decrease the memory and CPU shares and reservations on the VCH.  You can also provide an alternate path to the ISO from which the VCH boots up.
 
 - [`vic-machine` Options](#options)
 - [Example `vic-machine` Commands](#examples)
@@ -11,21 +11,7 @@ You can increase or decrease the memory and CPU shares and reservations on the V
 
 The following `vic-machine create` options modify the configuration of the VCH appliance itself. 
 
-Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
 
-### `--use-rp` <a id="use-rp"></a>
-
-**Short name**: none
-
-By default, a VCH is deployed in vCenter Server as a vApp. You can optionally deploy the VCH appliance as a resource pool rather than as a vApp. Use this option if the VCH is likely to manage multiple container VMs that run concurrent operations. If you specify this option, `vic-machine create` creates a resource pool with the same name as the VCH, instead of creating a vApp. 
-
-**NOTE**: If you specify both the `--use-rp` and `--ops-user` options when you create a VCH, you must specify an additional permission when you create the roles for the operations user. For information about operations user roles and permissions, see [Configure Operations User](set_up_ops_user.md).
-
-**Usage**:
-
-The `--use-rp` option takes no arguments.
-
-<pre>--use-rp</pre>
 
 ### `--appliance-iso` ###
 
@@ -41,62 +27,15 @@ The path to the ISO image from which the VCH appliance boots. Set this option if
 
 ## Example `vic-machine` Commands <a id="examples"></a>
 
-- [Set Limits on Resource Use](#customized)
-- [Deploy VCH as a Resource Pool Instead of as a vApp](#not_vapp)
 - [Boot the VCH from an ISO in a Non-Default Location](#appliance-iso)
 
-### Set Limits on Resource Use <a id="customized"></a>
 
-This example deploys a VCH with the following configuration:
-
-- Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
-- Secures connections to the Docker API with an automatically generated server certificate, without client certificate verification, by setting `--no-tlsverify`.
-- Sets resource limits on the VCH by imposing memory and CPU reservations, limits, and shares.
-
-<pre>vic-machine-<i>operating_system</i> create
---target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
---compute-resource cluster1
---image-store datastore1
---bridge-network vch1-bridge
---memory 1024
---memory-reservation 1024
---memory-shares low
---cpu 1024
---cpu-reservation 1024
---cpu-shares low
---name vch1
---thumbprint <i>certificate_thumbprint</i>
---no-tlsverify
-</pre>
-
-### Deploy VCH as a Resource Pool Instead of as a vApp <a id="not_vapp"></a> 
-
-If a VCH is likely to handle heavy loads, with multiple concurrent operations running in container VMs, it is recommended to deploy that VCH as a resource pool rather than as a vApp.
-
-This example deploys a VCH with the following configuration:
-
-- Provides the vCenter Single Sign-On user name and password for a vSphere administrator account in the `--target` option. The user name is wrapped in quotes, because it contains the `@` character.
-- Deploys a VCH named `vch1` to the cluster `cluster1` in datacenter `dc1`. 
-- Uses an existing port group named `vch1-bridge` for the bridge network. 
-- Designates `datastore1` as the image store. 
-- Specifies `--use-rp` so that the VCH is deployed as a resource pool rather than as a vApp.
-
-<pre>vic-machine-<i>operating_system</i> create
---target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
---compute-resource cluster1
---image-store datastore1
---bridge-network vch1-bridge
---name vch1
---thumbprint <i>certificate_thumbprint</i>
---no-tlsverify
---use-rp
-</pre>
 
 ### Boot the VCH from an ISO in a Non-Default Location <a id="appliance-iso"></a>
 
 If you moved the `appliance.iso` file to a location that is not the folder that contains the `vic-machine` binary, you must point `vic-machine` to the ISO file.
 
-This example deploys a VCH with the following configuration:
+This example `vic-machine create` command deploys a VCH with the following configuration:
 
 - Provides the vCenter Single Sign-On user name and password for a vSphere administrator account in the `--target` option. The user name is wrapped in quotes, because it contains the `@` character.
 - Deploys a VCH named `vch1` to the cluster `cluster1` in datacenter `dc1`. 

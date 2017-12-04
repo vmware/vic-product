@@ -59,7 +59,7 @@ The size of the base image from which to create other images. You should not nor
 
 ## Example `vic-machine` Commmand <a id="example"></a>
 
-This example deploys a VCH with the following configuration:
+This example `vic-machine create` command deploys a VCH with the following configuration:
 
 - Provides the vCenter Single Sign-On user name and password for a vSphere administrator account in the `--target` option.
 - Deploys a VCH named `vch1` to the cluster `cluster1` in datacenter `dc1`. 

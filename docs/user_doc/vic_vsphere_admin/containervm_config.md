@@ -36,7 +36,7 @@ The path to the ISO image from which to boot container VMs. Set this option if y
 
 If you moved the `bootstrap.iso` file to a location that is not the folder that contains the `vic-machine` binary, you must point `vic-machine` to the ISO file.
 
-This example deploys a VCH with the following configuration:
+This example `vic-machine create` command deploys a VCH with the following configuration:
 
 - Provides the vCenter Single Sign-On user name and password for a vSphere administrator account in the `--target` option. The user name is wrapped in quotes, because it contains the `@` character.
 - Deploys a VCH named `vch1` to the cluster `cluster1` in datacenter `dc1`. 

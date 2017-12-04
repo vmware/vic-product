@@ -55,7 +55,7 @@ The `--no-tls` option takes no arguments.
 
 You use the `--no-tlsverify` option with no other TLS options to disable client authentication and auto-generate a server certificate.
 
-This example deploys a VCH with the following configuration:
+This example `vic-machine create` command deploys a VCH with the following configuration:
 
 - Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
 - Specifies `--no-tlsverify` to disable client authentication.
@@ -74,7 +74,7 @@ This example deploys a VCH with the following configuration:
 
 You use the `--tls-server-cert`, `--tls-server-key`, and `--no-tlsverify` options to use a custom X.509 server certificate and key and disable client authentication.
 
-This example deploys a VCH with the following configuration:
+This example `vic-machine create` command deploys a VCH with the following configuration:
 
 - Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
 - Provides the paths relative to the current location of the `*.pem` files for the custom server certificate and key files.
@@ -96,7 +96,7 @@ This example deploys a VCH with the following configuration:
 
 You use the `--no-tls` option with no other TLS options to disable client and server authentication.
 
-This example deploys a VCH with the following configuration:
+This example `vic-machine create` command deploys a VCH with the following configuration:
 
 - Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
 - Specifies `--no-tls` to disable client and server authentication.

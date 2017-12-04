@@ -82,8 +82,7 @@ When you deploy a VCH, the user account that you specify in `--ops-user` must ha
 <td><p>dvPort group &gt; Modify<br>
   dvPort group &gt; Policy operation<br>
   dvPort group &gt; Scope operation<br>
-  Resource &gt; Add virtual machine *<br>
-  vApp &gt; Add virtual machine<br>
+  Resource &gt; Add virtual machine<br>
   VirtualMachine &gt; Configuration &gt; Add existing disk<br>
   VirtualMachine &gt; Configuration &gt; Add new disk<br>
   VirtualMachine &gt; Configuration &gt; Add or remove device<br>
@@ -102,15 +101,13 @@ When you deploy a VCH, the user account that you specify in `--ops-user` must ha
   </td>
 </tr></tbody></table>
 
-    &#42; If you use both of the `--ops-user` and  [`--use-rp`](vch_config.md#use-rp) options when you create a VCH, you must include the **Resource** &gt; **Add virtual machine** permission in the `VCH - endpoint` role. The **vApp** &gt; **Add virtual machine** permission is not required if you deploy the VCH with the `--use-rp` option. 
-
 3. Go to **Networking**, create a network folder, and place the VMware vSphere Distributed Switches that the VCHs will use for the bridge network and any container networks into that folder.
 
     The parent object of vSphere Distributed Switches that the VCH uses  as the bridge network and container networks must be set to `Read-Only`, with **Propagate to Children** enabled. By placing vSphere Distributed Switches in a network folder, you avoid setting an entire datacenter to `Read-Only`. This restriction only applies to the bridge network and container networks. When you specify the `vic-machine create --bridge-network` and `--container-network` options, include the full inventory path to the networks in the following format:<pre><i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i></pre>
 
 2. (Optional) Go to **Hosts and Clusters** and create a resource pool in which to deploy VCHs.
 
-    By creating a resource pool for VCHs, you can set the correct permissions on just that resource pool rather than on an entire host or cluster. You specify this resource pool in the `vic-machine create --compute-resource` option when you deploy the VCH. For a more granular application of privileges, you can also apply the permissions directly to VCH vApps after deployment, rather than to a resource pool.
+    By creating a resource pool for VCHs, you can set the correct permissions on just that resource pool rather than on an entire host or cluster. You specify this resource pool in the `vic-machine create --compute-resource` option when you deploy the VCH. For a more granular application of privileges, you can also apply the permissions directly to VCH resource pools after deployment, rather than to a resource pool.
 
 5. In each of the **Hosts and Clusters**, **Storage**, and **Networking** views, select inventory objects and assign the user group and the appropriate role to each one.
 
@@ -164,7 +161,7 @@ When you deploy a VCH, the user account that you specify in `--ops-user` must ha
 <td>Yes</td>
 </tr>
 <tr>
-<td>VCH vApps, for a very granular application of privileges</td>
+<td>VCH resource pools, for a very granular application of privileges</td>
 <td><code>VCH - endpoint</code></td>
 <td>Yes</td>
 </tr></tbody></table>
@@ -201,7 +198,7 @@ The password or token for the operations user that you specify in `--ops-user`. 
 
 ## Example `vic-machine` Command <a id="example"></a>
 
-This example deploys a VCH with the following configuration:
+This example `vic-machine create` command deploys a VCH with the following configuration:
 
 - Specifies the image store and name for the VCH.
 - Specifies the account <i>vsphere_admin</i> in the `--target` option, to identify the user account with vSphere administrator privileges with which to deploy the VCH.

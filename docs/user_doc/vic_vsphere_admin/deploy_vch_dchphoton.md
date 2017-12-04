@@ -22,7 +22,7 @@ For container developers to be able to deploy containers from the `dch-photon` i
     - The VCH must be able to pull the `dch-photon` image from the vSphere Integrated Containers Registry instance. You must specify the registry's CA certificate by using the [`--registry-ca`](vch_registry.md#registry-ca) option.
     - A `dch-photon` container creates an anonymous volume, and as such requires named `default`.
 
-     For simplicity, this example deploys a VCH with the `--no-tls` flag, so that container application developers do not need to use a TLS certificate to connect a Docker client to the VCH. However, the connection between the VCH and the registry still requires certificate authentication.<pre>vic-machine-<i>operating_system</i> create
+     For simplicity, This example `vic-machine create` command deploys a VCH with the `--no-tls` flag, so that container application developers do not need to use a TLS certificate to connect a Docker client to the VCH. However, the connection between the VCH and the registry still requires certificate authentication.<pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
 --compute-resource cluster1
 --image-store datastore1

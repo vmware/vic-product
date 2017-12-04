@@ -266,7 +266,7 @@ This example sets the `--debug` option to 0, to disable debug mode on a VCH.
 
 ## Configure CPU and Memory Allocations <a id="cpumem"></a>
 
-If a VCH requires more resources, or if it consumes too many resources, you can configure CPU and memory allocations on the VCH vApp by using the different `vic-machine configure --memory` and `--cpu` options.
+If a VCH requires more resources, or if it consumes too many resources, you can configure CPU and memory allocations on the VCH resource pool by using the different `vic-machine configure --memory` and `--cpu` options.
 
 The `vic-machine configure` options for memory and CPU allocations function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` memory and CPU reservation and shares options, see [Virtual Container Host  Appliance Configuration](vch_config.md).
 

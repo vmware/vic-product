@@ -4,7 +4,7 @@ This section describes the options that are common to all `vic-machine` commands
 
 Wrap any option arguments that include spaces or special characters in quotes. For information about option arguments that might require quotes, see [Specifying Option Arguments](using_vicmachine.md#args).
 
-You can set environment variables for the `--target`, `--user`, `--password`, and `--thumbprint` options. For information about setting environment variables, see [Set Environment Variables for Key `vic-machine` Options](vic_env_variables.md).
+You can set environment variables for the `--target`, `--user`, `--password`, and `--thumbprint` options. For information about setting environment variables, see [Set Environment Variables for Common `vic-machine` Options](vic_env_variables.md).
 
 ### `--id` ###
 

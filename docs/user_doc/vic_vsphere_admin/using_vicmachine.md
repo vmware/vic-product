@@ -1,6 +1,6 @@
 # Using the `vic-machine` CLI Utility #
 
-After you deploy the vSphere Integrated Containers appliance, you download the vSphere Integrated Containers Engine bundle from the appliance to your usual working machine. For information about how to download the bundle, see [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md).
+After you deploy the vSphere Integrated Containers appliance, you download the vSphere Integrated Containers Engine bundle from the appliance and unpack it on your usual working machine. For information about how to download the bundle, see [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md). 
 
 The vSphere Integrated Containers Engine bundle includes the `vic-machine` CLI utility. You use `vic-machine` to deploy and manage virtual container hosts (VCHs) at the command line. 
 
@@ -35,15 +35,15 @@ Option arguments that might require quotation marks include the following:
 
 ## Common `vic-machine` Options <a id="options"></a>
 
-The following `vic-machine` options identify the location for the VCH and the credentials with which `vic-machine` performs operations in vSphere. These options are common to all `vic-machine` commands.
+The `vic-machine` options in this section are common to all `vic-machine` commands.
+
+You can set environment variables so that you do not have to specify the `--target`, `--user`, `--password`, and `--thumbprint` options in every `vic-machine` command. For information about setting `vic-machine` environment variables, see [Set Environment Variables for Common `vic-machine` Options](vic_env_variables.md).
 
 ### `--target` <a id="target"></a>
 
 **Short name**: `-t`
 
 The IPv4 address, fully qualified domain name (FQDN), or URL of the ESXi host or vCenter Server instance on which you are deploying a VCH. This option is always **mandatory** when using `vic-machine`.
-
-You can set an environment variable so that you do not have to specify `--target` in every `vic-machine` command. For information about setting `vic-machine` environment variables, see [Set Environment Variables for Key `vic-machine` Options](vic_env_variables.md).
 
 To facilitate IP address changes in your infrastructure, provide an FQDN whenever possible, rather than an IP address. If `vic-machine create` cannot resolve the FQDN, it fails with an error.
 
@@ -55,7 +55,7 @@ If the target ESXi host is managed by vCenter Server, or if you are deploying to
 
 You can include the user name and password in the target URL. If you are deploying a VCH on vCenter Server, specify the user name for an account that has the Administrator role on that vCenter Server instance. <pre>--target <i>vcenter_or_esxi_username</i>:<i>password</i>@<i>vcenter_or_esxi_address</i></pre>
   
-If you do not include the user name in the target URL, you must specify the `--user` option. If you do not specify the `--password` option or include the password in the target URL, `vic-machine create` prompts you to enter the password.
+If you do not include the user name in the target URL, you must specify the `--user` option. If you do not specify the `--password` option or include the password in the target URL, `vic-machine` prompts you to enter the password.
 
 If you are deploying a VCH on a vCenter Server instance that includes more than one datacenter, include the datacenter name in the target URL. If you include an invalid datacenter name, `vic-machine create` fails and suggests the available datacenters that you can specify.  <pre>--target <i>vcenter_server_address</i>/<i>datacenter_name</i></pre>
 
@@ -68,8 +68,6 @@ The user name for the ESXi host or vCenter Server instance on which you are depl
 If you are deploying a VCH on vCenter Server, specify a user name for an account that has the Administrator role on that vCenter Server instance. 
 
 You can also specify the user name in the URL that you pass to `vic-machine create` in the `--target` option, in which case the `--user` option is not required.
-
-You can set an environment variable so that you do not have to specify `--user` in every `vic-machine` command. For information about setting `vic-machine` environment variables, see [Set Environment Variables for Key `vic-machine` Options](vic_env_variables.md).
 
 You can configure a VCH so that it uses a non-administrator account with reduced privileges for post-deployment operations by specifying the `--ops-user` option. If you do not specify `--ops-user`, VCHs use the vSphere administrator account that you specify in `--user` for general post-deployment operations. For information about using a different account for post-deployment operation, [Configure Operations User](set_up_ops_user.md).
 
@@ -85,8 +83,6 @@ The password for the vSphere administrator account on the vCenter Server on whic
 
 You can also specify the user name and password in the URL that you pass to `vic-machine create` in the `--target` option, in which case the `--password` option is not required.
 
-You can set an environment variable so that you do not have to specify `--password` in every `vic-machine` command. For information about setting `vic-machine` environment variables, see [Set Environment Variables for Key `vic-machine` Options](vic_env_variables.md).
-
 **Usage**:
 
 <pre>--password <i>esxi_host_or_vcenter_server_password</i></pre>
@@ -99,8 +95,6 @@ If your vSphere environment uses untrusted, self-signed certificates to authenti
 
 For information about how to obtain the certificate thumbprint for vCenter Server or an ESXi host, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 
-After you obtain the certificate thumbprint from vCenter Server or an ESXi host, you can set it as an environment variable so that you do not have to specify `--thumbprint` in every `vic-machine` command. For information about setting `vic-machine` environment variables, see [Set Environment Variables for Key `vic-machine` Options](vic_env_variables.md).
-
 If you run `vic-machine` without the specifying the `--thumbprint` option and the operation fails, the resulting error message includes the certificate thumbprint. Always verify that the thumbprint in the error message is valid before attempting to run the command again.
  
 **CAUTION**: Specifying the `--force` option bypasses safety checks, including certificate thumbprint verification. Using `--force` in this way can expose VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` can result in unexpected deployment topologies that would otherwise fail with an error. Do not use `--force` in production environments. 
@@ -110,6 +104,28 @@ Use upper-case letters and colon delimitation in the thumbprint. Do not use spac
 **Usage**:
 
 <pre>--thumbprint <i>certificate_thumbprint</i></pre>
+
+### `--force` <a id="force"></a>
+
+Short name: `-f`
+
+Forces `vic-machine create` to ignore warnings and non-fatal errors and continue with the deployment of a VCH. Errors such as an incorrect compute resource still cause the deployment to fail.
+
+**CAUTION**: Specifying the `--force` option bypasses safety checks, including certificate thumbprint verification. Using `--force` in this way can expose VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` can result in unexpected deployment topologies that would otherwise fail with an error. Do not use `--force` in production environments. 
+
+**Usage**:
+
+<pre>--force</pre>
+
+### `--timeout` <a id="timeout"></a>
+
+**Short name**: none
+
+The timeout period for uploading the vSphere Integrated Containers Engine files and ISOs to the ESXi host, and for powering on the VCH. Specify a value in the format `XmYs` if the default timeout of 3m0s is insufficient. 
+
+**Usage**:
+
+<pre>--timeout 5m0s</pre> 
 
 ## Other `vic-machine create` Options <a id="otheroptions"></a>
 

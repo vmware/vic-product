@@ -59,7 +59,7 @@ The `--asymmetric-routes` option takes no arguments. If you do not set `--asymme
 
 ## Example `vic-machine` Commands <a id="example"></a>
 
-This example deploys a VCH with the following configuration:
+This example `vic-machine create` command deploys a VCH with the following configuration:
 
 - Specifies the target vCenter Server instance, the vCenter Server user name, password, datacenter and cluster, an image store, a port group for the bridge network, a name for the VCH, and the thumbprint of the vCenter Server certificate.
 - Secures connections to the Docker API with an automatically generated server certificate, without client certificate verification, by setting `--no-tlsverify`.

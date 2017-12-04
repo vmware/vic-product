@@ -83,7 +83,7 @@ If you only require one volume store, set the volume store label to `default`. I
 
 ## Example `vic-machine` Commmand <a id="example"></a>
 
-This example deploys a VCH with the following configuration:
+This example `vic-machine create` command deploys a VCH with the following configuration:
 
 - Specifies the user name, password, datacenter, cluster, bridge network, and name for the VCH.
 - Specifies the `volumes` folder on `datastore 1` as the default volume store. Creating a volume store named `default` allows common container images that use volumes to run, and allows container application developers to create anonymous or named volumes. 

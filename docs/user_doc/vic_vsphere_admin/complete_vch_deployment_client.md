@@ -1,7 +1,6 @@
 # Finish VCH Deployment in the vSphere Client #
 
-When you have completed all of the pages in the Create Virtual 
-Container Host wizard, you can review the details of the virtual container host (VCH) that you have configured. You can also copy the generated `vic-machine create` command. 
+When you have completed all of the pages in the Create Virtual Container Host wizard, you can review the details of the virtual container host (VCH) that you have configured. You can also copy the generated `vic-machine create` command. 
 
 **Prerequisites**
 
@@ -22,4 +21,8 @@ Container Host wizard in the vSphere Client.
 
     At the end of a successful deployment, the deployment log shows connection details for this VCH, and a success message.
 6. (Optional) When the deployment has succeeded, click the link to the VCH Admin Portal for this VCH.
+
+**What to Do Next**
+
+The Create Virtual Container Host wizard does not include any escape characters in the generated `vic-machine` command. Consequently, if any of the values that you specified in the wizard include special characters or spaces, you must edit the saved `vic-machine` command to wrap those values in quotes before you can reuse the command to create similar VCHs. For information about using quotes to escape special characters and spaces, see [Specifying Option Arguments](using_vicmachine.md#args). 
 

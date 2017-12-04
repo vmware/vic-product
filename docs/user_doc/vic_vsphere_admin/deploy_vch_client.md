@@ -1,6 +1,6 @@
 # Deploy Virtual Container Hosts in the vSphere Client #
 
-If you have installed the HTML5 plug-in for vSphere Integrated Containers, you can deploy virtual container hosts (VCHs) interactively in the HTML5 vSphere Client.
+If you have installed the HTML5 plug-in for vSphere Integrated Containers, you can deploy virtual container hosts (VCHs) interactively in the vSphere Client.
 
 The different options that you configure in the Create Virtual Container Host wizard in the vSphere Client correspond to `vic-machine create` options. The `vic-machine create` options are exposed by an API that runs in the `vic-machine-server` service of the vSphere Integrated Containers appliance. When you use the Create Virtual Container Host wizard, it deploys VCHs to the vCenter Server instance with which the vSphere Integrated Containers appliance is registered. Consequently, when you use the Create Virtual Container Host wizard, you do not need to provide any information about the deployment target, vSphere  administrator credentials, or vSphere certificate thumbprints.
 
@@ -20,6 +20,8 @@ The different options that you configure in the Create Virtual Container Host wi
 
 3. Click **vSphere Integrated Containers** in the main panel and the **Virtual Container Hosts** tab. 
 4. Click **+ New Virtual Container Host**.
+
+    The Create Virtual Container Host wizard opens.
 
 **What to Do Next**
 

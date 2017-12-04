@@ -119,7 +119,7 @@ The examples in this section demonstrate how to configure a VCH to use a secure 
 
 This example shows how to use `--registry-ca` to authorize access to a vSphere Integrated Containers Registry instance or to another secure registry.
 
-This example deploys a VCH with the following configuration:
+This example `vic-machine create` command deploys a VCH with the following configuration:
 
 - Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
 - Secures connections to the Docker API with an automatically generated server certificate, without client certificate verification, by setting `--no-tlsverify`.
@@ -142,7 +142,7 @@ This example shows how to use `--insecure-registry` to authorize access to two i
 
 **NOTE**: You cannot configure VCHs to connect to vSphere Integrated Containers Registry instances as insecure registries. Connections to vSphere Integrated Containers Registry always require HTTPS and a certificate.
 
-This example deploys a VCH with the following configuration:
+This example `vic-machine create` command deploys a VCH with the following configuration:
 
 - Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
 - Secures connections to the Docker API with an automatically generated server certificate, without client certificate verification, by setting `--no-tlsverify`.
@@ -165,7 +165,7 @@ This example deploys a VCH with the following configuration:
 
 To restrict the registries to which a VCH allows access, set the `--whitelist-registry` option. You can specify `--whitelist-registry` multiple times to add multiple registries to the whitelist. You use `--whitelist-registry` in combination with the `--registry-ca`  and `--insecure-registry` options.
 
-This example deploys a VCH with the following configuration:
+This example `vic-machine create` command deploys a VCH with the following configuration:
 
 - Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
 - Secures connections to the Docker API with an automatically generated server certificate, without client certificate verification, by setting `--no-tlsverify`.

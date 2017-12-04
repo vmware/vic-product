@@ -1,13 +1,13 @@
 # Deploy a VCH to a Basic vCenter Server Cluster
 
-This topic provides instructions for deploying a virtual container host (VCH) in a very basic vCenter Server environment. This basic deployment allows you to test vSphere Integrated Containers Engine with vCenter Server before attempting a more complex deployment that corresponds to your real vSphere environment.
+This topic provides instructions for using `vic-machine` to deploy a virtual container host (VCH) in a very basic vCenter Server environment. This basic deployment allows you to test vSphere Integrated Containers Engine with vCenter Server before attempting a more complex deployment that corresponds to your real vSphere environment.
 
-The vCenter Server instance to which you deploy the VCH must match the specifications listed in the prerequisites. This example deploys a VCH by using the minimum `vic-machine create` options possible, for demonstration purposes.
+The vCenter Server instance to which you deploy the VCH must match the specifications listed in the prerequisites. This example `vic-machine create` command deploys a VCH by using the minimum `vic-machine create` options possible, for demonstration purposes.
 
 **Prerequisites**
 
 * Deploy the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
-* In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link to **download the vSphere Integrated Containers Engine bundle**, and unpack it on your working machine.  
+* Download the vSphere Integrated Containers Engine bundle from the appliance and unpack it on your usual working machine. For information about how to download the bundle, see [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md). 
 * Create or obtain a vCenter Server instance with the following configuration:
   * One datacenter
   * One cluster with two ESXi hosts and DRS enabled. You can use nested ESXi hosts for this example.
@@ -18,7 +18,7 @@ The vCenter Server instance to which you deploy the VCH must match the specifica
 * Make sure that the correct firewall ports are open on the ESXi hosts. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 * Obtain the vCenter Server certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 * Familiarize yourself with the vSphere Integrated Containers Engine binaries, as described in [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md). 
-* Familiarize yourself with the basic options of the `vic-machine create` command described in [VCH Placement](vch_placement.md).
+* Familiarize yourself with the basic options of the `vic-machine create` command described in [Using the `vic-machine` CLI Utility](using_vicmachine.md).
 * Familiarize yourself with the bridge network and image store, as described in [Configure Bridge Networks](bridge_network.md) and [Specify the Image Store](image_store.md).
  
 
@@ -67,12 +67,12 @@ The `vic-machine create` command in this example specifies the minimum informati
 - A vCenter Single Sign-On user and password for a vSphere administrator account, in the `--user` and `--password` options. 
 - The port group named `vic-bridge`, for use as the container bridge network. 
 - The name of the shared datastore to use as the image store, in which to store container images.
-- Disables the verification of clients that connect to this VCH by specifying the `--no-tlsverify` option.
+- For simplicity, disables the verification of client certificates by specifying the `--no-tlsverify` option.
 - Specifies the thumbprint of the vCenter Server host certificate by specifying the `--thumbprint` option.
    
 Because the vCenter Server instance only has one datacenter and one cluster, and uses the VM Network network, `vic-machine create` automatically detects and uses these resources.
 
-This example deploys a VCH with the default name `virtual-container-host`.
+This example `vic-machine create` command deploys a VCH with the default name `virtual-container-host`.
 
 **Result**
 
