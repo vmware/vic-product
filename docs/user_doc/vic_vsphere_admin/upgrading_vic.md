@@ -10,7 +10,6 @@ You upgrade vSphere Integrated Containers in three stages:
 
 Upgrading the appliance upgrades both vSphere Integrated Containers Registry and vSphere Integrated Containers Management portal. 
 
-- For information about the data that migrates during upgrade, see [Data That Migrates During vSphere Integrated Containers Appliance Upgrade](upgrade_data.md). 
 - For information about how to prepare for upgrade, see [Tasks to Perform Before Upgrading the vSphere Integrated Containers Appliance](pre_upgrade_tasks.md) 
 - For information about upgrading the appliance, see [Upgrade the vSphere Integrated Containers Appliance](upgrade_appliance.md). 
 
