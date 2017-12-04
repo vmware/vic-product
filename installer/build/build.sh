@@ -113,7 +113,7 @@ done
 setenv ADMIRAL "dev"
 
 # set vic-machine-server
-setenv VIC_MACHINE_SERVER "latest"
+setenv VIC_MACHINE_SERVER "dev"
 
 # set Vic-Engine
 url=$(gsutil ls -l "gs://vic-engine-builds" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
