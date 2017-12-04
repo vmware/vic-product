@@ -12,7 +12,8 @@ vSphere Integrated Containers supports the use of container volumes. You can cre
 - [Mount Existing vSphere-Backed Volumes on Containers](#mount)
 - [Sharing NFS-Backed Volumes Between Containers](#mount_nfs)
 - [Obtain Information About a Volume](#inspect_vol) 
-- [Delete a Named Volume from a Volume Store](#delete_vol) 
+- [Delete a Named Volume from a Volume Store](#delete_vol)
+- [Delete a Container and the Anonymous Volumes Attached to It](#delete_anon_vol)
 
 For simplicity, the examples in this topic assume that the VCHs implement TLS authentication with self-signed server certificates, with no client verification.
 
