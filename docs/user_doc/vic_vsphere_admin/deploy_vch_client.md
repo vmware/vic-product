@@ -1,4 +1,4 @@
-# Deploy Virtual Container Hosts in the HTML5 vSphere Client #
+# Deploy Virtual Container Hosts in the vSphere Client #
 
 If you have installed the HTML5 plug-in for vSphere Integrated Containers, you can deploy virtual container hosts (VCHs) interactively in the HTML5 vSphere Client.
 
@@ -20,8 +20,6 @@ The different options that you configure in the Create Virtual Container Host wi
 
 3. Click **vSphere Integrated Containers** in the main panel and the **Virtual Container Hosts** tab. 
 4. Click **+ New Virtual Container Host**.
-
-    **NOTE**: The **+ New Virtual Container Host** button only appears if you are logged in with a vSphere administrator account.
 
 **What to Do Next**
 
