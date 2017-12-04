@@ -172,4 +172,8 @@ To delete a volume, run `docker volume rm` and specify the name of the volume to
 <pre>docker -H <i>virtual_container_host_address</i>:2376 --tls 
 volume rm <i>volume_name</i></pre>
 
-**NOTE**: vSphere Integrated Containers does not support running `docker rm -v` to remove volumes that are associated with a container.
+## Delete a Container and the Anonymous Volumes Attached to It  <a id="delete_anon_vol"></a>
+
+To remove a container and anonymous volumes joined to that container, run `docker rm -v`. If an anonymous volume is in use by another container, it is not removed.
+
+<pre>$ docker rm -v container1</pre>
