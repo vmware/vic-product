@@ -279,14 +279,6 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
         <Description>Paste in the content of certificate key file. Leave blank for a generated key.</Description>
       </Property>
     </ProductSection>
-    <ProductSection ovf:class="engine_installer" ovf:required="false">
-      <Info>Demo VCH Installer Wizard Properties</Info>
-      <Category>6. Demo VCH Installer Wizard Configuration</Category>
-      <Property ovf:key="port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="1337">
-        <Label>6.1. Demo VCH Installer Wizard Port</Label>
-        <Description>Specifies the port on which Demo VCH Installer Wizard will be published.</Description>
-      </Property>
-    </ProductSection>
     <ProductSection ovf:class="default_users" ovf:required="false">
       <Info>Example Users</Info>
       <Category>7. Configure Example Users</Category>

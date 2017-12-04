@@ -145,9 +145,6 @@ func Init(conf *config) {
 		if port, ok := ovf.Properties["management_portal.port"]; ok {
 			conf.admiralPort = port
 		}
-		if port, ok := ovf.Properties["engine_installer.port"]; ok {
-			conf.installerPort = port
-		}
 	}
 
 	// get the fileserver vic tar location
