@@ -2,15 +2,21 @@
 
 When you deploy a virtual container host (VCH), you can configure a name for the VCH, a naming convention for container VMs, and debugging levels. 
 
+- [Options](#options)
+  - [VCH Name](#name)
+  - [Container VM Name Template](#container-name-convention)
+  - [Debug](#debug)
+  - [Syslog](#syslog)
+- [What to Do Next](#whatnext)
+- [Example `vic-machine` Commands](#examples)
+  - [Set a Container Name Convention](#convention) 
+  - [Configure Debugging and Sylog on a VCH](#syslog)
+
+## Options <a id="options"></a>
+
 The sections in this topic each correspond to an entry in the General Settings page of the Create Virtual Container Host wizard and to the  corresponding `vic-machine create` options.
 
-- [VCH Name](#name)
-- [Container VM Name Template](#container-name-convention)
-- [Debug](#debug)
-- [Syslog](#syslog)
-- [Example `vic-machine` Commands](#examples)
-
-## VCH Name <a id="name"></a>
+### VCH Name <a id="name"></a>
 
 A name for the VCH, that appears the vCenter Server inventory and that you can use in other `vic-machine` commands. The default VCH name is `virtual-container-host`.
 
@@ -26,7 +32,7 @@ If a VCH of the same name exists on the ESXi host or in the vCenter Server inven
 
 <pre>--name <i>vch_name</i></pre>
 
-## Container VM Name Template <a id="container-name-convention"></a>
+### Container VM Name Template <a id="container-name-convention"></a>
 
 Enforce a naming convention for container VMs, that applies a prefix or suffix to the names of all container VMs that run in the VCH. Applying a naming convention to container VMs facilitates organizational requirements such as chargeback. The container naming convention applies to the display name of the container VM that appears in the vSphere Client, not to the container name that Docker uses. 
 
@@ -48,7 +54,7 @@ Specify a prefix and/or suffix to apply to container names, and add `-{name}` or
 <pre>--container-name-convention {id}-<i>cVM_name_suffix</i></pre>
 <pre>--container-name-convention <i>cVM_name_prefix</i>-{name}<i>cVM_name_suffix</i></pre>
 
-## Debug <a id="debug"></a>
+### Debug <a id="debug"></a>
 
 Deploy the VCH with more verbose levels of logging, and optionally modify the behavior of `vic-machine` for troubleshooting purposes. Specifying a debug level of greater than 0 increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting a higher debug level, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. 
 
@@ -77,7 +83,7 @@ Optionally specify a debugging level of `1`, `2`, or `3`. If not specified, the 
 
 <pre>--debug 3</pre>
 
-## Syslog <a id="syslog"></a>
+### Syslog <a id="syslog"></a>
 
 Configure a VCH so that it sends the logs in the `/var/log/vic` folder on the VCH endpoint VM to a syslog endpoint that is not located in the VCH. The VCH also sends container logs to the same syslog endpoint.
 
@@ -95,6 +101,10 @@ Specify the address and port of the syslog endpoint. You must also specify wheth
 
 <pre>--syslog-address udp://<i>syslog_host_address</i>:<i>port</i></pre>
 <pre>--syslog-address tcp://<i>syslog_host_address</i>:<i>port</i></pre>
+
+## What to Do Next <a id="whatnext"></a>
+
+If you are using the Create Virtual Container Host wizard, click **Next** to go to the [Compute Capacity](vch_compute.md) settings.
 
 ## Example `vic-machine` Commands <a id="examples"></a>
 
@@ -115,7 +125,7 @@ This example `vic-machine create` command deploys a VCH that specifies `--contai
 --container-name-convention vch1-container-{name}
 </pre>
 
-### Configure Debugging and Sylog on a VCH
+### Configure Debugging and Sylog on a VCH <a id="syslog"></a>
 
 This example `vic-machine create` command deploys a VCH that sets the deployment debugging level to 3 and sends logs to an external syslog endpoint.
 

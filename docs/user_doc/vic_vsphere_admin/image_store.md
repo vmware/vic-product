@@ -6,13 +6,17 @@ Specifying an image store is **mandatory** if there is more than one datastore i
 
 When container developers create and run containers, vSphere Integrated Containers Engine stores the files for container VMs at the top level of the image store, in folders that have the same names as the container VMs.
 
-The sections in this topic each correspond to an entry in the General Settings page of the Create Virtual Container Host wizard and to the  corresponding `vic-machine create` options.
-
-- [Datastore](#imagestore)
-- [Base Image Size](#baseimagesize)
+- [Options](#options)
+  - [Datastore](#imagestore)
+  - [Base Image Size](#baseimagesize)
+- [What to Do Next](#whatnext)
 - [Example `vic-machine` Command](#example)
 
-## Datastore <a id="imagestore"></a>
+## Options <a id="options"></a>
+
+The sections in this topic each correspond to an entry in the General Settings page of the Create Virtual Container Host wizard and to the  corresponding `vic-machine create` options.
+
+### Datastore <a id="imagestore"></a>
 
 If you are deploying the VCH to a vCenter Server cluster, the datastore that you designate as the image store must be shared by at least two ESXi hosts in the cluster. Using non-shared datastores is possible, but limits the use of vSphere features such as vSphere vMotion&reg; and VMware vSphere Distributed Resource Scheduler&trade; (DRS).
 
@@ -51,8 +55,7 @@ You can specify a datastore folder to use as the image store by specifying a pat
 
 <pre>--image-store <i>datastore_name</i>/<i>path</i>/<i>to</i>/<i>folder</i></pre> 
 
-
-## Base Image Size <a id="baseimagesize"></a>
+### Base Image Size <a id="baseimagesize"></a>
 
 The size of the base image from which to create other images. You should not normally need to use this option. Specify the size in `GB` or `MB`. The default size is 8GB. Images are thin-provisioned, so they do not usually consume 8GB of space. For information about container base images, see [Create a base image](https://docs.docker.com/engine/userguide/eng-image/baseimages/) in the Docker documentation. 
 
@@ -69,14 +72,13 @@ Specify a value in GB or MB. If not specified, `vic-machine create` sets the ima
 
 <pre>--base-image-size 4GB</pre>
 
+## What to Do Next <a id="whatnext"></a>
+
+If you are using the Create Virtual Container Host wizard, scroll down the page to specify [Volume Datastores](volume_stores.md).
+
 ## Example `vic-machine` Commmand <a id="example"></a>
 
-This example `vic-machine create` command deploys a VCH with the following configuration:
-
-- Provides the vCenter Single Sign-On user name and password for a vSphere administrator account in the `--target` option.
-- Deploys a VCH named `vch1` to the cluster `cluster1` in datacenter `dc1`. 
-- Uses an existing port group named `vch1-bridge` for the bridge network. 
-- Designates the folder `vch1_images` in `datastore1` as the image store. 
+This example `vic-machine create` command deploys a VCH that uses the folder `vch1_images` in `datastore1` as the image store. 
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1

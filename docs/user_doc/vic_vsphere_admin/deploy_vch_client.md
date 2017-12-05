@@ -25,12 +25,12 @@ The different options that you configure in the Create Virtual Container Host wi
 
 **What to Do Next**
 
-See the following topics for instructions about how to fill in the different pages of the Create Virtual Container Host wizard:
+See the following topics for instructions about how to fill in the pages of the Create Virtual Container Host wizard:
 
-- [General Settings](vch_general_settings.md)
-- [Compute Capacity](vch_compute.md)
-- [Storage Capacity](vch_storage.md)
-- [Networks](vch_networking.md)
-- [Security](vch_security.md)
-- [Operations User](set_up_ops_user.md)
-- [Summary](complete_vch_deployment_client.md)
+1. [General Settings](vch_general_settings.md)
+1. [Compute Capacity](vch_compute.md)
+1. [Storage Capacity](vch_storage.md)
+1. [Networks](vch_networking.md)
+1. [Security](vch_security.md)
+1. [Operations User](set_up_ops_user.md)
+1. [Summary](complete_vch_deployment_client.md)

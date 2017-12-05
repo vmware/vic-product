@@ -2,24 +2,30 @@
 
 When you deploy a virtual container host (VCH), you must select the compute resource in your virtual infrastructure in which to deploy the VCH. You can optionally configure resource usage limits on the VCH.
 
-The sections in this topic each correspond to an entry in the Compute Capacity page of the Create Virtual Container Host wizard and to the  corresponding `vic-machine create` options. Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
-
-**NOTE**: When using the Create Virtual Container Host wizard, if you change any of the advanced options in this page, leave the **Advanced** view open when you click **Next**.
-
-For information about vSphere memory and CPU shares and reservations, see [Allocate Memory Resources](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.vm_admin.doc/GUID-49D7217C-DB6C-41A6-86B3-7AFEB8BF575F.html), and [Allocate CPU Resources](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.vm_admin.doc/GUID-6C9023B2-3A8F-48EB-8A36-44E3D14958F6.html) in the vSphere documentation.
-
-- [Compute Resource](#compute-resource)
-- [CPU](#cpu)
-- [Memory](#memory)
-- [CPU Reservation](#cpures)
-- [CPU Shares](#cpushares)
-- [Memory Reservation](#memoryres)
-- [Memory Shares](#memoryshares)
-- [Endpoint VM CPUs](#endpointcpu)
-- [Endpoint VM Memory](#endpointmemory)
+- [Options](#options)
+  - [Compute Resource](#compute-resource)
+  - [CPU](#cpu)
+  - [Memory](#memory)
+- [Advanced Options](#advanced)
+  - [CPU Reservation](#cpures)
+  - [CPU Shares](#cpushares)
+  - [Memory Reservation](#memoryres)
+  - [Memory Shares](#memoryshares)
+  - [Endpoint VM CPUs](#endpointcpu)
+  - [Endpoint VM Memory](#endpointmemory)
+- [What to Do Next](#whatnext)
 - [Example `vic-machine` Commands](#examples)
+  - [Deploy to a vCenter Server Cluster with Multiple Datacenters and Datastores](#cluster)
+  - [Deploy to a Specific Standalone Host in vCenter Server](#standalone)
+  - [Deploy to a Resource Pool on an ESXi Host](#rp_host)
+  - [Deploy to a Resource Pool in a vCenter Server Cluster](#rp_cluster)
+  - [Set Limits on Resource Use](#customized) 
 
-## Compute Resource <a id="compute-resource"></a>
+## Options <a id="options"></a>
+
+The sections in this topic each correspond to an entry in the Compute Capacity page of the Create Virtual Container Host wizard and to the  corresponding `vic-machine create` options.
+
+### Compute Resource <a id="compute-resource"></a>
 
 The host, cluster, or resource pool in which to deploy the VCH. 
 
@@ -55,7 +61,7 @@ To deploy to a specific resource pool on a standalone host that is managed by vC
 
 To deploy to a specific resource pool in a cluster, if the resource pool name is not unique across all clusters, specify the full path to the resource pool:<pre>--compute-resource <i>cluster_name</i>/Resources/<i>resource_pool_name</i></pre>
 
-## CPU <a id="cpu"></a>
+### CPU <a id="cpu"></a>
 
 Limit the amount of CPU capacity that is available for use by the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool. Specify the CPU capacity in MHz.
 
@@ -89,7 +95,15 @@ Specify a limit of between 1 and 21765 MB. If not specified, `vic-machine create
 
 <pre>--memory 1024</pre>
 
-## CPU Reservation <a id="cpures"></a>
+## Advanced Options <a id="advanced"></a>
+
+When using the Create Virtual Container Host wizard, if you change any of the advanced options, leave the **Advanced** view open when you click **Next** to proceed to the next page.
+
+If you are using `vic-machine`, the options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
+
+For information about vSphere memory and CPU shares and reservations, see [Allocate Memory Resources](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.vm_admin.doc/GUID-49D7217C-DB6C-41A6-86B3-7AFEB8BF575F.html), and [Allocate CPU Resources](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.vm_admin.doc/GUID-6C9023B2-3A8F-48EB-8A36-44E3D14958F6.html) in the vSphere documentation.
+
+### CPU Reservation <a id="cpures"></a>
 
 Reserve a quantity of CPU capacity for use by the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool.  Specify the CPU reservation value in MHz. 
 
@@ -106,7 +120,7 @@ Specify a limit of between 1 and 9779 MHz. If not specified, `vic-machine create
 
 <pre>--cpu-reservation 1024</pre>
 
-## CPU Shares <a id="cpushares"></a>
+### CPU Shares <a id="cpushares"></a>
 
 Set CPU shares on the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool.  
 
@@ -123,7 +137,7 @@ Specify the share value as a level or a number, for example `high`, `normal`, `l
 
 <pre>--cpu-shares low</pre>
 
-## Memory Reservation <a id="memoryres"></a>
+### Memory Reservation <a id="memoryres"></a>
 
 Reserve a quantity of memory for use by the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool. Specify the memory reservation value in MB.  
 
@@ -140,7 +154,7 @@ Specify a limit of between 1 and 21153 MB. If not specified, `vic-machine create
 
 <pre>--memory-reservation 1024</pre>
 
-## Memory Shares <a id="memoryshares"></a>
+### Memory Shares <a id="memoryshares"></a>
 
 Set memory shares on the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool.  
 
@@ -157,7 +171,7 @@ Specify the share value as a level or a number, for example `high`, `normal`, `l
 
 <pre>--memory-shares low</pre>
 
-## Endpoint VM CPUs <a id="endpointcpu"></a>
+### Endpoint VM CPUs <a id="endpointcpu"></a>
 
 The number of virtual CPUs for the VCH endpoint VM. The default is 1. Set this option to increase the number of CPUs in the VCH endpoint VM.
 
@@ -176,7 +190,7 @@ Specify a value of greater than 1. If not specified, `vic-machine create` sets t
 
 <pre>--endpoint-cpu <i>number_of_CPUs</i></pre>
 
-## Endpoint VM Memory <a id="endpointmemory"></a>
+### Endpoint VM Memory <a id="endpointmemory"></a>
 
 The amount of memory for the VCH endpoint VM. Set this option to increase the amount of memory in the VCH endpoint VM if the VCH will pull large container images.
 
@@ -195,15 +209,13 @@ Specify a value of between 1 and 21765 MB. If not specified, `vic-machine create
 
 <pre>--endpoint-memory <i>amount_of_memory</i></pre>
 
+## What to Do Next <a id="whatnext"></a>
+
+If you are using the Create Virtual Container Host wizard, click **Next** to go to the [Storage Capacity](vch_storage.md) settings.
+
 ## Example `vic-machine` Commmands <a id="examples"></a>
 
 The following examples show `vic-machine create` commands that use the options described in this topic. For simplicity, the examples all use the `--no-tlsverify` option to automatically generate server certificates but disable client authentication. The examples use an existing port group named `vch1-bridge` for the bridge network and designate `datastore1` as the image store. 
-
-- [Deploy to a vCenter Server Cluster with Multiple Datacenters and Datastores](#cluster)
-- [Deploy to a Specific Standalone Host in vCenter Server](#standalone)
-- [Deploy to a Resource Pool on an ESXi Host](#rp_host)
-- [Deploy to a Resource Pool in a vCenter Server Cluster](#rp_cluster)
-- [Set Limits on Resource Use](#customized)
 
 ### Deploy to a vCenter Server Cluster with Multiple Datacenters and Datastores <a id="cluster"></a>
 
