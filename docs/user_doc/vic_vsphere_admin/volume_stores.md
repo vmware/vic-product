@@ -1,6 +1,14 @@
-# Specify Volume Stores #
+# Specify Volume Datastores #
 
 Volume stores for virtual container hosts (VCHs) are datastores in which to create volumes when container developers use the `docker volume create` command or deploy containers from images that use volumes. You can specify either a datastore that is backed by vSphere or an NFS share point as the volume store.
+
+For information about how Docker containers use volumes, see [Use volumes](https://docs.docker.com/engine/admin/volumes/volumes/) in the Docker documentation.
+
+- [Usage for vSphere Datastores](#vsphereusage)
+- [Usage for NFS Datastores](#nfsusage)
+- [Default Volumes Stores and Anonymous Volumes](#default)
+- [Volume Datastores](#volume-store)
+- [Example `vic-machine` Command](#example)
 
 If you are deploying the VCH to a vCenter Server cluster, the vSphere datastores that you designate as volume stores should be shared by at least two ESXi hosts in the cluster. Using non-shared datastores is possible and `vic-machine create` succeeds, but it issues a warning that this configuration limits the use of vSphere features such as vSphere vMotion and DRS.
 
@@ -8,29 +16,13 @@ If you use NFS volume stores, container developers can share the data in the vol
 
 **IMPORTANT** If you do not specify a volume store, no volume store is created by default and container developers cannot create or run containers that use volumes. You can add volume stores to a VCH after deployment by running `vic-machine configure --volume-store`. For information about adding volume stores after deployment, see [Add Volume Stores](configure_vch.md#volumes).
 
-For information about how Docker containers use volumes, see [Use volumes](https://docs.docker.com/engine/admin/volumes/volumes/) in the Docker documentation.
-
-- [`vic-machine` Option](#option)
-  - [Usage for vSphere Datastores](#vsphereusage)
-  - [Usage for NFS Datastores](#nfsusage)
-  - [Default Volumes Stores and Anonymous Volumes](#default)
-- [Example `vic-machine` Command](#example)
-
-## `vic-machine` Option <a id="options"></a>
-
-You specify a volume store by using the `vic-machine create --volume-store` option.
-
-### `--volume-store` <a id="volume-store"></a>
-
-**Short name**: `--vs`
-
 To specify a datastore for use as a volume store, you provide the datastore name or NFS mount point, an optional path to a specific folder in that datastore, and a volume store label.  
 
 The label that you specify is the volume store name that Docker uses. For example, the volume store label appears in the information for a VCH when container developers run `docker info`. Container developers specify the volume store label in the <code>docker volume create --opt VolumeStore=<i>volume_store_label</i></code> option when they create a volume. The volume store label must be unique.
 
 You can specify the `--volume-store` option multiple times, to create multiple volume stores for a single VCH. If you specify an invalid vSphere datastore name or an invalid NFS share point URL, `vic-machine create` fails and suggests valid datastores. 
 
-**Usage for vSphere Datastores**: <a id="vsphereusage"></a>
+## Usage for vSphere Datastores <a id="vsphereusage"></a>
 
 To specify a whole vSphere datastore for use as a volume store, you provide the datastore name and a volume store label.
 
@@ -50,7 +42,7 @@ The `vic-machine create` command creates the `volumes` folder independently from
 
 **IMPORTANT**: If multiple VCHs will use the same datastore for their volume stores, specify a different datastore folder for each VCH. Do not designate the same datastore folder as the volume store for multiple VCHs.
 
-**Usage for NFS Datastores**: <a id="nfsusage"></a>
+## Usage for NFS Datastores <a id="nfsusage"></a>
 
 To specify an NFS share point as a volume store, use the `nfs://` prefix and the path to a shared mount point.
 
@@ -72,7 +64,7 @@ You can specify the `--volume-store` option multiple times, and add a mixture of
 --volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i>
 </pre> 
 
-**Default Volumes Stores and Anonymous Volumes**: <a id="default"></a>
+## Default Volumes Stores and Anonymous Volumes <a id="default"></a>
 
 If you only require one volume store, set the volume store label to `default`. If you set the volume store label to `default`, container developers do not need to specify the <code>--opt VolumeStore=<i>volume_store_label</i></code> option when they run `docker volume create`. Also, some common container images require the presence of a `default` volume store in order to run.
 
@@ -80,6 +72,17 @@ If you only require one volume store, set the volume store label to `default`. I
 
 <pre>--volume-store <i>datastore_name</i>:default</pre>
 <pre>--volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:default</pre>
+
+## Volume Datastores <a id="volume-store"></a> 
+
+**Create VCH Wizard**
+
+1. Select a datastore from the **Datastore** drop-down menu.
+2. Enter the path to a folder in the specified datastore.
+
+**vic-machine Option**
+
+`--volume-store`, `--vs`
 
 ## Example `vic-machine` Commmand <a id="example"></a>
 
