@@ -6,6 +6,7 @@ Requires=vic-appliance-ready.target
 
 [Service]
 Type=oneshot
+ExecStartPre=-/usr/bin/systemctl stop admiral.service
 ExecStart=/usr/bin/bash /etc/vmware/admiral/configure_admiral.sh
 ExecStartPost=/usr/bin/systemctl start admiral.service
 ExecStartPost=/usr/bin/systemctl start admiral_default_users.service
