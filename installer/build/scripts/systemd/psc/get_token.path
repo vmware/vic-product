@@ -4,14 +4,11 @@ Documentation=https://github.com/vmware/vic-product/installer
 
 [Path]
 PathExists=/etc/vmware/psc/admiral/psc-config.properties
+Unit=get_token.timer 
 
 [Path]
 PathChanged=/etc/vmware/psc/admiral/psc-config.properties
-Unit=harbor_startup.service
-
-[Path]
-PathChanged=/etc/vmware/psc/admiral/psc-config.properties
-Unit=admiral_startup.service
+Unit=harbor_startup.service admiral_startup.service
 
 [Install]
 WantedBy=paths.target
