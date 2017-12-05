@@ -4,7 +4,6 @@ Documentation=http://github.com/vmware/vic-product/installer
 
 [Timer]
 OnUnitActiveSec=1h
-Persistent=true
 
 [Install]
 WantedBy=timers.target

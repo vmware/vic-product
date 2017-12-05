@@ -35,3 +35,6 @@ cp /etc/vmware/psc/harbor/tokens.properties /storage/data/harbor/psc/tokens.prop
 # Create path for activating harbor_startup.service to avoid its dependency on /storage/data
 mkdir -p /etc/vmware/psc/admiral/admiral_startup
 mkdir -p /etc/vmware/psc/harbor/harbor_startup
+
+systemctl disable get_token.path
+systemctl enable token_reconfigure.path

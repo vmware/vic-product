@@ -1,0 +1,10 @@
+[Unit]
+Description=Restart PSC dependent units when config changes
+Documentation=https://github.com/vmware/vic-product/installer
+
+[Path]
+PathChanged=/etc/vmware/psc/admiral/psc-config.properties
+Unit=get_token.service harbor_startup.service admiral_startup.service
+
+[Install]
+WantedBy=paths.target
