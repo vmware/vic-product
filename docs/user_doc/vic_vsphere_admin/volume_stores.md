@@ -4,10 +4,11 @@ Volume stores for virtual container hosts (VCHs) are datastores in which to crea
 
 For information about how Docker containers use volumes, see [Use volumes](https://docs.docker.com/engine/admin/volumes/volumes/) in the Docker documentation.
 
-- [Usage for vSphere Datastores](#vsphereusage)
-- [Usage for NFS Datastores](#nfsusage)
-- [Default Volumes Stores and Anonymous Volumes](#default)
-- [Volume Datastores](#volume-store)
+- [Options](#options)
+  - [Default Volumes Stores and Anonymous Volumes](#default)
+  - [Usage for vSphere Datastores](#vsphereusage)
+  - [Usage for NFS Datastores](#nfsusage)
+- [What to Do Next](#whatnext)
 - [Example `vic-machine` Command](#example)
 
 If you are deploying the VCH to a vCenter Server cluster, the vSphere datastores that you designate as volume stores should be shared by at least two ESXi hosts in the cluster. Using non-shared datastores is possible and `vic-machine create` succeeds, but it issues a warning that this configuration limits the use of vSphere features such as vSphere vMotion and DRS.
@@ -83,6 +84,10 @@ If you only require one volume store, set the volume store label to `default`. I
 **vic-machine Option**
 
 `--volume-store`, `--vs`
+
+## What to Do Next <a id="whatnext"></a>
+
+If you are using the Create Virtual Container Host wizard, click **Next** to go to the [VCH Networks](vch_networking.md) settings.
 
 ## Example `vic-machine` Commmand <a id="example"></a>
 
