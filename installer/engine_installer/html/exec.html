@@ -27,6 +27,7 @@
         $("#log").html("");
         var data = {
           "bridge-net": $("[name='bridge-net'] option:selected").text(),
+          "bridge-net-range": $("[name='bridge-net-range']").val(),
           "public-net": $("[name='public-net'] option:selected").text(),
           "img-store": $("[name='img-store'] option:selected").text(),
           "compute": $("[name='compute'] option:selected").text(),
@@ -93,6 +94,10 @@
                   <div class="row">
                     <div class="forty">Bridge Network: </div>
                     <div class="sixty form-group" style="padding-left: 0;">{{.BridgeNetwork}}</div>
+                  </div>
+                  <div class="row">
+                    <div class="forty">Bridge Network Range: </div>
+                    <div class="sixty form-group" style="padding-left: 0;">{{.BridgeNetworkRange}}</div>
                   </div>
                   <div class="row">
                     <div class="forty">Public Network: </div>

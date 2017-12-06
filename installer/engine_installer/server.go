@@ -36,6 +36,7 @@ import (
 const (
 	publicNetName = "public-net"
 	bridgeNetName = "bridge-net"
+	bridgeNetRangeName = "bridge-net-range"
 	imgStoreName  = "img-store"
 	computeName   = "compute"
 	port          = ":1337"
@@ -133,6 +134,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 
 			html.PublicNetwork = getSelectOptionHTML(opts.Networks, publicNetName)
 			html.BridgeNetwork = getSelectOptionHTML(opts.Networks, bridgeNetName)
+			html.BridgeNetworkRange = getSelectOptionHTML(opts.Networks, bridgeNetRangeName)
 			html.ImageStore = getSelectOptionHTML(opts.Datastores, imgStoreName)
 			html.ComputeResource = getSelectOptionHTML(opts.ResourcePools, computeName)
 
