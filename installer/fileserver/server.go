@@ -60,6 +60,7 @@ type IndexHTMLOptions struct {
 	AdmiralAddr         string
 	DemoVCHAddr         string
 	FileserverAddr      string
+	ValidationError     string
 }
 
 var (
@@ -214,7 +215,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 		if err != nil {
 			log.Infof("Validation failed: %s", err.Error())
 			html.InvalidLogin = true
-
+			html.ValidationError = err.Error()
 		} else {
 			log.Infof("Validation succeeded")
 			html.InitErrorFeedback = startInitializationServices()
