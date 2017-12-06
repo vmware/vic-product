@@ -108,11 +108,6 @@
   version = "0.2"
 
 [[projects]]
-  name = "github.com/gorilla/websocket"
-  packages = ["."]
-  revision = "a91eba7f97777409bc2c443f5534d41dd20c5720"
-
-[[projects]]
   name = "github.com/jmank88/nuts"
   packages = ["."]
   revision = "a1e02c788669d022c325a8ee674f15360d7104f4"
@@ -214,7 +209,7 @@
 [[projects]]
   branch = "master"
   name = "github.com/vmware/vic"
-  packages = ["cmd/vic-machine/common","lib/config","lib/config/dynamic","lib/config/executor","lib/constants","lib/install/data","lib/install/validate","lib/migration/feature","pkg/certificate","pkg/errors","pkg/fetcher","pkg/flags","pkg/ip","pkg/log","pkg/log/syslog","pkg/registry","pkg/trace","pkg/version","pkg/vsphere/datastore","pkg/vsphere/extraconfig","pkg/vsphere/extraconfig/vmomi","pkg/vsphere/guest","pkg/vsphere/optmanager","pkg/vsphere/session","pkg/vsphere/tags","pkg/vsphere/tasks","pkg/vsphere/test/env","pkg/vsphere/vm"]
+  packages = ["cmd/vic-machine/common","lib/config","lib/config/dynamic","lib/config/executor","lib/constants","lib/guest","lib/install/data","lib/install/validate","lib/migration/feature","lib/spec","pkg/certificate","pkg/errors","pkg/fetcher","pkg/flags","pkg/ip","pkg/log","pkg/log/syslog","pkg/registry","pkg/trace","pkg/version","pkg/vsphere/datastore","pkg/vsphere/extraconfig","pkg/vsphere/extraconfig/vmomi","pkg/vsphere/optmanager","pkg/vsphere/session","pkg/vsphere/sys","pkg/vsphere/tags","pkg/vsphere/tasks","pkg/vsphere/test/env","pkg/vsphere/vm"]
   revision = "a3d7a5ff74a3c34695daf848a189ea0994ca68df"
 
 [[projects]]
@@ -265,6 +260,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "28106800a5d54389bbd45d0249c5e5f02432b6763089a6d3f032c977a2354728"
+  inputs-digest = "3c09d851e1b0d042e18b46ec5a8f504bf5662bb3e9b81f8c150c22df95b18c5d"
   solver-name = "gps-cdcl"
   solver-version = 1
