@@ -35,18 +35,16 @@ LDFLAGS := $(shell BUILD_NUMBER=${BUILD_NUMBER} $(BASE_DIR)/scripts/version-link
 ovfenv := $(BIN)/ovfenv
 vic-ova-ui := $(BIN)/vic-ova-ui
 ova-webserver := $(BIN)/ova-webserver
-ova-engine-installer := $(BIN)/ova-engine-installer
 toolbox := $(BIN)/toolbox
 rpctool := $(BIN)/rpctool
 gas: $(GAS)
 ovfenv: $(ovfenv)
 vic-ova-ui: $(vic-ova-ui)
 ova-webserver: $(ova-webserver)
-ova-engine-installer: $(ova-engine-installer)
 toolbox: $(toolbox)
 rpctool: $(rpctool)
 tools: $(DEP) $(GOLINT) $(GAS)
-all: golint gofmt govet gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(ova-engine-installer) $(toolbox) $(rpctool)
+all: golint gofmt govet gas $(ovfenv) $(vic-ova-ui) $(ova-webserver) $(toolbox) $(rpctool)
 
 vendor: $(DEP)
 	@echo restoring vendor
@@ -54,11 +52,10 @@ vendor: $(DEP)
 
 gas: $(GAS)
 	@echo running go AST tool
-	@$(GAS) -quiet engine_installer/... fileserver/... lib/... ovatools/... pkg/... tagvm/... toolbox/... 2> /dev/null
+	@$(GAS) -quiet fileserver/... lib/... ovatools/... pkg/... tagvm/... toolbox/... 2> /dev/null
 
 golint: $(GOLINT)
 	@echo checking go lint...
-	@$(call golintf,github.com/vmware/vic-product/installer/engine_installer/...)
 	@$(call golintf,github.com/vmware/vic-product/installer/fileserver/...)
 	@$(call golintf,github.com/vmware/vic-product/installer/lib/...)
 	@$(call golintf,github.com/vmware/vic-product/installer/ovatools/...)
@@ -112,10 +109,6 @@ $(vic-ova-ui): $(call godeps,ovatools/vic-ova-ui/*.go)
 
 $(ova-webserver): $(call godeps,fileserver/*.go)
 	@echo building ova-webserver
-	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
-
-$(ova-engine-installer): $(call godeps,engine_installer/*.go)
-	@echo building ova-engine-installer
 	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
 $(toolbox): $(call godeps,toolbox/*.go)

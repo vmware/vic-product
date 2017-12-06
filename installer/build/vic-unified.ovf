@@ -279,27 +279,19 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
         <Description>Paste in the content of certificate key file. Leave blank for a generated key.</Description>
       </Property>
     </ProductSection>
-    <ProductSection ovf:class="engine_installer" ovf:required="false">
-      <Info>Demo VCH Installer Wizard Properties</Info>
-      <Category>6. Demo VCH Installer Wizard Configuration</Category>
-      <Property ovf:key="port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="1337">
-        <Label>6.1. Demo VCH Installer Wizard Port</Label>
-        <Description>Specifies the port on which Demo VCH Installer Wizard will be published.</Description>
-      </Property>
-    </ProductSection>
     <ProductSection ovf:class="default_users" ovf:required="false">
       <Info>Example Users</Info>
-      <Category>7. Configure Example Users</Category>
+      <Category>6. Configure Example Users</Category>
       <Property ovf:key="create_def_users" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="true">
-        <Label>7.1. Create Example Users</Label>
+        <Label>6.1. Create Example Users</Label>
         <Description>Uncheck to skip creation of Example Users.</Description>
       </Property>
       <Property ovf:key="def_user_prefix" ovf:qualifiers="MinLen(0),MaxLen(64)" ovf:type="string" ovf:userConfigurable="true" ovf:value="vic">
-        <Label>7.2. Username Prefix for Example Users</Label>
+        <Label>6.2. Username Prefix for Example Users</Label>
         <Description>Username prefix to be used to create Example Users for vSphere Integrated Containers.</Description>
       </Property>
       <Property ovf:key="def_user_password" ovf:password="true" ovf:qualifiers="MinLen(0),MaxLen(128)" ovf:type="string" ovf:userConfigurable="true" ovf:value="VicPro!23">
-        <Label>7.3. Password for Example Users</Label>
+        <Label>6.3. Password for Example Users</Label>
         <Description>Password to be used to create Example Users. The password must follow the rules set for vSphere.</Description>
       </Property>
     </ProductSection>

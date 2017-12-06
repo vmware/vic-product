@@ -35,7 +35,6 @@ Verify OVA services
     Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
     Wait Until Keyword Succeeds  10x  20s  Check service running  admiral
     Wait Until Keyword Succeeds  10x  20s  Check service running  fileserver
-    Wait Until Keyword Succeeds  10x  20s  Check service running  engine_installer
 
     Close connection
 
