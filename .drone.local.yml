@@ -9,6 +9,7 @@ pipeline:
   integration-test:
     image: ${TEST_BUILD_IMAGE=gcr.io/eminent-nation-87317/vic-integration-test:1.36}
     pull: true
+    privileged: true
     environment:
       BIN: bin
       GOPATH: /go
@@ -22,7 +23,7 @@ pipeline:
     volumes:
       - /tmp
     commands:
-      - tests/robot-run.sh "-s 3-01-Admiral-UI"
+      - tests/robot-run.sh "-s 4-01-Harbor"
 
 services:
   selenium-grid-hub:
