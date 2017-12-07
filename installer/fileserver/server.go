@@ -53,13 +53,13 @@ type config struct {
 
 // IndexHTMLOptions contains fields for html templating in index.html
 type IndexHTMLOptions struct {
-	InvalidLogin        bool
 	InitErrorFeedback   string
 	InitSuccessFeedback string
 	NeedLogin           bool
 	AdmiralAddr         string
 	DemoVCHAddr         string
 	FileserverAddr      string
+	ValidationError     string
 }
 
 var (
@@ -203,6 +203,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 		NeedLogin:           needInitializationServices(req),
 		InitErrorFeedback:   "",
 		InitSuccessFeedback: "",
+		ValidationError:     "",
 	}
 
 	if req.Method == http.MethodPost {
@@ -216,8 +217,7 @@ func indexHandler(resp http.ResponseWriter, req *http.Request) {
 		defer cancel()
 		if err != nil {
 			log.Infof("Validation failed: %s", err.Error())
-			html.InvalidLogin = true
-
+			html.ValidationError = err.Error()
 		} else {
 			log.Infof("Validation succeeded")
 			html.InitErrorFeedback = startInitializationServices()
