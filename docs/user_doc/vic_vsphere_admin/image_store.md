@@ -22,7 +22,7 @@ You can specify a datastore folder to use as the image store. If the folder that
 
 When you deploy a VCH `vic-machine` creates the following set of folders in the image datastore: 
 
-- A folder for the VM files of the VCH:<pre><i>datastore_name</i>/<i>vch_name</i></pre>This folder includes a creation log file named `vic-machine_<i>timestamp</i>_create_<i>id</i>.log`, 
+- A folder for the VM files of the VCH:<pre><i>datastore_name</i>/<i>vch_name</i></pre>This folder includes a creation log file named <code>vic-machine_timestamp_create_id.log</code>, 
 - A key-value store folder for the VCH:<pre><i>datastore_name</i>/<i>vch_name</i>/kvstores</pre>
 - A folder in which to store all of the container images that you pull into the VCH.
 
