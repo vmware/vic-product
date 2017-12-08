@@ -103,18 +103,38 @@ NOTE: Dep is slow the first time you run it - it may take 10+ minutes to downloa
 dep automatically falttens the vendor folders of all dependencies. In most cases, you shouldn't need to run `make vendor`,
 as our vendor directory is checked in to git.
 
+## CI Workflow
+
+VIC Product build is auto-triggered from the successful completion of the following CI builds:
+
+[VIC Engine](https://ci.vcna.io/vmware/vic)
+
+[Admiral](https://ci.vcna.io/vmware/admiral)
+
+[Harbor](https://ci.vcna.io/vmware/harbor)
+
+There is also a separate build for [VIC UI](https://ci.vcna.io/vmware/vic-ui) which publishes the [artifact](https://console.cloud.google.com/storage/browser/vic-ui-builds) consumed by VIC Engine builds. VIC Engine publishes vic engine artifacts and vic machine server image.
+Harbor build publishes harbor installer and Admiral build publishes admiral image. All these artifacts are published to Google cloud except Admiral image which is published to Docker hub.
+
+For every auto-triggered build, by default, VIC Product consumes the latest artifacts from [vic engine](https://storage.googleapis.com/vic-engine-builds) and [harbor](https://storage.googleapis.com/harbor-builds) buckets, recent `dev` tagged images for [admiral](https://hub.docker.com/r/vmware/admiral/) and [vic machine server](https://console.cloud.google.com/gcr/images/eminent-nation-87317/GLOBAL/vic-machine-server?project=eminent-nation-87317&gcrImageListsize=50) and publishes [OVA artifact](https://storage.googleapis.com/vic-product-ova-builds) after successful build and test.
+
+Refer to the next section `Staging and Release` on how to build OVA with specific dependent component versions.
+
 ## Staging and Release
+
 To perform staging and release process using Drone CI, refer to following commands. 
 Please note that you cannot trigger new CI builds manually, but have to promote existing build to either staging or release.
 
 Make sure `DRONE_SERVER` and `DRONE_TOKEN` environment variables are set before executing these commands.
 
 To promote existing successful CI build to staging...
+
 ``
 $ drone deploy --param VICENGINE=<vic_engine_version> --param VIC_MACHINE_SERVER=<vic_machine_server> --param ADMIRAL=<admiral_tag> --param HARBOR=<harbor_version> vmware/vic-product <ci_build_number_to_promote> staging
 ``
 
 To promote existing successful CI build to release...
+
 ``
 $ drone deploy --param VICENGINE=<vic_engine_version> --param VIC_MACHINE_SERVER=<vic_machine_server> --param ADMIRAL=<admiral_tag> --param HARBOR=<harbor_version> vmware/vic-product <ci_build_number_to_promote> release
 ``
@@ -125,13 +145,4 @@ $ drone deploy --param VICENGINE=<vic_engine_version> --param VIC_MACHINE_SERVER
 
 `ci_build_number_to_promote` is the drone build number which will be promoted
 
-
 ## Troubleshooting
-
-#### Building the OVA outside of the CI workflow
-``` 
-Use Drone exec to kickoff the OVA build.
-
-drone exec --timeout "1h0m0s" --timeout.inactivity "1h0m0s" --repo.trusted .drone.local.yml
-```
-
