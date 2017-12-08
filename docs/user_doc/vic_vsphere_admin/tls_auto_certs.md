@@ -27,7 +27,7 @@ Certain options in this section are exposed in the `vic-machine create` help if 
 
 The FQDN or IP address to embed in an auto-generated server certificate. Specify an FQDN, IP address, or a domain wildcard. If you provide a custom server certificate by using the `--tls-server-cert` option, you can use `--tls-cname` as a sanity check to ensure that the certificate is valid for the deployment.
 
-If you do not specify `--tls-cname` but you do set a static address for the VCH on the client network interface, `vic-machine create` uses that  address for the Common Name, with the same results as if you had specified `--tls-cname=x.x.x.x`. For information about setting a static IP address on the client network, see [Specify a Static IP Address for the VCH Endpoint VM](vch_static_ip.md).
+If you do not specify `--tls-cname` but you do set a static address for the VCH on the client network interface, `vic-machine create` uses that  address for the Common Name, with the same results as if you had specified `--tls-cname=x.x.x.x`. For information about setting a static IP address on the client network, see [Configure the Client Network](client_network.md).
 
 When you specify the `--tls-cname` option, `vic-machine create` performs the following actions during the deployment of the VCH:
 

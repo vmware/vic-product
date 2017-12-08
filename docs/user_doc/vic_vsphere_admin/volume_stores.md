@@ -68,7 +68,7 @@ This section describes the Volume Datastores section of the Storage Capacity pag
 2. In the **Folder** text box, optionally enter the path to a folder in the specified datastore.
 
     If the folders that you specify in the path do not already exist on the selected datastore, vSphere Integrated Containers Engine creates the appropriate folder structure.
-3. If you did not enable anonymous volumes, provide a label for the volume store in the **Volume store name** text box.
+3. If you did not enable anonymous volumes, or if this is an additional volume store, provide a label for the volume store in the **Volume store name** text box.
 4. Optionally click **+** to add more volume datastores to the VCH, and repeat the proceeding steps for each additional volume datastore.
 
 **NOTE**: It is not currently possible to specify an NFS share point as a volume store in the Create Virtual Container Host wizard. If you use the wizard to create VCHs, after deployment, run `vic-machine configure` with the `--volume-store` option to add NFS share points to the VCH. For information about adding volume stores after deployment, see [Add Volume Stores](configure_vch.md#volumes).

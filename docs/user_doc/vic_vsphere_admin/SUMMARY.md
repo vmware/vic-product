@@ -31,7 +31,6 @@
              * [Client Network](client_network.md)
              * [Management Network](mgmt_network.md)
              * [Container Networks](container_networks.md)
-             * [Static IP Address](vch_static_ip.md)
              * [Proxy Servers](vch_proxy.md)
          * [VCH Storage](vch_storage.md)
              * [Image Datastore](image_store.md)

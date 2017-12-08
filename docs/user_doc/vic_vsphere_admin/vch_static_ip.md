@@ -11,7 +11,7 @@ You can configure a static IP address for a VCH endpoint VM on the different net
 
 
 
-### `--client-network-ip`, `--public-network-ip`, `--management-network-ip`
+### `--management-network-ip`
 
 **Short names**: None
 
@@ -24,11 +24,7 @@ You specify a static IP address for the endpoint VM on the public, client, or ma
 - If either of the client or management networks shares a port group with the public network, you can only specify a static IP address on the public network.
 - If either or both of the client or management networks do not use the same port group as the public network, you can specify a static IP address for the endpoint VM on those networks by using `--client-network-ip` or `--management-network-ip`, or both. In this case, you must specify a corresponding gateway address by using `client/management-network-gateway`. 
 - If the client and management networks both use the same port group, and the public network does not use that port group, you can set a static IP address for the endpoint VM on either or both of the client and management networks.
-- If you assign a static IP address to the VCH endpoint VM on the client network by setting the `--client-network-ip` option, and you do not specify one of the TLS options, `vic-machine create` uses this address as the Common Name with which to auto-generate trusted CA certificates. If you do not specify `--tls-cname`, `--no-tls` or `--no-tlsverify`, two-way TLS authentication with trusted certificates is implemented by default when you deploy the VCH with a static IP address on the client network. If you assign a static IP address to the endpoint VM on the client network, `vic-machine create` creates the same certificate and environment variable files as described in the [`--tls-cname` option](tls_auto_certs.md#tls-cname).
- 
-  **IMPORTANT**: If the client network shares a port group with the public network you cannot set a static IP address for the endpoint VM on the client network. To assign a static IP address to the endpoint VM you must set a static IP address on the public network by using the `--public-network-ip` option. In this case, `vic-machine create` uses the public network IP address as the Common Name with which to auto-generate trusted CA certificates, in the same way as it would for the client network.
 
-You specify addresses as IPv4 addresses with a network mask.
 
 **Usage**: 
 <pre>
@@ -45,11 +41,11 @@ You can also specify addresses as resolvable FQDNs.
 
 If you do not specify an IP address for the endpoint VM on a given network, `vic-machine create` uses DHCP to obtain an IP address for the endpoint VM on that network.
 
-### `--client-network-gateway`, `--public-network-gateway`, `--management-network-gateway` 
+### `--client-network-gateway`,, `--management-network-gateway` 
 
 **Short names**: None
 
-The gateway to use if you use `--public/client/management-network-ip` to specify a static IP address for the VCH endpoint VM on the public, client, or management networks. If you specify a static IP address on the public network, you must specify a gateway by using the `--public-network-gateway` option. If the management and client networks are L2 adjacent to their gateways, you do not need to specify the gateway for those networks.
+The gateway to use if you use `--client/management-network-ip` to specify a static IP address for the VCH endpoint VM on the public, client, or management networks. If the management and client networks are L2 adjacent to their gateways, you do not need to specify the gateway for those networks.
 
 You specify gateway addresses as IP addresses without a network mask.
 

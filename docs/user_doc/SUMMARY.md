@@ -39,7 +39,6 @@
      * [Networks](vic_vsphere_admin/vch_networking.md)
          * [Bridge Networks](vic_vsphere_admin/bridge_network.md)
          * [Public Network](vic_vsphere_admin/public_network.md)
-         * [Static IP Address](vic_vsphere_admin/vch_static_ip.md)
          * [Client Network](vic_vsphere_admin/client_network.md)
          * [Management Network](vic_vsphere_admin/mgmt_network.md)
          * [Container Networks](vic_vsphere_admin/container_networks.md)

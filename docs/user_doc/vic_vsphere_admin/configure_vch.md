@@ -148,7 +148,7 @@ This example adds a new NFS volume store to a VCH. The VCH already has an existi
 
 If you deployed the VCH with a static IP address, you can add DNS servers or reset them to the default by using the `vic-machine configure --dns-server` option. 
 
-The `vic-machine configure --dns-server` option functions in the same way as the equivalent `vic-machine create --dns-server` option. For information about the `vic-machine create --dns-server` option, see  [`--dns-server`](vch_static_ip.md#dns-server) in Specify a Static IP Address for the VCH Endpoint VM.
+The `vic-machine configure --dns-server` option functions in the same way as the equivalent `vic-machine create --dns-server` option. For information about the `vic-machine create --dns-server` option, see  [DNS Server](public_network.md#dns-server) in Configure the Public Network.
 
 If  you are adding DNS servers to a VCH that already includes one or more DNS servers, you must also specify each existing DNS server in a separate instance of `--dns-server`. This example adds a new DNS server, `dns_server_2`, to a VCH that already uses `dns_server_1`.
 

@@ -34,7 +34,7 @@ You can direct traffic between containers, the VCH, the external Internet, and y
 - **Management Network**: You can also isolate the traffic between the VCH and vCenter Server and ESXi hosts from traffic on the public network by specifying a dedicated management network. For information about VCH management networks, see  [Configure the Management Network](mgmt_network.md).
 - **Container Networks**: User-defined networks that you can use to connect container VMs directly to a routable network. Container networks allow vSphere administrators to make vSphere networks directly available to containers. Container networks are specific to vSphere Integrated Containers and have no equivalent in regular Docker. For information about container networks, see [Configure Container Networks](container_networks.md).
 
-You can configure static IP addresses for the VCH on the different networks, and configure VCHs to use proxy servers. For more information about static IP addresses and proxy servers, see [Specify a Static IP Address for the VCH Endpoint VM](vch_static_ip.md) and [Configure VCHs to Use Proxy Servers](vch_proxy.md).
+You can configure static IP addresses for the VCH on the different networks, and configure VCHs to use proxy servers. For information proxy servers, see [Configure VCHs to Use Proxy Servers](vch_proxy.md).
 
 ## Networking Limitations <a id="limitations"></a>
 

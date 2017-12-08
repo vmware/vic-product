@@ -5,6 +5,7 @@ The public network is the network that container VMs and the virtual container h
 - [Options](#options)
   - [Public Network](#public-network) 
   - [Static IP Address](#static-ip)
+  - [Gateway](#gateway)
   - [DNS Server](#dns-server)
 - [What to Do Next](#whatnext)
 - [Example `vic-machine` Command](#example)
@@ -48,7 +49,8 @@ By default, vSphere Integrated Containers Engine uses DHCP to obtain an IP addre
 
 **Create VCH Wizard**
 
-Select the **Static** radio button and enter an IP address in the text box.
+1. Select the **Static** radio button.
+2. Enter an IP address with a network mask in the **IP Address** text box, for example `192.168.1.10/24`.
 
 **vic-machine Option** 
 
@@ -56,13 +58,29 @@ Select the **Static** radio button and enter an IP address in the text box.
 
 You specify addresses as IPv4 addresses with a network mask.
 
-<pre>--public-network-ip 192.168.X.N/24</pre>
+<pre>--public-network-ip 192.168.1.10/24</pre>
 
 You can also specify addresses as resolvable FQDNs.
 
 <pre>--public-network-ip=vch27-team-a.internal.domain.com</pre>
 
 ### Gateway <a id="gateway"></a>
+
+The gateway to use if you specify a static IP address for the VCH endpoint VM on the public network. If you specify a static IP address on the public network, you must specify a gateway for the public network.
+
+You specify gateway addresses as IP addresses without a network mask.
+
+**Create VCH Wizard**
+
+Enter the IP address of the gateway, for example `192.168.1.1`.
+
+**vic-machine Option** 
+
+`--public-network-gateway`, no short name
+
+Specify a gateway address as an IP address without a network mask in the `--public-network-gateway` option.
+
+<pre>--public-network-gateway 192.168.1.1</pre>
 
 ### DNS Server <a id="dns-server"></a>
 
@@ -74,17 +92,15 @@ A DNS server for the VCH endpoint VM to use on the public, client, and managemen
 
 **Create VCH Wizard**
 
-Enter the address of a DNS server.
-
-**NOTE**: VCHs support multiple DNS servers. However, the Create Virtual Container Host wizard only allows you to configure one DNS server. To add more DNS servers to a VCH, run `vic-machine configure` with the `--dns-server` option after you deploy the VCH. For information about adding DNS servers after deployment, see [Add and Reset DNS Servers](configure_vch.md#dns).
+Enter a comma-separated list of DNS server addresses, for example `172.16.10.10,172.16.10.11`. 
 
 **vic-machine Option** 
 
 `--dns-server`, None
 
 You can specify `--dns-server` multiple times, to configure multiple DNS servers.
-<pre>--dns-server=172.16.10.10
---dns-server=172.16.10.11
+<pre>--dns-server 172.16.10.10
+--dns-server 172.16.10.11
 </pre>
 
 ## What to Do Next <a id="whatnext"></a>
@@ -100,19 +116,19 @@ To configure advanced network settings, remain on the Configure Networks page, a
 
 ## Example `vic-machine` Command <a id="example"></a>
 
-This example `vic-machine create` command deploys a VCH with the following configuration:
-
-- Specifies the target vCenter Server instance, the vCenter Server user name, password, datacenter and cluster, an image store, a port group for the bridge network, a name for the VCH, and the thumbprint of the vCenter Server certificate.
-- Secures connections to the Docker API with an automatically generated server certificate, without client certificate verification, by setting `--no-tlsverify`.
-- Directs public network traffic to an existing port group named `network 1`. 
-- Does not specify either of the `--management-network` or `--client-network` options. Consequently, management and client traffic also routes over `network 1` because those networks default to the public network setting if they are not set.
+This example `vic-machine create` command deploys a VCH that directs public network traffic to an existing port group named `vch1-public`. 
+This command does not specify either of the `--management-network` or `--client-network` options. Consequently, management and client traffic also routes over `vch1-public` because those networks default to the public network setting if they are not set.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
---public-network 'network 1'
+--public-network vch1-public
+--public-network-ip 192.168.1.10/24
+--public-network-gateway 192.168.1.1
+--dns-server 172.16.10.10
+--dns-server 172.16.10.11
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
