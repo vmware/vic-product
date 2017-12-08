@@ -154,7 +154,7 @@ Test - Upgrade from OVA 1.2.0 to 1.3.0
 
 **[OVA New Version]** 1.3.0
 
-**[Upgrade OVA Link]** [Upgrade OVA Link](TBD - waiting on official docs to link)
+**[Upgrade OVA Link]** [Upgrade OVA Link](https://vmware.github.io/vic-product/assets/files/html/1.3/vic_vsphere_admin/upgrade_appliance.html)
 
 
 Test - Upgrade from OVA 1.2.1 to 1.3.0
@@ -178,7 +178,7 @@ Test - Upgrade from OVA 1.2.1 to 1.3.0
 
 **[OVA New Version]** 1.3.0
 
-**[Upgrade OVA Link]** [Upgrade OVA Link](TBD - waiting on official docs to link)
+**[Upgrade OVA Link]** [Upgrade OVA Link](https://vmware.github.io/vic-product/assets/files/html/1.3/vic_vsphere_admin/upgrade_appliance.html)
 
 
 Test - Upgrade from OVA 1.1.1 to 1.2.0 to 1.2.1 to 1.3.0
@@ -223,4 +223,4 @@ b.  Rerun steps 15 to 23 with the following variables:
 
 - **[OVA New Version]** 1.3.0
 
-- **[Upgrade OVA Link]** [Upgrade OVA Link](TBD - waiting on official docs to link)
+- **[Upgrade OVA Link]** [Upgrade OVA Link](https://vmware.github.io/vic-product/assets/files/html/1.3/vic_vsphere_admin/upgrade_appliance.html)
