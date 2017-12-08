@@ -55,8 +55,8 @@ _TODO_ Add reference service to repo
   This allows the component to specify the startup and shutdown behavior through unit dependency
   directives such as `Wants`, `Requires`, `Before`, and `After`.
 
-- A component unit file MUST have a `Requires=vic-appliance-ready.service` and
-  `After=vic-appliance-ready.service` statement
+- A component unit file MUST have a `Requires=vic-appliance.service` and
+  `After=vic-appliance.service` statement
 
   This target ensures that the prerequisites for component services including disk, network,
   firewall, and Docker are ready before the component starts.

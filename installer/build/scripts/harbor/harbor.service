@@ -1,0 +1,22 @@
+[Unit]
+Description=Harbor Container Registry
+Documentation=http://github.com/vmware/harbor
+After=vic-appliance.target psc-ready.target admiral.service 
+Requires=vic-appliance.target psc-ready.target 
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=15
+TimeoutSec=infinity
+ExecStartPre=/etc/vmware/wait_for_file.sh /etc/vmware/psc/harbor/harbor_startup
+ExecStartPre=-/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml down -v
+ExecStartPre=-/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml rm -f
+ExecStartPre=/usr/bin/bash /etc/vmware/harbor/configure_harbor.sh
+ExecStartPre=/usr/bin/python /etc/vmware/harbor/prepare --conf /storage/data/harbor/harbor.cfg --with-notary --with-clair
+ExecStart=/etc/vmware/harbor/start_harbor.sh
+ExecStop=/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml down -v
+ExecStopPost=/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml rm -f
+
+[Install]
+WantedBy=vic-appliance.target

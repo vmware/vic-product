@@ -234,12 +234,11 @@ function upgradeHarbor {
   fi
 
   # Start Admiral for data migration
-  systemctl start admiral_startup.service
+  systemctl start admiral.service
 
   echo "Starting Harbor upgrade" | tee /dev/fd/3
 
   echo "[=] Shutting down Harbor" | tee /dev/fd/3
-  systemctl stop harbor_startup.service
   systemctl stop harbor.service
 
   echo "[=] Migrating Harbor data" | tee /dev/fd/3
@@ -258,5 +257,5 @@ function upgradeHarbor {
   fi
 
   echo "Starting Harbor" | tee /dev/fd/3
-  systemctl start harbor_startup.service
+  systemctl start harbor.service
 }

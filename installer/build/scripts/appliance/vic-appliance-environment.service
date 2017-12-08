@@ -1,0 +1,12 @@
+[Unit]
+Description=VIC Appliance Environment
+Documentation=https://github.com/vmware/vic-product
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+ExecStart=/etc/vmware/vic-appliance-environment.sh
+
+[Install]
+WantedBy=vic-appliance.target

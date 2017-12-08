@@ -1,321 +1,286 @@
 [
-    {
-      "type": "shell",
-      "script": "scripts/package_provisioning.sh"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/filesystem_provisioning.sh"
-    },
-    {
-      "type": "file",
-      "source": "../bin/ovfenv",
-      "destination": "/usr/bin/ovfenv"
-    },
-    {
-      "type": "file",
-      "source": "../bin/vic-ova-ui",
-      "destination": "/usr/bin/vic-ova-ui"
-    },
-    {
-      "type": "file",
-      "source": "../bin/ova-webserver",
-      "destination": "/usr/local/bin/ova-webserver"
-    },
-    {
-      "type": "file",
-      "source": "../bin/toolbox",
-      "destination": "/usr/bin/toolbox"
-    },
-    {
-      "type": "file",
-      "source": "../bin/rpctool",
-      "destination": "/usr/bin/rpctool"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/boot.local",
-      "destination": "/etc/rc.d/init.d/boot.local"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/resize_volume.sh",
-      "destination": "/etc/vmware/resize_volume.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/mounts/vic-mounts.target",
-      "destination": "/usr/lib/systemd/system/vic-mounts.target"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/mounts/storage-data.mount",
-      "destination": "/usr/lib/systemd/system/storage-data.mount"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/mounts/storage-db.mount",
-      "destination": "/usr/lib/systemd/system/storage-db.mount"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/mounts/storage-log.mount",
-      "destination": "/usr/lib/systemd/system/storage-log.mount"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/repartition.service",
-      "destination": "/usr/lib/systemd/system/repartition.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/resizefs.service",
-      "destination": "/usr/lib/systemd/system/resizefs.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/dcui_override.conf",
-      "destination": "/usr/lib/systemd/system/getty@tty2.service.d/dcui_override.conf"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/vic-appliance.target",
-      "destination": "/usr/lib/systemd/system/vic-appliance.target"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/vic-appliance-ready.target",
-      "destination": "/usr/lib/systemd/system/vic-appliance-ready.target"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/network/ovf-network.service",
-      "destination": "/usr/lib/systemd/system/ovf-network.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/appliance/vic-appliance-load-docker-images.service",
-      "destination": "/usr/lib/systemd/system/vic-appliance-load-docker-images.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/appliance/vic-appliance-docker-images-loaded.path",
-      "destination": "/usr/lib/systemd/system/vic-appliance-docker-images-loaded.path"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/appliance/load-docker-images.sh",
-      "destination": "/etc/vmware/load-docker-images.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/appliance/vic-appliance-environment.service",
-      "destination": "/usr/lib/systemd/system/vic-appliance-environment.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/appliance/vic-appliance-environment.sh",
-      "destination": "/etc/vmware/vic-appliance-environment.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/appliance/sshd_permitrootlogin.service",
-      "destination": "/usr/lib/systemd/system/sshd_permitrootlogin.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/appliance/sshd_permitrootlogin.sh",
-      "destination": "/etc/vmware/sshd_permitrootlogin.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/toolbox.service",
-      "destination": "/usr/lib/systemd/system/toolbox.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/appliance/ova-firewall.service",
-      "destination": "/usr/lib/systemd/system/ova-firewall.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/appliance/ova-firewall.sh",
-      "destination": "/etc/vmware/ova-firewall.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/network/network-config.sh",
-      "destination": "/etc/vmware/network-config.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/vic_machine_server/vic_machine_server.service",
-      "destination": "/usr/lib/systemd/system/vic_machine_server.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/vic_machine_server/configure_vic_machine_server.sh",
-      "destination": "/etc/vmware/vic_machine_server/configure_vic_machine_server.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/vic_machine_server/vic-machine-server-logrotate",
-      "destination": "/etc/logrotate.d/vic-machine-server"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/harbor/harbor_startup.service",
-      "destination": "/usr/lib/systemd/system/harbor_startup.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/harbor/harbor_startup.path",
-      "destination": "/usr/lib/systemd/system/harbor_startup.path"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/harbor/harbor.service",
-      "destination": "/usr/lib/systemd/system/harbor.service"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/provision_harbor.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/set_guestinfo.sh",
-      "destination": "/etc/vmware/set_guestinfo.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/harbor/configure_harbor.sh",
-      "destination": "/etc/vmware/harbor/configure_harbor.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/harbor/start_harbor.sh",
-      "destination": "/etc/vmware/harbor/start_harbor.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/upgrade/upgrade.sh",
-      "destination": "/etc/vmware/upgrade/upgrade.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/upgrade/upgrade-admiral.sh",
-      "destination": "/etc/vmware/upgrade/upgrade-admiral.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/upgrade/upgrade-harbor.sh",
-      "destination": "/etc/vmware/upgrade/upgrade-harbor.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/upgrade/util.sh",
-      "destination": "/etc/vmware/upgrade/util.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/appliance/get_vic_appliance_logs.sh",
-      "destination": "/etc/vmware/support/get_vic_appliance_logs.sh"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/provision_admiral.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/admiral/admiral_startup.service",
-      "destination": "/usr/lib/systemd/system/admiral_startup.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/admiral/admiral_startup.path",
-      "destination": "/usr/lib/systemd/system/admiral_startup.path"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/admiral/admiral.service",
-      "destination": "/usr/lib/systemd/system/admiral.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/admiral/admiral_default_users.service",
-      "destination": "/usr/lib/systemd/system/admiral_default_users.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/admiral/configure_admiral.sh",
-      "destination": "/etc/vmware/admiral/configure_admiral.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/admiral/start_admiral.sh",
-      "destination": "/etc/vmware/admiral/start_admiral.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/admiral/add_default_users.sh",
-      "destination": "/etc/vmware/admiral/add_default_users.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/admiral/logging-vic.properties",
-      "destination": "/etc/vmware/admiral/logging-vic.properties"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/psc/get_token.service",
-      "destination": "/usr/lib/systemd/system/get_token.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/psc/get_token.sh",
-      "destination": "/etc/vmware/psc/get_token.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/psc/get_token.timer",
-      "destination": "/usr/lib/systemd/system/get_token.timer"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/provision_fileserver.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/fileserver/fileserver_startup.service",
-      "destination": "/usr/lib/systemd/system/fileserver_startup.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/systemd/fileserver/fileserver.service",
-      "destination": "/usr/lib/systemd/system/fileserver.service"
-    },
-    {
-      "type": "file",
-      "source": "scripts/fileserver/configure_fileserver.sh",
-      "destination": "/etc/vmware/fileserver/configure_fileserver.sh"
-    },
-    {
-      "type": "file",
-      "source": "scripts/fileserver/start_fileserver.sh",
-      "destination": "/etc/vmware/fileserver/start_fileserver.sh"
-    },
-    {
-      "type": "file",
-      "source": "../fileserver/html",
-      "destination": "/opt/vmware/fileserver/html"
-    },
-    {
-      "type": "file",
-      "source": "../fileserver/files/open_source_license.txt",
-      "destination": "/opt/vmware/fileserver/files/open_source_license.txt"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/system_settings.sh"
-    }
+  {
+    "type": "shell",
+    "script": "scripts/provisioners/package_provisioning.sh"
+  },
+  {
+    "type": "shell",
+    "script": "scripts/provisioners/filesystem_provisioning.sh"
+  },
+  {
+    "type": "file",
+    "source": "../bin/ovfenv",
+    "destination": "/usr/bin/ovfenv"
+  },
+  {
+    "type": "file",
+    "source": "../bin/vic-ova-ui",
+    "destination": "/usr/bin/vic-ova-ui"
+  },
+  {
+    "type": "file",
+    "source": "../bin/ova-webserver",
+    "destination": "/usr/local/bin/ova-webserver"
+  },
+  {
+    "type": "file",
+    "source": "../bin/toolbox",
+    "destination": "/usr/bin/toolbox"
+  },
+  {
+    "type": "file",
+    "source": "../bin/rpctool",
+    "destination": "/usr/bin/rpctool"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/boot.local",
+    "destination": "/etc/rc.d/init.d/boot.local"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/wait_for_file.sh",
+    "destination": "/etc/vmware/wait_for_file.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/resize_volume.sh",
+    "destination": "/etc/vmware/resize_volume.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/mounts/vic-mounts.target",
+    "destination": "/usr/lib/systemd/system/vic-mounts.target"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/mounts/storage-data.mount",
+    "destination": "/usr/lib/systemd/system/storage-data.mount"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/mounts/storage-db.mount",
+    "destination": "/usr/lib/systemd/system/storage-db.mount"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/mounts/storage-log.mount",
+    "destination": "/usr/lib/systemd/system/storage-log.mount"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/mounts/repartition.service",
+    "destination": "/usr/lib/systemd/system/repartition.service"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/mounts/resizefs.service",
+    "destination": "/usr/lib/systemd/system/resizefs.service"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/dcui_override.conf",
+    "destination": "/usr/lib/systemd/system/getty@tty2.service.d/dcui_override.conf"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/vic-appliance.target",
+    "destination": "/usr/lib/systemd/system/vic-appliance.target"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/network/ovf-network.service",
+    "destination": "/usr/lib/systemd/system/ovf-network.service"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/vic-appliance-load-docker-images.service",
+    "destination": "/usr/lib/systemd/system/vic-appliance-load-docker-images.service"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/load-docker-images.sh",
+    "destination": "/etc/vmware/load-docker-images.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/vic-appliance-environment.service",
+    "destination": "/usr/lib/systemd/system/vic-appliance-environment.service"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/vic-appliance-environment.sh",
+    "destination": "/etc/vmware/vic-appliance-environment.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/sshd_permitrootlogin.service",
+    "destination": "/usr/lib/systemd/system/sshd_permitrootlogin.service"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/sshd_permitrootlogin.sh",
+    "destination": "/etc/vmware/sshd_permitrootlogin.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/toolbox.service",
+    "destination": "/usr/lib/systemd/system/toolbox.service"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/network/ova-firewall.service",
+    "destination": "/usr/lib/systemd/system/ova-firewall.service"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/network/ova-firewall.sh",
+    "destination": "/etc/vmware/ova-firewall.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/network/network-config.sh",
+    "destination": "/etc/vmware/network-config.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/vic_machine_server/vic_machine_server.service",
+    "destination": "/usr/lib/systemd/system/vic_machine_server.service"
+  },
+  {
+    "type": "file",
+    "source": "scripts/vic_machine_server/configure_vic_machine_server.sh",
+    "destination": "/etc/vmware/vic_machine_server/configure_vic_machine_server.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/vic_machine_server/vic-machine-server-logrotate",
+    "destination": "/etc/logrotate.d/vic-machine-server"
+  },
+  {
+    "type": "file",
+    "source": "scripts/harbor/harbor.service",
+    "destination": "/usr/lib/systemd/system/harbor.service"
+  },
+  {
+    "type": "shell",
+    "script": "scripts/provisioners/provision_harbor.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/set_guestinfo.sh",
+    "destination": "/etc/vmware/set_guestinfo.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/harbor/configure_harbor.sh",
+    "destination": "/etc/vmware/harbor/configure_harbor.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/harbor/start_harbor.sh",
+    "destination": "/etc/vmware/harbor/start_harbor.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/upgrade/upgrade.sh",
+    "destination": "/etc/vmware/upgrade/upgrade.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/upgrade/upgrade-admiral.sh",
+    "destination": "/etc/vmware/upgrade/upgrade-admiral.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/upgrade/upgrade-harbor.sh",
+    "destination": "/etc/vmware/upgrade/upgrade-harbor.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/upgrade/util.sh",
+    "destination": "/etc/vmware/upgrade/util.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/get_vic_appliance_logs.sh",
+    "destination": "/etc/vmware/support/get_vic_appliance_logs.sh"
+  },
+  {
+    "type": "shell",
+    "script": "scripts/provisioners/provision_admiral.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/admiral/admiral.service",
+    "destination": "/usr/lib/systemd/system/admiral.service"
+  },
+  {
+    "type": "file",
+    "source": "scripts/admiral/configure_admiral.sh",
+    "destination": "/etc/vmware/admiral/configure_admiral.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/admiral/start_admiral.sh",
+    "destination": "/etc/vmware/admiral/start_admiral.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/admiral/add_default_users.sh",
+    "destination": "/etc/vmware/admiral/add_default_users.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/admiral/logging-vic.properties",
+    "destination": "/etc/vmware/admiral/logging-vic.properties"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/psc/get_token.service",
+    "destination": "/usr/lib/systemd/system/get_token.service"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/psc/get_token.sh",
+    "destination": "/etc/vmware/psc/get_token.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/psc/get_token.timer",
+    "destination": "/usr/lib/systemd/system/get_token.timer"
+  },
+  {
+    "type": "shell",
+    "script": "scripts/provisioners/provision_fileserver.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/fileserver/fileserver.service",
+    "destination": "/usr/lib/systemd/system/fileserver.service"
+  },
+  {
+    "type": "file",
+    "source": "scripts/fileserver/configure_fileserver.sh",
+    "destination": "/etc/vmware/fileserver/configure_fileserver.sh"
+  },
+  {
+    "type": "file",
+    "source": "scripts/fileserver/start_fileserver.sh",
+    "destination": "/etc/vmware/fileserver/start_fileserver.sh"
+  },
+  {
+    "type": "file",
+    "source": "../fileserver/html",
+    "destination": "/opt/vmware/fileserver/html"
+  },
+  {
+    "type": "file",
+    "source": "../fileserver/files/open_source_license.txt",
+    "destination": "/opt/vmware/fileserver/files/open_source_license.txt"
+  },
+  {
+    "type": "scripts/provisioners",
+    "script": "scripts/system_settings.sh"
+  }
 ]

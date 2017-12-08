@@ -1,0 +1,8 @@
+[Unit]
+Description=Disk mounts required by VIC(Integrated containers engine on vSphere)
+Documentation=https://github.com/vmware/vic/blob/master/doc/bundle/OVA-spec.md
+Requires=storage-data.mount storage-db.mount storage-log.mount repartition.service resizefs.service
+After=storage-data.mount storage-db.mount storage-log.mount repartition.service resizefs.service
+
+[Install]
+WantedBy=vic-appliance.target local-fs.target

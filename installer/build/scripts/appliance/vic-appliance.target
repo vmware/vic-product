@@ -1,0 +1,15 @@
+[Unit]
+Description=System customization for VIC Appliance
+Documentation=https://github.com/vmware/vic-product/blob/master/installer/DESIGN.md
+
+Requires=vic-mounts.target vic-appliance-environment.service vic-appliance-load-docker-images.service
+After=vic-mounts.target vic-appliance-environment.service vic-appliance-load-docker-images.service
+
+Requires=network-online.target systemd-resolved.service systemd-timesyncd.service
+After=network-online.target systemd-resolved.service systemd-timesyncd.service
+
+Requires=ovf-network.service ova-firewall.service
+After=ovf-network.service ova-firewall.service
+
+[Install]
+Wants=multi-user.target
