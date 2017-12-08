@@ -7,5 +7,3 @@ VIC Integration Test Suite
 [Group 2 - Getting Started](Group2-Getting-Started/TestCases.md)
 
 [Group 3 - Admiral](Group3-Admiral/TestCases.md)
-
-[Group 4 - Harbor](Group4-Harbor/TestCases.md)

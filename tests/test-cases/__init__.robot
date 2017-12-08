@@ -46,12 +46,11 @@ Global Setup
     Set Environment Variable  GOVC_USERNAME  %{TEST_USERNAME}
     Set Environment Variable  GOVC_PASSWORD  %{TEST_PASSWORD}
     Set Environment Variable  GOVC_INSECURE  1
-    # vCenter variables
-    Set Test VC Variables
     # ova variables
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
-    Set Global Variable  ${OVA_CERT_PATH}  /storage/data/admiral/ca_download
+    # vCenter variables
+    Set Test VC Variables
     # common vch variables
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  VCH_TIMEOUT
     Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  VCH_TIMEOUT  20m0s
@@ -59,9 +58,6 @@ Global Setup
     Check VCenter
     # Install VIC appliance
     Install VIC Product OVA  ${vic-ova-file-path}
-    # dind variables
-    Set Global Variable  ${DEFAULT_LOCAL_DOCKER}  DOCKER_API_VERSION=1.23 docker
-    Set Global Variable  ${DEFAULT_LOCAL_DOCKER_ENDPOINT}  unix:///var/run/docker-local.sock
     # UI tests variables
     Set Global Variable  ${FIREFOX_BROWSER}  firefox
     Set Global Variable  ${GRID_URL}  http://127.0.0.1:4444/wd/hub
@@ -69,13 +65,9 @@ Global Setup
     Set Global Variable  ${EXTRA_EXPLICIT_WAIT}  50
     Set Global Variable  ${PRIMARY_PORT}  8282
     Set Global Variable  ${GS_PAGE_PORT}  9443
-    Set Global Variable  ${HARBOR_PORT}  443
     Set Global Variable  ${BASE_URL}  https://%{OVA_IP}:${PRIMARY_PORT}
     Set Global Variable  ${GS_PAGE_BASE_URL}  https://%{OVA_IP}:${GS_PAGE_PORT}
     Set Global Variable  ${COMPLETE_INSTALL_URL}  https://%{OVA_IP}:${GS_PAGE_PORT}/?login=true
-    Set Global Variable  ${HARBOR_URL}  https://%{OVA_IP}:${HARBOR_PORT}
-    Set Global Variable  ${DEFAULT_HARBOR_NAME}  default-vic-registry
-    Set Global Variable  ${DEFAULT_HARBOR_PROJECT}  default-project
     # complete installation on UI
     Open Firefox Browser
     Log In And Complete OVA Installation
