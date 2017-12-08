@@ -4,6 +4,7 @@ Before you deploy the vSphere Integrated Containers appliance and virtual contai
 
 - [License Requirements](#license)
 - [Virtual Infrastructure Requirements](#vireqs)
+  - [vSphere Integrated Containers Appliance Requirements](#appliancereqs)
   - [vSphere Client Requirements](#client)
   - [Supported Configurations for VCH Deployment](#configs)
   - [ESXi Host Firewall Requirements](#firewall)
@@ -19,6 +20,10 @@ vSphere Integrated Containers requires a vSphere Enterprise Plus license.
 All of the ESXi hosts in a cluster require an appropriate license. Deployment of VCHs fails if your environment includes one or more ESXi hosts that have inadequate licenses. 
 
 ## Virtual Infrastructure Requirements <a id="vireqs"></a>
+
+The different components of vSphere Integrated Containers have different virtual infrastructure requirements.
+
+### vSphere Integrated Containers Appliance Requirements <a id="appliancereqs"></a>
 
 You deploy the vSphere Integrated Containers appliance on a vCenter Server instance. Deploying the appliance directly on an ESXi host is not supported.
 
@@ -97,7 +102,9 @@ The following network requirements apply to the deployment of VCHs to vCenter Se
   - For information about how to create a distributed virtual switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere  documentation. 
   - For information about how to add hosts to a distributed virtual switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
 - Optionally create port groups for use as mapped container networks. For information about container networks, see [Configure Container Networks](container_networks.md). 
-- Optionally create port groups for each of the public, management, and client networks.
+- Optionally create port groups for each of the public, management, and client networks. 
+
+    **NOTE**: It is strongly recommended that you create and use a dedicated port group for the public network. The VCH endpoint VM must be able to obtain an IP address from this port group. Using the default VM Network for the public network instead of a port group prevents vSphere vMotion from moving the VCH endpoint VM between hosts in the cluster. 
 - All hosts in a cluster must be attached to the port groups that you will use for the VCH bridge network and for any mapped container networks.
 - Isolate the bridge network and any mapped container networks. You can isolate networks by using a separate VLAN for each network. For information about how to assign a VLAN ID to a port group, see [VMware KB 1003825](https://kb.vmware.com/kb/1003825). For more information about private VLAN, see [VMware KB 1010691](https://kb.vmware.com/kb/1010691).
 

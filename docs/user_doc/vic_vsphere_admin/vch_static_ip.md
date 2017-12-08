@@ -7,22 +7,9 @@ By default, `vic-machine create` obtains IP addresses for virtual container host
 
 ## `vic-machine` Options <a id="options"></a>
 
-You can configure a static IP address for a VCH endpoint VM on the different networks by specifying the `vic-machine create --client-network-ip`, `--public-network-ip`, and `--management-network-ip` options when you deploy the VCH. You can also specify one or more DNS servers and gateway addresses by using the `--dns-server`, `--client-network-gateway`, `--public-network-gateway`, and `--management-network-gateway` options.
+You can configure a static IP address for a VCH endpoint VM on the different networks by specifying the `vic-machine create --client-network-ip`, and `--management-network-ip` options when you deploy the VCH. You can also specify one or more gateway addresses by using the `--client-network-gateway`, `--public-network-gateway`, and `--management-network-gateway` options.
 
-### `--dns-server` <a id="dns-server"></a>
 
-**Short name**: None
-
-A DNS server for the VCH endpoint VM to use on the client, public, or management networks. You can specify `dns-server` multiple times, to configure multiple DNS servers.  
-
-- If you specify `dns-server`, `vic-machine create` uses the same `--dns-server` setting for all three of the client, public, and management networks.
-- If you do not specify `dns-server` and you specify a static IP address for the VCH endpoint VM on all three of the client, public, and management networks, `vic-machine create` uses the Google public DNS service. 
-- If you do not specify `dns-server` and you use DHCP for all of the client, public, and management networks, `vic-machine create` uses the DNS servers that DHCP provides.
-
-**Usage**: 
-<pre>--dns-server=172.16.10.10
---dns-server=172.16.10.11
-</pre>
 
 ### `--client-network-ip`, `--public-network-ip`, `--management-network-ip`
 
@@ -33,7 +20,7 @@ A static IP address for the VCH endpoint VM on the public, client, or management
 You specify a static IP address for the endpoint VM on the public, client, or management networks by using the `--public-network-ip`, `client-network-ip`, and `management-network-ip` options. 
 
 - You can only specify one static IP address on a given port group. If more than one of the client, public, or management networks share a port group, you can only specify a static IP address on one of those networks. All of the networks that share that port group use the IP address that you specify. 
-- If you set a static IP address for the VCH endpoint VM on the public network, you must specify a corresponding gateway address by using the `--public-network-gateway` option. If the management and client networks are L2 adjacent to their gateways, you do not need to specify the corresponding gateways for those networks.
+- If the management and client networks are L2 adjacent to their gateways, you do not need to specify the corresponding gateways for those networks.
 - If either of the client or management networks shares a port group with the public network, you can only specify a static IP address on the public network.
 - If either or both of the client or management networks do not use the same port group as the public network, you can specify a static IP address for the endpoint VM on those networks by using `--client-network-ip` or `--management-network-ip`, or both. In this case, you must specify a corresponding gateway address by using `client/management-network-gateway`. 
 - If the client and management networks both use the same port group, and the public network does not use that port group, you can set a static IP address for the endpoint VM on either or both of the client and management networks.
@@ -44,14 +31,14 @@ You specify a static IP address for the endpoint VM on the public, client, or ma
 You specify addresses as IPv4 addresses with a network mask.
 
 **Usage**: 
-<pre>--public-network-ip 192.168.X.N/24
+<pre>
 --management-network-ip 192.168.Y.N/24
 --client-network-ip 192.168.Z.N/24
 </pre>
 
 You can also specify addresses as resolvable FQDNs.
 
-<pre>--public-network-ip=vch27-team-a.internal.domain.com
+<pre>
 --management-network-ip=vch27-team-b.internal.domain.com
 --client-network-ip=vch27-team-c.internal.domain.com
 </pre>
