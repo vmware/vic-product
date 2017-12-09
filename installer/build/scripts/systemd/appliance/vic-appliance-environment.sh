@@ -20,7 +20,6 @@ TLS_CA_CERT="$(ovfenv -k management_portal.ca_cert)"
 ADMIRAL_PORT="$(ovfenv -k management_portal.port)"
 REGISTRY_PORT="$(ovfenv -k registry.port)"
 NOTARY_PORT="$(ovfenv -k registry.notary_port)"
-ENGINE_INSTALLER_PORT="$(ovfenv -k engine_installer.port)"
 FILESERVER_PORT="$(ovfenv -k fileserver.port)"
 
 ENV_FILE="/etc/vmware/environment"
@@ -32,7 +31,6 @@ ENV_FILE="/etc/vmware/environment"
   echo "ADMIRAL_PORT=${ADMIRAL_PORT}";
   echo "REGISTRY_PORT=${REGISTRY_PORT}";
   echo "NOTARY_PORT=${NOTARY_PORT}";
-  echo "ENGINE_INSTALLER_PORT=${ENGINE_INSTALLER_PORT}";
   echo "FILESERVER_PORT=${FILESERVER_PORT}";
   echo "VIC_MACHINE_SERVER_PORT=8443";
 } > ${ENV_FILE}

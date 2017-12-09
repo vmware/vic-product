@@ -16,10 +16,9 @@ This test requires that a:
 2. Check status of harbor
 3. Check status of admiral
 4. Check status of fileserver
-5. Check status of engine_installer
-6. Download VIC engine tar file from management portal UI
-7. Extract VIC engine files and Install VCH
-8. Run docker info command against the installed VCH
+5. Download VIC engine tar file from management portal UI
+6. Extract VIC engine files and Install VCH
+7. Run docker info command against the installed VCH
 
 # Expected Outcome:
 * Register page should return 200 status
