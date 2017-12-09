@@ -159,11 +159,11 @@
                             <div class="modal-body">
                                 <form id="login-form" method="post" class="pt-0">
                                     <div id="login-body">
-                                        {{if .InvalidLogin}}
+                                        {{if .ValidationError }}
                                         <div class="alert alert-danger mt-0 mb-2">
                                             <div class="alert-item">
                                                 <span class="alert-text">
-                                                    Username or password are incorrect. Please enter them again.
+                                                    Validation failed: {{ .ValidationError }}
                                                 </span>
                                             </div>
                                         </div>
