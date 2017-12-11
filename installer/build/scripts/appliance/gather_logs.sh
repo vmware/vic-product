@@ -32,7 +32,12 @@ function getLog {
 
 # getFailedLogs gets the journal for failed units
 function getFailedLogs {
-  local UNITS=$("systemctl list-units --state=failed --no-legend --no-pager | cut -d ' ' -f1")
+  local UNITS
+  UNITS=$(systemctl list-units --state=failed --no-legend --no-pager | cut -d ' ' -f1 | grep -E '(service|target|path)')
+
+  for unit in $UNITS; do
+    commandToFile "journalctl -u $unit --no-pager" "journal_$unit"
+  done
 }
 
 function main {
@@ -56,6 +61,7 @@ function main {
   commandToFile "journalctl -u harbor_startup --no-pager" "journal_harbor_startup"
   commandToFile "journalctl -u harbor --no-pager" "journal_harbor"
   commandToFile "journalctl -u fileserver --no-pager" "journal_fileserver"
+  commandToFile "journalctl -u vic_machine_server --no-pager" "journal_vic_machine_server"
 
   commandToFile "cat /storage/data/admiral/configs/psc-config.properties" "admiral_data_psc-config"
   commandToFile "cat /etc/vmware/psc/admiral/psc-config.properties" "admiral_psc-config"
@@ -69,6 +75,8 @@ function main {
   # files from /storage/log/*
 
   getFailedLogs
+
+  compressBundle
 }
 
 main
