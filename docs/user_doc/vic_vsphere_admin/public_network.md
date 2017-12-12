@@ -18,7 +18,7 @@ The sections in this topic each correspond to an entry in the Configure Networks
 
 You designate a specific port group for traffic from container VMs and the VCH to the Internet by specifying a public network when you deploy the VCH.
 
-By default, VCHs use the standard VM Network for the public network. For deployments to vCenter Server clusters, it is strongly recommended that you create and use a dedicated port group for the public network. The VCH endpoint VM must be able to obtain an IP address from this port group. Using the VM Network instead of a port group prevents vSphere vMotion from moving the VCH endpoint VM between hosts in the cluster. 
+**IMPORTANT**: By default, VCHs use the standard VM Network for the public network. For deployments to vCenter Server clusters, it is strongly recommended that you create and use a dedicated port group for the public network. The VCH endpoint VM must be able to obtain an IP address on this port group. Using the VM Network instead of a port group prevents vSphere vMotion from moving the VCH endpoint VM between hosts in the cluster.
 
 If you do not configure the client and management networks to use specific port groups, those networks use the settings that you specify for the public network. 
 
