@@ -65,7 +65,8 @@ For information about how to open ports on ESXi hosts, see [Open the Required Po
 
 ### ESXi Host Storage Requirements for vCenter Server Clusters <a id="storage"></a>
 
-ESXi hosts in vCenter Server clusters must meet the following storage requirements in order to be usable by a VCH:
+All ESXi hosts in vCenter Server clusters must meet the following storage requirements in order to be usable by a VCH:
+
 - Be attached to the datastores that you will use for image stores and volume stores. 
 - Have access to shared storage to allow VCHs to use more than one host in the cluster.
 
