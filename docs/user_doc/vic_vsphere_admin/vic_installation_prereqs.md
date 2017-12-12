@@ -102,11 +102,10 @@ The following network requirements apply to the deployment of VCHs to vCenter Se
   - For information about bridge networks, see [Configure Bridge Networks](bridge_network.md). 
   - For information about how to create a distributed virtual switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere  documentation. 
   - For information about how to add hosts to a distributed virtual switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
+- It is strongly recommended that you create and use a dedicated port group for the public network. The VCH endpoint VM must be able to obtain an IP address on this port group. Using the default VM Network for the public network instead of a port group prevents vSphere vMotion from moving the VCH endpoint VM between hosts in the cluster. 
+- Optionally create port groups for each of the management and client networks. 
 - Optionally create port groups for use as mapped container networks. For information about container networks, see [Configure Container Networks](container_networks.md). 
-- Optionally create port groups for each of the public, management, and client networks. 
-
-    **NOTE**: It is strongly recommended that you create and use a dedicated port group for the public network. The VCH endpoint VM must be able to obtain an IP address from this port group. Using the default VM Network for the public network instead of a port group prevents vSphere vMotion from moving the VCH endpoint VM between hosts in the cluster. 
-- All hosts in a cluster must be attached to the port groups that you will use for the VCH bridge network and for any mapped container networks.
+- All hosts in a cluster must be attached to the port groups that you use for the VCH networks and for any mapped container networks.
 - Isolate the bridge network and any mapped container networks. You can isolate networks by using a separate VLAN for each network. For information about how to assign a VLAN ID to a port group, see [VMware KB 1003825](https://kb.vmware.com/kb/1003825). For more information about private VLAN, see [VMware KB 1010691](https://kb.vmware.com/kb/1010691).
 
 ## Custom Certificates <a id="customcerts"></a>
