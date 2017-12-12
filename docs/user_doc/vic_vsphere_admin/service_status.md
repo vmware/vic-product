@@ -5,7 +5,7 @@ You can check the status of the vSphere Integrated Containers services that run 
 - vSphere Integrated Containers Registry service
 - vSphere Integrated Containers Management Portal service
 - The file server for vSphere Integrated Containers Engine downloads and installation of the vSphere Client plug-ins
-- The `vic-machine` server service, that exposes the vic-machine API to the Create Virtual Container Host wizard in the HTML5 vSphere Client plug-in
+- The `vic-machine` server service, that powers the Create Virtual Container Host wizard in the HTML5 vSphere Client plug-in
 
 **Prerequisites**
 
