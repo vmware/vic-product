@@ -8,6 +8,7 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 
 - The HTML5 plug-in requires vCenter Server 6.5.0d or later. The HTML5 plug-in does not function with earlier versions of vCenter Server 6.5.0.
 - You are installing the plug-ins on a vCenter Server appliance instance. If you are running vCenter Server on Windows, see [Install the Client Plug-Ins on vCenter Server for Windows](plugins_vc_windows.md).
+- You have not installed a previous version of the plug-ins. To upgrade a previous installation, see [Upgrade the vSphere Client Plug-Ins on vCenter Server Appliance](upgrade_h5_plugin_vcsa.md).
 - Go to the vCenter Server Appliance Management Interface (VAMI) at https://<i>vcsa_address</i>:5480, log in as the appliance `root` user, then click **Access**, and make sure that SSH Login and Bash Shell are enabled.
 - You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 - Obtain the vCenter Server certificate thumbprint. For information about how to obtain and verify the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
@@ -30,5 +31,7 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 	2. Restart the Flex-based vSphere Web Client service.<pre>$ service-control --stop vsphere-client && service-control --start vsphere-client</pre>
 
 **What to Do Next**
+
+If you see the error message `At least one plugin is already registered with the target VC`, see [Upgrade the vSphere Client Plug-Ins on vCenter Server Appliance](upgrade_h5_plugin_vcsa.md). 
 
 To verify the deployment of the plug-ins, see [VCH Administration in the vSphere Client](vch_admin_client.md).
