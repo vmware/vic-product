@@ -16,8 +16,14 @@ If you have previous installations of the vSphere Client plug-ins for vSphere In
 **Procedure**
 
 1. Connect as root user to the vCenter Server Appliance by using SSH.<pre>ssh root@<i>vcsa_address</i></pre>
-4. Use `curl` to copy the new vSphere Integrated Containers Engine binaries from the file server in the upgraded vSphere Integrated Containers appliance to the vCenter Server Appliance.<pre>curl -k https://<i>upgraded_vic_appliance_address</i>:9443/files/vic_1.3.0.tar.gz -o vic_1.3.0.tar.gz</pre>**NOTE**: If you have installed a different version of the appliance, update `1.3.0` to the appropriate version in the command above and in the next step.
-5. Unpack the vSphere Integrated Containers binaries.<pre>tar -zxf vic_1.3.0.tar.gz</pre>
+2. Set the following environment variables:
+
+    - vSphere Integrated Containers appliance address:<pre>export VIC_ADDRESS=<i>vic_appliance_address</i></pre>
+    - vSphere Integrated Containers Engine version:<pre>export VIC_VERSION=vic_1.3.0</pre>
+
+    If you are upgrading to a different version of the appliance, update `1.3.0` to the appropriate version in the command above. You can see the correct version by going to https://<i>vic_appliance_address</i>:9443/files/ in a browser.
+4. Use `curl` to copy the new vSphere Integrated Containers Engine binaries from the file server in the upgraded vSphere Integrated Containers appliance to the vCenter Server Appliance.<pre>$ curl -kL http://${VIC_ADDRESS}:9443/files/${VIC_VERSION}.tar.gz -o ${VIC_VERSION}.tar.gz</pre>
+5. Unpack the vSphere Integrated Containers binaries.<pre>tar -zxf ${VIC_VERSION}.tar.gz</pre>
 6. Navigate to `/vic/ui/VCSA`, run the upgrade script, and follow the prompts.<pre>cd vic/ui/VCSA</pre><pre>./upgrade.sh</pre>
 	1. Enter the FQDN or IP address of the vCenter Server instance.
 	1. Enter the user name and password for the vCenter Server administrator account.

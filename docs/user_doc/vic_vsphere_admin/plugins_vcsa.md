@@ -20,15 +20,21 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 
 1. Connect as root user to the vCenter Server Appliance by using SSH.<pre>$ ssh root@<i>vcsa_address</i></pre>
 4. Start bash.<pre>$ shell</i></pre>
-5. Use `curl` to copy the vSphere Integrated Containers Engine binaries from the vSphere Integrated Containers appliance file server to the vCenter Server Appliance.<pre>$ curl -kL  https://<i>vic_appliance_address</i>:9443/files/vic_<i>version</i>.tar.gz -o vic_<i>version</i>.tar.gz</pre>**NOTE**: Update <i>version</i> to the appropriate version in the command above and in the next step. You can see the full file name by going to https://<i>vic_appliance_address</i>:9443/files/ in a browser.
-5. Unpack the vSphere Integrated Containers binaries.<pre>$ tar -zxf vic_<i>version</i>.tar.gz</pre>
+5. Set the following environment variables:
+
+    - vSphere Integrated Containers appliance address:<pre>export VIC_ADDRESS=<i>vic_appliance_address</i></pre>
+    - vSphere Integrated Containers Engine version:<pre>export VIC_VERSION=vic_1.3.0</pre>
+
+    If you have installed a different version of the appliance, update `1.3.0` to the appropriate version in the command above. You can see the correct version by going to https://<i>vic_appliance_address</i>:9443/files/ in a browser.
+5. Use `curl` to copy the vSphere Integrated Containers Engine binaries from the vSphere Integrated Containers appliance file server to the vCenter Server Appliance.<pre>$ curl -kL http://${VIC_ADDRESS}:9443/files/${VIC_VERSION}.tar.gz -o ${VIC_VERSION}.tar.gz</pre>
+5. Unpack the vSphere Integrated Containers binaries.<pre>$ tar -zxf ${VIC_VERSION}.tar.gz</pre>
 9. Navigate to `/vic/ui/VCSA`, run the installer script, and follow the prompts.<pre>$ cd vic/ui/VCSA</pre><pre>$ ./install.sh</pre>
 	1. Enter the IP address of the vCenter Server instance.
 	1. Enter the user name and password for the vCenter Server administrator account.
 	2. Enter **yes** if the vCenter Server certificate thumbprint is legitimate, and wait for the install process to finish. 
 10. When the installation finishes, stop and restart the services of your management clients.
-	1. Restart the HTML5 vSphere Client service.<pre>$ service-control --stop vsphere-ui && service-control --start vsphere-ui</pre>
-	2. Restart the Flex-based vSphere Web Client service.<pre>$ service-control --stop vsphere-client && service-control --start vsphere-client</pre>
+	1. Restart the HTML5 vSphere Client service.<pre>$ service-control --stop vsphere-ui</pre><pre>service-control --start vsphere-ui</pre>
+	2. Restart the Flex-based vSphere Web Client service.<pre>$ service-control --stop vsphere-client</pre><pre>service-control --start vsphere-client</pre>
 
 **What to Do Next**
 
