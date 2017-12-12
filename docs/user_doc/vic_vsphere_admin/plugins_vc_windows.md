@@ -17,13 +17,14 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 
 **Procedure**
 
-3. Run the install script and follow the prompts.<pre>%USERPROFILE%\Desktop\vic\ui\vCenterForWindows\install.bat</pre>
+1. Run the install script and follow the prompts.<pre>%USERPROFILE%\Desktop\vic\ui\vCenterForWindows\install.bat</pre>
 	1. Enter the IP address of the vCenter Server instance.
-	1. Enter the user name and password for the vCenter Server administrator account.
-	2. Enter **yes** if the vCenter Server certificate thumbprint is legitimate, and wait for the install process to finish. 
-10. When the installation finishes, stop and restart the services of your management clients.
+	2. Enter the user name and password for the vCenter Server administrator account.
+	3. Enter **yes** if the vCenter Server certificate thumbprint is legitimate, and wait for the install process to finish. 
+2. When the installation finishes, stop and restart the services of your management clients.
 	1. Restart the HTML5 vSphere Client service.<pre>service-control --stop vsphere-ui && service-control --start vsphere-ui</pre>
 	2. Restart the Flex-based vSphere Web Client service.<pre>service-control --stop vsphere-client && service-control --start vsphere-client</pre>
+3. Delete the vSphere Integrated Containers Engine binaries from the Windows host.
 
 **What to Do Next**
 

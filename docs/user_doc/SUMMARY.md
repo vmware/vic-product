@@ -93,6 +93,7 @@
      * [Container Volumes](vic_vsphere_admin/backup_volumes.md)
          * [Backing Up VMDK Volumes](vic_vsphere_admin/backup_vmdk.md)
          * [Restoring VMDK Volumes](vic_vsphere_admin/restore_vmdk.md)
+  * [Uninstall](vic_vsphere_admin/uninstall_vic.md)
   * [Troubleshooting](vic_vsphere_admin/troubleshoot_vic.md) 
      * [Access Appliance Logs](vic_vsphere_admin/appliance_logs.md)
      * [Access VCH Logs](vic_vsphere_admin/log_bundles.md)
