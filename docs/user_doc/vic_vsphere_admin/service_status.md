@@ -1,10 +1,15 @@
 # Check the Status of the vSphere Integrated Containers Services #
 
-You can check the status of the vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal services, and the file server that runs in the appliance, by logging in to the vSphere Integrated Containers appliance.
+You can check the status of the vSphere Integrated Containers services that run in the appliance by logging in to the vSphere Integrated Containers appliance. The following services run in the vSphere Integrated Containers appliance:
+
+- vSphere Integrated Containers Registry service
+- vSphere Integrated Containers Management Portal service
+- The file server for vSphere Integrated Containers Engine downloads and installation of the vSphere Client plug-ins
+- The `vic-machine` server service, that exposes the vic-machine API to the Create Virtual Container Host wizard in the HTML5 vSphere Client plug-in
 
 **Prerequisites**
 
-You deployed the vSphere Integrated Containers appliance
+You deployed the vSphere Integrated Containers appliance.
 
 **Procedure**
 
@@ -14,9 +19,7 @@ You deployed the vSphere Integrated Containers appliance
   - vSphere Integrated Containers Registry: `systemctl status harbor.service`
   - vSphere Integrated Containers Management Portal services: `systemctl status admiral.service`
   - Embedded file server: `systemctl status fileserver.service`
-  - Demo VCH Installer Wizard: `systemctl status engine_installer.service`
-
-        **NOTE**: The demo VCH installer wizard is deprecated in this release. 
+  - `vic-machine` server: `systemctl status vic_machine_server.service`
 
 **Result**
 
