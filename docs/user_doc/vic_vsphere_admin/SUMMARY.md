@@ -36,8 +36,6 @@
              * [Image Datastore](image_store.md)
              * [Volume Datastores](volume_stores.md)
          * [Connect VCHs to Registries](vch_registry.md) 
-         * [VCH Appliance Configuration](vch_config.md)
-         * [Container VM Configuration](containervm_config.md)
      * [Deploy VCH for dch-photon](deploy_vch_dchphoton.md)
   * [VCH Administration](vch_admin.md)
      * [Interoperability](interop.md)

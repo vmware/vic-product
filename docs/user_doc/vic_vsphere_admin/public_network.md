@@ -12,13 +12,16 @@ The public network is the network that container VMs and the virtual container h
 
 ## Options <a id="options"></a>
 
-The sections in this topic each correspond to an entry in the Configure Networks page of the Create Virtual Container Host wizard and to the  corresponding `vic-machine create` options.
+The sections in this topic each correspond to an entry in the Configure Networks page of the Create Virtual Container Host wizard, and to the  corresponding `vic-machine create` options.
 
 ### Public Network <a id="public-network"></a>
 
 You designate a specific port group for traffic from container VMs and the VCH to the Internet by specifying a public network when you deploy the VCH.
 
-**IMPORTANT**: By default, VCHs use the standard VM Network for the public network. For deployments to vCenter Server clusters, it is strongly recommended that you create and use a dedicated port group for the public network. The VCH endpoint VM must be able to obtain an IP address on this port group. Using the VM Network instead of a port group prevents vSphere vMotion from moving the VCH endpoint VM between hosts in the cluster.
+**IMPORTANT**: 
+
+- By default, VCHs that you deploy by using `vic-machine` use the standard VM Network for the public network. For deployments to vCenter Server clusters, it is strongly recommended that you create and use a dedicated port group for the public network. The VCH endpoint VM must be able to obtain an IP address on this port group. Using the VM Network instead of a port group prevents vSphere vMotion from moving the VCH endpoint VM between hosts in the cluster.
+- The Create Virtual Container Host wizard only allows you to select port groups. You cannot select whole networks, for example the standard VM Network. Consequently, if you use the Create Virtual Container Host wizard, you must create a port group for the public network before you deploy the VCH. You cannot use `vic-machine configure` to change the public network setting after you deploy the VCH.
 
 If you do not configure the client and management networks to use specific port groups, those networks use the settings that you specify for the public network. 
 
@@ -26,7 +29,7 @@ If you do not configure the client and management networks to use specific port 
 
 Select an existing port group from the **Public network** drop-down menu.
 
-**NOTE**: If you use the Create Virtual Container Host wizard, specifying a public network is **mandatory**. The Create Virtual Container Host wizard only allows you to select port groups. You cannot select whole networks, for example the standard VM Network. Consequently, if you use the Create Virtual Container Host wizard, you must create a port group for the public network before you deploy the VCH. You cannot use `vic-machine configure` to change the public network setting after you deploy the VCH.
+**NOTE**: If you use the Create Virtual Container Host wizard, specifying a public network is **mandatory**. 
 
 **vic-machine Option** 
 
@@ -105,7 +108,7 @@ You can specify `--dns-server` multiple times, to configure multiple DNS servers
 
 ## What to Do Next <a id="whatnext"></a>
 
-If you are using the Create Virtual Container Host wizard, the bridge network and the public network are the only networks for which it is mandatory to configure a port group. To apply default settings to the other networks, click **Next** to configure [VCH Security](vch_security.md) settings.
+If you are using the Create Virtual Container Host wizard, the bridge network and the public network are the only networks that it is mandatory to configure. 
 
 To configure advanced network settings, remain on the Configure Networks page, and see the following topics:
 
@@ -113,6 +116,8 @@ To configure advanced network settings, remain on the Configure Networks page, a
 - [Configure the Management Network](mgmt_network.md)
 - [Configure Container Networks](container_networks.md)
 - [Configure VCHs to Use Proxy Servers](vch_proxy.md)
+
+To apply default settings to the other networks, click **Next** to configure [VCH Security](vch_security.md) settings.
 
 ## Example `vic-machine` Command <a id="example"></a>
 

@@ -2,20 +2,25 @@
 
 The management network is the network on which the VCH endpoint VM connects to vCenter Server and ESXi hosts. By designating a specific management network, you isolate connections to vSphere resources from the public network. The VCH uses this network to provide the `attach` function of the Docker API. 
 
-- [`vic-machine` Options](#options)
-- [Example `vic-machine` Commands](#example)
+- [`vic-machine` Option](#options)
+  - [Management Network](#management-network) 
+  - [Static IP Address](#static-ip)
+  - [Gateway](#gateway)
+  - [Routing Destination](#routing)
+- [What to Do Next](#whatnext)
+- [Example `vic-machine` Command](#example)
 
-## `vic-machine` Options <a id="options"></a>
+## Options <a id="options"></a>
 
-You designate a specific network for traffic between the VCH and vSphere resources by specifying the `vic-machine create --management-network` option when you deploy the VCH. You can also route incoming connections from ESXi hosts to VCHs over the public network rather than over the management network by specifying the `--asymmetric-routes` option.
+The sections in this topic each correspond to an entry in the Configure Networks page of the Create Virtual Container Host wizard, and to the  corresponding `vic-machine create` options.
 
-### `--management-network` <a id="management-network"></a>
+###  Management Network <a id="management-network"></a>
 
-**Short name**: `--mn`
+A port group that the VCH uses to communicate with vCenter Server and ESXi hosts. Container VMs use this network to communicate with the VCH.
 
-A port group that the VCH uses to communicate with vCenter Server and ESXi hosts. Container VMs use this network to communicate with the VCH. 
+You designate a specific network for traffic between the VCH and vSphere resources by specifying the `vic-machine create --management-network` option when you deploy the VCH. You can also route incoming connections from ESXi hosts to VCHs over the public network rather than over the management network by specifying the `--asymmetric-routes` option. 
 
-**IMPORTANT NOTES**: 
+**IMPORTANT**: 
 
 - Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network.
 - Container VMs communicate with the VCH endpoint VM over the management network when an interactive shell is required. While the communication is encrypted, the public keys are not validated, which leaves scope for man-in-the-middle attacks. This connection is only used when the interactive console is enabled (`stdin`/`out`/`err`), and not for any other purpose. 
@@ -39,14 +44,28 @@ Firewall allowed IP configuration may prevent required connection on hosts:
 Firewall must permit dst 2377/tcp outbound to the VCH management interface
 </pre>
 
-**Usage**: 
+**Create VCH Wizard**
+
+1. Expand the **Advanced** view.
+2. Select an existing port group from the **Client network** drop-down menu.
+
+**vic-machine Option** 
+
+`--management-network`, `--mn`
+
 <pre>--management-network <i>port_group_name</i></pre>
 
 If you do not specify this option, the VCH uses the public network for management traffic. If you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups.
 
-### `--asymmetric-routes` <a id="asymmetric-routes"></a>
+### Static IP Address <a id="static-ip"></a>
 
-**Short name**: `--ar`
+### Gateway <a id="gateway"></a>
+
+### Routing Destination <a id="routing"></a>
+
+### Asymmetric Routes <a id="asymmetric-routes"></a>
+
+**Short name**: `--asymmetric-routes`, `--ar`
 
 Allows incoming connections from ESXi hosts to VCHs over the public network rather than over the management network. This option allows containers on bridge networks to indirectly access assets on the management or client networks via the public interface, if those assets are routable from the public network. If the management network does not have route entries for the vCenter Server and ESXi host subnets,  and you do not set `--asymmetric-routes`, containers that run without specifying `-d` remain in the starting state.
 
@@ -56,6 +75,16 @@ In this scenario, use the `--asymmetric-routes` option to allow management traff
 <pre>--asymmetric-routes</pre>
 
 The `--asymmetric-routes` option takes no arguments. If you do not set `--asymmetric-routes`, all management traffic is routed over the management network.
+
+## What to Do Next <a id="whatnext"></a>
+
+To configure further advanced network settings, remain on the Configure Networks page, and see the following topics:
+
+- [Configure the Client Network](client_network.md)
+- [Configure Container Networks](container_networks.md)
+- [Configure VCHs to Use Proxy Servers](vch_proxy.md)
+
+To apply default settings to the other networks, click **Next** to configure [VCH Security](vch_security.md) settings.
 
 ## Example `vic-machine` Commands <a id="example"></a>
 

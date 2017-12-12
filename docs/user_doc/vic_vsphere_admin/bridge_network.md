@@ -12,7 +12,7 @@ In Docker terminology, the bridge network on a VCH corresponds to the default br
 
 ## Options <a id="options"></a>
 
-The sections in this topic each correspond to an entry in the Configure Networks page of the Create Virtual Container Host wizard and to the  corresponding `vic-machine create` options.
+The sections in this topic each correspond to an entry in the Configure Networks page of the Create Virtual Container Host wizard, and to the  corresponding `vic-machine create` options.
 
 ### Bridge Network <a id="bridge"></a>
 

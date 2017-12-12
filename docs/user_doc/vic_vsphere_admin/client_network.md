@@ -12,7 +12,7 @@ The client network is the network on which the VCH endpoint VM makes the Docker 
 
 ## Options <a id="options"></a>
 
-The sections in this topic each correspond to an entry in the Configure Networks page of the Create Virtual Container Host wizard and to the  corresponding `vic-machine create` options.
+The sections in this topic each correspond to an entry in the Configure Networks page of the Create Virtual Container Host wizard, and to the  corresponding `vic-machine create` options.
 
 ### Client Network <a id="client-network"></a> 
 
@@ -74,7 +74,7 @@ You specify gateway addresses as IP addresses without a network mask.
 
 **Create VCH Wizard**
 
-Enter the IP address of the gateway, for example `192.168.2.1`.
+Enter the IP address of the gateway, for example `198.51.100.1`.
 
 You must enter a gateway address even if the client network is L2 adjacent to the gateway.
 
@@ -82,7 +82,7 @@ You must enter a gateway address even if the client network is L2 adjacent to th
 
 Specify a gateway address as an IP address without a network mask in the `--client-network-gateway` option. If the client network is L2 adjacent to its gateway, you do not need to specify the gateway.
 
-<pre>--client-network-gateway 192.168.2.1</pre>
+<pre>--client-network-gateway 198.51.100.1</pre>
 
 ### Routing Destination <a id="routing"></a>
 
@@ -90,7 +90,7 @@ The default route for the VCH endpoint VM is always on the public network. As a 
 
 **Create VCH Wizard**
 
-If you set a static IP address on the client network, optionally enter the routing destination as a comma-separated list of CIDRs.
+If you set a static IP address on the client network, optionally enter the routing destination as a comma-separated list of CIDRs. For example, enter `192.0.2.0/24,198.51.100.0/24`.
 
 **vic-machine Option** 
 
@@ -98,17 +98,25 @@ You specify the routing destination or destinations in a comma-separated list in
 
 <pre>--client-network-gateway <i>routing_destination_1</i>,<i>routing_destination_2</i>:<i>gateway_address</i></pre>
 
+For example:<pre>--client-network-gateway 192.0.2.0/24,198.51.100.0/24:198.51.100.1</pre>
+
 ## What to Do Next <a id="whatnext"></a>
 
-If you are using the Create Virtual Container Host wizard, stay on the Configure Networks page and [Configure the Management Network](mgmt_network.md) settings.
+To configure further advanced network settings, remain on the Configure Networks page, and see the following topics:
+
+- [Configure the Management Network](mgmt_network.md)
+- [Configure Container Networks](container_networks.md)
+- [Configure VCHs to Use Proxy Servers](vch_proxy.md)
+
+To apply default settings to the other networks, click **Next** to configure [VCH Security](vch_security.md) settings.
 
 ## Example `vic-machine` Command <a id="example"></a>
 
-This example `vic-machine create` command deploys a VCH with the following configuration:
+This example `vic-machine create` command deploys a VCH with the following networking configuration:
 
 - Directs public traffic to `vch1-public` and Docker API traffic to `vch1-client`.
 - Sets a DNS server for use by the public, management, and client networks.
-- Sets a static IP address and gateway for the VCH endpoint VM on the public and client networks.
+- Sets a static IP address for the VCH endpoint VM on each of the public and client networks.
 - Specifies the gateway for the public network.
 - Does not specify a gateway for the client network. It is not necessary to specify a gateway on either of the client or management networks if those networks are L2 adjacent to their gateways.
 - Because this example specifies a static IP address for the VCH endpoint VM on the client network, `vic-machine create` uses this address as the Common Name with which to create auto-generated trusted certificates. Full TLS authentication is implemented by default, so no TLS options are specified. 
