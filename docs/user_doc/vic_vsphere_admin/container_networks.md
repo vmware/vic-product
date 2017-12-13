@@ -167,7 +167,7 @@ You specify the trust level in the `--container-network-firewall` option. You mu
 
 If you are using the Create Virtual Container Host wizard, the bridge network and the public network are the only networks that it is mandatory to configure.
 
-- Optionally click the **+** button to add more container networks to the VCH, and repeat the proceeding steps for each additional container network.
+- Optionally click the **+** button to add more container networks to the VCH, and repeat the procedures for each additional container network.
 - To configure further advanced network settings, remain on the Configure Networks page, and see the following topics:
   - [Configure the Client Network](client_network.md)
   - [Configure the Management Network](mgmt_network.md)
