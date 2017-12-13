@@ -14,30 +14,82 @@
 # limitations under the License.
 set -euf -o pipefail
 
-TIMESTAMP=$(date +"%Y-%m-%d:%H:%M:%S%z")
-OUTDIR="/tmp/vic_appliance_logs_$TIMESTAMP"
+TIMESTAMP=$(date +"%Y-%m-%d:%H:%M:%S")
+DIRNAME="vic_appliance_logs_$TIMESTAMP"
+OUTFILE="$DIRNAME.tar.gz"
+TMPDIR="/tmp/$DIRNAME"
+OUTDIR="/storage/log/"
 
-mkdir -p "$OUTDIR"
+mkdir -p "$TMPDIR"
 
-# commandToFile runs command $1 and writes the output to file $2 in $OUTDIR
+# commandToFile runs command $1 and writes the output to file $2 in $TMPDIR
 function commandToFile {
   echo "Running $1"
-  $1 &> "$OUTDIR/$2"
+  $1 &> "$TMPDIR/$2"
 }
 
-# getLog copies the latest log from the directory
+# commandToCompressed runs command $1 and writes gzipped output to file $2 in $TMPDIR
+function commandToCompressed {
+  local OUTDIR
+  local DIR="${3:-}"
+  if [ -n "$DIR" ]; then
+    OUTDIR="$TMPDIR/$DIR"
+    mkdir -p "$OUTDIR"
+  else
+    OUTDIR="$TMPDIR"
+  fi
+
+  echo "Running $1, compressing output"
+  $1 | gzip > "$OUTDIR/$2.gz"
+}
+
+# getLog copies files with suffix to $TMPDIR
 function getLog {
-  return
+  local FILES
+  FILES=$(find "$1" -name "$2")
+  local DIR
+  DIR=$(basename "$1")
+
+  for file in $FILES; do
+    commandToCompressed "cat $file" "$(basename "$file")" "$DIR"
+  done
 }
 
 # getFailedLogs gets the journal for failed units
 function getFailedLogs {
+  echo "Getting logs for failed units"
   local UNITS
-  UNITS=$(systemctl list-units --state=failed --no-legend --no-pager | cut -d ' ' -f1 | grep -E '(service|target|path)')
-
+  UNITS=$(systemctl list-units --state=failed --no-legend --no-pager | cut -d ' ' -f1 | grep -E '(service|target|path)') || true
+  local LEN
+  LEN=$(echo "$UNITS" | wc -l)
+  LEN=$((LEN - 1))
+  echo "Found $LEN failed units"
+  if [ $LEN -eq 0 ]; then
+    return
+  fi
   for unit in $UNITS; do
-    commandToFile "journalctl -u $unit --no-pager" "journal_$unit"
+    commandToCompressed "journalctl -u $unit --no-pager" "journal_$unit"
   done
+  echo "Finished getting logs for failed units"
+}
+
+# compressBundle creates the log bundle tar
+function compressBundle {
+  # TODO Check available space
+
+  local DIR
+  echo "Creating log bundle $OUTDIR/$OUTFILE"
+  tar -czvf "$OUTDIR/$OUTFILE" -C /tmp "$DIRNAME"
+  echo "--------------------"
+  echo "Created log bundle $OUTDIR/$OUTFILE"
+  echo "--------------------"
+}
+
+# cleanup removes temporary files
+function cleanup {
+  echo "Removing $TMPDIR"
+  rm -rf "$TMPDIR"
+  echo "Removed $TMPDIR"
 }
 
 function main {
@@ -52,16 +104,16 @@ function main {
   commandToFile "systemctl status --no-pager" "systemctl_status"
   commandToFile "systemctl list-jobs --no-pager" "systemctl_list-jobs"
   commandToFile "systemctl list-units --state=failed --no-pager" "systemctl_failed"
-  commandToFile "iptables -L -n" "journal_iptables"
+  commandToFile "iptables -L -n" "iptables"
   commandToFile "df -h" "storage"
   commandToFile "docker ps -a" "docker_ps"
 
-  commandToFile "journalctl -u admiral_startup --no-pager" "journal_admiral_startup"
-  commandToFile "journalctl -u admiral --no-pager" "journal_admiral"
-  commandToFile "journalctl -u harbor_startup --no-pager" "journal_harbor_startup"
-  commandToFile "journalctl -u harbor --no-pager" "journal_harbor"
-  commandToFile "journalctl -u fileserver --no-pager" "journal_fileserver"
-  commandToFile "journalctl -u vic_machine_server --no-pager" "journal_vic_machine_server"
+  commandToCompressed "journalctl -u admiral_startup --no-pager" "journal_admiral_startup"
+  commandToCompressed "journalctl -u admiral --no-pager" "journal_admiral"
+  commandToCompressed "journalctl -u harbor_startup --no-pager" "journal_harbor_startup"
+  commandToCompressed "journalctl -u harbor --no-pager" "journal_harbor"
+  commandToCompressed "journalctl -u fileserver --no-pager" "journal_fileserver"
+  commandToCompressed "journalctl -u vic_machine_server --no-pager" "journal_vic_machine_server"
 
   commandToFile "cat /storage/data/admiral/configs/psc-config.properties" "admiral_data_psc-config"
   commandToFile "cat /etc/vmware/psc/admiral/psc-config.properties" "admiral_psc-config"
@@ -72,11 +124,16 @@ function main {
   commandToFile "du -k /etc/vmware/psc/harbor/tokens.properties" "harbor_psc-token"
 
 
+  # Gets the latest log for each component. Additional rotated logs must be retrieved manually.
   # files from /storage/log/*
+  getLog "/storage/log/admiral" "*.log"
+  getLog "/storage/log/harbor" "*.log"
+  getLog "/storage/log/vic-machine-server" "*.log"
 
   getFailedLogs
 
   compressBundle
+  cleanup
 }
 
 main
