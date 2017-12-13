@@ -31,12 +31,12 @@ The host, cluster, or resource pool in which to deploy the VCH.
 
 **NOTE**: You cannot deploy a VCH to a specific host in a cluster. You deploy the VCH to the cluster, and DRS manages the placement of the VCH on a host.
 
-**Create VCH Wizard** 
+#### Create VCH Wizard 
 
 1. Expand the inventory hierarchy.
 2. Select a standalone host, cluster, or resource pool to which to deploy the VCH. 
 
-**vic-machine Option** 
+#### vic-machine Option 
 
 `--compute-resource`, `-r`
 
@@ -65,12 +65,12 @@ To deploy to a specific resource pool in a cluster, if the resource pool name is
 
 Limit the amount of CPU capacity that is available for use by the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool. Specify the CPU capacity in MHz.
 
-**Create VCH Wizard** 
+#### Create VCH Wizard 
 
 - Leave the default value of `Unlimited`.
 - Optionally enter a limit of between 1 and 9779 MHz. 
 
-**vic-machine Option**  
+#### vic-machine Option  
 
 `--cpu`, no short name
 
@@ -82,12 +82,12 @@ Specify a CPU limit value of between 1 and 9779 MHz. If not specified, `vic-mach
 
 Limit the amount of memory that is available for use by the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool. Specify the memory limit value in MB. 
 
-**Create VCH Wizard** 
+#### Create VCH Wizard 
 
 - Leave the default value of `Unlimited`.
 - Optionally enter a limit of between 1 and 21765 MB.  
 
-**vic-machine Option**   
+#### vic-machine Option   
 
 `--memory`, `--mem`
 
@@ -107,12 +107,12 @@ For information about vSphere memory and CPU shares and reservations, see [Alloc
 
 Reserve a quantity of CPU capacity for use by the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool.  Specify the CPU reservation value in MHz. 
 
-**Create VCH Wizard** 
+#### Create VCH Wizard 
 
 1. Expand **Advanced**
 2. Leave the default value of 1 or optionally enter a limit of between 1 and 9779 MHz.
 
-**vic-machine Option**  
+#### vic-machine Option  
 
 `--cpu-reservation`, `--cpur`
 
@@ -124,12 +124,12 @@ Specify a limit of between 1 and 9779 MHz. If not specified, `vic-machine create
 
 Set CPU shares on the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool.  
 
-**Create VCH Wizard** 
+#### Create VCH Wizard 
 
 1. Expand **Advanced**.
 2. Leave the default value of **Normal** or select **Low** or **High**.
 
-**vic-machine Option** 
+#### vic-machine Option 
 
 `--cpu-shares`, `--cpus`
 
@@ -141,12 +141,12 @@ Specify the share value as a level or a number, for example `high`, `normal`, `l
 
 Reserve a quantity of memory for use by the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool. Specify the memory reservation value in MB.  
 
-**Create VCH Wizard** 
+#### Create VCH Wizard 
 
 1. Expand **Advanced**.
 2. Leave the default value of 1 or optionally enter a limit of between 1 and 21153 MB.
 
-**vic-machine Option** 
+#### vic-machine Option 
 
 `--memory-reservation`, `--memr`
 
@@ -158,12 +158,12 @@ Specify a limit of between 1 and 21153 MB. If not specified, `vic-machine create
 
 Set memory shares on the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool.  
 
-**Create VCH Wizard** 
+#### Create VCH Wizard 
 
 1. Expand **Advanced**.
 2. Leave the default value of **Normal** or select **Low** or **High**.
 
-**vic-machine Option**  
+#### vic-machine Option  
 
 `--memory-shares`, `--mems`
 
@@ -177,12 +177,12 @@ The number of virtual CPUs for the VCH endpoint VM. The default is 1. Set this o
 
 **NOTE**: In most cases, increase the overall CPU capacity of the VCH resource pool, rather than increasing the number of CPUs on the VCH endpoint VM. This option is mainly intended for use by VMware Support.  
 
-**Create VCH Wizard** 
+#### Create VCH Wizard 
 
 1. Expand **Advanced**.
 2. Leave the default value of 1 or enter a higher number of CPUs.
 
-**vic-machine Option** 
+#### vic-machine Option 
 
 Specify a value of greater than 1. If not specified, `vic-machine create` sets the number of CPUs to 1.
 
@@ -196,12 +196,12 @@ The amount of memory for the VCH endpoint VM. Set this option to increase the am
 
 **NOTE** With the exception of VCHs that pull large container images, increase the overall amount of memory for the VCH resource pool, rather than the amount of memory of the VCH endpoint VM. Use `docker create -m` to set the memory on container VMs. This option is mainly intended for use by VMware Support.
 
-**Create VCH Wizard** 
+#### Create VCH Wizard 
 
 1. Expand **Advanced**.
 2. Leave the default value of 2048 MB, or enter a value of between 1 and 21765 MB.
 
-**vic-machine Option** 
+#### vic-machine Option 
 
 `--endpoint-memory `, no short name
 

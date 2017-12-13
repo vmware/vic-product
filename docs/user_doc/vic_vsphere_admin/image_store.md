@@ -33,7 +33,7 @@ By specifying a datastore folder, you can designate the same datastore folder as
 
 When container developers create and run containers, vSphere Integrated Containers Engine stores the files for container VMs at the top level of the image store, in folders that have the same names as the container VMs.
 
-**Create VCH Wizard**
+#### Create VCH Wizard
 
 Specifying an image store is **mandatory**.
 
@@ -42,7 +42,7 @@ Specifying an image store is **mandatory**.
     Select a datastore that is shared by at least two, but preferably all, hosts in a cluster.
 2. Optionally enter the path to a folder in the specified datastore, to use to store image files. 
 
-**vic-machine Option**
+#### vic-machine Option
 
 `--image-store`, `-i`
 
@@ -60,12 +60,12 @@ To specify a datastore folder to use as the image store, include the path to the
 
 The size of the base image from which to create other container images. You should not normally need to use this option. Specify the size in `GB` or `MB`. The default size is 8GB. Images are thin-provisioned, so they do not usually consume 8GB of space. For information about container base images, see [Create a base image](https://docs.docker.com/engine/userguide/eng-image/baseimages/) in the Docker documentation. 
 
-**Create VCH Wizard**
+#### Create VCH Wizard
 
 1. Leave the default value of 8, or enter a different value.
 2. Select **GB** or **MB**.
 
-**vic-machine Option** 
+#### vic-machine Option 
 
 `--base-image-size`, no short name
 

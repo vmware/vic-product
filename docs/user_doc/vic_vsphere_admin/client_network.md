@@ -18,14 +18,17 @@ The sections in this topic each correspond to an entry in the Configure Networks
 
 A port group on which the VCH makes the Docker API available to Docker clients. Docker clients use this network to issue Docker API requests to the VCH.
 
+- The port group must exist before you create the VCH. For information about how to create a VMware vSphere Distributed Switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere documentation.
+- All hosts in a cluster must be attached to the port group. For information about how to add hosts to a vSphere Distributed Switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
+
 If you do not specify this option, the VCH uses the public network for client traffic.
 
-**Create VCH Wizard**
+#### Create VCH Wizard
 
 1. Expand the **Advanced** view.
 2. Select an existing port group from the **Client network** drop-down menu.
 
-**vic-machine Option** 
+#### vic-machine Option 
 
 `--client-network`, `--cln`
 
@@ -42,25 +45,27 @@ By default, vSphere Integrated Containers Engine uses DHCP to obtain an IP addre
 - You can only specify one static IP address on a given port group. If the client network shares a port group with the public network, you can only specify a static IP address on the public network. All of the networks that share that port group use the IP address that you specify for the public network.
 - If you set a static IP address for the VCH endpoint VM on the public network, you must specify the gateway address for the public network. If the client network is L2 adjacent to its gateway, you do not need to specify the corresponding gateway for the client network.
 - If the client network does not use the same port group as the public network, you can specify a static IP address for the endpoint VM on the public network. In this case, you must specify the public network gateway. 
-- If the client network shares a port group with the management network, and the public network does not use that port group, you can set a static IP address for the VCH endpoint VM on either or both of the client and management networks.
+- If the client network shares a port group with the management network, and the public network does not use that port group, you can set a static IP address for the VCH endpoint VM on either of the client or management networks.
 - If you assign a static IP address to the VCH endpoint VM on the client network, and you do not specify one of the TLS options, vSphere Integated Containers Engine uses this address as the Common Name with which to auto-generate trusted CA certificates. If you do not specify one of the TLS options, two-way TLS authentication with trusted certificates is implemented by default when you deploy the VCH with a static IP address on the client network. If you assign a static IP address to the VCH endpoint VM on the client network, vSphere Integated Containers Engine creates the same certificate and environment variable files as described in the [`--tls-cname` option](tls_auto_certs.md#tls-cname).
  
     **IMPORTANT**: If the client network shares a port group with the public network you cannot set a static IP address for the endpoint VM on the client network. To assign a static IP address to the VCH endpoint VM you must set a static IP address on the public network. In this case, vSphere Integated Containers Engine uses the public network IP address as the Common Name with which to auto-generate trusted CA certificates, in the same way as it would if you had set a static IP on the client network.
 
 You specify the address as an IPv4 address with a network mask.
 
-**Create VCH Wizard**
+#### Create VCH Wizard
 
 1. Select the **Static** radio button.
 2. Enter an IP address with a network mask in the **IP Address** text box, for example `192.168.3.10/24`.
 
-**vic-machine Option** 
+The Create Virtual Container Host wizard only accepts an IP address for the client network. You cannot specify an FQDN.
+
+#### vic-machine Option 
 
 `--client-network-ip`, no short name
 
 You specify addresses as IPv4 addresses with a network mask.
 
-<pre>--client-network-ip 192.168.1.10/24</pre>
+<pre>--client-network-ip 192.168.2.10/24</pre>
 
 You can also specify the address as a resolvable FQDN.
 
@@ -72,50 +77,52 @@ The gateway to use if you specify a static IP address for the VCH endpoint VM on
 
 You specify gateway addresses as IP addresses without a network mask.
 
-**Create VCH Wizard**
+#### Create VCH Wizard
 
-Enter the IP address of the gateway, for example `198.51.100.1`.
+Enter the IP address of the gateway in the **Gateway** text box, for example `192.168.2.1`.
 
 You must enter a gateway address even if the client network is L2 adjacent to the gateway.
 
-**vic-machine Option** 
+#### vic-machine Option 
 
 Specify a gateway address as an IP address without a network mask in the `--client-network-gateway` option. If the client network is L2 adjacent to its gateway, you do not need to specify the gateway.
 
-<pre>--client-network-gateway 198.51.100.1</pre>
+<pre>--client-network-gateway 192.168.2.1</pre>
 
 ### Routing Destination <a id="routing"></a>
 
 The default route for the VCH endpoint VM is always on the public network. As a consequence, if you specify a static IP address on the client network and that network is not L2 adjacent to its gateway, you must specify the routing destination for that network. 
 
-**Create VCH Wizard**
+#### Create VCH Wizard
 
 If you set a static IP address on the client network, optionally enter the routing destination as a comma-separated list of CIDRs. For example, enter `192.0.2.0/24,198.51.100.0/24`.
 
-**vic-machine Option** 
+#### vic-machine Option 
 
 You specify the routing destination or destinations in a comma-separated list in the `--client-network-gateway` option, with the address of the gateway separated from the routing destinations by a colon (`:`).
 
 <pre>--client-network-gateway <i>routing_destination_1</i>,<i>routing_destination_2</i>:<i>gateway_address</i></pre>
 
-For example:<pre>--client-network-gateway 192.0.2.0/24,198.51.100.0/24:198.51.100.1</pre>
+In the following example, `--management-network-gateway` informs the VCH that it can reach all of the vSphere management endoints that are in the ranges 192.168.2.0-255 and 192.168.128.0-192.168.128.255 by sending packets to the gateway at 192.168.2.1. Ensure that the address ranges that you specify include all of the systems that will connect to this VCH instance. 
+
+<pre>--management-network-gateway 192.168.2.0/24,192.168.128.0/24:192.168.2.1</pre>
 
 ## What to Do Next <a id="whatnext"></a>
 
-To configure further advanced network settings, remain on the Configure Networks page, and see the following topics:
+If you are using the Create Virtual Container Host wizard, the bridge network and the public network are the only networks that it is mandatory to configure.
 
-- [Configure the Management Network](mgmt_network.md)
-- [Configure Container Networks](container_networks.md)
-- [Configure VCHs to Use Proxy Servers](vch_proxy.md)
-
-To apply default settings to the other networks, click **Next** to configure [VCH Security](vch_security.md) settings.
+- To configure further advanced network settings, remain on the Configure Networks page, and see the following topics:
+  - [Configure the Management Network](mgmt_network.md)
+  - [Configure Container Networks](container_networks.md)
+  - [Configure VCHs to Use Proxy Servers](vch_proxy.md)
+- If you have finished configuring the network settings, click **Next** to configure [VCH Security](vch_security.md) settings.
 
 ## Example `vic-machine` Command <a id="example"></a>
 
 This example `vic-machine create` command deploys a VCH with the following networking configuration:
 
 - Directs public traffic to `vch1-public` and Docker API traffic to `vch1-client`.
-- Sets a DNS server for use by the public, management, and client networks.
+- Sets two DNS servers for use by the public, management, and client networks.
 - Sets a static IP address for the VCH endpoint VM on each of the public and client networks.
 - Specifies the gateway for the public network.
 - Does not specify a gateway for the client network. It is not necessary to specify a gateway on either of the client or management networks if those networks are L2 adjacent to their gateways.
@@ -130,8 +137,9 @@ This example `vic-machine create` command deploys a VCH with the following netwo
 --public-network-ip 192.168.1.10/24
 --public-network-gateway 192.168.1.1
 --client-network vch1-client
---client-network-ip 192.168.3.10/24
---dns-server <i>dns_server_address</i>
+--client-network-ip 192.168.2.10/24
+--dns-server 192.168.10.10
+--dns-server 192.168.10.11
 --thumbprint <i>certificate_thumbprint</i>
 --name vch1
 </pre>

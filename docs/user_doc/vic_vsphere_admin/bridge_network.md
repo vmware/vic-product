@@ -27,11 +27,11 @@ Before you deploy a VCH, you must create a distributed virtual switch and a port
 - Do not use the bridge network for any other VM workloads.
 <!-- If you intend to use the `--ops-user` option to use different user accounts for deployment and operation of the VCH, you must place the bridge network port group in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Configure Operations User](set_up_ops_user.md).-->
 
-**Create VCH Wizard**
+#### Create VCH Wizard
 
 Select an existing port group from the **Bridge network** drop-down menu. It is **mandatory** to specify a bridge network.
 
-**vic-machine Option** 
+#### vic-machine Option 
 
 `--bridge-network`, `-b`
 
@@ -52,11 +52,11 @@ A range of IP addresses that additional bridge networks can use when container a
 
 When you specify a bridge network IP range, you specify the IP range as a CIDR. The smallest subnet that you can specify is /16.
 
-**Create VCH Wizard**
+#### Create VCH Wizard
 
 If the default range of 172.16.0.0.0/12 is in use in your network, enter a new range as a CIDR. For example, enter `192.168.100.0/16`.
 
-**vic-machine Option**
+#### vic-machine Option
 
 `--bridge-network-range`, `--bnr`
 

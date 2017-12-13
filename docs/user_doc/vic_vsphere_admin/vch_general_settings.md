@@ -20,11 +20,11 @@ The sections in this topic each correspond to an entry in the General Settings p
 
 A name for the VCH, that appears the vCenter Server inventory and that you can use in other `vic-machine` commands. The default VCH name is `virtual-container-host`.
 
-**Create VCH Wizard**
+#### Create VCH Wizard
 
 Enter a name for the VCH. 
 
-**vic-machine Option**
+#### vic-machine Option
 
 `--name`, `-n`
 
@@ -38,13 +38,13 @@ Enforce a naming convention for container VMs, that applies a prefix or suffix t
 
 You specify whether to use the container name or the container ID for the second part of the container VM display name. If you use the container name, the container VM display names use either the name that Docker generates for the container, or a name that the container developer specifies in `docker run --name` when they run the container.
 
-**Create VCH Wizard**
+#### Create VCH Wizard
 
 1. Optionally enter a prefix.
 2. Select **Docker name** or **Container ID**.
 3. Optionally add a suffix.
 
-**vic-machine Option**
+#### vic-machine Option
 
 `--container-name-convention`, `--cnc`
 
@@ -70,12 +70,12 @@ Additionally, deploying a VCH with debug level 3 enables SSH access to the VCH e
 
 **IMPORTANT**: There is no provision for persistently changing the default root password. Only use this configuration for debugging in a secured environment.
 
-**Create VCH Wizard**
+#### Create VCH Wizard
 
 - Leave the default level of 0 for usual deployments. 
 - Optionally select level 1, 2, or 3 if you need to debug deployment problems.
 
-**vic-machine Option**
+#### vic-machine Option
 
 `--debug`, `-v`
 
@@ -87,13 +87,13 @@ Optionally specify a debugging level of `1`, `2`, or `3`. If not specified, the 
 
 Configure a VCH so that it sends the logs in the `/var/log/vic` folder on the VCH endpoint VM to a syslog endpoint that is not located in the VCH. The VCH also sends container logs to the same syslog endpoint.
 
-**Create VCH Wizard**
+#### Create VCH Wizard
 
 1. Select **tcp** or **udp** for the transport protocol.
 2. Enter the IP address or FQDN of the syslog endpoint.
 3. Optionally enter the port on which with syslog endpoint is exposed if it is not the default of 514. 
 
-**vic-machine Option**
+#### vic-machine Option
 
 `--syslog-address`, no short name
 
