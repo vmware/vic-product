@@ -24,7 +24,6 @@ Resource  OVA-Util.robot
 Resource  VC-Util.robot
 Resource  VCH-Util.robot
 Resource  UI-Util.robot
-Resource  Docker-Util.robot
 Library  Selenium2Library  timeout=30  implicit_wait=15  run_on_failure=Capture Page Screenshot  screenshot_root_directory=test-screenshots
 # UI page object utils
 Resource  page-objects/Getting-Started-Page-Util.robot
@@ -39,8 +38,7 @@ Resource  page-objects/Remove-Host-Modal-Util.robot
 Resource  page-objects/Containers-Page-Util.robot
 Resource  page-objects/Provision-Container-Page-Util.robot
 Resource  page-objects/Right-Context-Panel-Util.robot
-Resource  page-objects/Registries-Page-Util.robot
-Resource  page-objects/Project-Repositories-Page-Util.robot
+
 
 *** Keywords ***
 Run command and Return output

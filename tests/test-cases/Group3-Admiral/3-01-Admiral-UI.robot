@@ -20,8 +20,7 @@ Test Setup  Run Keyword  Setup Base State
 Test Teardown  Close All Browsers
 
 *** Variables ***
-${busybox-docker-image-name}  registry.hub.docker.com/library/busybox
-${busybox-docker-image-tag}  latest
+${busybox-docker-image-tag}  registry.hub.docker.com/library/busybox
 ${sample-command-exit}  ls
 ${cp-card-status-stopped}  STOPPED
 
@@ -31,21 +30,16 @@ Setup Base State
     Navigate To VIC UI Home Page
     Login On Single Sign-On Page
 
-Cleanup VCH And Teardown
-    [Arguments]  ${vch-name}
-    Cleanup VCH  ${vch-name}
-    Close All Browsers
-
 *** Test Cases ***
 Add VCH to default project and create a container
     Download VIC Engine If Not Already
     ${vch-name}=  Install VCH  certs=${false}
-    Add New Container Host And Verify Card  ${vch-name}
+    Add New Container Host And Verify Card  ${vch-name}  ${VCH-URL}
     Navigate To Containers Page
     Select Containers Page Iframe
     Verify Containers Page
-    Provision And Verify New Container  ${busybox-docker-image-name}  ${busybox-docker-image-tag}  ${sample-command-exit}  ${cp-card-status-stopped}
+    Provision And Verify New Container  ${busybox-docker-image-tag}  ${sample-command-exit}  ${cp-card-status-stopped}
     Unselect Containers Page Iframe
 
     Delete VCH Card Using Dropdown Menu  ${vch-name}
-    [Teardown]  Cleanup VCH And Teardown  ${vch-name}
+    [Teardown]  Cleanup VCH  ${vch-name}

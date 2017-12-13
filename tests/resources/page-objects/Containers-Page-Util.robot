@@ -73,10 +73,10 @@ Verify Container Card
     Verify Container Card Status  ${card-index}  ${card-status}
 
 Provision And Verify New Container
-    [Arguments]  ${image-name}  ${image-tag}  ${command}  ${container-status}
+    [Arguments]  ${image-tag}  ${command}  ${container-status}
     ${container-name}=  Get Random Container Name
     Click New Container Button
-    Submit Provision New Container Details  ${image-name}  ${image-tag}  ${container-name}  ${command}
+    Submit Provision New Container Details  ${image-tag}  ${container-name}  ${command}
     Verify Requests Right Context Panel
     Verify Container Provision Status Is Finished  ${container-name}
     Reload Page
