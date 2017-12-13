@@ -3,4 +3,5 @@
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
 * [Introduction](README.md)
-* [Overview of vSphere Integrated Containers](introduction.md)
+  * [Quick Start Links](vic_quickstart.md)
+  * [Overview](introduction.md)

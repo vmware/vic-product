@@ -203,7 +203,7 @@ This example `vic-machine create` command deploys a VCH with the following confi
 --container-network vic-containers:vic-container-network
 --container-network-gateway vic-containers:192.168.100.1/24
 --container-network-dns vic-containers:192.168.100.10
---container-network-dns vic-containers:<192.168.100.11
+--container-network-dns vic-containers:192.168.100.11
 --container-network-ip-range vic-containers:192.168.100.0/24
 --container-network-firewall vic-containers:outbound
 --thumbprint <i>certificate_thumbprint</i>
