@@ -1,6 +1,13 @@
 # Deploy the vSphere Integrated Containers Appliance #
 
-You install vSphere Integrated Containers by deploying a virtual appliance. The appliance runs the vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal services, and publishes the downloads of the vSphere Integrated Containers Engine binaries. 
+You install vSphere Integrated Containers by deploying a virtual appliance. 
+
+The following services run in the vSphere Integrated Containers appliance:
+
+- vSphere Integrated Containers Registry service
+- vSphere Integrated Containers Management Portal service
+- The file server for vSphere Integrated Containers Engine downloads and installation of the vSphere Client plug-ins
+- The `vic-machine` server service, that powers the Create Virtual Container Host wizard in the HTML5 vSphere Client plug-in
 
 You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. Also, if a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller.
 
@@ -53,10 +60,6 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
    - In the **Fileserver Port** text box, optionally change the port on which the vSphere Integrated Containers file server runs.
    - To use custom certificates to authenticate connections to the vSphere Integrated Containers file server, optionally paste the content of the appropriate certificate and key files in the **SSL Cert** and **SSL Cert Key** text boxes. The file server supports RSA format for TLS private keys. 
    - Leave the text boxes blank to use auto-generated certificates.    
-
-7. Expand **Demo VCH Installer Wizard Configuration** to optionally change the port on which the interactive web installer for virtual container hosts (VCHs) runs. 
-
-    **NOTE**: The demo VCH installer wizard is deprecated in this release. 
 8. Expand **Configure Example Users** to configure the ready-made  example user accounts that vSphere Integrated Containers creates by default in the Platform Services Controller.
     
      You can use these accounts to test the different user personas that can access vSphere Integrated Containers Management Portal and Registry.
