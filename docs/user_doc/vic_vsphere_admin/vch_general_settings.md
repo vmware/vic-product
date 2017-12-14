@@ -40,9 +40,9 @@ You specify whether to use the container name or the container ID for the second
 
 #### Create VCH Wizard
 
-1. Optionally enter a prefix.
+1. Optionally enter a container name prefix.
 2. Select **Docker name** or **Container ID**.
-3. Optionally add a suffix.
+3. Optionally enter a container name suffix.
 
 #### vic-machine Option
 

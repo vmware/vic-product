@@ -33,7 +33,9 @@ The host, cluster, or resource pool in which to deploy the VCH.
 
 #### Create VCH Wizard 
 
-1. Expand the inventory hierarchy.
+Selecting a compute resource is **mandatory**.
+
+1. Expand the **Compute resource** inventory hierarchy.
 2. Select a standalone host, cluster, or resource pool to which to deploy the VCH. 
 
 #### vic-machine Option 
@@ -67,8 +69,7 @@ Limit the amount of CPU capacity that is available for use by the VCH resource p
 
 #### Create VCH Wizard 
 
-- Leave the default value of `Unlimited`.
-- Optionally enter a limit of between 1 and 9779 MHz. 
+In the **CPU** text box, leave the default value of `Unlimited`,  or optionally enter a limit of between 1 and 9779 MHz. 
 
 #### vic-machine Option  
 
@@ -84,8 +85,7 @@ Limit the amount of memory that is available for use by the VCH resource pool. T
 
 #### Create VCH Wizard 
 
-- Leave the default value of `Unlimited`.
-- Optionally enter a limit of between 1 and 21765 MB.  
+In the **Memory** text box, leave the default value of `Unlimited`, or optionally enter a limit of between 1 and 21765 MB.  
 
 #### vic-machine Option   
 
@@ -109,8 +109,8 @@ Reserve a quantity of CPU capacity for use by the VCH resource pool. This limit 
 
 #### Create VCH Wizard 
 
-1. Expand **Advanced**
-2. Leave the default value of 1 or optionally enter a limit of between 1 and 9779 MHz.
+1. Expand **Advanced**.
+2. In the **CPU reservation** text box, leave the default value of 1, or optionally enter a limit of between 1 and 9779 MHz.
 
 #### vic-machine Option  
 
@@ -127,7 +127,7 @@ Set CPU shares on the VCH resource pool. This limit also applies to the containe
 #### Create VCH Wizard 
 
 1. Expand **Advanced**.
-2. Leave the default value of **Normal** or select **Low** or **High**.
+2. In the **CPU shares** text box, leave the default value of **Normal**, or select **Low** or **High**.
 
 #### vic-machine Option 
 
@@ -144,7 +144,7 @@ Reserve a quantity of memory for use by the VCH resource pool. This limit also a
 #### Create VCH Wizard 
 
 1. Expand **Advanced**.
-2. Leave the default value of 1 or optionally enter a limit of between 1 and 21153 MB.
+2. In the **Memory reservation** text box, leave the default value of 1, or optionally enter a limit of between 1 and 21153 MB.
 
 #### vic-machine Option 
 
@@ -161,7 +161,7 @@ Set memory shares on the VCH resource pool. This limit also applies to the conta
 #### Create VCH Wizard 
 
 1. Expand **Advanced**.
-2. Leave the default value of **Normal** or select **Low** or **High**.
+2. In the **Memory shares** text box, leave the default value of **Normal** or select **Low** or **High**.
 
 #### vic-machine Option  
 
@@ -180,7 +180,7 @@ The number of virtual CPUs for the VCH endpoint VM. The default is 1. Set this o
 #### Create VCH Wizard 
 
 1. Expand **Advanced**.
-2. Leave the default value of 1 or enter a higher number of CPUs.
+2. In the **CPUs** text box, leave the default value of 1 or enter a higher number of CPUs.
 
 #### vic-machine Option 
 
@@ -199,7 +199,7 @@ The amount of memory for the VCH endpoint VM. Set this option to increase the am
 #### Create VCH Wizard 
 
 1. Expand **Advanced**.
-2. Leave the default value of 2048 MB, or enter a value of between 1 and 21765 MB.
+2. In the **Memory** text box, leave the default value of 2048 MB, or enter a value of between 1 and 21765 MB.
 
 #### vic-machine Option 
 

@@ -91,21 +91,23 @@ Specify a gateway address as an IP address without a network mask in the `--clie
 
 ### Routing Destination <a id="routing"></a>
 
-The default route for the VCH endpoint VM is always on the public network. As a consequence, if you specify a static IP address on the client network and that network is not L2 adjacent to its gateway, you must specify the routing destination for that network. 
+The default route for the VCH endpoint VM is always on the public network. As a consequence, if you specify a static IP address on the client network and that network is not L2 adjacent to its gateway, you must specify the routing destination for that network as a comma-separated list of CIDRs. For example, setting a routing destination of `192.168.2.0/24,192.168.128.0/24` informs the VCH that it can reach all of the vSphere management endoints that are in the ranges 192.168.2.0-255 and 192.168.128.0-192.168.128.255 by sending packets to the specified gateway. 
+
+Ensure that the address ranges that you specify include all of the systems that will connect to this VCH instance. 
 
 #### Create VCH Wizard
 
-If you set a static IP address on the client network, optionally enter the routing destination as a comma-separated list of CIDRs. For example, enter `192.0.2.0/24,198.51.100.0/24`.
+If you set a static IP address on the client network, optionally enter the routing destination as a comma-separated list of CIDRs in the **Routing destination** text box. 
+
+For example, enter `192.168.2.0/24,192.168.128.0/24`.
 
 #### vic-machine Option 
 
 You specify the routing destination or destinations in a comma-separated list in the `--client-network-gateway` option, with the address of the gateway separated from the routing destinations by a colon (`:`).
 
-<pre>--client-network-gateway <i>routing_destination_1</i>,<i>routing_destination_2</i>:<i>gateway_address</i></pre>
-
-In the following example, `--management-network-gateway` informs the VCH that it can reach all of the vSphere management endoints that are in the ranges 192.168.2.0-255 and 192.168.128.0-192.168.128.255 by sending packets to the gateway at 192.168.2.1. Ensure that the address ranges that you specify include all of the systems that will connect to this VCH instance. 
-
 <pre>--management-network-gateway 192.168.2.0/24,192.168.128.0/24:192.168.2.1</pre>
+
+This example informs the VCH that it can reach all of the vSphere management endoints that are in the ranges 192.168.2.0-255 and 192.168.128.0-192.168.128.255 by sending packets to the gateway at 192.168.2.1.
 
 ## What to Do Next <a id="whatnext"></a>
 
@@ -113,8 +115,8 @@ If you are using the Create Virtual Container Host wizard, the bridge network an
 
 - To configure further advanced network settings, remain on the Configure Networks page, and see the following topics:
   - [Configure the Management Network](mgmt_network.md)
-  - [Configure Container Networks](container_networks.md)
   - [Configure VCHs to Use Proxy Servers](vch_proxy.md)
+  - [Configure Container Networks](container_networks.md)
 - If you have finished configuring the network settings, click **Next** to configure [VCH Security](vch_security.md) settings.
 
 ## Example `vic-machine` Command <a id="example"></a>

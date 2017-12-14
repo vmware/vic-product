@@ -11,7 +11,7 @@ Running `docker network ls` lists the container networks, and container develope
   - [IP Address Range](#ip-range)
   - [Gateway](#gateway)
   - [DNS](#dns)
-  - [Configure the Firewall on Container Networks](#container-network-firewall)
+  - [Firewall Policy](#container-network-firewall)
 - [What to Do Next](#whatnext)
 - [Example `vic-machine` Command](#example)
 
@@ -137,7 +137,7 @@ You specify the container network DNS server in the `--container-network-dns` op
 
 You can specify `--container-network-dns` multiple times, to configure multiple DNS servers. If you specify `--container-network-dns` but you do not specify `--container-network`, or if you specify a different port group to the one that you specify in `--container-network`, `vic-machine create` fails with an error.
 
-## Configure the Firewall on Container Networks <a id="container-network-firewall"></a>
+## Firewall Policy <a id="container-network-firewall"></a>
 
 You can configure the trust level of container networks. The following table describes the levels of trust that you can set.
 
@@ -151,9 +151,11 @@ You can configure the trust level of container networks. The following table des
 
 If you do not set a trust level, the default level of trust is `published`. As a consequence, if you do not set a trust level, container developers must explicitly specify `-p 80` in `docker run` and `docker create` commands to publish port 80 on a container. Obliging developers to specify the ports to expose improves security and gives you more awareness of your environment and applications. 
 
+You can use `vic-machine configure --container-network-firewall` to change the trust level after deployment of the VCH. For information about configuring container network firewalls, see *Configure Container Network Settings* in [Configure Running Virtual Container Hosts](configure_vch.md#containernet).
+
 #### Create VCH Wizard
 
-You cannot configure container network firewall trust levels in the Create Virtual Container Host wizard. The wizard creates VCHs with the default `published` trust level. You can use `vic-machine configure --container-network-firewall` to change the trust level after deployment of the VCH. For information about configuring container network firewalls, see *Configure Container Network Settings* in [Configure Running Virtual Container Hosts](configure_vch.md#containernet).
+Leave the default policy of **Published**, or use the **Firewall policy** drop-down menu to select **Closed**, **Outbound**, **Peers**, or **Open**.
 
 #### vic-machine Option  
 

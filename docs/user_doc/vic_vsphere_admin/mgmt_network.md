@@ -120,7 +120,9 @@ Ensure that the address ranges that you specify include all of the systems that 
 
 #### Create VCH Wizard
 
-If you set a static IP address and gateway on the management network, optionally enter the routing destination as a comma-separated list of CIDRs. For example, enter `192.168.3.0/24,192.168.128.0/24`.
+If you set a static IP address and gateway on the management network, optionally enter a comma-separated list of CIDRs in the **Routing destination** text box. 
+
+For example, enter `192.168.3.0/24,192.168.128.0/24`.
 
 #### vic-machine Option
 
@@ -159,8 +161,8 @@ If you are using the Create Virtual Container Host wizard, the bridge network an
 
 - To configure further advanced network settings, remain on the Configure Networks page, and see the following topics:
   - [Configure the Client Network](client_network.md)
-  - [Configure Container Networks](container_networks.md)
   - [Configure VCHs to Use Proxy Servers](vch_proxy.md)
+  - [Configure Container Networks](container_networks.md)
 - If you have finished configuring the network settings, click **Next** to configure [VCH Security](vch_security.md) settings.
 
 ## Example `vic-machine` Command <a id="example"></a>

@@ -40,7 +40,7 @@ Specifying an image store is **mandatory**.
 1. Select a datastore from the **Datastore** drop-down menu.
 
     Select a datastore that is shared by at least two, but preferably all, hosts in a cluster.
-2. Optionally enter the path to a folder in the specified datastore, to use to store image files. 
+2. In the **File folder** text box, optionally enter the path to a folder in the specified datastore, to use to store image files. 
 
 #### vic-machine Option
 
@@ -62,7 +62,7 @@ The size of the base image from which to create other container images. You shou
 
 #### Create VCH Wizard
 
-1. Leave the default value of 8, or enter a different value.
+1. In the **Max Container VM image size** text box, leave the default value of 8, or enter a different value.
 2. Select **GB** or **MB**.
 
 #### vic-machine Option 

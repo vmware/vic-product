@@ -8,7 +8,9 @@ The different options that you configure in the Create Virtual Container Host wi
 
 - You are running vCenter Server 6.5.0d or later. The vSphere Integrated Containers view does not function with earlier versions of vCenter Server 6.5.0.
 - You installed the HTML5 plug-in for vSphere Integrated Containers.
-- Make sure that your virtual infrastructure meets the requirements for VCH deployment. For information about virtual infrastructure requirements, see [Deployment Prerequisites for vSphere Integrated Containers](vic_installation_prereqs.md).
+- Make sure that your virtual infrastructure meets the requirements for VCH deployment. For information about virtual infrastructure requirements, see [Deployment Prerequisites for vSphere Integrated Containers](vic_installation_prereqs.md). 
+
+    **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
 - Make sure that the correct ports are open on all ESXi hosts. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 
 **Procedure**
