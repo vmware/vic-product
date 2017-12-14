@@ -39,43 +39,13 @@
   },
   {
     "type": "file",
-    "source": "scripts/appliance/wait_for_file.sh",
-    "destination": "/etc/vmware/wait_for_file.sh"
+    "source": "scripts/systemd/units/*",
+    "destination": "/usr/lib/systemd/system"
   },
   {
     "type": "file",
-    "source": "scripts/appliance/resize_volume.sh",
-    "destination": "/etc/vmware/resize_volume.sh"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/mounts/vic-mounts.target",
-    "destination": "/usr/lib/systemd/system/vic-mounts.target"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/mounts/storage-data.mount",
-    "destination": "/usr/lib/systemd/system/storage-data.mount"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/mounts/storage-db.mount",
-    "destination": "/usr/lib/systemd/system/storage-db.mount"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/mounts/storage-log.mount",
-    "destination": "/usr/lib/systemd/system/storage-log.mount"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/mounts/repartition.service",
-    "destination": "/usr/lib/systemd/system/repartition.service"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/mounts/resizefs.service",
-    "destination": "/usr/lib/systemd/system/resizefs.service"
+    "source": "scripts/systemd/scripts/",
+    "destination": "/etc/vmware"
   },
   {
     "type": "file",
@@ -84,82 +54,17 @@
   },
   {
     "type": "file",
-    "source": "scripts/appliance/vic-appliance.target",
-    "destination": "/usr/lib/systemd/system/vic-appliance.target"
+    "source": "scripts/vic-machine-server/vic-machine-server.service",
+    "destination": "/usr/lib/systemd/system/vic-machine-server.service"
   },
   {
     "type": "file",
-    "source": "scripts/appliance/vic-appliance-ready.target",
-    "destination": "/usr/lib/systemd/system/vic-appliance-ready.target"
+    "source": "scripts/vic-machine-server/configure-vic-machine-server.sh",
+    "destination": "/etc/vmware/vic-machine-server/configure-vic-machine-server.sh"
   },
   {
     "type": "file",
-    "source": "scripts/appliance/vic-appliance-load-docker-images.service",
-    "destination": "/usr/lib/systemd/system/vic-appliance-load-docker-images.service"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/load-docker-images.sh",
-    "destination": "/etc/vmware/load-docker-images.sh"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/vic-appliance-environment.service",
-    "destination": "/usr/lib/systemd/system/vic-appliance-environment.service"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/vic-appliance-environment.sh",
-    "destination": "/etc/vmware/vic-appliance-environment.sh"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/sshd_permitrootlogin.service",
-    "destination": "/usr/lib/systemd/system/sshd_permitrootlogin.service"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/sshd_permitrootlogin.sh",
-    "destination": "/etc/vmware/sshd_permitrootlogin.sh"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/toolbox.service",
-    "destination": "/usr/lib/systemd/system/toolbox.service"
-  },  
-  {
-    "type": "file",
-    "source": "scripts/appliance/network/ovf-network.service",
-    "destination": "/usr/lib/systemd/system/ovf-network.service"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/network/ova-firewall.service",
-    "destination": "/usr/lib/systemd/system/ova-firewall.service"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/network/ova-firewall.sh",
-    "destination": "/etc/vmware/ova-firewall.sh"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/network/network-config.sh",
-    "destination": "/etc/vmware/network-config.sh"
-  },
-  {
-    "type": "file",
-    "source": "scripts/vic_machine_server/vic_machine_server.service",
-    "destination": "/usr/lib/systemd/system/vic_machine_server.service"
-  },
-  {
-    "type": "file",
-    "source": "scripts/vic_machine_server/configure_vic_machine_server.sh",
-    "destination": "/etc/vmware/vic_machine_server/configure_vic_machine_server.sh"
-  },
-  {
-    "type": "file",
-    "source": "scripts/vic_machine_server/vic-machine-server-logrotate",
+    "source": "scripts/vic-machine-server/vic-machine-server-logrotate",
     "destination": "/etc/logrotate.d/vic-machine-server"
   },
   {
@@ -170,11 +75,6 @@
   {
     "type": "shell",
     "script": "scripts/provisioners/provision_harbor.sh"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/set_guestinfo.sh",
-    "destination": "/etc/vmware/set_guestinfo.sh"
   },
   {
     "type": "file",
@@ -207,11 +107,6 @@
     "destination": "/etc/vmware/upgrade/util.sh"
   },
   {
-    "type": "file",
-    "source": "scripts/appliance/appliance-support.sh",
-    "destination": "/etc/vmware/support/appliance-support.sh"
-  },
-  {
     "type": "shell",
     "script": "scripts/provisioners/provision_admiral.sh"
   },
@@ -239,41 +134,6 @@
     "type": "file",
     "source": "scripts/admiral/logging-vic.properties",
     "destination": "/etc/vmware/admiral/logging-vic.properties"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/psc/get_token.service",
-    "destination": "/usr/lib/systemd/system/get_token.service"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/psc/get_token.sh",
-    "destination": "/etc/vmware/psc/get_token.sh"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/psc/get_token.timer",
-    "destination": "/usr/lib/systemd/system/get_token.timer"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/psc/psc-ready.target",
-    "destination": "/usr/lib/systemd/system/psc-ready.target"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/psc/vic-appliance-wait-psc-config.service",
-    "destination": "/usr/lib/systemd/system/vic-appliance-wait-psc-config.service"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/psc/reconfigure_token.path",
-    "destination": "/usr/lib/systemd/system/reconfigure_token.path"
-  },
-  {
-    "type": "file",
-    "source": "scripts/appliance/psc/reconfigure_token.service",
-    "destination": "/usr/lib/systemd/system/reconfigure_token.service"
   },
   {
     "type": "shell",

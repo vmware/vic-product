@@ -1,13 +1,14 @@
 [Unit]
 Description=Harbor Container Registry
-Documentation=http://github.com/vmware/harbor
-After=vic-appliance-ready.target psc-ready.target admiral.service 
+Documentation=https://vmware.github.io/vic-product/index.html#getting-started
+After=vic-appliance-ready.target psc-ready.target admiral.service
 Requires=vic-appliance-ready.target psc-ready.target
 
 [Service]
 Type=simple
 Restart=on-failure
 RestartSec=15
+EnvironmentFile=/etc/vmware/environment
 ExecStartPre=-/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml down -v
 ExecStartPre=-/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml rm -f
 ExecStartPre=-/usr/bin/docker stop dch-push
