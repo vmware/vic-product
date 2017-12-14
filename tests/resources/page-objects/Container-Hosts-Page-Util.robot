@@ -66,10 +66,10 @@ Verify VCH Card
     Verify VCH Card Status  ${card-index}  ${ch-card-status-on}
 
 Add New Container Host And Verify Card
-    [Arguments]  ${vch-name}
+    [Arguments]  ${vch-name}  ${vch-url}
     Navigate To Container Hosts Page
     Click New Host Button
-    Add New Container Host  ${vch-name}  ${VCH-URL}
+    Add New Container Host  ${vch-name}  ${vch-url}
     Verify VCH Card  ${vch-name}
 
 Delete VCH Card Using Dropdown Menu
