@@ -39,7 +39,7 @@ Verify OVA services
     Close connection
 
 Verify VIC engine download and create VCH
-    Download VIC Engine
+    Download VIC Engine  %{OVA_IP}
 
     ${vch-name}=  Install VCH  certs=${false}
     ${output}=  Run command and Return output  docker ${VCH-PARAMS} info
