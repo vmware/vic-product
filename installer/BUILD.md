@@ -35,6 +35,16 @@ If called without any values, `build.sh` will get the latest build for each comp
 sudo ./build/build.sh ova-dev
 ```
 
+Default values:
+```
+--admiral dev <vmware/admiral:vic_dev tag>
+--harbor <latest in harbor-builds bucket>
+--vicengine <latest in vic-engine-builds bucket>
+--vicmachineserver dev <vic-machine-server:dev tag>
+
+DCH Photon is pinned to 1.13 tag
+```
+
 If called with the values below, `build.sh` will include the Harbor version from
 `installer/build/harbor.tgz`, the VIC Engine version from `installer/build/vic_XXXX.tar.gz`, and 
 Admiral tag `vic_dev` (since `--admiral` was not specified it defaults to the `vic_dev` tag)
@@ -43,9 +53,9 @@ Admiral tag `vic_dev` (since `--admiral` was not specified it defaults to the `v
 ```
 
 If called with the values below, `build.sh` will include the Harbor and VIC Engine versions
-specified by their respective URLs, and Admiral tag `vic_v1.1.1`
+specified by their respective URLs, Admiral tag `vic_v1.1.1`, and VIC Machine Server tag `latest`.
 ```
-./build/build.sh ova-dev --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic_XXXX.tar.gz
+./build/build.sh ova-dev --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic_XXXX.tar.gz --vicmachineserver latest
 ```
 
 Note: the VIC Engine artifact used when building the OVA must be named following the `vic_*.tar.gz` format.
