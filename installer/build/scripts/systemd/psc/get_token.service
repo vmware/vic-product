@@ -1,7 +1,8 @@
 [Unit]
 Description=PSC Get Token
 Documentation=http://github.com/vmware/vic-product/installer
-Before=harbor_startup.service
+After=vic-appliance-ready.target
+Requires=vic-appliance-ready.target
 
 [Service]
 Type=oneshot

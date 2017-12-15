@@ -1,7 +1,7 @@
 [Unit]
 Description=Admiral is a highly scalable and very lightweight Container Management platform for deploying and managing container based applications.
 Documentation=https://github.com/vmware/admiral
-After=vic-appliance-ready.target get_token.service
+After=vic-appliance-ready.target
 Requires=vic-appliance-ready.target
 
 [Service]

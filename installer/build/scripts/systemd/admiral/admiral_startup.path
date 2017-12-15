@@ -3,7 +3,7 @@ Description=Admiral PSC token dependency
 Documentation=https://github.com/vmware/vic-product/installer
 
 [Path]
-PathExists=/etc/vmware/psc/admiral/psc-config.properties
+PathExists=/etc/vmware/psc/admiral/admiral_startup
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=paths.target

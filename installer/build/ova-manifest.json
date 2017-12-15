@@ -276,6 +276,16 @@
       "destination": "/usr/lib/systemd/system/get_token.timer"
     },
     {
+      "type": "file",
+      "source": "scripts/systemd/psc/get_token.path",
+      "destination": "/usr/lib/systemd/system/get_token.path"
+    },
+    {
+      "type": "file",
+      "source": "scripts/systemd/psc/token_reconfigure.path",
+      "destination": "/usr/lib/systemd/system/token_reconfigure.path"
+    },
+    {
       "type": "shell",
       "script": "scripts/provision_fileserver.sh"
     },
