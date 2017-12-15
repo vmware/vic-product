@@ -62,6 +62,8 @@ for img in "${images[@]}"; do
     docker save "$img" | gzip > "$archive"
   fi
 done
+docker_images=$(docker images --digests)
+echo "${warrow} ${docker_images}"
 echo "${warrow} saved all images"
 
 echo "${warrow} caching other dependencies"
