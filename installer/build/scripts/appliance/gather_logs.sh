@@ -100,7 +100,6 @@ function getFailedLogs {
 function getPrivateFiles {
   echo "Including private values in log bundle"
 
-  commandToFile "cat /storage/data/harbor/config/config.json" "harbor_config.json"
   commandToFile "openssl x509 -in /storage/data/certs/ca.crt -text -noout" "ca.crt" "certs"
   commandToFile "openssl x509 -in /storage/data/certs/server.cert.pem -text -noout" "server.cert.pem" "certs"
   commandToFile "cat /storage/data/certs/cert_gen_type" "cert_gen_type" "certs"
@@ -112,7 +111,7 @@ function getPrivateFiles {
   commandToFile "cat /storage/data/admiral/cert/extfile.cnf" "extfile.cnf" "admiral_certs"
 
   # Harbor
-  commandToFile "cat /storage/data/harbor/harbor.cfg" "harbor_cfg" "harbor"
+  commandToFile "cat /storage/data/harbor/harbor.cfg" "harbor.cfg" "harbor"
 }
 
 # getDiagInfo gathers diagnostic info and logs
@@ -120,10 +119,10 @@ function getDiagInfo {
   # Appliance
   commandToFile "hostnamectl" "hostnamectl" "appliance"
   commandToFile "ip address show" "ip_addr" "appliance"
-  commandToFile "ovfenv" "appliance_ovfenv" "appliance"
-  commandToFile "cat /etc/vmware/environment" "appliance_environment" "appliance"
-  commandToFile "cat /etc/vmware/firstboot" "appliance_firstboot" "appliance"
-  commandToFile "uptime" "appliance_uptime" "appliance"
+  commandToFile "ovfenv" "ovfenv" "appliance"
+  commandToFile "cat /etc/vmware/environment" "environment" "appliance"
+  commandToFile "cat /etc/vmware/firstboot" "firstboot" "appliance"
+  commandToFile "uptime" "uptime" "appliance"
   commandToFile "cat /etc/vmware/version" "appliance_version" "appliance"
   commandToFile "cat /storage/data/version" "data_version" "appliance"
   commandToFile "systemctl status --no-pager" "systemctl_status" "appliance"
@@ -152,15 +151,15 @@ function getDiagInfo {
   commandToFile "du -k /etc/vmware/psc/harbor/tokens.properties" "harbor_psc-token" "psc"
 
   # Admiral
-  commandToFile "cat /storage/data/admiral/configs/config.properties" "admiral_config.properties" "admiral"
-  commandToFile "cat /storage/data/admiral/8282/serviceHostState.json" "admiral_serviceHostState.json" "admiral"
+  commandToFile "cat /storage/data/admiral/configs/config.properties" "config.properties" "admiral"
+  commandToFile "cat /storage/data/admiral/8282/serviceHostState.json" "serviceHostState.json" "admiral"
 
   # Harbor
-  commandToFile "cat /storage/data/harbor/config/config.json" "harbor_config.json" "harbor"
+  commandToFile "cat /storage/data/harbor/config/config.json" "config.json" "harbor"
   local FILES
   FILES=$(find "/etc/vmware/harbor" -maxdepth 1 -name "*.yml")
   for file in $FILES; do
-    commandToFile "cat $file" "harbor_$(basename "$file")" "harbor"
+    commandToFile "cat $file" "$(basename "$file")" "harbor"
   done
   set +e
   cp -R /etc/vmware/harbor/common/config "$HARBOR_DIR"
@@ -198,9 +197,7 @@ function compressBundle {
 function checkStorage {
 	local FREE
   FREE=$(df -k --output=avail "$1" | tail -n1)
-  if [ "$FREE" -lt 100000000 ]; then
-  # TODO ATC FIXME
-  #if [ "$FREE" -lt 524288 ]; then
+  if [ "$FREE" -lt 524288 ]; then
   echo "--------------------"
     echo "Warning: less than 512MB free on $1"
     if [ "$IGNORE_DISK_SPACE" == "true" ]; then
