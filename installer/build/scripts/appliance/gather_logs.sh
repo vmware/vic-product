@@ -18,9 +18,19 @@ TIMESTAMP=$(date +"%Y-%m-%d-%H-%M-%S")
 DIRNAME="vic_appliance_logs_$TIMESTAMP"
 OUTFILE="$DIRNAME.tar.gz"
 TMPDIR="/tmp/$DIRNAME"
+APPLIANCE_DIR=$TMPDIR/appliance
+ADMIRAL_DIR=$TMPDIR/admiral
+HARBOR_DIR=$TMPDIR/harbor
+VIC_MACHINE_SERVER_DIR=$TMPDIR/vic-machine-server
+PSC_DIR=$TMPDIR/psc
 OUTDIR="/storage/log/"
 
 mkdir -p "$TMPDIR"
+mkdir -p "$APPLIANCE_DIR"
+mkdir -p "$ADMIRAL_DIR"
+mkdir -p "$HARBOR_DIR"
+mkdir -p "$VIC_MACHINE_SERVER_DIR"
+mkdir -p "$PSC_DIR"
 
 # commandToFile runs command $1 and writes the output to file $2 in $TMPDIR
 function commandToFile {
@@ -95,46 +105,66 @@ function getPrivateFiles {
   commandToFile "openssl x509 -in /storage/data/certs/server.cert.pem -text -noout" "server.cert.pem" "certs"
   commandToFile "cat /storage/data/certs/cert_gen_type" "cert_gen_type" "certs"
   commandToFile "cat /storage/data/certs/extfile.cnf" "extfile.cnf" "certs"
+
+  # Admiral
   commandToFile "openssl x509 -in /storage/data/admiral/cert/ca.crt -text -noout" "ca.crt" "admiral_certs"
   commandToFile "openssl x509 -in /storage/data/admiral/cert/server.crt -text -noout" "server.crt" "admiral_certs"
   commandToFile "cat /storage/data/admiral/cert/extfile.cnf" "extfile.cnf" "admiral_certs"
+
+  # Harbor
+  commandToFile "cat /storage/data/harbor/harbor.cfg" "harbor_cfg" "harbor"
 }
 
 # getDiagInfo gathers diagnostic info and logs
 function getDiagInfo {
-  commandToFile "hostnamectl" "hostnamectl"
-  commandToFile "ip address show" "ip_addr"
-  commandToFile "ovfenv" "appliance_ovfenv"
-  commandToFile "cat /etc/vmware/environment" "appliance_environment"
-  commandToFile "cat /etc/vmware/firstboot" "appliance_firstboot"
-  commandToFile "uptime" "appliance_uptime"
-  commandToFile "cat /etc/vmware/version" "appliance_version"
-  commandToFile "cat /storage/data/version" "data_version"
-  commandToFile "systemctl status --no-pager" "systemctl_status"
-  commandToFile "systemctl list-jobs --no-pager" "systemctl_list-jobs"
-  commandToFile "systemctl list-units --state=failed --no-pager" "systemctl_failed"
-  commandToFile "iptables -L -n" "iptables"
-  commandToFile "df -h" "df"
-  commandToFile "docker ps -a" "docker_ps"
-  commandToFile "docker images" "docker_images"
+  # Appliance
+  commandToFile "hostnamectl" "hostnamectl" "appliance"
+  commandToFile "ip address show" "ip_addr" "appliance"
+  commandToFile "ovfenv" "appliance_ovfenv" "appliance"
+  commandToFile "cat /etc/vmware/environment" "appliance_environment" "appliance"
+  commandToFile "cat /etc/vmware/firstboot" "appliance_firstboot" "appliance"
+  commandToFile "uptime" "appliance_uptime" "appliance"
+  commandToFile "cat /etc/vmware/version" "appliance_version" "appliance"
+  commandToFile "cat /storage/data/version" "data_version" "appliance"
+  commandToFile "systemctl status --no-pager" "systemctl_status" "appliance"
+  commandToFile "systemctl list-jobs --no-pager" "systemctl_list-jobs" "appliance"
+  commandToFile "systemctl list-units --state=failed --no-pager" "systemctl_failed" "appliance"
+  commandToFile "iptables -L -n" "iptables" "appliance"
+  commandToFile "df -h" "df" "appliance"
+  commandToFile "docker ps -a" "docker_ps" "appliance"
+  commandToFile "docker images" "docker_images" "appliance"
 
-  commandToCompressed "journalctl -u admiral_startup --no-pager" "journal_admiral_startup"
-  commandToCompressed "journalctl -u admiral --no-pager" "journal_admiral"
-  commandToCompressed "journalctl -u harbor_startup --no-pager" "journal_harbor_startup"
-  commandToCompressed "journalctl -u harbor --no-pager" "journal_harbor"
-  commandToCompressed "journalctl -u fileserver --no-pager" "journal_fileserver"
-  commandToCompressed "journalctl -u vic_machine_server --no-pager" "journal_vic_machine_server"
+  # Services
+  commandToCompressed "journalctl -u admiral_startup --no-pager" "journal_admiral_startup" "admiral"
+  commandToCompressed "journalctl -u admiral --no-pager" "journal_admiral" "admiral"
+  commandToCompressed "journalctl -u harbor_startup --no-pager" "journal_harbor_startup" "harbor"
+  commandToCompressed "journalctl -u harbor --no-pager" "journal_harbor" "harbor"
+  commandToCompressed "journalctl -u fileserver --no-pager" "journal_fileserver" "appliance"
+  commandToCompressed "journalctl -u vic_machine_server --no-pager" "journal_vic_machine_server" "vic-machine-server"
 
-  commandToFile "cat /storage/data/admiral/configs/psc-config.properties" "admiral_data_psc-config"
-  commandToFile "cat /etc/vmware/psc/admiral/psc-config.properties" "admiral_psc-config"
-  commandToFile "du -k /etc/vmware/psc/admiral/tokens.properties" "admiral_psc-token"
-  commandToFile "cat /etc/vmware/psc/engine/psc-config.properties" "engine_psc-config"
-  commandToFile "du -k /etc/vmware/psc/engine/tokens.properties" "engine_psc-token"
-  commandToFile "cat /etc/vmware/psc/harbor/psc-config.properties" "harbor_psc-config"
-  commandToFile "du -k /etc/vmware/psc/harbor/tokens.properties" "harbor_psc-token"
+  # PSC
+  commandToFile "cat /storage/data/admiral/configs/psc-config.properties" "admiral_data_psc-config" "psc"
+  commandToFile "cat /etc/vmware/psc/admiral/psc-config.properties" "admiral_psc-config" "psc"
+  commandToFile "du -k /etc/vmware/psc/admiral/tokens.properties" "admiral_psc-token" "psc"
+  commandToFile "cat /etc/vmware/psc/engine/psc-config.properties" "engine_psc-config" "psc"
+  commandToFile "du -k /etc/vmware/psc/engine/tokens.properties" "engine_psc-token" "psc"
+  commandToFile "cat /etc/vmware/psc/harbor/psc-config.properties" "harbor_psc-config" "psc"
+  commandToFile "du -k /etc/vmware/psc/harbor/tokens.properties" "harbor_psc-token" "psc"
 
-	commandToFile "cat /storage/data/admiral/configs/config.properties" "admiral_config.properties"
-  commandToFile "cat /storage/data/admiral/8282/serviceHostState.json" "admiral_serviceHostState.json"
+  # Admiral
+  commandToFile "cat /storage/data/admiral/configs/config.properties" "admiral_config.properties" "admiral"
+  commandToFile "cat /storage/data/admiral/8282/serviceHostState.json" "admiral_serviceHostState.json" "admiral"
+
+  # Harbor
+  commandToFile "cat /storage/data/harbor/config/config.json" "harbor_config.json" "harbor"
+  local FILES
+  FILES=$(find "/etc/vmware/harbor" -maxdepth 1 -name "*.yml")
+  for file in $FILES; do
+    commandToFile "cat $file" "harbor_$(basename "$file")" "harbor"
+  done
+  set +e
+  cp -R /etc/vmware/harbor/common/config "$HARBOR_DIR"
+  set -e
 
   # Gets the latest log for each component. Additional rotated logs must be retrieved manually.
   getLog "/storage/log/admiral" "*.log"
@@ -153,10 +183,10 @@ function compressBundle {
   checkStorage "$OUTDIR"
   # TODO ATC FIXME use RC to cleanup and exit
   local DIR
-  echo "Creating log bundle $OUTDIR/$OUTFILE"
+  echo "Creating log bundle $OUTDIR$OUTFILE"
   tar -czvf "$OUTDIR/$OUTFILE" -C /tmp "$DIRNAME"
   echo "--------------------"
-  echo "Created log bundle $OUTDIR/$OUTFILE"
+  echo "Created log bundle $OUTDIR$OUTFILE"
   if [ "$INC_PRIVATE" == "true" ]; then
     echo "Log bundle contains files with private values"
   fi
@@ -173,12 +203,12 @@ function checkStorage {
   #if [ "$FREE" -lt 524288 ]; then
   echo "--------------------"
     echo "Warning: less than 512MB free on $1"
-    if [ "$IGNORE_SPACE" == "true" ]; then
+    if [ "$IGNORE_DISK_SPACE" == "true" ]; then
 			echo "Ignoring low free space on $1"
       echo "--------------------"
       return 0
 		else
-	    echo "Free up space on $1 or override warning with --ignore-space"
+	    echo "Free up space on $1 or override warning with --ignore-disk-space"
       echo "--------------------"
       return 1
     fi
@@ -195,10 +225,11 @@ function cleanup {
 
 function usage {
   echo "Usage:"
-  echo "$0 [--include-private] [--outdir <directory>]"
+  echo "$0 [--include-private] [--outdir <directory>] [--ignore-disk-space]"
   echo ""
   echo "--include-private:    includes files containing private values in the log bundle"
   echo "--outdir <directory>: directory to store the resulting log bundle"
+  echo "--ignore-disk-space:  ignore low disk space warnings for log bundle output"
   echo ""
 }
 
@@ -217,8 +248,8 @@ function main {
         echo "Including files containing private values in log bundle"
         shift # past argument
         ;;
-      --ignore-space)
-        IGNORE_SPACE="true"
+      --ignore-disk-space)
+        IGNORE_DISK_SPACE="true"
         echo "Bypassing warnings for low disk space"
         shift # past argument
         ;;
@@ -237,15 +268,15 @@ function main {
   done
 
   INC_PRIVATE=${INC_PRIVATE:-false}
-  IGNORE_SPACE=${IGNORE_SPACE:-false}
+  IGNORE_DISK_SPACE=${IGNORE_DISK_SPACE:-false}
 
-	if [ ! -d "$OUTDIR" ]; then
-		echo "--outdir $OUTDIR must exist"
+  if [ ! -d "$OUTDIR" ]; then
+    echo "--outdir $OUTDIR must exist"
     exit 1
-	fi
+  fi
 
   # TODO FIXME ATC use RC to exit
-	checkStorage "$TMPDIR"
+  checkStorage "$TMPDIR"
   checkStorage "$OUTDIR"
   getDiagInfo
   compressBundle
