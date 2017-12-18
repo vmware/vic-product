@@ -217,6 +217,11 @@
       "destination": "/etc/vmware/upgrade/util.sh"
     },
     {
+      "type": "file",
+      "source": "scripts/appliance/get_vic_appliance_logs.sh",
+      "destination": "/etc/vmware/support/get_vic_appliance_logs.sh"
+    },
+    {
       "type": "shell",
       "script": "scripts/provision_admiral.sh"
     },
