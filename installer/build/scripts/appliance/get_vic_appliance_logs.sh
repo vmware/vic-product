@@ -179,8 +179,15 @@ function getDiagInfo {
 
 # compressBundle creates the log bundle tar
 function compressBundle {
+  set +e
   checkStorage "$OUTDIR"
-  # TODO ATC FIXME use RC to cleanup and exit
+  if [ $? -ne 0 ]; then
+    echo "Insufficient space for output file."
+    cleanup
+    echo "Exiting."
+    exit 1
+  fi
+  set -e
   local DIR
   echo "Creating log bundle $OUTDIR$OUTFILE"
   tar -czvf "$OUTDIR/$OUTFILE" -C /tmp "$DIRNAME"
@@ -195,17 +202,17 @@ function compressBundle {
 # checkStorage checks that there is a reasonable amount of disk space left
 # does not guarantee that there is enough space for the log bundle or temporary files
 function checkStorage {
-	local FREE
+  local FREE
   FREE=$(df -k --output=avail "$1" | tail -n1)
   if [ "$FREE" -lt 524288 ]; then
     echo "--------------------"
     echo "Warning: less than 512MB free on $1"
     if [ "$IGNORE_DISK_SPACE" == "true" ]; then
-			echo "Ignoring low free space on $1"
+      echo "Ignoring low free space on $1"
       echo "--------------------"
       return 0
-		else
-	    echo "Free up space on $1 or override warning with --ignore-disk-space"
+    else
+      echo "Free up space on $1 or override warning with --ignore-disk-space"
       echo "--------------------"
       return 1
     fi
@@ -272,9 +279,18 @@ function main {
     exit 1
   fi
 
-  # TODO FIXME ATC use RC to exit
+  set +e
   checkStorage "$TMPDIR"
+  if [ $? -ne 0 ]; then
+    echo "Insufficient disk space for temporary files. Exiting."
+    exit 1
+  fi
   checkStorage "$OUTDIR"
+  if [ $? -ne 0 ]; then
+    echo "Insufficient disk space for output file. Exiting."
+    exit 1
+  fi
+  set -e
   getDiagInfo
   compressBundle
   cleanup
