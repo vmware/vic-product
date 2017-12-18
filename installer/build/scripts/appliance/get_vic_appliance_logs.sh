@@ -112,6 +112,9 @@ function getPrivateFiles {
 
   # Harbor
   commandToFile "cat /storage/data/harbor/harbor.cfg" "harbor.cfg" "harbor"
+  set +e
+  cp -R /etc/vmware/harbor/common/config "$HARBOR_DIR"
+  set -e
 }
 
 # getDiagInfo gathers diagnostic info and logs
@@ -161,9 +164,6 @@ function getDiagInfo {
   for file in $FILES; do
     commandToFile "cat $file" "$(basename "$file")" "harbor"
   done
-  set +e
-  cp -R /etc/vmware/harbor/common/config "$HARBOR_DIR"
-  set -e
 
   # Gets the latest log for each component. Additional rotated logs must be retrieved manually.
   getLog "/storage/log/admiral" "*.log"
@@ -198,7 +198,7 @@ function checkStorage {
 	local FREE
   FREE=$(df -k --output=avail "$1" | tail -n1)
   if [ "$FREE" -lt 524288 ]; then
-  echo "--------------------"
+    echo "--------------------"
     echo "Warning: less than 512MB free on $1"
     if [ "$IGNORE_DISK_SPACE" == "true" ]; then
 			echo "Ignoring low free space on $1"
