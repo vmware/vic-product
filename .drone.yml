@@ -69,8 +69,32 @@ pipeline:
       branch: [ master, releases/*, refs/tags/* ]
       status: success
 
+  integration-test-ova-setup:
+    image: harbor.ci.drone.local/library/vic-integration-test:1.37
+    pull: true
+    privileged: true
+    environment:
+      BIN: bin
+      GOPATH: /go
+      PUBLIC_NETWORK: ${PUBLIC_NETWORK}
+      SHELL: /bin/bash
+      TEST_DATASTORE: ${TEST_DATASTORE}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+      TEST_RESOURCE: ${TEST_RESOURCE}
+      TEST_URL: ${TEST_URL}
+      TEST_USERNAME: ${TEST_USERNAME}
+    volumes:
+      - /tmp
+    commands:
+      - pybot -d robot-logs/ova-setup-logs -s OVA-Setup tests/common-ova
+    when:
+      repo: vmware/vic-product
+      event: [ push, pull_request, tag, deployment ]
+      branch: [ master, releases/*, refs/tags/* ]
+      status: success
+
   integration-test:
-    image: harbor.ci.drone.local/library/vic-integration-test:1.36
+    image: harbor.ci.drone.local/library/vic-integration-test:1.37
     pull: true
     environment:
       BIN: bin
@@ -95,6 +119,63 @@ pipeline:
       event: [ push, pull_request, tag, deployment ]
       branch: [ master, releases/*, refs/tags/* ]
       status: success
+
+  integration-test-ova-cleanup:
+    image: harbor.ci.drone.local/library/vic-integration-test:1.37
+    pull: true
+    environment:
+      BIN: bin
+      GOPATH: /go
+      PUBLIC_NETWORK: ${PUBLIC_NETWORK}
+      SHELL: /bin/bash
+      TEST_DATASTORE: ${TEST_DATASTORE}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+      TEST_RESOURCE: ${TEST_RESOURCE}
+      TEST_URL: ${TEST_URL}
+      TEST_USERNAME: ${TEST_USERNAME}
+    volumes:
+      - /tmp
+    commands:
+      - pybot -d robot-logs/ova-cleanup-logs -s OVA-Cleanup tests/common-ova
+    when:
+      repo: vmware/vic-product
+      event: [ push, pull_request, tag, deployment ]
+      branch: [ master, releases/*, refs/tags/* ]
+      status: [ success, failure ]
+
+  bundle-robot-logs:
+    image: harbor.ci.drone.local/library/vic-integration-test:1.37
+    pull: true
+    environment:
+      SHELL: /bin/bash
+    commands:
+      - cp -R test-screenshots robot-logs 2>/dev/null
+      - mkdir robot-bundle
+      - cd robot-bundle
+      - outfile="ova_integration_logs_"$DRONE_BUILD_NUMBER"_"$DRONE_COMMIT".zip"
+      - zip -r $outfile ../robot-logs
+      - ls -l
+      - echo "Download test logs:"
+      - echo "https://console.cloud.google.com/m/cloudstorage/b/vic-ci-logs/o/$outfile?authuser=1"
+    when:
+      repo: vmware/vic-product
+      event: [ push, pull_request, tag, deployment ]
+      branch: [ master, releases/*, refs/tags/* ]
+      status: [ success, failure ]
+
+  publish-robot-logs:
+    image: victest/drone-gcs:1
+    pull: true
+    source: robot-bundle
+    target: vic-ci-logs
+    acl:
+      - allUsers:READER
+    cache_control: public,max-age=3600
+    when:
+      repo: vmware/vic-product
+      event: [ push, pull_request, tag, deployment ]
+      branch: [ master, releases/*, refs/tags/* ]
+      status: [ success, failure ]
 
   bundle-dev-builds:
     image: harbor.ci.drone.local/library/golang:1.8
@@ -238,11 +319,30 @@ services:
     image: selenium/hub:3.7.1
     ports:
       - "4444:4444"
+    environment:
+      - GRID_TIMEOUT=180000
+      - GRID_BROWSER_TIMEOUT=180000
 
-  selenium-node-firefox:
+  selenium-node-firefox-1:
     image: selenium/node-firefox:3.7.1
     environment:
       SE_OPTS: "-port 4445"
       HUB_PORT_4444_TCP_ADDR: 127.0.0.1
       HUB_PORT_4444_TCP_PORT: 4444
+      DISPLAY: ":97.0"
+
+  selenium-node-firefox-2:
+    image: selenium/node-firefox:3.7.1
+    environment:
+      SE_OPTS: "-port 4446"
+      HUB_PORT_4444_TCP_ADDR: 127.0.0.1
+      HUB_PORT_4444_TCP_PORT: 4444
       DISPLAY: ":98.0"
+
+  selenium-node-firefox-3:
+    image: selenium/node-firefox:3.7.1
+    environment:
+      SE_OPTS: "-port 4447"
+      HUB_PORT_4444_TCP_ADDR: 127.0.0.1
+      HUB_PORT_4444_TCP_PORT: 4444
+      DISPLAY: ":99.0"

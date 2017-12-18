@@ -13,8 +13,14 @@
 # limitations under the License
 
 *** Settings ***
-Documentation  Global Variables, Setup and Teardown
+Documentation  Common OVA Teardown
 Resource  ../resources/Util.robot
-Suite Setup  Global Setup With Complete OVA Installation
+Test Timeout  15 minutes
+Suite Setup  Global Environment Setup
 
 *** Keywords ***
+
+
+*** Test Cases ***
+Teardown Common OVA
+    Cleanup VIC Product OVA  %{OVA_NAME}

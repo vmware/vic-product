@@ -105,16 +105,17 @@ curl https://cdn.rawgit.com/tommarshall/git-good-commit/v0.6.1/hook.sh > .git/ho
 
 [dronevic]:https://ci.vcna.io/vmware/vic-product
 [dronesrc]:https://github.com/drone/drone
+[robotsrc]:https://github.com/robotframework/robotframework
 [dronecli]:http://readme.drone.io/0.5/install/cli/
 [commithook]:https://github.com/tommarshall/git-good-commit
 
 ## Automated Testing
 
-Automated testing uses [Drone][dronesrc].
+CI pipeline is setup using [Drone][dronesrc] and Automated integration testing using [Robot Framework][robotsrc].
 
 PRs must pass unit tests and integration tests before being merged into `master`.
 
-_TODO_ Document testing
+For details, see [CI Workflow](installer/BUILD.md#ci-workflow) and [Automated Testing](tests/README.md)
 
 ## Reporting Bugs and Creating Issues
 
