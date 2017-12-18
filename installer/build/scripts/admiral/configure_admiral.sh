@@ -218,7 +218,4 @@ echo "keystore.file=/configs/psc-config.keystore" >> $config_dir/psc-config.prop
 chown -R 10000:10000 $data_dir
 chown -R 10000:10000 $log_dir
 
-# Start on startup
-echo "Enable admiral."
-systemctl enable admiral.service
-echo "Services enabled. exiting..."
+echo "Configuration finished. exiting..."

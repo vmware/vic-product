@@ -4,8 +4,6 @@ Documentation=https://github.com/vmware/vic-product
 
 [Service]
 Type=oneshot
-Restart=on-failure
-RestartSec=5
 ExecStart=/etc/vmware/vic-appliance-environment.sh
 
 [Install]

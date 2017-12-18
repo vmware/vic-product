@@ -8,7 +8,6 @@ Requires=vic-appliance-ready.target psc-ready.target
 Type=simple
 Restart=on-failure
 RestartSec=15
-TimeoutSec=infinity
 ExecStartPre=/etc/vmware/wait_for_file.sh /etc/vmware/psc/harbor/harbor_startup
 ExecStartPre=-/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml down -v
 ExecStartPre=-/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml rm -f
