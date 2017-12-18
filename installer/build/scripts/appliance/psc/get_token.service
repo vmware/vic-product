@@ -2,7 +2,7 @@
 Description=PSC Get Token
 Documentation=http://github.com/vmware/vic-product/installer
 Requires=vic-appliance-wait-psc-config.service
-After=vic-vic-appliance-wait-psc-config.service
+After=vic-appliance-wait-psc-config.service
 
 [Service]
 Type=oneshot
