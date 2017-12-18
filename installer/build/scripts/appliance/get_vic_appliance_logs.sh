@@ -82,7 +82,7 @@ function getLog {
 function getFailedLogs {
   echo "Getting logs for failed units"
   local UNITS
-  UNITS=$(systemctl list-units --state=failed --no-legend --no-pager | cut -d ' ' -f1 | grep -E '(service|target|path)') || true
+  UNITS=$(systemctl list-units --state=failed --no-legend --no-pager | cut -d ' ' -f1 | grep -E '(service|target|path|timer)') || true
   local LEN
   LEN=$(echo "$UNITS" | wc -l)
   LEN=$((LEN - 1))
@@ -142,6 +142,7 @@ function getDiagInfo {
   commandToCompressed "journalctl -u harbor_startup --no-pager" "journal_harbor_startup" "harbor"
   commandToCompressed "journalctl -u harbor --no-pager" "journal_harbor" "harbor"
   commandToCompressed "journalctl -u fileserver --no-pager" "journal_fileserver" "appliance"
+  commandToCompressed "journalctl -u get_token --no-pager" "journal_get_token" "psc"
   commandToCompressed "journalctl -u vic_machine_server --no-pager" "journal_vic_machine_server" "vic-machine-server"
 
   # PSC
