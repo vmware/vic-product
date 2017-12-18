@@ -1,10 +1,10 @@
 [Unit]
 Description=Wait for PSC token to be present.
 Documentation=https://github.com/vmware/vic-product
+Before=get_token.service
 
 [Service]
 Type=oneshot
-TimeoutSec=infinity
 RemainAfterExit=true
 ExecStart=/etc/vmware/wait_for_file.sh /etc/vmware/psc/admiral/psc-config.properties
 

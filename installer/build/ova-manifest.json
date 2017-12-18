@@ -89,8 +89,8 @@
   },
   {
     "type": "file",
-    "source": "scripts/appliance/network/ovf-network.service",
-    "destination": "/usr/lib/systemd/system/ovf-network.service"
+    "source": "scripts/appliance/vic-appliance-ready.target",
+    "destination": "/usr/lib/systemd/system/vic-appliance-ready.target"
   },
   {
     "type": "file",
@@ -126,6 +126,11 @@
     "type": "file",
     "source": "scripts/appliance/toolbox.service",
     "destination": "/usr/lib/systemd/system/toolbox.service"
+  },  
+  {
+    "type": "file",
+    "source": "scripts/appliance/network/ovf-network.service",
+    "destination": "/usr/lib/systemd/system/ovf-network.service"
   },
   {
     "type": "file",
@@ -251,6 +256,21 @@
     "destination": "/usr/lib/systemd/system/get_token.timer"
   },
   {
+    "type": "file",
+    "source": "scripts/appliance/psc/get_token.path",
+    "destination": "/usr/lib/systemd/system/get_token.path"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/psc/psc-ready.target",
+    "destination": "/usr/lib/systemd/system/psc-ready.target"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/psc/vic-appliance-wait-psc-config.service",
+    "destination": "/usr/lib/systemd/system/vic-appliance-wait-psc-config.service"
+  },
+  {
     "type": "shell",
     "script": "scripts/provisioners/provision_fileserver.sh"
   },
@@ -280,7 +300,7 @@
     "destination": "/opt/vmware/fileserver/files/open_source_license.txt"
   },
   {
-    "type": "scripts/provisioners",
-    "script": "scripts/system_settings.sh"
+    "type": "shell",
+    "script": "scripts/provisioners/system_settings.sh"
   }
 ]

@@ -5,4 +5,4 @@ Requires=storage-data.mount storage-db.mount storage-log.mount repartition.servi
 After=storage-data.mount storage-db.mount storage-log.mount repartition.service resizefs.service
 
 [Install]
-WantedBy=vic-appliance.target local-fs.target
+WantedBy=vic-appliance-ready.target local-fs.target

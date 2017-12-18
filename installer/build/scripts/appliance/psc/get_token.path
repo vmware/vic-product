@@ -1,0 +1,9 @@
+[Unit]
+Description=Reload PSC configuration.
+Documentation=http://github.com/vmware/vic-product/installer
+
+[Path]
+PathModified=/etc/vmware/psc/admiral/psc-config.properties
+
+[Install]
+WantedBy=paths.target

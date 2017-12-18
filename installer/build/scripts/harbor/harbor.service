@@ -1,8 +1,8 @@
 [Unit]
 Description=Harbor Container Registry
 Documentation=http://github.com/vmware/harbor
-After=vic-appliance.target psc-ready.target admiral.service 
-Requires=vic-appliance.target psc-ready.target 
+After=vic-appliance-ready.target psc-ready.target admiral.service 
+Requires=vic-appliance-ready.target psc-ready.target 
 
 [Service]
 Type=simple
