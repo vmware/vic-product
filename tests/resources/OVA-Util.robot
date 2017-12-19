@@ -56,6 +56,17 @@ Install VIC Product OVA
     Log To Console  ${out}
     Should Contain  ${out}  200
 
+    Log To Console  ssh into appliance...
+    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@${ova-ip}
+
+    Open Connection  ${ova-ip}
+    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
+
+    Wait Until Keyword Succeeds  10x  20s  Check service running  admiral
+    Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
+
+    Close connection
+
     [Return]  ${ova-ip}
 
 Install Common OVA If Not Already
