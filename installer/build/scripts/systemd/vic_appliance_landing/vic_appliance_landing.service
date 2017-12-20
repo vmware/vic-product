@@ -1,5 +1,5 @@
 [Unit]
-Description=VIC Appliance Landing
+Description=VIC Appliance Landing Page
 Documentation=https://github.com/vmware/vic-product
 After=network-online.target vic-appliance-tls.service
 Requires=network-online.target vic-appliance-tls.service

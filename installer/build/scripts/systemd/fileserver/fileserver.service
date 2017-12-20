@@ -1,6 +1,6 @@
 [Unit]
 Description=VIC Unified Installer Web Server
-Documentation=https://github.com/vmware/vic
+Documentation=https://github.com/vmware/vic-product
 After=vic-appliance-ready.target fileserver_startup.service
 Requires=vic-appliance-ready.target
 
@@ -8,6 +8,8 @@ Requires=vic-appliance-ready.target
 Type=simple
 Restart=on-failure
 RestartSec=5
+ExecStartPre=-/usr/bin/docker kill vic-appliance-landing
+ExecStartPre=-/usr/bin/docker rm -f vic-appliance-landing
 ExecStart=/etc/vmware/fileserver/start_fileserver.sh
 
 [Install]
