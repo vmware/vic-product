@@ -183,7 +183,7 @@ pipeline:
     commands:
       - mkdir bundle
       - cd installer/bin
-      - TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-dev-${DRONE_BUILD_NUMBER}-/")
+      - TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-dev-/")
       - echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/$TMP"
       - echo "Renaming build artifact to $TMP..."
       - mv vic-*.ova ../../bundle/$TMP
@@ -200,7 +200,7 @@ pipeline:
     commands:
       - mkdir bundle
       - cd installer/bin
-      - TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-stage-${DRONE_BUILD_NUMBER}-/")
+      - TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-stage-/")
       - echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/$TMP"
       - echo "Renaming build artifact to $TMP..."
       - mv vic-*.ova ../../bundle/$TMP
@@ -218,10 +218,9 @@ pipeline:
     commands:
       - mkdir bundle
       - cd installer/bin
-      - TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-${DRONE_BUILD_NUMBER}-/")
+      - TMP=$(echo vic-*.ova)
       - echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-releases/$TMP"
-      - echo "Renaming build artifact to $TMP..."
-      - mv vic-*.ova ../../bundle/$TMP
+      - mv vic-*.ova ../../bundle/
       - ls -l ../../bundle
     when:
       repo: vmware/vic-product
