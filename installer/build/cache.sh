@@ -30,6 +30,7 @@ images=(
   vmware/admiral:vic_${BUILD_ADMIRAL_REVISION}
   vmware/dch-photon:${BUILD_DCHPHOTON_VERSION}
   gcr.io/eminent-nation-87317/vic-machine-server:${BUILD_VIC_MACHINE_SERVER_REVISION}
+  gcr.io/eminent-nation-87317/vic-appliance-landing:latest
 )
 
 # cache other deps

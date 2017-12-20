@@ -13,5 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
-iptables -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
+iptables -w -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+iptables -w -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
+
+# Allow landing page, fileserver, and registry
+iptables -w -A INPUT -j ACCEPT -p tcp --dport 80
+iptables -w -A INPUT -j ACCEPT -p tcp --dport 443
