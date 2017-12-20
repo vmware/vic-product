@@ -38,7 +38,7 @@ Install VIC Product OVA
     ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
     Should Contain  ${output}  Completed successfully
     Should Contain  ${output}  Received IP address:
-    
+
     ${output}=  Split To Lines  ${output}
     ${ova-ip}=  Set Variable  NULL
     :FOR  ${line}  IN  @{output}
@@ -82,3 +82,19 @@ Cleanup VIC Product OVA
     ${rc}=  Wait Until Keyword Succeeds  10x  5s  Run GOVC  vm.destroy ${ova_target_vm_name}
     Run Keyword And Ignore Error  Run GOVC  datastore.rm /%{TEST_DATASTORE}/vm/${ova_target_vm_name}
     Run Keyword if  ${rc}==0  Log To Console  \nVIC Product OVA deployment ${ova_target_vm_name} is cleaned up on test server %{TEST_URL}
+
+Gather Support Bundle
+    Log To Console  Gathering VIC Appliance support bundle
+    ${out}=  Execute Command  /etc/vmware/support/get_vic_appliance_logs.sh
+    [Return]  ${out}
+
+Get Support Bundle File
+    # ${command_output} is return value from Gather Support Bundle
+    [Arguments]  ${command_output}
+    ${lines}=  Get Lines Matching Pattern  ${command_output}  Created log bundle
+    ${num}=    Get Line Count  ${lines}
+    Should Be Equal  ${num}  1
+
+    ${file}=  Fetch From Right  ${lines}  Created log bundle
+    Should Not Contain  ${file}  ' '
+    [Return]  ${file}

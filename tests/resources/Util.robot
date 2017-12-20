@@ -111,19 +111,3 @@ Run command and Return output
     Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     [Return]  ${output}
-
-Gather Support Bundle
-    Log To Console  Gathering VIC Appliance support bundle
-    ${out}=  Execute Command  /etc/vmware/support/get_vic_appliance_logs.sh
-    [Return]  ${output}
-
-Get Support Bundle File
-    # ${command_output} is return value from Gather Support Bundle
-    [Arguments]  ${command_output}
-    ${lines}=  Get Lines Matching Pattern  ${command_output}  Created log bundle
-    ${num}=    Get Line Count  ${lines}
-    Should Be Equal  ${num}  1
-
-    ${file}=  Fetch From Right  ${lines}  Created log bundle
-    Should Not Contain  ${file}  ' '
-    [Return]  ${file}
