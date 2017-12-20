@@ -47,3 +47,26 @@ Verify VIC engine download and create VCH
     Should Contain  ${output}  Backend Engine: RUNNING
 
     [Teardown]  Cleanup VCH  ${vch-name}
+
+Verify Support Bundle
+    Log To Console  ssh into appliance...
+    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@%{OVA_IP}
+
+    Open Connection  %{OVA_IP}
+    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
+
+    ${out}=  Gather Support Bundle
+
+    Should Contain  ${out}  Created log bundle
+    Should Contain  ${out}  Removing /tmp/vic_appliance_logs
+    Should Contain  ${out}  Removed /tmp/vic_appliance_logs
+
+    ${file}=     Get Support Bundle File
+    ${tar_out}=  Execute Command  tar xvf ${file}
+
+    ${test_file}=    Get Lines Matching Pattern  ${tar_out}  environment
+    ${num}=          Get Line Count  ${lines}
+    Should Be Equal  ${num}  1
+
+    ${cmd_out}=      Execute Command  cat ${test_file}
+    Should Contain  ${cmd_out}  VIC_MACHINE_SERVER_PORT
