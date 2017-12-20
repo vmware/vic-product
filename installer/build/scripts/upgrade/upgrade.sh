@@ -77,7 +77,7 @@ function setDataVersion {
 
 # Prevent Admiral and Harbor from starting from path units
 function disableServicesStart {
-  echo "Disabling and stopping Admiral and Harbor path startup" | tee /dev/fd/3
+  echo "Disabling and stopping Admiral and Harbor" | tee /dev/fd/3
   systemctl stop admiral.service
   systemctl stop harbor.servce
   systemctl disable admiral.servce
@@ -86,7 +86,7 @@ function disableServicesStart {
 
 # Enable Admiral and Harbor starting from path units
 function enableServicesStart {
-  echo "Enabling and starting Admiral and Harbor path startup" | tee /dev/fd/3
+  echo "Enabling and starting Admiral and Harbor" | tee /dev/fd/3
   systemctl enable admiral.servce
   systemctl enable harbor.servce
   systemctl start admiral.servce

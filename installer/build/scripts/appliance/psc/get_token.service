@@ -7,6 +7,7 @@ After=network-online.target vic-appliance-wait-psc-config.service
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/bash /etc/vmware/psc/get_token.sh
+ExecStartPost=/usr/bin/systemctl --no-block restart admiral harbor
 
 [Install]
 WantedBy=psc-ready.target
