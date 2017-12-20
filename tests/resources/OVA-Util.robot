@@ -62,6 +62,7 @@ Install VIC Product OVA
     Open Connection  ${ova-ip}
     Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
 
+    Wait Until Keyword Succeeds  10x  20s  Check service running  fileserver
     Wait Until Keyword Succeeds  10x  20s  Check service running  admiral
     Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
 
