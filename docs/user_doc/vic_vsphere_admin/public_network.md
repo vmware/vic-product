@@ -101,6 +101,8 @@ A DNS server for the VCH endpoint VM to use on the public, client, and managemen
 
 Enter a comma-separated list of DNS server addresses in the **DNS server** text box, for example `192.168.10.10,192.168.10.11`. 
 
+If you are using the Create Virtual Container Host wizard and you set a static IP address on the public network, you must configure a DNS server.
+
 #### vic-machine Option 
 
 `--dns-server`, None

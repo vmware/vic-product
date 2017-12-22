@@ -19,7 +19,7 @@ When deploying VCHs, you must provide the certificate thumbprint of the vCenter 
 
 ### Docker Client Authentication with VCHs
 
-VCHs authenticate Docker API clients by using client certificates. For information about VCHs and client authentication, see [Virtual Container Host Security](vch_security.md). Be aware that it is possible to use the `--no-tlsverify` and `--no-tls` options to deploy VCHs that do not authenticate client connections. For information about the `--no-tlsverify` and `--no-tls` options, see [Unrestricted Access to the Docker API](tls_unrestricted.md).
+VCHs authenticate Docker API clients by using client certificates. For information about VCHs and client authentication, see [Virtual Container Host Security](vch_security.md). Be aware that it is possible to use the `--no-tlsverify` and `--no-tls` options to deploy VCHs that do not authenticate client connections. For information about the `--no-tlsverify` and `--no-tls` options, see [Disable Certificate Authentication](tls_unrestricted.md).
 
 ## Network Security <a id="network"></a>
 

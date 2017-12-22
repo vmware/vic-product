@@ -1,4 +1,4 @@
-# Restrict Access to the Docker API with Custom Certificates <a id="restrict_custom"></a>
+# Use Custom Server Certificates
 
 To exercise fine control over the certificates that VCHs use, you must obtain or generate custom certificates yourself before you deploy a VCH. You can create a VCH that uses a custom server certificate, for example  a server certificate that has been signed by Verisign or another public root. For information about how to create custom certificates for use with Docker, see [Protect the Docker daemon socket](https://docs.docker.com/engine/security/https/) in the Docker documentation. 
 
@@ -31,6 +31,8 @@ The path to a custom X.509 server certificate. This certificate identifies the V
 - This option is **mandatory** if you use custom TLS certificates, rather than auto-generated certificates.
 - Use this option in combination with the `--tls-server-key` option, that provides the path to the private key file for the custom certificate.
 - Include the names of the certificate and key files in the paths.
+
+If you provide a custom server certificate by using the `--tls-server-cert` option, you can use `--tls-cname` as a sanity check to ensure that the certificate is valid for the deployment.
 
 If you use custom certificates, container developers run Docker commands with the `--tlsverify`, `--tlscacert`, `--tlscert`, and `--tlskey` options. For more information about how to connect Docker clients to VCHs, see [Configure the Docker Client for Use with vSphere Integrated Containers](../vic_app_dev/configure_docker_client.md). 
 
@@ -84,6 +86,8 @@ This example `vic-machine create` command deploys a VCH with the following confi
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 </pre>
+
+
 
 
 ### Combine Custom Server Certificates and Auto-Generated Client Certificates <a id="certcombo"></a>
