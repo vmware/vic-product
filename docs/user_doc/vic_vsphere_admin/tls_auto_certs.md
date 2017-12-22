@@ -2,7 +2,7 @@
 
 As a convenience, vSphere Integrated Containers Engine provides the option of automatically generating a server certificate for the Docker API endpoint in the VCH. The generated certificates are functional, but they do not allow for fine control over aspects such as expiration, intermediate certificate authorities, and so on. To use more finely configured certificates, see  [Use Custom Server Certificates](tls_custom_certs.md).
 
-VCHs accept client certificates if they are signed by a CA that you optionally provide to the VCH. Alternatively, you can configure a VCH so that vSphere Integrated Containers Engine creates a Certificate Authority (CA) certificate that it uses to automatically generate and sign a single client certificate.
+VCHs accept client certificates if they are signed by a CA that you  can optionally provide to the VCH. Alternatively, you can configure a VCH so that vSphere Integrated Containers Engine creates a Certificate Authority (CA) certificate that it uses to automatically generate and sign a single client certificate.
 
 **NOTE**: The Create Virtual Container Host wizard in the vSphere Client does not support automatically generated CA or client certificates. To use automatically generated CA and client certificates, you must use the `vic-machine` CLI utility to create the VCH.
 
@@ -15,11 +15,10 @@ This topic describes how to use automatically generated server certificates in c
   - [Certificate Path](#cert-path)
 - [Automatically Generate Server, Client, and CA Certificates](#full-auto)
 - [Automatically Generate Server Certificates and Use Custom CA and Client Certificates](#auto-server)
-- [Automatically Generate Server Certificates and Disable Client Certificate Verification](#auto-notlsverify)
 
 ## Options <a id="options"></a>
 
-The sections in this topic each correspond to an entry in the Security page of the Create Virtual Container Host wizard if you select **Docker API Access** > **Source of certificates**: **Auto-generate**. Each section also includes a description of the corresponding `vic-machine create` option.
+The sections in this topic each correspond to an entry in the Security page of the Create Virtual Container Host wizard if you select **Docker API Access** > **Source of certificates**: **Auto-generate**. Each section also includes a description of the corresponding `vic-machine create` option. This topic provides examples of the combinations of options to use in both the Create Virtual Container Host wizard and in `vic-machine create`, for the different security configurations that you can implement when using automatically generated server certificates.
 
 Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
 
@@ -79,7 +78,7 @@ A list of identifiers to record in automatically generated server certificates, 
 
 #### Create VCH Wizard
 
-
+Leave the default setting of the VCH name, or enter a different organization identifier.
 
 #### vic-machine Option 
 
@@ -95,7 +94,7 @@ The size of the key for vSphere Integrated Containers Engine to use when it crea
 
 #### Create VCH Wizard
 
-
+Leave the default setting of 2048 bits, or enter a higher value.
 
 #### vic-machine Option 
 
@@ -137,18 +136,13 @@ This example deploys a VCH with the following security configuration.
 
 ### Create VCH Wizard
 
-You cannot use the Create Virtual Container Host wizard to deploy VCHs with automatically generated CA and client certificates.
+The Create Virtual Container Host wizard does not support automatic generation of CAs and client certificates. You cannot use the Create Virtual Container Host wizard to deploy VCHs with automatically generated CA and client certificates.
 
 ### `vic-machine` Command
 
-To automatically generate a server certificate that can pass client verification, you must specify the Common Name (CN) for the certificate by using the [`--tls-cname`](#tls-cname) option. The CN should be the FQDN or IP address of the server, or a domain with a wildcard. The CN value must match the name or address that clients will use to connect to the server. 
-
-If you specify an existing CA file with which to validate clients, you must also provide an existing server certificate that is compatible with the `--tls-cname` value or the IP address of the client interface.
-
 This example `vic-machine create` command deploys a VCH with the following configuration:
 
-- Specifies the user, password, datacenter, image store, cluster, bridge network, and name for the VCH.
-- Provides a wildcard domain `*.example.org` as the FQDN for the VCH, for use as the Common Name in the certificate. This assumes that there is a DHCP server offering IP addresses on VM Network, and that those addresses have corresponding DNS entries such as `dhcp-a-b-c.example.com`.
+- Provides the wildcard domain, `*.example.org`, of the client systems that will connect to this VCH, for use as the Common Name in the certificate. This assumes that there is a DHCP server offering IP addresses on VM Network, and that those addresses have corresponding DNS entries such as `dhcp-a-b-c.example.com`.
 - Specifies a folder in which to store the auto-generated certificates.
 - Sets the certificate's `organization` (`O`) field to `My Organization`.
 - Generates a certificate with a key size of 3072 bits.
@@ -166,7 +160,18 @@ This example `vic-machine create` command deploys a VCH with the following confi
 --name vch1
 </pre>
 
-The Docker API for this VCH will be accessible at https://dhcp-a-b-c.example.org:2376.
+### Result
+
+When you run this command, `vic-machine create` performs the following operations:
+
+- Checks for existing certificates in the folder that you specified in `--tls-cert-path`.
+- If no existing `server-cert.pem`, `server-key.pem`, or `ca.pem` certificates are present in the folder, `vic-machine` automatically generates them.
+- Automatically generates a client certificate.
+- Uses the automatically generated CA to sign the server and client certificates.
+
+After deployment, the Docker API for this VCH is accessible at https://dhcp-a-b-c.example.org:2376.
+
+You must provide the automatically generated `cert.pem`, `key.pem`, and `ca.pem` files to all container developers who need to connect Docker clients to this VCH.
 
 ## Automatically Generate Server Certificates and Use Custom CA and Client Certificates <a id="auto-server"></a>
 
@@ -176,10 +181,9 @@ This section provides examples of using both the Create Virtual Container Host w
 - Uploads the CA certificate for the custom CA that you use to sign the client certificates.
 - Implements client authentication with a custom client certificate.
 
-### Prerequisites
+### Prerequisite
 
-- Create or obtain the `ca.pem` file for the CA that you use to sign client certificates.
-- Create client certificates.
+Create or obtain the `ca.pem` file for the CA that you use to sign client certificates.
 
 ### Create VCH Wizard
 
@@ -210,31 +214,20 @@ This example `vic-machine create` command deploys a VCH with the following confi
 --tls-cert-path <i>path_to_cert_folder</i>
 --organization 'My Organization'
 --certificate-key-size 3072
---tls-cname <i>path_to_folder</i>/ca.pem
+--tls-ca <i>path_to_folder</i>/ca.pem
 --thumbprint <i>certificate_thumbprint</i>
 --name vch1
 </pre>
 
 ### Result
 
-To be able to connect to this VCH, Docker clients must hold the `cert.pem` and `key.pem` files for client certificates that you create and sign with the specified CA. The Docker clients also require the `ca.pem` file of the specified CA.
+When you run this command, `vic-machine create` performs the following operations:
 
-## Automatically Generate Server Certificates and Disable Client Certificate Verification <a id="auto-notlsverify"></a>
+- Checks for existing certificates in the folder that you specified in `--tls-cert-path`.
+- If no existing `server-cert.pem` or `server-key.pem` certificates are present in the folder, `vic-machine` automatically generates them.
+- Automatically generates a client certificate.
+- Uses the CA that you provided to sign the server and client certificates.
 
-This example deploys a VCH with the following security configuration. 
+After deployment, the Docker API for this VCH is accessible at https://dhcp-a-b-c.example.org:2376.
 
-- Uses an automatically generated server certificate.
-- Disables client certification authentication.
-
-### Create VCH Wizard
-
-1. Leave the **Enable secure access to this VCH** switch in the green ON position.
-2. For **Source of certificates**, select the **Auto-generate** radio button.
-3. In the **Common Name (CN)** text box, enter the IP address, FQDN, or a domain wildcard for the client systems that connect to this VCH.
-4. In the **Organization (O)** text box, leave the default setting of the VCH name, or enter a different organization identifier.
-5. In the **Certificate key size** text box, leave the default setting of 2048 bits, or enter a higher value.
-3. Toggle the **Client Certificates** switch to the gray off position.
-
-### Example `vic-machine` Command <a id="examples"></a>
-
-Command here
+You must provide the automatically generated `cert.pem` and `key.pem` files and the custom `ca.pem` file to all container developers who need to connect Docker clients to this VCH.

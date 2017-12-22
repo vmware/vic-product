@@ -32,7 +32,7 @@ There are four certificates in use in a Docker `tlsverify` configuration:
 - **(3)** A certificate authority (CA), that signs the server certificate.
 - **(4)** Another CA, that signs the client certificate and is held by the server.
 
-When using the Docker client, the client validates the server either by using CAs that are present in the root certificate bundle of the client system, or that container developers provide explicitly by using the `--tlscacert` option when they run Docker commands. As a part of this validation, the server certificate must match the name or address of the system from which the Docker client accesses the server. The server certificate must explicitly state at least one of the following:
+When using the Docker client, the client validates the server either by using CAs that are present in the root certificate bundle of the client system, or that container developers provide explicitly by using the `--tlscacert` option when they run Docker commands. As a part of this validation, the Common Name (CN) in the server certificate must match the name or address of the system from which the Docker client accesses the server. The server certificate must explicitly state at least one of the following in the CN:
 
 - The FQDN of the system from which the Docker client communicates with the server
 - The IP address of the system from which the Docker client communicates  with the server
