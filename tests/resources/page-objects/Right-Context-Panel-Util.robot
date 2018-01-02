@@ -55,8 +55,8 @@ Verify Container Provision Status In Right Panel
 
 Verify Container Provision Status Is Finished
     [Arguments]  ${container-name}
-    Verify Container Provision Status In Right Panel  ${container-name}  ${rcp-stage-finished-text}
+    Wait Until Keyword Succeeds  3x  3s  Verify Container Provision Status In Right Panel  ${container-name}  ${rcp-stage-finished-text}
 
 Verify Container Provision Status Is Failed
     [Arguments]  ${container-name}
-    Verify Container Provision Status In Right Panel  ${container-name}  ${rcp-stage-failed-text}
+    Wait Until Keyword Succeeds  3x  3s  Verify Container Provision Status In Right Panel  ${container-name}  ${rcp-stage-failed-text}

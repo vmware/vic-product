@@ -19,7 +19,8 @@ Resource  Containers-Page-Util.robot
 *** Variables ***
 # css locators
 ${pc-title}  css=.create-container .title
-${pc-input-image-tag}  css=.image-name-input .tt-input
+${pc-input-image-name}  css=.image-name-input .tt-input
+${pc-input-image-tag}  css=.image-tags-input .tt-input
 ${pc-input-container-name}  css=.container-name-input input
 ${pc-input-command}  css=div[name=command] input
 ${pc-button-provision}  css=.btn-primary
@@ -33,7 +34,8 @@ Verify Provision a Container Page
     Element Text Should Be  ${pc-title}  ${pc-title-text}
 
 Submit Provision New Container Details
-    [Arguments]  ${image-tag}  ${container-name}  ${command}
+    [Arguments]  ${image-name}  ${image-tag}  ${container-name}  ${command}
+    Input Text  ${pc-input-image-name}  ${image-name}
     Input Text  ${pc-input-image-tag}  ${image-tag}
     Input Text  ${pc-input-container-name}  ${container-name}
     Input Text  ${pc-input-command}  ${command}

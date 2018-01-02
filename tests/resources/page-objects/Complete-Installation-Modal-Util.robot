@@ -35,6 +35,7 @@ Verify Complete Installation Modal
     Element Text Should Be  ${cim-title}  ${cim-title-text}  message=Complete Installation Log In modal is not displayed
 
 Log In And Complete OVA Installation
+    [Tags]  secret
     Navigate To Complete Installation Login Modal
     Verify Complete Installation Modal
     Input Text  ${cim-input-target}   %{TEST_URL}

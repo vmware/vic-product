@@ -19,8 +19,8 @@ Documentation  This resource provides any keywords related to VIC Product OVA
 Set Test VCH Variables
     # set the TLS config options suitable for vic-machine in this env
     ${domain}=  Get Environment Variable  DOMAIN  ''
-    Run Keyword If  $domain == ''  Set Suite Variable  ${vicmachinetls}  --no-tlsverify
-    Run Keyword If  $domain != ''  Set Suite Variable  ${vicmachinetls}  --tls-cname=*.${domain}
+    Run Keyword If  ${domain} == ''  Set Test Variable  ${vicmachinetls}  --no-tlsverify
+    Run Keyword If  ${domain} != ''  Set Test Variable  ${vicmachinetls}  --tls-cname=*.${domain}
 
 Get Random Test VCH Name
     ${name}=  Evaluate  'VCH-%{DRONE_BUILD_NUMBER}-' + str(random.randint(1000,9999))  modules=random
@@ -85,6 +85,7 @@ Get VCH Docker Params
     Run Keyword If  ${port} == 2375  Set Test Variable  ${VCH-PARAMS}  -H ${DOCKER-HOST}
 
 Cleanup VCH
+    [Tags]  secret
     [Arguments]  ${vch-name}
     Log To Console  Deleting the VCH ${vch-name}
     ${rc}  ${output}=  Run And Return Rc And Output  bin/vic-machine-linux delete --name=${vch-name} --target=%{TEST_URL} --user=%{TEST_USERNAME} --password=%{TEST_PASSWORD} --force=true --compute-resource=%{TEST_RESOURCE} --timeout %{VCH_TIMEOUT}
