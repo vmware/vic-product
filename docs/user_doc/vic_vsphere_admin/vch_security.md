@@ -7,6 +7,7 @@ By default, virtual container hosts (VCHs) authenticate connections from Docker 
   - [`DOCKER_CERT_PATH`](#dockercertpath)
 - [Virtual Container Host Security Options](#vch_tlsoptions)
   - [Supported Configurations](#configs)
+- [Registry Access](#registry) 
 
 ## About TLS Certificates <a id="about_tls"></a>
 
@@ -54,35 +55,42 @@ For information about how to provide certificates to Docker clients, see [Config
 
 ## Virtual Container Host Security Options <a id="vch_tlsoptions"></a>
 
-As a convenience, vSphere Integrated Containers Engine can optionally generate client **(1)** and server **(2)** certificates. It can also generate one CA that serves as both **(3)** and **(4)**. If you use an automatically generated CA, vSphere Integrated Containers Engine uses that CA to sign both of the client and server certificates. This means that you must provide to the Docker client both the client certificate and the public part of the CA, so that the client can trust the server. You must provide a client certificate and CA for every VCH that a Docker client connects to.
+As a convenience, vSphere Integrated Containers Engine can optionally generate client **(1)** and server **(2)** certificates. It can also  automatically generate one CA that serves as both **(3)** and **(4)**. If you use an automatically generated CA, vSphere Integrated Containers Engine uses that CA to sign both of the client and server certificates. This means that you must provide to the Docker client both the client certificate and the public part of the CA, so that the client can trust the server. You must provide a client certificate and CA for every VCH that a Docker client connects to.
 
 Rather than using an automatically generated CA, in a production deployment you would normally use custom CAs. In this case:
 
 - **(3)** is usually signed by a company certificate that is rooted by a public or corporate trust authority, for example Verisign. 
 - **(4)** can be unique per client or group of clients. Using the same CA for a group of clients allows each client to have a unique certificate, but allows the group to be authorized as a whole. For example, you could use one CA per VCH, multiple CAs per VCH, or one CA per group of VCHs.
 
-When you deploy a VCH, you must specify the level of security that applies to connections from Docker clients to the Docker API endpoint in the VCH, and whether to use automatically generated or custom certificates. 
+When you deploy a VCH, you must specify the level of security that applies to connections from Docker clients to the Docker API endpoint in the VCH, and whether to use automatically generated or custom certificates, or a combination of both. 
  
 ### Supported Configurations <a id="configs"></a>
 
 You can use all automatically generated certificates, all custom certificates, or a combination of both. 
 
-**NOTE**: The Create Virtual Container Host wizard in the vSphere Client does not support automatically generated CA or client certificates. To use automatically generated CA and client certificates, you must use the `vic-machine` CLI utility.
+**NOTE**: The Create Virtual Container Host wizard in the vSphere Client does not support automatically generated CA or client certificates. To use automatically generated CA and client certificates, you must use the `vic-machine` CLI utility to deploy VCHs.
 
-The following table provides a summary of the configurations that vSphere Integrated Containers Engine supports, and whether you can implement those configurations in the vSphere Client.
+The following table provides a summary of the configurations that vSphere Integrated Containers Engine supports, and whether you can implement those configurations in the Create Virtual Container Host wizard in the vSphere Client.
 
-|**Configuration**|**Available in vSphere Client?**|
+|**Configuration**|**Available in vSphere Client?**|**Examples**|
 |---|---|
-|Auto-generated server certificate + custom CA + custom client certificate|Yes|
-|Auto-generated server certificate + auto-generated client certificate + auto-generated CA|No|
-|Auto-generated server certificate + no client verification|Yes| 
-|Custom server certificate + custom CA + custom client certificate|Yes|
-|Custom server certificate + auto-generated client certificate + auto-generated CA|No|
-|Custom server certificate + no client verification|Yes|
-|No server or client certificate verification|Yes|
+|Auto-generated server certificate + auto-generated CA + auto-generated client certificate|No|[Example](vch_cert_options.md#full-auto)|
+|Auto-generated server certificate + custom CA + custom client certificate|Yes|[Example](vch_cert_options.md#auto-server)|
+|Auto-generated server certificate + custom CA + auto-generated client certificate|No|[Example](vch_cert_options.md#auto-server-client-custom-ca)|
+|Custom server certificate + custom CA + custom client certificate|Yes|[Example](vch_cert_options.md#all-custom)|
+|Custom server certificate + custom CA + auto-generated client certificate|No|[Example](vch_cert_options.md#custom-server-ca)|
+|Custom server certificate + auto-generated CA + auto-generated client certificate|No|[Example](vch_cert_options.md#custom-server-auto-client-ca)|
+|Auto-generated server certificate + no client verification|Yes|[Example](tls_unrestricted.md#)|
+|Custom server certificate + no client verification|Yes|[Example](tls_unrestricted.md#)|
+|No server or client certificate verification|Yes|[Example](tls_unrestricted.md#)|
 
-The following topics describe how to achieve all of the configurations listed in the table above. 
+The following topics describe how to achieve all of the configurations listed in the table above, by using either the Create Virtual Container Host wizard or the `vic-machine` CLI, or both. The Examples column provides direct links to the relevant example in those topics for each configuration.
 
-- [Use Automatically Generated Server Certificates](tls_auto_certs.md)
-- [Use Custom Server Certificates](tls_custom_certs.md) 
+- [Virtual Container Host Certificate Options](vch_cert_options.md)
 - [Disable Certificate Authentication](tls_unrestricted.md)
+
+## Registry Access <a id="registry"></a>
+
+In addition to configuring the level of security to apply to connections from Docker clients to VCHs, you must also configure the level of security to apply to connections from VCHs to registry servers. For example, to use vSphere Integrated Containers Registry, you must configure VCHs accordingly when you deploy them. 
+
+For information about configuring VCHs to use registry servers, see [Configure Registry Access](vch_registry.md).
