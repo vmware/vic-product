@@ -76,7 +76,7 @@
      * [Check Service Status](service_status.md)
      * [Restart Services](restart_services.md)  
   * [Troubleshooting](troubleshoot_vic.md) 
-     * [Access Appliance Logs](appliance_logs.md)
+     * [Access and Configure Appliance Logs](appliance_logs.md)
      * [Access VCH Logs](log_bundles.md)
      * [VCH Deployment Times Out](ts_vch_deployment_timeout.md)
      * [Appliance OVF Error](ts_ovf_error.md)
