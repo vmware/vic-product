@@ -23,7 +23,7 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 5. Set the following environment variables:
 
     - vSphere Integrated Containers appliance address:<pre>export VIC_ADDRESS=<i>vic_appliance_address</i></pre>
-    - vSphere Integrated Containers Engine bundle file:<pre>export VIC_BUNDLE=vic_1.3.0.tar.gz</pre>
+    - vSphere Integrated Containers Engine bundle file:<pre>export VIC_BUNDLE=vic_v1.3.0.tar.gz</pre>
 
     If you have installed a different version of the appliance, update `1.3.0` to the appropriate version in the command above. You can see the correct version by going to https://<i>vic_appliance_address</i>:9443/files/ in a browser.
 5. Use `curl` to copy the vSphere Integrated Containers Engine binaries from the vSphere Integrated Containers appliance file server to the vCenter Server Appliance.
