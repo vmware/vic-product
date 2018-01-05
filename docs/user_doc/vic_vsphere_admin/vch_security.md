@@ -75,14 +75,12 @@ The following table provides a summary of the configurations that vSphere Integr
 |**Configuration**|**Available in vSphere Client?**|**Examples**|
 |---|---|
 |Auto-generated server certificate + auto-generated CA + auto-generated client certificate|No|[Example](vch_cert_options.md#full-auto)|
-|Auto-generated server certificate + custom CA + custom client certificate|Yes|[Example](vch_cert_options.md#auto-server)|
-|Auto-generated server certificate + custom CA + auto-generated client certificate|No|[Example](vch_cert_options.md#auto-server-client-custom-ca)|
-|Custom server certificate + custom CA + custom client certificate|Yes|[Example](vch_cert_options.md#all-custom)|
-|Custom server certificate + custom CA + auto-generated client certificate|No|[Example](vch_cert_options.md#custom-server-ca)|
+|Auto-generated server certificate + custom CA|Yes|[Example](vch_cert_options.md#auto-server)|
+|Custom server certificate + custom CA|Yes|[Example](vch_cert_options.md#all-custom)|
 |Custom server certificate + auto-generated CA + auto-generated client certificate|No|[Example](vch_cert_options.md#custom-server-auto-client-ca)|
-|Auto-generated server certificate + no client verification|Yes|[Example](tls_unrestricted.md#)|
-|Custom server certificate + no client verification|Yes|[Example](tls_unrestricted.md#)|
-|No server or client certificate verification|Yes|[Example](tls_unrestricted.md#)|
+|Auto-generated server certificate + no client verification|Yes|[Example](tls_unrestricted.md#auto-notlsverify)|
+|Custom server certificate + no client verification|Yes|[Example](tls_unrestricted.md#custom_notlsverify)|
+|No server or client certificate verification|Yes|[Example](tls_unrestricted.md#example_no-tls)|
 
 The following topics describe how to achieve all of the configurations listed in the table above, by using either the Create Virtual Container Host wizard or the `vic-machine` CLI, or both. 
 
