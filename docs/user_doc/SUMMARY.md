@@ -47,7 +47,7 @@
          * [Container Networks](vic_vsphere_admin/container_networks.md)
      * [Security](vic_vsphere_admin/vch_security.md)
          * [VCH Certificate Options](vic_vsphere_admin/vch_cert_options.md)
-         * [Disable Certificate Verification](vic_vsphere_admin/tls_unrestricted.md)
+         * [Disable Client Verification](vic_vsphere_admin/tls_unrestricted.md)
          * [Registry Access](vic_vsphere_admin/vch_registry.md) 
      * [Operations User](vic_vsphere_admin/set_up_ops_user.md)
      * [Finish VCH Deployment](vic_vsphere_admin/complete_vch_deployment_client.md)

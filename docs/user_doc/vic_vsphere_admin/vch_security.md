@@ -84,10 +84,12 @@ The following table provides a summary of the configurations that vSphere Integr
 |Custom server certificate + no client verification|Yes|[Example](tls_unrestricted.md#)|
 |No server or client certificate verification|Yes|[Example](tls_unrestricted.md#)|
 
-The following topics describe how to achieve all of the configurations listed in the table above, by using either the Create Virtual Container Host wizard or the `vic-machine` CLI, or both. The Examples column provides direct links to the relevant example in those topics for each configuration.
+The following topics describe how to achieve all of the configurations listed in the table above, by using either the Create Virtual Container Host wizard or the `vic-machine` CLI, or both. 
 
 - [Virtual Container Host Certificate Options](vch_cert_options.md)
-- [Disable Certificate Authentication](tls_unrestricted.md)
+- [Disable Client Verification](tls_unrestricted.md)
+
+The Examples column in the table provides direct links to the relevant example in these topics.
 
 ## Registry Access <a id="registry"></a>
 

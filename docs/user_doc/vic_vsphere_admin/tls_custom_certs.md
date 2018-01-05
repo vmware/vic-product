@@ -2,19 +2,6 @@
 
 
 
-### Use Custom Server Certificates <a id="usecustom"></a>
-
-You use the `--tls-server-cert` and `--tls-server-key` options to provide the paths to a custom X.509 server certificate and its key when you deploy a VCH. The paths to the certificate and key files must be relative to the location from which you are running `vic-machine create`.
-
-This example `vic-machine create` command deploys a VCH with the following configuration:
-
-- Specifies the user name, password, image store, cluster, bridge network, and name for the VCH.
-
-
-
-
-
-
 
 ### Combine Custom Server Certificates and Auto-Generated Client Certificates <a id="certcombo"></a>
 

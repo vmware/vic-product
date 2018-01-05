@@ -1,4 +1,4 @@
-# Disable Certificate Authentication
+# Disable Client Verification
 
 To deploy a virtual container host (VCH) that does not restrict access to the Docker API but still encrypts communication between clients and the VCH, you can disable client certificate verification. You can also completely disable TLS authentication and encryption on both the client and server sides.
 

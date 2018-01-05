@@ -36,7 +36,7 @@
          * [Container Networks](container_networks.md)
      * [Security](vch_security.md)
          * [VCH Certificate Options](vch_cert_options.md)
-         * [Disable Certificate Verification](tls_unrestricted.md)
+         * [Disable Client Verification](tls_unrestricted.md)
          * [Registry Access](vch_registry.md) 
      * [Operations User](set_up_ops_user.md)
      * [Finish VCH Deployment](complete_vch_deployment_client.md)
