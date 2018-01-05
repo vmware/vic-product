@@ -75,7 +75,7 @@ Docker Login To Harbor Registry
 
 Pull And Tag Docker Image
     [Arguments]  ${image-name}  ${tagged-image}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker-endpoint}=${DEFAULT_LOCAL_DOCKER_ENDPOINT}
-    Run command and Return output  ${docker} -H ${docker-endpoint} pull
+    Run command and Return output  ${docker} -H ${docker-endpoint} pull ${image-name}
     ${output}=  Run command and Return output  ${docker} -H ${docker-endpoint} image ls
     Should Contain  ${output}  ${image-name}
     Log To Console  \n${image-name} pulled successfully
