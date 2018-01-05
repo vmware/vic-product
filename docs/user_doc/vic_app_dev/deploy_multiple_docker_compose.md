@@ -2,7 +2,7 @@
 
 Having examined some of the considerations around deploying single containers to a Virtual Container Host (VCH), this section examples how to deploy applications that are comprised of multiple containers.
 
-There are two approaches you can take to this. The most instictive approach would be to create scripts that manage the lifecycle of volumes, networks and containers.
+There are two approaches you can take to this. The most instinctive approach would be to create scripts that manage the lifecycle of volumes, networks and containers.
 
 The second approach is to use a manifest-based orchestrator such as Docker Compose. VIC 1.1 has some basic support for Docker Compose, but it is not functionally complete. Docker Compose is a proprietary orchestrator that drives the Docker API and ties other pieces of the Docker ecosystem together including Build and Swarm. Given that VIC engine doesn't currently support either Build or Swarm, Compose compatibility is necessarily limited. However, Compose can still be a useful tool, provided those limitations are understood.
 
@@ -253,8 +253,6 @@ services:
 
   db:
     image: postgres:9.4
-    environment:
-      PGDATA: /var/lib/postgresql/data/data     # Added as a workaround to /lost+found in volume root
 
   result:
     image: <registry-address>/<project>/result:0.1    # Fully-qualified image name
@@ -275,10 +273,6 @@ In most real-world scenarios, container images will be pushed to a registry befo
 Local volume mounts are useful for development and testing as they allow source trees and data to be easily mapped into a container. In production however, making a container host stateful for the purpose of seeding the container with configuration or application data is only feasible if the container is guaranteed to be deployed to the stateful host. In general, best practice is to keep a container host as stateless as possible. 
 
 VIC engine cannot map volumes from a local filesystem into a container because VIC engine containers are strongly isolated and don't share a common filesystem. Despite this, it is still possible in VIC to add state to a container by pre-populating a volume with data and mounting it (TBD: link to "Pre-populate a Volume").
-
-- Workaround to `/lost+found` folder
-
-In VIC a Volume is an ext4 formatted disk. As such, it has `/lost+found` in the root. Some containers will not write data into this directory due to the presence of this folder, so in this case of postgres above, it is configured to create and write to a subdirectory of the mount point.
 
 ***Combining into a single Compose file***
 
@@ -305,8 +299,6 @@ services:
 
   db:
     image: postgres:9.4
-    environment:
-      PGDATA: /var/lib/postgresql/data/data
 
   result:
     build: ./result
@@ -337,7 +329,6 @@ This is partly a question of functional completeness of VIC engine docker API su
 
 - VIC engine supports version 2 of the Compose File format.
 - VIC engine has no native build support.
-- VIC volumes are disks and when mounted, have a `/lost+found` folder created by ext4. For some containers - databases in particular - you will need to configure them to use a subdirectory of the volume. See MySQL example above.
 - VIC containers take time to boot and thus may exhibit timing related issues. Eg. You may need to set `COMPOSE_HTTP_TIMEOUT` to a higher value than the default.
 - VIC containers have no notion of local read-write shared storage.
 
