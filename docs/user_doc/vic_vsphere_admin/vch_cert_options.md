@@ -6,6 +6,7 @@ For information about how to deploy VCHs that do not verify  connections from cl
 
 - [Automatically Generated Certificates](#auto)
 - [Custom Certificates](#custom)
+- [How to Connect to VCHs with Client Verification](#connect)
 - [Options](#options)
   - [Common Name (CN)](#tls-cname)
   - [Organization (O)](#org)
@@ -16,7 +17,7 @@ For information about how to deploy VCHs that do not verify  connections from cl
   - [Server Private Key](#server-key)
 - [Examples](#examples)
   - [Automatically Generate Server, Client, and CA Certificates](#full-auto)
-  - [Automatically Generate Server Certificates and Use Custom CA for Client Certificates](#auto-server)
+  - [Automatically Generate Server Certificates and Use a Custom CA for Client Certificates](#auto-server)
   - [Use a Custom Server Certificate and a Custom CA for Client Certificates](#all-custom)
   - [Use a Custom Server Certificate and Automatically Generate a CA for Client Certificates](#custom-server-auto-client-ca)
 - [What to Do Next](#whatnext)
@@ -46,6 +47,24 @@ Custom certificates must meet the following requirements:
 **IMPORTANT**: PKCS#7 certificates do not work with `vic-machine`. For information about how to convert certificates to the correct format, see [Converting Certificates for Use with vSphere Integrated Containers Engine](vic_cert_reference.md#convertcerts). 
 
 You can deploy a VCH to use custom certificates in combination with auto-generated certificates, as demonstrated in the [Examples](#examples).
+
+## How to Connect to VCHs with Client Verification <a id="connect"></a>
+
+After deployment, the Docker API for VCHs that implement client verification is accessible at https://<i>vch_dnsname</i>.example.org:2376.
+
+You must provide the automatically generated `cert.pem`, `key.pem`, and `ca.pem` files to all container developers who need to connect Docker clients to the VCHs.
+
+- If you deploy VCHs by using the Create Virtual Container Host wizard, you must create the `cert.pem` and `key.pem` files manually, using the custom `ca.pem` file to sign them. 
+- If you deploy VCHs by using `vic-machine`, you can either use the auto-generated client certificate, or by use a client certificate that you create and sign manually.
+
+For example, you can access information about a VCH with client verification by running the following command in the Docker client:
+
+<pre>docker -H <i>vch_dnsname</i>.example.org.example.org:2376 
+--tlsverify 
+--tlscacert=<i>path_to_cert_folder</i>/ca.pem
+--tlscert=<i>path_to_cert_folder</i>/cert.pem
+--tlskey=<i>path_to_cert_folder</i>/key.pem
+info</pre>
 
 ## Options <a id="options"></a>
 
@@ -167,7 +186,7 @@ If the folder that you specify in `--tls-cert-path` does not exist, `vic-machine
 
 ### Select CA Certificate PEM File <a id="ca-pem"></a>
 
-The public portion of a CA that vSphere Integrated Containers Engine uses to validate client certificates. The client certificates are  used offered as credentials for access to the Docker API running in the VCH. This does not need to be the same CA as you use to sign the server certificate, if you use a custom CA to sign server certificates. You can specify multiple CAs.
+The public portion of a CA that vSphere Integrated Containers Engine uses to validate client certificates. The client certificates are used as credentials for access to the Docker API running in the VCH. This does not need to be the same CA as you use to sign the server certificate, if you use a custom CA to sign server certificates. You can specify multiple CAs.
 
 #### Create VCH Wizard
 
@@ -213,7 +232,7 @@ The private key file to use with a custom server certificate. This option is man
 #### Create VCH Wizard
 
 1. For **Source of certificates**, select the **Existing** radio button.
-2. For **Server private key**, click **Select** and navigate to an existing `server-cert.pem` file.
+2. For **Server private key**, click **Select** and navigate to an existing `server-key.pem` file.
 
 #### vic-machine Option 
 
@@ -230,9 +249,7 @@ This section provides examples of the combinations of options to use in in the *
 
 - [Automatically Generate Server, Client, and CA Certificates](#full-auto)
 - [Automatically Generate Server Certificates and Use Custom CA and Client Certificates](#auto-server)
-- [Automatically Generate Server and Client Certificates and Use a Custom CA](#auto-server-client-custom-ca)
 - [Use Custom Server and Client Certificates and a Custom CA](#all-custom)
-- [Use a Custom Server Certificate, Custom CA, and Automatically Generate a Client Certificate](#custom-server-ca)
 - [Use a Custom Server Certificate and Automatically Generate a CA and Client Certificate](#custom-server-auto-client-ca)
 
 ## Automatically Generate Server, Client, and CA Certificates <a id="full-auto"></a>
@@ -279,19 +296,6 @@ When you run this command, `vic-machine create` performs the following operation
 - Uses the automatically generated CA to sign the server and client certificates.
 - Automatically generates a `.pfx` certificate to allow access to the VCH Admin portal for this VCH.
 - Generates an `env` file that includes the environment variables with which to configure Docker clients that connect to this VCH.
-
-### How to Connect to this VCH
-
-After deployment, the Docker API for this VCH is accessible at https://<i>vch_dnsname</i>.example.org:2376.
-
-You must provide the automatically generated `cert.pem`, `key.pem`, and `ca.pem` files to all container developers who need to connect Docker clients to this VCH. For example, you can access information about this VCH from the Docker client with the following command:
-
-<pre>docker -H <i>vch_dnsname</i>.example.org.example.org:2376 
---tlsverify 
---tlscacert=<i>path_to_cert_folder</i>/ca.pem
---tlscert=<i>path_to_cert_folder</i>/cert.pem
---tlskey=<i>path_to_cert_folder</i>/key.pem
-info</pre>
 
 ## Automatically Generate Server Certificates and Use a Custom CA for Client Certificates <a id="auto-server"></a>
 
@@ -347,25 +351,9 @@ When you run this command, `vic-machine create` performs the following operation
 
 - Checks for existing certificates in the folder that you specified in `--tls-cert-path`.
 - Since no existing `server-cert.pem` or `server-key.pem` certificates are present in the folder, `vic-machine` automatically generates them.
-- Automatically generates a client certificate and saves it in the certificate folder. However, you can use any client certificate that is signed by the CA that you provided to the VCH.
+- Automatically generates a client certificate, signs it with the custom CA, and saves it in the certificate folder. However, you can use any client certificate that is signed by the CA that you provided to the VCH.
 
-### How to Connect to this VCH
-
-After deployment, the Docker API for this VCH is accessible at https://<i>vch_dnsname</i>.example.org:2376.
-
-You must provide the custom `ca.pem` and the client `cert.pem` and `key.pem` files to all container developers who need to connect Docker clients to this VCH. 
-
-- If you deployed the VCH by using the Create Virtual Container Host wizard, you must create the `cert.pem` and `key.pem` files manually, using the custom `ca.pem` file to sign them. 
-- If you deployed the VCH by using `vic-machine`, you can either connect to the VCH by using the auto-generated client certificate, or by using a client certificate that you create and sign manually.
-
-For example, you can access information about this VCH from the Docker client with the following command:
-
-<pre>docker -H <i>vch_dnsname</i>.example.org.example.org:2376 
---tlsverify 
---tlscacert=<i>path_to_cert_folder</i>/ca.pem
---tlscert=<i>path_to_cert_folder</i>/cert.pem
---tlskey=<i>path_to_cert_folder</i>/key.pem
-info</pre>
+You must provide the custom `cert.pem`, `key.pem`, and `ca.pem` files to all container developers who need to connect Docker clients to this VCH.
 
 ## Use a Custom Server Certificate and a Custom CA for Client Certificates <a id="all-custom"></a>
 
@@ -460,4 +448,6 @@ You must provide the automatically generated `cert.pem`, `key.pem`, and `ca.pem`
 
 # What to Do Next <a id="whatnext"></a>
 
-If you are using the Create Virtual Container Host wizard, stay on the Security page and select the **Registry Access tab** to [Configure Registry Access](vch_registry.md).
+If you are using the Create Virtual Container Host wizard, stay on the Security page and select the **Registry Access tab** to [Configure Registry Access](vch_registry.md). 
+
+If you do not require access to a registry server, click **Next** to configure the [Operations User](set_up_ops_user.md).

@@ -18,11 +18,6 @@ To use vSphere Integrated Containers Engine with vSphere Integrated Containers R
 
 When you deployed the vSphere Integrated Containers appliance, vSphere Integrated Containers Registry auto-generated a Certificate Authority (CA) certificate. You can download the registry CA certificate from the vSphere Integrated Containers Management Portal.
 
-**Prerequisites**
-
-- You downloaded the vSphere Integrated Containers Engine bundle from  http://<i>vic_appliance_address</i>.
-- Obtain the vCenter Server or ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
-
 **Procedure**
 
 1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and log in with a vSphere administrator or Cloud administrator user account.
@@ -30,31 +25,35 @@ When you deployed the vSphere Integrated Containers appliance, vSphere Integrate
     vSphere administrator accounts for the Platform Service Controller with which vSphere Integrated Containers is registered are automatically granted Cloud Admin access in the management portal.
 2. Go to **Administration** > **Configuration**, and click the link to download the **Registry Root Cert**.
 
-**What to Do Next**
-
-Use `vic-machine create` to deploy a VCH, specifying the registry's CA certificate by using the [`--registry-ca`](vch_registry.md#registry-ca) option. For an example of the vic-machine command with which to deploy a VCH that accesses vSphere Integrated Containers Registry, see [Authorize Access to Secure Registries and vSphere Integrated Containers Registry](#secureregistry).
-
 ## Options <a id="options"></a>
 
-You configure access from a VCH to a registry server by using the [`--registry-ca`](#registry-ca), [`--insecure-registry`](#insecure-registry), and [`--whitelist-registry`](#whitelist-registry) options.
+The following sections each correspond to an entry in the Security page of the Create Virtual Container Host wizard if you select the **Registry Access** tab. Each section also includes a description of the corresponding `vic-machine create` option. 
+
+Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
 
 ### Whitelist Registry Mode <a id="whitelist-registry"></a>
 
-#### Create VCH Wizard
-
-xxx
-
-#### vic-machine Option 
-
-`--whitelist-registry`, `--wr`
-
-You can restrict the registries to which a VCH allows access by setting the `--whitelist-registry` option. You can specify `--whitelist-registry` multiple times to allow access to multiple registries. If you specify `--whitelist-registry` at least once, the VCH runs in whitelist mode. In whitelist mode, users can only access those registries that you have specified in the `--whitelist-registry` option. Users cannot access any registries that are not in the whitelist, even if they are public registries, such as Docker Hub.
+You can restrict the registries to which a VCH allows access by setting the VCH in whitelist registry mode. You can allow VCHs to access multiple registries. In whitelist mode, users can only access those registries that you have specified. Users cannot access any registries that are not in the whitelist, even if they are public registries, such as Docker Hub.
 
 You can specify whitelisted registries in the following formats:
  
 - IP addresses or FQDN to identify individual registry instances. During deployment, `vic-machine` validates the IP address of the registry.
 - CIDR formatted ranges, for example, 192.168.1.1/24. If you specify a CIDR range, the VCH adds to the whitelist any IP addresses within that subnet. Note that `vic-machine` does not validate CIDR defined ranges during deployment.
 - Wildcard domains, for example, . *.company.com. If you specify a wildcard domain, the VCH adds to the whitelist any IP addresses or FQDNs that it can validate against that domain. A numeric IP address causes VCHs to perform a reverse DNS lookup to validate against that wild card domain. Note that `vic-machine` does not validate wildcard domains during deployment. 
+
+#### Create VCH Wizard
+
+1. Select the **Registry Access** tab.
+2. Toggle the **Whitelist registry mode** switch to the green ON position.
+2. In the **Whitelist registries** text boc, enter the IP address or FQDN and port number for the registry server, or enter a wildcard domain.
+3. Select **Secure** or **Insecure** from the drop-down menu.
+4. Optionally click **+** to add more registries to the whitelist.
+
+#### vic-machine Option 
+
+`--whitelist-registry`, `--wr`
+
+If you specify `--whitelist-registry` at least once, the VCH runs in whitelist mode. 
 
 You use `--whitelist-registry` in combination with the `--registry-ca`  and `--insecure-registry` options. You can configure a VCH so that it includes both secure and insecure registries in its whitelist.
 

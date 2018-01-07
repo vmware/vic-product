@@ -20,7 +20,19 @@ The different options that you configure in the Create Virtual Container Host wi
 
     The vSphere Integrated Containers view presents the number of VCHs and container VMs that you have deployed to this vCenter Server instance.
 
-3. Click **vSphere Integrated Containers** in the main panel and the **Virtual Container Hosts** tab. 
+3. Click **vSphere Integrated Containers** in the main panel and select the **Virtual Container Hosts** tab. 
+
+    On first connection, if you see the message <code>Failed to verify the vic-machine server at endpoint https://vic_appliance_address:8443</code>, perform the following steps to trust the certificate of the `vic-machine` service that is running in the appliance: 
+
+    1. Click the link **View API directly in your browser** that appears in step 3 of the error message.  
+    2. In the new browser tab that opens, follow your browser's usual procedure to trust the certificate. 
+    
+        You should see the confirmation message `You have successfully accessed the VCH Management API`.
+
+    3. Close the new browser tab and click the **Refresh** button in the error message in the **Virtual Container Hosts** tab.
+    
+    When you have trusted the certificate, the error message disappears.
+
 4. Click **+ New Virtual Container Host**.
 
     The Create Virtual Container Host wizard opens.
