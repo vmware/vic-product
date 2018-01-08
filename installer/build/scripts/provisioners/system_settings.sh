@@ -24,7 +24,7 @@ systemctl enable getty@tty2.service
 systemctl enable ovf-network.service ova-firewall.service
 
 # Enable systemd component services
-systemctl enable get_token.timer get_token.path psc-ready.target 
+systemctl enable get_token.timer reconfigure_token.path psc-ready.target
 systemctl enable admiral.service 
 systemctl enable harbor.service
 systemctl enable fileserver.service

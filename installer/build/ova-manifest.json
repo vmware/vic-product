@@ -257,11 +257,6 @@
   },
   {
     "type": "file",
-    "source": "scripts/appliance/psc/get_token.path",
-    "destination": "/usr/lib/systemd/system/get_token.path"
-  },
-  {
-    "type": "file",
     "source": "scripts/appliance/psc/psc-ready.target",
     "destination": "/usr/lib/systemd/system/psc-ready.target"
   },
@@ -269,6 +264,16 @@
     "type": "file",
     "source": "scripts/appliance/psc/vic-appliance-wait-psc-config.service",
     "destination": "/usr/lib/systemd/system/vic-appliance-wait-psc-config.service"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/psc/reconfigure_token.path",
+    "destination": "/usr/lib/systemd/system/reconfigure_token.path"
+  },
+  {
+    "type": "file",
+    "source": "scripts/appliance/psc/reconfigure_token.service",
+    "destination": "/usr/lib/systemd/system/reconfigure_token.service"
   },
   {
     "type": "shell",
