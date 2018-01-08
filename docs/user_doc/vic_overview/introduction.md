@@ -212,7 +212,7 @@ The `vic-machine` utility is a binary for Windows, Linux, and OSX that manages t
 
 ## What Is vSphere Integrated Containers Management Portal? <a id="whats_portal"></a>
 
-vSphere Integrated Containers Management Portal is a highly scalable and very lightweight container management platform for deploying and managing container based applications. It is designed to have a small footprint and boot extremely quickly. vSphere Integrated Containers Management Portal is intended to provide DevOps administrators with automated deployment and lifecycle management of containers.
+vSphere Integrated Containers Management Portal is a highly scalable and very lightweight container management platform for deploying and managing container based applications. The management portal runs as a container in the vSphere Integrated Containers virtual appliance. It is designed to have a small footprint and boot extremely quickly. vSphere Integrated Containers Management Portal is intended to provide DevOps administrators with automated deployment and lifecycle management of containers.
 
 - Resource management, allowing DevOps administrators to set deployment preferences which lets vSphere Integrated Containers Management Portal manage container placement.
 - Live state updates that provide a live view of the container system.
@@ -242,7 +242,7 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
 
 ## What Is vSphere Integrated Containers Registry? <a id="whats_registry"></a>
 
-vSphere Integrated Containers Registry is an enterprise-class registry server that you can use to store and distribute container images. vSphere Integrated Containers Registry allows DevOps administrators to organize image repositories in projects, and to set up role-based access control to those projects to define which users can access which repositories. vSphere Integrated Containers Registry also provides rule-based replication of images between registries, implements Docker Content Trust and vulnerability scanning, and provides detailed logging for project and user auditing.
+vSphere Integrated Containers Registry is an enterprise-class registry server that you can use to store and distribute container images. The registry runs as a container in the vSphere Integrated Containers virtual appliance. vSphere Integrated Containers Registry allows DevOps administrators to organize image repositories in projects, and to set up role-based access control to those projects to define which users can access which repositories. vSphere Integrated Containers Registry also provides rule-based replication of images between registries, implements Docker Content Trust and vulnerability scanning, and provides detailed logging for project and user auditing.
 
 ### Rule Based Image Replication <a id="replication"></a>
 
