@@ -105,7 +105,7 @@ The following network requirements apply to the deployment of VCHs to vCenter Se
 - If you use the Create Virtual Container Host wizard to deploy VCHs, you must create and use a port group for the public network. The VCH endpoint VM must be able to obtain an IP address on this port group. If you use `vic-machine` to deploy VCHs, it is still strongly recommended that use a port group for the public network. Using the default VM Network for the public network instead of a port group prevents vSphere vMotion from moving the VCH endpoint VM between hosts in the cluster. You can use the same port group as the public network for multiple VCHs.
 - Optionally create port groups for each of the management and client networks. 
 - Optionally create port groups for use as mapped container networks. For information about container networks, see [Configure Container Networks](container_networks.md). 
-- All hosts in a cluster must be attached to the port groups that you create for the VCH networks and for any mapped container networks.
+- All hosts in a cluster should be attached to the port groups that you create for the VCH networks and for any mapped container networks.
 - Isolate the bridge network and any mapped container networks. You can isolate networks by using a separate VLAN for each network. For information about how to assign a VLAN ID to a port group, see [VMware KB 1003825](https://kb.vmware.com/kb/1003825). For more information about private VLAN, see [VMware KB 1010691](https://kb.vmware.com/kb/1010691).
 
 ## Custom Certificates <a id="customcerts"></a>

@@ -28,7 +28,7 @@ See also [Docker container networking](https://docs.docker.com/engine/userguide/
 
 You can direct traffic between containers, the VCH, the external Internet, and your vSphere environment to different networks. Each network that a VCH uses is a distributed port group or an NSX logical switch on either a vCenter Server instance or an ESXi host. You must create port groups or logical switches in vSphere before you deploy a VCH. 
 
-**IMPORTANT**: All hosts in a cluster must be attached to the port groups that you use for the VCH networks and for any mapped container networks. 
+**IMPORTANT**: All hosts in a cluster should be attached to the port groups that you use for the VCH networks and for any mapped container networks. 
 
 For general information VCH networking requirements and how to create a distributed virtual switch and port group, see [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
 
