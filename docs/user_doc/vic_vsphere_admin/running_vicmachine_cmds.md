@@ -1,6 +1,6 @@
 # Running `vic-machine` Commands 
 
-You run `vic-machine` commands by specifying the appropriate binary for the platform on which you are using `vic-machine`, the `vic-machine` command, and multiple options for that command. 
+You run `vic-machine` commands by specifying the appropriate binary for the platform on which you are using `vic-machine`, the `vic-machine` command to run, and multiple options for that command. 
 
 You use the `vic-machine create` command to deploy VCHs:
 
@@ -17,6 +17,8 @@ You use the `vic-machine create` command to deploy VCHs:
 The `vic-machine` options in this section are common to all `vic-machine` commands.
 
 You can set environment variables so that you do not have to specify the `--target`, `--user`, `--password`, and `--thumbprint` options in every `vic-machine` command. For information about setting `vic-machine` environment variables, see [Set Environment Variables for Common `vic-machine` Options](vic_env_variables.md).
+
+If you use the Create Virtual Container Host wizard, it deploys VCHs to the vCenter Server instance with which the vSphere Integrated Containers appliance is registered, and uses the vSphere credentials with which you are logged in to the vSphere Client. Consequently, when using the Create Virtual Container Host wizard, you do not need to provide any information about the deployment target, vSphere  administrator credentials, or vSphere certificate thumbprints.
 
 ### `--target` <a id="target"></a>
 
@@ -48,7 +50,7 @@ If you are deploying a VCH on vCenter Server, specify a user name for an account
 
 You can also specify the user name in the URL that you pass to `vic-machine create` in the `--target` option, in which case the `--user` option is not required.
 
-You can configure a VCH so that it uses a non-administrator account with reduced privileges for post-deployment operations by specifying the `--ops-user` option. If you do not specify `--ops-user`, VCHs use the vSphere administrator account that you specify in `--user` for general post-deployment operations. For information about using a different account for post-deployment operation, [Configure Operations User](set_up_ops_user.md).
+You can configure a VCH so that it uses a non-administrator account with reduced privileges for post-deployment operations by specifying the `--ops-user` option. If you do not specify `--ops-user`, VCHs use the vSphere administrator account that you specify in `--user` for general post-deployment operations. For information about using a different account for post-deployment operation, see [Configure the Operations User](set_up_ops_user.md).
 
 **Usage**:
 
@@ -117,8 +119,10 @@ For information about other VCH deployment options, see the following topics:
 - [Virtual Container Host Storage Capacity](vch_storage.md)
 - [Virtual Container Host Networks](vch_networking.md)
 - [Virtual Container Host Security](vch_security.md)
-- [Configure Operations User](set_up_ops_user.md)
+- [Configure the Operations User](set_up_ops_user.md)
 - [Virtual Container Host Boot Options](vch_boot_options.md)
+
+The options that these topics describe apply to both the `vic-machine` CLI utility and to the Create Virtual Container Host wizard in the vSphere Client. 
 
 ## Specifying Option Arguments <a id="args"></a>
 
