@@ -61,7 +61,7 @@ This section describes the Volume Datastores section of the Storage Capacity pag
 
 #### Create VCH Wizard
 
-1. Optionally enable anonymous volumes by toggling the **Enable anonymous volumes** switch. 
+1. Optionally enable anonymous volumes by setting the **Enable anonymous volumes** switch to the green ON position. 
 
     Enabling anonymous volumes automatically adds the label `default` to the first volume datastore.
 2. Select a datastore for the first volume store from the **Datastore** drop-down menu.

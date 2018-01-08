@@ -1,9 +1,13 @@
 # Manually Create a User Account for the Operations User #
 
-When you deploy a VCH, the user account that you specify in `--ops-user` must have the correct privileges to allow the VCH to perform these operations. vSphere Integrated Containers Engine does not currently create the required vSphere roles, so to assign privileges to the `--ops-user` user account, you must manually create user roles in vSphere before you deploy the VCH. You assign privileges to those roles, and assign the roles to the user account to use in `--ops-user`. 
+When you deploy a VCH, the user account that you specify as the operations user must have the correct privileges to allow the VCH to perform post-deployment operations. vSphere Integrated Containers Engine provides a mechanism to automatically assign the necessary permissions to the operations user account, but you can also choose to create the user account manually in vSphere. To do so, you create roles, assign privileges to those roles, and assign the roles to the user account to use as the operations user. 
 
 - For information about how to create vSphere roles, see [vSphere Permissions and User Management Tasks](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.security.doc/GUID-5372F580-5C23-4E9C-8A4E-EF1B4DD9033E.html) in the vSphere documentation. 
 - For information about how to assign permissions to objects in the vSphere Inventory, see [Add a Permission to an Inventory Object](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.security.doc/GUID-A0F6D9C2-CE72-4FE5-BAFC-309CFC519EC8.html) in the vSphere documentation.
+
+**Prerequisite**
+
+Log into the Flex-based vSphere Web Client with a vSphere administrator account. You cannot use the HTML5 vSphere Client to create user accounts.
 
 **Procedure**
 
@@ -24,27 +28,21 @@ When you deploy a VCH, the user account that you specify in `--ops-user` must ha
 </thead>
 <tbody>
 <tr>
-<td><code>VCH - vcenter</code></td>
-<td>Datastore &gt; Configure datastore</td>
-</tr>
-<tr>
 <td><code>VCH - datacenter</code></td>
-<td>Datastore &gt; Configure datastore<br>Datastore &gt; Low level file operations</td>
-</tr>
-<tr>
-<td><code>VCH - datastore</code></td>
-<td>Datastore &gt; AllocateSpace<br>Datastore &gt; Browse datastore <br>Datastore &gt; Configure datastore<br>Datastore &gt; Remove file<br>Datastore &gt; Low level file operations<br>Host &gt; Configuration &gt; System management</td>
-</tr>
-<tr>
-<td><code>VCH - network</code></td>
-<td>Network &gt; Assign network</td>
+<td>Datastore  &gt; Configure datastore<br>
+Datastore &gt; Low level file operations<br>
+VirtualMachine.Configuration &gt; Add new disk<br>
+VirtualMachine.Configuration &gt; Advanced<br>
+VirtualMachine.Configuration &gt; Remove disk<br>
+VirtualMachine.Inventory &gt; Create new<br>
+VirtualMachine.Inventory &gt; Remove</td>
 </tr>
 <tr>
 <td><code>VCH - endpoint</code></td>
 <td><p>dvPort group &gt; Modify<br>
   dvPort group &gt; Policy operation<br>
   dvPort group &gt; Scope operation<br>
-  Resource &gt; Add virtual machine<br>
+  Resource &gt; Assign virtual machine to resource pool<br>
   VirtualMachine &gt; Configuration &gt; Add existing disk<br>
   VirtualMachine &gt; Configuration &gt; Add new disk<br>
   VirtualMachine &gt; Configuration &gt; Add or remove device<br>
@@ -62,72 +60,11 @@ When you deploy a VCH, the user account that you specify in `--ops-user` must ha
   VirtualMachine &gt; Inventory &gt; Unregister</p>
   </td>
 </tr></tbody></table>
+5. In the Hosts and Clusters view, right-click the datacenter in which to deploy the VCH and select **Add Permission**.
+6. Under Users and Groups, select the operations user group that you created.
+7. Under Assigned Role, select the **VCH - datacenter** and **VCH - endpoint** roles that you just created.
+8. Do not select the Propagate to children checkbox, and click **OK**.
 
-3. Go to **Networking**, create a network folder, and place the VMware vSphere Distributed Switches that the VCHs will use for the bridge network and any container networks into that folder.
+**What to Do Next**
 
-    The parent object of vSphere Distributed Switches that the VCH uses  as the bridge network and container networks must be set to `Read-Only`, with **Propagate to Children** enabled. By placing vSphere Distributed Switches in a network folder, you avoid setting an entire datacenter to `Read-Only`. This restriction only applies to the bridge network and container networks. When you specify the `vic-machine create --bridge-network` and `--container-network` options, include the full inventory path to the networks in the following format:<pre><i>datacenter</i>/network/<i>network_folder</i>/<i>port_group_name</i></pre>
-
-2. (Optional) Go to **Hosts and Clusters** and create a resource pool in which to deploy VCHs.
-
-    By creating a resource pool for VCHs, you can set the correct permissions on just that resource pool rather than on an entire host or cluster. You specify this resource pool in the `vic-machine create --compute-resource` option when you deploy the VCH. For a more granular application of privileges, you can also apply the permissions directly to VCH resource pools after deployment, rather than to a resource pool.
-
-5. In each of the **Hosts and Clusters**, **Storage**, and **Networking** views, select inventory objects and assign the user group and the appropriate role to each one.
-
-    <table>
-<thead>
-<tr>
-<th>Inventory Object</th>
-<th>Role to Assign</th>
-<th>Propagate</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Top-level vCenter Server instance</td>
-<td><code>VCH - vcenter</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td>Datacenters</td>
-<td><code>VCH - datacenter</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td>Clusters. All datastores in the cluster inherit permissions from the cluster.</td>
-<td><code>VCH - datastore</code></td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>Standalone VMware vSAN datastores</td>
-<td><code>VCH - datastore</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td>Standalone datastores</td>
-<td><code>VCH - datastore</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td>Network folders</td>
-<td><code>Read-only</code></td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>Port groups</td>
-<td><code>VCH - network</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td>Resource pools for VCHs</td>
-<td><code>VCH - endpoint</code></td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>VCH resource pools, for a very granular application of privileges</td>
-<td><code>VCH - endpoint</code></td>
-<td>Yes</td>
-</tr></tbody></table>
-
-**What to do next**
-
-Use `vic-machine create --ops-user` to deploy VCHs that operate with restricted vSphere privileges. Ensure that the various vSphere inventory objects that you specify as arguments have the user group with the appropriate role.
+You can use the user accounts in the user group that you created as operations users for VCHs. When you deploy VCHs you do not need to select the option to grant all necessary permissions in the Create Virtual Container Host wizard, or specify `--ops-grant-perms` in `vic-machine create` commands.

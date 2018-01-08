@@ -50,6 +50,7 @@
          * [Disable Client Verification](vic_vsphere_admin/tls_unrestricted.md)
          * [Registry Access](vic_vsphere_admin/vch_registry.md) 
      * [Operations User](vic_vsphere_admin/set_up_ops_user.md)
+         * [Manually Create a User Account for the Operations User](vic_vsphere_admin/ops_user_manual.md)
      * [Finish VCH Deployment](vic_vsphere_admin/complete_vch_deployment_client.md)
      * [Deploy VCH for dch-photon](vic_vsphere_admin/deploy_vch_dchphoton.md)
   * [VCH Administration](vic_vsphere_admin/vch_admin.md)

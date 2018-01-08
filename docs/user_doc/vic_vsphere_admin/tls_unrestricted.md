@@ -187,7 +187,6 @@ When you run this command, `vic-machine create` does not generate any certificat
 
 You do not need to provide any certificates to container developers. No `env` file is generated, as there are no environment variables to set.
 
-
 # What to Do Next <a id="whatnext"></a>
 
 If you are using the Create Virtual Container Host wizard, stay on the Security page and select the **Registry Access tab** to [Configure Registry Access](vch_registry.md).
