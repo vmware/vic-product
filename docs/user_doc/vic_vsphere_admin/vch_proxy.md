@@ -9,6 +9,7 @@ You can add, reconfigure, or remove proxy servers after you have deployed a VCH 
 - [Options](#options)
   - [HTTP Proxy](#http)
   - [HTTPS Proxy](#https) 
+- [What to Do Next](#whatnext)
 - [Example `vic-machine` Command](#example)
 
 ## Options <a id="options"></a>
@@ -46,6 +47,16 @@ Enter the IP address or FQN of an HTTPS proxy in the **HTTPS proxy** text box, f
 Specify the address of the proxy server in the `--https-proxy` option, as either an FQDN or an IP address.
 
 <pre>--https-proxy https://proxy.example.mycompany.org:443</pre>
+
+## What to Do Next <a id="whatnext"></a>
+
+If you are using the Create Virtual Container Host wizard, the bridge network and the public network are the only networks that it is mandatory to configure.
+
+- To configure further advanced network settings, remain on the Configure Networks page, and see the following topics:
+  - [Configure the Client Network](client_network.md)
+  - [Configure the Management Network](mgmt_network.md)
+  - [Configure Container Networks](container_networks.md)
+- If you have finished configuring the network settings, click **Next** to configure [VCH Security](vch_security.md) settings.
 
 ## Example `vic-machine` Command <a id="example"></a>
 

@@ -26,12 +26,10 @@ This example shows how to use both the Create Virtual Container Host wizard and 
 5. On the Compute Capacity page, expand the **Compute resource** inventory hierarchy and select a standalone host, cluster, or resource pool to which to deploy the VCH, and click **Next**.
 6. On the Storage Capacity page, select a datastore to use as the Image Datastore.
 7. Remain on the Storage Capacity page and configure the volume datastore. 
-
    1. Set the **Enable anonymous volumes** switch to the green ON position.
    2. Select a datastore to use as a volume datastore.
    3. Optionally provide the path to a folder in that datastore.
    4. Click **Next**. 
-
 7. On the Configure Networks page, select existing port groups for use as the bridge and public networks, and click **Next**.
 8. On the Security page, for simplicity, leave the default options for automatic server certificate generation, and set the **Client Certificates** switch to the gray OFF position to disable client certificate verification.
 9. Remain on the Security page, click Registry Access, and under Additional registry certificates, click **Select** to upload the certificate for vSphere Integrated Containers Registry, then click **Next**.
