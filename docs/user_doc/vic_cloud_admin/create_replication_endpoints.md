@@ -23,6 +23,8 @@ You can create replication endpoints independently of projects, or you can creat
 5. Enter the user name and password for the endpoint registry instance. 
 
    Use an account with Administrator privileges on that instance, or an account that has write permission on the corresponding project in the endpoint registry. 
+6. Optionally, select the **Verify Remote Cert** check box.
+	Deselect if the remote registry uses a self-signed or untrusted certificate. 
 6. Click **Test Connection**.
 7. When you have successfully tested the connection, click **OK**.
 

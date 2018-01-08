@@ -22,6 +22,7 @@ You replicate image repositories between vSphere Integrated Containers Registry 
 2. Select the **Administration** tab, click **Projects** on the left,  and click the name of the project to replicate.
 3. Click **Registry Replication** and click the **+ Replication Rule** button.
 4. Enter a suitable name for the new replication rule and optionally add a description.
+5. Optionally, select the **Enable** checkbox.
 5. Select or create an endpoint registry.
 
    - To select an existing endpoint registry, select an endpoint from the **Endpoint Name** drop-down menu.
@@ -30,16 +31,18 @@ You replicate image repositories between vSphere Integrated Containers Registry 
 
    - To create a new endpoint, select the **New Endpoint** check box.
      1. Enter a suitable name for the new replication endpoint.
-     2. Optionally select the **Enable** checkbox.
+     
 
      If you select **Enable**, replication starts immediately. You can track the progress of the replication in the list of **Replication Jobs**.
 
-     2.  Enter the full URL of the vSphere Integrated Containers Registry instance to set up as a replication endpoint.
+     2. Enter the full URL of the vSphere Integrated Containers Registry instance to set up as a replication endpoint.
  
-       For example, https://<i>registry_address</i>:443.
+		For example, https://<i>registry_address</i>:443.
      3. Enter the user name and password for the endpoint registry instance. 
-     
-       Use the `admin` account for that vSphere Integrated Containers Registry instance, an account with Administrator privileges on that instance, or an account that has write permission on the corresponding project in the endpoint registry. If the project already exists and the replication user that you configure in the rule does not have write privileges in the target project, the replication fails. 
+
+		Use an account with Administrator privileges on that instance, or an account that has write permission on the corresponding project in the endpoint registry. If the project already exists and the replication user that you configure in the rule does not have write privileges in the target project, the replication fails.
+     4. Optionally, select the **Verify Remote Cert** check box.
+		Deselect if the remote registry uses a self-signed or untrusted certificate. 
 
 6. Click **Test Connection**.
 7. When you have successfully tested the connection click **OK**.
