@@ -8,7 +8,10 @@ You can use `vic-machine upgrade` to upgrade VCHs to newer versions. You can run
 - You cannot attach to a container
 - NAT based port forwarding is unavailable
 
-**IMPORTANT**: Upgrading a VCH does not upgrade any existing container VMs that the VCH manages. For container VMs to boot from the latest version of `bootstrap.iso`, container developers must recreate them.
+**IMPORTANT**: 
+
+- Upgrading a VCH does not upgrade any existing container VMs that the VCH manages. For container VMs to boot from the latest version of `bootstrap.iso`, container developers must recreate them.
+- By default, previous versions of vSphere Integrated Containers deployed VCHs as vApps, unless you explicitly deployed them as resource pools by using the `vic-machine create --use-rp` option. This version of vSphere Integrated Containers always deploys VCHs as resource pools, not as vApps. When you upgrade VCHs that run as vApps, these VCHs remain vApps after the upgrade. Any new container VMs are deployed in the existing vApp.
 
 For descriptions of the options that `vic-machine upgrade` includes in addition to the [Common `vic-machine` Options](common_vic_options.md) , see [VCH Upgrade Options](upgrade_vch_options.md).
 
