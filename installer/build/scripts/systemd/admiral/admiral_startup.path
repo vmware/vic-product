@@ -1,9 +1,0 @@
-[Unit]
-Description=Admiral PSC token dependency
-Documentation=https://github.com/vmware/vic-product/installer
-
-[Path]
-PathExists=/etc/vmware/psc/admiral/psc-config.properties
-
-[Install]
-WantedBy=multi-user.target

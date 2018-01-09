@@ -66,7 +66,8 @@ tdnf install -q --refresh -y \
     iproute2 iptables iputils \
     cdrkit xfsprogs sudo \
     lvm2 parted gptfdisk \
-    e2fsprogs docker logrotate &>/dev/null
+    e2fsprogs docker \
+    net-tools logrotate &>/dev/null
 
 progress "installing package dependencies"
 tdnf install -q --refresh -y \
