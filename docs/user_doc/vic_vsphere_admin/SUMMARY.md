@@ -80,7 +80,6 @@
      * [Access VCH Logs](log_bundles.md)
      * [VCH Deployment Times Out](ts_vch_deployment_timeout.md)
      * [Appliance OVF Error](ts_ovf_error.md)
-     * [Appliance Fails to Register with PSC](ts_register_psc_fails.md)
      * [Certificate Verification Error](ts_thumbprint_error.md)
      * [Browser Rejects Certificates](ts_cert_error.md)
      * [Missing Common Name Error Even When TLS Options Are Specified Correctly](ts_cli_argument_error.md)
