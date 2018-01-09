@@ -245,7 +245,7 @@ To remove a proxy server from a VCH, set the `vic-machine configure --https-prox
 
 To enable or disable debug mode on a VCH, you use the `vic-machine configure --debug` option. You can also use `vic-machine configure --debug` to increase or decrease the level of debugging on a VCH that is already running in debug mode. 
 
-The `vic-machine configure --debug` option functions in the same way as the equivalent `vic-machine create --debug` option. For information about the `vic-machine create --debug` option, see [Debugging Virtual Container Host Deployment](vch_debug_deployment.md). By default, `vic-machine create` deploys VCHs with debugging level 0.
+The `vic-machine configure --debug` option functions in the same way as the equivalent `vic-machine create --debug` option. For information about the `vic-machine create --debug` option, see [Debug](vch_general_settings.md#debug) in the topic on configuring general VCH settings. By default, `vic-machine create` deploys VCHs with debugging level 0.
 
 This example increases the level of debugging to level 3, either on a VCH that is running with a lower level of debugging, or on a VCH that is not running in debug mode.
 
@@ -268,7 +268,7 @@ This example sets the `--debug` option to 0, to disable debug mode on a VCH.
 
 If a VCH requires more resources, or if it consumes too many resources, you can configure CPU and memory allocations on the VCH resource pool by using the different `vic-machine configure --memory` and `--cpu` options.
 
-The `vic-machine configure` options for memory and CPU allocations function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` memory and CPU reservation and shares options, see [Virtual Container Host  Appliance Configuration](vch_config.md).
+The `vic-machine configure` options for memory and CPU allocations function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` memory and CPU reservation and shares options, see [Virtual Container Host Compute Capacity](vch_compute.md).
 
 This example configures a VCH to impose memory and CPU reservations, limits, and shares.
 

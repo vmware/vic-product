@@ -15,7 +15,7 @@ vSphere Integrated Containers does not create service accounts and does not assi
 
 Using `vic-machine` to deploy and manage virtual container hosts (VCHs) requires a user account with vSphere administrator privileges. The `vic-machine create --ops-user` and `--ops-password` options allow a VCH to operate with less-privileged credentials than those that are required to deploy a new VCH. For information about the `--ops-user` option and the permissions that it requires, see [Configure the Operations User](set_up_ops_user.md).
 
-When deploying VCHs, you must provide the certificate thumbprint of the vCenter Server or ESXi host on which you are deploying the VCH. For information about how to obtain and verify vSphere certificate thumbprints, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). Be aware that it is possible to use the `--force` option to run `vic-machine` commands that bypass vSphere certificate verification. For information about the `--force` option, see [Debugging Virtual Container Host Deployment](vch_debug_deployment.md).
+When deploying VCHs, you must provide the certificate thumbprint of the vCenter Server or ESXi host on which you are deploying the VCH. For information about how to obtain and verify vSphere certificate thumbprints, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). Be aware that it is possible to use the `--force` option to run `vic-machine` commands that bypass vSphere certificate verification. For information about the `--force` option, see [`--force`](running_vicmachine_cmds.md#force) in the topic on running `vic-machine` commands.
 
 ### Docker Client Authentication with VCHs
 
@@ -81,7 +81,7 @@ For information about the VCH client interface, see [Configure the Client Networ
 |2378|HTTPS|Connections to the VCH Administration Portal server|
 |6060|HTTPS|Exposes `pprof` debug data about the VCH if the VCH is running with `vic-machine create --debug` or `vic-machine configure --debug` enabled|
 
-For information about VCH TLS options, see [Virtual Container Host Security](vch_security.md). For information about how debugging VCHs affects VCH behavior, see [Debugging Virtual Container Host Deployment](vch_debug_deployment.md) and [Debug Running Virtual Container Hosts](debug_vch.md) 
+For information about VCH TLS options, see [Virtual Container Host Security](vch_security.md). For information about how debugging VCHs affects VCH behavior, see , see [Debug](vch_general_settings.md#debug) in the topic on configuring general VCH settings and [Debug Running Virtual Container Hosts](debug_vch.md).
 
 #### Management Interface
 

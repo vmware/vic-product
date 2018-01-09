@@ -30,13 +30,13 @@ The ESXi host or vCenter Server user account with which to run the `vic-machine`
 
 Short name: `-p`
 
-The password for the user account on the vCenter Server on which you  deployed the VCH, or the password for the ESXi host if you deployed directly to an ESXi host. You specify this option in the same way as you specify [`vic-machine create --password`](using_vicmachine.md#password).
+The password for the user account on the vCenter Server on which you  deployed the VCH, or the password for the ESXi host if you deployed directly to an ESXi host. You specify this option in the same way as you specify [`vic-machine create --password`](running_vicmachine_cmds.md#password).
 
 ### `--thumbprint` ###
 
 Short name: None
 
-The thumbprint of the vCenter Server or ESXi host certificate. You specify this option in the same way as you specify [`vic-machine create --thumbprint`](using_vicmachine.md#thumbprint).
+The thumbprint of the vCenter Server or ESXi host certificate. You specify this option in the same way as you specify [`vic-machine create --thumbprint`](running_vicmachine_cmds.md#thumbprint).
 
 ### `--compute-resource` ###
 
@@ -50,7 +50,7 @@ The relative path to the host, cluster, or resource pool in which you deployed t
 
 Short name: `-n`
 
-The name of the VCH. This option is mandatory if the VCH has a name other than the default name, `virtual-container-host`, or if you do not use the `id` option. You specify this option in the same way as you specify [`vic-machine create --name`](vch_using_vicmachine.md#name).
+The name of the VCH. This option is mandatory if the VCH has a name other than the default name, `virtual-container-host`, or if you do not use the `id` option. You specify this option in the same way as you specify [`vic-machine create --name`](running_vicmachine_cmds.md#name).
 
 ### `--timeout` ###
 
