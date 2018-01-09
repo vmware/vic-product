@@ -74,9 +74,9 @@ VirtualMachine.Inventory &gt; Remove</td>
 </tr></tbody></table>
 6. In each of the **Hosts and Clusters**, **Storage**, and **Networking** views, select inventory objects and assign the user group and the appropriate role to each one.
 
-    1. Right-click an inventory object and select **Add Permission**.
-    2. Under Users and Groups, select the operations user group that you created.
-    3. Under Assigned Role, assign the appropriate role for each type of inventory object and select the **Propagate to children** check box where necessary.
+ 1. Right-click an inventory object and select **Add Permission**.
+ 2. Under Users and Groups, select the operations user group that you created.
+ 3. Under Assigned Role, assign the appropriate role for each type of inventory object and select the **Propagate to children** check box where necessary.
 
 The following table lists which roles to assign to which type of inventory object, and whether or not to propagate the role.
 
