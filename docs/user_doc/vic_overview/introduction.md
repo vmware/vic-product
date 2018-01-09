@@ -72,9 +72,10 @@ The main advantage of the image format is its portability. As long as you have a
 
 ## What is vSphere Integrated Containers? <a id="whatis_vic"></a>
 
-vSphere Integrated Containers comprises three major components:
+vSphere Integrated Containers is delivered as an appliance, that comprises the following major components:
 
 - **vSphere Integrated Containers Engine**, a container runtime for vSphere that allows you to provision containers as virtual machines, offering the same security and functionality of virtual machines in VMware ESXi&trade; hosts or vCenter Server&reg; instances. 
+- **vSphere Integrated Containers Plug-In for vSphere Client**, that provides information about your vSphere Integrated Containers setup and allows you to deploy virtual container hosts directly from the vSphere Client.
 - **vSphere Integrated Containers Registry**, an enterprise-class container registry server that stores and distributes container images. vSphere Integrated Containers Registry extends the Docker Distribution open source project by adding the functionalities that an enterprise requires, such as security, identity and management.
 - **vSphere Integrated Containers Management Portal**, a container management portal that provides a UI for DevOps teams to provision and manage containers, including the ability to obtain statistics and information about container instances. Cloud administrators can manage container hosts and apply governance to their usage, including capacity quotas and approval workflows. Cloud administrators can create projects, and assign users and resources such as registries and virtual container hosts to those projects.
 
@@ -117,7 +118,7 @@ With vSphere Integrated Containers:
 
 - A user raises a ticket and says, "I need Docker". 
 - The vSphere administrator identifies datastores, networking, and compute resources on a cluster that users can use for their Docker environment. 
-- The vSphere administrator uses a utility called `vic-machine` to install a small appliance, called a virtual container host (VCH). The VCH represents an authorization to use the infrastructure that they have identified, into which users can self-provision container workloads.
+- The vSphere administrator uses the vSphere Integrated Containers plug-in for the vSphere Client or a command-line utility called `vic-machine` to install a small appliance, called a virtual container host (VCH). The VCH represents an authorization to use the infrastructure that they have identified, into which users can self-provision container workloads.
 - The appliance runs a secure remote Docker API, that is the only access that the user has to the vSphere infrastructure.
 - Instead of sending the user a Linux VM, the vSphere administrator sends them the IP address of the appliance, the port of the remote Docker API, and a certificate for secure access.
 
@@ -209,6 +210,8 @@ The `vic-machine` utility is a binary for Windows, Linux, and OSX that manages t
 - Checks that the prerequisites for VCH deployment are met on the cluster or host, namely that the firewall, licenses, and so on are configured correctly.
 - Configures existing VCHs for debugging.
 - Lists, inspects, upgrades, configures, and deletes VCHs.
+
+The `vic-machine` utility also runs as a service in the vSphere Integrate Containers appliance. This service powers the Create Virtual Container Host wizard in the HTML5 vSphere Client plug-in, to allow you to deploy VCHs interactively from the vSphere Client.
 
 ## What Is vSphere Integrated Containers Management Portal? <a id="whats_portal"></a>
 
