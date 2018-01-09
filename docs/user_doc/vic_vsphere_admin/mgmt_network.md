@@ -66,7 +66,6 @@ By default, vSphere Integrated Containers Engine uses DHCP to obtain an IP addre
 
 - You can only specify one static IP address on a given port group. If the management network shares a port group with the public network, you can only specify a static IP address on the public network. All of the networks that share that port group use the IP address that you specify for the public network. 
 - If you set a static IP address for the VCH endpoint VM on the public network, you must specify the gateway address for the public network. If the management network is L2 adjacent to its gateway, you do not need to specify the corresponding gateway for the management network.
-- If the management network shares a port group with the client network, and the public network does not use that port group, you can set a static IP address for the VCH endpoint VM on either of the client or management networks. 
 - If the client and management networks both use the same port group, and the public network does not use that port group, you can set a static IP address for the endpoint VM on either or both of the client and management networks.
 
 You specify the address as an IPv4 address with a network mask. 

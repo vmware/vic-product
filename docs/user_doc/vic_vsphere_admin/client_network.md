@@ -43,8 +43,7 @@ You designate the client network by specifying the `vic-machine create --client-
 By default, vSphere Integrated Containers Engine uses DHCP to obtain an IP address for the VCH endpoint VM on the client network. You can  optionally configure a static IP address for the VCH endpoint VM on the client network.
 
 - You can only specify one static IP address on a given port group. If the client network shares a port group with the public network, you can only specify a static IP address on the public network. All of the networks that share that port group use the IP address that you specify for the public network.
-- If you set a static IP address for the VCH endpoint VM on the public network, you must specify the gateway address for the public network. If the client network is L2 adjacent to its gateway, you do not need to specify the corresponding gateway for the client network.
-- If the client network does not use the same port group as the public network, you can specify a static IP address for the endpoint VM on the public network. In this case, you must specify the public network gateway. 
+- If you set a static IP address for the VCH endpoint VM on the public network, you must specify the gateway address for the public network. If the client network is L2 adjacent to its gateway, you do not need to specify the corresponding gateway for the client network. 
 - If the client network shares a port group with the management network, and the public network does not use that port group, you can set a static IP address for the VCH endpoint VM on either of the client or management networks.
 - If you assign a static IP address to the VCH endpoint VM on the client network, and you do not specify one of the TLS options, vSphere Integated Containers Engine uses this address as the Common Name with which to auto-generate trusted CA certificates. If you do not specify one of the TLS options, two-way TLS authentication with trusted certificates is implemented by default when you deploy the VCH with a static IP address on the client network. If you assign a static IP address to the VCH endpoint VM on the client network, vSphere Integated Containers Engine creates the same certificate and environment variable files as described in the [`--tls-cname` option](vch_cert_options.md#tls-cname).
  
@@ -105,9 +104,9 @@ For example, enter `192.168.2.0/24,192.168.128.0/24`.
 
 You specify the routing destination or destinations in a comma-separated list in the `--client-network-gateway` option, with the address of the gateway separated from the routing destinations by a colon (`:`).
 
-<pre>--management-network-gateway 192.168.2.0/24,192.168.128.0/24:192.168.2.1</pre>
+<pre>--client-network-gateway 192.168.2.0/24,192.168.128.0/24:192.168.2.1</pre>
 
-This example informs the VCH that it can reach all of the vSphere management endoints that are in the ranges 192.168.2.0-255 and 192.168.128.0-192.168.128.255 by sending packets to the gateway at 192.168.2.1.
+This example informs the VCH that it can reach all of the client network endoints that are in the ranges 192.168.2.0-255 and 192.168.128.0-192.168.128.255 by sending packets to the gateway at 192.168.2.1.
 
 ## What to Do Next <a id="whatnext"></a>
 
