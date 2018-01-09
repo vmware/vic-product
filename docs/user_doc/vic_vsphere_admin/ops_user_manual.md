@@ -28,6 +28,10 @@ Log into the Flex-based vSphere Web Client with a vSphere administrator account.
 </thead>
 <tbody>
 <tr>
+<td><code>VCH - vcenter</code></td>
+<td>Datastore &gt; Configure datastore</td>
+</tr>
+<tr>
 <td><code>VCH - datacenter</code></td>
 <td>Datastore  &gt; Configure datastore<br>
 Datastore &gt; Low level file operations<br>
@@ -38,8 +42,16 @@ VirtualMachine.Inventory &gt; Create new<br>
 VirtualMachine.Inventory &gt; Remove</td>
 </tr>
 <tr>
+<td><code>VCH - datastore</code></td>
+<td>Datastore &gt; AllocateSpace<br>Datastore &gt; Browse datastore <br>Datastore &gt; Configure datastore<br>Datastore &gt; Remove file<br>Datastore &gt; Low level file operations<br>Host &gt; Configuration &gt; System management</td>
+</tr>
+<tr>
+<td><code>VCH - network</code></td>
+<td>Network &gt; Assign network</td>
+</tr>
+<tr>
 <td><code>VCH - endpoint</code></td>
-<td><p>dvPort group &gt; Modify<br>
+<td>dvPort group &gt; Modify<br>
   dvPort group &gt; Policy operation<br>
   dvPort group &gt; Scope operation<br>
   Resource &gt; Assign virtual machine to resource pool<br>
@@ -57,13 +69,67 @@ VirtualMachine.Inventory &gt; Remove</td>
   VirtualMachine &gt; Inventory &gt; Create new<br>
   VirtualMachine &gt; Inventory &gt; Remove<br>
   VirtualMachine &gt; Inventory &gt; Register<br>
-  VirtualMachine &gt; Inventory &gt; Unregister</p>
+  VirtualMachine &gt; Inventory &gt; Unregister
   </td>
 </tr></tbody></table>
-5. In the Hosts and Clusters view, right-click the datacenter in which to deploy the VCH and select **Add Permission**.
-6. Under Users and Groups, select the operations user group that you created.
-7. Under Assigned Role, select the **VCH - datacenter** and **VCH - endpoint** roles that you just created.
-8. Do not select the Propagate to children checkbox, and click **OK**.
+6. In each of the **Hosts and Clusters**, **Storage**, and **Networking** views, select inventory objects and assign the user group and the appropriate role to each one.
+
+    1. Right-click an inventory object and select **Add Permission**.
+    2. Under Users and Groups, select the operations user group that you created.
+    3. Under Assigned Role, assign the appropriate role for each type of inventory object and select the **Propagate to children** check box where necessary.
+
+The following table lists which roles to assign to which type of inventory object, and whether or not to propagate the role.
+
+<table>
+<thead>
+<tr>
+<th>Inventory Object</th>
+<th>Role to Assign</th>
+<th>Propagate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Top-level vCenter Server instance</td>
+<td><code>VCH - vcenter</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Datacenters</td>
+<td><code>VCH - datacenter</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Clusters. All datastores in the cluster inherit permissions from the cluster.</td>
+<td><code>VCH - datastore</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Standalone VMware vSAN datastores</td>
+<td><code>VCH - datastore</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Standalone datastores</td>
+<td><code>VCH - datastore</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Network folders</td>
+<td><code>Read-only</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Port groups</td>
+<td><code>VCH - network</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Resource pools for VCHs</td>
+<td><code>VCH - endpoint</code></td>
+<td>Yes</td>
+</tr>
+</tbody></table>
 
 **What to Do Next**
 
