@@ -1,8 +1,8 @@
 # Upgrading vSphere Integrated Containers #
 
-You can upgrade vSphere Integrated Containers from version 1.1.x to 1.2.x, or from 1.2.x to a later 1.2.y update release.
+You can upgrade vSphere Integrated Containers from version 1.2.x to 1.3.x, or from 1.3.x to a later 1.2.y update release.
 
-You cannot upgrade any of the components of vSphere Integrated Containers 1.0, namely vSphere Integrated Containers Engine 0.8 and vSphere Integrated Containers Registry 0.5, to 1.2.x. Similarly, you cannot upgrade an instance of vSphere Integrated Containers Management Portal (Admiral) that predates version 1.1.0 to version 1.2.x.
+You cannot upgrade any of the components of vSphere Integrated Containers 1.0, namely vSphere Integrated Containers Engine 0.8 and vSphere Integrated Containers Registry 0.5, to 1.3.x. Similarly, you cannot upgrade an instance of vSphere Integrated Containers Management Portal (Admiral) that predates version 1.2.0 to version 1.3.x.
 
 You upgrade vSphere Integrated Containers in three stages: 
 
