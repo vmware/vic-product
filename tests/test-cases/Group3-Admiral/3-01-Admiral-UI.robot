@@ -29,9 +29,9 @@ ${cp-card-status-stopped}  STOPPED
 Setup Base State
     Log To Console  \nWaiting for Admiral to come up...
     :FOR  ${i}  IN RANGE  10
-    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" https://${ova-ip}:8282
+    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" https://${BASE_URL}:8282
     \   Exit For Loop If  '302' in '''${out}'''
-    \   Sleep  20s
+    \   Sleep  10s
     Log To Console  ${rc}
     Log To Console  ${out}
     Should Contain  ${out}  302
