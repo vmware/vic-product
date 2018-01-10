@@ -88,6 +88,9 @@ Global Environment Setup
 Global Setup With Complete OVA Installation
     Global Environment Setup
     Set Test OVA IP If Available
+    Set Browser Variables
+
+Set Browser Variables
     # UI tests variables
     Set Global Variable  ${FIREFOX_BROWSER}  firefox
     Set Global Variable  ${GRID_URL}  http://127.0.0.1:4444/wd/hub
@@ -103,10 +106,6 @@ Global Setup With Complete OVA Installation
     Set Global Variable  ${HARBOR_URL}  ${IP_URL}:${HARBOR_PORT}
     Set Global Variable  ${DEFAULT_HARBOR_NAME}  default-vic-registry
     Set Global Variable  ${DEFAULT_HARBOR_PROJECT}  default-project
-    # complete installation on UI
-    Open Firefox Browser
-    Log In And Complete OVA Installation
-    Close All Browsers
 
 Run command and Return output
     [Arguments]  ${command}
