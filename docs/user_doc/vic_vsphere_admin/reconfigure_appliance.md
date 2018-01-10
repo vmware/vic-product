@@ -1,6 +1,6 @@
 # Reconfigure the vSphere Integrated Containers Appliance #
 
-After you have deployed the vSphere Integrated Containers appliance, you can reconfigure the settings that you provided to the OVA installer during deployment. You can also reconfigure the appliance VM itself, for example to expand the amount of storage for vSphere Integrated Containers Registry, or to increase memory and processing power.
+After you have deployed the vSphere Integrated Containers appliance, you can reconfigure the settings that you provided to the OVA installer during deployment. You can also reconfigure the appliance VM itself, for example to expand the size of the different disks, or to increase memory and processing power.
 
 **Prerequisites**
 
@@ -17,7 +17,7 @@ After you have deployed the vSphere Integrated Containers appliance, you can rec
 
    - Increase the number of CPUs
    - Increase the amount of RAM
-   - Increase the size of hard disk 2 to expand the storage for vSphere Integrated Containers Registry
+   - Increase the size of any of the hard disks, as necessary
 
 6. Click **vApp Options** to modify the settings that you provided when you used the OVA installer to deploy the appliance.
 
@@ -34,4 +34,4 @@ After you have deployed the vSphere Integrated Containers appliance, you can rec
 
 **Result**
 
-When the appliance powers on, the new settings are automatically applied.
+When the appliance powers on, the new settings are automatically applied. If you resized one or more of the hard disks, the appliance automatically handles the partitioning of the disks during the boot process.  
