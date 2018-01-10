@@ -25,9 +25,10 @@ ${default-ova-file-path}  installer/bin/vic-*.ova
 *** Test Cases ***
 Install Common OVA
     Install Common OVA If Not Already  ${default-ova-file-path}
-    # complete installation on UI
+    # validate complete installation on UI
     Set Browser Variables
     Open Firefox Browser
     Log In And Complete OVA Installation
     Close All Browsers
-    Wait for SSO Redirect
+    # verify all services restarted after ui initialization 
+    Wait for Online Components  %{OVA_IP}
