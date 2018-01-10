@@ -91,7 +91,8 @@ Global Setup With Complete OVA Installation
     # UI tests variables
     Set Global Variable  ${FIREFOX_BROWSER}  firefox
     Set Global Variable  ${GRID_URL}  http://127.0.0.1:4444/wd/hub
-    Set Global Variable  ${EXPLICIT_WAIT}  60
+    Set Global Variable  ${EXPLICIT_WAIT}  30
+    Set Global Variable  ${EXTRA_EXPLICIT_WAIT}  60
     Set Global Variable  ${PRIMARY_PORT}  8282
     Set Global Variable  ${GS_PAGE_PORT}  9443
     Set Global Variable  ${HARBOR_PORT}  443

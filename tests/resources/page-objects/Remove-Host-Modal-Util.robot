@@ -30,4 +30,4 @@ Verify Modal for Remove Container Host
 
 Click Remove On Remove Container Host
     Click Button  ${rch-button-remove}
-    Wait Until Page Does Not Contain Element  ${rch-button-remove}  timeout=${EXPLICIT_WAIT}
+    Wait Until Page Does Not Contain Element  ${rch-button-remove}  timeout=${EXTRA_EXPLICIT_WAIT}

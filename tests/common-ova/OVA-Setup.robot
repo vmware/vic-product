@@ -21,9 +21,8 @@ Suite Setup  Global Environment Setup
 *** Variables ***
 ${default-ova-file-path}  installer/bin/vic-*.ova
 
-*** Keywords ***
-
 
 *** Test Cases ***
 Install Common OVA
     Install Common OVA If Not Already  ${default-ova-file-path}
+    Wait for SSO Redirect
