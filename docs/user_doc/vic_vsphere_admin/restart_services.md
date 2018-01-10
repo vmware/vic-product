@@ -5,7 +5,7 @@ You can restart the vSphere Integrated Containers services that run in the appli
 - vSphere Integrated Containers Registry service
 - vSphere Integrated Containers Management Portal service
 - The file server for vSphere Integrated Containers Engine downloads and installation of the vSphere Client plug-ins
-- The `vic-machine_server` service, that powers the Create Virtual Container Host wizard in the HTML5 vSphere Client plug-in
+- The `vic_machine_server` service, that powers the Create Virtual Container Host wizard in the HTML5 vSphere Client plug-in
 
 **Prerequisites**
 
@@ -19,4 +19,4 @@ You deployed the vSphere Integrated Containers appliance.
   - vSphere Integrated Containers Registry: <pre>systemctl restart harbor.service</pre>
   - vSphere Integrated Containers Management Portal services: <pre>systemctl restart admiral.service</pre>
   - Embedded file server: <pre>systemctl restart fileserver.service</pre>
-  - `vic-machine_server`: <pre>systemctl restart vic_machine_server.service</pre>
+  - `vic_machine_server`: <pre>systemctl restart vic_machine_server.service</pre>
