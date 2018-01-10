@@ -48,7 +48,7 @@ docker network create --internal db-net
 docker network create web-net
 
 # start the database container - specify a subdirectory on the volume as the data dir
-docker run -d --name $DB_CTR_NAME --net db-net -v db-data:/var/lib/mysql --cpus 1 -m 2g -e MYSQL_ROOT_PASSWORD=somewordpress -e MYSQL_DATABASE=$DB_PASSWORD -e MYSQL_USER=$DB_USER -e MYSQL_PASSWORD=wordpress mysql:5.7 --datadir=/var/lib/mysql/data
+docker run -d --name $DB_CTR_NAME --net db-net -v db-data:/var/lib/mysql --cpus 1 -m 2g -e MYSQL_ROOT_PASSWORD=somewordpress -e MYSQL_DATABASE=$DB_PASSWORD -e MYSQL_USER=$DB_USER -e MYSQL_PASSWORD=wordpress mysql:5.7
 
 # start the web container - note it resolves the database container by name over db-net
 docker create --name $WEB_CTR_NAME --net web-net -p 8080:80 -v html-data:/var/www/html --cpus 2 -m 4g -e WORDPRESS_DB_HOST=$DB_CTR_NAME:3306 -e WORDPRESS_DB_USER=$DB_USER -e WORDPRESS_DB_PASSWORD=$DB_PASSWORD wordpress
