@@ -57,7 +57,7 @@ If you add a registry to the whitelist, but you do not specify that registry as 
 #### Create VCH Wizard
 
 1. Select the **Registry Access** tab.
-2. Toggle the **Whitelist registry mode** switch to the green ON position.
+2. Set the **Whitelist registry mode** switch to the green ON position.
 2. In the **Whitelist registries** text box, enter the IP address or FQDN and port number for the registry server, or enter a wildcard domain.
 3. Select **Secure** or **Insecure** from the drop-down menu, to specify whether the registry requires a certificate for access.
 4. Optionally click **+** to add more registries to the whitelist.
@@ -157,7 +157,7 @@ Follow the instructions in [Obtain the vSphere Integrated Containers Registry Ce
 
 1. Leave the **Enable secure access to this VCH** switch in the green ON position.
 2. Select the **Registry Access** tab.
-3. Toggle the **Whitelist registry mode** switch to the green ON position.
+3. Set the **Whitelist registry mode** switch to the green ON position.
 4. In the **Whitelist registries** text box, enter `10.2.40.40:443` to add the vSphere Integrated Containers Registry instance to the whitelist.
 5. Leave the drop-down menu for this registry set to **Secure**.
 6. Click the **+** button, and enter `10.2.2.1/24` to add all registries that are running in that range to the whitelist.

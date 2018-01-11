@@ -18,7 +18,7 @@ The sections in this topic each correspond to an entry in the General Settings p
 
 ### VCH Name <a id="name"></a>
 
-A name for the VCH, that appears the vCenter Server inventory and that you can use in other `vic-machine` commands. The default VCH name is `virtual-container-host`.
+A name for the VCH, that appears the vCenter Server inventory and that you can use in other `vic-machine` commands. The default VCH name is `virtual-container-host`. If a VCH of the same name already exists, or if the name you provide contains unsupported characters, the wizard reports an error and you cannot progress to the next page, or `vic-machine create` fails with an error.
 
 #### Create VCH Wizard
 
@@ -28,7 +28,7 @@ Enter a name for the VCH.
 
 `--name`, `-n`
 
-If a VCH of the same name exists on the ESXi host or in the vCenter Server inventory, `vic-machine create` fails with an error. If a folder of the same name exists in the target datastore, `vic-machine create` creates a folder named <code><i>vch_name</i>_1</code>. If the name that you provide contains unsupported characters, `vic-machine create` fails with an error.
+If a folder of the same name exists in the target datastore, `vic-machine create` creates a folder named <code><i>vch_name</i>_1</code>. 
 
 <pre>--name <i>vch_name</i></pre>
 
@@ -48,7 +48,7 @@ You specify whether to use the container name or the container ID for the second
 
 `--container-name-convention`, `--cnc`
 
-Specify a prefix and/or suffix to apply to container names, and add `-{name}` or `-{id}`, including the curly brackets, to specify whether to use the container name or the container ID for the second part of the container VM display name. 
+Specify a prefix and/or suffix to apply to container names, and add `{name}` or `{id}`, including the curly brackets, to specify whether to use the container name or the container ID for the second part of the container VM display name. 
 
 <pre>--container-name-convention <i>cVM_name_prefix</i>-{name}</pre>
 <pre>--container-name-convention {id}-<i>cVM_name_suffix</i></pre>
@@ -74,6 +74,8 @@ Additionally, deploying a VCH with debug level 3 enables SSH access to the VCH e
 
 - Leave the default level of 0 for usual deployments. 
 - Optionally select level 1, 2, or 3 if you need to debug deployment problems.
+
+**NOTE**: When you use the wizard to deploy a VCH, deployment logging is always verbose. The settings that you apply in the wizard apply to post-deployment operation logging.   
 
 #### vic-machine Option
 
