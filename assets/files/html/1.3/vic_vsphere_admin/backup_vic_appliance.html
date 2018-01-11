@@ -2407,23 +2407,55 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="back-up-and-restore-the-vsphere-integrated-containers-appliance">Back Up and Restore the vSphere Integrated Containers Appliance</h1>
-<p>The vSphere Integrated Containers appliance runs various services, such as vSphere Integrated Containers Management Portal and vSphere Integrated Containers Registry. In this version of vSphere Integrated Containers, the appliance has two virtual disks attached to it:</p>
-<ul>
-<li>A system disk, that contains the operating system and application state of the vSphere Integrated Containers appliance.</li>
-<li>A data disk, that contains all important persistent data. </li>
-</ul>
-<p>The separation of different types of data between disks allows you to upgrade the appliance with an existing data disk from a previous installation. It also allows you to back up and restore the data disk, if necessary.</p>
+<p>The vSphere Integrated Containers appliance runs various services, such as vSphere Integrated Containers Management Portal, vSphere Integrated Containers Registry, and the Web server for the Getting Started page. In this version of vSphere Integrated Containers, the appliance has four virtual disks attached to it:</p>
+<table>
+<thead>
+<tr>
+<th>Disk No.</th>
+<th>Path</th>
+<th>Node</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>/</code></td>
+<td>SCSI(0:0)</td>
+<td>The root disk, that contains the operating system and application state of the vSphere Integrated Containers appliance.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>/storage/data/</code></td>
+<td>SCSI(0:1)</td>
+<td>A data disk that contains, among other things, the vSphere Integrated Containers Registry instance that is running in the appliance.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>/storage/log/</code></td>
+<td>SCSI(0:2)</td>
+<td>A logging disk that contains the logs for the different vSphere Integrated Containers components.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>/storage/db/</code></td>
+<td>SCSI(0:3)</td>
+<td>A database disk that contains the MYSQL, Clair, and Notary databases for vSphere Integrated Containers Registry.</td>
+</tr>
+</tbody>
+</table>
+<p>The separation of different types of data between disks allows you to upgrade the appliance with an existing data disk from a previous installation. It also allows you to back up and restore the different disks, if necessary.</p>
 <h2 id="snapshots-and-clones">Snapshots and Clones</h2>
-<p>You can take a conventional approach to backing up the appliance, in the same way as for any other stateful VM. The appliance disks are not independent of the appliance VM, so if you take a snapshot of the appliance VM, it also takes snapshots of the data and system disks. </p>
-<p><strong>NOTE</strong>: If you do not take a snapshot the of the memory of the appliance, it comes back up in a powered-off state. This is probably the preferred approach, but it means that the registry is temporarily unavailable while the appliance boots up.</p>
-<p>Once you have created a snapshot of the appliance VM, you can clone the snapshot of the data disk, even while the appliance is running. You can use tools like <code>vmkfstools</code> to copy the data disk to a backup datastore.</p>
-<h2 id="restoring-the-data-disk">Restoring the Data Disk</h2>
-<p>You have two choices to restore the data disk:</p>
+<p>You can take a conventional approach to backing up the appliance, in the same way as for any other stateful VM. The appliance disks are not independent of the appliance VM, so if you take a snapshot of the appliance VM, it also takes snapshots of all of the disks. </p>
+<p><strong>NOTE</strong>: If you do not take a snapshot of the memory of the appliance, it comes back up in a powered-off state. This is probably the preferred approach, but it means that the registry is temporarily unavailable while the appliance boots up.</p>
+<p>Once you have created a snapshot of the appliance VM, you can clone the snapshots of the disks, even while the appliance is running. You can use tools like <code>vmkfstools</code> to copy the disks to a backup datastore.</p>
+<h2 id="restoring-the-disks">Restoring the Disks</h2>
+<p>You have two choices to restore the different disks:</p>
 <ul>
 <li>Revert the appliance to a VM snapshot.</li>
-<li>Copy a cloned VMDK into the appliance datastore and attach it to the <code>SCSI(0:1)</code> virtual device node on the appliance VM. </li>
+<li>Copy a cloned VMDK into the appliance datastore and attach it to the appropriate virtual device node on the appliance VM. </li>
 </ul>
-<p>If you are not restoring the data disk from a live snapshot, you must shut down the appliance before the you restore the disk.</p>
+<p>If you are not restoring the disks from a live snapshot, you must shut down the appliance before the you restore the disks.</p>
 
                                 
                                 </section>
@@ -2467,7 +2499,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Appliance","level":"2.1.6.1","depth":3,"next":{"title":"VCHs","level":"2.1.6.2","depth":3,"path":"vic_vsphere_admin/backup_vch.md","ref":"vic_vsphere_admin/backup_vch.md","articles":[]},"previous":{"title":"Backup and Restore","level":"2.1.6","depth":2,"path":"vic_vsphere_admin/backup_vic.md","ref":"vic_vsphere_admin/backup_vic.md","articles":[{"title":"Appliance","level":"2.1.6.1","depth":3,"path":"vic_vsphere_admin/backup_vic_appliance.md","ref":"vic_vsphere_admin/backup_vic_appliance.md","articles":[]},{"title":"VCHs","level":"2.1.6.2","depth":3,"path":"vic_vsphere_admin/backup_vch.md","ref":"vic_vsphere_admin/backup_vch.md","articles":[]},{"title":"Container Volumes","level":"2.1.6.3","depth":3,"path":"vic_vsphere_admin/backup_volumes.md","ref":"vic_vsphere_admin/backup_volumes.md","articles":[{"title":"Backing Up VMDK Volumes","level":"2.1.6.3.1","depth":4,"path":"vic_vsphere_admin/backup_vmdk.md","ref":"vic_vsphere_admin/backup_vmdk.md","articles":[]},{"title":"Restoring VMDK Volumes","level":"2.1.6.3.2","depth":4,"path":"vic_vsphere_admin/restore_vmdk.md","ref":"vic_vsphere_admin/restore_vmdk.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/backup_vic_appliance.md","mtime":"2018-01-09T15:07:01.957Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-09T15:49:33.852Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Appliance","level":"2.1.6.1","depth":3,"next":{"title":"VCHs","level":"2.1.6.2","depth":3,"path":"vic_vsphere_admin/backup_vch.md","ref":"vic_vsphere_admin/backup_vch.md","articles":[]},"previous":{"title":"Backup and Restore","level":"2.1.6","depth":2,"path":"vic_vsphere_admin/backup_vic.md","ref":"vic_vsphere_admin/backup_vic.md","articles":[{"title":"Appliance","level":"2.1.6.1","depth":3,"path":"vic_vsphere_admin/backup_vic_appliance.md","ref":"vic_vsphere_admin/backup_vic_appliance.md","articles":[]},{"title":"VCHs","level":"2.1.6.2","depth":3,"path":"vic_vsphere_admin/backup_vch.md","ref":"vic_vsphere_admin/backup_vch.md","articles":[]},{"title":"Container Volumes","level":"2.1.6.3","depth":3,"path":"vic_vsphere_admin/backup_volumes.md","ref":"vic_vsphere_admin/backup_volumes.md","articles":[{"title":"Backing Up VMDK Volumes","level":"2.1.6.3.1","depth":4,"path":"vic_vsphere_admin/backup_vmdk.md","ref":"vic_vsphere_admin/backup_vmdk.md","articles":[]},{"title":"Restoring VMDK Volumes","level":"2.1.6.3.2","depth":4,"path":"vic_vsphere_admin/restore_vmdk.md","ref":"vic_vsphere_admin/restore_vmdk.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/backup_vic_appliance.md","mtime":"2018-01-11T12:16:18.410Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-11T12:21:18.930Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
