@@ -1,0 +1,15 @@
+[Unit]
+Description=VIC Appliance Landing Page Server
+Documentation=https://github.com/vmware/vic-product
+After=ova-firewall.service
+Requires=ova-firewall.service
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+WorkingDirectory=/opt/vmware/landing_server
+ExecStart=/usr/local/bin/ova-landing-server
+
+[Install]
+WantedBy=multi-user.target
