@@ -24,11 +24,14 @@ ${default-ova-file-path}  installer/bin/vic-*.ova
 
 *** Test Cases ***
 Install Common OVA
+    Log To Console  Installing ova, enrolling psc, and checking online component status...
     Install Common OVA If Not Already  ${default-ova-file-path}
     # validate complete installation on UI
+    Log To Console  Initializing the OVA using the getting started ui...
     Set Browser Variables
     Open Firefox Browser
     Log In And Complete OVA Installation
     Close All Browsers
     # verify all services restarted after ui initialization 
+    Log To Console  Checking for online final component status...
     Wait for Online Components  %{OVA_IP}
