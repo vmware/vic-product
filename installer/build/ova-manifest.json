@@ -164,6 +164,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/systemd/vic_appliance_landing/vic_appliance_landing.service",
+      "destination": "/usr/lib/systemd/system/vic_appliance_landing.service"
+    },
+    {
+      "type": "file",
       "source": "scripts/systemd/harbor/harbor_startup.service",
       "destination": "/usr/lib/systemd/system/harbor_startup.service"
     },

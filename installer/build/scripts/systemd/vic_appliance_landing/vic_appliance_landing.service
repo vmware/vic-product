@@ -1,0 +1,18 @@
+[Unit]
+Description=VIC Appliance Landing Page
+Documentation=https://github.com/vmware/vic-product
+After=network-online.target vic-appliance-tls.service
+Requires=network-online.target vic-appliance-tls.service
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=15
+EnvironmentFile=/etc/vmware/environment
+ExecStartPre=-/usr/bin/docker kill vic-appliance-landing
+ExecStartPre=-/usr/bin/docker rm -f vic-appliance-landing
+ExecStart=/usr/bin/docker run --rm --name vic-appliance-landing -v /storage/data/certs:/certs -p 80:80 -p 443:443 vmware/vic-appliance-landing:ova
+ExecStop=/usr/bin/docker stop vic-appliance-landing
+
+[Install]
+WantedBy=vic-appliance.target
