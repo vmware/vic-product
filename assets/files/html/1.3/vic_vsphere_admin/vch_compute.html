@@ -2463,19 +2463,19 @@
 <h3 id="cpu-">CPU <a id="cpu"></a></h3>
 <p>Limit the amount of CPU capacity that is available for use by the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool. Specify the CPU capacity in MHz.</p>
 <h4 id="create-vch-wizard">Create VCH Wizard</h4>
-<p>In the <strong>CPU</strong> text box, leave the default value of <code>Unlimited</code>,  or optionally enter a limit of between 1 and 9779 MHz. </p>
+<p>In the <strong>CPU</strong> text box, leave the default value of <code>Unlimited</code>,  or optionally enter a limit of between the minimum and maximum shown. </p>
 <h4 id="vic-machine-option">vic-machine Option</h4>
 <p><code>--cpu</code>, no short name</p>
-<p>Specify a CPU limit value of between 1 and 9779 MHz. If not specified, <code>vic-machine create</code> sets the limit to 0 (unlimited).</p>
+<p>Specify a CPU limit value in MHz. If not specified, <code>vic-machine create</code> sets the limit to 0 (unlimited).</p>
 <pre>--cpu 1024</pre>
 
 <h3 id="memory-">Memory <a id="memory"></a></h3>
 <p>Limit the amount of memory that is available for use by the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool. Specify the memory limit value in MB. </p>
 <h4 id="create-vch-wizard">Create VCH Wizard</h4>
-<p>In the <strong>Memory</strong> text box, leave the default value of <code>Unlimited</code>, or optionally enter a limit of between 1 and 21765 MB.  </p>
+<p>In the <strong>Memory</strong> text box, leave the default value of <code>Unlimited</code>, or optionally enter a limit of between the minimum and maximum shown.  </p>
 <h4 id="vic-machine-option">vic-machine Option</h4>
 <p><code>--memory</code>, <code>--mem</code></p>
-<p>Specify a limit of between 1 and 21765 MB. If not specified, <code>vic-machine create</code> sets the limit to 0 (unlimited).</p>
+<p>Specify a limit in MB. If not specified, <code>vic-machine create</code> sets the limit to 0 (unlimited).</p>
 <pre>--memory 1024</pre>
 
 <h2 id="advanced-options-">Advanced Options <a id="advanced"></a></h2>
@@ -2487,11 +2487,11 @@
 <h4 id="create-vch-wizard">Create VCH Wizard</h4>
 <ol>
 <li>Expand <strong>Advanced</strong>.</li>
-<li>In the <strong>CPU reservation</strong> text box, leave the default value of 1, or optionally enter a limit of between 1 and 9779 MHz.</li>
+<li>In the <strong>CPU reservation</strong> text box, leave the default value of 1, or optionally enter a limit of between the minimum and maximum shown.</li>
 </ol>
 <h4 id="vic-machine-option">vic-machine Option</h4>
 <p><code>--cpu-reservation</code>, <code>--cpur</code></p>
-<p>Specify a limit of between 1 and 9779 MHz. If not specified, <code>vic-machine create</code> sets the reservation to 1.</p>
+<p>Specify a limit in MHz. If not specified, <code>vic-machine create</code> sets the reservation to 1.</p>
 <pre>--cpu-reservation 1024</pre>
 
 <h3 id="cpu-shares-">CPU Shares <a id="cpushares"></a></h3>
@@ -2511,11 +2511,11 @@
 <h4 id="create-vch-wizard">Create VCH Wizard</h4>
 <ol>
 <li>Expand <strong>Advanced</strong>.</li>
-<li>In the <strong>Memory reservation</strong> text box, leave the default value of 1, or optionally enter a limit of between 1 and 21153 MB.</li>
+<li>In the <strong>Memory reservation</strong> text box, leave the default value of 1, or optionally enter a limit of between the minimum and maximum shown.</li>
 </ol>
 <h4 id="vic-machine-option">vic-machine Option</h4>
 <p><code>--memory-reservation</code>, <code>--memr</code></p>
-<p>Specify a limit of between 1 and 21153 MB. If not specified, <code>vic-machine create</code> sets the reservation to 1.</p>
+<p>Specify a limit in MB. If not specified, <code>vic-machine create</code> sets the reservation to 1.</p>
 <pre>--memory-reservation 1024</pre>
 
 <h3 id="memory-shares-">Memory Shares <a id="memoryshares"></a></h3>
@@ -2549,11 +2549,11 @@
 <h4 id="create-vch-wizard">Create VCH Wizard</h4>
 <ol>
 <li>Expand <strong>Advanced</strong>.</li>
-<li>In the <strong>Memory</strong> text box, leave the default value of 2048 MB, or enter a value of between 1 and 21765 MB.</li>
+<li>In the <strong>Memory</strong> text box, leave the default value of 2048 MB, or optionally enter a limit of between the minimum and maximum shown.</li>
 </ol>
 <h4 id="vic-machine-option">vic-machine Option</h4>
 <p><code>--endpoint-memory</code>, no short name</p>
-<p>Specify a value of between 1 and 21765 MB. If not specified, <code>vic-machine create</code> sets memory to 2048 MB.</p>
+<p>Specify a value in MB. If not specified, <code>vic-machine create</code> sets memory to 2048 MB.</p>
 <pre>--endpoint-memory <i>amount_of_memory</i></pre>
 
 <h2 id="what-to-do-next-">What to Do Next <a id="whatnext"></a></h2>
@@ -2676,7 +2676,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Compute Capacity","level":"2.1.2.4","depth":3,"next":{"title":"Storage Capacity","level":"2.1.2.5","depth":3,"path":"vic_vsphere_admin/vch_storage.md","ref":"vic_vsphere_admin/vch_storage.md","articles":[{"title":"Image Datastore","level":"2.1.2.5.1","depth":4,"path":"vic_vsphere_admin/image_store.md","ref":"vic_vsphere_admin/image_store.md","articles":[]},{"title":"Volume Datastores","level":"2.1.2.5.2","depth":4,"path":"vic_vsphere_admin/volume_stores.md","ref":"vic_vsphere_admin/volume_stores.md","articles":[]}]},"previous":{"title":"General Settings","level":"2.1.2.3","depth":3,"path":"vic_vsphere_admin/vch_general_settings.md","ref":"vic_vsphere_admin/vch_general_settings.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_compute.md","mtime":"2018-01-11T12:16:18.626Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-11T12:21:18.930Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Compute Capacity","level":"2.1.2.4","depth":3,"next":{"title":"Storage Capacity","level":"2.1.2.5","depth":3,"path":"vic_vsphere_admin/vch_storage.md","ref":"vic_vsphere_admin/vch_storage.md","articles":[{"title":"Image Datastore","level":"2.1.2.5.1","depth":4,"path":"vic_vsphere_admin/image_store.md","ref":"vic_vsphere_admin/image_store.md","articles":[]},{"title":"Volume Datastores","level":"2.1.2.5.2","depth":4,"path":"vic_vsphere_admin/volume_stores.md","ref":"vic_vsphere_admin/volume_stores.md","articles":[]}]},"previous":{"title":"General Settings","level":"2.1.2.3","depth":3,"path":"vic_vsphere_admin/vch_general_settings.md","ref":"vic_vsphere_admin/vch_general_settings.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_compute.md","mtime":"2018-01-15T11:32:12.348Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-15T13:09:10.129Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
