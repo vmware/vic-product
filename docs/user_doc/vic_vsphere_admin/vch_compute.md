@@ -69,13 +69,13 @@ Limit the amount of CPU capacity that is available for use by the VCH resource p
 
 #### Create VCH Wizard 
 
-In the **CPU** text box, leave the default value of `Unlimited`,  or optionally enter a limit of between 1 and 9779 MHz. 
+In the **CPU** text box, leave the default value of `Unlimited`,  or optionally enter a limit of between the minimum and maximum shown. 
 
 #### vic-machine Option  
 
 `--cpu`, no short name
 
-Specify a CPU limit value of between 1 and 9779 MHz. If not specified, `vic-machine create` sets the limit to 0 (unlimited).
+Specify a CPU limit value in MHz. If not specified, `vic-machine create` sets the limit to 0 (unlimited).
 
 <pre>--cpu 1024</pre>
 
@@ -85,13 +85,13 @@ Limit the amount of memory that is available for use by the VCH resource pool. T
 
 #### Create VCH Wizard 
 
-In the **Memory** text box, leave the default value of `Unlimited`, or optionally enter a limit of between 1 and 21765 MB.  
+In the **Memory** text box, leave the default value of `Unlimited`, or optionally enter a limit of between the minimum and maximum shown.  
 
 #### vic-machine Option   
 
 `--memory`, `--mem`
 
-Specify a limit of between 1 and 21765 MB. If not specified, `vic-machine create` sets the limit to 0 (unlimited).
+Specify a limit in MB. If not specified, `vic-machine create` sets the limit to 0 (unlimited).
 
 <pre>--memory 1024</pre>
 
@@ -110,13 +110,13 @@ Reserve a quantity of CPU capacity for use by the VCH resource pool. This limit 
 #### Create VCH Wizard 
 
 1. Expand **Advanced**.
-2. In the **CPU reservation** text box, leave the default value of 1, or optionally enter a limit of between 1 and 9779 MHz.
+2. In the **CPU reservation** text box, leave the default value of 1, or optionally enter a limit of between the minimum and maximum shown.
 
 #### vic-machine Option  
 
 `--cpu-reservation`, `--cpur`
 
-Specify a limit of between 1 and 9779 MHz. If not specified, `vic-machine create` sets the reservation to 1.
+Specify a limit in MHz. If not specified, `vic-machine create` sets the reservation to 1.
 
 <pre>--cpu-reservation 1024</pre>
 
@@ -144,13 +144,13 @@ Reserve a quantity of memory for use by the VCH resource pool. This limit also a
 #### Create VCH Wizard 
 
 1. Expand **Advanced**.
-2. In the **Memory reservation** text box, leave the default value of 1, or optionally enter a limit of between 1 and 21153 MB.
+2. In the **Memory reservation** text box, leave the default value of 1, or optionally enter a limit of between the minimum and maximum shown.
 
 #### vic-machine Option 
 
 `--memory-reservation`, `--memr`
 
-Specify a limit of between 1 and 21153 MB. If not specified, `vic-machine create` sets the reservation to 1.
+Specify a limit in MB. If not specified, `vic-machine create` sets the reservation to 1.
 
 <pre>--memory-reservation 1024</pre>
 
@@ -199,13 +199,13 @@ The amount of memory for the VCH endpoint VM. Set this option to increase the am
 #### Create VCH Wizard 
 
 1. Expand **Advanced**.
-2. In the **Memory** text box, leave the default value of 2048 MB, or enter a value of between 1 and 21765 MB.
+2. In the **Memory** text box, leave the default value of 2048 MB, or optionally enter a limit of between the minimum and maximum shown.
 
 #### vic-machine Option 
 
 `--endpoint-memory `, no short name
 
-Specify a value of between 1 and 21765 MB. If not specified, `vic-machine create` sets memory to 2048 MB.
+Specify a value in MB. If not specified, `vic-machine create` sets memory to 2048 MB.
 
 <pre>--endpoint-memory <i>amount_of_memory</i></pre>
 
