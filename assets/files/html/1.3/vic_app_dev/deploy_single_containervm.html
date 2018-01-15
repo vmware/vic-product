@@ -2422,7 +2422,7 @@
 <p>In this example, we create a 10GB volume disk on a backed up shared datastore. We&apos;ll use a private network to access the database, assuming that another container will need to access it privately. We use environment variables to set the data directory and password. We give the container a name so that it can be resolved using that name on the private network. Finally, we choose 2 vCPUs and 4GB of RAM.</p>
 <pre><code>docker network create datanet
 docker volume create --opt Capacity=10G --opt VolumeStore=shared-backedup pgdata
-docker run --name db -d -v pgdata:/var/lib/postgresql/data -e PGDATA=/var/lib/postgresql/data/data -e POSTGRES_PASSWORD=y7u8i9o0p --cpus 2 -m 4g --net datanet postgres:9.6
+docker run --name db -d -v pgdata:/var/lib/postgresql/data -e POSTGRES_PASSWORD=y7u8i9o0p --cpus 2 -m 4g --net datanet postgres:9.6
 </code></pre><p>Once the container has started, you can use <code>docker ps</code> to make sure it&apos;s running. You can use <code>docker logs db</code> to see the logs. You can use <code>docker exec -it db /bin/bash</code> to get a shell into the container.</p>
 <p>Now let&apos;s check that it&apos;s visible on the private network and it&apos;s running correctly. We can do this using a VIC container running on the same private network:</p>
 <pre><code>docker run --rm -it --net datanet postgres:9.6 /bin/bash
@@ -2436,24 +2436,25 @@ docker run --name db -d -v pgdata:/var/lib/postgresql/data -e PGDATA=/var/lib/po
 <p><strong>Deploying an Application Server - Tomcat 9 with JRE 8</strong></p>
 <p>Looking at the <a href="https://github.com/docker-library/tomcat/blob/1cb69781deeac97b2bb138054de3b2f35e9b49a0/9.0/jre8/Dockerfile" target="_blank">Dockerfile</a> here, there are no anonymous volumes specified. However, we need to consider how to get our application deployed and we may want to set some JVM configuration.</p>
 <p>Let&apos;s start by deploying Tomcat on an external container network to make sure it works</p>
-<pre><code>docker run --name web -d -p 8080 -e JAVA_OPTS=&quot;-Djava.security.egd=file:/dev/./urandom&quot; --net ExternalNetwork tomcat:9
+<pre><code>docker run --name web -d -p 8080 -e JAVA_OPTS=&quot;-Dkey=value&quot; --net ExternalNetwork tomcat:9
 docker logs web
 docker inspect web | grep IPAddress
 curl &lt;external-ip&gt;:8080
-</code></pre><p>Hopefully an index.html showing Tomcat server running is shown. Of course you can also test this using a browser. Note that you can pass JRE options in as an environment variable. In this case, we&apos;re passing in an option to get Tomcat to start faster by using a non-blocking entropy source (see <a href="https://wiki.apache.org/tomcat/HowTo/FasterStartUp" target="_blank">https://wiki.apache.org/tomcat/HowTo/FasterStartUp</a>).</p>
+</code></pre><p>Hopefully an index.html showing Tomcat server running is shown. Of course you can also test this using a browser. Note that you can pass JRE options in as an environment variable as per the example above. </p>
+<p>Note also that a container VM already has an instance of the <a href="https://linux.die.net/man/8/haveged" target="_blank">haveged</a> service running to provide sufficient entropy for faster startup (see <a href="https://wiki.apache.org/tomcat/HowTo/FasterStartUp" target="_blank">https://wiki.apache.org/tomcat/HowTo/FasterStartUp</a>).</p>
 <p>Next step is to consider how to get a webapp onto the application server. There are static and dynamic approaches to this problem. </p>
 <p><strong><em>Pre-populate a Volume</em></strong></p>
 <p>You can use a container to pre-populate a volume with a web application that you then bind when you run the application server. This is a late-binding dynamic approach that has the advantage that the container image remains general-purpose. The downside is that it requires an extra step to populate the volume.</p>
 <pre><code>docker volume create webapp
 docker run --rm -v webapp:/data -w /data tomcat:9 curl -O https://tomcat.apache.org/tomcat-6.0-doc/appdev/sample/sample.war
-docker run --name web -d -p 8080 -e JAVA_OPTS=&quot;-Djava.security.egd=file:/dev/./urandom&quot; -v webapp:/usr/local/tomcat/webapps --net ExternalNetwork tomcat:9
-curl &lt;external-ip&gt;:8080/sample
+docker run --name web -d -p 8080 -v webapp:/usr/local/tomcat/webapps --net ExternalNetwork tomcat:9
+curl &lt;external-ip&gt;:8080/sample/index.html
 </code></pre><p>The volume is a disk of default size, in this case 1GB. The command to populate the volume mounts it at <code>/data</code> and then tells the container to use <code>/data</code> as the working directory. It then uses the fact that the Tomcat container has <code>curl</code> installed to download a sample web app as a WAR file to the volume. When the volume is mounted to <code>/usr/local/tomcat/webapps</code>, it replaces any existing webapps such as the welcome page and Tomcat runs just the sample app.</p>
 <p>If you don&apos;t want the volume to completely replace the existing <code>/webapps</code> directory, you can modify the above example to extract the WAR file to the volume and then mount the volume as a subdirectory of webapps.</p>
 <pre><code>docker volume create webapp
 docker run --rm -v webapp:/data -w /data tomcat:9 /bin/bash -c &quot;curl -O https://tomcat.apache.org/tomcat-6.0-doc/appdev/sample/sample.war; unzip sample.war; rm sample.war&quot;
-docker run --name web -d -p 8080 -e JAVA_OPTS=&quot;-Djava.security.egd=file:/dev/./urandom&quot; -v webapp:/usr/local/tomcat/webapps/sample --net ExternalNetwork tomcat:9
-curl &lt;external-ip&gt;:8080/sample
+docker run --name web -d -p 8080 -v webapp:/usr/local/tomcat/webapps/sample --net ExternalNetwork tomcat:9
+curl &lt;external-ip&gt;:8080/sample/index.html
 </code></pre><p>Note that running multiple commands on a container can be done using <code>/bin/bash -c</code>. There&apos;s a discussion below as to why this isn&apos;t necessarily ideal for a running service, but for chaining simple commands together, it works fine. Now, not only is your sample app available, but any other app baked into the image in <code>/usr/local/tomcat/webapps</code> is also available.</p>
 <p><strong><em>Build a custom image</em></strong></p>
 <p>Building a custom image allows you to copy the sample webapp into the container image filesystem and make some other improvements and upgrades while you&apos;re there. This then creates a single purpose container that runs the webapp(s) baked into it.</p>
@@ -2461,7 +2462,7 @@ curl &lt;external-ip&gt;:8080/sample
 <p>Dockerfile:</p>
 <pre><code>FROM tomcat:9
 
-ENV JAVA_OPTS &quot;-Djava.security.egd=file:/dev/./urandom&quot;
+ENV JAVA_OPTS &quot;-Dkey=value&quot;
 COPY sample.war /usr/local/bin/webapps
 </code></pre><p>In a VM running standard docker engine:</p>
 <pre><code>docker build -t &lt;registry-address&gt;/&lt;project&gt;/&lt;image name&gt; .
@@ -2469,21 +2470,18 @@ docker login &lt;registry-address&gt;
 docker push &lt;registry-address&gt;/&lt;project&gt;/&lt;image name&gt;
 </code></pre><p>From a docker client attached to a VCH</p>
 <pre><code>docker run --name web -d -p 8080 --net ExternalNetwork &lt;registry-address&gt;/&lt;project&gt;/&lt;image name&gt;
-</code></pre><p>Note that the use of the <code>/dev/urandom</code> above is not considered particularly secure as it doesn&apos;t address the underlying problem of lack of entropy. One of the advantages of building a new image is that it can be customized, so for example, you can install the <a href="https://linux.die.net/man/8/haveged" target="_blank">haveged</a> package to solve your entropy problem.</p>
-<p>However, one of the interesting challenges of containers is that they&apos;re designed to only run one process and they don&apos;t have a conventional init system. So installing haveged in a Dockerfile doesn&apos;t mean that it will actually run when deployed.</p>
-<p>Let&apos;s examime some solutions to this problem</p>
-<p><strong><em>Running Daemon Processes in a VIC container</em></strong></p>
+</code></pre><p><strong><em>Running Daemon Processes in a VIC container</em></strong></p>
 <p>Although a VIC container is a VM, it is a very opinionated VM in that it has the same constraints as a container. It doesn&apos;t have a conventional init system and its lifecycle is coupled to a single main process. There are a few ways of running daemon processes in a container - many of which are far from ideal.</p>
-<p>For example, simply chaining commands in a Dockerfile <code>CMD</code> instruction techically works, but it compromises the signal handling and exit codes of the container. As a result, <code>docker stop</code> will almost certainly not work as intended. What would that look like in our Tomcat example?</p>
+<p>For example, simply chaining commands in a Dockerfile <code>CMD</code> instruction techically works, but it compromises the signal handling and exit codes of the container. As a result, <code>docker stop</code> will almost certainly not work as intended. Let&apos;s imagine we want to run the <code>sshd</code> daemon in the background to grant users shell access into our web server, rather than giving them broader <code>docker exec</code> privileges.</p>
 <pre><code>FROM tomcat:9
 
-RUN apt-get update;apt-get install -y haveged
+RUN apt-get update;apt-get install -y openssh-server
 COPY sample.war /usr/local/bin/webapps
-CMD /usr/sbin/haveged &amp;&amp; catalina.sh run
+CMD /usr/sbin/sshd &amp;&amp; catalina.sh run
 </code></pre><p>So this is not a recommended approach. Try running <code>docker stop</code> and it will timeout and eventually kill the container. This is not a problem exclusive to VIC engine, this is a general problem with container images.</p>
-<p>A much simpler approach is to run haveged using <code>docker exec</code> once the container is started:</p>
+<p>A much simpler approach is to run sshd using <code>docker exec</code> once the container is started:</p>
 <pre><code>docker run --name web -d -p 8080 -v webapp:/usr/local/tomcat/webapps --net ExternalNetwork &lt;registry-address&gt;/&lt;image name&gt;
-docker exec -d web /usr/sbin/haveged
+docker exec -d web /usr/sbin/sshd
 </code></pre><p>Docker exec with the <code>-d</code> option runs a process as a daemon in the container. While this is arguably the neatest solution to the problem, it does require a subsequent call to the container after it&apos;s started. While it&apos;s relatively simple to script this, it doesn&apos;t work well in a scenario such as a Compose file.</p>
 <p>So a third approach is to create a script that the container starts when it initializes that uses a trap handler to manage signals.</p>
 <p>rc.local</p>
@@ -2496,12 +2494,12 @@ cleanup()
 
 trap cleanup EXIT
 
-/usr/sbin/haveget
+/usr/sbin/sshd
 catalina.sh run
 </code></pre><p>Dockerfile</p>
 <pre><code>FROM tomcat:9
 
-RUN apt-get update;apt-get install -y haveged
+RUN apt-get update;apt-get install -y openssh-server
 COPY sample.war /usr/local/bin/webapps
 CMD [ &quot;/etc/rc.local&quot; ]
 COPY rc.local /etc/
@@ -2560,7 +2558,7 @@ docker run --rm -v vic-build:/build -w /build golang:1.8 git clone https://githu
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Deploy a Single Container VM","level":"4.1.9.2","depth":3,"next":{"title":"Deploy Container VMs with Compose","level":"4.1.9.3","depth":3,"path":"vic_app_dev/deploy_multiple_docker_compose.md","ref":"vic_app_dev/deploy_multiple_docker_compose.md","articles":[]},"previous":{"title":"Putting Apps into Production","level":"4.1.9.1","depth":3,"path":"vic_app_dev/putting_apps_into_production.md","ref":"vic_app_dev/putting_apps_into_production.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/deploy_single_containervm.md","mtime":"2018-01-09T15:07:01.849Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-09T15:49:33.852Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Deploy a Single Container VM","level":"4.1.9.2","depth":3,"next":{"title":"Deploy Container VMs with Compose","level":"4.1.9.3","depth":3,"path":"vic_app_dev/deploy_multiple_docker_compose.md","ref":"vic_app_dev/deploy_multiple_docker_compose.md","articles":[]},"previous":{"title":"Putting Apps into Production","level":"4.1.9.1","depth":3,"path":"vic_app_dev/putting_apps_into_production.md","ref":"vic_app_dev/putting_apps_into_production.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/deploy_single_containervm.md","mtime":"2018-01-15T12:57:08.264Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-15T13:09:10.129Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

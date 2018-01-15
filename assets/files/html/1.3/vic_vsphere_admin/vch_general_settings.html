@@ -2426,12 +2426,12 @@
 <h2 id="options-">Options <a id="options"></a></h2>
 <p>The sections in this topic each correspond to an entry in the General Settings page of the Create Virtual Container Host wizard and to the  corresponding <code>vic-machine create</code> options.</p>
 <h3 id="vch-name-">VCH Name <a id="name"></a></h3>
-<p>A name for the VCH, that appears the vCenter Server inventory and that you can use in other <code>vic-machine</code> commands. The default VCH name is <code>virtual-container-host</code>.</p>
+<p>A name for the VCH, that appears the vCenter Server inventory and that you can use in other <code>vic-machine</code> commands. The default VCH name is <code>virtual-container-host</code>. If a VCH of the same name already exists, or if the name you provide contains unsupported characters, the wizard reports an error and you cannot progress to the next page, or <code>vic-machine create</code> fails with an error.</p>
 <h4 id="create-vch-wizard">Create VCH Wizard</h4>
 <p>Enter a name for the VCH. </p>
 <h4 id="vic-machine-option">vic-machine Option</h4>
 <p><code>--name</code>, <code>-n</code></p>
-<p>If a VCH of the same name exists on the ESXi host or in the vCenter Server inventory, <code>vic-machine create</code> fails with an error. If a folder of the same name exists in the target datastore, <code>vic-machine create</code> creates a folder named <code>vch_name_1</code>. If the name that you provide contains unsupported characters, <code>vic-machine create</code> fails with an error.</p>
+<p>If a folder of the same name exists in the target datastore, <code>vic-machine create</code> creates a folder named <code>vch_name_1</code>. </p>
 <pre>--name <i>vch_name</i></pre>
 
 <h3 id="container-vm-name-template-">Container VM Name Template <a id="container-name-convention"></a></h3>
@@ -2445,7 +2445,7 @@
 </ol>
 <h4 id="vic-machine-option">vic-machine Option</h4>
 <p><code>--container-name-convention</code>, <code>--cnc</code></p>
-<p>Specify a prefix and/or suffix to apply to container names, and add <code>-{name}</code> or <code>-{id}</code>, including the curly brackets, to specify whether to use the container name or the container ID for the second part of the container VM display name. </p>
+<p>Specify a prefix and/or suffix to apply to container names, and add <code>{name}</code> or <code>{id}</code>, including the curly brackets, to specify whether to use the container name or the container ID for the second part of the container VM display name. </p>
 <pre>--container-name-convention <i>cVM_name_prefix</i>-{name}</pre>
 <pre>--container-name-convention {id}-<i>cVM_name_suffix</i></pre>
 <pre>--container-name-convention <i>cVM_name_prefix</i>-{name}<i>cVM_name_suffix</i></pre>
@@ -2466,6 +2466,7 @@
 <li>Leave the default level of 0 for usual deployments. </li>
 <li>Optionally select level 1, 2, or 3 if you need to debug deployment problems.</li>
 </ul>
+<p><strong>NOTE</strong>: When you use the wizard to deploy a VCH, deployment logging is always verbose. The settings that you apply in the wizard apply to post-deployment operation logging.   </p>
 <h4 id="vic-machine-option">vic-machine Option</h4>
 <p><code>--debug</code>, <code>-v</code></p>
 <p>Optionally specify a debugging level of <code>1</code>, <code>2</code>, or <code>3</code>. If not specified, the debug level is set to 0 and verbose logging is disabled.</p>
@@ -2557,7 +2558,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"General Settings","level":"2.1.2.3","depth":3,"next":{"title":"Compute Capacity","level":"2.1.2.4","depth":3,"path":"vic_vsphere_admin/vch_compute.md","ref":"vic_vsphere_admin/vch_compute.md","articles":[]},"previous":{"title":"Deploy VCHs in vSphere Client","level":"2.1.2.2","depth":3,"path":"vic_vsphere_admin/deploy_vch_client.md","ref":"vic_vsphere_admin/deploy_vch_client.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_general_settings.md","mtime":"2018-01-09T15:38:21.477Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-09T15:49:33.852Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"General Settings","level":"2.1.2.3","depth":3,"next":{"title":"Compute Capacity","level":"2.1.2.4","depth":3,"path":"vic_vsphere_admin/vch_compute.md","ref":"vic_vsphere_admin/vch_compute.md","articles":[]},"previous":{"title":"Deploy VCHs in vSphere Client","level":"2.1.2.2","depth":3,"path":"vic_vsphere_admin/deploy_vch_client.md","ref":"vic_vsphere_admin/deploy_vch_client.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_general_settings.md","mtime":"2018-01-15T11:06:20.835Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-15T13:09:10.129Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

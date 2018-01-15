@@ -2407,7 +2407,7 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="disable-client-verification">Disable Client Verification</h1>
-<p>To deploy a virtual container host (VCH) that does not restrict access to the Docker API but still encrypts communication between clients and the VCH, you can disable client certificate verification. You can also completely disable TLS authentication and encryption on both the client and server sides.</p>
+<p>To deploy a virtual container host (VCH) that does not restrict access to the Docker API but still encrypts communication between clients and the VCH, you can disable client certificate verification. If you use <code>vic-machine</code> to deploy VCHs, you can also completely disable TLS authentication and encryption on both the client and server sides.</p>
 <ul>
 <li><a href="#options">Options</a><ul>
 <li><a href="#no-tlsverify">Disable Client Certificate Verification</a> </li>
@@ -2417,6 +2417,7 @@
 <li><a href="#examples">Examples</a><ul>
 <li><a href="#auto-notlsverify">Automatically Generate a Server Certificate and Disable Client Certificate Verification</a></li>
 <li><a href="#custom_notlsverify">Use Custom Server Certificates and Disable Client Certificate Verification</a></li>
+<li><a href="#generic_no-tlsverify">Automatically Generate a Generic Server Certificate and Disable Client Certificate Verification</a></li>
 <li><a href="#example_no-tls">Disable Secure Access</a></li>
 </ul>
 </li>
@@ -2432,28 +2433,33 @@
 <pre>docker -H <i>vch_dnsname</i>.example.org.example.org:2376 --tls info</pre>
 
 <h4 id="create-vch-wizard">Create VCH Wizard</h4>
-<p>Toggle the <strong>Client Certificates</strong> switch to the gray OFF position.</p>
+<p>You can disable client certificate verification in two ways:</p>
+<ul>
+<li>To use a custom server certificate or to configure an automatically generated server certificate, enter the server certificate settings and set the <strong>Client Certificates</strong> switch to the gray OFF position. </li>
+<li>To use an automatically generated server certificate without configuring any server certificate settings, set the <strong>Enable secure access to this VCH</strong> switch at the top of the page to the gray OFF position.</li>
+</ul>
 <h4 id="vic-machine-option">vic-machine Option</h4>
 <p><code>--no-tlsverify</code>, <code>--kv</code></p>
 <p>If you specify the <code>--no-tlsverify</code> option, <code>vic-machine create</code> performs the following actions during the deployment of the VCH:</p>
 <ul>
 <li>If you do not specify <code>--tls-server-cert</code> and <code>--tls-server-key</code>, automatically generates a self-signed server certificate.</li>
-<li>If you specify <code>--tls-cert-path</code>, saves the server certificate in the location that you specify.</li>
-<li>Creates a folder with the same name as the VCH in the location in which you run <code>vic-machine create</code>.</li>
+<li>If you specify any or all of <code>tls-cname</code>, <code>organization</code>, or <code>cert-key-size</code>, generates the server certificate with those settings.</li>
+<li>If you specify <code>--tls-cert-path</code>, saves the server certificate in the location that you specify. Otherwise, creates a folder with the same name as the VCH in the location in which you run <code>vic-machine create</code>.</li>
+<li>If you specify <code>--no-tlsverify</code> with no additional security options, generates a generic server certificate.</li>
 <li>Creates an environment file named <code>vch_name.env</code> in that folder, that contains the <code>DOCKER_HOST=vch_address</code> environment variable, that you can provide to container developers to use to set up their Docker client environment.</li>
 </ul>
 <p>The <code>--no-tlsverify</code> option takes no arguments. </p>
 <pre>--no-tlsverify</pre>
 
 <h3 id="disable-secure-access-">Disable Secure Access <a id="no-tls"></a></h3>
-<p>You can completely disable authentication of connections between  Docker clients and the VCH. VCHs use neither client nor server certificates. Any Docker client can connect to the VCH if you disable TLS authentication and connections are not encrypted. </p>
+<p>If you use <code>vic-machine</code> to deploy VCHs, you can completely disable authentication of connections between Docker clients and the VCH. VCHs use neither client nor server certificates. Any Docker client can connect to the VCH if you disable TLS authentication and connections are not encrypted. </p>
 <p><strong>IMPORTANT</strong>: Disabling secure access is for testing purposes only. Do not disable secure access in production environments.</p>
 <p>If you completely disable secure access to the VCH, container developers connect Docker clients to the VCH over HTTP on port 2375, instead of over HTTPS on port 2376. They do not need to specify any TLS options in the Docker command.</p>
 <p>For example, you can access information about a VCH that does not use a server or client certificate by running the following command in the Docker client:</p>
 <pre>docker -H <i>vch_dnsname</i>.example.org.example.org:2375 info</pre>
 
 <h4 id="create-vch-wizard">Create VCH Wizard</h4>
-<p>At the top of the Security page, toggle the <strong>Enable secure access to this VCH</strong> switch to the gray OFF position.</p>
+<p>It is not possible to completely disable secure access when deploying VCHs from the Create Virtual Container Host wizard.</p>
 <h4 id="vic-machine-option">vic-machine Option</h4>
 <p><code>--no-tls</code>, <code>-k</code></p>
 <p>Run <code>vic-machine create</code> with the <code>--no-tls</code> option and no other security options. The <code>--no-tls</code> option takes no arguments.</p>
@@ -2464,12 +2470,13 @@
 <ul>
 <li><a href="#auto-notlsverify">Automatically Generate a Server Certificate and Disable Client Certificate Verification</a></li>
 <li><a href="#custom_notlsverify">Use Custom Server Certificates and Disable Client Certificate Verification</a></li>
+<li><a href="#generic_no-tlsverify">Automatically Generate a Generic Server Certificate and Disable Client Certificate Verification</a></li>
 <li><a href="#example_no-tls">Disable Secure Access</a></li>
 </ul>
 <h2 id="automatically-generate-a-server-certificate-and-disable-client-certificate-verification-">Automatically Generate a Server Certificate and Disable Client Certificate Verification <a id="auto-notlsverify"></a></h2>
 <p>This example deploys a VCH with the following security configuration. </p>
 <ul>
-<li>Uses an automatically generated server certificate.</li>
+<li>Uses an automatically generated server certificate for which you provide some configuration information.</li>
 <li>Disables client certificate authentication.</li>
 </ul>
 <h3 id="create-vch-wizard">Create VCH Wizard</h3>
@@ -2479,10 +2486,10 @@
 <li>In the <strong>Common Name (CN)</strong> text box, enter the IP address, FQDN, or a domain wildcard for the client systems that connect to this VCH.</li>
 <li>In the <strong>Organization (O)</strong> text box, leave the default setting of the VCH name, or enter a different organization identifier.</li>
 <li>In the <strong>Certificate key size</strong> text box, leave the default setting of 2048 bits, or enter a higher value.</li>
-<li>Toggle the <strong>Client Certificates</strong> switch to the gray OFF position.</li>
+<li>Set the <strong>Client Certificates</strong> switch to the gray OFF position.</li>
 </ol>
 <h3 id="vic-machine-command"><code>vic-machine</code> Command</h3>
-<p>This example <code>vic-machine create</code> command deploys a VCH that specifies <code>--no-tlsverify</code> to disable client authentication.</p>
+<p>This example <code>vic-machine create</code> command deploys a VCH that specifies <code>--no-tlsverify</code> to disable client authentication but that configures the automatically generated server certificate.</p>
 <pre>vic-machine-<i>operating_system</i> create
 --target &apos;Administrator@vsphere.local&apos;:<i>password</i>@<i>vcenter_server_address</i>/dc1
 --compute-resource cluster1
@@ -2490,14 +2497,17 @@
 --bridge-network vch1-bridge
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
---tls-cert-path <i>path_to_certificate_folder</i>
+--tls-cname *.example.org
+--tls-cert-path <i>path_to_cert_folder</i>
+--organization &apos;My Organization&apos;
+--certificate-key-size 3072
 --no-tlsverify
 </pre>
 
 <h3 id="result">Result</h3>
 <p>When you run this command, <code>vic-machine create</code> performs the following operations:</p>
 <ul>
-<li>Because no other security options are specified, automatically generates a server certificate.</li>
+<li>Automatically generates a server certificate of size 3072 bits, setting the CN  to <code>*.example.org</code>, and the organization to <code>My Organization</code>.</li>
 <li>Saves the server certificate in the location that you specify in <code>--tls-cert-path</code>.</li>
 <li>Does not generate a client certificate or CA.</li>
 </ul>
@@ -2513,8 +2523,8 @@
 <li>Leave the <strong>Enable secure access to this VCH</strong> switch in the green ON position.</li>
 <li>For <strong>Source of certificates</strong>, select the <strong>Existing</strong> radio button.</li>
 <li>For <strong>Server certificate</strong>, click <strong>Select</strong> and navigate to an existing <code>server-cert.pem</code> file.</li>
-<li>For <strong>Server private key</strong>, click <strong>Select</strong> and navigate to an existing <code>server-cert.pem</code> file.</li>
-<li>Toggle the <strong>Client Certificates</strong> switch to the gray off position.</li>
+<li>For <strong>Server private key</strong>, click <strong>Select</strong> and navigate to an existing <code>server-key.pem</code> file.</li>
+<li>Set the <strong>Client Certificates</strong> switch to the gray off position.</li>
 </ol>
 <h3 id="vic-machine-command"><code>vic-machine</code> Command</h3>
 <p>This example <code>vic-machine create</code> command provides the paths relative to the current location of the <code>*.pem</code> files for the custom server certificate and key files, and specifies the <code>--no-tlsverify</code> option to disable client authentication.</p>
@@ -2537,10 +2547,41 @@
 <li>Does not generate a client certificate or CA.</li>
 </ul>
 <p>You do not need to provide any certificates to container developers. However, you can provide the generated <code>env</code> file, with which they can set environment variables in their Docker client.</p>
+<h2 id="automatically-generate-a-generic-server-certificate-and-disable-client-certificate-verification-">Automatically Generate a Generic Server Certificate and Disable Client Certificate Verification <a id="generic_no-tlsverify"></a></h2>
+<p>This example deploys a VCH with the following security configuration. </p>
+<ul>
+<li>Uses an automatically generated server certificate for which you provide no configuration information.</li>
+<li>Disables client certificate authentication.</li>
+</ul>
+<h3 id="create-vch-wizard">Create VCH Wizard</h3>
+<p>At the top of the Security page, set the <strong>Enable secure access to this VCH</strong> switch to the gray OFF position. All other security options are disabled.</p>
+<h3 id="vic-machine-command"><code>vic-machine</code> Command</h3>
+<p>This example deploys a VCH with the following configuration:</p>
+<ul>
+<li>Specifies <code>--no-tlsverify</code> to disable client authentication. </li>
+<li>Provides no options to configure the automatically generated server certificate.</li>
+</ul>
+<pre>vic-machine-<i>operating_system</i> create
+--target &apos;Administrator@vsphere.local&apos;:<i>password</i>@<i>vcenter_server_address</i>/dc1
+--compute-resource cluster1
+--image-store datastore1
+--bridge-network vch1-bridge
+--name vch1
+--thumbprint <i>certificate_thumbprint</i>
+--no-tlsverify
+</pre>
+
+<h3 id="result">Result</h3>
+<p>When you run this command, <code>vic-machine create</code> performs the following operations:</p>
+<ul>
+<li>Because no other security options are specified, automatically generates a generic server certificate.</li>
+<li>Does not generate a client certificate or CA.</li>
+</ul>
+<p>You do not need to provide any certificates to container developers. However, you can provide the generated <code>env</code> file, with which they can set environment variables in their Docker client.</p>
 <h2 id="disable-secure-access-">Disable Secure Access <a id="example_no-tls"></a></h2>
 <p>This example completely disables secure access to the VCH. All communication between the VCH and Docker clients is insecure and unencrypted.</p>
 <h3 id="create-vch-wizard">Create VCH Wizard</h3>
-<p>At the top of the Security page, toggle the <strong>Enable secure access to this VCH</strong> switch to the gray OFF position. All other security options are disabled.</p>
+<p>It is not possible to completely disable secure access when deploying VCHs from the Create Virtual Container Host wizard.</p>
 <h3 id="vic-machine-command"><code>vic-machine</code> Command</h3>
 <p>This example deploys a VCH that specifies <code>--no-tls</code> to disable client and server authentication.</p>
 <pre>vic-machine-<i>operating_system</i> create
@@ -2602,7 +2643,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Disable Client Verification","level":"2.1.2.7.2","depth":4,"next":{"title":"Registry Access","level":"2.1.2.7.3","depth":4,"path":"vic_vsphere_admin/vch_registry.md","ref":"vic_vsphere_admin/vch_registry.md","articles":[]},"previous":{"title":"VCH Certificate Options","level":"2.1.2.7.1","depth":4,"path":"vic_vsphere_admin/vch_cert_options.md","ref":"vic_vsphere_admin/vch_cert_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/tls_unrestricted.md","mtime":"2018-01-09T15:38:21.408Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-09T15:49:33.852Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Disable Client Verification","level":"2.1.2.7.2","depth":4,"next":{"title":"Registry Access","level":"2.1.2.7.3","depth":4,"path":"vic_vsphere_admin/vch_registry.md","ref":"vic_vsphere_admin/vch_registry.md","articles":[]},"previous":{"title":"VCH Certificate Options","level":"2.1.2.7.1","depth":4,"path":"vic_vsphere_admin/vch_cert_options.md","ref":"vic_vsphere_admin/vch_cert_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/tls_unrestricted.md","mtime":"2018-01-15T11:06:20.757Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-15T13:09:10.129Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
