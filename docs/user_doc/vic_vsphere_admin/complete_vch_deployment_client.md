@@ -19,7 +19,7 @@ Container Host wizard in the vSphere Client.
 4. Click **Finish** to deploy the VCH.
 5. In the **Virtual Container Hosts** tab, click the **>** icon next to the new VCH to follow its deployment progress.
 
-    At the end of a successful deployment, the deployment log shows connection details for this VCH, and a success message.
+    At the end of a successful deployment, you can see the connection details for this VCH in the Virtual Container Hosts view.
 6. (Optional) When the deployment has succeeded, click the link to the VCH Admin Portal for this VCH.
 
 **What to Do Next**

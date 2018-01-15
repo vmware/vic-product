@@ -139,7 +139,7 @@ A list of identifiers to record in automatically generated server certificates, 
 
 If you specify `--tls-cname`, you can optionally specify `--organization`. If not specified, `vic-machine create` uses the name of the VCH as the `organization` value.
 
-**NOTE**: If you specify a static IP address on the client network, the `client-ip-address` is used for `CommonName` but not  for  `Organisation`.
+**NOTE**: If you specify a static IP address on the client network, the `client-ip-address` is used for `CommonName` but not  for  `Organization`.
 
 <pre>--organization <i>my_organization_name</i></pre>
 

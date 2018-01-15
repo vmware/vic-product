@@ -69,7 +69,7 @@ The size of the base image from which to create other container images. You shou
 
 `--base-image-size`, no short name
 
-Specify a value in GB or MB. If not specified, `vic-machine create` sets the image size to 8 MB.
+Specify a value in GB or MB. If not specified, `vic-machine create` sets the image size to 8 GB.
 
 <pre>--base-image-size 4GB</pre>
 
