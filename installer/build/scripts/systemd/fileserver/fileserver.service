@@ -8,6 +8,7 @@ Requires=vic-appliance-ready.target
 Type=simple
 Restart=on-failure
 RestartSec=5
+ExecStartPre=-/usr/bin/systemctl stop landing_server.service
 ExecStart=/etc/vmware/fileserver/start_fileserver.sh
 
 [Install]

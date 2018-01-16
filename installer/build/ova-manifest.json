@@ -24,6 +24,11 @@
     },
     {
       "type": "file",
+      "source": "../bin/ova-landing-server",
+      "destination": "/usr/local/bin/ova-landing-server"
+    },
+    {
+      "type": "file",
       "source": "../bin/toolbox",
       "destination": "/usr/bin/toolbox"
     },
@@ -308,6 +313,16 @@
       "type": "file",
       "source": "../fileserver/files/open_source_license.txt",
       "destination": "/opt/vmware/fileserver/files/open_source_license.txt"
+    },
+    {
+      "type": "file",
+      "source": "scripts/systemd/landing_server/landing_server.service",
+      "destination": "/usr/lib/systemd/system/landing_server.service"
+    },
+    {
+      "type": "file",
+      "source": "../landing_server/html",
+      "destination": "/opt/vmware/landing_server/html"
     },
     {
       "type": "shell",
