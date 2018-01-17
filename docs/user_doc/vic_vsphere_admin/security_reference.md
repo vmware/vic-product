@@ -13,19 +13,19 @@ vSphere Integrated Containers does not create service accounts and does not assi
 
 ### VCH Authentication with vSphere
 
-Using `vic-machine` to deploy and manage virtual container hosts (VCHs) requires a user account with vSphere administrator privileges. The `vic-machine create --ops-user` and `--ops-password` options allow a VCH to operate with less-privileged credentials than those that are required to deploy a new VCH. For information about the `--ops-user` option and the permissions that it requires, see [Use Different User Accounts for VCH Deployment and Operation](set_up_ops_user.md).
+Using `vic-machine` to deploy and manage virtual container hosts (VCHs) requires a user account with vSphere administrator privileges. The `vic-machine create --ops-user` and `--ops-password` options allow a VCH to operate with less-privileged credentials than those that are required to deploy a new VCH. For information about the `--ops-user` option and the permissions that it requires, see [Configure the Operations User](set_up_ops_user.md).
 
-When deploying VCHs, you must provide the certificate thumbprint of the vCenter Server or ESXi host on which you are deploying the VCH. For information about how to obtain and verify vSphere certificate thumbprints, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). Be aware that it is possible to use the `--force` option to run `vic-machine` commands that bypass vSphere certificate verification. For information about the `--force` option, see [Debugging Virtual Container Host Deployment](vch_debug_deployment.md).
+When deploying VCHs, you must provide the certificate thumbprint of the vCenter Server or ESXi host on which you are deploying the VCH. For information about how to obtain and verify vSphere certificate thumbprints, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). Be aware that it is possible to use the `--force` option to run `vic-machine` commands that bypass vSphere certificate verification. For information about the `--force` option, see [`--force`](running_vicmachine_cmds.md#force) in the topic on running `vic-machine` commands.
 
 ### Docker Client Authentication with VCHs
 
-VCHs authenticate Docker API clients by using client certificates. For information about VCHs and client authentication, see [Virtual Container Host Security](vch_security.md). Be aware that it is possible to use the `--no-tlsverify` and `--no-tls` options to deploy VCHs that do not authenticate client connections. For information about the `--no-tlsverify` and `--no-tls` options, see [Unrestricted Access to the Docker API](tls_unrestricted.md).
+VCHs authenticate Docker API clients by using client certificates. For information about VCHs and client authentication, see [Virtual Container Host Security](vch_security.md). Be aware that it is possible to use the `--no-tlsverify` and `--no-tls` options to deploy VCHs that do not authenticate client connections. For information about the `--no-tlsverify` and `--no-tls` options, see [Disable Certificate Authentication](tls_unrestricted.md).
 
 ## Network Security <a id="network"></a>
 
 All connections to vSphere Integrated Containers Management Portal and Registry are encrypted and secured by HTTPS. 
 
-VMware highly recommends using a secure network for the VCH management network. For more information about connections to VCHs in general and the management network in particular, see [Virtual Container Host Networking](vch_networking.md) and [Configure the Management Network](mgmt_network.md).
+VMware highly recommends using a secure network for the VCH management network. For more information about connections to VCHs in general and the management network in particular, see [Virtual Container Host Networks](vch_networking.md) and [Configure the Management Network](mgmt_network.md).
 
 ## External Interfaces, Ports, and Services <a id="open_ports"></a>
 
@@ -54,7 +54,7 @@ The vSphere Integrated Containers appliance makes the core vSphere Integrated Co
 
 ### VCH Endpoint VM
 
-The different network interfaces on a VCH expose different services on different ports. For an overview of the different network interfaces on a VCH, see [Virtual Container Host Networking](vch_networking.md).
+The different network interfaces on a VCH expose different services on different ports. For an overview of the different network interfaces on a VCH, see [Virtual Container Host Networks](vch_networking.md).
 
 
 #### Public Interface
@@ -81,7 +81,7 @@ For information about the VCH client interface, see [Configure the Client Networ
 |2378|HTTPS|Connections to the VCH Administration Portal server|
 |6060|HTTPS|Exposes `pprof` debug data about the VCH if the VCH is running with `vic-machine create --debug` or `vic-machine configure --debug` enabled|
 
-For information about VCH TLS options, see [Virtual Container Host Security](vch_security.md). For information about how debugging VCHs affects VCH behavior, see [Debugging Virtual Container Host Deployment](vch_debug_deployment.md) and [Debug Running Virtual Container Hosts](debug_vch.md) 
+For information about VCH TLS options, see [Virtual Container Host Security](vch_security.md). For information about how debugging VCHs affects VCH behavior, see , see [Debug](vch_general_settings.md#debug) in the topic on configuring general VCH settings and [Debug Running Virtual Container Hosts](debug_vch.md).
 
 #### Management Interface
 

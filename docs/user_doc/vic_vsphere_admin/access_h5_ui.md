@@ -2,7 +2,7 @@
 
 If you have installed the HTML5 plug-in for vSphere Integrated Containers, you can find information about your vSphere Integrated Containers deployment in the HTML5 vSphere Client.
 
-**IMPORTANT**: Do not perform operations on virtual container hosts (VCHs) or container VMs in the vSphere Client inventory views. Specifically, using the vSphere Client inventory views to power off, power on, or delete the VCH resource pool or VCH endpoint VM can cause vSphere Integrated Containers Engine to not function correctly. Always use the vSphere Integrated Containers plug-in for the HTML5 vSphere Client or `vic-machine` to perform operations on VCHs. The vSphere Client does not allow you to delete container VMs, but do not use the vSphere Client to power container VMs on or off. Always use Docker commands to perform operations on containers. 
+**IMPORTANT**: Do not perform operations on virtual container hosts (VCHs) or container VMs in the vSphere Client inventory views. Specifically, using the vSphere Client inventory views to power off, power on, or delete the VCH resource pool or VCH endpoint VM can cause vSphere Integrated Containers Engine to not function correctly. Always use the vSphere Integrated Containers plug-in for the HTML5 vSphere Client or `vic-machine` to perform operations on VCHs. The vSphere Client does not allow you to delete container VMs, but do not use the vSphere Client to power container VMs on or off. Always use Docker commands or vSphere Integrated Containers Management Portal to perform operations on containers.
 
 **NOTE**: More functionality will be added to the vSphere Integrated Containers view in future releases.
 
@@ -16,7 +16,7 @@ If you have installed the HTML5 plug-in for vSphere Integrated Containers, you c
 1. Log in to the HTML5 vSphere Client and click the **vSphere Client** logo in the top left corner.
 2. Under Inventories, click **vSphere Integrated Containers**.
 
-    The vSphere Integrated Containers view presents the number of VCHs and container VMs that you have deployed.
+    The vSphere Integrated Containers view presents the number of VCHs and container VMs that you have deployed to this vCenter Server instance.
 
 3. Click **vSphere Integrated Containers** in the main panel and select the **Summary** tab.
 

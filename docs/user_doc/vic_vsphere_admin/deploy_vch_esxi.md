@@ -1,22 +1,24 @@
 # Deploy a Virtual Container Host to an ESXi Host with No vCenter Server #
 
-This topic provides instructions for deploying a virtual container host (VCH) to an ESXi host that is not managed by vCenter Server. This is the most straightforward way to deploy a VCH, and is ideal for testing.
+This topic provides instruction for using `vic-machine` to deploy a virtual container host (VCH) to an ESXi host that is not managed by vCenter Server. This is the most straightforward way to deploy a VCH, and is ideal for testing.
 
-The ESXi host to which you deploy the VCH must match the specifications listed in the prerequisites. This example deploys a VCH by using the minimum `vic-machine create` options possible, for demonstration purposes.
+The ESXi host to which you deploy the VCH must match the specifications listed in the prerequisites. This example `vic-machine create` command deploys a VCH by using the minimum `vic-machine create` options possible, for demonstration purposes.
 
 **Prerequisites**
 
 * Deploy the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
-* In a Web browser, go to  http://<i>vic_appliance_address</i>, scroll down to Infrastructure Deployment Tools, click the link to **download the vSphere Integrated Containers Engine bundle**, and unpack it on your working machine.  
+* Download the vSphere Integrated Containers Engine bundle from the appliance and unpack it on your usual working machine. For information about how to download the bundle, see [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md).  
 * Create or obtain an ESXi host with the following configuration:
   * One datastore
   * The VM Network is present
   * You can use a nested ESXi host for this example
-* Verify that the ESXi host meets the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md).
+* Verify that the ESXi host meets the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md). 
+
+    **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
 * Make sure that the correct firewall port is open on the ESXi host. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 * Obtain the ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 * Familiarize yourself with the vSphere Integrated Containers Engine binaries, as described in [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md). 
-* Familiarize yourself with the basic options of the `vic-machine create` command described in [Virtual Container Host Placement](vch_placement.md).
+* Familiarize yourself with the basic options of the `vic-machine create` command described in [Using the `vic-machine` CLI Utility](using_vicmachine.md).
 
 **Procedure**
 
@@ -43,7 +45,7 @@ The ESXi host to which you deploy the VCH must match the specifications listed i
      --thumbprint <i>esxi_certificate_thumbprint</i>
      </pre> 
    - Mac OS:
-         <pre>$ vic-machine-darwin create
+        <pre>$ vic-machine-darwin create
      --target <i>esxi_host_address</i>
      --user root
      --password '<i>esxi_host_p@ssword</i>'
@@ -55,14 +57,14 @@ The `vic-machine create` command in this example specifies the minimum informati
 
 - The address of the ESXi host on which to deploy the VCH, in the `--target` option. 
 - The ESXi host `root` user and password in the `--user` and `--password` options. 
-- For simplicity, disables the verification of clients that connect to this VCH by specifying the `--no-tlsverify` option.
+- For simplicity, disables the verification of client certificates by specifying the `--no-tlsverify` option.
 - Specifies the thumbprint of the ESXi host certificate by specifying the `--thumbprint` option.
    
 Because the ESXi host only has only one datastore and uses the VM Network network, `vic-machine create` automatically detects and uses those resources. 
 
 When deploying to an ESXi host, `vic-machine create` creates a standard virtual switch and a port group for use as the container bridge network, so you do not need to specify any network options if you do not have specific network requirements.
 
-This example deploys a VCH with the default name `virtual-container-host`.
+This example `vic-machine create` command deploys a VCH with the default name `virtual-container-host`.
 
 **Result**
 

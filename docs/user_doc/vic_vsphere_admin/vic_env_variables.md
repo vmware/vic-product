@@ -1,4 +1,4 @@
-# Set Environment Variables for Key `vic-machine` Options #
+# Set Environment Variables for Common `vic-machine` Options #
 
 If you deploy multiple virtual container hosts (VCHs) to the same vCenter Server instance or ESXi host, you can simplify `vic-machine` commands by setting environment variables for certain key `vic-machine` options.
 
