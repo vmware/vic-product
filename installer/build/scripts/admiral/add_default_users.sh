@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 set -uf -o pipefail
+sleep 30    # let admiral and harbor stabalize before trying to add users
+            # and groups to the default project
 
 # Populated by configure_admiral.sh
 ADMIRAL_EXPOSED_PORT=""

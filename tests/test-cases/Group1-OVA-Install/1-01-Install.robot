@@ -17,30 +17,9 @@ Documentation  Test 1-01 - Install Test
 Resource  ../../resources/Util.robot
 Test Timeout  50 minutes
 
-*** Keywords ***
-Check service running
-    [Arguments]  ${service-name}
-    Log To Console  Checking status of ${service-name}...
-    ${out}=  Execute Command  systemctl status ${service-name}
-    Should Contain  ${out}  Active: active (running)
-
 *** Test Cases ***
-Verify OVA services
-    Log To Console  ssh into appliance...
-    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@%{OVA_IP}
-
-    Open Connection  %{OVA_IP}
-    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
-
-    Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
-    Wait Until Keyword Succeeds  10x  20s  Check service running  admiral
-    Wait Until Keyword Succeeds  10x  20s  Check service running  fileserver
-    Wait Until Keyword Succeeds  10x  20s  Check service running  engine_installer
-
-    Close connection
-
 Verify VIC engine download and create VCH
-    Download VIC Engine
+    Download VIC Engine  %{OVA_IP}
 
     ${vch-name}=  Install VCH  certs=${false}
     ${output}=  Run command and Return output  docker ${VCH-PARAMS} info

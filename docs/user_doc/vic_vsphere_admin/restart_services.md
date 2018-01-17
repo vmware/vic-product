@@ -1,6 +1,11 @@
 # Restart the vSphere Integrated Containers Services #
 
-You can restart the vSphere Integrated Containers Registry and vSphere Integrated Containers Management Portal services and the file server that run in the appliance by logging in to the vSphere Integrated Containers appliance.
+You can restart the vSphere Integrated Containers services that run in the appliance by logging in to the vSphere Integrated Containers appliance. The following services run in the vSphere Integrated Containers appliance:
+
+- vSphere Integrated Containers Registry service
+- vSphere Integrated Containers Management Portal service
+- The file server for vSphere Integrated Containers Engine downloads and installation of the vSphere Client plug-ins
+- The `vic_machine_server` service, that powers the Create Virtual Container Host wizard in the HTML5 vSphere Client plug-in
 
 **Prerequisites**
 
@@ -11,9 +16,7 @@ You deployed the vSphere Integrated Containers appliance.
 1. Connect to the vSphere Integrated Containers appliance by using SSH.
 2. Run one of the following commands to restart one of the vSphere Integrated Containers services:
 
-  - vSphere Integrated Containers Registry: `systemctl restart harbor.service`
-  - vSphere Integrated Containers Management Portal services: `systemctl restart admiral.service`
-  - Embedded file server: `systemctl restart fileserver.service`
-  - Demo VCH Installer Wizard: `systemctl restart engine_installer.service`
-
-        **NOTE**: The demo VCH installer wizard is deprecated in this release. 
+  - vSphere Integrated Containers Registry: <pre>systemctl restart harbor.service</pre>
+  - vSphere Integrated Containers Management Portal services: <pre>systemctl restart admiral.service</pre>
+  - Embedded file server: <pre>systemctl restart fileserver.service</pre>
+  - `vic_machine_server`: <pre>systemctl restart vic_machine_server.service</pre>

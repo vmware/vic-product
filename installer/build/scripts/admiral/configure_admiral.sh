@@ -59,7 +59,7 @@ function configureScript {
 function formatCert {
   content=$1
   file=$2
-  echo "$content" | sed -r 's/(-{5}BEGIN [A-Z ]+-{5})/&\n/g; s/(-{5}END [A-Z ]+-{5})/\n&\n/g' | sed -r 's/.{64}/&\n/g; /^\s*$/d' > "$file"
+  echo "$content" | sed -r 's/(-{5}BEGIN [A-Z ]+-{5})/&\n/g; s/(-{5}END [A-Z ]+-{5})/\n&\n/g' | sed -r 's/.{64}/&\n/g; /^\s*$/d' | sed -r '/^$/d' > "$file"
 }
 
 function genCert {
@@ -218,7 +218,4 @@ echo "keystore.file=/configs/psc-config.keystore" >> $config_dir/psc-config.prop
 chown -R 10000:10000 $data_dir
 chown -R 10000:10000 $log_dir
 
-# Start on startup
-echo "Enable admiral startup."
-systemctl enable admiral_startup.service
-echo "Services enabled. exiting..."
+echo "Configuration finished. exiting..."

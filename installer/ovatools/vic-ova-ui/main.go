@@ -75,15 +75,7 @@ func main() {
 	info = fmt.Sprintf("%sAfter first boot, unless you are upgrading the appliance, you must visit the\nGetting Started Page to initialize the appliance before VIC services can start.\n\n", info)
 
 	if ip, err := ip.FirstIPv4(ip.Eth0Interface); err == nil {
-		if port, ok := ovf.Properties["fileserver.port"]; ok {
-			info = fmt.Sprintf("%sAccess the Getting Started Page at:\nhttps://%s:%s\n", info, ip.String(), port)
-		}
-		if port, ok := ovf.Properties["management_portal.port"]; ok {
-			info = fmt.Sprintf("%sAccess the Container Management Portal at:\nhttps://%s:%s\n", info, ip.String(), port)
-		}
-		if port, ok := ovf.Properties["engine_installer.port"]; ok {
-			info = fmt.Sprintf("%sAccess the Demo VCH Installer at:\nhttps://%s:%s\n", info, ip.String(), port)
-		}
+		info = fmt.Sprintf("%sAccess the Getting Started Page at:\nhttp://%s\n\n", info, ip.String())
 	}
 	info = fmt.Sprintf("%s\nAccess the VIC Product Documentation at:\nhttps://vmware.github.io/vic-product/#documentation\n", info)
 	info = fmt.Sprintf("%s\n\nPress the right arrow key to view network status...", info)

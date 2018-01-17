@@ -61,6 +61,9 @@ _TODO_ Add reference service to repo
   This target ensures that the prerequisites for component services including disk, network,
   firewall, and Docker are ready before the component starts.
 
+- A component unit file MUST have a `WantedBy=vic-appliance.target` statement in the `[Install]`
+  section of a unit file.
+
 ### Requirements
 
 - A normally functioning component SHOULD NOT contain error messages in its logs or in the system

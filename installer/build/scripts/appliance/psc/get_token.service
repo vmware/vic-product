@@ -1,0 +1,12 @@
+[Unit]
+Description=PSC Get Token
+Documentation=http://github.com/vmware/vic-product/installer
+Requires=network-online.target vic-appliance-wait-psc-config.service
+After=network-online.target vic-appliance-wait-psc-config.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash /etc/vmware/psc/get_token.sh
+
+[Install]
+WantedBy=psc-ready.target

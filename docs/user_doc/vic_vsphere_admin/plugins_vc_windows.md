@@ -8,6 +8,7 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 
 - The HTML5 plug-in requires vCenter Server 6.5.0d or later. The HTML5 plug-in does not function with earlier versions of vCenter Server 6.5.0.
 - The vCenter Server instance on which to install the plug-in runs on Windows. If you are running a vCenter Server appliance instance, see [Install the Client Plug-Ins on a vCenter Server Appliance](plugins_vcsa.md).
+- You have not installed a previous version of the plug-ins. To upgrade a previous installation, see [Upgrade the vSphere Client Plug-Ins on vCenter Server for Windows](upgrade_h5_plugin_windows.md).
 - You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 - Log in to the Windows system on which vCenter Server is running. You must perform all of the steps in this procedure on this Windows system.
 
@@ -17,14 +18,17 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 
 **Procedure**
 
-3. Run the install script and follow the prompts.<pre>%USERPROFILE%\Desktop\vic\ui\vCenterForWindows\install.bat</pre>
+1. Run the install script and follow the prompts.<pre>%USERPROFILE%\Desktop\vic\ui\vCenterForWindows\install.bat</pre>
 	1. Enter the IP address of the vCenter Server instance.
-	1. Enter the user name and password for the vCenter Server administrator account.
-	2. Enter **yes** if the vCenter Server certificate thumbprint is legitimate, and wait for the install process to finish. 
-10. When the installation finishes, stop and restart the services of your management clients.
+	2. Enter the user name and password for the vCenter Server administrator account.
+	3. Enter **yes** if the vCenter Server certificate thumbprint is legitimate, and wait for the install process to finish. 
+2. When the installation finishes, stop and restart the services of your management clients.
 	1. Restart the HTML5 vSphere Client service.<pre>service-control --stop vsphere-ui && service-control --start vsphere-ui</pre>
 	2. Restart the Flex-based vSphere Web Client service.<pre>service-control --stop vsphere-client && service-control --start vsphere-client</pre>
+3. Delete the vSphere Integrated Containers Engine binaries from the Windows host.
 
 **What to Do Next**
+
+If you see the error message `At least one plugin is already registered with the target VC`, see [Upgrade the vSphere Client Plug-Ins on vCenter Server for Windows](upgrade_h5_plugin_windows.md).
 
 To verify the deployment of the plug-ins, see [VCH Administration in the vSphere Client](vch_admin_client.md).

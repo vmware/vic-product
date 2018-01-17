@@ -27,6 +27,7 @@ ${vcsso-button-login}  id=submit
 
 *** Keywords ***
 Login On Single Sign-On Page
+    [Tags]  secret
     Wait Until Element Is Visible  ${vcsso-image-title}  timeout=${EXPLICIT_WAIT}
     Input Text  ${vcsso-username}  %{TEST_USERNAME}
     Input Text  ${vcsso-password}  %{TEST_PASSWORD}

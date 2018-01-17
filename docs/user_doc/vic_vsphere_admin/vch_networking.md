@@ -14,6 +14,12 @@ The image below shows how VCH networks connect to your vSphere environment, to v
  
  ![VCH Networking](graphics/vic_networking.png)
 
+## Ports and Protocols ##
+
+The image below shows detailed information how different entities that are part of a vSphere Integrated Containers environment communicate with each other. 
+
+ ![Networking Ports and Protocols](graphics/Network-protocols.png)
+
 ## Understanding Docker and VCH Networking <a id="understanding"></a>
 
 To understand how you can configure networks on VCHs, you first must understand how networking works in Docker.

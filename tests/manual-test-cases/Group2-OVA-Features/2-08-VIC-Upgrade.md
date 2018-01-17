@@ -18,15 +18,15 @@ To verify VIC upgrade works and provides access to all of the vSphere Integrated
 
 # Test Template
 ### Test Steps:
-1. Deploy **[Deploy Old OVA Link]** previous version **[OVA Old Version]** of OVA of the vSphere Integrated Containers appliance
-2. Go to URL http://<appliance_IP> in browser
-3. Login to management portal using the credentials set during OVA deployment
+1. Deploy **[Deploy Old OVA Link]** previous version **[OVA Old Version]** of OVA of the vSphere Integrated Containers appliance and power it on
+2. Go to URL `https://<appliance_IP>:9443` in the browser (need to wait sometime to come up even though appliance ip gets displayed) which displays complete appliance installation modal
+3. Login using the vCenter credentials to complete installation, which will display Getting Started page and then click Go to link under "Open the Management Portal" section to open management portal
 4. Go to **[Root Cert Path]** and download root certificate file
-5. Get respective version of VIC engine binaries by downloading from the link in the Getting Started page (`https://<appliance_IP>:9443`)
+5. Get respective version of VIC engine binaries by downloading from the Download link in the Getting Started page (`https://<appliance_IP>:9443`) displayed under "Deploy a VCH"
 6. Copy downloaded root cert to the same dir as vic engine binaries
 7. On vic engine binaries dir, run **[VCH Create Command]** to create VCH
-8. Go back to management portal, add newly created VCH as a new host
-9. Add harbor registry to management portal
+8. Go back to management portal, add newly created VCH as a new host with default client cert
+9. Add harbor registry to management portal (if applicable)
     - Go to **[Add Registry Path]**
     - Provide appliance IP as "Address"
     - Create new credentials for harbor and use it
@@ -50,7 +50,7 @@ To verify VIC upgrade works and provides access to all of the vSphere Integrated
 15. Deploy **[Deploy New OVA Link]** new version **[OVA New Version]** of OVA of the vSphere Integrated Containers appliance (Don't power on yet)
 16. Follow procedure steps in **[Upgrade OVA Link]** to swap disks and upgrade OVA
 17. Power on new version of deployed OVA appliance and note down the IP
-18. Go to URL http://<appliance_IP> in browser
+18. Go to URL `https://<new_appliance_IP>:8282` in browser
 19. Verify that the VCH added as a host in step 8 should be present in the upgraded OVA.
 20. Verify that harbor registry added in step 9 is available
 21. Verify that the image pushed in step 11 is available in harbor registry
@@ -58,7 +58,7 @@ To verify VIC upgrade works and provides access to all of the vSphere Integrated
 23. Cleanup
     - Remove each of the containers created
     - Delete VCH
-    - Delete new and old OVA VM
+    - Delete new and old OVA VMs
 
 ### Expected Outcome:
 * All steps should succeed without error
@@ -154,7 +154,7 @@ Test - Upgrade from OVA 1.2.0 to 1.3.0
 
 **[OVA New Version]** 1.3.0
 
-**[Upgrade OVA Link]** [Upgrade OVA Link](TBD - waiting on official docs to link)
+**[Upgrade OVA Link]** [Upgrade OVA Link](https://vmware.github.io/vic-product/assets/files/html/1.3/vic_vsphere_admin/upgrade_appliance.html)
 
 
 Test - Upgrade from OVA 1.2.1 to 1.3.0
@@ -178,7 +178,7 @@ Test - Upgrade from OVA 1.2.1 to 1.3.0
 
 **[OVA New Version]** 1.3.0
 
-**[Upgrade OVA Link]** [Upgrade OVA Link](TBD - waiting on official docs to link)
+**[Upgrade OVA Link]** [Upgrade OVA Link](https://vmware.github.io/vic-product/assets/files/html/1.3/vic_vsphere_admin/upgrade_appliance.html)
 
 
 Test - Upgrade from OVA 1.1.1 to 1.2.0 to 1.2.1 to 1.3.0
@@ -223,4 +223,4 @@ b.  Rerun steps 15 to 23 with the following variables:
 
 - **[OVA New Version]** 1.3.0
 
-- **[Upgrade OVA Link]** [Upgrade OVA Link](TBD - waiting on official docs to link)
+- **[Upgrade OVA Link]** [Upgrade OVA Link](https://vmware.github.io/vic-product/assets/files/html/1.3/vic_vsphere_admin/upgrade_appliance.html)

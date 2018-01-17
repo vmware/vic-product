@@ -25,10 +25,10 @@ if [ $# -gt 1 ]; then
     exit 1
 elif [ $# -eq 1 ]; then
     echo "Running specific test $1 ..."
-    pybot_options=$1
+    run_options=$1
 else
     echo "Running all tests by default ..."
-    pybot_options="--removekeywords TAG:secret --exclude skip tests/test-cases"
+    run_options="--removekeywords TAG:secret --exclude skip"
 fi
 
 if [ "${DRONE_BUILD_NUMBER}" -eq 0 ]; then
@@ -36,44 +36,18 @@ if [ "${DRONE_BUILD_NUMBER}" -eq 0 ]; then
     now=`date +%Y-%m-%d.%H:%M:%S`
     # run pybot cmd locally
     echo "Running integration tests locally..."
-    pybot -d robot-logs/robot-log-$now $pybot_options tests/test-cases
+    pybot -d robot-logs/robot-log-$now $run_options tests/test-cases
 else
-    # run pybot cmd on CI
+    # run pabot cmd on CI
     echo "Running integration tests on CI..."
-    pybot $pybot_options
-
-    rc="$?"
-
-    outfile="ova_integration_logs_"$DRONE_BUILD_NUMBER"_"$DRONE_COMMIT".zip"
-
-    zip -9 $outfile output.xml log.html report.html package.list test-screenshots
-
-    # GC credentials
-    keyfile="/root/vic-ci-logs.key"
-    botofile="/root/.boto"
-    echo -en $GS_PRIVATE_KEY > $keyfile
-    chmod 400 $keyfile
-    echo "[Credentials]" >> $botofile
-    echo "gs_service_key_file = $keyfile" >> $botofile
-    echo "gs_service_client_id = $GS_CLIENT_EMAIL" >> $botofile
-    echo "[GSUtil]" >> $botofile
-    echo "content_language = en" >> $botofile
-    echo "default_project_id = $GS_PROJECT_ID" >> $botofile
-
-    if [ -f "$outfile" ]; then
-      gsutil cp $outfile gs://vic-ci-logs
-
-      echo "----------------------------------------------"
-      echo "Download test logs:"
-      echo "https://console.cloud.google.com/m/cloudstorage/b/vic-ci-logs/o/$outfile?authuser=1"
-      echo "----------------------------------------------"
-    else
-      echo "No log output file to upload"
+    pabot --processes 3 -d robot-logs --output original.xml $run_options tests/test-cases
+    # do not try re-run if all the tests were passed
+    if [ $? -eq 0 ]; then
+        echo "All tests passed on first try, no re-run required"
+        exit 0
     fi
 
-    if [ -f "$keyfile" ]; then
-      rm -f $keyfile
-    fi
-
-    exit $rc
+    # re-run only failed tests and merge results
+    pabot --processes 3 -d robot-logs --rerunfailed robot-logs/original.xml --output rerun.xml $run_options tests/test-cases
+    rebot -d robot-logs --merge robot-logs/original.xml robot-logs/rerun.xml
 fi

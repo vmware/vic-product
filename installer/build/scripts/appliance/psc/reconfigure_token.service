@@ -1,0 +1,13 @@
+[Unit]
+Description=Refresh psc token and restart psc dependent components 
+Documentation=http://github.com/vmware/vic-product/installer
+Requires=network-online.target vic-appliance-wait-psc-config.service
+After=network-online.target vic-appliance-wait-psc-config.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl restart get_token.service
+ExecStartPost=/usr/bin/systemctl --no-block restart admiral harbor
+
+[Install]
+WantedBy=psc-ready.target

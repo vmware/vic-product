@@ -7,8 +7,9 @@ workspace:
 
 pipeline:
   integration-test:
-    image: ${TEST_BUILD_IMAGE=gcr.io/eminent-nation-87317/vic-integration-test:1.36}
+    image: ${TEST_BUILD_IMAGE=gcr.io/eminent-nation-87317/vic-integration-test:1.37}
     pull: true
+    privileged: true
     environment:
       BIN: bin
       GOPATH: /go
@@ -16,19 +17,22 @@ pipeline:
       SHELL: /bin/bash
       TEST_DATASTORE: ${TEST_DATASTORE}
       TEST_PASSWORD: ${TEST_PASSWORD}
-      TEST_RESOURCE: ${TEST_RESOURCE} 
+      TEST_RESOURCE: ${TEST_RESOURCE}
       TEST_URL: ${TEST_URL}
       TEST_USERNAME: ${TEST_USERNAME}
     volumes:
       - /tmp
     commands:
-      - tests/robot-run.sh "-s 3-01-Admiral-UI"
+      - tests/robot-run.sh "-s 4-01-Harbor"
 
 services:
   selenium-grid-hub:
     image: selenium/hub:3.7.1
     ports:
       - "4444:4444"
+    environment:
+      - GRID_TIMEOUT=180000
+      - GRID_BROWSER_TIMEOUT=180000
 
   selenium-node-firefox:
     image: selenium/node-firefox:3.7.1

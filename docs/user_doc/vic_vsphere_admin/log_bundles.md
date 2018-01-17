@@ -45,3 +45,7 @@ The log size cap is set at 20MB. If the size exceeds 20 MB, vSphere Integrated C
 `/var/log/vic/vicadmin.log`
 
 vSphere Integrated Containers Engine logs any errors that occur during log rotation.
+
+## Troubleshooting VCH Creation Errors ##
+
+During a creation of a VCH, a log file named `vic-machine_<timestamp>_create_<id>.log` populates. You can find that file on the target datastore in a folder with the same name as the VCH that you specified for the `vic-machine create` command. 
