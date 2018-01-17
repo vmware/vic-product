@@ -137,9 +137,7 @@ function getDiagInfo {
   commandToFile "docker images" "docker_images" "appliance"
 
   # Services
-  commandToCompressed "journalctl -u admiral_startup --no-pager" "journal_admiral_startup" "admiral"
   commandToCompressed "journalctl -u admiral --no-pager" "journal_admiral" "admiral"
-  commandToCompressed "journalctl -u harbor_startup --no-pager" "journal_harbor_startup" "harbor"
   commandToCompressed "journalctl -u harbor --no-pager" "journal_harbor" "harbor"
   commandToCompressed "journalctl -u fileserver --no-pager" "journal_fileserver" "appliance"
   commandToCompressed "journalctl -u get_token --no-pager" "journal_get_token" "psc"

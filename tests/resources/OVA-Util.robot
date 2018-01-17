@@ -56,6 +56,8 @@ Install VIC Product OVA
     Log To Console  ${out}
     Should Contain  ${out}  200
 
+    Wait for Online Components  ${ova-ip}
+
     [Return]  ${ova-ip}
 
 Install Common OVA If Not Already
@@ -83,3 +85,26 @@ Cleanup VIC Product OVA
     ${rc}=  Wait Until Keyword Succeeds  10x  5s  Run GOVC  vm.destroy ${ova_target_vm_name}
     Run Keyword And Ignore Error  Run GOVC  datastore.rm /%{TEST_DATASTORE}/vm/${ova_target_vm_name}
     Run Keyword if  ${rc}==0  Log To Console  \nVIC Product OVA deployment ${ova_target_vm_name} is cleaned up on test server %{TEST_URL}
+
+Wait for Online Components
+    [Arguments]  ${ova-ip}
+    Log To Console  ssh into appliance...
+    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@$${ova-ip}
+
+    Open Connection  ${ova-ip}
+    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
+
+    Wait Until Keyword Succeeds  10x  20s  Check service running  fileserver
+    Wait Until Keyword Succeeds  10x  20s  Check service running  admiral
+    Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
+
+    Close connection
+
+    Log To Console  \nWaiting for SSO redirect to come up...
+    :FOR  ${i}  IN RANGE  6
+    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" https://${ova-ip}:8282
+    \   Exit For Loop If  '302' in '''${out}'''
+    \   Sleep  10s
+    Log To Console  ${rc}
+    Log To Console  ${out}
+    Should Contain  ${out}  302

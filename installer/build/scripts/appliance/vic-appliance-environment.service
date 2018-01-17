@@ -1,0 +1,10 @@
+[Unit]
+Description=VIC Appliance Environment
+Documentation=https://github.com/vmware/vic-product
+
+[Service]
+Type=oneshot
+ExecStart=/etc/vmware/vic-appliance-environment.sh
+
+[Install]
+WantedBy=vic-appliance-ready.target

@@ -19,8 +19,6 @@ Test Timeout  10 minutes
 Test Setup  Open Firefox Browser
 Test Teardown  Close All Browsers
 
-*** Keywords ***
-
 *** Test Cases ***
 Verify Getting Started page
     Navigate To Getting Started Page

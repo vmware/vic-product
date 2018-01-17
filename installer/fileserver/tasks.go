@@ -18,9 +18,7 @@ import (
 	"context"
 	"fmt"
 	"net"
-	"os"
 	"os/exec"
-	"path/filepath"
 	"strings"
 
 	log "github.com/Sirupsen/logrus"
@@ -89,11 +87,6 @@ func registerWithPSC(ctx context.Context) error {
 	// Register all VIC components with PSC
 	cmdName := "/usr/bin/java"
 	for _, client := range []string{"harbor", "engine", "admiral"} {
-		pscConfFile := filepath.Join(pscConfDir, client, pscConfFileName)
-		if _, err := os.Stat(pscConfFile); err == nil {
-			log.Infof("Skipping registering %s with PSC since PSC config file is present", client)
-			continue
-		}
 
 		cmdArgs := []string{
 			"-jar",

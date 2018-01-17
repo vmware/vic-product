@@ -88,11 +88,14 @@ Global Environment Setup
 Global Setup With Complete OVA Installation
     Global Environment Setup
     Set Test OVA IP If Available
+    Set Browser Variables
+
+Set Browser Variables
     # UI tests variables
     Set Global Variable  ${FIREFOX_BROWSER}  firefox
     Set Global Variable  ${GRID_URL}  http://127.0.0.1:4444/wd/hub
     Set Global Variable  ${EXPLICIT_WAIT}  30
-    Set Global Variable  ${EXTRA_EXPLICIT_WAIT}  50
+    Set Global Variable  ${EXTRA_EXPLICIT_WAIT}  60
     Set Global Variable  ${PRIMARY_PORT}  8282
     Set Global Variable  ${GS_PAGE_PORT}  9443
     Set Global Variable  ${HARBOR_PORT}  443
@@ -103,10 +106,6 @@ Global Setup With Complete OVA Installation
     Set Global Variable  ${HARBOR_URL}  ${IP_URL}:${HARBOR_PORT}
     Set Global Variable  ${DEFAULT_HARBOR_NAME}  default-vic-registry
     Set Global Variable  ${DEFAULT_HARBOR_PROJECT}  default-project
-    # complete installation on UI
-    Open Firefox Browser
-    Log In And Complete OVA Installation
-    Close All Browsers
 
 Run command and Return output
     [Arguments]  ${command}
@@ -114,3 +113,9 @@ Run command and Return output
     Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     [Return]  ${output}
+
+Check service running
+    [Arguments]  ${service-name}
+    Log To Console  Checking status of ${service-name}...
+    ${out}=  Execute Command  systemctl status ${service-name}
+    Should Contain  ${out}  Active: active (running)
