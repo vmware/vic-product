@@ -34,6 +34,9 @@ EXTERNAL_PSC=""
 PSC_DOMAIN=""
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S %z %Z")
 
+VER_1_1_1="v1.1.1"
+VER_1_2_1="v1.2.1"
+VER_1_3_0="v1.3.0"
 
 # Register appliance for content trust
 function registerAppliance {
@@ -79,35 +82,41 @@ function setDataVersion {
 function disableServicesStart {
   echo "Disabling and stopping Admiral and Harbor" | tee /dev/fd/3
   systemctl stop admiral.service
-  systemctl stop harbor.servce
-  systemctl disable admiral.servce
-  systemctl disable harbor.servce
+  systemctl stop harbor.service
+  systemctl disable admiral.service
+  systemctl disable harbor.service
 }
 
 # Enable Admiral and Harbor starting from path units
 function enableServicesStart {
   echo "Enabling and starting Admiral and Harbor" | tee /dev/fd/3
-  systemctl enable admiral.servce
-  systemctl enable harbor.servce
-  systemctl start admiral.servce
-  systemctl start harbor.servce
+  systemctl enable admiral.service
+  systemctl enable harbor.service
+  systemctl start admiral.service
+  systemctl start harbor.service
 }
 
-# Check for presence of Admiral's PSC config file. If the file exists, the old
-# OVA is version 1.2.x.
+
+### Valid upgrade paths to v1.3.1
+#   v1.2.1 /data/version has "appliance=v1.2.1"
+#   v1.3.0 /storage/data/version has "appliance=v1.3.0-3033-f8cc7317"
+###
 function proceedWithUpgrade {
   checkUpgradeStatus "VIC Appliance" ${appliance_upgrade_status}
-
-  if [ ! -f "/storage/data/admiral/configs/psc-config.properties" ]; then
-    echo "Detected old OVA's version as 1.1.x. We no longer support this upgrade path." | tee /dev/fd/3
-    echo -n "If the version of the old OVA is not 1.1.x, please contact VMware support: " | tee /dev/fd/3
-    exit 1
+  local ver=""
+  ver=$(getApplianceVersion)
+  if [ "$ver" == "$VER_1_1_1" ]; then
+    echo -n "Detected old appliance's version as 1.1.x or older." | tee /dev/fd/3
   else
-    echo "Detected old OVA's version as 1.2.x. Upgrade will perform data migration, but previous component logs won't be transferred." | tee /dev/fd/3
-    echo -n "If the version of the old OVA is not 1.2.x, please enter n and contact VMware support: " | tee /dev/fd/3
+    echo "Detected old appliance's version as $ver" | tee /dev/fd/3
+  fi
+
+  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ]; then
+    echo "Detected valid upgrade path. Upgrade will perform data migration, but previous component logs won't be transferred." | tee /dev/fd/3
+    echo -n "If the old appliance's version is not detected correctly, please enter \"n\" to abort the upgrade and contact VMware support." | tee /dev/fd/3
     while true; do
       echo "" | tee /dev/fd/3
-      echo "Do you wish to proceed with a 1.2.x to 1.3.x upgrade? [y/n]" | tee /dev/fd/3
+      echo "Do you wish to proceed with upgrade? [y/n]" | tee /dev/fd/3
       read response
       case $response in
           [Yy] )
@@ -125,7 +134,12 @@ function proceedWithUpgrade {
               ;;
       esac
     done
+    return # continue with upgrade
   fi
+
+  echo -n "Upgrade from this version is not a supported upgrade path."
+  echo -n "If the old appliance's version is not detected correctly, please contact VMware support." | tee /dev/fd/3
+  exit 1
 }
 
 function main {
