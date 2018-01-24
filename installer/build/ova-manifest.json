@@ -222,6 +222,11 @@
       "destination": "/etc/vmware/upgrade/util.sh"
     },
     {
+      "type": "file",
+      "source": "scripts/appliance/appliance-support.sh",
+      "destination": "/etc/vmware/support/appliance-support.sh"
+    },
+    {
       "type": "shell",
       "script": "scripts/provision_admiral.sh"
     },
