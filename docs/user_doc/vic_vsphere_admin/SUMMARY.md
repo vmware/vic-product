@@ -58,6 +58,7 @@
              * [Enable Shell Access](vch_shell_access.md)
              * [Authorize SSH Access](vch_ssh_access.md) 
      * [Delete VCHs](remove_vch.md)
+     * [Install Packages](vch_install_packages.md)
      * [VCH Admin Portal](access_vicadmin.md)
          * [Browser-Based Certificate Login](browser_login.md)
          * [Command Line Certificate Login](cmdline_login.md)
