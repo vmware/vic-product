@@ -320,8 +320,8 @@ cd "$DIR"
 
 # These sizes are minimal for install, since partitions are resized to full disk space after firstboot.
 IMAGESIZES=(
-  "4GiB"
-  "1GiB"
+  "6GiB"
+  "2GiB"
 )
 IMAGES=(
   "vic-disk1"
