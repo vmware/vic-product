@@ -36,11 +36,12 @@ For an introduction to containers and Docker before reading further, watch the f
 
 [![Container Registry](graphics/container_registry.jpg)](https://www.youtube.com/watch?v=76rX4s73MrM)  [![Container Registries](graphics/container_registries.jpg)](https://www.youtube.com/watch?v=jpC_p3bxXCI)  
 
-The following resources on docker.com are also useful:
+The following resources on docker.com and elsewhere are also useful:
 
 - [Docker glossary](https://docs.docker.com/glossary/)
 - [Get Started with Docker](https://docs.docker.com/get-started/)
 - [Docker Sandbox](http://labs.play-with-docker.com/)
+- [Play with Docker Classroom](http://training.play-with-docker.com/)
 
 ## Introduction to Container Images and Volumes<a id="images"></a>
 
