@@ -38,7 +38,7 @@ git push upstream
 ## Tagging
 
 On the master branch, tag the commit for the first release candidate. On the
-subsequent commit, tag `dev` for ongoing development.  For example, if the
+following commit, tag `dev` for ongoing development.  For example, if the
 current release is `v1.2.0`, the first release candidate will be `v1.2.0-rc1` and
 the tag for ongoing development will be `v1.3.0-dev`.
 
@@ -50,6 +50,16 @@ git remote update
 git checkout upstream/releases/1.2.0
 git tag -a v1.2.0-rc1 aaaaaaa
 git push upstream v1.2.0-rc1
+```
+
+Tag `dev` on the release branch after a release. For example, if `v1.2.0` was tagged on
+`/releases/1.2.0` and there is work for `v1.2.1`, on the following commit, tag `v1.2.1-dev`.
+
+```
+git remote update
+git checkout upstream/releases/1.2.0
+git tag -a v1.2.1-dev bbbbbbb
+git push upstream v1.2.1-dev
 ```
 
 
