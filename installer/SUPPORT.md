@@ -4,7 +4,7 @@ This guide will help you to diagnose common issues with VIC appliance deployment
 
 ## General Support Information
 
-This information about the environment and events that occurred leading to the failure _should be included in every support request to assist in debugging_.
+This information about the environment and events that occurred leading to the failure *should be included in every support request to assist in debugging*.
 
 - vCenter Server version
 - Embedded or external PSC?
@@ -14,6 +14,8 @@ This information about the environment and events that occurred leading to the f
 - Hostname of VIC appliance
 - IP address of vCenter Server
 - Hostname of vCenter Server
+- What stage of the [Appliance Lifecycle](#appliance-lifecycle) is the VIC appliance in?
+- What operation was being performed when the failure was noticed?
 
 _IMPORTANT_
 
