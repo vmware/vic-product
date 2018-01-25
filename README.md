@@ -17,7 +17,9 @@ See vSphere Integrated Containers in action in this step by step [demo](https://
 ## Installing
 Please refer to the [documentation](https://vmware.github.io/vic-product/#documentation) and this [video](https://www.youtube.com/watch?v=7WRFhJLZHJI) for installing and testing VIC. 
 
+## Support and Troubleshooting
 
+View the [VIC Appliance Troubleshooting Guide](installer/SUPPORT.md)
 
 ## Contributing to vSphere Integrated Containers
 

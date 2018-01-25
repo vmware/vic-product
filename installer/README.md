@@ -9,3 +9,7 @@ This directory will host all the code that is going to be part of the VIC unifie
 ## Release
 
 [Release procedures](RELEASE.md)
+
+## Troubleshooting
+
+[VIC Appliance Troubleshooting Guide](SUPPORT.md)
