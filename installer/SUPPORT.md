@@ -28,7 +28,7 @@ It is important to determine what stage in the appliance lifecycle you are at wh
 
 Deployment involves deploying the VIC appliance OVA using either the Flash/Flex client or `ovftool`. The HTML5 client is not supported at this time. 
 
-During Deployment, the user provides customizations such as configuring the root password and other optional configurations such as providing TLS certificates. If the version is 1.3.1 or less, TLS certificates must be provided in a specific format. [1](## Additional Information) Errors related to this will not appear until the Boot or Running Stage.
+During Deployment, the user provides customizations such as configuring the root password and other optional configurations such as providing TLS certificates. If the version is 1.3.1 or less, TLS certificates must be provided in a specific format. [1](#additional-information) Errors related to this will not appear until the Boot or Running Stage.
 
 #### Deployment Failures
 
@@ -77,7 +77,7 @@ Provide the following information to support if encountering Boot failures:
             - If this unit is still in progress, system required images are being loaded. Continue waiting until this unit is finished. 
 - Are you able to view the web page at http://<appliance_ip or FQDN>?
     - If no, did you provide custom TLS certificates during the Deployment Stage?
-        - If yes, verify the format is correct [1](## Additional Information)
+        - If yes, verify the format is correct [1](#additional-information)
         - Run `journalctl -u fileserver`and provide the entire resulting output to support
 
 
@@ -155,7 +155,7 @@ Provide the following information to support if encountering Initialization fail
       resulting output to support
 - If the Admiral web interface shows an error `SsoManager has not been initialized at runtime`, see [Admiral Troubleshooting Guide](https://github.com/vmware/admiral/wiki/Troubleshooting-VIC).
 - If Admiral is not running, did you provide custom TLS certificates during the Deployment Stage?
-    - If yes, verify the format is correct [1](## Additional Information)
+    - If yes, verify the format is correct [1](#additional-information)
         - Run `journalctl -u admiral`and provide the entire resulting output to support
         - If the version is 1.3.1 or less, run `journalctl -u admiral_startup` and provide the entire
           resulting output to support
