@@ -36,11 +36,12 @@ For an introduction to containers and Docker before reading further, watch the f
 
 [![Container Registry](graphics/container_registry.jpg)](https://www.youtube.com/watch?v=76rX4s73MrM)  [![Container Registries](graphics/container_registries.jpg)](https://www.youtube.com/watch?v=jpC_p3bxXCI)  
 
-The following resources on docker.com are also useful:
+The following resources on docker.com and elsewhere are also useful:
 
 - [Docker glossary](https://docs.docker.com/glossary/)
 - [Get Started with Docker](https://docs.docker.com/get-started/)
 - [Docker Sandbox](http://labs.play-with-docker.com/)
+- [Play with Docker Classroom](http://training.play-with-docker.com/)
 
 ## Introduction to Container Images and Volumes<a id="images"></a>
 
@@ -246,6 +247,8 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
 ## What Is vSphere Integrated Containers Registry? <a id="whats_registry"></a>
 
 vSphere Integrated Containers Registry is an enterprise-class registry server that you can use to store and distribute container images. The registry runs as a container in the vSphere Integrated Containers virtual appliance. vSphere Integrated Containers Registry allows DevOps administrators to organize image repositories in projects, and to set up role-based access control to those projects to define which users can access which repositories. vSphere Integrated Containers Registry also provides rule-based replication of images between registries, implements Docker Content Trust and vulnerability scanning, and provides detailed logging for project and user auditing.
+
+For demo videos of some of the features of vSphere Integrated Containers Registry, see the [VMware Harbor YouTube Channel](https://www.youtube.com/channel/UCSxaozHKrX3F0UnZeYe5Itg).
 
 ### Rule Based Image Replication <a id="replication"></a>
 

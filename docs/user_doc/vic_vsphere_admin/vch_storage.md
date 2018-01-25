@@ -1,9 +1,13 @@
 # Virtual Container Host Storage Capacity #
 
-Virtual container hosts (VCHs) require a datastore in which to store container image files, container VM files, and the files for the VCH itself. You can also specify one or more datastores in which container developers can create container volumes. 
+Virtual container hosts (VCHs) require a datastore in which to store container image files, container VM files, and the files for the VCH itself. You can also specify one or more datastores in which container developers can create container volumes.
 
 - [Specify the Image Datastore](image_store.md)
 - [Specify Volume Datastores](volume_stores.md)
+
+For an overview of vSphere Integrated Containers storage, watch the vSphere Integrated Containers Storage video on the [VMware Cloud-Native YouTube Channel](https://www.youtube.com/channel/UCdkGV51Nu0unDNT58bHt9bg):
+
+[![vSphere Integrated Containers Storage video](graphics/vic_storage_video_small.jpg)](https://www.youtube.com/watch?v=WrVHbjTZHrs)
 
 ## Storage Requirements and Limitations
 
