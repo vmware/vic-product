@@ -22,7 +22,7 @@ set -euf -o pipefail
 data_mount="/storage/data/harbor"
 cfg="${data_mount}/harbor.cfg"
 harbor_backup_prev="/storage/data/harbor_backup"
-harbor_backup="/storage/data/harbor_backup_1.3.0"
+harbor_backup="/storage/data/harbor_backup_1.3.1"
 harbor_migration="/storage/data/harbor_migration"
 harbor_psc_token_file="/etc/vmware/psc/harbor/tokens.properties"
 
@@ -32,11 +32,14 @@ harbor_upgrade_status_prev="/etc/vmware/harbor/upgrade_status"
 DB_USER=""
 DB_PASSWORD=""
 
+HARBOR_VER_1_2_1="harbor-offline-installer-v1.2.0.tgz"
+HARBOR_VER_1_3_0="harbor-offline-installer-v1.3.0.tgz"
+
 MANAGED_KEY="# Managed by configure_harbor.sh"
 export LC_ALL="C"
 
-# check for presence of required harbor folders before upgrade
-function harborDataSanityCheck {
+# check for presence of required harbor folders before upgrade from v1.2.1
+function harborDataSanityCheck_1_2 {
   harbor_dirs=(
     database
     job_logs
@@ -50,7 +53,19 @@ function harborDataSanityCheck {
       return 1
     fi
   done
+}
 
+# Cleanup files from previous upgrade operations
+function cleanupFiles {
+  if [ -f "${harbor_upgrade_status_prev}" ]; then
+    rm -rf "${harbor_upgrade_status_prev}"
+  fi
+  if [ -d "${harbor_backup_prev}" ]; then
+    rm -rf "${harbor_backup_prev}"
+  fi
+  if [ -d "${harbor_migration}" ]; then
+    rm -rf "${harbor_migration}"
+  fi
 }
 
 # Check if required PSC token is present
@@ -145,7 +160,7 @@ function configureHarborCfgManageKey {
 # Upgrade config file in place
 function upgradeHarborConfiguration {
   # Add generated log_rotate_count, log_rotate_size, email_insecure, db_host, db_port, db_user, uaa_endpoint,
-  # uaa_clientid, uaa_clientsecret and uaa_ca_root as managed key if not present
+  # uaa_clientid, uaa_clientsecret, uaa_ca_root as managed key if not present
   configureHarborCfgUnset log_rotate_count 50
   configureHarborCfgUnset log_rotate_size 200M
   configureHarborCfgUnset email_insecure false
@@ -190,6 +205,7 @@ function migrateHarborData {
   fi
 
   mkdir -p ${harbor_new_database_dir}
+
   DIR="database";  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
   DIR="clair-db";  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
   DIR="notary-db"; mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
@@ -197,6 +213,8 @@ function migrateHarborData {
 
 # Upgrade entry point from upgrade.sh
 function upgradeHarbor {
+  HARBOR_VER=$(readKeyValue "harbor" "/storage/data/version")
+
   if [ -z "${DB_USER}" ]; then
     DB_USER="root"
   fi
@@ -213,25 +231,26 @@ function upgradeHarbor {
   fi
   echo "Performing pre-upgrade checks" | tee /dev/fd/3
 
-  # Perform sanity check on data volume
-  if ! harborDataSanityCheck ${data_mount}; then
-    echo "Harbor Data is not present in ${data_mount}, can't continue with upgrade operation" | tee /dev/fd/3
+  if [ "$HARBOR_VER" == "$HARBOR_VER_1_2_1" ]; then
+    if ! harborDataSanityCheck_1_2 ${data_mount}; then
+      echo "Harbor Data is not present in ${data_mount}, aborting upgrade" | tee /dev/fd/3
+      exit 1
+    fi
+  elif [ "$HARBOR_VER" == "$HARBOR_VER_1_3_0" ]; then
+    echo "No upgrade operations required for upgrade from Harbor $HARBOR_VER" | tee /dev/fd/3
+    cleanupFiles
+    echo "[=] Migrating Harbor configuration" | tee /dev/fd/3
+    upgradeHarborConfiguration
+    echo "[=] Finished migrating Harbor configuration" | tee /dev/fd/3
+    return
+  else
+    echo "Invalid Harbor version $HARBOR_VER detected. Aborting upgrade." | tee /dev/fd/3
     exit 1
   fi
 
+  cleanupFiles
   checkDir ${harbor_backup}
   checkHarborPSCToken
-
-  # Remove files from old upgrade
-  if [ -f "${harbor_upgrade_status_prev}" ]; then
-    rm -rf "${harbor_upgrade_status_prev}"
-  fi
-  if [ -d "${harbor_backup_prev}" ]; then
-    rm -rf "${harbor_backup_prev}"
-  fi
-  if [ -d "${harbor_migration}" ]; then
-    rm -rf "${harbor_migration}"
-  fi
 
   # Start Admiral for data migration
   systemctl start admiral_startup.service
@@ -242,9 +261,11 @@ function upgradeHarbor {
   systemctl stop harbor_startup.service
   systemctl stop harbor.service
 
-  echo "[=] Migrating Harbor data" | tee /dev/fd/3
-  migrateHarborData
-  echo "[=] Finished migrating Harbor data" | tee /dev/fd/3
+  if [ "$HARBOR_VER" == "$HARBOR_VER_1_2_1" ]; then
+    echo "[=] Migrating Harbor data" | tee /dev/fd/3
+    migrateHarborData
+    echo "[=] Finished migrating Harbor data" | tee /dev/fd/3
+  fi
 
   echo "[=] Migrating Harbor configuration" | tee /dev/fd/3
   upgradeHarborConfiguration
