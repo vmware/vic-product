@@ -36,7 +36,7 @@ You can now use Tiny DNF to install new packages in the VCH endpoint VM.
 
 **IMPORTANT**: 
 
-- Any installations and configurations that you perform by using Tingy DNF in the endpoint VM do not persist if you reboot the endpoint VM.
+- Any installations and configurations that you perform by using Tiny DNF in the endpoint VM do not persist if you reboot the endpoint VM.
 - Running `rpm --rebuilddb` results in an unpopulated database. Consequently, when you use Tiny DNF to install a package, it tries to install all of the dependencies for that package in the endpoint VM, even if those dependencies are already present.
 
 **What to Do Next**
