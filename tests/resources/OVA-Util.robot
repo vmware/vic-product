@@ -14,6 +14,7 @@
 
 *** Settings ***
 Documentation  This resource provides any keywords related to VIC Product OVA
+Resource  ../resources/Util.robot
 
 *** Keywords ***
 Set Common Test OVA Name
@@ -47,16 +48,21 @@ Install VIC Product OVA
     \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
     \   ${ova-ip}=  Run Keyword If  ${status}  Set Variable  ${ip}  ELSE  Set Variable  ${ova-ip}
 
-    Log To Console  \nWaiting for Getting Started Page to Come Up...
-    :FOR  ${i}  IN RANGE  10
-    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}"}' https://${ova-ip}:9443/register
-    \   Exit For Loop If  '200' in '''${out}'''
-    \   Sleep  5s
-    Log To Console  ${rc}
-    Log To Console  ${out}
-    Should Contain  ${out}  200
+    Wait For Register Page  ${ova-ip}
 
-    Wait for Online Components  ${ova-ip}
+    # set env var for ova ip
+    Set Environment Variable  OVA_IP  ${ova-ip}
+
+    # validate complete installation on UI
+    Log To Console  Initializing the OVA using the getting started ui...
+    Set Browser Variables
+    Open Firefox Browser
+    Log In And Complete OVA Installation
+    Close All Browsers
+
+    # wait for component services to get started
+    Wait For Online Components  ${ova-ip}
+    Wait For SSO Redirect  ${ova-ip}
 
     [Return]  ${ova-ip}
 
@@ -64,7 +70,6 @@ Install Common OVA If Not Already
     [Arguments]  ${ova-file}
     ${rc}=  Set Test OVA IP If Available
     ${ova-ip}=  Run Keyword Unless  ${rc} == 0  Install VIC Product OVA  ${ova-file}  %{OVA_NAME}
-    Run Keyword Unless  ${rc} == 0  Set Environment Variable  OVA_IP  ${ova-ip}
 
 Download VIC Engine
     [Arguments]  ${ova-ip}  ${target_dir}=bin
@@ -86,25 +91,72 @@ Cleanup VIC Product OVA
     Run Keyword And Ignore Error  Run GOVC  datastore.rm /%{TEST_DATASTORE}/vm/${ova_target_vm_name}
     Run Keyword if  ${rc}==0  Log To Console  \nVIC Product OVA deployment ${ova_target_vm_name} is cleaned up on test server %{TEST_URL}
 
-Wait for Online Components
+Wait For Register Page
+    [Arguments]  ${ova-ip}
+    Log To Console  \nWaiting for Getting Started Page to Come Up...
+    :FOR  ${i}  IN RANGE  20
+    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}"}' https://${ova-ip}:9443/register
+    \   Exit For Loop If  '200' in '''${out}'''
+    \   Sleep  3s
+    Log To Console  ${rc}
+    Log To Console  ${out}
+    Should Contain  ${out}  200
+
+Wait For Online Components
     [Arguments]  ${ova-ip}
     Log To Console  ssh into appliance...
-    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@$${ova-ip}
+    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@${ova-ip}
 
     Open Connection  ${ova-ip}
     Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
 
-    Wait Until Keyword Succeeds  10x  20s  Check service running  fileserver
-    Wait Until Keyword Succeeds  10x  20s  Check service running  admiral
-    Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
+    Wait Until Keyword Succeeds  20x  10s  Check service running  fileserver
+    Wait Until Keyword Succeeds  20x  10s  Check service running  admiral
+    Wait Until Keyword Succeeds  20x  10s  Check service running  harbor
 
     Close connection
 
+Wait For SSO Redirect
+    [Arguments]  ${ova-ip}
     Log To Console  \nWaiting for SSO redirect to come up...
-    :FOR  ${i}  IN RANGE  6
+    :FOR  ${i}  IN RANGE  20
     \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" https://${ova-ip}:8282
     \   Exit For Loop If  '302' in '''${out}'''
-    \   Sleep  10s
+    \   Sleep  3s
     Log To Console  ${rc}
     Log To Console  ${out}
     Should Contain  ${out}  302
+
+Gather Support Bundle
+    Log To Console  Gathering VIC Appliance support bundle
+    ${out}=  Execute Command  /etc/vmware/support/appliance-support.sh
+    [Return]  ${out}
+
+Get Support Bundle File
+    # ${command_output} is return value from Gather Support Bundle
+    [Arguments]  ${command_output}
+    ${lines}=  Get Lines Matching Pattern  ${command_output}  Created log bundle*
+    ${num}=    Get Line Count  ${lines}
+    Should Be Equal As Integers  ${num}  1
+
+    ${file}=  Fetch From Right  ${lines}  Created log bundle
+    Should Not Contain  ${file}  ' '
+    [Return]  ${file.strip()}
+
+Copy Support Bundle
+    [Arguments]  ${ova-ip}
+    Log To Console  \nGather support bundle and copy locally...
+    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@${ova-ip}
+
+    Open Connection  ${ova-ip}
+    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
+
+    # get support bundle file
+    ${output}=  Gather Support Bundle
+    Should Contain  ${output}  Created log bundle
+    ${file}=  Get Support Bundle File  ${output}
+
+    Close connection
+
+    # copy log bundle
+    ${output}=  Run command and Return output  sshpass -p ${OVA_PASSWORD_ROOT} scp -o StrictHostKeyChecking\=no -o UserKnownHostsFile=/dev/null ${OVA_USERNAME_ROOT}@${ova-ip}:${file} .

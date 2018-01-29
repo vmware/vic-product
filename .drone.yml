@@ -52,8 +52,6 @@ pipeline:
       BUILD_ADMIRAL_RELEASE: ${BUILD_ADMIRAL_RELEASE}
       BUILD_VICENGINE_REVISION: ${BUILD_VICENGINE_REVISION}
       DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
-      DRONE_TIMEOUT: ${DRONE_TIMEOUT}
-      DRONE_TIMEOUT_INACTIVITY: ${DRONE_TIMEOUT_INACTIVITY}
       HARBOR: ${HARBOR}
       TERM: xterm
       VIC_MACHINE_SERVER: ${VIC_MACHINE_SERVER}
@@ -100,9 +98,6 @@ pipeline:
     environment:
       BIN: bin
       GOPATH: /go
-      GS_CLIENT_EMAIL: ${GS_CLIENT_EMAIL}
-      GS_PROJECT_ID: ${GS_PROJECT_ID}
-      GS_PRIVATE_KEY: ${GS_PRIVATE_KEY}
       PUBLIC_NETWORK: ${PUBLIC_NETWORK}
       SHELL: /bin/bash
       TEST_DATASTORE: ${TEST_DATASTORE}
@@ -144,17 +139,17 @@ pipeline:
       branch: [ master, releases/*, refs/tags/* ]
       status: [ success, failure ]
 
-  bundle-robot-logs:
+  bundle-logs:
     image: harbor.ci.drone.local/library/vic-integration-test:1.37
     pull: true
     environment:
       SHELL: /bin/bash
     commands:
-      - cp -R test-screenshots robot-logs 2>/dev/null
+      - `cp -R test-screenshots robot-logs 2>/dev/null || :`
       - mkdir robot-bundle
       - cd robot-bundle
       - outfile="ova_integration_logs_"$DRONE_BUILD_NUMBER"_"$DRONE_COMMIT".zip"
-      - zip -r $outfile ../robot-logs
+      - zip -9 -r $outfile ../robot-logs vic_appliance_logs*
       - ls -l
       - echo "Download test logs:"
       - echo "https://console.cloud.google.com/m/cloudstorage/b/vic-ci-logs/o/$outfile?authuser=1"
@@ -164,7 +159,7 @@ pipeline:
       branch: [ master, releases/*, refs/tags/* ]
       status: [ success, failure ]
 
-  publish-robot-logs:
+  publish-logs:
     image: victest/drone-gcs:1
     pull: true
     source: robot-bundle

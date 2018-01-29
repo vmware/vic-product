@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 2-01 Getting Started
 Resource  ../../resources/Util.robot
-Test Timeout  10 minutes
+Test Timeout  1 minutes
 Test Setup  Open Firefox Browser
 Test Teardown  Close All Browsers
 

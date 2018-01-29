@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 4-01 Harbor
 Resource  ../../resources/Util.robot
-Test Timeout  50 minutes
+Test Timeout  5 minutes
 Test Setup  Run Keyword  Setup Base State
 Test Teardown  Close All Browsers
 
