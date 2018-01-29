@@ -1,46 +1,46 @@
 # Install Packages in the Virtual Container Host Endpoint VM #
 
-There are reasons why you might want to install a capability in the VIC endpoint VM that doesn't exist out of the box. An NFS client, for example, to test or debug connection to an NFS server.
+In certain circumstances, you might need to install a capability in the virtual container host (VCH) endpoint VM that does not exist by default. For example, you might want to install an NFS client in the endpoint VM, to test or debug connections from the VCH to an NFS server.
 
-Currently, tdnf doesn't work in the endpoint VM without first running rpm --rebuilddb. Stress that whatever you do, it doesn't persist.
+The VCH endpoint VM runs Photon OS. Photon OS provides a package manager named Tiny DNF, or `tdnf`, that is the default means of installing packages. For information about Tiny DNF, see [Tiny DNF for Package Management](https://github.com/vmware/photon/blob/master/docs/photon-admin-guide.md#tiny-dnf-for-package-management) in the *Photon OS Administration Guide*. 
 
-https://github.com/vmware/tdnf/wiki
+Before you can use Tiny DNF to install packages in the endpoint VM, you must run the `rpm --rebuilddb` command to rebuild the embedded database. If you do not run `rpm --rebuilddb`, attempts to run Tiny DNF commands in the endpoint VM result in the following error:
 
-The error seen before doing the rpm --rebuilddb is 
-
-```
+<pre>
 root@ [ ~ ]# tdnf info
 Error(1304) : Hawkey - I/O error
-```
+</pre>
 
+**Prerequisite**
 
-Important to also note that rpm --rebuilddb gives you an unpopulated database so it doesn't know about existing packages. That means that if you install something, tdnf will try to install every other dependency into the endpoint VM, even if that dependency is already there.
+Run the `vic-machine debug` command with the `--enable-ssh` and `--rootpw` options to enable SSH access to the VCH endpoint VM and to set the root password. For information about `vic-machine debug`, see [Debug Running Virtual Container Hosts](debug_vch.md).
 
-## Example: Mount an NFS Share in the VCH Endpoint VM ##
+**Procedure**
 
-At a customer last week, I sat with them while they tried to set up NFS volume support in VIC 1.2.1.
+1. Use SSH to connect to the VCH endpoint VM as `root` user.
+2. Run the command to rebuild the database in the endpoint VM.<pre>rpm --rebuilddb</pre>
+3. Run a Tiny DNF command to test the reconfiguration.<pre>tdnf info</pre>The `tdnf info` command should display information about the installed packages. 
+4. If you see the error `Failed to synchronize cache for repo 'VMware Photon Linux 1.0(x86_64)Updates'`, perform the following steps:
 
-NFS client mount isn't that helpful at the best of times, but the combination of permissions and settings on the server side and the subsequent number of possible combinations of options on the client side make it very difficult to test. Add to that the question of which ports need to be open on firewalls even if the client can ping the NFS server.
+ 1. Open the Photon OS updates repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-updates-local.repo
+</pre>
+ 2. Update the entry for the repository URL and save the change.<pre>baseurl=http://dl.bintray.com/vmware/photon_dev_x86_64/</pre> 
+ 3. Open the Photon OS repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-local.repo
+</pre>
+ 2. Update the entry for the repository URL and save the change.<pre>baseurl=http://dl.bintray.com/vmware/photon_dev_x86_64/</pre>
+ 4. Run `tdnf info` again. 
+ 
+    The `tdnf info` command should display information about the installed packages.
 
-Installing / deleting the VCH and looking for errors in the VIC management portal is too clumsy to be practical and in the experience at this customer site, wasn't showing any useful info.
+**Result**
 
-**Solutions**
+You can now use Tiny DNF to install new packages in the VCH endpoint VM.
 
-The most obvious and simplest solution is to enable SSH on the endpoint VM using vic-machine debug and try to mount the NFS server from inside the endpoint VM. One should assume that if this works, the NFS datastore configuration should also work. However, the problem here is that mount.nfs is not included in the endpoint and it's not at all obvious how to add it.
+**IMPORTANT**: 
 
-Another option is to start a container that has an nfs client and attempt a mount from within the container. This is a better option for a VCH user that doesn't have access to vic-machine, but we should assume that setting up NFS for a datastore is a vSphere admin task that presumes vic-machine access.
+- Any installations and configurations that you perform by using Tingy DNF in the endpoint VM do not persist if you reboot the endpoint VM.
+- Running `rpm --rebuilddb` results in an unpopulated database. Consequently, when you use Tiny DNF to install a package, it tries to install all of the dependencies for that package in the endpoint VM, even if those dependencies are already present.
 
-Some assumptions that we are making is that the share is configured for anonymous mounting. and that if a `UID` and `GID` is not specified at create time of the volumestore then we also used `1000:1000` to attempt to create the volume store as well.
+**What to Do Next**
 
-An example what to do if you want to mount a NFS share.
-
-```
-rpm --rebuilddb
-tdnf --releasever 1.0 install nfs-utils
-tdnf install iana-etc-2.30-2.ph1
-ls -al /usr/sbin/mount.nfs
-systemctl status rpcbind
-mount -t nfs ...
-```
-
-The `iana-etc-2.30-2.ph1` package is needed to get the file `/etc/services` which is missing. I had to add `--releasever 1.0` to make the install command work, but I do not know if this is necessary in general. I also had to change the default Photon repo, since it was pointing to a wrong repo.
+For an example of how to install a package in the VCH endpoint VM, see [Mount an NFS Share Point in the VCH Endpoint VM](vch_mount_nfsshare.md).

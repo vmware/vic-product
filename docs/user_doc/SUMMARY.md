@@ -71,6 +71,7 @@
              * [Authorize SSH Access](vic_vsphere_admin/vch_ssh_access.md) 
      * [Delete VCHs](vic_vsphere_admin/remove_vch.md)
      * [Install Packages](vic_vsphere_admin/vch_install_packages.md)
+         * [Mount an NFS Share Point](vic_vsphere_admin/vch_mount_nfsshare.md)
      * [VCH Admin Portal](vic_vsphere_admin/access_vicadmin.md)
          * [Browser-Based Certificate Login](vic_vsphere_admin/browser_login.md)
          * [Command Line Certificate Login](vic_vsphere_admin/cmdline_login.md)
