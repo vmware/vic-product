@@ -22,15 +22,15 @@ Run the `vic-machine debug` command with the `--enable-ssh` and `--rootpw` optio
 3. Run a Tiny DNF command to test the reconfiguration.<pre>tdnf info</pre>The `tdnf info` command should display information about the installed packages. 
 4. If you see the error `Failed to synchronize cache for repo 'VMware Photon Linux 1.0(x86_64)Updates'`, perform the following steps:
 
- 1. Open the Photon OS updates repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-updates-local.repo
+   1. Open the Photon OS updates repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-updates-local.repo
 </pre>
- 2. Update the entry for the repository URL and save the change.<pre>baseurl=http://dl.bintray.com/vmware/photon_dev_x86_64/</pre> 
- 3. Open the Photon OS repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-local.repo
+   2. Update the entry for the repository URL and save the change.<pre>baseurl=http://dl.bintray.com/vmware/photon_dev_x86_64/</pre> 
+   3. Open the Photon OS repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-local.repo
 </pre>
- 2. Update the entry for the repository URL and save the change.<pre>baseurl=http://dl.bintray.com/vmware/photon_dev_x86_64/</pre>
- 4. Run `tdnf info` again. 
+   4. Update the entry for the repository URL and save the change.<pre>baseurl=http://dl.bintray.com/vmware/photon_dev_x86_64/</pre>
+   5. Run `tdnf info` again. 
  
-    The `tdnf info` command should display information about the installed packages.
+        The `tdnf info` command should display information about the installed packages.
 
 **Result**
 
