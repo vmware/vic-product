@@ -4,7 +4,7 @@ Volume stores for virtual container hosts (VCHs) are datastores in which to crea
 
 - [About Volume Stores](#about)
   - [vSphere Datastores](#vsphereusage)
-  - [NFS Datastores](#nfsusage)
+  - [NFS Volume Stores](#nfsusage)
   - [Anonymous Volumes](#default)
 - [Add Volume Datastores](#volume-store)
 - [What to Do Next](#whatnext)
@@ -41,7 +41,7 @@ vSphere Integrated Containers Engine creates the `volumes` folder independently 
 
 **IMPORTANT**: If multiple VCHs use the same datastore for their volume stores, specify a different datastore folder for each VCH. Do not designate the same datastore folder as the volume store for multiple VCHs.
 
-### NFS Datastores <a id="nfsusage"></a>
+### NFS Volume Stores <a id="nfsusage"></a>
 
 If you use NFS volume stores, container developers can share the data in the volumes in the volume stores between running containers by attaching the same volume to multiple containers. For example, you can use shared NFS volume stores to share configuration information between running containers, or to allow running containers to access the data of another container. To use shared NFS volume stores, it is recommended that the NFS share points that you designate as the volume stores be directly accessible by the network that you use as the container network. For information about container networks, see the description of the [`--container-network`](#container-network) option.
 
