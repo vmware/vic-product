@@ -19,7 +19,7 @@ This information about the environment and events that occurred leading to the f
 
 _IMPORTANT_
 
-If you are using VIC appliance version 1.3.1 or greater and are able to SSH into the appliance, please run `/etc/vmware/support/get_vic_appliance_logs.sh` and provide the resulting file to support. This script gathers appliance state and log information and is the best tool for gathering comprehensive support information.
+If you are using VIC appliance version 1.3.1 or greater and are able to SSH into the appliance, please run `/etc/vmware/support/appliance-support.sh` and provide the resulting file to support. This script gathers appliance state and log information and is the best tool for gathering comprehensive support information.
 
 
 ## Appliance Lifecycle
@@ -71,7 +71,7 @@ Provide the following information to support if encountering Boot failures:
 - Were any changes made to the disk configuration of the VIC appliance?
     - If yes, what changes?
 - Are you able to SSH into the VIC appliance? 
-    - If the version is 1.3.1 or greater and able to SSH, please run `/etc/vmware/support/get_vic_appliance_logs.sh` and provide the resulting file to support
+    - If the version is 1.3.1 or greater and able to SSH, please run `/etc/vmware/support/appliance-support.sh` and provide the resulting file to support
     - If the version is 1.3.0 or less and able to SSH
         - Run `journalctl -u fileserver`and provide the entire resulting output to support
     - If the version is 1.3.0
@@ -118,7 +118,7 @@ Provide the following information to support if encountering Initialization fail
         - Provide the entire `curl` command attempted
         - Provide the response received when executing the command
 - Are you able to SSH into the VIC appliance? 
-    - If you are using VIC appliance version 1.3.1 or greater and are able to SSH into the appliance, please run `/etc/vmware/support/get_vic_appliance_logs.sh` and provide the resulting file to support.
+    - If you are using VIC appliance version 1.3.1 or greater and are able to SSH into the appliance, please run `/etc/vmware/support/appliance-support.sh` and provide the resulting file to support.
     - If using VIC appliance version 1.2.1 or 1.3.0:
         - Run `journalctl -u fileserver`and provide the entire resulting output to support
     - Run `systemctl status fileserver`

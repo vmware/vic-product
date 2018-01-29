@@ -208,8 +208,8 @@
   },
   {
     "type": "file",
-    "source": "scripts/appliance/get_vic_appliance_logs.sh",
-    "destination": "/etc/vmware/support/get_vic_appliance_logs.sh"
+    "source": "scripts/appliance/appliance-support.sh",
+    "destination": "/etc/vmware/support/appliance-support.sh"
   },
   {
     "type": "shell",
