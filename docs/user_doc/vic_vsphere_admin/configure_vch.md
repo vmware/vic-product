@@ -217,7 +217,7 @@ You can also configure the trust level of the container network firewall by sett
     --container-network vic-containers-2:vic-container-network-2
     --container-network-firewall vic-containers-2:outbound</pre>
 
-For information about the trust levels that you can set, see [`--container-network-firewall`](container_networks.md#container-network-firewall) in VCH Deployment Options.
+For information about the trust levels that you can set, see [`--container-network-firewall`](container_networks.md#container-network-firewall) in Configure Container Networks.
 
 You cannot modify or delete an existing container network on a VCH. 
 
