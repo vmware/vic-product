@@ -39,7 +39,6 @@ progress "importing local gpg key"
 rpm --import /etc/pki/rpm-gpg/VMWARE-RPM-GPG-KEY
 
 progress "configuring grub"
-sed -i 's/set timeout=5/set timeout=0/' /boot/grub2/grub.cfg
 sed -i '/linux/ s/$/ consoleblank=0/' /boot/grub2/grub.cfg
 
 progress "setting umask to 022"
