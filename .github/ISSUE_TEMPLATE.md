@@ -1,5 +1,8 @@
 <!--
-Issues in this repository are for VIC Product
+Issues in this repository are for VIC Product (VIC appliance)
+
+Before submitting an issue, please read the troubleshooting guide
+https://github.com/vmware/vic-product/blob/master/installer/SUPPORT.md
 
 Issues related to individual components should be submitted to their respective projects:
 VIC Engine: https://github.com/vmware/vic/issues
@@ -10,34 +13,46 @@ If you are unsure which component your issue relates to, submit it here and we w
 Thank you for contributing to VIC Product!
 -->
 
-# For bug reports, please include the information below:
+##### For bug reports, please include the information below:
 
-**VIC Product version:**
+Please include the requested support information from the VIC Appliance Troubleshooting Guide below
+https://github.com/vmware/vic-product/blob/master/installer/SUPPORT.md
 
-OVA version (e.g. `vic-v1.2.3-aaaaaaa.ova`)
 
-**Deployment details:**
+Basic information (REQUIRED)
+----------------------------
 
-Environment where the OVA is deployed
+- Did you read the VIC Appliance Troubleshooting Guide? (Y/N)
+- vCenter Server version:
+- Embedded or external PSC:
+- Filename of the OVA you deployed:
+- Hash (MD5, SHA-1, or SHA-256) of the OVA you deployed:
+- IP address of VIC appliance:
+- Hostname of VIC appliance:
+- IP address of vCenter Server:
+- Hostname of vCenter Server:
+- What operation was being performed when the failure was noticed?
 
-**Steps to reproduce:**
 
-**Actual behavior:**
+Detailed information (REQUIRED)
+-------------------------------
+https://github.com/vmware/vic-product/blob/master/installer/SUPPORT.md#appliance-lifecycle
 
-**Expected behavior:**
+- What stage of the Appliance Lifecycle is the VIC appliance in?
+- Provide information from the `Support Information` section of the appropriate Appliance Lifecycle stage:
 
-**Logs:**
 
-**Additional details as necessary:**
+- Provide additional detail as necessary:
 
-# For stories, please include the information below:
+
+
+
+
+
+##### For feature requests/user stories, please include the information below:
 
 **User Statement:**
 
-A brief statement describe who, what and why of the story for example - As a job seeker, I want to search for a job, so I can advance my career.
-
 **Details:**
-Any details of what you want that might clarify for the developer how to approach the implementation.
 
 **Acceptance Criteria:**
-Specific deliverable and actionable items that the story needs to deliver in order to be considered complete, the more detail here the more accurate the implementation will be.
