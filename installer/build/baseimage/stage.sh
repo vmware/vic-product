@@ -210,8 +210,7 @@ function setup_grub() {
   cat > "${root}/boot/grub2/grub.cfg" << EOF
 # Begin /boot/grub2/grub.cfg
 
-set default=0
-set timeout=0
+set timeout=5
 search -n -u $BOOT_UUID -s
 loadfont ${BOOT_DIRECTORY}grub2/ascii.pf2
 
