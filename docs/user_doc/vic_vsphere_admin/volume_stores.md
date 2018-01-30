@@ -53,7 +53,7 @@ You cannot specify the root folder of an NFS server as a volume store.
 
 After you deploy a VCH, you can test that an NFS share point is configured correctly so that containers can access it by mounting the NFS share point directly in the VCH endpoint VM. For information about how to perform this test, see [Install Packages in the Virtual Container Host Endpoint VM](vch_install_packages.md) and [Mount an NFS Share Point in the VCH Endpoint VM](vch_mount_nfsshare.md).
 
-Another option is to start a container that has an nfs client and attempt a mount from within the container. This is a better option for a VCH user that doesn't have access to vic-machine, but we should assume that setting up NFS for a datastore is a vSphere admin task that presumes vic-machine access. 
+Another option is to start a container that has an NFS client and attempt to mount the NFS share point in that container. This is a good option for VCH users that do not have access to `vic-machine` and cannot log in to the VCH by using SSH.
 
 ### Anonymous Volumes <a id="default"></a>
 
