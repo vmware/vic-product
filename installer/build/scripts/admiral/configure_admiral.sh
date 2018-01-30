@@ -73,8 +73,14 @@ function genCert {
     -out $csr -subj \
     "/C=US/ST=California/L=Palo Alto/O=VMware/OU=Containers on vSphere/CN=$hostname"
 
-  echo "Add subjectAltName = IP: $ip_address to certificate"
-  echo subjectAltName = IP:"$ip_address" > $ext
+  if [ -n "$hostname" ] && [ "$hostname" != "$ip_address" ]; then
+    san="subjectAltName = DNS:$hostname,IP:$ip_address"
+  else
+    san="subjectAltName = IP:$ip_address"
+  fi
+  echo "Add subjectAltName $san to certificate"
+  echo "$san" > $ext
+
   openssl x509 -req -days 1095 -in $csr -CA $ca_cert -CAkey $ca_key -CAcreateserial -extfile $ext -out $cert
 
   echo "Creating certificate chain for $cert"
