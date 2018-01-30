@@ -139,7 +139,7 @@ Once the VIC appliance shows that initialization has succeeded and that Admiral 
 
 #### Running Failures
 
-Failures during running that are related to Admiral and Harbor functionality are outside the scope of this document. After verifying that Admiral and Harbor services are running, proceed with application specific troubleshooting steps.
+Failures during running that are related to Admiral and Harbor functionality are outside the scope of this document. After verifying that Admiral and Harbor services are running, proceed with [application specific troubleshooting](#application-specific-troubleshooting).
 
 
 ##### Support Information
@@ -163,6 +163,19 @@ Provide the following information to support if encountering Initialization fail
           resulting output to support
 
 
+### UI Plugin Installation Stage
+
+TODO
+
+#### UI Plugin Installation Failures
+
+TODO
+
+##### Support Information
+
+TODO
+
+
 ### Appliance Upgrade Stage
 
 TODO
@@ -174,6 +187,31 @@ TODO
 ##### Support Information
 
 TODO
+
+
+### Application Specific Troubleshooting
+
+Several applications, also referred to as components, run on the VIC appliance. These include Harbor
+and Admiral. If you are having trouble with a specific component, but have verified that it is
+running based on steps in the [Running Stage](#running-stage), follow the below steps to
+troubleshoot and collect information about the specific component.
+
+#### Admiral
+
+TODO Add information about general failures that may occur
+
+##### Support Information
+
+TODO Add steps to troubleshoot and gather required information for debugging if unable to resolve an issue
+
+#### Harbor
+
+TODO Add information about general failures that may occur
+
+##### Support Information
+
+TODO Add steps to troubleshoot and gather required information for debugging if unable to resolve an issue
+
 
 
 ## Additional Information
