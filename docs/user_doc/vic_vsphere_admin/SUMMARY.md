@@ -73,6 +73,7 @@
      * [Reconfigure the Appliance](reconfigure_appliance.md)
      * [Reinitialize the Appliance](reinitialize_appliance.md)
          * [Re-Tag the Appliance](retag_appliance.md)
+     * [Manually Register with PSC](manual_register_psc.md)
      * [Check Service Status](service_status.md)
      * [Restart Services](restart_services.md)  
   * [Backup and Restore](backup_vic.md)
