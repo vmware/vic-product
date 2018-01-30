@@ -45,13 +45,11 @@ function genCert {
 
   if [ -n "$hostname" ] && [ "$hostname" != "$ip_address" ]; then
     san="subjectAltName = DNS:$hostname,IP:$ip_address"
-    echo "Add subjectAltName $san to certificate"
-    echo "$san" > $ext
   else
     san="subjectAltName = IP:$ip_address"
-    echo "Add subjectAltName $san to certificate"
-    echo "$san" > $ext
   fi
+  echo "Add subjectAltName $san to certificate"
+  echo "$san" > $ext
 
   openssl x509 -req -days 1095 -in $csr -CA $ca_cert -CAkey $ca_key -CAcreateserial -extfile $ext -out $cert
 
