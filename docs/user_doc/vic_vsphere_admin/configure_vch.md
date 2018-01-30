@@ -129,9 +129,11 @@ This example sets `--no-tlsverify` to disable the verification of client certifi
 
 You can add volume stores to VCHs by using the `vic-machine configure --volume-store` option. You can add volume stores backed by vSphere datastores or by NFSv3 mounts.
 
-The `vic-machine configure --volume-store` option functions in the same way as the equivalent `vic-machine create --volume-store` option. For information about the `vic-machine create --volume-store` option, see [Specify Volume Stores](volume_stores.md) in VCH Deployment Options.
+The `vic-machine configure --volume-store` option functions in the same way as the equivalent `vic-machine create --volume-store` option. For information about the `vic-machine create --volume-store` option, see [Specify Volume Stores](volume_stores.md).
 
 If you are adding volume stores to a VCH that already has one or more volume stores, you must specify each existing volume store in a separate instance of `--volume-store`.
+
+Before you add an NFS volume store to a VCH, you can test that the NFS share point is configured correctly so that containers can access it by mounting the NFS share point directly in the VCH endpoint VM. For information about how to perform this test, see [Install Packages in the Virtual Container Host Endpoint VM](vch_install_packages.md) and [Mount an NFS Share Point in the VCH Endpoint VM](vch_mount_nfsshare.md).
 
 This example adds a new NFS volume store to a VCH. The VCH already has an existing volume store with the label `default`, that is backed by a vSphere datastore.
 
@@ -142,7 +144,7 @@ This example adds a new NFS volume store to a VCH. The VCH already has an existi
     --volume-store <i>datastore_name</i>/<i>datastore_path</i>:default
     --volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
 
-**NOTE**: The current version of vSphere Integrated Containers does not allow you to remove volume stores from a VCH.
+**NOTE**:  The current version of vSphere Integrated Containers does not allow you to remove volume stores from a VCH.
 
 ## Add and Reset DNS Servers <a id="dns"></a>
 

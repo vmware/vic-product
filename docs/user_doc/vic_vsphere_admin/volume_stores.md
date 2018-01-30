@@ -49,6 +49,12 @@ If you use NFS volume stores, container developers can share the data in the vol
 
 You cannot specify the root folder of an NFS server as a volume store.
 
+#### Testing and Debugging NFS Volume Store Configuration
+
+After you deploy a VCH, you can test that an NFS share point is configured correctly so that containers can access it by mounting the NFS share point directly in the VCH endpoint VM. For information about how to perform this test, see [Install Packages in the Virtual Container Host Endpoint VM](vch_install_packages.md) and [Mount an NFS Share Point in the VCH Endpoint VM](vch_mount_nfsshare.md).
+
+Another option is to start a container that has an nfs client and attempt a mount from within the container. This is a better option for a VCH user that doesn't have access to vic-machine, but we should assume that setting up NFS for a datastore is a vSphere admin task that presumes vic-machine access. 
+
 ### Anonymous Volumes <a id="default"></a>
 
 If you only require one volume store, set the volume store label to `default`. If you set the volume store label to `default`, container developers do not need to specify the <code>--opt VolumeStore=<i>volume_store_label</i></code> option when they run `docker volume create`. Also, some common container images require the presence of a `default` volume store in order to run.
@@ -93,7 +99,7 @@ To specify an NFS share point as a volume store, use the `nfs://` prefix and the
 
 <pre>nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
 
-You can also specify the URL, UID, GID, and access protocol of a shared NFS mount point when you specify an NFS share point. If you do not specify a UID and GID, vSphere Integrated Containers Engine uses the `anon` UID and GID when creating and interacting with the volume store. The `anon` UID and GID is 1000.
+You can also specify the URL, UID, GID, and access protocol of a shared NFS mount point when you specify an NFS share point. If you do not specify a UID and GID, vSphere Integrated Containers Engine uses the `anon` UID and GID when creating and interacting with the volume store. The `anon` UID and GID is 1000:1000.
 <pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&gid=5678&proto=tcp:<i>nfs_volume_store_label</i></pre> 
 
 Use the label `default` to allow container developers to create anonymous volumes:
