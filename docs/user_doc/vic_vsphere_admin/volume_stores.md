@@ -1,6 +1,6 @@
 # Specify Volume Datastores #
 
-Volume stores for virtual container hosts (VCHs) are datastores in which to create volumes when container developers use the `docker volume create` command or deploy containers that use volumes. You can specify either a datastore that is backed by vSphere or an NFS share point as the volume store.
+Volume stores for virtual container hosts (VCHs) are datastores in which to create volumes when container developers use the `docker volume create` command or deploy containers that use volumes. You can specify volume stores that are either backed by vSphere datastores or by NFSv3 mounts.
 
 - [About Volume Stores](#about)
   - [vSphere Datastores](#vsphereusage)
