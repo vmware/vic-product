@@ -50,7 +50,13 @@ fi
 dch_tag="dch-photon:${BUILD_DCHPHOTON_VERSION}"
 docker run -d --name dch-push -v /storage/data/harbor/registry:/var/lib/registry -p 5000:5000 vmware/registry:2.6.2-photon
 docker tag "vmware/$dch_tag" "127.0.0.1:5000/default-project/$dch_tag"
-sleep 3
+
+# wait for the registry to be up using docker health check
+while [ "$(docker inspect --format='{{json .State.Health}}' dch-push | jq .Status)" != "\"healthy\"" ]; do 
+  timecho "waiting for temporary registry to come up";
+  sleep 5;
+done;
+
 docker push "127.0.0.1:5000/default-project/$dch_tag"
 docker rm -f dch-push
 
