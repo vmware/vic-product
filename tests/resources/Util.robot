@@ -117,6 +117,8 @@ Run command and Return output
 Check service running
     [Arguments]  ${service-name}
     Log To Console  Checking status of ${service-name}...
+    ${log}=  Execute Command  journalctl -u ${service-name} --no-pager
+    Log To Console  ${log}
     ${out}=  Execute Command  systemctl status ${service-name}
     Log To Console  ${out}
     Log  ${out}
