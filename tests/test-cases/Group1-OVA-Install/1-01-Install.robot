@@ -21,7 +21,13 @@ Test Timeout  50 minutes
 Check service running
     [Arguments]  ${service-name}
     Log To Console  Checking status of ${service-name}...
+    Log To Console  ----- Logging journal for ${service-name} -----
+    ${log}=  Execute Command  journalctl -u ${service-name} --no-pager
+    Log To Console  ${log}
+    Log To Console  ----- End of journal for ${service-name} -----
+
     ${out}=  Execute Command  systemctl status ${service-name}
+    Log To Console  ${out}
     Should Contain  ${out}  Active: active (running)
 
 *** Test Cases ***
