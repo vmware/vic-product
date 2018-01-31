@@ -145,7 +145,7 @@ pipeline:
     environment:
       SHELL: /bin/bash
     commands:
-      - `cp -R test-screenshots robot-logs 2>/dev/null || :`
+      - cp -R test-screenshots robot-logs 2>/dev/null || :
       - mkdir robot-bundle
       - cd robot-bundle
       - outfile="ova_integration_logs_"$DRONE_BUILD_NUMBER"_"$DRONE_COMMIT".zip"
