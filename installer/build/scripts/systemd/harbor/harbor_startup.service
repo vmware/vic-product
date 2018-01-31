@@ -6,6 +6,8 @@ Requires=vic-appliance-ready.target
 
 [Service]
 Type=oneshot
+ExecStartPre=-/usr/bin/docker stop dch-push
+ExecStartPre=-/usr/bin/docker rm dch-push
 ExecStartPre=/usr/bin/bash /etc/vmware/harbor/configure_harbor.sh
 ExecStart=/usr/bin/python /etc/vmware/harbor/prepare --conf /storage/data/harbor/harbor.cfg --with-notary --with-clair
 ExecStartPost=/bin/systemctl start harbor.service
