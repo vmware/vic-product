@@ -96,7 +96,7 @@ Wait for Online Components
 
     Wait Until Keyword Succeeds  10x  20s  Check service running  fileserver
     Wait Until Keyword Succeeds  10x  20s  Check service running  admiral
-    Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
+    Wait Until Keyword Succeeds  20x  20s  Check service running  harbor
 
     Close connection
 
