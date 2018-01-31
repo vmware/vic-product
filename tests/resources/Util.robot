@@ -118,4 +118,6 @@ Check service running
     [Arguments]  ${service-name}
     Log To Console  Checking status of ${service-name}...
     ${out}=  Execute Command  systemctl status ${service-name}
+    Log To Console  ${out}
+    Log  ${out}
     Should Contain  ${out}  Active: active (running)
