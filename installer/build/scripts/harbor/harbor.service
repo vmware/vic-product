@@ -2,7 +2,7 @@
 Description=Harbor Container Registry
 Documentation=http://github.com/vmware/harbor
 After=vic-appliance-ready.target psc-ready.target admiral.service 
-Requires=vic-appliance-ready.target psc-ready.target 
+Requires=vic-appliance-ready.target psc-ready.target
 
 [Service]
 Type=simple
@@ -10,7 +10,7 @@ Restart=on-failure
 RestartSec=15
 ExecStartPre=-/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml down -v
 ExecStartPre=-/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml rm -f
-ExecStartPre=-/usr/bin/docker rm -f dch-push
+ExecStartPre=-/usr/bin/docker stop dch-push && /usr/bin/docker rm dch-push
 ExecStartPre=/usr/bin/bash /etc/vmware/harbor/configure_harbor.sh
 ExecStartPre=/usr/bin/python /etc/vmware/harbor/prepare --conf /storage/data/harbor/harbor.cfg --with-notary --with-clair
 ExecStart=/etc/vmware/harbor/start_harbor.sh
