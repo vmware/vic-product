@@ -150,7 +150,7 @@ pipeline:
       - mkdir robot-bundle
       - cd robot-bundle
       - outfile="ova_integration_logs_"$DRONE_BUILD_NUMBER"_"$DRONE_COMMIT".zip"
-      - zip -9 -r $outfile ../robot-logs vic_appliance_logs*
+      - zip -9 -r $outfile ../robot-logs ../vic_appliance_logs*
       - ls -l
       - echo "Download test logs:"
       - echo "https://console.cloud.google.com/m/cloudstorage/b/vic-ci-logs/o/$outfile?authuser=1"
