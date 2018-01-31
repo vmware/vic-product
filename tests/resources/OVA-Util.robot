@@ -128,7 +128,7 @@ Wait For SSO Redirect
     Should Contain  ${out}  302
 
 Gather Support Bundle
-    Log To Console  Gathering VIC Appliance support bundle
+    Log To Console  \nGathering VIC Appliance support bundle
     ${out}=  Execute Command  /etc/vmware/support/appliance-support.sh
     [Return]  ${out}
 
