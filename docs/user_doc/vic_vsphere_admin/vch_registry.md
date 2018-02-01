@@ -27,9 +27,11 @@ When you deployed the vSphere Integrated Containers appliance, vSphere Integrate
 
 ## Options <a id="options"></a>
 
-The following sections each correspond to an entry in the Security page of the Create Virtual Container Host wizard if you select the **Registry Access** tab. The **Registry Access** tab is only visible when the **Enable secure access to this VCH** is set to the green ON position. Each section also includes a description of the corresponding `vic-machine create` option. 
+The following sections each correspond to an entry in the **Registry Access** page of the Create Virtual Container Host wizard. Each section also includes a description of the corresponding `vic-machine create` option. 
 
 Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
+
+**NOTE**: In vSphere Integrated Containers 1.3.0, the registry access settings are located in a tab in the **Security** page of the Create Virtual Container Host wizard, that is visible when **Enable secure access to this VCH** is set to the green ON position. From version 1.3.1 onwards, the registry access settings are in a separate page. 
 
 ### Whitelist Registry Mode <a id="whitelist-registry"></a>
 
@@ -56,8 +58,7 @@ If you add a registry to the whitelist, but you do not specify that registry as 
 
 #### Create VCH Wizard
 
-1. Select the **Registry Access** tab.
-2. Set the **Whitelist registry mode** switch to the green ON position.
+1. Set the **Whitelist registry mode** switch to the green ON position.
 2. In the **Whitelist registries** text box, enter the IP address or FQDN and port number for the registry server, or enter a wildcard domain.
 3. Select **Secure** or **Insecure** from the drop-down menu, to specify whether the registry requires a certificate for access.
 4. Optionally click **+** to add more registries to the whitelist.
@@ -133,7 +134,7 @@ You can specify `--registry-ca` multiple times to allow a VCH to connect to mult
 
 # Examples <a id="examples"></a>
 
-This section provides examples of the combinations of options to use in in the **Registry Access** tab in the Security page of the Create Virtual Container Host wizard and in `vic-machine create` commands.
+This section provides examples of the combinations of options to use in in the **Registry Access** page of the Create Virtual Container Host wizard and in `vic-machine create` commands.
 
 - [Authorize Access to a Whitelist of Secure and Insecure Registries](#whitelist)
 - [Authorize Access to Secure and Insecure Private Registries](#secure-insecure)
@@ -155,9 +156,7 @@ Follow the instructions in [Obtain the vSphere Integrated Containers Registry Ce
 
 ### Create VCH Wizard
 
-1. Leave the **Enable secure access to this VCH** switch in the green ON position.
-2. Select the **Registry Access** tab.
-3. Set the **Whitelist registry mode** switch to the green ON position.
+1. Set the **Whitelist registry mode** switch to the green ON position.
 4. In the **Whitelist registries** text box, enter `10.2.40.40:443` to add the vSphere Integrated Containers Registry instance to the whitelist.
 5. Leave the drop-down menu for this registry set to **Secure**.
 6. Click the **+** button, and enter `10.2.2.1/24` to add all registries that are running in that range to the whitelist.
@@ -193,7 +192,7 @@ The VCH can only access the registries in the IP ranges and domain specified, as
 
 This example deploys a VCH with the following configuration:
 
--Allows the VCH to pull images from the following insecure registries:
+- Allows the VCH to pull images from the following insecure registries:
   - All registries in the domain *.example.com
   - A single instance of an insecure registry running at 192.168.100.207.
 - Provides the CA certificate for a vSphere Integrated Containers Registry instance.
@@ -204,9 +203,7 @@ Follow the instructions in [Obtain the vSphere Integrated Containers Registry Ce
 
 ### Create VCH Wizard
 
-1. Leave the **Enable secure access to this VCH** switch in the green ON position.
-2. Select the **Registry Access** tab.
-3. Leave the **Whitelist registry mode** switch in the gray OFF position.
+1. Leave the **Whitelist registry mode** switch in the gray OFF position.
 4. Under **Insecure registry access**, enter `*.example.com` to allow the VCH to access all registries that are running in that domain.
 5. Click the **+** button, and enter `192.168.100.207` to allow the VCH to access the standalone registry at that address.
 6. Under **Additional registry certificates**, click **Select** and navigate to the CA certificate file for your vSphere Integrated Containers Registry instance.

@@ -7,7 +7,6 @@ By default, virtual container hosts (VCHs) authenticate connections from Docker 
   - [`DOCKER_CERT_PATH`](#dockercertpath)
 - [Virtual Container Host Security Options](#vch_tlsoptions)
   - [Supported Configurations](#configs)
-- [Registry Access](#registry) 
 
 ## About TLS Certificates <a id="about_tls"></a>
 
@@ -47,7 +46,7 @@ Docker clients search for certificates in the `DOCKER_CERT_PATH` location on the
 
 |**File Name**|**Description**|
 |---|---|
-|`cert.pem`, `key.pem`|Client certificate **(1)** and private key. client certificate.|
+|`cert.pem`, `key.pem`|Client certificate **(1)** and private key.|
 |`server-cert.pem`, `server-key.pem`|Server certificate **(2)**|
 |`ca.pem`|Public portion of the certificate authority that signed the server certificate **(3)**. Allows the server to confirm that a client is authorized.|
 
@@ -80,7 +79,7 @@ The following table provides a summary of the configurations that vSphere Integr
 |Custom server certificate + auto-generated CA + auto-generated client certificate|No|[Example](vch_cert_options.md#custom-server-auto-client-ca)|
 |Auto-generated server certificate + no client verification|Yes|[Example](tls_unrestricted.md#auto-notlsverify)|
 |Custom server certificate + no client verification|Yes|[Example](tls_unrestricted.md#custom_notlsverify)|
-|No server or client certificate verification|Yes|[Example](tls_unrestricted.md#example_no-tls)|
+|No server or client certificate verification|No|[Example](tls_unrestricted.md#example_no-tls)|
 
 The following topics describe how to achieve all of the configurations listed in the table above, by using either the Create Virtual Container Host wizard or the `vic-machine` CLI, or both. 
 
@@ -88,9 +87,3 @@ The following topics describe how to achieve all of the configurations listed in
 - [Disable Client Verification](tls_unrestricted.md)
 
 The Examples column in the table provides direct links to the relevant example in these topics.
-
-## Registry Access <a id="registry"></a>
-
-In addition to configuring the level of security to apply to connections from Docker clients to VCHs, you must also configure the level of security to apply to connections from VCHs to registry servers. For example, to use vSphere Integrated Containers Registry, you must configure VCHs accordingly when you deploy them. 
-
-For information about configuring VCHs to use registry servers, see [Configure Registry Access](vch_registry.md).
