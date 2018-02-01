@@ -648,7 +648,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.2.7.3" data-path="vch_registry.html">
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.8" data-path="vch_registry.html">
             
                 <a href="vch_registry.html">
             
@@ -661,12 +666,7 @@
             
         </li>
     
-
-            </ul>
-            
-        </li>
-    
-        <li class="chapter " data-level="2.1.2.8" data-path="set_up_ops_user.html">
+        <li class="chapter " data-level="2.1.2.9" data-path="set_up_ops_user.html">
             
                 <a href="set_up_ops_user.html">
             
@@ -680,7 +680,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.2.8.1" data-path="ops_user_manual.html">
+        <li class="chapter " data-level="2.1.2.9.1" data-path="ops_user_manual.html">
             
                 <a href="ops_user_manual.html">
             
@@ -698,7 +698,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.2.9" data-path="complete_vch_deployment_client.html">
+        <li class="chapter " data-level="2.1.2.10" data-path="complete_vch_deployment_client.html">
             
                 <a href="complete_vch_deployment_client.html">
             
@@ -711,7 +711,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.2.10" data-path="deploy_vch_dchphoton.html">
+        <li class="chapter " data-level="2.1.2.11" data-path="deploy_vch_dchphoton.html">
             
                 <a href="deploy_vch_dchphoton.html">
             
@@ -2414,13 +2414,19 @@
 <li><a href="#custom">Custom Certificates</a></li>
 <li><a href="#connect">How to Connect to VCHs with Client Verification</a></li>
 <li><a href="#options">Options</a><ul>
+<li><a href="#client">Client Certificates</a><ul>
+<li><a href="#ca-pem">Select CA Certificate PEM File</a></li>
+</ul>
+</li>
+<li><a href="#server">Server Certificates</a><ul>
 <li><a href="#tls-cname">Common Name (CN)</a></li>
 <li><a href="#org">Organization (O)</a></li>
 <li><a href="#keysize">Certificate Key Size</a></li>
 <li><a href="#cert-path">Certificate Path</a></li>
-<li><a href="#ca-pem">Select CA Certificate PEM File</a></li>
 <li><a href="#server-cert">Server Certificate</a></li>
 <li><a href="#server-key">Server Private Key</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#examples">Examples</a><ul>
@@ -2454,7 +2460,7 @@
 <p>You can deploy a VCH to use custom certificates in combination with auto-generated certificates, as demonstrated in the <a href="#examples">Examples</a>.</p>
 <h2 id="how-to-connect-to-vchs-with-client-verification-">How to Connect to VCHs with Client Verification <a id="connect"></a></h2>
 <p>After deployment, the Docker API for VCHs that implement client verification is accessible at https://<i>vch_dnsname</i>.example.org:2376.</p>
-<p>You must provide the automatically generated <code>cert.pem</code>, <code>key.pem</code>, and <code>ca.pem</code> files to all container developers who need to connect Docker clients to the VCHs.</p>
+<p>You must provide the <code>cert.pem</code>, <code>key.pem</code>, and <code>ca.pem</code> files to all container developers who need to connect Docker clients to the VCHs.</p>
 <ul>
 <li>If you deploy VCHs by using the Create Virtual Container Host wizard, you must create the <code>cert.pem</code> and <code>key.pem</code> files manually, using the custom <code>ca.pem</code> file to sign them. </li>
 <li>If you deploy VCHs by using <code>vic-machine</code>, you can either use the auto-generated client certificate, or by use a client certificate that you create and sign manually.</li>
@@ -2467,9 +2473,28 @@
 --tlskey=<i>path_to_cert_folder</i>/key.pem
 info</pre>
 
-<h2 id="options-">Options <a id="options"></a></h2>
-<p>The following sections each correspond to an entry in the Security page of the Create Virtual Container Host wizard if you select the <strong>Docker API Access</strong> tab. Each section also includes a description of the corresponding <code>vic-machine create</code> option. </p>
+<h1 id="options-">Options <a id="options"></a></h1>
+<p>The following sections each correspond to an entry in the Security page of the Create Virtual Container Host wizard. Each section also includes a description of the corresponding <code>vic-machine create</code> option. </p>
 <p>Certain options in this section are exposed in the <code>vic-machine create</code> help if you run <code>vic-machine create --extended-help</code>, or <code>vic-machine create -x</code>.</p>
+<h2 id="client-certificates-">Client Certificates <a id="client"></a></h2>
+<p>You upload an existing CA for vSphere Integrated Containers Engine to use to sign automatically generated client certificates. If you use <code>vic-machine</code>, you can opt for vSphere Integrated Containers Engine to automatically generate a CA. </p>
+<p><strong>NOTE</strong>: In vSphere Integrated Containers 1.3.0 the client certificate options appear at the bottom of the Security page of the Create Virtual Container Host wizard. From version 1.3.1 onwards, they appear at the top of the page.</p>
+<h3 id="select-ca-certificate-pem-file-">Select CA Certificate PEM File <a id="ca-pem"></a></h3>
+<p>The public portion of a CA that vSphere Integrated Containers Engine uses to validate client certificates. The client certificates are used as credentials for access to the Docker API running in the VCH. This does not need to be the same CA as you use to sign the server certificate, if you use a custom CA to sign server certificates. You can specify multiple CAs.</p>
+<h4 id="create-vch-wizard">Create VCH Wizard</h4>
+<p>If you use the Create Virtual Container Host wizard and you do not disable client verification, it is <strong>mandatory</strong> to upload at least one custom CA file. The Create Virtual Container Host wizard does not support automatic generation of CA files.</p>
+<ol>
+<li>Leave the <strong>Client Certificates</strong> switch in the green ON position, to enable verification of client certificates.</li>
+<li>For <strong>Select the X.509 certificate pem</strong> file, click <strong>Select</strong> and navigate to an existing <code>ca.pem</code> file for the custom CA that you use to sign client certificates.</li>
+<li>Optionally click <strong>Select</strong> again to upload additional CAs.</li>
+</ol>
+<h4 id="vic-machine-option">vic-machine Option</h4>
+<p><code>--tls-ca</code>, <code>--ca</code></p>
+<p>Specify the path to an existing <code>ca.pem</code> file for the custom CA that you use to sign client certificates. Include the filename in the path. You can specify <code>--tls-ca</code> multiple times. If not specified, and if no CA exists in the certificate folder on the machine on which you run <code>vic-machine</code>, <code>vic-machine create</code> automatically generates a CA.</p>
+<pre>--tls-ca <i>path_to_ca_file</i></pre>
+
+<h2 id="server-certificates-">Server Certificates <a id="server"></a></h2>
+<p>You can opt for vSphere Integrated Containers Engine to automatically generate server certificates, or you can upload existing custom certificates.</p>
 <h3 id="common-name-cn-">Common Name (CN) <a id="tls-cname"></a></h3>
 <p>The IP address, FQDN, or a domain wildcard, for the client system or systems that connect to this VCH, to embed in an automatically generated server certificate. </p>
 <p><strong>NOTE</strong>: Specifying an FQDN or wildcard assumes that there is a DHCP server offering IP addresses on the client network, and that those addresses have corresponding DNS entries such as <code>dhcp-a-b-c.example.com</code>.</p>
@@ -2557,20 +2582,6 @@ info</pre>
 <p>If the folder that you specify in <code>--tls-cert-path</code> does not exist, <code>vic-machine create</code> creates it. </p>
 <pre>--tls-cert-path &apos;<i>path_to_certificate_folder</i>&apos;
 </pre>
-
-<h3 id="select-ca-certificate-pem-file-">Select CA Certificate PEM File <a id="ca-pem"></a></h3>
-<p>The public portion of a CA that vSphere Integrated Containers Engine uses to validate client certificates. The client certificates are used as credentials for access to the Docker API running in the VCH. This does not need to be the same CA as you use to sign the server certificate, if you use a custom CA to sign server certificates. You can specify multiple CAs.</p>
-<h4 id="create-vch-wizard">Create VCH Wizard</h4>
-<p>If you use the Create Virtual Container Host wizard and you do not disable client verification, it is <strong>mandatory</strong> to upload at least one custom CA file. The Create Virtual Container Host wizard does not support automatic generation of CA files.</p>
-<ol>
-<li>Leave the <strong>Client Certificates</strong> switch in the green ON position, to enable verification of client certificates.</li>
-<li>For <strong>Select the certificate pem</strong> file, click <strong>Select</strong> and navigate to an existing <code>ca.pem</code> file for the custom CA that you use to sign client certificates.</li>
-<li>Optionally click <strong>Select</strong> again to upload additional CAs.</li>
-</ol>
-<h4 id="vic-machine-option">vic-machine Option</h4>
-<p><code>--tls-ca</code>, <code>--ca</code></p>
-<p>Specify the path to an existing <code>ca.pem</code> file for the custom CA that you use to sign client certificates. Include the filename in the path. You can specify <code>--tls-ca</code> multiple times. If not specified, or if no CA exists in the certificate folder on the machine on which you run <code>vic-machine</code>, <code>vic-machine create</code> automatically generates a CA.</p>
-<pre>--tls-ca <i>path_to_ca_file</i></pre>
 
 <h3 id="server-certificate-">Server Certificate <a id="server-cert"></a></h3>
 <p>A custom X.509 server certificate for the VCH if you do not use  an automatically generated server certificate. This certificate identifies the VCH endpoint VM both to Docker clients and to browsers that connect to the VCH Admin portal. For information about the requirements for server certificates, see <a href="#custom">Custom Certificates</a> above.</p>
@@ -2661,14 +2672,13 @@ info</pre>
 </ul>
 <h3 id="create-vch-wizard">Create VCH Wizard</h3>
 <ol>
-<li>Leave the <strong>Enable secure access to this VCH</strong> switch in the green ON position.</li>
-<li>For <strong>Source of certificates</strong>, select the <strong>Auto-generate</strong> radio button.</li>
-<li>In the <strong>Common Name (CN)</strong> text box, enter the IP address, FQDN, or a domain wildcard for the client systems that connect to this VCH.</li>
-<li>In the <strong>Organization (O)</strong> text box, leave the default setting of the VCH name, or enter a different organization identifier.</li>
-<li>In the <strong>Certificate key size</strong> text box, leave the default setting of 2048 bits, or enter a higher value.</li>
 <li>Leave the <strong>Client Certificates</strong> switch in the green ON position, to enable verification of client certificates.</li>
 <li>Click <strong>Select</strong> and navigate to an existing <code>ca.pem</code> file for the custom CA that you use to sign client certificates.</li>
 <li>Optionally click <strong>Select</strong> again to upload additional CAs.</li>
+<li>Under Server Certificates, select the <strong>Auto-generate</strong> radio button.</li>
+<li>In the <strong>Common Name (CN)</strong> text box, enter the IP address, FQDN, or a domain wildcard for the client systems that connect to this VCH.</li>
+<li>In the <strong>Organization (O)</strong> text box, leave the default setting of the VCH name, or enter a different organization identifier.</li>
+<li>In the <strong>Certificate key size</strong> text box, leave the default setting of 2048 bits, or enter a higher value.</li>
 </ol>
 <h3 id="vic-machine-command"><code>vic-machine</code> Command</h3>
 <p>This example <code>vic-machine create</code> command deploys a VCH with the following configuration:</p>
@@ -2712,13 +2722,12 @@ info</pre>
 <p>Create or obtain server and client certificates, that you sign by  using a custom CA.</p>
 <h3 id="create-vch-wizard">Create VCH Wizard</h3>
 <ol>
-<li>Leave the <strong>Enable secure access to this VCH</strong> switch in the green ON position.</li>
-<li>For <strong>Source of certificates</strong>, select the <strong>Existing</strong> radio button.</li>
-<li>For <strong>Server certificate</strong>, click <strong>Select</strong> and navigate to an existing <code>server-cert.pem</code> file.</li>
-<li>For <strong>Server private key</strong>, click <strong>Select</strong> and navigate to an existing <code>server-cert.pem</code> file.</li>
 <li>Leave the <strong>Client Certificates</strong> switch in the green ON position, to enable verification of client certificates.</li>
 <li>Click <strong>Select</strong> and navigate to an existing <code>ca.pem</code> file for the custom CA that you use to sign client certificates.</li>
 <li>Optionally click <strong>Select</strong> again to upload additional CAs.</li>
+<li>Under Server Certificates, select the <strong>Existing</strong> radio button.</li>
+<li>For <strong>Server certificate</strong>, click <strong>Select</strong> and navigate to an existing <code>server-cert.pem</code> file.</li>
+<li>For <strong>Server private key</strong>, click <strong>Select</strong> and navigate to an existing <code>server-key.pem</code> file.</li>
 </ol>
 <h3 id="vic-machine-command"><code>vic-machine</code> Command</h3>
 <p>This example <code>vic-machine create</code> command provides the paths relative to the current location of the <code>*.pem</code> files for the custom server certificate and key files, and a custom CA.</p>
@@ -2775,8 +2784,7 @@ info</pre>
 <p>After deployment, the Docker API for this VCH is accessible at <a href="https://dhcp-a-b-c.example.org:2376" target="_blank">https://dhcp-a-b-c.example.org:2376</a>.</p>
 <p>You must provide the automatically generated <code>cert.pem</code>, <code>key.pem</code>, and <code>ca.pem</code> file to all container developers who need to connect Docker clients to this VCH.</p>
 <h1 id="what-to-do-next-">What to Do Next <a id="whatnext"></a></h1>
-<p>If you are using the Create Virtual Container Host wizard, stay on the Security page and select the <strong>Registry Access tab</strong> to <a href="vch_registry.html">Configure Registry Access</a>. </p>
-<p>If you do not require access to a registry server, click <strong>Next</strong> to configure the <a href="set_up_ops_user.html">Operations User</a>.</p>
+<p>If you are using the Create Virtual Container Host wizard, click <strong>Next</strong> to <a href="vch_registry.html">Configure Registry Access</a>.</p>
 
                                 
                                 </section>
@@ -2820,7 +2828,7 @@ info</pre>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"VCH Certificate Options","level":"2.1.2.7.1","depth":4,"next":{"title":"Disable Client Verification","level":"2.1.2.7.2","depth":4,"path":"vic_vsphere_admin/tls_unrestricted.md","ref":"vic_vsphere_admin/tls_unrestricted.md","articles":[]},"previous":{"title":"Security","level":"2.1.2.7","depth":3,"path":"vic_vsphere_admin/vch_security.md","ref":"vic_vsphere_admin/vch_security.md","articles":[{"title":"VCH Certificate Options","level":"2.1.2.7.1","depth":4,"path":"vic_vsphere_admin/vch_cert_options.md","ref":"vic_vsphere_admin/vch_cert_options.md","articles":[]},{"title":"Disable Client Verification","level":"2.1.2.7.2","depth":4,"path":"vic_vsphere_admin/tls_unrestricted.md","ref":"vic_vsphere_admin/tls_unrestricted.md","articles":[]},{"title":"Registry Access","level":"2.1.2.7.3","depth":4,"path":"vic_vsphere_admin/vch_registry.md","ref":"vic_vsphere_admin/vch_registry.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_cert_options.md","mtime":"2018-01-17T11:26:20.598Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-25T11:13:49.300Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"VCH Certificate Options","level":"2.1.2.7.1","depth":4,"next":{"title":"Disable Client Verification","level":"2.1.2.7.2","depth":4,"path":"vic_vsphere_admin/tls_unrestricted.md","ref":"vic_vsphere_admin/tls_unrestricted.md","articles":[]},"previous":{"title":"Security","level":"2.1.2.7","depth":3,"path":"vic_vsphere_admin/vch_security.md","ref":"vic_vsphere_admin/vch_security.md","articles":[{"title":"VCH Certificate Options","level":"2.1.2.7.1","depth":4,"path":"vic_vsphere_admin/vch_cert_options.md","ref":"vic_vsphere_admin/vch_cert_options.md","articles":[]},{"title":"Disable Client Verification","level":"2.1.2.7.2","depth":4,"path":"vic_vsphere_admin/tls_unrestricted.md","ref":"vic_vsphere_admin/tls_unrestricted.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_cert_options.md","mtime":"2018-02-01T14:45:17.332Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-02-01T15:47:01.867Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
