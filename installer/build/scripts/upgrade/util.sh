@@ -136,5 +136,5 @@ function getApplianceVersion() {
 }
 
 function timecho {
-  echo -e "$(date +"%Y-%m-%d %H:%M:%S") [==] $@"
+  echo -e "$(date +"%Y-%m-%d %H:%M:%S") [==] $*"
 }
