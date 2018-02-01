@@ -52,7 +52,7 @@ Install VIC Product OVA
 
     # set env var for ova ip
     Set Environment Variable  OVA_IP  ${ova-ip}
-    Wait For Online Components
+    Wait For Online Components  ${ova-ip}
     
     # validate complete installation on UI
     Log To Console  Initializing the OVA using the getting started ui...
