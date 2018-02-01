@@ -85,7 +85,7 @@
      * [Reconfigure the Appliance](vic_vsphere_admin/reconfigure_appliance.md)
      * [Reinitialize the Appliance](vic_vsphere_admin/reinitialize_appliance.md)
          * [Re-Tag the Appliance](vic_vsphere_admin/retag_appliance.md)
-     * [Manually Register with PSC](vic_vsphere_admin/manual_register_psc.md)
+     * [Update PSC Registration](vic_vsphere_admin/manual_register_psc.md)
      * [Check Service Status](vic_vsphere_admin/service_status.md)
      * [Restart Services](vic_vsphere_admin/restart_services.md)  
   * [Backup and Restore](vic_vsphere_admin/backup_vic.md)

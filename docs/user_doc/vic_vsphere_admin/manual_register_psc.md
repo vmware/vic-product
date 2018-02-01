@@ -1,4 +1,4 @@
-# Manually Register with PSC #
+# Update Platform Services Controller Registration #
 
 The vSphere Integrated Containers appliance deploys successfully, but the initialization of the appliance fails.
 
