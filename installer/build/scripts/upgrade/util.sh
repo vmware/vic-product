@@ -134,3 +134,7 @@ function getApplianceVersion() {
   echo $VER_UNKNOWN
   return
 }
+
+function timecho {
+  echo -e "$(date +"%Y-%m-%d %H:%M:%S") [==] $*"
+}

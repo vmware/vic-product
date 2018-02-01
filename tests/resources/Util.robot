@@ -117,5 +117,5 @@ Run command and Return output
 Check service running
     [Arguments]  ${service-name}
     Log To Console  Checking status of ${service-name}...
-    ${out}=  Execute Command  systemctl status ${service-name}
+    ${out}=  Execute Command  systemctl status -l ${service-name}
     Should Contain  ${out}  Active: active (running)
