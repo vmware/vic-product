@@ -47,6 +47,7 @@ fi
 if [ -n "${VIC_MACHINE_SERVER}" ]; then
   OPTIONS="$OPTIONS --vicmachineserver $VIC_MACHINE_SERVER"
 elif [[ "$DRONE_BRANCH" == *"releases/"* ]]; then
+  vicmachineserver_release="latest"
   OPTIONS="$OPTIONS --vicmachineserver $vicmachineserver_release"
 fi
 
