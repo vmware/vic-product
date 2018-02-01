@@ -63,15 +63,15 @@ function upgradeAdmiral {
   echo "Updating Admiral configuration" | tee /dev/fd/3
 
   tab_retries=0
-  max_tab_retries=20 # 60 seconds
-  while [ "$(setTabUrl)" != "200" && ${tab_retries} -lt ${max_tab_retries} ]; do
+  max_tab_retries=6 # 60 seconds
+  while [[ "$(setTabUrl)" != "200" && ${tab_retries} -lt ${max_tab_retries} ]]; do
     timecho "Waiting for admiral api tab update..."
-    sleep 3
+    sleep 10
     ((tab_retries++))
   done
 
   if [ ${tab_retries} -eq ${max_tab_retries} ]; then
-    timecho "Admiral api could not be reached. Exiting..."
+    timecho "Admiral api could not be reached. Exiting..." | tee /dev/fd/3
     exit 1
   fi
 
