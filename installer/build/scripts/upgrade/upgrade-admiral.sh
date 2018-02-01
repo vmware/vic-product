@@ -36,6 +36,18 @@ function checkAdmiralPSCToken {
   fi
 }
 
+function setTabUrl {
+  curl \
+    -s -o /dev/null --insecure \
+    -w "%{http_code}" \
+    -X PUT \
+    -H "x-xenon-auth-token: $(cat /etc/vmware/psc/admiral/tokens.properties)" \
+    -H 'cache-control: no-cache' \
+    -H 'content-type: application/json' \
+    -d "{ \"key\" : \"harbor.tab.url\", \"value\" : \"$(grep harbor.tab.url /storage/data/admiral/configs/config.properties | cut -d'=' -f2)\" }" \
+    "https://${APPLIANCE_IP}:8282/config/props/harbor.tab.url";
+}
+
 # Upgrade entry point from upgrade.sh
 function upgradeAdmiral {
   echo "Performing pre-upgrade checks" | tee /dev/fd/3
@@ -49,15 +61,22 @@ function upgradeAdmiral {
   echo "Starting Admiral upgrade" | tee /dev/fd/3
   systemctl start admiral.service
   echo "Updating Admiral configuration" | tee /dev/fd/3
-  curl \
-    -s --insecure \
-    -X PUT \
-    -H "x-xenon-auth-token: $(cat /etc/vmware/psc/admiral/tokens.properties)" \
-    -H 'cache-control: no-cache' \
-    -H 'content-type: application/json' \
-    -d "{ \"key\" : \"harbor.tab.url\", \"value\" : \"$(grep harbor.tab.url /storage/data/admiral/configs/config.properties | cut -d'=' -f2)\" }" \
-    "https://${APPLIANCE_IP}:8282/config/props/harbor.tab.url" ; \
-  systemctl restart admiral.service
 
+  tab_retries=0
+  max_tab_retries=6 # 60 seconds
+  while [[ "$(setTabUrl)" != "200" && ${tab_retries} -lt ${max_tab_retries} ]]; do
+    timecho "Waiting for admiral api tab update..."
+    sleep 10
+    ((tab_retries++))
+  done
+
+  if [ ${tab_retries} -eq ${max_tab_retries} ]; then
+    timecho "Admiral api could not be reached. Exiting..." | tee /dev/fd/3
+    exit 1
+  fi
+
+  echo "Restarting Admiral" | tee /dev/fd/3
+  systemctl restart admiral.service
   sleep 5
 }
+
