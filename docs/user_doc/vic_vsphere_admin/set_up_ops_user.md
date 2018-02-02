@@ -59,7 +59,7 @@ Log into the Flex-based vSphere Web Client with a vSphere administrator account.
 5. Enter and confirm the password for this account, optionally provide the additional information, and click **OK**. 
 6. (Optional) If you are using vSphere Integrated Containers 1.3.0, configure ready-only non-propagating permissions on the datacenter.
 
-    If you are using a later version than 1.3.0, these steps are not required. 
+    If you are using version 1.3.1 or later, these steps are not required. 
 
     1. In the Hosts and Clusters view, right-click the datacenter in which to deploy the VCH and select **Add Permission**.
     2. Under Users and Groups, select the operations user that you created.
