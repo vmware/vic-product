@@ -24,10 +24,10 @@ During the upgrade, all configurations transfer to the upgraded appliance.
 
 2. Depending on the type of upgrade you are performing, remove the appropriate disks from the older appliance.
   
- 1. Right-click the older vSphere Integrated Containers appliance, and select **Edit Settings**. 
- 2. Hover your pointer over the appropriate disk and click the **Remove** button on the right.
- 3. **IMPORTANT**: Do not check the **Delete files from this datastore** checkbox for any of the disks that you remove.
- 4. When you have marked the appropriate disks for removal, click **OK**. <table>
+  1. Right-click the older vSphere Integrated Containers appliance, and select **Edit Settings**. 
+  2. Hover your pointer over the appropriate disk and click the **Remove** button on the right.
+  3. **IMPORTANT**: Do not check the **Delete files from this datastore** checkbox for any of the disks that you remove.
+  4. When you have marked the appropriate disks for removal, click **OK**. <table>
   <tr>
     <td><b>Upgrading From</b></td>
     <td><b>Disk to Remove</b></td>
@@ -52,10 +52,10 @@ During the upgrade, all configurations transfer to the upgraded appliance.
 
 3. Depending on the type of upgrade you are performing, remove the corresponding disks from the new appliance.
 
- 1. Right-click the new vSphere Integrated Containers appliance, and select **Edit Settings**.
- 2. Hover your pointer over the appropriate disk and click the **Remove** button.
- 3. For each disk that you remove, select the **Delete files from this datastore** checkbox.
- 4. When you have marked the appropriate disks for removal, click **OK**.<table>
+  1. Right-click the new vSphere Integrated Containers appliance, and select **Edit Settings**.
+  2. Hover your pointer over the appropriate disk and click the **Remove** button.
+  3. For each disk that you remove, select the **Delete files from this datastore** checkbox.
+  4. When you have marked the appropriate disks for removal, click **OK**.<table>
   <tr>
     <td><b>Upgrading From</b></td>
     <td><b>Disk to Remove</b></td>
@@ -80,8 +80,8 @@ During the upgrade, all configurations transfer to the upgraded appliance.
 
 4. Move the appropriate VMDK files for the disk or disks from the older appliance into the datastore folder of the new appliance.
 
- 1. In the **Storage** view of the vSphere Client, navigate to the folder that contains the VDMK files of the older appliance.
- 2. Select the appropriate VMDK file or files, click **Move to...**, and move the disk into the datastore folder of the new appliance.<table>
+  1. In the **Storage** view of the vSphere Client, navigate to the folder that contains the VDMK files of the older appliance.
+  2. Select the appropriate VMDK file or files, click **Move to...**, and move the disk into the datastore folder of the new appliance.<table>
   <tr>
     <td><b>Upgrading From</b></td>
     <td><b>File to Move</b></td>
@@ -106,13 +106,13 @@ During the upgrade, all configurations transfer to the upgraded appliance.
 
 5. Add the appropriate disk or disks from the old appliance to the new appliance.
 
- 1. In the **Hosts and Clusters** view of the vSphere Client, right-click the new appliance and select **Edit Settings**.
- 2. Select the option to add a new disk:
+  1. In the **Hosts and Clusters** view of the vSphere Client, right-click the new appliance and select **Edit Settings**.
+  2. Select the option to add a new disk:
      - Flex-based vSphere Web Client: Click the **New device** drop-down menu, select **Existing Hard Disk**, and click **Add**.
      - HTML5 vSphere Client: Click the **Add New Device** button and select **Existing Hard Disk**. 
- 2. Navigate to the datastore folder into which you moved the disk or disks, select <code>&lt;appliance_name&gt;_1.vmdk</code> from the previous appliance, and click **OK**.
- 3. Expand **New Hard Disk** and make sure that the Virtual Device Node for the disk is set to **SCSI(0:1)**.
- 4. Repeat the procedure to attach <code>&lt;appliance_name&gt;_2.vmdk</code> to **SCSI(0:2)** and <code>&lt;appliance_name&gt;_3.vmdk</code> to **SCSI(0:3)**.<table>
+  3. Navigate to the datastore folder into which you moved the disk or disks, select <code>&lt;appliance_name&gt;_1.vmdk</code> from the previous appliance, and click **OK**.
+  4. Expand **New Hard Disk** and make sure that the Virtual Device Node for the disk is set to **SCSI(0:1)**.
+  5. Repeat the procedure to attach <code>&lt;appliance_name&gt;_2.vmdk</code> to **SCSI(0:2)** and <code>&lt;appliance_name&gt;_3.vmdk</code> to **SCSI(0:3)**.<table>
   <tr>
     <td><b>Upgrading From</b></td>
     <td><b>VMDK File</b></td>
@@ -156,11 +156,11 @@ During the upgrade, all configurations transfer to the upgraded appliance.
 
     As the script runs, respond to the prompts to provide the following information: 
 
- 1. Enter the address of the vCenter Server instance on which you deployed the new appliance.
- 2. Enter the Single Sign-On user name and password of a vSphere administrator account. The script requires these credentials to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.
- 3. If vCenter Server is managed by an external Platform Services Controller, enter the FQDN of the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.
- 4. If vCenter Server is managed by an external Platform Services Controller, enter the administrator domain for the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.
- 5. Verify that the upgrade script has detected your upgrade path correctly.        
+  1. Enter the address of the vCenter Server instance on which you deployed the new appliance.
+  2. Enter the Single Sign-On user name and password of a vSphere administrator account. The script requires these credentials to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.
+  3. If vCenter Server is managed by an external Platform Services Controller, enter the FQDN of the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.
+  4. If vCenter Server is managed by an external Platform Services Controller, enter the administrator domain for the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.
+  5. Verify that the upgrade script has detected your upgrade path correctly.        
      - If the script detects your upgrade path correctly, enter `y` to proceed with the upgrade.
      - If the upgrade script detects the upgrade path incorrectly, enter `n` to abort the upgrade and contact VMware support.
 
