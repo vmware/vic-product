@@ -22,7 +22,9 @@ During the upgrade, all configurations transfer to the upgraded appliance.
 
      **IMPORTANT**: Do not select **Power Off**.
 
-2. Depending on the type of upgrade you are performing, remove the appropriate disks from the older appliance.<table>
+2. Depending on the type of upgrade you are performing, remove the appropriate disks from the older appliance.
+
+    <table>
   <tr>
     <td><b>Upgrading From</b></td>
     <td><b>Disk to Remove</b></td>
