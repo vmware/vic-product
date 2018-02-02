@@ -44,6 +44,7 @@ During the upgrade, all configurations transfer to the upgraded appliance.
     <td>Log disk. Migrating logs is optional.</td>
   </tr>
 </table>
+  
   1. Right-click the older vSphere Integrated Containers appliance, and select **Edit Settings**. 
   2. Hover your pointer over the appropriate disk and click the **Remove** button on the right.
   3. **IMPORTANT**: Do not check the **Delete files from this datastore** checkbox for any of the disks that you remove.
