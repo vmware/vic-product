@@ -27,7 +27,9 @@ During the upgrade, all configurations transfer to the upgraded appliance.
    1. Right-click the older vSphere Integrated Containers appliance, and select **Edit Settings**. 
    2. Hover your pointer over the appropriate disk and click the **Remove** button on the right.
    3. **IMPORTANT**: Do not check the **Delete files from this datastore** checkbox for any of the disks that you remove.
-   4. When you have marked the appropriate disks for removal, click **OK**.<table>
+   4. When you have marked the appropriate disks for removal, click **OK**.
+ 
+  <table>
 <tr>
 <td><b>Upgrading From</b></td>
 <td><b>Disk to Remove</b></td>
@@ -55,7 +57,9 @@ During the upgrade, all configurations transfer to the upgraded appliance.
    1. Right-click the new vSphere Integrated Containers appliance, and select **Edit Settings**.
    2. Hover your pointer over the appropriate disk and click the **Remove** button.
    3. For each disk that you remove, select the **Delete files from this datastore** checkbox.
-   4. When you have marked the appropriate disks for removal, click **OK**.<table>
+   4. When you have marked the appropriate disks for removal, click **OK**.
+
+  <table>
   <tr>
     <td><b>Upgrading From</b></td>
     <td><b>Disk to Remove</b></td>
@@ -81,7 +85,9 @@ During the upgrade, all configurations transfer to the upgraded appliance.
 4. Move the appropriate VMDK files for the disk or disks from the older appliance into the datastore folder of the new appliance.
 
    1. In the **Storage** view of the vSphere Client, navigate to the folder that contains the VDMK files of the older appliance.
-   2. Select the appropriate VMDK file or files, click **Move to...**, and move the disk into the datastore folder of the new appliance.<table>
+   2. Select the appropriate VMDK file or files, click **Move to...**, and move the disk into the datastore folder of the new appliance.
+
+  <table>
   <tr>
     <td><b>Upgrading From</b></td>
     <td><b>File to Move</b></td>
@@ -112,7 +118,9 @@ During the upgrade, all configurations transfer to the upgraded appliance.
      - HTML5 vSphere Client: Click the **Add New Device** button and select **Existing Hard Disk**. 
    3. Navigate to the datastore folder into which you moved the disk or disks, select <code>&lt;appliance_name&gt;_1.vmdk</code> from the previous appliance, and click **OK**.
    4. Expand **New Hard Disk** and make sure that the Virtual Device Node for the disk is set to **SCSI(0:1)**.
-   5. Repeat the procedure to attach <code>&lt;appliance_name&gt;_2.vmdk</code> to **SCSI(0:2)** and <code>&lt;appliance_name&gt;_3.vmdk</code> to **SCSI(0:3)**.<table>
+   5. Repeat the procedure to attach <code>&lt;appliance_name&gt;_2.vmdk</code> to **SCSI(0:2)** and <code>&lt;appliance_name&gt;_3.vmdk</code> to **SCSI(0:3)**.
+
+  <table>
   <tr>
     <td><b>Upgrading From</b></td>
     <td><b>VMDK File</b></td>
