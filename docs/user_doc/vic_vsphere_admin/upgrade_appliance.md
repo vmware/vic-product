@@ -27,28 +27,30 @@ During the upgrade, all configurations transfer to the upgraded appliance.
   1. Right-click the older vSphere Integrated Containers appliance, and select **Edit Settings**. 
   2. Hover your pointer over the appropriate disk and click the **Remove** button on the right.
   3. **IMPORTANT**: Do not check the **Delete files from this datastore** checkbox for any of the disks that you remove.
-  4. When you have marked the appropriate disks for removal, click **OK**. <table>
-  <tr>
+  4. When you have marked the appropriate disks for removal, click **OK**. 
+  
+    <table>
+    <tr>
     <td><b>Upgrading From</b></td>
     <td><b>Disk to Remove</b></td>
     <td><b>Description</b></td>
-  </tr>
-  <tr>
+    </tr>
+    <tr>
     <td>1.2.x and 1.3.x</td>
     <td>Hard disk 2</td>
     <td>Data disk</td>
-  </tr>
-  <tr>
+    </tr>
+    <tr>
     <td>1.3.x</td>
     <td>Hard disk 3</td>
     <td>Database disk</td>
-  </tr>
-  <tr>
+    </tr>
+    <tr>
     <td>1.3.x</td>
     <td>Hard disk 4</td>
     <td>Log disk. Migrating logs is optional.</td>
-  </tr>
-</table>
+    </tr>
+    </table>
 
 3. Depending on the type of upgrade you are performing, remove the corresponding disks from the new appliance.
 
