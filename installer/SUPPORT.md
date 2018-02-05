@@ -104,6 +104,13 @@ Failures during initialization are most often related to PSC authentication and 
 Provide the following information to support if encountering Initialization failures:
 
 - Are you able to view the web page at http://<appliance_ip or FQDN>?
+    - If yes, after providing initialization information, did you see a green bar showing a success message?
+        - If yes, appliance is initialized
+        - If no, what error message was displayed in the red bar?
+            - If the error is `Failed to register with PSC. Please check the PSC settings provided and try again.`
+                - Verify PSC settings and use the `Re-initialize` button to try again
+                - Check for clock skew between the VIC appliance and the PSC you have provided
+            - Provide the error message to support and continue with SSH based steps below
     - If no, continue with SSH based steps below
 - Did you attempt to initialize the VIC appliance by entering information in the Getting Started page?
     - If yes:
