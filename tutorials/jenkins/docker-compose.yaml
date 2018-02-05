@@ -1,0 +1,19 @@
+version: '2'
+services:
+  jenkins:
+    image: "jenkins/jenkins:lts-alpine"
+    cpuset: "2"
+    mem_limit: 4g
+    volumes:
+    - jenkins_home:/var/jenkins_home
+    ports:
+      - "8889:8080"
+      - "50000:50000"
+    environment:
+      - TINI_SUBREAPER=
+volumes:
+  jenkins_home:
+    driver: "vsphere"
+    driver_opts:
+      Capacity: "5G"
+      VolumeStore: "default"
