@@ -37,7 +37,10 @@ the appliance](BUILD.md) for testing during the development process.
 _TODO_ Add reference service to repo
 
 - A component SHOULD be delivered as a Docker container or Docker Compose application with Compose
-  file version 2
+  file version 3.3 or less
+
+  If the version of Compose file is less than 3.3 and causes integration issues, the component team
+  MUST update the Compose file to be compatible
 
 - Configuration of a service SHOULD take place in `ExecStartPre` statement(s) of the component unit
 
@@ -442,3 +445,7 @@ the current version of the appliance perform this action through a UI.
 ## Appliance Rollback
 
 Rollback is not currently implemented, but will be considered in the future.
+
+## Additional Information
+
+- [VIC Appliance Component Integration Documentation](https://github.com/vmware/vic-product/blob/master/installer/INTEGRATION.md)
