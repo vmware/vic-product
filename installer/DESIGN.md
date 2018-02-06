@@ -269,6 +269,7 @@ the build to triage the failure.
 - Fix root cause or update integration test(s) as applicable
 - Add integration test(s) in `vic-product` repo or component repo as applicable
 - Monitor the triggered downstream build containing the fix to confirm resolution
+- Message `#vic-product-standup` that build failure is resolved
 
 
 ## Filesystem Layout
