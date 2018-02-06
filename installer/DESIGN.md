@@ -201,7 +201,7 @@ time of the build.
 ### Component Responsibilities
 
 - A component MUST maintain a current copy of
-  [VIC Appliance Component Integration Documentation](#)
+  [VIC Appliance Component Integration Documentation](INTEGRATION.md)
 
   This document defines the interface between the VIC appliance and the component.
 
