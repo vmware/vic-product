@@ -6,8 +6,8 @@ The vSphere Integrated Containers appliance runs various services, such as vSphe
 |---|---|---|---|
 |1|`/`|SCSI(0:0)|The root disk, that contains the operating system and application state of the vSphere Integrated Containers appliance.|
 |2|`/storage/data/`|SCSI(0:1)|A data disk that contains, among other things, the vSphere Integrated Containers Registry instance that is running in the appliance.|
-|3|`/storage/log/`|SCSI(0:2)|A logging disk that contains the logs for the different vSphere Integrated Containers components.|
-|4|`/storage/db/`|SCSI(0:3)|A database disk that contains the MYSQL, Clair, and Notary databases for vSphere Integrated Containers Registry.|
+|3|`/storage/db/`|SCSI(0:2)|A database disk that contains the MYSQL, Clair, and Notary databases for vSphere Integrated Containers Registry.|
+|4|`/storage/log/`|SCSI(0:3)|A logging disk that contains the logs for the different vSphere Integrated Containers components.|
 
 The separation of different types of data between disks allows you to upgrade the appliance with an existing data disk from a previous installation. It also allows you to back up and restore the different disks, if necessary.
 
