@@ -4,12 +4,17 @@ This directory will host all the code that is going to be part of the VIC unifie
 
 ## Build
 
-[How to build VIC Product OVA](BUILD.md)
+[How to build VIC Product OVA](docs/BUILD.md)
 
 ## Release
 
-[Release procedures](RELEASE.md)
+[Release procedures](docs/RELEASE.md)
 
 ## Troubleshooting
 
-[VIC Appliance Troubleshooting Guide](SUPPORT.md)
+[VIC Appliance Troubleshooting Guide](docs/SUPPORT.md)
+
+## VIC Appliance Integration
+
+[VIC Appliance Design](docs/DESIGN.md)
+[VIC Appliance Component Integration Documentation](docs/INTEGRATION.md)

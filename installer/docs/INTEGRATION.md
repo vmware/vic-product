@@ -11,6 +11,8 @@ Each component MUST document and maintain a current copy of [Component Inclusion
 ## Component Inclusion
 
 ### Component Requirements
+- What is the component's naming scheme for development and release builds?
+- What is the component's versioning scheme for development and release builds?
 - What is the Docker container or Docker Compose application that will be included in the appliance?
     - Release versions MUST be retained. Where will previously released versions be stored? 
 - Aside from the primary component, are there other dependencies maintained by the component team that need to be included in the VIC appliance? 
@@ -23,7 +25,7 @@ Each component MUST document and maintain a current copy of [Component Inclusion
     - What is the default size in GB?
 - Describe the requirements the platform must provide for the component
     - Examples: OS packages, certificates, token files, configuration
-    - Specify the location the component expects any dependencies to be on the filesystem
+    - Specify the location the component expects any dependencies to be on the filesystem:
 
 ### Runtime
 - What configuration must be present for the service to start?
@@ -31,16 +33,17 @@ Each component MUST document and maintain a current copy of [Component Inclusion
         - Will the component use the default `.env` file? https://docs.docker.com/compose/env-file/
             - If not, specify the environment file:
         - What default values will the VIC appliance need to override?
-- What volumes that need to be mounted to the container or application? The number of volumes should be minimized.
+- What volumes need to be mounted to the container or application? The number of volumes should be minimized.
 - Specify networking requirements
     - External networking:
     - Will the component connect to the appliance's `vic-appliance` network? https://docs.docker.com/compose/networking/#use-a-pre-existing-network
-    
 - Does the component require any other components to be running before it starts?
 - Are there any steps that need to be performed before starting the component?
+- Should a script be run before starting the component? This should be avoided if possible.
 - How do you start the component?
 - How do you stop the component?
 - Are there any steps that need to be performed after the component stops?
+- Are there any additional runtime requirements?
 
 ### Continuous Integration
 - Link to .drone.yml that triggers downstream `vic-product` build:
@@ -52,11 +55,11 @@ Each component MUST document and maintain a current copy of [Component Inclusion
 
 ### Appliance Upgrade
 - Does the component specific upgrade script meet the requirements of the design doc? https://github.com/vmware/vic-product/blob/master/installer/DESIGN.md#requirements-3
-- How does the VIC appliance team know when a change needs to be made to the component specific upgrade script?
-    - This question is about the responsibility for the component upgrade script
-        - Should the upgrade script be in component repo? As a container?
-            - Versioning?
-- Configuration
+- How does the VIC appliance team know when a change needs to be made to the component specific upgrade script? (This question is about the responsibility for the component upgrade script)
+    - Should the upgrade script be in component repo? As a container?
+    - How will the upgrade script be versioned?
+- How are configuration changes handled during upgrade?
+- Are there additional upgrade requirements?
 
     
 ## Additional Information
