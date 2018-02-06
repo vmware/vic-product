@@ -28,7 +28,7 @@
         - How will the component team notify the VIC appliance team to pull in a new version?
         - How are these dependencies versioned?
 
-- Does the component need a separate disk? (such as /storage/db)
+- Does the component need a separate disk? (such as `/storage/db`)
   NO
 
     - What is the default size in GB?
