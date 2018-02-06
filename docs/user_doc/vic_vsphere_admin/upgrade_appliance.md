@@ -2,7 +2,7 @@
 
 If you have a 1.2.x version of the vSphere Integrated Containers appliance, you can upgrade your existing installation to 1.3.x. You can also upgrade a 1.3.x release to a later 1.3.y update release.
 
-**IMPORTANT**: Upgrading the vSphere Integrated Containers appliance requires you to remove disks from the old appliance VM and move them to the a new instance of the appliance. In vSphere Integrated Containers 1.2.x, the appliance has two disks. In vSphere Integrated Containers 1.3.x, the appliance has four disks. As a consequence, you must move different disks between the VMs depending on whether you are upgrading from 1.2.x to 1.3.x, or from 1.3.x to 1.3.y.
+**IMPORTANT**: Upgrading the vSphere Integrated Containers appliance requires you to remove disks from the old appliance VM and move them to a new instance of the appliance. In vSphere Integrated Containers 1.2.x, the appliance has two disks. In vSphere Integrated Containers 1.3.x, the appliance has four disks. As a consequence, you must move different disks between the VMs depending on whether you are upgrading from 1.2.x to 1.3.x, or from 1.3.x to 1.3.y.
 
 During the upgrade, all configurations transfer to the upgraded appliance.
 
