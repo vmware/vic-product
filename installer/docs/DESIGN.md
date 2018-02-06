@@ -448,4 +448,4 @@ Rollback is not currently implemented, but will be considered in the future.
 
 ## Additional Information
 
-- [VIC Appliance Component Integration Documentation](https://github.com/vmware/vic-product/blob/master/installer/INTEGRATION.md)
+- [VIC Appliance Component Integration Documentation](https://github.com/vmware/vic-product/blob/master/installer/docs/INTEGRATION.md)
