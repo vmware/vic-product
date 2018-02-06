@@ -104,6 +104,13 @@ Failures during initialization are most often related to PSC authentication and 
 Provide the following information to support if encountering Initialization failures:
 
 - Are you able to view the web page at http://<appliance_ip or FQDN>?
+    - If yes, after providing initialization information, did you see a green bar showing a success message?
+        - If yes, appliance is initialized
+        - If no, what error message was displayed in the red bar?
+            - If the error is `Failed to register with PSC. Please check the PSC settings provided and try again.`
+                - Verify PSC settings and use the `Re-initialize` button to try again
+                - Check for clock skew between the VIC appliance and the PSC you have provided
+            - Provide the error message to support and continue with SSH based steps below
     - If no, continue with SSH based steps below
 - Did you attempt to initialize the VIC appliance by entering information in the Getting Started page?
     - If yes:
@@ -178,9 +185,38 @@ TODO
 
 ### Appliance Upgrade Stage
 
-TODO
+Users may upgrade to a new version of the VIC appliance. Only certain upgrade paths are valid.
 
 #### Appliance Upgrade Failures
+
+Upgrade failures may result from failing to move the disks correctly or failures with upgrading
+services that run on the VIC appliance.
+
+##### Support Information
+
+- What is the old version of the VIC appliance?
+    - Run `cat /etc/vmware/version` on the old appliance and provide the entire resulting output to
+      support
+- What is the new version of the VIC appliance?
+    - Run `cat /etc/vmware/version` on the old appliance and provide the entire resulting output to
+      support
+- Were the hard disks from the old appliance moved properly to the new appliance?
+    - Follow the official documentation to move and verify that the disks are attached to the
+      correct Virtual Device Node
+- Was the appliance upgrade script run?
+    - If yes, collect `/var/log/vmware/upgrade.log` and provide to support
+    - If no, run the upgrade script following the official documentation
+- Was the new appliance initialized before running the appliance upgrade script?
+    - If yes, this is not the proper upgrade procedure and may have undefined results. Redeploy the
+      new VIC appliance and follow the proper upgrade procedure according to the official
+      documentation
+
+
+### UI Plugin Upgrade Stage
+
+TODO
+
+#### UI Plugin Upgrade Failures
 
 TODO
 
