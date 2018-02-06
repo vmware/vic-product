@@ -14,7 +14,7 @@ To deploy a virtual container host (VCH) that does not restrict access to the Do
 
 ## Options <a id="options"></a>
 
-The following sections each correspond to an entry in the Security page of the Create Virtual Container Host wizard if you select the **Docker API Access** tab. Each section also includes a description of the corresponding `vic-machine create` option. 
+The following sections each correspond to an entry in the Security page of the Create Virtual Container Host wizard. Each section also includes a description of the corresponding `vic-machine create` option. 
 
 Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
 
@@ -30,10 +30,9 @@ For example, you can access information about a VCH that uses a server certifica
 
 #### Create VCH Wizard
 
-You can disable client certificate verification in two ways:
+To disable client certificate verification, set the **Client Certificates** switch to the gray OFF position. You must still either upload a custom server certificate or configure an automatically generated server certificate.
 
-- To use a custom server certificate or to configure an automatically generated server certificate, enter the server certificate settings and set the **Client Certificates** switch to the gray OFF position. 
-- To use an automatically generated server certificate without configuring any server certificate settings, set the **Enable secure access to this VCH** switch at the top of the page to the gray OFF position.
+**NOTE**: In vSphere Integrated Containers 1.3.0 the client certificate options appear at the bottom of the Security page of the Create Virtual Container Host wizard. From version 1.3.1 onwards, they appear at the top of the page.
 
 #### vic-machine Option 
 
@@ -93,12 +92,11 @@ This example deploys a VCH with the following security configuration.
 
 ### Create VCH Wizard
 
-1. Leave the **Enable secure access to this VCH** switch in the green ON position.
-2. For **Source of certificates**, select the **Auto-generate** radio button.
+1. Set the **Client Certificates** switch to the gray OFF position.
+2. Under Server Certificates, select the **Auto-generate** radio button.
 3. In the **Common Name (CN)** text box, enter the IP address, FQDN, or a domain wildcard for the client systems that connect to this VCH.
 4. In the **Organization (O)** text box, leave the default setting of the VCH name, or enter a different organization identifier.
 5. In the **Certificate key size** text box, leave the default setting of 2048 bits, or enter a higher value.
-3. Set the **Client Certificates** switch to the gray OFF position.
 
 ### `vic-machine` Command
 
@@ -137,11 +135,10 @@ This example deploys a VCH with the following security configuration:
 
 ### Create VCH Wizard
 
-1. Leave the **Enable secure access to this VCH** switch in the green ON position.
-2. For **Source of certificates**, select the **Existing** radio button.
+1. Set the **Client Certificates** switch to the gray off position.
+2. Under Server Certificates, select the **Existing** radio button.
 3. For **Server certificate**, click **Select** and navigate to an existing `server-cert.pem` file.
 4. For **Server private key**, click **Select** and navigate to an existing `server-key.pem` file.
-5. Set the **Client Certificates** switch to the gray off position.
 
 ### `vic-machine` Command
 
@@ -177,7 +174,7 @@ This example deploys a VCH with the following security configuration.
 
 ### Create VCH Wizard
 
-At the top of the Security page, set the **Enable secure access to this VCH** switch to the gray OFF position. All other security options are disabled.
+The Create Virtual Container Host wizard does not support this configuration.
 
 ### `vic-machine` Command
 
@@ -235,6 +232,4 @@ You do not need to provide any certificates to container developers. No `env` fi
 
 # What to Do Next <a id="whatnext"></a>
 
-If you are using the Create Virtual Container Host wizard, stay on the Security page and select the **Registry Access tab** to [Configure Registry Access](vch_registry.md).
-
-If you do not require access to a registry server, click **Next** to configure the [Operations User](set_up_ops_user.md).
+If you are using the Create Virtual Container Host wizard, click **Next** to [Configure Registry Access](vch_registry.md).

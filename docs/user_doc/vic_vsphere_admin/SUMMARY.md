@@ -37,7 +37,7 @@
      * [Security](vch_security.md)
          * [VCH Certificate Options](vch_cert_options.md)
          * [Disable Client Verification](tls_unrestricted.md)
-         * [Registry Access](vch_registry.md) 
+     * [Registry Access](vch_registry.md) 
      * [Operations User](set_up_ops_user.md)
          * [Manually Create a User Account for the Operations User](ops_user_manual.md) 
      * [Finish VCH Deployment](complete_vch_deployment_client.md)

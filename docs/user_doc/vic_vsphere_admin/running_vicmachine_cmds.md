@@ -119,6 +119,7 @@ For information about other VCH deployment options, see the following topics:
 - [Virtual Container Host Storage Capacity](vch_storage.md)
 - [Virtual Container Host Networks](vch_networking.md)
 - [Virtual Container Host Security](vch_security.md)
+- [Configure Registry Access](vch_registry.md)
 - [Configure the Operations User](set_up_ops_user.md)
 - [Virtual Container Host Boot Options](vch_boot_options.md)
 

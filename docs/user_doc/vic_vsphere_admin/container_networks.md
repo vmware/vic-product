@@ -81,7 +81,7 @@ The range of IP addresses that container VMs can use if the port group that you 
 
 #### Create VCH Wizard
 
-1. Select the **Static** radio button.
+1. If the container network does not support DHCP, select the **IP Range** radio button.
 2. Enter an IP address range or CIDR in the  **IP Range** text box. 
 
  - Example IP address range: `192.168.100.2-192.168.100.254`

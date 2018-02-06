@@ -8,13 +8,15 @@ For information about how to deploy VCHs that do not verify  connections from cl
 - [Custom Certificates](#custom)
 - [How to Connect to VCHs with Client Verification](#connect)
 - [Options](#options)
-  - [Common Name (CN)](#tls-cname)
-  - [Organization (O)](#org)
-  - [Certificate Key Size](#keysize)
-  - [Certificate Path](#cert-path)
-  - [Select CA Certificate PEM File](#ca-pem)
-  - [Server Certificate](#server-cert)
-  - [Server Private Key](#server-key)
+  - [Client Certificates](#client)
+     - [Select CA Certificate PEM File](#ca-pem)
+  -  [Server Certificates](#server)
+     - [Common Name (CN)](#tls-cname)
+     - [Organization (O)](#org)
+     - [Certificate Key Size](#keysize)
+     - [Certificate Path](#cert-path)
+     - [Server Certificate](#server-cert)
+     - [Server Private Key](#server-key)
 - [Examples](#examples)
   - [Automatically Generate Server, Client, and CA Certificates](#full-auto)
   - [Automatically Generate Server Certificates and Use a Custom CA for Client Certificates](#auto-server)
@@ -52,7 +54,7 @@ You can deploy a VCH to use custom certificates in combination with auto-generat
 
 After deployment, the Docker API for VCHs that implement client verification is accessible at https://<i>vch_dnsname</i>.example.org:2376.
 
-You must provide the automatically generated `cert.pem`, `key.pem`, and `ca.pem` files to all container developers who need to connect Docker clients to the VCHs.
+You must provide the `cert.pem`, `key.pem`, and `ca.pem` files to all container developers who need to connect Docker clients to the VCHs.
 
 - If you deploy VCHs by using the Create Virtual Container Host wizard, you must create the `cert.pem` and `key.pem` files manually, using the custom `ca.pem` file to sign them. 
 - If you deploy VCHs by using `vic-machine`, you can either use the auto-generated client certificate, or by use a client certificate that you create and sign manually.
@@ -66,11 +68,41 @@ For example, you can access information about a VCH with client verification by 
 --tlskey=<i>path_to_cert_folder</i>/key.pem
 info</pre>
 
-## Options <a id="options"></a>
+# Options <a id="options"></a>
 
-The following sections each correspond to an entry in the Security page of the Create Virtual Container Host wizard if you select the **Docker API Access** tab. Each section also includes a description of the corresponding `vic-machine create` option. 
+The following sections each correspond to an entry in the Security page of the Create Virtual Container Host wizard. Each section also includes a description of the corresponding `vic-machine create` option. 
 
 Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
+
+## Client Certificates <a id="client"></a>
+
+You upload an existing CA for vSphere Integrated Containers Engine to use to sign automatically generated client certificates. If you use `vic-machine`, you can opt for vSphere Integrated Containers Engine to automatically generate a CA. 
+
+**NOTE**: In vSphere Integrated Containers 1.3.0 the client certificate options appear at the bottom of the Security page of the Create Virtual Container Host wizard. From version 1.3.1 onwards, they appear at the top of the page.
+
+### Select CA Certificate PEM File <a id="ca-pem"></a>
+
+The public portion of a CA that vSphere Integrated Containers Engine uses to validate client certificates. The client certificates are used as credentials for access to the Docker API running in the VCH. This does not need to be the same CA as you use to sign the server certificate, if you use a custom CA to sign server certificates. You can specify multiple CAs.
+
+#### Create VCH Wizard
+
+If you use the Create Virtual Container Host wizard and you do not disable client verification, it is **mandatory** to upload at least one custom CA file. The Create Virtual Container Host wizard does not support automatic generation of CA files.
+
+1. Leave the **Client Certificates** switch in the green ON position, to enable verification of client certificates.
+2. For **Select the X.509 certificate pem** file, click **Select** and navigate to an existing `ca.pem` file for the custom CA that you use to sign client certificates.
+3. Optionally click **Select** again to upload additional CAs.
+
+#### vic-machine Option 
+
+`--tls-ca`, `--ca`
+
+Specify the path to an existing `ca.pem` file for the custom CA that you use to sign client certificates. Include the filename in the path. You can specify `--tls-ca` multiple times. If not specified, and if no CA exists in the certificate folder on the machine on which you run `vic-machine`, `vic-machine create` automatically generates a CA.
+
+<pre>--tls-ca <i>path_to_ca_file</i></pre>
+
+## Server Certificates <a id="server"></a>
+
+You can opt for vSphere Integrated Containers Engine to automatically generate server certificates, or you can upload existing custom certificates.
 
 ### Common Name (CN) <a id="tls-cname"></a>
 
@@ -184,26 +216,6 @@ If the folder that you specify in `--tls-cert-path` does not exist, `vic-machine
 <pre>--tls-cert-path '<i>path_to_certificate_folder</i>'
 </pre>
 
-### Select CA Certificate PEM File <a id="ca-pem"></a>
-
-The public portion of a CA that vSphere Integrated Containers Engine uses to validate client certificates. The client certificates are used as credentials for access to the Docker API running in the VCH. This does not need to be the same CA as you use to sign the server certificate, if you use a custom CA to sign server certificates. You can specify multiple CAs.
-
-#### Create VCH Wizard
-
-If you use the Create Virtual Container Host wizard and you do not disable client verification, it is **mandatory** to upload at least one custom CA file. The Create Virtual Container Host wizard does not support automatic generation of CA files.
-
-1. Leave the **Client Certificates** switch in the green ON position, to enable verification of client certificates.
-2. For **Select the certificate pem** file, click **Select** and navigate to an existing `ca.pem` file for the custom CA that you use to sign client certificates.
-3. Optionally click **Select** again to upload additional CAs.
-
-#### vic-machine Option 
-
-`--tls-ca`, `--ca`
-
-Specify the path to an existing `ca.pem` file for the custom CA that you use to sign client certificates. Include the filename in the path. You can specify `--tls-ca` multiple times. If not specified, or if no CA exists in the certificate folder on the machine on which you run `vic-machine`, `vic-machine create` automatically generates a CA.
-
-<pre>--tls-ca <i>path_to_ca_file</i></pre>
-
 ### Server Certificate <a id="server-cert"></a>
 
 A custom X.509 server certificate for the VCH if you do not use  an automatically generated server certificate. This certificate identifies the VCH endpoint VM both to Docker clients and to browsers that connect to the VCH Admin portal. For information about the requirements for server certificates, see [Custom Certificates](#custom) above.
@@ -312,14 +324,13 @@ This section provides examples of using both the Create Virtual Container Host w
 
 ### Create VCH Wizard
 
-1. Leave the **Enable secure access to this VCH** switch in the green ON position.
-2. For **Source of certificates**, select the **Auto-generate** radio button.
-3. In the **Common Name (CN)** text box, enter the IP address, FQDN, or a domain wildcard for the client systems that connect to this VCH.
-4. In the **Organization (O)** text box, leave the default setting of the VCH name, or enter a different organization identifier.
-5. In the **Certificate key size** text box, leave the default setting of 2048 bits, or enter a higher value.
-6. Leave the **Client Certificates** switch in the green ON position, to enable verification of client certificates.
-7. Click **Select** and navigate to an existing `ca.pem` file for the custom CA that you use to sign client certificates.
-8. Optionally click **Select** again to upload additional CAs.
+1. Leave the **Client Certificates** switch in the green ON position, to enable verification of client certificates.
+2. Click **Select** and navigate to an existing `ca.pem` file for the custom CA that you use to sign client certificates.
+3. Optionally click **Select** again to upload additional CAs.
+4. Under Server Certificates, select the **Auto-generate** radio button.
+5. In the **Common Name (CN)** text box, enter the IP address, FQDN, or a domain wildcard for the client systems that connect to this VCH.
+6. In the **Organization (O)** text box, leave the default setting of the VCH name, or enter a different organization identifier.
+7. In the **Certificate key size** text box, leave the default setting of 2048 bits, or enter a higher value.
 
 ### `vic-machine` Command
 
@@ -369,13 +380,12 @@ Create or obtain server and client certificates, that you sign by  using a custo
 
 ### Create VCH Wizard
 
-1. Leave the **Enable secure access to this VCH** switch in the green ON position.
-2. For **Source of certificates**, select the **Existing** radio button.
-3. For **Server certificate**, click **Select** and navigate to an existing `server-cert.pem` file.
-4. For **Server private key**, click **Select** and navigate to an existing `server-cert.pem` file.
-6. Leave the **Client Certificates** switch in the green ON position, to enable verification of client certificates.
-7. Click **Select** and navigate to an existing `ca.pem` file for the custom CA that you use to sign client certificates.
-8. Optionally click **Select** again to upload additional CAs.
+1. Leave the **Client Certificates** switch in the green ON position, to enable verification of client certificates.
+2. Click **Select** and navigate to an existing `ca.pem` file for the custom CA that you use to sign client certificates.
+3. Optionally click **Select** again to upload additional CAs.
+4. Under Server Certificates, select the **Existing** radio button.
+5. For **Server certificate**, click **Select** and navigate to an existing `server-cert.pem` file.
+6. For **Server private key**, click **Select** and navigate to an existing `server-key.pem` file.
 
 ### `vic-machine` Command
 
@@ -448,6 +458,4 @@ You must provide the automatically generated `cert.pem`, `key.pem`, and `ca.pem`
 
 # What to Do Next <a id="whatnext"></a>
 
-If you are using the Create Virtual Container Host wizard, stay on the Security page and select the **Registry Access tab** to [Configure Registry Access](vch_registry.md). 
-
-If you do not require access to a registry server, click **Next** to configure the [Operations User](set_up_ops_user.md).
+If you are using the Create Virtual Container Host wizard, click **Next** to [Configure Registry Access](vch_registry.md).
