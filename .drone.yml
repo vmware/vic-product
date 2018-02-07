@@ -40,6 +40,7 @@ pipeline:
       branch: master
       repo: vmware/vic-product
       event: [ push, pull_request, tag, deployment ]
+      status: success
 
   dch-push:
     environment:
@@ -54,6 +55,7 @@ pipeline:
       branch: master
       repo: vmware/vic-product
       event: [ push, tag, deployment ]
+      status: success
 
   unified-ova-build:
     image: gcr.io/eminent-nation-87317/vic-product-build:latest
