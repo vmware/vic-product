@@ -136,7 +136,6 @@ For issues relating to individual components, please use the component specific 
 If you are unsure which component your issue relates to, submit it here and we will triage it.
 Thank you for contributing to VIC Product!
 
-
 ## Repository structure
 
 The layout in the repo is as follows:
@@ -146,6 +145,10 @@ The layout in the repo is as follows:
 * tests - VIC Appliance tests
 * tutorials - Tutorials
 
+## VIC Appliance
+
+View the [VIC Appliance Readme](installer/README.md)
+
 ## Troubleshooting
 
-* If you're building the project in a VM, ensure that it has at least 4GB memory to avoid issues while running the build.
+View the [VIC Appliance Troubleshooting Guide](installer/docs/SUPPORT.md)

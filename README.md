@@ -19,7 +19,7 @@ Please refer to the [documentation](https://vmware.github.io/vic-product/#docume
 
 ## Support and Troubleshooting
 
-View the [VIC Appliance Troubleshooting Guide](installer/SUPPORT.md)
+View the [VIC Appliance Troubleshooting Guide](installer/docs/SUPPORT.md)
 
 ## Contributing to vSphere Integrated Containers
 
