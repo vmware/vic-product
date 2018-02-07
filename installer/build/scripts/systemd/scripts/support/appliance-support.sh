@@ -69,10 +69,16 @@ function commandToCompressed {
 # getLog copies files with suffix to component directory in $TMPDIR
 function getLog {
   local FILES
+  set +e
   FILES=$(find "$1" -name "$2")
+  set -e
   local DIR
   DIR=$(basename "$1")
 
+  if [ -z "$FILES" ]; then
+    echo "No logs found for $1"
+    return
+  fi
   for file in $FILES; do
     commandToCompressed "cat $file" "$(basename "$file")" "$DIR"
   done
@@ -161,10 +167,16 @@ function getDiagInfo {
   # Harbor
   commandToFile "cat /storage/data/harbor/config/config.json" "config.json" "harbor"
   local FILES
+  set +e
   FILES=$(find "/etc/vmware/harbor" -maxdepth 1 -name "*.yml")
-  for file in $FILES; do
-    commandToFile "cat $file" "$(basename "$file")" "harbor"
-  done
+  set -e
+  if [ -z "$FILES" ]; then
+    echo "Failed to find Harbor yml files"
+  else
+    for file in $FILES; do
+      commandToFile "cat $file" "$(basename "$file")" "harbor"
+    done
+  fi
 
   # Gets the latest log for each component. Additional rotated logs must be retrieved manually.
   getLog "/storage/log/admiral" "*.log"
