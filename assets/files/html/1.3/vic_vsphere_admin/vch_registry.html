@@ -648,7 +648,12 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.1.2.7.3" data-path="vch_registry.html">
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.1.2.8" data-path="vch_registry.html">
             
                 <a href="vch_registry.html">
             
@@ -661,12 +666,7 @@
             
         </li>
     
-
-            </ul>
-            
-        </li>
-    
-        <li class="chapter " data-level="2.1.2.8" data-path="set_up_ops_user.html">
+        <li class="chapter " data-level="2.1.2.9" data-path="set_up_ops_user.html">
             
                 <a href="set_up_ops_user.html">
             
@@ -680,7 +680,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.2.8.1" data-path="ops_user_manual.html">
+        <li class="chapter " data-level="2.1.2.9.1" data-path="ops_user_manual.html">
             
                 <a href="ops_user_manual.html">
             
@@ -698,7 +698,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.2.9" data-path="complete_vch_deployment_client.html">
+        <li class="chapter " data-level="2.1.2.10" data-path="complete_vch_deployment_client.html">
             
                 <a href="complete_vch_deployment_client.html">
             
@@ -711,7 +711,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.2.10" data-path="deploy_vch_dchphoton.html">
+        <li class="chapter " data-level="2.1.2.11" data-path="deploy_vch_dchphoton.html">
             
                 <a href="deploy_vch_dchphoton.html">
             
@@ -2434,8 +2434,9 @@
 <li>Go to <strong>Administration</strong> &gt; <strong>Configuration</strong>, and click the link to download the <strong>Registry Root Cert</strong>.</li>
 </ol>
 <h2 id="options-">Options <a id="options"></a></h2>
-<p>The following sections each correspond to an entry in the Security page of the Create Virtual Container Host wizard if you select the <strong>Registry Access</strong> tab. The <strong>Registry Access</strong> tab is only visible when the <strong>Enable secure access to this VCH</strong> is set to the green ON position. Each section also includes a description of the corresponding <code>vic-machine create</code> option. </p>
+<p>The following sections each correspond to an entry in the <strong>Registry Access</strong> page of the Create Virtual Container Host wizard. Each section also includes a description of the corresponding <code>vic-machine create</code> option. </p>
 <p>Certain options in this section are exposed in the <code>vic-machine create</code> help if you run <code>vic-machine create --extended-help</code>, or <code>vic-machine create -x</code>.</p>
+<p><strong>NOTE</strong>: In vSphere Integrated Containers 1.3.0, the registry access settings are located in a tab in the <strong>Security</strong> page of the Create Virtual Container Host wizard, that is visible when <strong>Enable secure access to this VCH</strong> is set to the green ON position. From version 1.3.1 onwards, the registry access settings are in a separate page. </p>
 <h3 id="whitelist-registry-mode-">Whitelist Registry Mode <a id="whitelist-registry"></a></h3>
 <p>You can restrict the registries to which a VCH allows access by setting the VCH in whitelist registry mode. You can allow VCHs to access multiple registries. In whitelist mode, users can only access those registries that you have specified. Users cannot access any registries that are not in the whitelist, even if they are public registries, such as Docker Hub. You can configure a VCH so that it includes both secure and insecure registries in its whitelist.</p>
 <p>You can specify whitelisted registries in the following formats:</p>
@@ -2455,7 +2456,6 @@
 <p>If you add a registry to the whitelist, but you do not specify that registry as an insecure registry, the VCH attempts to verify the registry by using certificates. If it does not find a certificate, the VCH does not allow access to that registry.</p>
 <h4 id="create-vch-wizard">Create VCH Wizard</h4>
 <ol>
-<li>Select the <strong>Registry Access</strong> tab.</li>
 <li>Set the <strong>Whitelist registry mode</strong> switch to the green ON position.</li>
 <li>In the <strong>Whitelist registries</strong> text box, enter the IP address or FQDN and port number for the registry server, or enter a wildcard domain.</li>
 <li>Select <strong>Secure</strong> or <strong>Insecure</strong> from the drop-down menu, to specify whether the registry requires a certificate for access.</li>
@@ -2512,7 +2512,7 @@
 </pre>
 
 <h1 id="examples-">Examples <a id="examples"></a></h1>
-<p>This section provides examples of the combinations of options to use in in the <strong>Registry Access</strong> tab in the Security page of the Create Virtual Container Host wizard and in <code>vic-machine create</code> commands.</p>
+<p>This section provides examples of the combinations of options to use in in the <strong>Registry Access</strong> page of the Create Virtual Container Host wizard and in <code>vic-machine create</code> commands.</p>
 <ul>
 <li><a href="#whitelist">Authorize Access to a Whitelist of Secure and Insecure Registries</a></li>
 <li><a href="#secure-insecure">Authorize Access to Secure and Insecure Private Registries</a></li>
@@ -2533,8 +2533,6 @@
 <p>Follow the instructions in <a href="#regcert">Obtain the vSphere Integrated Containers Registry Certificate</a> to obtain the certificate file for your vSphere Integrated Containers Registry instance.</p>
 <h3 id="create-vch-wizard">Create VCH Wizard</h3>
 <ol>
-<li>Leave the <strong>Enable secure access to this VCH</strong> switch in the green ON position.</li>
-<li>Select the <strong>Registry Access</strong> tab.</li>
 <li>Set the <strong>Whitelist registry mode</strong> switch to the green ON position.</li>
 <li>In the <strong>Whitelist registries</strong> text box, enter <code>10.2.40.40:443</code> to add the vSphere Integrated Containers Registry instance to the whitelist.</li>
 <li>Leave the drop-down menu for this registry set to <strong>Secure</strong>.</li>
@@ -2565,20 +2563,18 @@
 <p>The VCH can only access the registries in the IP ranges and domain specified, as well as the standalone insecure registry at 192.168.100.207 and the vSphere Integrated Containers Registry instance at 10.2.40.40:443. It cannot access any other registries, even public registries like Docker Hub.</p>
 <h2 id="authorize-access-to-secure-and-insecure-private-registries-">Authorize Access to Secure and Insecure Private Registries <a id="secure-insecure"></a></h2>
 <p>This example deploys a VCH with the following configuration:</p>
-<p>-Allows the VCH to pull images from the following insecure registries:</p>
 <ul>
+<li>Allows the VCH to pull images from the following insecure registries:<ul>
 <li>All registries in the domain *.example.com</li>
-<li>A single instance of an insecure registry running at 192.168.100.207.<ul>
-<li>Provides the CA certificate for a vSphere Integrated Containers Registry instance.</li>
+<li>A single instance of an insecure registry running at 192.168.100.207.</li>
 </ul>
 </li>
+<li>Provides the CA certificate for a vSphere Integrated Containers Registry instance.</li>
 </ul>
 <h3 id="prerequisite">Prerequisite</h3>
 <p>Follow the instructions in <a href="#regcert">Obtain the vSphere Integrated Containers Registry Certificate</a> to obtain the certificate file for your vSphere Integrated Containers Registry instance.</p>
 <h3 id="create-vch-wizard">Create VCH Wizard</h3>
 <ol>
-<li>Leave the <strong>Enable secure access to this VCH</strong> switch in the green ON position.</li>
-<li>Select the <strong>Registry Access</strong> tab.</li>
 <li>Leave the <strong>Whitelist registry mode</strong> switch in the gray OFF position.</li>
 <li>Under <strong>Insecure registry access</strong>, enter <code>*.example.com</code> to allow the VCH to access all registries that are running in that domain.</li>
 <li>Click the <strong>+</strong> button, and enter <code>192.168.100.207</code> to allow the VCH to access the standalone registry at that address.</li>
@@ -2646,7 +2642,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Registry Access","level":"2.1.2.7.3","depth":4,"next":{"title":"Operations User","level":"2.1.2.8","depth":3,"path":"vic_vsphere_admin/set_up_ops_user.md","ref":"vic_vsphere_admin/set_up_ops_user.md","articles":[{"title":"Manually Create a User Account for the Operations User","level":"2.1.2.8.1","depth":4,"path":"vic_vsphere_admin/ops_user_manual.md","ref":"vic_vsphere_admin/ops_user_manual.md","articles":[]}]},"previous":{"title":"Disable Client Verification","level":"2.1.2.7.2","depth":4,"path":"vic_vsphere_admin/tls_unrestricted.md","ref":"vic_vsphere_admin/tls_unrestricted.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_registry.md","mtime":"2018-01-17T11:26:20.614Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-25T11:13:49.300Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Registry Access","level":"2.1.2.8","depth":3,"next":{"title":"Operations User","level":"2.1.2.9","depth":3,"path":"vic_vsphere_admin/set_up_ops_user.md","ref":"vic_vsphere_admin/set_up_ops_user.md","articles":[{"title":"Manually Create a User Account for the Operations User","level":"2.1.2.9.1","depth":4,"path":"vic_vsphere_admin/ops_user_manual.md","ref":"vic_vsphere_admin/ops_user_manual.md","articles":[]}]},"previous":{"title":"Disable Client Verification","level":"2.1.2.7.2","depth":4,"path":"vic_vsphere_admin/tls_unrestricted.md","ref":"vic_vsphere_admin/tls_unrestricted.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_registry.md","mtime":"2018-02-06T09:37:43.773Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-02-08T09:48:21.374Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

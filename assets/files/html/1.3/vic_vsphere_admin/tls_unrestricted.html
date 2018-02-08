@@ -648,7 +648,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.2.7.3" data-path="vch_registry.html">
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.8" data-path="vch_registry.html">
             
                 <a href="vch_registry.html">
             
@@ -661,12 +666,7 @@
             
         </li>
     
-
-            </ul>
-            
-        </li>
-    
-        <li class="chapter " data-level="2.1.2.8" data-path="set_up_ops_user.html">
+        <li class="chapter " data-level="2.1.2.9" data-path="set_up_ops_user.html">
             
                 <a href="set_up_ops_user.html">
             
@@ -680,7 +680,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.2.8.1" data-path="ops_user_manual.html">
+        <li class="chapter " data-level="2.1.2.9.1" data-path="ops_user_manual.html">
             
                 <a href="ops_user_manual.html">
             
@@ -698,7 +698,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.2.9" data-path="complete_vch_deployment_client.html">
+        <li class="chapter " data-level="2.1.2.10" data-path="complete_vch_deployment_client.html">
             
                 <a href="complete_vch_deployment_client.html">
             
@@ -711,7 +711,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.2.10" data-path="deploy_vch_dchphoton.html">
+        <li class="chapter " data-level="2.1.2.11" data-path="deploy_vch_dchphoton.html">
             
                 <a href="deploy_vch_dchphoton.html">
             
@@ -2424,7 +2424,7 @@
 <li><a href="#whatnext">What to Do Next</a></li>
 </ul>
 <h2 id="options-">Options <a id="options"></a></h2>
-<p>The following sections each correspond to an entry in the Security page of the Create Virtual Container Host wizard if you select the <strong>Docker API Access</strong> tab. Each section also includes a description of the corresponding <code>vic-machine create</code> option. </p>
+<p>The following sections each correspond to an entry in the Security page of the Create Virtual Container Host wizard. Each section also includes a description of the corresponding <code>vic-machine create</code> option. </p>
 <p>Certain options in this section are exposed in the <code>vic-machine create</code> help if you run <code>vic-machine create --extended-help</code>, or <code>vic-machine create -x</code>.</p>
 <h3 id="disable-client-certificate-verification-">Disable Client Certificate Verification <a id="no-tlsverify"></a></h3>
 <p>Disabling client certificate verification prevents the use of CAs for client authentication. VCHs still require a server certificate if you disable client authentication. You can either supply a custom server certificate or have vSphere Integrated Containers Engine automatically generate one. If you disable client authentication, there is no access control to the VCH from Docker clients, but connections remain encrypted.</p>
@@ -2433,11 +2433,8 @@
 <pre>docker -H <i>vch_dnsname</i>.example.org.example.org:2376 --tls info</pre>
 
 <h4 id="create-vch-wizard">Create VCH Wizard</h4>
-<p>You can disable client certificate verification in two ways:</p>
-<ul>
-<li>To use a custom server certificate or to configure an automatically generated server certificate, enter the server certificate settings and set the <strong>Client Certificates</strong> switch to the gray OFF position. </li>
-<li>To use an automatically generated server certificate without configuring any server certificate settings, set the <strong>Enable secure access to this VCH</strong> switch at the top of the page to the gray OFF position.</li>
-</ul>
+<p>To disable client certificate verification, set the <strong>Client Certificates</strong> switch to the gray OFF position. You must still either upload a custom server certificate or configure an automatically generated server certificate.</p>
+<p><strong>NOTE</strong>: In vSphere Integrated Containers 1.3.0 the client certificate options appear at the bottom of the Security page of the Create Virtual Container Host wizard. From version 1.3.1 onwards, they appear at the top of the page.</p>
 <h4 id="vic-machine-option">vic-machine Option</h4>
 <p><code>--no-tlsverify</code>, <code>--kv</code></p>
 <p>If you specify the <code>--no-tlsverify</code> option, <code>vic-machine create</code> performs the following actions during the deployment of the VCH:</p>
@@ -2481,12 +2478,11 @@
 </ul>
 <h3 id="create-vch-wizard">Create VCH Wizard</h3>
 <ol>
-<li>Leave the <strong>Enable secure access to this VCH</strong> switch in the green ON position.</li>
-<li>For <strong>Source of certificates</strong>, select the <strong>Auto-generate</strong> radio button.</li>
+<li>Set the <strong>Client Certificates</strong> switch to the gray OFF position.</li>
+<li>Under Server Certificates, select the <strong>Auto-generate</strong> radio button.</li>
 <li>In the <strong>Common Name (CN)</strong> text box, enter the IP address, FQDN, or a domain wildcard for the client systems that connect to this VCH.</li>
 <li>In the <strong>Organization (O)</strong> text box, leave the default setting of the VCH name, or enter a different organization identifier.</li>
 <li>In the <strong>Certificate key size</strong> text box, leave the default setting of 2048 bits, or enter a higher value.</li>
-<li>Set the <strong>Client Certificates</strong> switch to the gray OFF position.</li>
 </ol>
 <h3 id="vic-machine-command"><code>vic-machine</code> Command</h3>
 <p>This example <code>vic-machine create</code> command deploys a VCH that specifies <code>--no-tlsverify</code> to disable client authentication but that configures the automatically generated server certificate.</p>
@@ -2520,11 +2516,10 @@
 </ul>
 <h3 id="create-vch-wizard">Create VCH Wizard</h3>
 <ol>
-<li>Leave the <strong>Enable secure access to this VCH</strong> switch in the green ON position.</li>
-<li>For <strong>Source of certificates</strong>, select the <strong>Existing</strong> radio button.</li>
+<li>Set the <strong>Client Certificates</strong> switch to the gray off position.</li>
+<li>Under Server Certificates, select the <strong>Existing</strong> radio button.</li>
 <li>For <strong>Server certificate</strong>, click <strong>Select</strong> and navigate to an existing <code>server-cert.pem</code> file.</li>
 <li>For <strong>Server private key</strong>, click <strong>Select</strong> and navigate to an existing <code>server-key.pem</code> file.</li>
-<li>Set the <strong>Client Certificates</strong> switch to the gray off position.</li>
 </ol>
 <h3 id="vic-machine-command"><code>vic-machine</code> Command</h3>
 <p>This example <code>vic-machine create</code> command provides the paths relative to the current location of the <code>*.pem</code> files for the custom server certificate and key files, and specifies the <code>--no-tlsverify</code> option to disable client authentication.</p>
@@ -2554,7 +2549,7 @@
 <li>Disables client certificate authentication.</li>
 </ul>
 <h3 id="create-vch-wizard">Create VCH Wizard</h3>
-<p>At the top of the Security page, set the <strong>Enable secure access to this VCH</strong> switch to the gray OFF position. All other security options are disabled.</p>
+<p>The Create Virtual Container Host wizard does not support this configuration.</p>
 <h3 id="vic-machine-command"><code>vic-machine</code> Command</h3>
 <p>This example deploys a VCH with the following configuration:</p>
 <ul>
@@ -2598,8 +2593,7 @@
 <p>When you run this command, <code>vic-machine create</code> does not generate any certificates. Connections to the VCH are possible by using HTTP rather than HTTPS. </p>
 <p>You do not need to provide any certificates to container developers. No <code>env</code> file is generated, as there are no environment variables to set.</p>
 <h1 id="what-to-do-next-">What to Do Next <a id="whatnext"></a></h1>
-<p>If you are using the Create Virtual Container Host wizard, stay on the Security page and select the <strong>Registry Access tab</strong> to <a href="vch_registry.html">Configure Registry Access</a>.</p>
-<p>If you do not require access to a registry server, click <strong>Next</strong> to configure the <a href="set_up_ops_user.html">Operations User</a>.</p>
+<p>If you are using the Create Virtual Container Host wizard, click <strong>Next</strong> to <a href="vch_registry.html">Configure Registry Access</a>.</p>
 
                                 
                                 </section>
@@ -2643,7 +2637,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Disable Client Verification","level":"2.1.2.7.2","depth":4,"next":{"title":"Registry Access","level":"2.1.2.7.3","depth":4,"path":"vic_vsphere_admin/vch_registry.md","ref":"vic_vsphere_admin/vch_registry.md","articles":[]},"previous":{"title":"VCH Certificate Options","level":"2.1.2.7.1","depth":4,"path":"vic_vsphere_admin/vch_cert_options.md","ref":"vic_vsphere_admin/vch_cert_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/tls_unrestricted.md","mtime":"2018-01-17T11:26:20.589Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-25T11:13:49.300Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Disable Client Verification","level":"2.1.2.7.2","depth":4,"next":{"title":"Registry Access","level":"2.1.2.8","depth":3,"path":"vic_vsphere_admin/vch_registry.md","ref":"vic_vsphere_admin/vch_registry.md","articles":[]},"previous":{"title":"VCH Certificate Options","level":"2.1.2.7.1","depth":4,"path":"vic_vsphere_admin/vch_cert_options.md","ref":"vic_vsphere_admin/vch_cert_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/tls_unrestricted.md","mtime":"2018-02-06T09:37:43.767Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-02-08T09:48:21.374Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
