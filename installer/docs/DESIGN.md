@@ -232,7 +232,7 @@ time of the build.
 - The component MUST have a release version tagging and artifact upload workflow. Released versions
   MUST be retained so that builds can be rebuilt using previously released versions.
 
-- The component team MAY document and provide the appliance team with acceptance tests for features
+- The component team SHOULD document and provide the appliance team with acceptance tests for features
   that need to be tested
 
   The appliance team performs automated and manual testing for release acceptance. The component
