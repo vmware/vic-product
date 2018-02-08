@@ -1,4 +1,4 @@
-# VIC Unified Installer
+# VIC Appliance
 
 This directory will host all the code for the VIC Appliance.
 

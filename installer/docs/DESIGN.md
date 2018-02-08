@@ -208,10 +208,9 @@ time of the build.
 
   This document defines the interface between the VIC appliance and the component.
 
-- A component MUST maintain component specific integration tests in the `vic-product` repo
-
-- The component team MUST monitor each triggered `vic-product` downstream build for failures and
-  triage them according to the [Triage Process](#triage-process)
+- The component team MUST monitor each triggered `vic-product` downstream build for failures. If the
+  build failure is suspected to be caused by changes to the component, triage the failure according
+  to the [Triage Process](#triage-process)
 
 ### Requirements
 
@@ -231,17 +230,9 @@ time of the build.
   tests locally before triggering the `vic-product` downstream build
 
 - The component MUST have a release version tagging and artifact upload workflow. Released versions
-  MUST be retained.
+  MUST be retained so that builds can be rebuilt using previously released versions.
 
-- In the case of a failing build, the component team that triggered the failing appliance build MUST
-  take leadership of returning the build to a normal state and assign that effort a high priority
-
-- In the case of a failing build, the component team in charge MUST alert the appliance team and
-  other stakeholders through Slack that work to fix the build is in progress. If an extended
-  breakage is expected, the team MUST give regular progress updates to stakeholders (at least once
-  per day).
-
-- The component team MUST document and provide the appliance team with acceptance tests for features
+- The component team SHOULD document and provide the appliance team with acceptance tests for features
   that need to be tested
 
   The appliance team performs automated and manual testing for release acceptance. The component
@@ -256,9 +247,6 @@ time of the build.
   performed on the resulting appliance.
 
 ### Triage Process
-
-When a `vic-product` CI build fails, it is the responsibility of the component team that triggered
-the build to triage the failure.
 
 - Message `#vic-product-standup` channel to say that triage is in progress
 - Download build logs from the failed build
