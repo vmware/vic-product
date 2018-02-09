@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-set -euf -o pipefail
+set -uf -o pipefail
 
 TIMESTAMP=$(date +"%Y-%m-%d-%H-%M-%S")
 DIRNAME="vic_appliance_logs_$TIMESTAMP"
@@ -101,7 +101,7 @@ function getPrivateFiles {
   echo "Including private values in log bundle"
 
   commandToFile "openssl x509 -in /storage/data/certs/ca.crt -text -noout" "ca.crt" "certs"
-  commandToFile "openssl x509 -in /storage/data/certs/server.cert.pem -text -noout" "server.cert.pem" "certs"
+  commandToFile "openssl x509 -in /storage/data/certs/server.crt -text -noout" "server.crt" "certs"
   commandToFile "cat /storage/data/certs/cert_gen_type" "cert_gen_type" "certs"
   commandToFile "cat /storage/data/certs/extfile.cnf" "extfile.cnf" "certs"
 
@@ -121,6 +121,7 @@ function getPrivateFiles {
 function getDiagInfo {
   # Appliance
   commandToFile "hostnamectl" "hostnamectl" "appliance"
+  commandToFile "timedatectl" "timedatectl" "appliance"
   commandToFile "ip address show" "ip_addr" "appliance"
   commandToFile "ovfenv" "ovfenv" "appliance"
   commandToFile "cat /etc/vmware/environment" "environment" "appliance"
@@ -135,13 +136,14 @@ function getDiagInfo {
   commandToFile "df -h" "df" "appliance"
   commandToFile "docker ps -a" "docker_ps" "appliance"
   commandToFile "docker images" "docker_images" "appliance"
+  commandToCompressed "journalctl -u vic-appliance-tls --no-pager" "journal_vic-appliance-tls" "appliance"
 
   # Services
   commandToCompressed "journalctl -u admiral --no-pager" "journal_admiral" "admiral"
   commandToCompressed "journalctl -u harbor --no-pager" "journal_harbor" "harbor"
   commandToCompressed "journalctl -u fileserver --no-pager" "journal_fileserver" "appliance"
   commandToCompressed "journalctl -u get_token --no-pager" "journal_get_token" "psc"
-  commandToCompressed "journalctl -u vic_machine_server --no-pager" "journal_vic_machine_server" "vic-machine-server"
+  commandToCompressed "journalctl -u vic-machine-server --no-pager" "journal_vic-machine-server" "vic-machine-server"
 
   # PSC
   commandToFile "cat /storage/data/admiral/configs/psc-config.properties" "admiral_data_psc-config" "psc"

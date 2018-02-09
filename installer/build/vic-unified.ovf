@@ -189,7 +189,7 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
     </ProductSection>
     <ProductSection ovf:class="appliance" ovf:required="false">
       <Info>Appliance Properties</Info>
-      <Category>1. Appliance Security</Category>
+      <Category>1. Appliance Configuration</Category>
       <Property ovf:key="root_pwd" ovf:password="true" ovf:qualifiers="MinLen(8),MaxLen(128)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
         <Label>1.1. Root Password</Label>
         <Description>The initial password of the root user. Subsequent changes of password should be performed in operating system. (8-128 characters)</Description>
@@ -197,6 +197,22 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
       <Property ovf:key="permit_root_login" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="true">
         <Label>1.2. Permit Root Login</Label>
         <Description>Specifies whether root user can log in using SSH.</Description>
+      </Property>
+      <Property ovf:key="tls_cert" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+        <Label>1.3. Appliance TLS Certificate</Label>
+        <Description>Paste the content of the PEM encoded certificate file. Leave blank for a generated self-signed certificate.</Description>
+      </Property>
+      <Property ovf:key="tls_cert_key" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+        <Label>1.4. Appliance TLS Certificate Key</Label>
+        <Description>Paste the content of the unencrypted PEM encoded certificate key file. Leave blank for a generated key.</Description>
+      </Property>
+      <Property ovf:key="ca_cert" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+        <Label>1.5. Certificate Authority Certificate</Label>
+        <Description>Paste the content of the PEM encoded CA certificate that signed the TLS Certificate. Leave blank for a generated self-signed certificate.</Description>
+      </Property>
+      <Property ovf:key="config_port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="9443">
+        <Label>1.6. Appliance Configuration Port</Label>
+        <Description>Specifies the port on which the Getting Started Page and Appliance Configuration will be published.</Description>
       </Property>
     </ProductSection>
     <ProductSection ovf:class="network" ovf:required="false">
@@ -250,48 +266,20 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
         <Label>4.1. Management Portal Port</Label>
         <Description>Specifies the port on which Management Portal will be published.</Description>
       </Property>
-      <Property ovf:key="ssl_cert" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>4.2. SSL Cert</Label>
-        <Description>Paste in the content of a certificate file. Leave blank for a generated self-signed certificate.</Description>
-      </Property>
-      <Property ovf:key="ssl_cert_key" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>4.3. SSL Cert Key</Label>
-        <Description>Paste in the content of certificate key file in PKCS#8 format. Leave blank for a generated key.</Description>
-      </Property>
-      <Property ovf:key="ca_cert" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>4.4. CA Cert</Label>
-        <Description>Paste in the content of the CA certificate that signed the SSL Cert. Leave blank for a generated self-signed certificate.</Description>
-      </Property>
-    </ProductSection>
-    <ProductSection ovf:class="fileserver" ovf:required="false">
-      <Info>Fileserver Properties</Info>
-      <Category>5. Fileserver Configuration</Category>
-      <Property ovf:key="port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="9443">
-        <Label>5.1. Fileserver Port</Label>
-        <Description>Specifies the port on which fileserver will be published.</Description>
-      </Property>
-      <Property ovf:key="ssl_cert" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>5.2. SSL Cert</Label>
-        <Description>Paste in the content of a certificate file. Leave blank for a generated self-signed certificate.</Description>
-      </Property>
-      <Property ovf:key="ssl_cert_key" ovf:qualifiers="MinLen(0),MaxLen(65535)" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
-        <Label>5.3. SSL Cert Key</Label>
-        <Description>Paste in the content of certificate key file. Leave blank for a generated key.</Description>
-      </Property>
     </ProductSection>
     <ProductSection ovf:class="default_users" ovf:required="false">
       <Info>Example Users</Info>
-      <Category>6. Configure Example Users</Category>
+      <Category>5. Configure Example Users</Category>
       <Property ovf:key="create_def_users" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="true">
-        <Label>6.1. Create Example Users</Label>
+        <Label>5.1. Create Example Users</Label>
         <Description>Uncheck to skip creation of Example Users.</Description>
       </Property>
       <Property ovf:key="def_user_prefix" ovf:qualifiers="MinLen(0),MaxLen(64)" ovf:type="string" ovf:userConfigurable="true" ovf:value="vic">
-        <Label>6.2. Username Prefix for Example Users</Label>
+        <Label>5.2. Username Prefix for Example Users</Label>
         <Description>Username prefix to be used to create Example Users for vSphere Integrated Containers.</Description>
       </Property>
       <Property ovf:key="def_user_password" ovf:password="true" ovf:qualifiers="MinLen(0),MaxLen(128)" ovf:type="string" ovf:userConfigurable="true" ovf:value="VicPro!23">
-        <Label>6.3. Password for Example Users</Label>
+        <Label>5.3. Password for Example Users</Label>
         <Description>Password to be used to create Example Users. The password must follow the rules set for vSphere.</Description>
       </Property>
     </ProductSection>

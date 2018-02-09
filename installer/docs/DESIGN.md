@@ -161,6 +161,24 @@ Components SHOULD run as a Docker container unless there is strong justification
 inclusion method that is approved by the appliance team.
 All processes on the appliance should run with the least privilege required.
 
+The appliance provides a TLS certificate in `/storage/data/certs/`. The system generates a
+self-signed TLS certificate or places a user specified TLS certificate in this directory. All
+components should use this certificate for user facing connections and can access it by mounting
+this directory as a read only volume to the component container
+(`-v /storage/data/certs:/path/on/container:ro`)
+
+`/storage/data/certs/` contains:
+```
+- cert_gen_type    # self-signed or custom
+- ca.srl           # CA serial
+- ca.crt           # CA certificate
+- ca.key           # CA private key
+- server.csr       # server CSR
+- server.crt       # server certificate
+- server.key       # server private key
+- extfile.cnf      # extfile for SAN
+```
+
 ### Requirements
 
 - User ID `10000` MUST be used as the unprivileged user for components
@@ -301,24 +319,6 @@ Component Systemd unit files:
 Component startup scripts:
 - /etc/vmware/admiral
 - /etc/vmware/harbor
-```
-
-The appliance provides a TLS certificate in `/storage/data/certs/`. The system generates a
-self-signed TLS certificate or places a user specified TLS certificate in this directory. All
-components should use this certificate for user facing connections and can access it by mounting
-this directory as a read only volume to the component container
-(`-v /storage/data/certs:/path/on/container:ro`)
-
-`/storage/data/certs/` contains:
-```
-- ca.crt
-- ca.key
-- ca.srl
-- cert_gen_type
-- extfile.cnf
-- server.cert.pem
-- server.csr
-- server.key.pem # PKCS1 format private key
 ```
 
 

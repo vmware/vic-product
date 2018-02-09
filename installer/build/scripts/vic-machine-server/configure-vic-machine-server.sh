@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 # Copyright 2017 VMware, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,10 +14,11 @@
 # limitations under the License.
 set -euf -o pipefail
 
-cert_dir="/storage/data/certs"
-cert="${cert_dir}/server.crt"
-key="${cert_dir}/server.key"
+log_dir="/storage/log/vic-machine-server"
 
-# Start file server with certificate cause we'll generate self-signed certificates if it's not customized by user
-/usr/local/bin/ova-webserver --addr ":${FILESERVER_PORT}" --cert "${cert}" --key "${key}"
+mkdir -p ${log_dir}
+chown -R "${APPLIANCE_SERVICE_UID}":"${APPLIANCE_SERVICE_UID}" ${log_dir}
 
+iptables -w -A INPUT -j ACCEPT -p tcp --dport "${VIC_MACHINE_SERVER_PORT}"
+
+echo "Finished vic-machine-server config"
