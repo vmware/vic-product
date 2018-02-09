@@ -15,7 +15,7 @@ pipeline:
     tags: true
     recursive: false
   clone-pr:
-    image: harbor.ci.drone.local/library/git-clone:1.0
+    image: harbor.ci.drone.local/library/git-clone:1.1
     pull: true
     environment:
       DRONE_PULL_REQUEST:  ${DRONE_PULL_REQUEST}
