@@ -25,7 +25,9 @@ ${ch-button-new-host}  css=.toolbar button
 ${ch-card-name}  css=.card-item .titleHolder div:nth-of-type(1)
 ${ch-card-status}  css=.card-item .status
 ${ch-button-card-dropdown}  css=.card button.dropdown-toggle
-${ch-link-delete}  css=html body my-app clr-main-container.main-container div.content-container app-main-resources div.content-area app-clusters grid-view div.grid-content div.items span.card-item card.clusterCard div.card.clickable div.card-header div clr-dropdown.card-actions.dropdown.open clr-dropdown-menu.dropdown-menu button.dropdown-item.remove-cluster
+${ch-link-delete}  css=card > div > div.card-header > div > clr-dropdown > clr-dropdown-menu > button.dropdown-item.remove-cluster
+
+#html body my-app clr-main-container.main-container div.content-container app-main-resources div.content-area app-clusters grid-view div.grid-content div.items span.card-item card.clusterCard div.card.clickable div.card-header div clr-dropdown.card-actions.dropdown.open clr-dropdown-menu.dropdown-menu button.dropdown-item.remove-cluster
 #body > my-app > clr-main-container > div > app-main-resources > div:nth-child(2) > app-clusters > grid-view > div.grid-content > div > span > card > div > div.card-header > div > clr-dropdown > clr-dropdown-menu > button.dropdown-item.remove-cluster
 #button.dropdown-item:nth-child(2)
 
@@ -83,7 +85,7 @@ Delete VCH Card Using Dropdown Menu
     Focus  ${dropdown}
     Click Button  ${dropdown}
     Focus  ${ch-link-delete}
-    Click Link  ${ch-link-delete}
+    Click Button  ${ch-link-delete}
     Verify Modal for Remove Container Host
     Click Remove On Remove Container Host
     Verify Container Hosts Page
