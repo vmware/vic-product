@@ -25,7 +25,8 @@ ${ch-button-new-host}  css=.toolbar button
 ${ch-card-name}  css=.card-item .titleHolder div:nth-of-type(1)
 ${ch-card-status}  css=.card-item .status
 ${ch-button-card-dropdown}  css=.card button.dropdown-toggle
-${ch-link-delete}  css=button.dropdown-item.remove-cluster
+${ch-link-delete}  css=.card > div > div.card-header > div > clr-dropdown > clr-dropdown-menu > button.dropdown-item.remove-cluster
+#body > my-app > clr-main-container > div > app-main-resources > div:nth-child(2) > app-clusters > grid-view > div.grid-content > div > span > card > div > div.card-header > div > clr-dropdown > clr-dropdown-menu > button.dropdown-item.remove-cluster
 
 # expected text values
 ${ch-title-text}  Container Hosts
