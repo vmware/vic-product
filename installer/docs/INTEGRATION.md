@@ -83,7 +83,7 @@ is modified, the component team MUST coordinate with the VIC appliance team to a
 
 ### Appliance Upgrade
 - Does the component specific upgrade script meet the requirements of the design doc?
-  https://github.com/vmware/vic-product/blob/master/installer/DESIGN.md#requirements-3
+  https://github.com/vmware/vic-product/blob/master/installer/DESIGN.md#upgrade-requirements
 
 - How does the VIC appliance team know when a change needs to be made to the component specific
   upgrade script? (This question is about the responsibility for the component upgrade script)
