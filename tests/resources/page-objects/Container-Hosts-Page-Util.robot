@@ -25,7 +25,7 @@ ${ch-button-new-host}  css=.toolbar button
 ${ch-card-name}  css=.card-item .titleHolder div:nth-of-type(1)
 ${ch-card-status}  css=.card-item .status
 ${ch-button-card-dropdown}  css=.card button.dropdown-toggle
-${ch-link-delete}  css=.card .dropdown-menu a:nth-of-type(2)
+${ch-link-delete}  css=card > div > div.card-header > div > clr-dropdown > clr-dropdown-menu > button.dropdown-item.remove-cluster
 
 # expected text values
 ${ch-title-text}  Container Hosts
@@ -81,7 +81,7 @@ Delete VCH Card Using Dropdown Menu
     Focus  ${dropdown}
     Click Button  ${dropdown}
     Focus  ${ch-link-delete}
-    Click Link  ${ch-link-delete}
+    Click Button  ${ch-link-delete}
     Verify Modal for Remove Container Host
     Click Remove On Remove Container Host
     Verify Container Hosts Page

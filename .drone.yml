@@ -14,6 +14,25 @@ pipeline:
     image: plugins/git
     tags: true
     recursive: false
+  clone-pr:
+    image: harbor.ci.drone.local/library/git-clone:1.1
+    pull: true
+    environment:
+      DRONE_PULL_REQUEST:  ${DRONE_PULL_REQUEST}
+    when:
+      event: [ pull_request ]
+
+  display-status:
+    image: harbor.ci.drone.local/library/vic-integration-test:1.42
+    pull: true
+    environment:
+      BIN: bin
+      SHELL: /bin/bash
+      COMMIT: ${DRONE_COMMIT}
+    commands:
+      - echo "Expecting ${DRONE_COMMIT}"
+      - git log -5
+      - git log -1 --pretty=oneline | grep "^${DRONE_COMMIT}" > /dev/null && echo 'Build matches' || (git log -1 --pretty=oneline | grep "Merge ${DRONE_COMMIT}" > /dev/null && echo 'Build is of a merge commit' || (echo 'Build does not match!' && exit 1))
 
   dch-build:
     environment:
@@ -28,6 +47,7 @@ pipeline:
       branch: master
       repo: vmware/vic-product
       event: [ push, pull_request, tag, deployment ]
+      status: success
 
   dch-push:
     environment:
@@ -42,6 +62,7 @@ pipeline:
       branch: master
       repo: vmware/vic-product
       event: [ push, tag, deployment ]
+      status: success
 
   unified-ova-build:
     image: gcr.io/eminent-nation-87317/vic-product-build:latest
@@ -151,7 +172,6 @@ pipeline:
       - outfile="ova_integration_logs_"$DRONE_BUILD_NUMBER"_"$DRONE_COMMIT".zip"
       - zip -9 -r robot-bundle/$outfile robot-logs vic_appliance_logs*
       - ls -l
-      - set -x
       - echo "Download test logs:"
       - echo "https://console.cloud.google.com/m/cloudstorage/b/vic-ci-logs/o/$outfile?authuser=1"
     when:
