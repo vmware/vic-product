@@ -1,10 +1,11 @@
-version: '2'
+version: '2.2'
 services:
   hub:
     image: "selenium/hub"
     ports:
       - "4444:4444"
   chrome:
+    cpu_count:1
     image: "selenium/node-chrome"
     environment:
       - HUB_PORT_4444_TCP_ADDR=hub
@@ -17,6 +18,7 @@ services:
     expose:
       - "5555"
   firefox:
+    cpu_count:1
     image: "selenium/node-firefox"
     environment:
       - HUB_PORT_4444_TCP_ADDR=hub
