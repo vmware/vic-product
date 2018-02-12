@@ -142,6 +142,16 @@ function getDiagInfo {
   commandToFile "df -h" "df" "appliance"
   commandToFile "docker ps -a" "docker_ps" "appliance"
   commandToFile "docker images" "docker_images" "appliance"
+
+  commandToFile "systemctl status --no-pager vic-appliance-docker-images-loaded.path" "systemctl_status_vic-appliance-docker-images-loaded.path" "appliance"
+  commandToCompressed "journalctl -u vic-appliance-docker-images-loaded.path --no-pager" "journal_vic-appliance-docker-images-loaded.path" "appliance"
+  commandToFile "systemctl status --no-pager vic-appliance-ready.target" "systemctl_status_vic-appliance-ready.target" "appliance"
+  commandToCompressed "journalctl -u vic-appliance-ready.target --no-pager" "journal_vic-appliance-ready.target" "appliance"
+  commandToFile "systemctl status --no-pager vic-appliance.target" "systemctl_status_vic-appliance.target" "appliance"
+  commandToCompressed "journalctl -u vic-appliance.target --no-pager" "journal_vic-appliance.target" "appliance"
+  commandToFile "systemctl status --no-pager vic-appliance-environment" "systemctl_status_vic-appliance-environment" "appliance"
+  commandToCompressed "journalctl -u vic-appliance-environment --no-pager" "journal_vic-appliance-environment" "appliance"
+  commandToFile "systemctl status --no-pager vic-appliance-tls" "systemctl_status_vic-appliance-tls" "appliance"
   commandToCompressed "journalctl -u vic-appliance-tls --no-pager" "journal_vic-appliance-tls" "appliance"
 
   # Services
