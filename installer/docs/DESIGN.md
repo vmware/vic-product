@@ -131,7 +131,7 @@ operating on an incompatible version of the database, during normal operation, u
 otherwise, the database should store a version number of the data and perform a compatibility
 check before operating on the data. 
 
-### Requirements
+### Versioning Requirements
 
 - A component artifact MUST have a version number that is different for each build
 
@@ -179,7 +179,7 @@ this directory as a read only volume to the component container
 - extfile.cnf      # extfile for SAN
 ```
 
-### Requirements
+### Security Requirements
 
 - User ID `10000` MUST be used as the unprivileged user for components
 
@@ -230,7 +230,7 @@ time of the build.
   build failure is suspected to be caused by changes to the component, triage the failure according
   to the [Triage Process](#triage-process)
 
-### Requirements
+### Component Requirements
 
 - All components MUST trigger the CI pipeline when a new version of the component is available
 
@@ -370,10 +370,14 @@ The upgrade script is located at `/etc/vmware/upgrade/upgrade.sh` and its debug 
 In the future the upgrade process will be fully automated. Current development should take this goal
 into account. We expect that this will first be accomplished by providing a script to perform the
 move of the data disk(s) and the running of the upgrade script. The next iteration would be to have
-the current version of the appliance perform this action through a UI.
+the appliance perform the upgrade through a UI.
+
+It is strongly recommended that component upgrade take place in a Docker container provided by the
+component team, ideally as part of a Docker Compose application. This allows the component team to
+maintain versioning and easy development of the upgrade process.
 
 
-### Requirements
+### Upgrade Requirements
 
 - Component developers MUST test upgrade scenarios as part of regular development testing
 
@@ -385,20 +389,20 @@ the current version of the appliance perform this action through a UI.
   Users may run the upgrade script multiple times, but this must not corrupt any data or otherwise
   cause failure of any services running on the appliance.
 
-- Running the component upgrade script MUST be idempotent
+- Running the component upgrade script or container MUST be idempotent
 
   The appliance upgrade script may call the component upgrade script multiple times, but this must
   not corrupt any data. If no operation is performed, the component upgrade script should exit with
   a zero exit code.
 
-- A failure in the component upgrade script MUST return a nonzero exit code
+- A failure in the component upgrade script or container MUST return a nonzero exit code
 
   The appliance upgrade script needs to be able to detect any failure in the component upgrade
   script, otherwise the upgrade is assumed to be successful.
 
 - Component teams MUST handle configuration migration/upgrade as part of the upgrade process
 
-  Configuration migration may happen within the component upgrade script or as a separate script.
+  Configuration migration may happen within the component upgrade script.
   Testing for configuration migration with a comprehensive set of values must be included by the
   component team during the upgrade development process.
 
@@ -409,19 +413,21 @@ the current version of the appliance perform this action through a UI.
   This will also be helpful for troubleshooting. Component developers should consider providing a
   mapping of exit codes to error messages so that a relevant error message can be displayed.
 
-- A component upgrade script SHOULD output debug level logs to stdout
+- A component upgrade script SHOULD output debug level logs to stdout. If using a component upgrade
+  container, component developers MUST communicate the way to obtain upgrade logs with the appliance
+  team.
 
   These logs will be saved in `/var/log/vmware/upgrade.log`.
 
-- A component upgrade script MUST be versioned with the same version number as its coresponding
-  component artifact
+- A component upgrade script or container MUST be versioned with the same version number as its
+  coresponding component artifact
 
   The contents of component upgrade scripts will change over time. The component upgrade script
   needs to be treated a component with versioning so that the appliance build can pull in the
   appropriate version.
 
-- A component upgrade script MUST NOT corrupt application data if run against an incompatible
-  version or incompatible data
+- A component upgrade script or container MUST NOT corrupt application data if run against an
+  incompatible version or incompatible data
 
 - The appliance upgrade script MUST NOT require human knowledge of the upgrade path
 

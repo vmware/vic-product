@@ -102,7 +102,7 @@
 
 ### Appliance Upgrade
 - Does the component specific upgrade script meet the requirements of the design doc?
-  https://github.com/vmware/vic-product/blob/master/installer/DESIGN.md#requirements-3
+  https://github.com/vmware/vic-product/blob/master/installer/DESIGN.md#upgrade-requirements
   N/A - replace the container
 
 - How does the VIC appliance team know when a change needs to be made to the component specific
