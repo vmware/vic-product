@@ -356,6 +356,87 @@ In the future the appliance will provide a remote logging capability.
 
 ## Appliance Upgrade
 
+It is strongly recommended that component upgrade take place in a Docker container provided by the
+component team, ideally as part of a Docker Compose application. This allows the component team to
+maintain versioning and easy development of the upgrade process, while handling configuration
+migration and upgrade internally.
+
+### Appliance Upgrade Process
+
+_NOTE_ This process describes functionality that is not yet available.
+Refer to [Legacy Appliance Upgrade](#legacy-appliance-upgrade).
+
+The upgrade script located at `/etc/vmware/upgrade/upgrade.sh` performs the upgrade functions and
+logs to `/var/log/vmware/upgrade.log`.
+
+Given a running VIC appliance ("previous appliance"), deploy a new version of the VIC appliance
+("new appliance") onto the same datastore. Datastore colocation is required for the new appliance to
+migrate the data from the previous appliance. Power on the new appliance and wait for the [Boot
+Stage](SUPPORT.md#boot-stage) to complete.
+
+If the previous appliance used DHCP and no static IP address settings were provided for the new
+appliance, DHCP provided configuration will be used. If the previous appliance used DHCP and static
+IP address settings were provided for the new appliance, the provided network
+configuration will remain on the new appliance after the upgrade process is complete.
+
+If the previous appliance used a static IP address, the previously used static IP address settings
+will be migrated from the previous appliance. If IP address configuration was provided during the
+new appliance deployment, this will be used as the temporary network configuration during the
+upgrade process until the previous appliance is shutdown. The new appliance will then assume the
+network configuration of the previous appliance. If no IP address configuration was provided during
+the new appliance deployment, DHCP provided configuration will be used until the previous appliance's
+network configuration is assumed by the new appliance.
+
+Before deploying the VIC appliance with a static IP address, this IP address must have a valid
+internal DNS registration. If using an FQDN for the appliance system name, this FQDN must be
+resolvable by a DNS server.
+
+Run `upgrade.sh` and provide the following information:
+
+- vCenter IP/FQDN
+- vSphere administrator username/password
+- _OPTIONAL_ External PSC FQDN
+- _OPTIONAL_ External PSC admin domain (e.g. vsphere.local, corp.local)
+- Previous appliance IP/FQDN
+- Previous appliance root password
+
+The upgrade script will login to the previous appliance to check the version for a valid upgrade
+path. A basic health check of the previous appliance will be performed and the appliance
+configuration will be gathered for migration, if available. If successful, the user will
+be prompted to verify the detected previous version and confirm that the upgrade should proceed.
+
+After confirmation, the previous appliance will be powered down. Its data disk (`/storage/data`),
+database disk (`/storage/db`), and logs disk (`/storage/log`) will be copied into the datastore
+folder of the new appliance. The blank data, database, and log disks from the new appliance will be
+deleted from the datastore. The copied disks will then be attached to the correct Virtual Device
+Node on the new appliance. Migrated network configuration will be applied to the new appliance at
+this time.
+
+With the migrated disks attached, the upgrade script will upgrade components based on the component
+provided upgrade container. The component upgrade will handle schema changes, configuration updates,
+and any other internal process changes. After the component upgrade is successful, the component
+upgrade container will exit with a zero exit code. If the component upgrade fails, it will upgrade
+with a nonzero exit code. In case of failure, the upgrade will not proceed and logs should be
+gathered and provided to VMware support.
+
+The appliance will upgrade Admiral and then Harbor. Stateless services (vic-machine-server,
+vic-appliance-ui) are included as the latest version with the new appliance and do not require
+upgrade.
+
+Using the provided information, the upgrade script will perform the steps of the [Initialization
+Stage](SUPPORT.md#initialization-stage) programmatically.
+
+After the Initialization Stage is completed, appliance services will begin starting. The upgrade
+script will perform any necessary health checks and cleanup. If successful, the script with exit
+with a zero exit code, otherwise with a nonzero exit code.
+
+#### Appliance Upgrade Recovery
+
+Since the upgrade process leaves the previous appliance intact, the user may preserve the previous
+appliance as a backup.
+
+### Legacy Appliance Upgrade
+
 The appliance upgrade process involves deploying a new version of the appliance to the same vCenter
 server, powering down the Guest OS of the old appliance, moving the data disk(s) from the old
 appliance to the new appliance, and powering on the new appliance.
@@ -366,16 +447,6 @@ component.
 
 The upgrade script is located at `/etc/vmware/upgrade/upgrade.sh` and its debug logs are written to
 `/var/log/vmware/upgrade.log`.
-
-In the future the upgrade process will be fully automated. Current development should take this goal
-into account. We expect that this will first be accomplished by providing a script to perform the
-move of the data disk(s) and the running of the upgrade script. The next iteration would be to have
-the appliance perform the upgrade through a UI.
-
-It is strongly recommended that component upgrade take place in a Docker container provided by the
-component team, ideally as part of a Docker Compose application. This allows the component team to
-maintain versioning and easy development of the upgrade process.
-
 
 ### Upgrade Requirements
 
