@@ -121,7 +121,7 @@ For details, see [CI Workflow](installer/BUILD.md#ci-workflow) and [Automated Te
 
 When opening a new issue, try to roughly follow the commit message format conventions above.
 
-
+Please follow the detailed instructions in https://github.com/vmware/vic/blob/master/CONTRIBUTING.md#reporting-bugs-and-creating-issues when creating and triaging issues.
 
 For cross-component or VIC Appliance issues, please use the [vic-product Github issue tracker](https://github.com/vmware/vic-product/issues)
 
