@@ -19,3 +19,9 @@ This directory will host all the code for the VIC Appliance.
 [VIC Appliance Design](docs/DESIGN.md)
 
 [VIC Appliance Component Integration Documentation](docs/INTEGRATION.md)
+
+[Completed Component Integration Documentation](docs/integration)
+
+## Change Impact Assessment Checklist
+
+[Change Impact Assessment](docs/CHANGE.md)
