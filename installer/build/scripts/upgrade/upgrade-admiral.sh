@@ -67,7 +67,7 @@ function upgradeAdmiral {
   while [[ "$(setTabUrl)" != "200" && ${tab_retries} -lt ${max_tab_retries} ]]; do
     timecho "Waiting for admiral api tab update..."
     sleep 10
-    ((tab_retries++))
+    let "tab_retries+=1"
   done
 
   if [ ${tab_retries} -eq ${max_tab_retries} ]; then
