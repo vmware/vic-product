@@ -142,6 +142,7 @@ function getDiagInfo {
   commandToFile "df -h" "df" "appliance"
   commandToFile "docker ps -a" "docker_ps" "appliance"
   commandToFile "docker images" "docker_images" "appliance"
+  commandToFile "cat /run/systemd/resolve/resolv.conf" "resolv.conf" "appliance"
 
   commandToFile "systemctl status --no-pager vic-mounts.target" "systemctl_status_vic-mounts.target" "appliance"
   commandToCompressed "journalctl -u vic-mounts.target --no-pager" "journal_vic-mounts.target" "appliance"
