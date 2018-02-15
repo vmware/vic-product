@@ -65,7 +65,7 @@ function upgradeAdmiral {
   tab_retries=0
   max_tab_retries=6 # 60 seconds
   while [[ "$(setTabUrl)" != "200" && ${tab_retries} -lt ${max_tab_retries} ]]; do
-    timecho "Waiting for admiral api tab update..."
+    timecho "Waiting for admiral api tab update..." | tee /dev/fd/3
     sleep 10
     let "tab_retries+=1"
   done
