@@ -5,8 +5,8 @@ Documentation=https://github.com/vmware/vic-product
 [Service]
 Type=oneshot
 ExecStart=/etc/vmware/vic-appliance-environment.sh
-Requires=ovf-network.service
-After=ovf-network.service
+Requires=ovf-network.service network-online.target
+After=ovf-network.service network-online.target
 
 [Install]
 WantedBy=vic-appliance-ready.target
