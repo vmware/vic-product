@@ -155,6 +155,8 @@ function getDiagInfo {
   commandToCompressed "journalctl -u vic-appliance-environment --no-pager" "journal_vic-appliance-environment" "appliance"
   commandToFile "systemctl status --no-pager vic-appliance-tls" "systemctl_status_vic-appliance-tls" "appliance"
   commandToCompressed "journalctl -u vic-appliance-tls --no-pager" "journal_vic-appliance-tls" "appliance"
+  commandToFile "systemctl status --no-pager reconfigure_token" "systemctl_status_reconfigure_token" "appliance"
+  commandToCompressed "journalctl -u reconfigure_token --no-pager" "journal_reconfigure_token" "appliance"
 
   # Services
   commandToCompressed "journalctl -u admiral --no-pager" "journal_admiral" "admiral"
