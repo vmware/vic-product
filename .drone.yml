@@ -29,20 +29,20 @@ pipeline:
   #     - 'git log -5'
   #     - 'git log -1 --pretty=oneline | grep "^${DRONE_COMMIT}" > /dev/null && echo ''Build matches'' || (git log -1 --pretty=oneline | grep "Merge ${DRONE_COMMIT}" > /dev/null && echo ''Build is of a merge commit'' || (echo ''Build does not match!'' && exit 1))'
 
-  dch-build:
-    environment:
-      DOCKER_HOST: 'tcp://dind:2375'
-    image: 'docker:latest'
-    pull: true
-    commands:
-      - 'docker ps'
-      - 'apk add --update bash git'
-      - 'dinv/ci.sh build'
-    when:
-      branch: master
-      repo: vmware/vic-product
-      event: [push, pull_request, tag, deployment]
-      status: success
+  # dch-build:
+  #   environment:
+  #     DOCKER_HOST: 'tcp://dind:2375'
+  #   image: 'docker:latest'
+  #   pull: true
+  #   commands:
+  #     - 'docker ps'
+  #     - 'apk add --update bash git'
+  #     - 'dinv/ci.sh build'
+  #   when:
+  #     branch: master
+  #     repo: vmware/vic-product
+  #     event: [push, pull_request, tag, deployment]
+  #     status: success
 
   dch-push:
     environment:
