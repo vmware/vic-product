@@ -1,10 +1,4 @@
-# After any change to this file you MUST re-sign and checkin the .drone.yml.sig
-# When you are ready to submit a pull request, you must regenerate .drone.yml.sig for the vmware/vic-product repo:
-# $ export DRONE_SERVER=https://ci.vcna.io
-# $ export DRONE_TOKEN=<token>
-# $ drone sign vmware/vic-product
-# The secrets file is in our local git repo.  Ask mhagen for access.
----
+
 workspace:
   base: /go
   path: src/github.com/vmware/vic-product
@@ -14,362 +8,375 @@ pipeline:
     image: plugins/git
     tags: true
     recursive: false
-  clone-pr:
-    image: harbor.ci.drone.local/library/git-clone:1.1
-    pull: true
-    environment:
-      DRONE_PULL_REQUEST:  ${DRONE_PULL_REQUEST}
-    when:
-      event: [ pull_request ]
 
   display-status:
-    image: harbor.ci.drone.local/library/vic-integration-test:1.42
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.42'
     pull: true
     environment:
       BIN: bin
       SHELL: /bin/bash
-      COMMIT: ${DRONE_COMMIT}
     commands:
-      - echo "Expecting ${DRONE_COMMIT}"
-      - git log -5
-      - git log -1 --pretty=oneline | grep "^${DRONE_COMMIT}" > /dev/null && echo 'Build matches' || (git log -1 --pretty=oneline | grep "Merge ${DRONE_COMMIT}" > /dev/null && echo 'Build is of a merge commit' || (echo 'Build does not match!' && exit 1))
+      - 'export COMMIT=${DRONE_COMMIT}'
+      - 'echo "Expecting ${DRONE_COMMIT}"'
+      - 'git log -5'
+      - 'git log -1 --pretty=oneline | grep "^${DRONE_COMMIT}" > /dev/null && echo ''Build matches'' || (git log -1 --pretty=oneline | grep "Merge ${DRONE_COMMIT}" > /dev/null && echo ''Build is of a merge commit'' || (echo ''Build does not match!'' && exit 1))'
+
+  check-org-membership:
+    image: 'wdc-harbor-ci.eng.vmware.com/default-project/vic-integration-test:1.44'
+    pull: true
+    environment:
+      BIN: bin
+      GOPATH: /go
+      SHELL: /bin/bash
+    secrets:
+      - github_automation_api_key
+    commands:
+      - echo ${DRONE_COMMIT_AUTHOR}
+      - /bin/bash -c '[[ ! $(curl --silent "https://api.github.com/orgs/vmware/members/${DRONE_COMMIT_AUTHOR}?access_token=$GITHUB_AUTOMATION_API_KEY") ]]'
+    when:
+      status: success
 
   dch-build:
-    environment:
-      DOCKER_HOST: tcp://127.0.0.1:2375
-    image: docker:latest
-    pull: true
-    commands:
-      - docker ps
-      - apk add --update bash git
-      - dinv/ci.sh build
-    when:
-      branch: master
-      repo: vmware/vic-product
-      event: [ push, pull_request, tag, deployment ]
-      status: success
-
-  dch-push:
-    environment:
-      DOCKER_HOST: tcp://127.0.0.1:2375
-    image: docker:latest
-    pull: true
-    commands:
-      - docker ps
-      - apk add --update bash git
-      - dinv/ci.sh push
-    when:
-      branch: master
-      repo: vmware/vic-product
-      event: [ push, tag, deployment ]
-      status: success
-
-  unified-ova-build:
-    image: gcr.io/eminent-nation-87317/vic-product-build:latest
+    image: 'gcr.io/eminent-nation-87317/vic-product-build:latest'
     pull: true
     privileged: true
     environment:
-      ADMIRAL: ${ADMIRAL}
-      BUILD_ADMIRAL_RELEASE: ${BUILD_ADMIRAL_RELEASE}
-      BUILD_VICENGINE_REVISION: ${BUILD_VICENGINE_REVISION}
-      DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
-      HARBOR: ${HARBOR}
       TERM: xterm
-      VIC_MACHINE_SERVER: ${VIC_MACHINE_SERVER}
-      VICENGINE: ${VICENGINE}
     volumes:
-      - /dev:/dev
-      - /var/run/docker.sock:/var/run/docker.sock
+      - '/dev:/dev'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    commands:
+      - 'docker ps'
+      - 'dinv/ci.sh build'
+    when:
+      branch: master
+      repo: vmware/vic-product
+      event: [push, pull_request, tag, deployment]
+      status: success
+
+  dch-push:
+    image: 'gcr.io/eminent-nation-87317/vic-product-build:latest'
+    pull: true
+    privileged: true
+    environment:
+      TERM: xterm
+    volumes:
+      - '/dev:/dev'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    commands:
+      - 'docker ps'
+      - 'dinv/ci.sh push'
+    when:
+      branch: master
+      repo: vmware/vic-product
+      event: [push, tag, deployment]
+      status: success
+
+  unified-ova-build:
+    image: 'gcr.io/eminent-nation-87317/vic-product-build:latest'
+    pull: true
+    privileged: true
+    environment:
+      TERM: xterm
+    secrets:
+      - admiral
+      - build_admiral_release
+      - build_vicengine_release
+      - harbor
+      - vic_machine_server
+      - vicengine
+    volumes:
+      - '/dev:/dev'
+      - '/var/run/docker.sock:/var/run/docker.sock'
     commands:
       - installer/scripts/ci-build.sh
     when:
       repo: vmware/vic-product
-      event: [ push, pull_request, tag, deployment ]
-      branch: [ master, releases/*, refs/tags/* ]
+      event: [push, pull_request, tag, deployment]
+      branch: [master, 'releases/*', 'refs/tags/*']
       status: success
 
   integration-test-ova-setup:
-    image: harbor.ci.drone.local/library/vic-integration-test:1.37
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
     pull: true
     privileged: true
     environment:
       BIN: bin
       GOPATH: /go
-      PUBLIC_NETWORK: ${PUBLIC_NETWORK}
       SHELL: /bin/bash
-      TEST_DATASTORE: ${TEST_DATASTORE}
-      TEST_PASSWORD: ${TEST_PASSWORD}
-      TEST_RESOURCE: ${TEST_RESOURCE}
-      TEST_URL: ${TEST_URL}
-      TEST_USERNAME: ${TEST_USERNAME}
+    secrets:
+      - bridge_network
+      - public_network
+      - test_datastore
+      - test_password
+      - test_resource
+      - test_url
+      - test_username
     volumes:
       - /tmp
     commands:
-      - pybot -d robot-logs/ova-setup-logs -s OVA-Setup tests/common-ova
+      - 'pybot -d robot-logs/ova-setup-logs -s OVA-Setup tests/common-ova'
     when:
       repo: vmware/vic-product
-      event: [ push, pull_request, tag, deployment ]
-      branch: [ master, releases/*, refs/tags/* ]
+      event: [push, pull_request, tag, deployment]
+      branch: [master, 'releases/*', 'refs/tags/*']
       status: success
 
   integration-test:
-    image: harbor.ci.drone.local/library/vic-integration-test:1.37
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
     pull: true
     privileged: true
     environment:
       BIN: bin
       GOPATH: /go
-      PUBLIC_NETWORK: ${PUBLIC_NETWORK}
       SHELL: /bin/bash
-      TEST_DATASTORE: ${TEST_DATASTORE}
-      TEST_PASSWORD: ${TEST_PASSWORD}
-      TEST_RESOURCE: ${TEST_RESOURCE}
-      TEST_URL: ${TEST_URL}
-      TEST_USERNAME: ${TEST_USERNAME}
-      VCH_TIMEOUT: ${VCH_TIMEOUT}
+    secrets:
+      - bridge_network
+      - public_network
+      - test_datastore
+      - test_password
+      - test_resource
+      - test_url
+      - test_username
+      - vch_timeout
     volumes:
       - /tmp
     commands:
       - tests/robot-run.sh
     when:
       repo: vmware/vic-product
-      event: [ push, pull_request, tag, deployment ]
-      branch: [ master, releases/*, refs/tags/* ]
+      event: [push, pull_request, tag, deployment]
+      branch: [master, 'releases/*', 'refs/tags/*']
       status: success
 
   integration-test-ova-cleanup:
-    image: harbor.ci.drone.local/library/vic-integration-test:1.37
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
     pull: true
     environment:
       BIN: bin
       GOPATH: /go
-      PUBLIC_NETWORK: ${PUBLIC_NETWORK}
       SHELL: /bin/bash
-      TEST_DATASTORE: ${TEST_DATASTORE}
-      TEST_PASSWORD: ${TEST_PASSWORD}
-      TEST_RESOURCE: ${TEST_RESOURCE}
-      TEST_URL: ${TEST_URL}
-      TEST_USERNAME: ${TEST_USERNAME}
+    secrets:
+      - bridge_network
+      - public_network
+      - test_datastore
+      - test_password
+      - test_resource
+      - test_url
+      - test_username
     volumes:
       - /tmp
     commands:
-      - pybot -d robot-logs/ova-cleanup-logs -s OVA-Cleanup tests/common-ova
+      - 'pybot -d robot-logs/ova-cleanup-logs -s OVA-Cleanup tests/common-ova'
     when:
       repo: vmware/vic-product
-      event: [ push, pull_request, tag, deployment ]
-      branch: [ master, releases/*, refs/tags/* ]
-      status: [ success, failure ]
+      event: [push, pull_request, tag, deployment]
+      branch: [master, 'releases/*', 'refs/tags/*']
+      status: [success, failure]
 
   bundle-logs:
-    image: harbor.ci.drone.local/library/vic-integration-test:1.37
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
     pull: true
     environment:
       SHELL: /bin/bash
     commands:
-      - copyfiles='cp -R test-screenshots robot-logs 2>/dev/null || :'
-      - eval $copyfiles
-      - mkdir robot-bundle
-      - outfile="ova_integration_logs_"$DRONE_BUILD_NUMBER"_"$DRONE_COMMIT".zip"
-      - zip -9 -r robot-bundle/$outfile robot-logs vic_appliance_logs*
-      - ls -l
-      - echo "Download test logs:"
-      - echo "https://console.cloud.google.com/m/cloudstorage/b/vic-ci-logs/o/$outfile?authuser=1"
+      - 'copyfiles=''cp -R test-screenshots robot-logs 2>/dev/null || :'''
+      - 'eval $copyfiles'
+      - 'mkdir robot-bundle'
+      - 'outfile="ova_integration_logs_"$DRONE_BUILD_NUMBER"_"$DRONE_COMMIT".zip"'
+      - 'zip -9 -r robot-bundle/$outfile robot-logs vic_appliance_logs*'
+      - 'ls -l'
+      - 'echo "Download test logs:"'
+      - 'echo "https://console.cloud.google.com/m/cloudstorage/b/vic-ci-logs/o/$outfile?authuser=1"'
     when:
       repo: vmware/vic-product
-      event: [ push, pull_request, tag, deployment ]
-      branch: [ master, releases/*, refs/tags/* ]
-      status: [ success, failure ]
+      event: [push, pull_request, tag, deployment]
+      branch: [master, 'releases/*', 'refs/tags/*']
+      status: [success, failure]
 
   publish-logs:
-    image: victest/drone-gcs:1
+    image: 'victest/drone-gcs:1'
     pull: true
     source: robot-bundle
     target: vic-ci-logs
     acl:
-      - allUsers:READER
-    cache_control: public,max-age=3600
+      - 'allUsers:READER'
+    cache_control: 'public,max-age=3600'
+    secrets:
+      - google_key
     when:
       repo: vmware/vic-product
-      event: [ push, pull_request, tag, deployment ]
-      branch: [ master, releases/*, refs/tags/* ]
-      status: [ success, failure ]
+      event: [push, pull_request, tag, deployment]
+      branch: [master, 'releases/*', 'refs/tags/*']
+      status: [success, failure]
 
   bundle-dev-builds:
-    image: harbor.ci.drone.local/library/golang:1.8
+    image: 'gcr.io/eminent-nation-87317/golang:1.8'
     pull: true
     commands:
-      - mkdir bundle
-      - cd installer/bin
-      - TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-dev-/")
-      - echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/$TMP"
-      - echo "Renaming build artifact to $TMP..."
-      - mv vic-*.ova ../../bundle/$TMP
-      - ls -l ../../bundle
+      - 'mkdir bundle'
+      - 'cd installer/bin'
+      - 'TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-dev-/")'
+      - 'echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/$TMP"'
+      - 'echo "Renaming build artifact to $TMP..."'
+      - 'mv vic-*.ova ../../bundle/$TMP'
+      - 'ls -l ../../bundle'
     when:
       repo: vmware/vic-product
-      event: [ push, tag ]
-      branch: [ master, releases/*, refs/tags/* ]
+      event: [push, tag]
+      branch: [master, 'releases/*', 'refs/tags/*']
       status: success
 
   bundle-stage-builds:
-    image: harbor.ci.drone.local/library/golang:1.8
+    image: 'gcr.io/eminent-nation-87317/golang:1.8'
     pull: true
     commands:
-      - mkdir bundle
-      - cd installer/bin
-      - TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-stage-/")
-      - echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/$TMP"
-      - echo "Renaming build artifact to $TMP..."
-      - mv vic-*.ova ../../bundle/$TMP
-      - ls -l ../../bundle
+      - 'mkdir bundle'
+      - 'cd installer/bin'
+      - 'TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-stage-/")'
+      - 'echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/$TMP"'
+      - 'echo "Renaming build artifact to $TMP..."'
+      - 'mv vic-*.ova ../../bundle/$TMP'
+      - 'ls -l ../../bundle'
     when:
       repo: vmware/vic-product
-      event: [ deployment ]
-      environment: [ staging ]
-      branch: [ master, releases/*, refs/tags/* ]
+      event: [deployment]
+      environment: [staging]
+      branch: [master, 'releases/*', 'refs/tags/*']
       status: success
 
   bundle-release-builds:
-    image: harbor.ci.drone.local/library/golang:1.8
+    image: 'gcr.io/eminent-nation-87317/golang:1.8'
     pull: true
     commands:
-      - mkdir bundle
-      - cd installer/bin
-      - TMP=$(echo vic-*.ova)
-      - echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-releases/$TMP"
-      - mv vic-*.ova ../../bundle/
-      - ls -l ../../bundle
+      - 'mkdir bundle'
+      - 'cd installer/bin'
+      - 'TMP=$(echo vic-*.ova)'
+      - 'echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-releases/$TMP"'
+      - 'mv vic-*.ova ../../bundle/'
+      - 'ls -l ../../bundle'
     when:
       repo: vmware/vic-product
-      event: [ deployment ]
-      environment: [ release ]
-      branch: [ releases/*, refs/tags/* ]
+      event: [deployment]
+      environment: [release]
+      branch: ['releases/*', 'refs/tags/*']
       status: success
 
   publish-gcs-builds:
-    image: victest/drone-gcs:1
+    image: 'victest/drone-gcs:1'
     pull: true
     source: bundle
     target: vic-product-ova-builds
     acl:
-      - allUsers:READER
-    cache_control: public,max-age=3600
+      - 'allUsers:READER'
+    cache_control: 'public,max-age=3600'
     when:
       repo: vmware/vic-product
-      event: [ push, tag ]
-      branch: [ master, releases/*, refs/tags/* ]
+      event: [push, tag]
+      branch: [master, 'releases/*', 'refs/tags/*']
       status: success
 
   publish-gcs-stage:
-    image: victest/drone-gcs:1
+    image: 'victest/drone-gcs:1'
     pull: true
     source: bundle
     target: vic-product-ova-builds
     acl:
-      - allUsers:READER
-    cache_control: public,max-age=3600
+      - 'allUsers:READER'
+    cache_control: 'public,max-age=3600'
     when:
       repo: vmware/vic-product
-      event: [ deployment ]
-      environment: [ staging ]
-      branch: [ master, releases/*, refs/tags/* ]
+      event: [deployment]
+      environment: [staging]
+      branch: [master, 'releases/*', 'refs/tags/*']
       status: success
 
   publish-gcs-releases:
-    image: victest/drone-gcs:1
+    image: 'victest/drone-gcs:1'
     pull: true
     source: bundle
     target: vic-product-ova-releases
     acl:
-      - allUsers:READER
-    cache_control: public,max-age=3600
+      - 'allUsers:READER'
+    cache_control: 'public,max-age=3600'
     when:
       repo: vmware/vic-product
-      event: [ deployment ]
-      environment: [ release ]
-      branch: [ releases/*, refs/tags/* ]
+      event: [deployment]
+      environment: [release]
+      branch: ['releases/*', 'refs/tags/*']
       status: success
 
   notify-slack-on-fail:
     image: plugins/slack
-    webhook: ${SLACK_URL}
+    secrets:
+      - source: slack_url
+        target: slack_webhook
     username: drone
-    template: >
-        Build {{ build.link }} failed from the event {{ build.event }} by {{ lowercase build.author }}.
+    template: "Build {{ build.link }} failed from the event {{ build.event }} by {{ lowercase build.author }}.\n"
     when:
       repo: vmware/vic-product
-      branch: [ master, releases/*, refs/tags/* ]
-      status: [ failure ]
+      event: [push, tag, deployment]
+      branch: [master, 'releases/*', 'refs/tags/*']
+      status: [failure]
 
   notify-slack:
     image: plugins/slack
-    webhook: ${PRODUCT_SLACK_URL}
+    secrets:
+      - source: product_slack_url
+        target: slack_webhook
     username: drone
-    template: >
-        Build '{{ build.link }}' completed with a '{{ build.status }}' status from the event '{{ build.event }}' by '{{ lowercase build.author }}'
+    template: "Build '{{ build.link }}' completed with a '{{ build.status }}' status from the event '{{ build.event }}' by '{{ lowercase build.author }}'\n"
     when:
       repo: vmware/vic-product
-      branch: [ master, releases/*, refs/tags/* ]
-      status: [ success, failure ]
+      event: [push, tag, deployment]
+      branch: [master, 'releases/*', 'refs/tags/*']
+      status: [success, failure]
 
   notify-slack-on-successful-release:
     image: plugins/slack
-    webhook: ${PRODUCT_SLACK_URL}
+    secrets:
+      - source: product_slack_url
+        target: slack_webhook
     username: drone
-    template: >
-      The latest version of VIC OVA has been released, find the build here: https://console.cloud.google.com/storage/browser/vic-product-ova-releases
+    template: "The latest version of VIC OVA has been released, find the build here: https://console.cloud.google.com/storage/browser/vic-product-ova-releases\n"
     when:
       repo: vmware/vic-product
-      event: [ deployment ]
-      environment: [ release ]
-      branch: [ releases/*, refs/tags/* ]
-      status: [ success ]
-
-  pass-rate:
-    image: harbor.ci.drone.local/library/vic-integration-test:1.42
-    pull: true
-    environment:
-      BIN: bin
-      SHELL: /bin/bash
-      GITHUB_AUTOMATION_API_KEY:  ${GITHUB_AUTOMATION_API_KEY}
-      SLACK_URL: ${SLACK_URL}
-    commands:
-      - tests/pass-rate.sh
+      event: [deployment]
+      environment: [release]
+      branch: ['releases/*', 'refs/tags/*']
+      status: [success]
 
 services:
-  dind:
-    image: docker:dind
-    privileged: true
-    pull: true
 
   selenium-grid-hub:
-    image: selenium/hub:3.7.1
+    image: 'selenium/hub:3.7.1'
     ports:
-      - "4444:4444"
+      - '4444:4444'
     environment:
       - GRID_TIMEOUT=180000
       - GRID_BROWSER_TIMEOUT=180000
 
   selenium-node-firefox-1:
-    image: selenium/node-firefox:3.7.1
+    image: 'selenium/node-firefox:3.7.1'
     environment:
-      SE_OPTS: "-port 4445"
-      HUB_PORT_4444_TCP_ADDR: 127.0.0.1
-      HUB_PORT_4444_TCP_PORT: 4444
-      DISPLAY: ":97.0"
+      SE_OPTS: '-port 4445'
+      HUB_PORT_4444_TCP_ADDR: selenium-grid-hub
+      HUB_PORT_4444_TCP_PORT: '4444'
+      DISPLAY: ':97.0'
 
   selenium-node-firefox-2:
-    image: selenium/node-firefox:3.7.1
+    image: 'selenium/node-firefox:3.7.1'
     environment:
-      SE_OPTS: "-port 4446"
-      HUB_PORT_4444_TCP_ADDR: 127.0.0.1
-      HUB_PORT_4444_TCP_PORT: 4444
-      DISPLAY: ":98.0"
+      SE_OPTS: '-port 4446'
+      HUB_PORT_4444_TCP_ADDR: selenium-grid-hub
+      HUB_PORT_4444_TCP_PORT: '4444'
+      DISPLAY: ':98.0'
 
   selenium-node-firefox-3:
-    image: selenium/node-firefox:3.7.1
+    image: 'selenium/node-firefox:3.7.1'
     environment:
-      SE_OPTS: "-port 4447"
-      HUB_PORT_4444_TCP_ADDR: 127.0.0.1
-      HUB_PORT_4444_TCP_PORT: 4444
-      DISPLAY: ":99.0"
+      SE_OPTS: '-port 4447'
+      HUB_PORT_4444_TCP_ADDR: selenium-grid-hub
+      HUB_PORT_4444_TCP_PORT: '4444'
+      DISPLAY: ':99.0'
+

@@ -1,5 +1,5 @@
 # Run this using following command on root repo dir. Note that this doesn't clone repo, instead mounts existing dir into drone containers.
-# drone exec --timeout "1h0m0s" --timeout.inactivity "0h45m0s" --repo.trusted .drone.local.yml
+# drone exec --timeout "1h0m0s" .drone.local.yml
 ---
 workspace:
   base: /go
@@ -7,19 +7,22 @@ workspace:
 
 pipeline:
   integration-test:
-    image: ${TEST_BUILD_IMAGE=gcr.io/eminent-nation-87317/vic-integration-test:1.37}
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
     pull: true
     privileged: true
     environment:
       BIN: bin
       GOPATH: /go
-      PUBLIC_NETWORK: ${PUBLIC_NETWORK}
       SHELL: /bin/bash
-      TEST_DATASTORE: ${TEST_DATASTORE}
-      TEST_PASSWORD: ${TEST_PASSWORD}
-      TEST_RESOURCE: ${TEST_RESOURCE}
-      TEST_URL: ${TEST_URL}
-      TEST_USERNAME: ${TEST_USERNAME}
+    secrets:
+      - bridge_network
+      - public_network
+      - test_datastore
+      - test_password
+      - test_resource
+      - test_url
+      - test_username
+      - vch_timeout
     volumes:
       - /tmp
     commands:
@@ -27,17 +30,17 @@ pipeline:
 
 services:
   selenium-grid-hub:
-    image: selenium/hub:3.7.1
+    image: 'selenium/hub:3.7.1'
     ports:
-      - "4444:4444"
+      - '4444:4444'
     environment:
       - GRID_TIMEOUT=180000
       - GRID_BROWSER_TIMEOUT=180000
 
-  selenium-node-firefox:
-    image: selenium/node-firefox:3.7.1
+  selenium-node-firefox-1:
+    image: 'selenium/node-firefox:3.7.1'
     environment:
-      SE_OPTS: "-port 4445"
-      HUB_PORT_4444_TCP_ADDR: 127.0.0.1
-      HUB_PORT_4444_TCP_PORT: 4444
-      DISPLAY: ":98.0"
+      SE_OPTS: '-port 4445'
+      HUB_PORT_4444_TCP_ADDR: selenium-grid-hub
+      HUB_PORT_4444_TCP_PORT: '4444'
+      DISPLAY: ':97.0'

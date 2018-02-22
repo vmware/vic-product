@@ -103,7 +103,7 @@ To help write conforming commit messages, it is recommended to set up the [git-g
 curl https://cdn.rawgit.com/tommarshall/git-good-commit/v0.6.1/hook.sh > .git/hooks/commit-msg && chmod +x .git/hooks/commit-msg
 ```
 
-[dronevic]:https://ci.vcna.io/vmware/vic-product
+[dronevic]:https://ci-vic.vmware.com/vmware/vic-product
 [dronesrc]:https://github.com/drone/drone
 [robotsrc]:https://github.com/robotframework/robotframework
 [dronecli]:http://readme.drone.io/0.5/install/cli/
