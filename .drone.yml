@@ -76,7 +76,7 @@ pipeline:
       - '/dev:/dev'
       - '/var/run/docker.sock:/var/run/docker.sock'
     commands:
-      - installer/build/ci-build.sh
+      - installer/scripts/ci-build.sh
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
