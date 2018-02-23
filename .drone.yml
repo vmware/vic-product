@@ -7,8 +7,8 @@ pipeline:
   notify-slack:
     image: plugins/slack
     secrets:
-      - source: product_slack_url
-        target: webhook
+      - product_slack_url
+    webhook: https://hooks.slack.com/services/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
     username: drone
     template: "Testing. Pls ignore"
  
