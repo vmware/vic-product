@@ -2,6 +2,6 @@ version: '2'
 services:
   dch:
     image: "vmware/dch-photon"
-    mem_limit: 32g
+    mem_limit: 34359738368
     ports:
       - "2375"
