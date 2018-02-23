@@ -8,7 +8,7 @@ pipeline:
     image: plugins/slack
     secrets:
       - product_slack_url
-    webhook: https://hooks.slack.com/services/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
+    webhook: '$${PRODUCT_SLACK_URL}'
     username: drone
     template: "Testing. Pls ignore"
  
