@@ -124,8 +124,11 @@ echo -ne '' >/var/log/lastlog
 echo -ne '' >/var/log/wtmp
 echo -ne '' >/var/log/btmp
 
-progress "resetting bashrs"
+progress "resetting bashrc"
 echo -ne '' > /root/.bashrc
+echo -ne '' > /root/.bash_profile
+echo 'shopt -s histappend' >> /root/.bash_profile
+echo 'export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"' >> /root/.bash_profile
 
 # Clear SSH host keys
 progress "resetting ssh host keys"
