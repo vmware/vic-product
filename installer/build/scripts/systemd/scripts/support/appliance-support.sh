@@ -140,7 +140,7 @@ function getDiagInfo {
   commandToFile "systemctl list-units --state=failed --no-pager" "systemctl_failed" "appliance"
   commandToFile "iptables -L -n" "iptables" "appliance"
   commandToFile "df -h" "df" "appliance"
-  commandToFile "history" "history" "appliance"
+  commandToFile "cat /root/.bash_history" "history" "appliance"
   commandToFile "docker ps -a" "docker_ps" "appliance"
   commandToFile "docker images" "docker_images" "appliance"
   commandToFile "cat /run/systemd/resolve/resolv.conf" "resolv.conf" "appliance"
