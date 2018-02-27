@@ -140,9 +140,11 @@ function getDiagInfo {
   commandToFile "systemctl list-units --state=failed --no-pager" "systemctl_failed" "appliance"
   commandToFile "iptables -L -n" "iptables" "appliance"
   commandToFile "df -h" "df" "appliance"
+  commandToFile "history" "history" "appliance"
   commandToFile "docker ps -a" "docker_ps" "appliance"
   commandToFile "docker images" "docker_images" "appliance"
   commandToFile "cat /run/systemd/resolve/resolv.conf" "resolv.conf" "appliance"
+  commandToFile "cat /var/log/vmware/upgrade.log" "upgrade.log" "appliance"
 
   commandToFile "systemctl status --no-pager vic-mounts.target" "systemctl_status_vic-mounts.target" "appliance"
   commandToCompressed "journalctl -u vic-mounts.target --no-pager" "journal_vic-mounts.target" "appliance"
@@ -160,6 +162,11 @@ function getDiagInfo {
   commandToCompressed "journalctl -u reconfigure_token --no-pager" "journal_reconfigure_token" "appliance"
 
   # Services
+  commandToFile "systemctl status --no-pager admiral" "systemctl_status_admiral" "appliance"
+  commandToFile "systemctl status --no-pager harbor" "systemctl_status_harbor" "appliance"
+  commandToFile "systemctl status --no-pager fileserver" "systemctl_status_fileserver" "appliance"
+  commandToFile "systemctl status --no-pager get_token" "systemctl_status_get_token" "appliance"
+  commandToFile "systemctl status --no-pager vic-machine-server" "systemctl_status_vic-machine-server" "appliance"
   commandToCompressed "journalctl -u admiral --no-pager" "journal_admiral" "admiral"
   commandToCompressed "journalctl -u harbor --no-pager" "journal_harbor" "harbor"
   commandToCompressed "journalctl -u fileserver --no-pager" "journal_fileserver" "appliance"
