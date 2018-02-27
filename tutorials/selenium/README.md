@@ -1,35 +1,39 @@
 # Automating Selenium Grid with vSphere Integrated Containers
 
-This is a simple docker compose file that deploys a sample grid with one hub and one node.
+This is a simple [docker-compose](https://docs.docker.com/compose/) file that deploys a sample grid with one hub and one chrome and firefox node. It is very important to set the `COMPOSE_TLS_VERSION` correctly (e.g in `$HOME/.bashrc` ot `$HOME/.bash_profile`), otherwise you will get an error.
 
-## Start the hub and nodes:
+```
+export COMPOSE_TLS_VERSION=TLSv1_2
+```
+
+### Start the hub and chrome/firefox nodes:
 
 ```
 #!/bin/bash
 docker-compose up –d
 ```
 
-## Verify that the nodes are running:
+### Verify that the nodes are running:
 
 http://<vch_ip>:4444/grid/console
 
-## If you need more nodes, just scale it up:
+### If you need more nodes, just scale it up:
 
 ```
 docker-compose scale chrome=5
 ```
 
-## If you need less, scale it down:
+### If you need less, scale it down:
 
 ```
 docker-compose scale chrome=1
 ```
 
-## If you need to stop everyting and restart:
+### If you need to stop everyting and restart:
 
 ```
 docker-compose stop
 docker-compose rm
 ```
 
-
+Check also the [Selenium Blog Article](https://blogs.vmware.com/cloudnative/2018/02/28/running-selenium-grid-vsphere-vsphere-integrated-containers/) on the VMware CNA Blog for a more detailed description.
