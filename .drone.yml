@@ -214,7 +214,7 @@ pipeline:
       status: [success, failure]
 
   bundle-dev-builds:
-    image: 'gcr.io/eminent-nation-87317/golang:1.8'
+    image: 'wdc-harbor-ci.eng.vmware.com/default-project/golang:1.8'
     pull: true
     commands:
       - 'mkdir bundle'
@@ -231,7 +231,7 @@ pipeline:
       status: success
 
   bundle-stage-builds:
-    image: 'gcr.io/eminent-nation-87317/golang:1.8'
+    image: 'wdc-harbor-ci.eng.vmware.com/default-project/golang:1.8'
     pull: true
     commands:
       - 'mkdir bundle'
@@ -249,7 +249,7 @@ pipeline:
       status: success
 
   bundle-release-builds:
-    image: 'gcr.io/eminent-nation-87317/golang:1.8'
+    image: 'wdc-harbor-ci.eng.vmware.com/default-project/golang:1.8'
     pull: true
     commands:
       - 'mkdir bundle'
