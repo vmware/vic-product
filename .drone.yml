@@ -60,6 +60,9 @@ pipeline:
     privileged: true
     environment:
       TERM: xterm
+    secrets:
+      - docker_user
+      - docker_password
     volumes:
       - '/dev:/dev'
       - '/var/run/docker.sock:/var/run/docker.sock'
