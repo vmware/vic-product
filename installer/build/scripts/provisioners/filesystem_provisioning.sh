@@ -29,6 +29,7 @@ mkdir -p /etc/vmware/psc/admiral
 mkdir -p /etc/vmware/psc/harbor
 mkdir -p /etc/vmware/psc/engine
 mkdir -p /data/{admiral,harbor,fileserver,certs}
+mkdir -p /root/.ssh
 
 # Write version files
 echo "appliance=${BUILD_OVA_REVISION}" > /data/version

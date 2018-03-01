@@ -14,13 +14,14 @@
 # limitations under the License.
 
 # This file contains upgrade processes specific to the Harbor component.
-
+set -euf -o pipefail && [ -n "$DEBUG" ] && set -x
 source /installer.env
-. util.sh
-set -euf -o pipefail
+. "${0%/*}"/util.sh
 
 data_mount="/storage/data/harbor"
 cfg="${data_mount}/harbor.cfg"
+# TODO: Give harbor upgrade containers a single volume mount
+# TODO: Backup may not be needed with 1.4.0 technique of disk copy
 harbor_backup_prev="/storage/data/harbor_backup"
 harbor_backup="/storage/data/harbor_backup_1.3.1"
 harbor_migration="/storage/data/harbor_migration"
@@ -32,28 +33,10 @@ harbor_upgrade_status_prev="/etc/vmware/harbor/upgrade_status"
 DB_USER=""
 DB_PASSWORD=""
 
-HARBOR_VER_1_2_1="harbor-offline-installer-v1.2.0.tgz"
 HARBOR_VER_1_3_0="harbor-offline-installer-v1.3.0.tgz"
 
 MANAGED_KEY="# Managed by configure_harbor.sh"
 export LC_ALL="C"
-
-# check for presence of required harbor folders before upgrade from v1.2.1
-function harborDataSanityCheck_1_2 {
-  harbor_dirs=(
-    database
-    job_logs
-    registry
-  )
-
-  for harbor_dir in "${harbor_dirs[@]}"
-  do
-    if [ ! -d "$1"/"$harbor_dir" ]; then
-      echo "Harbor directory $1/${harbor_dir} not found"
-      return 1
-    fi
-  done
-}
 
 # Cleanup files from previous upgrade operations
 function cleanupFiles {
@@ -119,7 +102,6 @@ function removeHarborCfgKey {
   fi
 }
 
-
 # Returns value from cfg given key to search for
 # Stored in cfg as key = value
 function readHarborCfgKey {
@@ -156,7 +138,6 @@ function configureHarborCfgManageKey {
   fi
 }
 
-
 # Upgrade config file in place
 function upgradeHarborConfiguration {
   # Add generated log_rotate_count, log_rotate_size, email_insecure, db_host, db_port, db_user, uaa_endpoint,
@@ -182,35 +163,36 @@ function upgradeHarborConfiguration {
 }
 
 # https://github.com/vmware/harbor/blob/master/docs/migration_guide.md
-function migrateHarborData {
-  checkDir ${harbor_backup}
-  mkdir ${harbor_backup}
+# TODO: Evaluate if needed for 1.4.0
+# function migrateHarborData {
+#   checkDir ${harbor_backup}
+#   mkdir ${harbor_backup}
 
-  local migrator_image="vmware/harbor-db-migrator:1.3"
-  local harbor_old_database_dir="/storage/data/harbor"
-  local harbor_new_database_dir="/storage/db/harbor"
-  local harbor_database="${harbor_old_database_dir}/database"
+#   local migrator_image="vmware/harbor-db-migrator:1.3"
+#   local harbor_old_database_dir="/storage/data/harbor"
+#   local harbor_new_database_dir="/storage/db/harbor"
+#   local harbor_database="${harbor_old_database_dir}/database"
 
-  # Test database connection
-  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql ${migrator_image} test
-  if [ $? -ne 0 ]; then
-    echo "Invalid database credentials" | tee /dev/fd/3
-    exit 1
-  fi
+#   # Test database connection
+#   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql ${migrator_image} test
+#   if [ $? -ne 0 ]; then
+#     echo "Invalid database credentials" | tee /dev/fd/3
+#     exit 1
+#   fi
 
-  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql -v ${harbor_backup}:/harbor-migration/backup ${migrator_image} backup
-  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e SKIP_CONFIRM=y -v ${harbor_database}:/var/lib/mysql ${migrator_image} up head
-  if [ $? -ne 0 ]; then
-    echo "Harbor up head command failed" | tee /dev/fd/3
-    exit 1
-  fi
+#   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql -v ${harbor_backup}:/harbor-migration/backup ${migrator_image} backup
+#   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e SKIP_CONFIRM=y -v ${harbor_database}:/var/lib/mysql ${migrator_image} up head
+#   if [ $? -ne 0 ]; then
+#     echo "Harbor up head command failed" | tee /dev/fd/3
+#     exit 1
+#   fi
 
-  mkdir -p ${harbor_new_database_dir}
+#   mkdir -p ${harbor_new_database_dir}
 
-  DIR="database";  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
-  DIR="clair-db";  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
-  DIR="notary-db"; mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
-}
+#   DIR="database";  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
+#   DIR="clair-db";  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
+#   DIR="notary-db"; mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
+# }
 
 # Upgrade entry point from upgrade.sh
 function upgradeHarbor {
@@ -232,12 +214,7 @@ function upgradeHarbor {
   fi
   echo "Performing pre-upgrade checks" | tee /dev/fd/3
 
-  if [ "$HARBOR_VER" == "$HARBOR_VER_1_2_1" ]; then
-    if ! harborDataSanityCheck_1_2 ${data_mount}; then
-      echo "Harbor Data is not present in ${data_mount}, aborting upgrade" | tee /dev/fd/3
-      exit 1
-    fi
-  elif [ "$HARBOR_VER" == "$HARBOR_VER_1_3_0" ]; then
+  if [ "$HARBOR_VER" == "$HARBOR_VER_1_3_0" ]; then
     echo "No upgrade operations required for upgrade from Harbor $HARBOR_VER" | tee /dev/fd/3
     cleanupFiles
     upgradeHarborConfiguration
@@ -259,11 +236,12 @@ function upgradeHarbor {
   echo "[=] Shutting down Harbor" | tee /dev/fd/3
   systemctl stop harbor.service
 
-  if [ "$HARBOR_VER" == "$HARBOR_VER_1_2_1" ]; then
-    echo "[=] Migrating Harbor data" | tee /dev/fd/3
-    migrateHarborData
-    echo "[=] Finished migrating Harbor data" | tee /dev/fd/3
-  fi
+  # # possible data migration needed for 1.4.0
+  # if [ "$HARBOR_VER" == "$HARBOR_VER_1_3_0" ]; then
+  #   echo "[=] Migrating Harbor data" | tee /dev/fd/3
+  #   migrateHarborData
+  #   echo "[=] Finished migrating Harbor data" | tee /dev/fd/3
+  # fi
 
   echo "[=] Migrating Harbor configuration" | tee /dev/fd/3
   upgradeHarborConfiguration

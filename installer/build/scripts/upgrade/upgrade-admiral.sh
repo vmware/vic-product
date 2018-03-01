@@ -14,10 +14,9 @@
 # limitations under the License.
 
 # This file contains upgrade processes specific to the Admiral component.
-
+set -euf -o pipefail && [ -n "$DEBUG" ] && set -x
 source /installer.env
 . "${0%/*}"/util.sh
-set -euf -o pipefail
 
 admiral_psc_token_file="/etc/vmware/psc/admiral/tokens.properties"
 # File used in previous upgrades to indicate Admiral upgrade was complete

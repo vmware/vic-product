@@ -65,12 +65,12 @@ tdnf install -q --refresh -y \
     iproute2 iptables iputils \
     cdrkit xfsprogs sudo \
     lvm2 parted gptfdisk \
-    e2fsprogs docker \
+    e2fsprogs docker gzip\
     net-tools logrotate &>/dev/null
 
 progress "installing package dependencies"
 tdnf install -q --refresh -y \
-    rsync openjre python-pip &>/dev/null
+    openjre python-pip &>/dev/null
 
 progress "configuring with overlay"
 cp -r /build/root/* /

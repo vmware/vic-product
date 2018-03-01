@@ -107,22 +107,29 @@ function getApplianceVersion() {
   local VER_UNKNOWN="unknown"
   local VER_1_1_1="v1.1.1"
   local VER_1_2_0="v1.2.0"
-  local VALID_VER=("v1.2.1" "v1.3.0")
+  local VALID_VER=("v1.3.0" "v1.3.1")
+  local COPIED_DIR="$1"
 
   # Appliance is older than 1.2.0, could be 1.0.x or 1.1.x, refer to these as v1.1.1
-  if [ ! -f "/storage/data/admiral/configs/psc-config.properties" ]; then
+  if [ ! -f "$COPIED_DIR/storage/data/admiral/configs/psc-config.properties" ]; then
     echo $VER_1_1_1
     return
   fi
 
   # PSC file exists, but no version file
-  if [ ! -f "/storage/data/version" ]; then
+  if [ ! -f "$COPIED_DIR/storage/data/version" ]; then
     echo $VER_1_2_0
     return
   fi
 
   local ver=""
-  ver=$(readKeyValue "appliance" "/storage/data/version")
+  ver=$(readKeyValue "appliance" "$COPIED_DIR/storage/data/version")
+  root_ver=$(readKeyValue "appliance" "$COPIED_DIR/etc/vmware/version")
+  if [ "${root_ver}" != "${ver}" ]; then
+    echo -e "Appliance versions to not match in /storage/data/version and /etc/vmware/version\nExiting..." tee /dev/fd/3 
+    exit 1
+  fi
+  
   tag=$(getTagVersion "$ver")
 
   # Check for known versions
