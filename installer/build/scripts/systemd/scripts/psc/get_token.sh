@@ -14,6 +14,8 @@
 # limitations under the License.
 set -euf -o pipefail
 
+umask 0077
+
 # Prepare paths for token files
 mkdir -p /etc/vmware/psc/harbor
 mkdir -p /etc/vmware/psc/engine
@@ -22,9 +24,9 @@ mkdir -p /etc/vmware/psc/admiral
 version=$(grep "version" /etc/vmware/psc/admiral/psc-config.properties | awk -F= '{print $2}')
 
 # Generate token files
-/usr/bin/java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar --command=get-token --version=$version --configFile=/etc/vmware/psc/harbor/psc-config.properties --tokenFile=/etc/vmware/psc/harbor/tokens.properties
-/usr/bin/java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar --command=get-token --version=$version --configFile=/etc/vmware/psc/engine/psc-config.properties --tokenFile=/etc/vmware/psc/engine/tokens.properties
-/usr/bin/java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar --command=get-token --version=$version --configFile=/etc/vmware/psc/admiral/psc-config.properties --tokenFile=/etc/vmware/psc/admiral/tokens.properties
+/usr/bin/java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar --command=get-token --version="$version" --configFile=/etc/vmware/psc/harbor/psc-config.properties --tokenFile=/etc/vmware/psc/harbor/tokens.properties
+/usr/bin/java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar --command=get-token --version="$version" --configFile=/etc/vmware/psc/engine/psc-config.properties --tokenFile=/etc/vmware/psc/engine/tokens.properties
+/usr/bin/java -jar /etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar --command=get-token --version="$version" --configFile=/etc/vmware/psc/admiral/psc-config.properties --tokenFile=/etc/vmware/psc/admiral/tokens.properties
 
 # Put the engine token in guestinfo
 /etc/vmware/set_guestinfo.sh -f /etc/vmware/psc/engine/tokens.properties "engine.token"
@@ -32,3 +34,14 @@ version=$(grep "version" /etc/vmware/psc/admiral/psc-config.properties | awk -F=
 # Copy harbor token to container mount path
 mkdir -p /storage/data/harbor/psc
 cp /etc/vmware/psc/harbor/tokens.properties /storage/data/harbor/psc/tokens.properties
+
+# Set PSC dir permissions
+dirs=("/etc/vmware/psc/admiral" "/etc/vmware/psc/engine" "/etc/vmware/psc/harbor")
+for dir in "${dirs[@]}"; do
+  while [ ! -d "$dir" ]; do
+    echo "Waiting for $dir"
+    sleep 1
+  done
+  chmod --recursive 0600 "$dir"
+  chown --recursive 10000:10000 "$dir"
+done
