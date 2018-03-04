@@ -2,7 +2,7 @@
 Issues in this repository are for VIC Product (VIC appliance)
 
 Before submitting an issue, please read the troubleshooting guide
-https://github.com/vmware/vic-product/blob/master/installer/SUPPORT.md
+https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md
 
 Issues related to individual components should be submitted to their respective projects:
 VIC Engine: https://github.com/vmware/vic/issues
@@ -16,7 +16,7 @@ Thank you for contributing to VIC Product!
 ##### For bug reports, please include the information below:
 
 Please include the requested support information from the VIC Appliance Troubleshooting Guide below
-https://github.com/vmware/vic-product/blob/master/installer/SUPPORT.md
+https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md
 
 
 Basic information (REQUIRED)
@@ -36,7 +36,7 @@ Basic information (REQUIRED)
 
 Detailed information (REQUIRED)
 -------------------------------
-https://github.com/vmware/vic-product/blob/master/installer/SUPPORT.md#appliance-lifecycle
+https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-lifecycle
 
 - What stage of the Appliance Lifecycle is the VIC appliance in?
 - Provide information from the `Support Information` section of the appropriate Appliance Lifecycle stage:

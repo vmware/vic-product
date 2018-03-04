@@ -5,7 +5,7 @@ design and validation stages of the development process to ensure that all aspec
 potential impact are known.
 
 This document is ordered based on the [Appliance
-Lifecycle](https://github.com/vmware/vic-product/blob/master/installer/SUPPORT.md#appliance-lifecycle)
+Lifecycle](https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-lifecycle)
 with the addition of development related stages.
 
 ## Impact Assessment
