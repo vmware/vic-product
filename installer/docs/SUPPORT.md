@@ -335,6 +335,6 @@ issue
 ## Additional Information
 
 - [VIC Appliance Design
-  Document](https://github.com/vmware/vic-product/blob/master/installer/DESIGN.md)
+  Document](https://github.com/vmware/vic-product/blob/master/installer/docs/DESIGN.md)
 - [VIC Appliance Certificate
   Reference](https://vmware.github.io/vic-product/assets/files/html/1.3/vic_vsphere_admin/vic_cert_reference.html)

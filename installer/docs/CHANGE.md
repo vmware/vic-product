@@ -69,4 +69,4 @@ with the addition of development related stages.
 
 ## Additional Information
 
-- [VIC Appliance Design](https://github.com/vmware/vic-product/blob/master/installer/DESIGN.md)
+- [VIC Appliance Design](https://github.com/vmware/vic-product/blob/master/installer/docs/DESIGN.md)
