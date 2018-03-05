@@ -4,7 +4,7 @@ Having examined some of the considerations around deploying single containers to
 
 There are two approaches you can take to this. The most instinctive approach would be to create scripts that manage the lifecycle of volumes, networks and containers.
 
-The second approach is to use a manifest-based orchestrator such as Docker Compose. VIC 1.1 has some basic support for Docker Compose, but it is not functionally complete. Docker Compose is a proprietary orchestrator that drives the Docker API and ties other pieces of the Docker ecosystem together including Build and Swarm. Given that VIC engine doesn't currently support either Build or Swarm, Compose compatibility is necessarily limited. However, Compose can still be a useful tool, provided those limitations are understood.
+The second approach is to use a manifest-based orchestrator such as Docker Compose. Docker Compose is a proprietary orchestrator that drives the Docker API and ties other pieces of the Docker ecosystem together including Build and Swarm. Given that VIC engine doesn't currently support either Build or Swarm, Compose compatibility is necessarily limited. However, Compose can still be a useful tool, provided those limitations are understood.
 
 ## Scripting Multi-Container Applications ##
 
