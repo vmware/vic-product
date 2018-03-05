@@ -115,7 +115,7 @@ CI pipeline is setup using [Drone][dronesrc] and Automated integration testing u
 
 PRs must pass unit tests and integration tests before being merged into `master`.
 
-For details, see [CI Workflow](installer/BUILD.md#ci-workflow) and [Automated Testing](tests/README.md)
+For details, see [CI Workflow](installer/docs/BUILD.md#ci-workflow) and [Automated Testing](tests/README.md)
 
 ## Reporting Bugs and Creating Issues
 

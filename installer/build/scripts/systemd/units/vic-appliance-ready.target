@@ -1,6 +1,6 @@
 [Unit]
 Description=Target notifying dependent units that basic services are available.
-Documentation=https://github.com/vmware/vic-product/blob/master/installer/DESIGN.md
+Documentation=https://github.com/vmware/vic-product/blob/master/installer/docs/DESIGN.md
 
 Requires=vic-mounts.target vic-appliance-environment.service vic-appliance-load-docker-images.service
 After=vic-mounts.target vic-appliance-environment.service vic-appliance-load-docker-images.service
