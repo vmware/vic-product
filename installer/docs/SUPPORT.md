@@ -6,7 +6,11 @@ determine what information to collect for further debugging.
 ## General Support Information
 
 This information about the environment and events that occurred leading to the failure *should be
-included in every support request to assist in debugging*.
+included in every support request to assist in debugging*. 
+
+_Basic Information_
+
+REQUIRED:
 
 - vCenter Server version:
 - Embedded or external PSC:
@@ -14,10 +18,21 @@ included in every support request to assist in debugging*.
 - Does the VIC appliance recieve configuration by DHCP?
 - What [stage of the Appliance Lifecycle](#appliance-lifecycle) is the VIC appliance in?
 - Attach the [VIC appliance support bundle](#appliance-support-bundle)
+
+OPTIONAL, but helpful:
+
 - IP address of VIC appliance:
 - Hostname of VIC appliance:
 - IP address of vCenter Server:
-- Hostname of vCenter Server:
+- Hostname of vCenter Server
+
+_Detailed Information_
+
+- What operation was being performed when the failure was noticed?
+- Provide information from the `Support Information` section of the appropriate [Appliance Lifecycle
+stage](#appliance-lifecycle)
+- Provide additional detail as necessary
+
 
 ### Appliance Support Bundle
 
@@ -25,7 +40,7 @@ If you are using VIC appliance version 1.3.1 or greater and are able to SSH into
 please run `/etc/vmware/support/appliance-support.sh` and provide the resulting file to support.
 This script gathers appliance state and log information and is the best tool for gathering
 comprehensive support information. Provide this output for all support requests along with the
-additional _Support Information_ from the corresponding stage of the Appliance Lifecycle.
+_Support Information_ from the corresponding stage of the Appliance Lifecycle.
 
 
 ## Appliance Lifecycle

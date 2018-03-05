@@ -20,7 +20,7 @@ Please fill out both the Basic Information and Detailed Information sections.
 Bug Report Basic Information
 ----------------------------
 
-REQUIRED
+REQUIRED:
 
 - vCenter Server version:
 - Embedded or external PSC:
