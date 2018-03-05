@@ -36,11 +36,11 @@ Log into the Flex-based vSphere Web Client with a vSphere administrator account.
 <td>Datastore  &gt; Configure datastore<br>
 Datastore &gt; Low level file operations<br>
 VirtualMachine &gt; Configuration &gt; Add existing disk<br>
-VirtualMachine.Configuration &gt; Add new disk<br>
-VirtualMachine.Configuration &gt; Advanced<br>
-VirtualMachine.Configuration &gt; Remove disk<br>
-VirtualMachine.Inventory &gt; Create new<br>
-VirtualMachine.Inventory &gt; Remove</td>
+VirtualMachine &gt; Configuration &gt; Add new disk<br>
+VirtualMachine &gt; Configuration &gt; Advanced<br>
+VirtualMachine &gt; Configuration &gt; Remove disk<br>
+VirtualMachine &gt; Inventory &gt; Create new<br>
+VirtualMachine &gt; Inventory &gt; Remove</td>
 </tr>
 <tr>
 <td><code>VCH - datastore</code></td>
