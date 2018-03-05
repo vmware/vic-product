@@ -148,7 +148,7 @@ This example adds a new NFS volume store to a VCH. The VCH already has an existi
 
 If you deployed the VCH with a static IP address, you can add DNS servers or reset them to the default by using the `vic-machine configure --dns-server` option. 
 
-The `vic-machine configure --dns-server` option functions in the same way as the equivalent `vic-machine create --dns-server` option. For information about the `vic-machine create --dns-server` option, see  [`--dns-server`](vch_static_ip.md#dns-server) in Specify a Static IP Address for the VCH Endpoint VM.
+The `vic-machine configure --dns-server` option functions in the same way as the equivalent `vic-machine create --dns-server` option. For information about the `vic-machine create --dns-server` option, see  [DNS Server](public_network.md#dns-server) in Configure the Public Network.
 
 If  you are adding DNS servers to a VCH that already includes one or more DNS servers, you must also specify each existing DNS server in a separate instance of `--dns-server`. This example adds a new DNS server, `dns_server_2`, to a VCH that already uses `dns_server_1`.
 
@@ -245,7 +245,7 @@ To remove a proxy server from a VCH, set the `vic-machine configure --https-prox
 
 To enable or disable debug mode on a VCH, you use the `vic-machine configure --debug` option. You can also use `vic-machine configure --debug` to increase or decrease the level of debugging on a VCH that is already running in debug mode. 
 
-The `vic-machine configure --debug` option functions in the same way as the equivalent `vic-machine create --debug` option. For information about the `vic-machine create --debug` option, see [Debugging Virtual Container Host Deployment](vch_debug_deployment.md). By default, `vic-machine create` deploys VCHs with debugging level 0.
+The `vic-machine configure --debug` option functions in the same way as the equivalent `vic-machine create --debug` option. For information about the `vic-machine create --debug` option, see [Debug](vch_general_settings.md#debug) in the topic on configuring general VCH settings. By default, `vic-machine create` deploys VCHs with debugging level 0.
 
 This example increases the level of debugging to level 3, either on a VCH that is running with a lower level of debugging, or on a VCH that is not running in debug mode.
 
@@ -266,9 +266,9 @@ This example sets the `--debug` option to 0, to disable debug mode on a VCH.
 
 ## Configure CPU and Memory Allocations <a id="cpumem"></a>
 
-If a VCH requires more resources, or if it consumes too many resources, you can configure CPU and memory allocations on the VCH vApp by using the different `vic-machine configure --memory` and `--cpu` options.
+If a VCH requires more resources, or if it consumes too many resources, you can configure CPU and memory allocations on the VCH resource pool by using the different `vic-machine configure --memory` and `--cpu` options.
 
-The `vic-machine configure` options for memory and CPU allocations function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` memory and CPU reservation and shares options, see [Virtual Container Host  Appliance Configuration](vch_config.md).
+The `vic-machine configure` options for memory and CPU allocations function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` memory and CPU reservation and shares options, see [Virtual Container Host Compute Capacity](vch_compute.md).
 
 This example configures a VCH to impose memory and CPU reservations, limits, and shares.
 

@@ -1,0 +1,18 @@
+[Unit]
+Description=Target notifying dependent units that basic services are available.
+Documentation=https://github.com/vmware/vic-product/blob/master/installer/docs/DESIGN.md
+
+Requires=vic-mounts.target vic-appliance-environment.service vic-appliance-load-docker-images.service
+After=vic-mounts.target vic-appliance-environment.service vic-appliance-load-docker-images.service
+
+Requires=vic-appliance-tls.service
+After=vic-appliance-tls.service
+
+Requires=network-online.target systemd-resolved.service systemd-timesyncd.service
+After=network-online.target systemd-resolved.service systemd-timesyncd.service
+
+Requires=ovf-network.service ova-firewall.service
+After=ovf-network.service ova-firewall.service
+
+[Install]
+WantedBy=vic-appliance.target

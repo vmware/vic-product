@@ -19,28 +19,21 @@ umask 077
 data_dir="/storage/data/harbor"
 conf_dir="/etc/vmware/harbor"
 harbor_compose_file="${conf_dir}/docker-compose.yml"
-
 cfg="${data_dir}/harbor.cfg"
 
-# Copy CA cert to be downloaded from UI
 ca_download_dir="${data_dir}/ca_download"
 rm -rf "${ca_download_dir}"
 mkdir -p "${ca_download_dir}"
-ca_cert="/storage/data/admiral/cert/ca.crt"
-cp ${ca_cert} ${ca_download_dir}
 
+# From vic-appliance-tls
+appliance_tls_cert="/storage/data/certs/server.crt"
+appliance_tls_key="/storage/data/certs/server.key"
+appliance_ca_cert="/storage/data/certs/ca.crt"
 
-cert_dir="/storage/data/admiral/cert"
-cert="${cert_dir}/server.crt"
-key="${cert_dir}/server.key"
-
-MANAGED_KEY="# Managed by configure_harbor.sh"
-export LC_ALL="C"
-
-REGISTRY_PORT="$(ovfenv -k registry.port)"
-NOTARY_PORT="$(ovfenv -k registry.notary_port)"
 
 # Configure attr in harbor.cfg
+MANAGED_KEY="# Managed by configure_harbor.sh"
+export LC_ALL="C"
 function configureHarborCfg {
   local cfg_key=$1
   local cfg_value=$2
@@ -78,14 +71,6 @@ function configureHarborCfgOnce {
   fi
 }
 
-function detectHostname {
-  hostname=$(hostnamectl status --static) || true
-  if [ -n "$hostname" ]; then
-    echo "Get hostname from command 'hostnamectl status --static': $hostname"
-    return
-  fi
-}
-
 # Generate random password
 function genPass {
   openssl rand -base64 32 | shasum -a 256 | head -c 32 ; echo
@@ -108,17 +93,6 @@ f.close()
 END
 }
 
-hostname=""
-ip_address=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
-
-# Modify hostname
-detectHostname
-if [[ x$hostname != "x" ]]; then
-  echo "Hostname: ${hostname}"
-else
-  echo "Hostname is null, set it to IP"
-  hostname=${ip_address}
-fi
 
 # Check permissions on config file
 if [ "$(stat -c "%a" "$cfg")" != "600" ]; then
@@ -126,16 +100,19 @@ if [ "$(stat -c "%a" "$cfg")" != "600" ]; then
   exit 1
 fi
 
+echo "Copying CA certificate to ${ca_download_dir}"
+cp ${appliance_ca_cert} ${ca_download_dir}
+
 if [ "${REGISTRY_PORT}" == "443" ] || [ "${REGISTRY_PORT}" == "80" ]; then
-  configureHarborCfg "hostname" "${hostname}"
+  configureHarborCfg "hostname" "${HOSTNAME}"
 else
-  configureHarborCfg "hostname" "${hostname}":"${REGISTRY_PORT}"
+  configureHarborCfg "hostname" "${HOSTNAME}":"${REGISTRY_PORT}"
 fi
 
 configureHarborCfg ui_url_protocol https
 
-configureHarborCfg ssl_cert $cert
-configureHarborCfg ssl_cert_key $key
+configureHarborCfg ssl_cert $appliance_tls_cert
+configureHarborCfg ssl_cert_key $appliance_tls_key
 configureHarborCfg secretkey_path $data_dir
 
 # Set MySQL and Clair DB passwords on first boot
@@ -145,7 +122,7 @@ configureHarborCfgOnce clair_db_password "$(genPass)"
 setPortInYAML $harbor_compose_file "${REGISTRY_PORT}" "${NOTARY_PORT}"
 
 # Configure the integration URL
-configureHarborCfg admiral_url https://"${hostname}":"$(ovfenv -k management_portal.port)"
+configureHarborCfg admiral_url https://"${HOSTNAME}":"${ADMIRAL_PORT}"
 
 # Open port for Harbor
 iptables -w -A INPUT -j ACCEPT -p tcp --dport "${REGISTRY_PORT}"
@@ -153,9 +130,7 @@ iptables -w -A INPUT -j ACCEPT -p tcp --dport "${REGISTRY_PORT}"
 # Open port for Notary
 iptables -w -A INPUT -j ACCEPT -p tcp --dport "${NOTARY_PORT}"
 
-# Start on startup
-echo "Enable harbor startup"
-systemctl enable harbor_startup.service
-
 # cleanup common/config directory in preparation for running the harbor "prepare" script
 rm -rf /etc/vmware/harbor/common/config
+
+echo "Finished Harbor configuration"

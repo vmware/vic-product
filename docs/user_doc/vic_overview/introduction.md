@@ -36,11 +36,12 @@ For an introduction to containers and Docker before reading further, watch the f
 
 [![Container Registry](graphics/container_registry.jpg)](https://www.youtube.com/watch?v=76rX4s73MrM)  [![Container Registries](graphics/container_registries.jpg)](https://www.youtube.com/watch?v=jpC_p3bxXCI)  
 
-The following resources on docker.com are also useful:
+The following resources on docker.com and elsewhere are also useful:
 
 - [Docker glossary](https://docs.docker.com/glossary/)
 - [Get Started with Docker](https://docs.docker.com/get-started/)
 - [Docker Sandbox](http://labs.play-with-docker.com/)
+- [Play with Docker Classroom](http://training.play-with-docker.com/)
 
 ## Introduction to Container Images and Volumes<a id="images"></a>
 
@@ -72,9 +73,10 @@ The main advantage of the image format is its portability. As long as you have a
 
 ## What is vSphere Integrated Containers? <a id="whatis_vic"></a>
 
-vSphere Integrated Containers comprises three major components:
+vSphere Integrated Containers is delivered as an appliance, that comprises the following major components:
 
 - **vSphere Integrated Containers Engine**, a container runtime for vSphere that allows you to provision containers as virtual machines, offering the same security and functionality of virtual machines in VMware ESXi&trade; hosts or vCenter Server&reg; instances. 
+- **vSphere Integrated Containers Plug-In for vSphere Client**, that provides information about your vSphere Integrated Containers setup and allows you to deploy virtual container hosts directly from the vSphere Client.
 - **vSphere Integrated Containers Registry**, an enterprise-class container registry server that stores and distributes container images. vSphere Integrated Containers Registry extends the Docker Distribution open source project by adding the functionalities that an enterprise requires, such as security, identity and management.
 - **vSphere Integrated Containers Management Portal**, a container management portal that provides a UI for DevOps teams to provision and manage containers, including the ability to obtain statistics and information about container instances. Cloud administrators can manage container hosts and apply governance to their usage, including capacity quotas and approval workflows. Cloud administrators can create projects, and assign users and resources such as registries and virtual container hosts to those projects.
 
@@ -117,7 +119,7 @@ With vSphere Integrated Containers:
 
 - A user raises a ticket and says, "I need Docker". 
 - The vSphere administrator identifies datastores, networking, and compute resources on a cluster that users can use for their Docker environment. 
-- The vSphere administrator uses a utility called `vic-machine` to install a small appliance, called a virtual container host (VCH). The VCH represents an authorization to use the infrastructure that they have identified, into which users can self-provision container workloads.
+- The vSphere administrator uses the vSphere Integrated Containers plug-in for the vSphere Client or a command-line utility called `vic-machine` to install a small appliance, called a virtual container host (VCH). The VCH represents an authorization to use the infrastructure that they have identified, into which users can self-provision container workloads.
 - The appliance runs a secure remote Docker API, that is the only access that the user has to the vSphere infrastructure.
 - Instead of sending the user a Linux VM, the vSphere administrator sends them the IP address of the appliance, the port of the remote Docker API, and a certificate for secure access.
 
@@ -184,12 +186,12 @@ A VCH is functionally distinct from a traditional container host in the followin
 - There is no local image cache. This is kept on a datastore in the cluster that you specify when you deploy a VCH. 
 - There is no read-write shared storage
 
-A VCH is a multi-functional appliance that you deploy as a vApp in a vCenter Server cluster or as a resource pool on an ESXi host. The vApp or resource pool provides a useful visual parent-child relationship in the vSphere Client so that you can easily identify the container VMs that are provisioned into a VCH. You can also specify resource limits on the vApp. You can provision multiple VCHs onto a single ESXi host, into a vSphere resource pool, or into a vCenter Server cluster.
+A VCH is a multi-functional appliance that you deploy as a resource pool in a vCenter Server cluster or on an ESXi host. The resource pool provides a useful visual parent-child relationship in the vSphere Client so that you can easily identify the container VMs that are provisioned into a VCH. You can also specify resource limits on the resource pool. You can provision multiple VCHs onto a single ESXi host, into a vSphere resource pool, or into a vCenter Server cluster.
 
 
 #### The VCH Endpoint VM <a id="endpoint"></a>
 
-The VCH endoint VM is the VM that runs inside the VCH vApp or resource pool. There is a 1:1 relationship between a VCH and a VCH endpoint VM. The VCH endpoint VM provides the following functions:
+The VCH endoint VM is the VM that runs inside the VCH resource pool. There is a 1:1 relationship between a VCH and a VCH endpoint VM. The VCH endpoint VM provides the following functions:
 
 - Runs the services that a VCH requires.
 - Provides a secure remote API to a client.
@@ -210,9 +212,11 @@ The `vic-machine` utility is a binary for Windows, Linux, and OSX that manages t
 - Configures existing VCHs for debugging.
 - Lists, inspects, upgrades, configures, and deletes VCHs.
 
+The `vic-machine` utility also runs as a service in the vSphere Integrate Containers appliance. This service powers the Create Virtual Container Host wizard in the HTML5 vSphere Client plug-in, to allow you to deploy VCHs interactively from the vSphere Client.
+
 ## What Is vSphere Integrated Containers Management Portal? <a id="whats_portal"></a>
 
-vSphere Integrated Containers Management Portal is a highly scalable and very lightweight container management platform for deploying and managing container based applications. It is designed to have a small footprint and boot extremely quickly. vSphere Integrated Containers Management Portal is intended to provide DevOps administrators with automated deployment and lifecycle management of containers.
+vSphere Integrated Containers Management Portal is a highly scalable and very lightweight container management platform for deploying and managing container based applications. The management portal runs as a container in the vSphere Integrated Containers virtual appliance. It is designed to have a small footprint and boot extremely quickly. vSphere Integrated Containers Management Portal is intended to provide DevOps administrators with automated deployment and lifecycle management of containers.
 
 - Resource management, allowing DevOps administrators to set deployment preferences which lets vSphere Integrated Containers Management Portal manage container placement.
 - Live state updates that provide a live view of the container system.
@@ -242,7 +246,9 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
 
 ## What Is vSphere Integrated Containers Registry? <a id="whats_registry"></a>
 
-vSphere Integrated Containers Registry is an enterprise-class registry server that you can use to store and distribute container images. vSphere Integrated Containers Registry allows DevOps administrators to organize image repositories in projects, and to set up role-based access control to those projects to define which users can access which repositories. vSphere Integrated Containers Registry also provides rule-based replication of images between registries, implements Docker Content Trust and vulnerability scanning, and provides detailed logging for project and user auditing.
+vSphere Integrated Containers Registry is an enterprise-class registry server that you can use to store and distribute container images. The registry runs as a container in the vSphere Integrated Containers virtual appliance. vSphere Integrated Containers Registry allows DevOps administrators to organize image repositories in projects, and to set up role-based access control to those projects to define which users can access which repositories. vSphere Integrated Containers Registry also provides rule-based replication of images between registries, implements Docker Content Trust and vulnerability scanning, and provides detailed logging for project and user auditing.
+
+For demo videos of some of the features of vSphere Integrated Containers Registry, see the [VMware Harbor YouTube Channel](https://www.youtube.com/channel/UCSxaozHKrX3F0UnZeYe5Itg).
 
 ### Rule Based Image Replication <a id="replication"></a>
 

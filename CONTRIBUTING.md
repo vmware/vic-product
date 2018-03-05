@@ -103,7 +103,7 @@ To help write conforming commit messages, it is recommended to set up the [git-g
 curl https://cdn.rawgit.com/tommarshall/git-good-commit/v0.6.1/hook.sh > .git/hooks/commit-msg && chmod +x .git/hooks/commit-msg
 ```
 
-[dronevic]:https://ci.vcna.io/vmware/vic-product
+[dronevic]:https://ci-vic.vmware.com/vmware/vic-product
 [dronesrc]:https://github.com/drone/drone
 [robotsrc]:https://github.com/robotframework/robotframework
 [dronecli]:http://readme.drone.io/0.5/install/cli/
@@ -115,13 +115,13 @@ CI pipeline is setup using [Drone][dronesrc] and Automated integration testing u
 
 PRs must pass unit tests and integration tests before being merged into `master`.
 
-For details, see [CI Workflow](installer/BUILD.md#ci-workflow) and [Automated Testing](tests/README.md)
+For details, see [CI Workflow](installer/docs/BUILD.md#ci-workflow) and [Automated Testing](tests/README.md)
 
 ## Reporting Bugs and Creating Issues
 
 When opening a new issue, try to roughly follow the commit message format conventions above.
 
-
+Please follow the detailed instructions in https://github.com/vmware/vic/blob/master/CONTRIBUTING.md#reporting-bugs-and-creating-issues when creating and triaging issues.
 
 For cross-component or VIC Appliance issues, please use the [vic-product Github issue tracker](https://github.com/vmware/vic-product/issues)
 
@@ -136,7 +136,6 @@ For issues relating to individual components, please use the component specific 
 If you are unsure which component your issue relates to, submit it here and we will triage it.
 Thank you for contributing to VIC Product!
 
-
 ## Repository structure
 
 The layout in the repo is as follows:
@@ -146,6 +145,10 @@ The layout in the repo is as follows:
 * tests - VIC Appliance tests
 * tutorials - Tutorials
 
+## VIC Appliance
+
+View the [VIC Appliance Readme](installer/README.md)
+
 ## Troubleshooting
 
-* If you're building the project in a VM, ensure that it has at least 4GB memory to avoid issues while running the build.
+View the [VIC Appliance Troubleshooting Guide](installer/docs/SUPPORT.md)

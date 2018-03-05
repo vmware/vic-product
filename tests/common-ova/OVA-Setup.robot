@@ -21,9 +21,8 @@ Suite Setup  Global Environment Setup
 *** Variables ***
 ${default-ova-file-path}  installer/bin/vic-*.ova
 
-*** Keywords ***
-
 
 *** Test Cases ***
 Install Common OVA
+    Log To Console  \nInstalling ova, enrolling psc, and checking online component status...
     Install Common OVA If Not Already  ${default-ova-file-path}

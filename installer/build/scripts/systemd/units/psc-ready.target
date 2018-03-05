@@ -1,0 +1,9 @@
+[Unit]
+Description=Provides a target for psc dependent components
+Documentation=https://github.com/vmware/vic-product/blob/master/installer/docs/DESIGN.md
+
+Requires=vic-appliance-wait-psc-config.service get_token.service
+After=vic-vic-appliance-wait-psc-config.service get_token.service
+
+[Install]
+WantedBy=vic-appliance.target

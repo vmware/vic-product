@@ -2,7 +2,7 @@
 
 After you have installed the client plug-ins for vSphere Integrated Containers, you can find information about individual virtual container hosts (VCHs) and container VMs in the HTML5 vSphere Client or the Flex-based vSphere Web Client.
 
-**IMPORTANT**: Do not use the vSphere Client to perform operations on virtual container hosts or container VMs. Specifically, using the vSphere Client to power off, power on, or delete the VCH vApp or VCH endpoint VM can cause vSphere Integrated Containers Engine to not function correctly. Always use `vic-machine` to perform operations on VCHs. The vSphere Client does not allow you to delete container VMs, but do not use the vSphere Client to power container VMs on or off. Always use Docker commands to perform operations on containers. 
+**IMPORTANT**: Do not perform operations on virtual container hosts (VCHs) or container VMs in the vSphere Client inventory views. Specifically, using the vSphere Client inventory views to power off, power on, or delete the VCH resource pool or VCH endpoint VM can cause vSphere Integrated Containers Engine to not function correctly. Always use the vSphere Integrated Containers plug-in for the HTML5 vSphere Client or `vic-machine` to perform operations on VCHs. The vSphere Client does not allow you to delete container VMs, but do not use the vSphere Client to power container VMs on or off. Always use Docker commands or vSphere Integrated Containers Management Portal to perform operations on containers.
 
 **Prerequisites**
 
@@ -13,8 +13,8 @@ After you have installed the client plug-ins for vSphere Integrated Containers, 
 
 1. Log in to either the HTML5 vSphere Client or the Flex-based vSphere Web Client.
 2. On the **Home** page, select **Hosts and Clusters**.
-2. Expand the hierarchy of vCenter Server objects to navigate to the VCH vApp.
-3. Expand the VCH vApp and select the VCH endpoint VM.
+2. Expand the hierarchy of vCenter Server objects to navigate to the VCH resource pool.
+3. Expand the VCH resource pool and select the VCH endpoint VM.
 
     Information about the VCH appears in the **Virtual Container Host** portlet in the **Summary** tab:
 

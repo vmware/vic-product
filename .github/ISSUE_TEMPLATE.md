@@ -1,5 +1,8 @@
 <!--
-Issues in this repository are for VIC Product
+Issues in this repository are for VIC Product (VIC appliance)
+
+Before submitting an issue, please read the troubleshooting guide
+https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md
 
 Issues related to individual components should be submitted to their respective projects:
 VIC Engine: https://github.com/vmware/vic/issues
@@ -10,34 +13,55 @@ If you are unsure which component your issue relates to, submit it here and we w
 Thank you for contributing to VIC Product!
 -->
 
-# For bug reports, please include the information below:
+##### For bug reports, please include the information below:
 
-**VIC Product version:**
+Please fill out both the Basic Information and Detailed Information sections.
 
-OVA version (e.g. `vic-v1.2.3-aaaaaaa.ova`)
+Bug Report Basic Information
+----------------------------
 
-**Deployment details:**
+REQUIRED:
 
-Environment where the OVA is deployed
+- vCenter Server version:
+- Embedded or external PSC:
+- Filename of the OVA you deployed:
+- Does the VIC appliance recieve configuration by DHCP?
+- What stage of the Appliance Lifecycle is the VIC appliance in?
+  https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-lifecycle
+- Attach the VIC appliance support bundle
+  https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-support-bundle
+  If you are not comfortable with posting this publicly, please email it to andrewchin@vmware.com
+  and reference the created issue number in the subject
 
-**Steps to reproduce:**
+OPTIONAL, but helpful:
 
-**Actual behavior:**
+- IP address of VIC appliance:
+- Hostname of VIC appliance:
+- IP address of vCenter Server:
+- Hostname of vCenter Server:
 
-**Expected behavior:**
 
-**Logs:**
+Bug Report Detailed Information
+-------------------------------
 
-**Additional details as necessary:**
+- What operation was being performed when the failure was noticed?
 
-# For stories, please include the information below:
+- Provide information from the `Support Information` section of the appropriate Appliance Lifecycle stage:
+  https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-lifecycle
+
+- Provide additional detail as necessary:
+
+
+
+
+
+
+
+
+##### For feature requests/user stories, please include the information below:
 
 **User Statement:**
 
-A brief statement describe who, what and why of the story for example - As a job seeker, I want to search for a job, so I can advance my career.
-
 **Details:**
-Any details of what you want that might clarify for the developer how to approach the implementation.
 
 **Acceptance Criteria:**
-Specific deliverable and actionable items that the story needs to deliver in order to be considered complete, the more detail here the more accurate the implementation will be.

@@ -1,0 +1,13 @@
+[Unit]
+Description=VIC Appliance TLS Certificate
+Documentation=https://github.com/vmware/vic-product
+After=vic-mounts.target resizefs.service vic-appliance-environment.service
+Requires=vic-mounts.target resizefs.service vic-appliance-environment.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/vmware/environment
+ExecStart=/etc/vmware/vic-appliance-tls.sh
+
+[Install]
+WantedBy=vic-appliance.target

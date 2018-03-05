@@ -24,11 +24,13 @@ Check VCenter
     Should Contain  ${output}  VMware vCenter Server
 
 Get VCenter Thumbprint
+    [Tags]  secret
     ${rc}  ${thumbprint}=  Run And Return Rc And Output  openssl s_client -connect %{TEST_URL}:443 </dev/null 2>/dev/null | openssl x509 -fingerprint -noout | cut -d= -f2
     Should Be Equal As Integers  ${rc}  0
     [Return]  ${thumbprint}
 
 Set Test VC Variables
+    [Tags]  secret
     ${thumbprint}=  Get VCenter Thumbprint
     Set Global Variable  ${TEST_THUMBPRINT}  ${thumbprint}
 

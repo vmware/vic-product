@@ -17,7 +17,11 @@
 package main
 
 import (
+	"crypto/sha1"
+	"crypto/x509"
+	"encoding/pem"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"strings"
@@ -37,6 +41,7 @@ const (
 	VtActivate   = 0x5606
 	VtWaitActive = 0x5607
 	refreshTime  = "1m"
+	certNotAvail = "Certificate not available"
 )
 
 func main() {
@@ -75,15 +80,12 @@ func main() {
 	info = fmt.Sprintf("%sAfter first boot, unless you are upgrading the appliance, you must visit the\nGetting Started Page to initialize the appliance before VIC services can start.\n\n", info)
 
 	if ip, err := ip.FirstIPv4(ip.Eth0Interface); err == nil {
-		if port, ok := ovf.Properties["fileserver.port"]; ok {
-			info = fmt.Sprintf("%sAccess the Getting Started Page at:\nhttps://%s:%s\n", info, ip.String(), port)
-		}
-		if port, ok := ovf.Properties["management_portal.port"]; ok {
-			info = fmt.Sprintf("%sAccess the Container Management Portal at:\nhttps://%s:%s\n", info, ip.String(), port)
-		}
+		info = fmt.Sprintf("%sAccess the Getting Started Page at:\nhttp://%s\n\n", info, ip.String())
 	}
-	info = fmt.Sprintf("%s\nAccess the VIC Product Documentation at:\nhttps://vmware.github.io/vic-product/#documentation\n", info)
-	info = fmt.Sprintf("%s\n\nPress the right arrow key to view network status...", info)
+	fp := getTLSCertFingerprint()
+	info = fmt.Sprintf("%sTLS certificate SHA-1 fingerprint:\n%s\n\n", info, fp)
+	info = fmt.Sprintf("%sAccess the VIC Product Documentation at:\nhttps://vmware.github.io/vic-product/#documentation\n\n", info)
+	info = fmt.Sprintf("%s\nPress the right arrow key to view network status...", info)
 
 	toppanel := ui.NewPar(fmt.Sprintf("VMware vSphere Integrated Containers %s\n\n%s\n%s", version.GetBuild().ShortVersion(), getCPUs(), getMemory()))
 	toppanel.Height = ui.TermHeight()/2 + 1
@@ -201,4 +203,24 @@ func getMemory() string {
 		panic("Austin, we have a problem... syscall.Sysinfo:" + err.Error())
 	}
 	return fmt.Sprintf("%s Memory", humanize.IBytes(uint64(si.Totalram)))
+}
+
+func getTLSCertFingerprint() string {
+	certFile := "/storage/data/certs/server.crt"
+	if _, err := os.Stat(certFile); err == nil {
+		certPEM, e := ioutil.ReadFile(certFile)
+		if e != nil {
+			return fmt.Sprintf("Read error: %s", e.Error())
+		}
+		block, _ := pem.Decode([]byte(certPEM))
+		if block == nil {
+			return fmt.Sprintf("Parse error")
+		}
+		cert, err := x509.ParseCertificate(block.Bytes)
+		if err != nil {
+			return fmt.Sprintf("Parse error: %s", err.Error())
+		}
+		return fmt.Sprintf("% X", sha1.Sum(cert.Raw))
+	}
+	return certNotAvail
 }

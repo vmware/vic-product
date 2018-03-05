@@ -13,7 +13,7 @@
      * [Manage Repositories](manage_repository_registry.md)
    * [Add Viewers, Developers, or DevOps Administrators to Projects](add_users.md)
    * [Add VCHs](vchs_and_mgmt_portal.md)
-      * [Full Authentication](add_vch_fullTLS_in_portal.md)
+      * [Full TLS Authentication](add_vch_fullTLS_in_portal.md)
       * [Server-Side Authentication](add_vch_serversideTLS_in_portal.md)
       * [No Authentication](add_vch_noTLS_in_portal.md)
    * [Add Registries](add_repos_in_portal.md)

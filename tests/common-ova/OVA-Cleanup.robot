@@ -22,5 +22,9 @@ Suite Setup  Global Environment Setup
 
 
 *** Test Cases ***
+Copy OVA Support Bundle
+    Set Test OVA IP If Available
+    Copy Support Bundle  %{OVA_IP}
+
 Teardown Common OVA
     Cleanup VIC Product OVA  %{OVA_NAME}

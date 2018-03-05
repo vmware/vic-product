@@ -18,6 +18,7 @@ Documentation  This resource contains any keywords dealing with header on VIC UI
 *** Variables ***
 # css locators
 ${vh-title}  css=.header .title
+${vh-admin-link}  css=a[routerlink='/administration']
 
 
 # expected text values
@@ -28,3 +29,7 @@ ${vh-title-text}  vSphere Integrated Containers
 Verify VIC UI Header Display
     Wait Until Element Is Visible  ${vh-title}  timeout=${EXPLICIT_WAIT}
     Element Text Should Be  ${vh-title}  ${vh-title-text}
+
+Navigate To Admin Page
+    Click Link  ${vh-admin-link}
+    Wait Until Element Is Visible  ${sn-registries-link}  timeout=${EXPLICIT_WAIT}

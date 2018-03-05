@@ -1,0 +1,8 @@
+[Unit]
+Description=System customization for VIC Appliance
+Documentation=https://github.com/vmware/vic-product/blob/master/installer/docs/DESIGN.md
+
+Requires=multi-user.target
+After=multi-user.target
+
+AllowIsolate=yes

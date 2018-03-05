@@ -130,7 +130,6 @@ fi
 echo "Starting migration"
 
 echo "[=] shutting down harbor"
-systemctl stop harbor_startup.service
 systemctl stop harbor.service
 
 echo "[=] copying data"

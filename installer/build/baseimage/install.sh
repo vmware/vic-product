@@ -39,7 +39,6 @@ progress "importing local gpg key"
 rpm --import /etc/pki/rpm-gpg/VMWARE-RPM-GPG-KEY
 
 progress "configuring grub"
-sed -i 's/set timeout=5/set timeout=0/' /boot/grub2/grub.cfg
 sed -i '/linux/ s/$/ consoleblank=0/' /boot/grub2/grub.cfg
 
 progress "setting umask to 022"
@@ -66,11 +65,12 @@ tdnf install -q --refresh -y \
     iproute2 iptables iputils \
     cdrkit xfsprogs sudo \
     lvm2 parted gptfdisk \
-    e2fsprogs docker logrotate &>/dev/null
+    e2fsprogs docker gzip\
+    net-tools logrotate &>/dev/null
 
 progress "installing package dependencies"
 tdnf install -q --refresh -y \
-    rsync openjre python-pip &>/dev/null
+    openjre python-pip &>/dev/null
 
 progress "configuring with overlay"
 cp -r /build/root/* /
@@ -124,8 +124,11 @@ echo -ne '' >/var/log/lastlog
 echo -ne '' >/var/log/wtmp
 echo -ne '' >/var/log/btmp
 
-progress "resetting bashrs"
+progress "resetting bashrc"
 echo -ne '' > /root/.bashrc
+echo -ne '' > /root/.bash_profile
+echo 'shopt -s histappend' >> /root/.bash_profile
+echo 'export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"' >> /root/.bash_profile
 
 # Clear SSH host keys
 progress "resetting ssh host keys"

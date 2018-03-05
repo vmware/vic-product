@@ -1,6 +1,8 @@
 # Provisioning Container VMs in the Management Portal #
 
-You can provision container VMs from the management portal. You can quick-provision containers by using default settings or you can customize your deployment by using the available settings. You can either provision or save as a template your configured container.
+You can provision containers or container VMs from the management portal depending on the target host. If your target host is a VCH, you provision container VMs. If your target host is a Docker host, you provision standard containers. You can quick-provision by using default settings or you can customize your deployment by using the available settings. You can either provision or save as a template your configured container.
+
+If you provision 
 
 You can provision containers, templates, or images. 
 - To provision a single container, go to **Home** > **Containers** and click **+ Container**.

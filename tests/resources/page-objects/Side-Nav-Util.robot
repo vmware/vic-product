@@ -16,12 +16,19 @@
 Documentation  This resource contains any keywords dealing with side navigation UI
 Resource  Container-Hosts-Page-Util.robot
 Resource  Containers-Page-Util.robot
+Resource  Registries-Page-Util.robot
+Resource  Project-Repositories-Page-Util.robot
 
 *** Variables ***
 # css locators
-${sn-title}  css=#main .title
+
+# home page side nav
 ${sn-container-hosts-link}  css=a[routerlink=clusters]
 ${sn-containers-link}  css=a[routerlink=containers]
+${sn-project-repositories-link}  css=a[routerlink=project-repositories]
+# admin page side nav
+${sn-registries-link}  css=a[routerlink=registries]
+
 
 # expected text values
 
@@ -36,3 +43,11 @@ Navigate To Container Hosts Page
 
 Navigate To Containers Page
     Click Link  ${sn-containers-link}
+
+Navigate To Registries Page
+    Click Link  ${sn-registries-link}
+    Verify Registries Page
+
+Navigate To Project Repositories Page
+    Click Link  ${sn-project-repositories-link}
+    Verify Project Repositories Page

@@ -1,0 +1,16 @@
+[Unit]
+Description=VIC Appliance Web Server
+Documentation=https://vmware.github.io/vic-product/index.html#getting-started
+After=vic-appliance-ready.target vic-appliance-tls.service
+Requires=vic-appliance-ready.target vic-appliance-tls.service
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=15
+EnvironmentFile=/etc/vmware/environment
+ExecStartPre=/usr/bin/bash /etc/vmware/fileserver/configure_fileserver.sh
+ExecStart=/etc/vmware/fileserver/start_fileserver.sh
+
+[Install]
+WantedBy=vic-appliance.target
