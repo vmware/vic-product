@@ -8,25 +8,24 @@ determine what information to collect for further debugging.
 This information about the environment and events that occurred leading to the failure *should be
 included in every support request to assist in debugging*.
 
-- vCenter Server version
-- Embedded or external PSC?
-- Filename of the OVA you deployed
-- Hash (MD5, SHA-1, or SHA-256) of the OVA you deployed
+- vCenter Server version:
+- Embedded or external PSC:
+- Filename of the OVA you deployed:
 - Does the VIC appliance recieve configuration by DHCP?
-- IP address of VIC appliance
-- Hostname of VIC appliance
-- IP address of vCenter Server
-- Hostname of vCenter Server
-- What stage of the [Appliance Lifecycle](#appliance-lifecycle) is the VIC appliance in?
-- What operation was being performed when the failure was noticed?
+- What [stage of the Appliance Lifecycle](#appliance-lifecycle) is the VIC appliance in?
+- Attach the [VIC appliance support bundle](#appliance-support-bundle)
+- IP address of VIC appliance:
+- Hostname of VIC appliance:
+- IP address of vCenter Server:
+- Hostname of vCenter Server:
 
-*IMPORTANT*
+### Appliance Support Bundle
 
 If you are using VIC appliance version 1.3.1 or greater and are able to SSH into the appliance,
 please run `/etc/vmware/support/appliance-support.sh` and provide the resulting file to support.
 This script gathers appliance state and log information and is the best tool for gathering
-comprehensive support information. Provide this output for all support requests along with
-additional Support Information from the corresponding stage of the Appliance Lifecycle.
+comprehensive support information. Provide this output for all support requests along with the
+additional _Support Information_ from the corresponding stage of the Appliance Lifecycle.
 
 
 ## Appliance Lifecycle
@@ -55,6 +54,7 @@ Information from below.
 
 Provide the following information to support if encountering Deployment failures:
 
+- Hash (MD5, SHA-1, or SHA-256) of the OVA you deployed
 - Deployment method:
     - Flash/Flex client
         - Screenshot of the failure screen

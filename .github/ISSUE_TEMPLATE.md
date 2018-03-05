@@ -15,34 +15,43 @@ Thank you for contributing to VIC Product!
 
 ##### For bug reports, please include the information below:
 
-Please include the requested support information from the VIC Appliance Troubleshooting Guide below
-https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md
+Please fill out both the Basic Information and Detailed Information sections.
 
-
-Basic information (REQUIRED)
+Bug Report Basic Information
 ----------------------------
 
-- Did you read the VIC Appliance Troubleshooting Guide? (Y/N)
+REQUIRED
+
 - vCenter Server version:
 - Embedded or external PSC:
 - Filename of the OVA you deployed:
-- Hash (MD5, SHA-1, or SHA-256) of the OVA you deployed:
+- Does the VIC appliance recieve configuration by DHCP?
+- What stage of the Appliance Lifecycle is the VIC appliance in?
+  https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-lifecycle
+- Attach the VIC appliance support bundle
+  https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-support-bundle
+  If you are not comfortable with posting this publicly, please email it to andrewchin@vmware.com
+  and reference the created issue number in the subject
+
+OPTIONAL, but helpful:
+
 - IP address of VIC appliance:
 - Hostname of VIC appliance:
 - IP address of vCenter Server:
 - Hostname of vCenter Server:
+
+
+Bug Report Detailed Information
+-------------------------------
+
 - What operation was being performed when the failure was noticed?
 
-
-Detailed information (REQUIRED)
--------------------------------
-https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-lifecycle
-
-- What stage of the Appliance Lifecycle is the VIC appliance in?
 - Provide information from the `Support Information` section of the appropriate Appliance Lifecycle stage:
-
+  https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-lifecycle
 
 - Provide additional detail as necessary:
+
+
 
 
 
