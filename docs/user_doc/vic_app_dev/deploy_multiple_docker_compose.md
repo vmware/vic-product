@@ -1,10 +1,10 @@
 # Building and Deploying Multi-Container Applications to a Virtual Container Host #
 
-Having examined some of the considerations around deploying single containers to a Virtual Container Host (VCH), this section examples how to deploy applications that are comprised of multiple containers.
+Having examined some of the considerations around deploying single containers to a virtual container host (VCH), this section examples how to deploy applications that are comprised of multiple containers.
 
 There are two approaches you can take to this. The most instinctive approach would be to create scripts that manage the lifecycle of volumes, networks and containers.
 
-The second approach is to use a manifest-based orchestrator such as Docker Compose. Docker Compose is a proprietary orchestrator that drives the Docker API and ties other pieces of the Docker ecosystem together including Build and Swarm. Given that VIC engine doesn't currently support either Build or Swarm, Compose compatibility is necessarily limited. However, Compose can still be a useful tool, provided those limitations are understood.
+The second approach is to use a manifest-based orchestrator such as Docker Compose. Docker Compose is a proprietary orchestrator that drives the Docker API and ties other pieces of the Docker ecosystem together including Build and Swarm. Given that vSphere Integrated Containers Engine doesn't currently support either Build or Swarm, Compose compatibility is necessarily limited. However, Compose can still be a useful tool, provided those limitations are understood.
 
 ## Scripting Multi-Container Applications ##
 
@@ -20,7 +20,7 @@ For this example, we're going to create two named volumes on different vSphere d
 
 We're going to create a private network for the database and expose the Wordpress container on a second network that exposes a port on the VCH endpoint.
 
-The Wordpress application server and the database container don't necessarily have to be separate failure domains, but one of the advantages of VIC engine is that it makes it easy to deploy them that more secure way, so that's the approach we're taking here. 
+The Wordpress application server and the database container don't necessarily have to be separate failure domains, but one of the advantages of vSphere Integrated Containers Engine is that it makes it easy to deploy them that more secure way, so that's the approach we're taking here. 
 
 The question of sizing is a simple matter of setting virtual CPUs and memory on each container.
 
@@ -160,7 +160,7 @@ networks:
 ```
 Note that there is no way to run `exec` commands explicitly in a compose file, so any waits for dependent services to come up need to be built into the containers themselves.
 
-## How to Manage the Application Lifecycle with docker-compose and VIC engine ##
+## How to Manage the Application Lifecycle with docker-compose and vSphere Integrated Containers Engine ##
 
 Assuming you've downloaded an appropriate version of the docker-compose binary, you need to point docker-compose at a VCH endpoint. This is done either by setting `DOCKER_HOST=<endpoint-ip>:<port>` or using `docker-compose -H <endpoint-ip>:<port>`. 
 
@@ -198,7 +198,7 @@ docker-compose down --volumes --rmi    # stop the application and remove all res
 
 ## Building Multi-Container Applications Using Docker Compose ##
 
-Given that VIC engine does not have a native build capability, it does not interpret the `build` keyword in a compose file and `docker-compose build` will not work when `DOCKER_HOST` points to a VIC endpoint. VIC engine relies upon the portability of the docker image format and it is expected that a regular docker engine will be used in a CI pipeline to build container images for test and deployment.
+Given that vSphere Integrated Containers Engine does not have a native build capability, it does not interpret the `build` keyword in a compose file and `docker-compose build` will not work when `DOCKER_HOST` points to a VIC endpoint. vSphere Integrated Containers Engine relies upon the portability of the docker image format and it is expected that a regular docker engine will be used in a CI pipeline to build container images for test and deployment.
 
 There are two ways to work around this. You can create separate Compose files for build and run, or you can use the same Compose file but just make sure to add a couple of arguments. We will explore both options here using another example of a Compose file that includes build instructions. In this case, the sample voting application found [here](https://github.com/dockersamples/example-voting-app/blob/master/docker-compose-simple.yml).
 
@@ -235,7 +235,7 @@ Now that the application is built and pushed, you need to create a second Compos
 Modifications from the original file are highlighted as comments
 
 ```
-version: "2"      # VIC engine supports Compose file version 2
+version: "2"      # vSphere Integrated Containers Engine supports Compose file version 2
 
 services:
   vote:
@@ -272,7 +272,7 @@ In most real-world scenarios, container images will be pushed to a registry befo
 
 Local volume mounts are useful for development and testing as they allow source trees and data to be easily mapped into a container. In production however, making a container host stateful for the purpose of seeding the container with configuration or application data is only feasible if the container is guaranteed to be deployed to the stateful host. In general, best practice is to keep a container host as stateless as possible. 
 
-VIC engine cannot map volumes from a local filesystem into a container because VIC engine containers are strongly isolated and don't share a common filesystem. Despite this, it is still possible in VIC to add state to a container by pre-populating a volume with data and mounting it (TBD: link to "Pre-populate a Volume").
+vSphere Integrated Containers Engine cannot map volumes from a local filesystem into a container because vSphere Integrated Containers Engine containers are strongly isolated and don't share a common filesystem. Despite this, it is still possible in VIC to add state to a container by pre-populating a volume with data and mounting it (TBD: link to "Pre-populate a Volume").
 
 ***Combining into a single Compose file***
 
@@ -325,10 +325,10 @@ In the example above, the use of `sudo` creates a child shell that runs a local 
 
 Given that VIC is designed to be an enterprise runtime and has unique isolation characteristics applied to the containers it deploys, a Docker Compose script downloaded from the web may not work without modification. 
 
-This is partly a question of functional completeness of VIC engine docker API support and partly a question of its inherent design. There are some highly detailed technical sections in the documentation highlighting all of the capabilities VIC engine currently supports, but here is a high-level summary of topics discussed in more detail above:
+This is partly a question of functional completeness of vSphere Integrated Containers Engine docker API support and partly a question of its inherent design. There are some highly detailed technical sections in the documentation highlighting all of the capabilities vSphere Integrated Containers Engine currently supports, but here is a high-level summary of topics discussed in more detail above:
 
-- VIC engine supports version 2 of the Compose File format.
-- VIC engine has no native build support.
+- vSphere Integrated Containers Engine supports version 2 of the Compose File format.
+- vSphere Integrated Containers Engine has no native build support.
 - VIC containers take time to boot and thus may exhibit timing related issues. Eg. You may need to set `COMPOSE_HTTP_TIMEOUT` to a higher value than the default.
 - VIC containers have no notion of local read-write shared storage.
 

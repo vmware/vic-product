@@ -24,7 +24,7 @@ You can expose network ports in a Dockerfile using EXPOSE and leave it up to the
 
 If you want to expose your container to other containers on a bridge network, you don't need to use EXPOSE. Your container will be resolvable by name. 
 
-If you want your container to be externally accessible, VIC engine gives you the option to use an external container network rather than port mapping. This is more robust and more performant because it doesn't depend on the container engine being available for a network connection and it doesn't rely on NAT networking. Your container gets its own IP address on that container network. Exposing your container on a container network cannot be specified in a Dockerfile.
+If you want your container to be externally accessible, vSphere Integrated Containers Engine gives you the option to use an external container network rather than port mapping. This is more robust and more performant because it doesn't depend on the container engine being available for a network connection and it doesn't rely on NAT networking. Your container gets its own IP address on that container network. Exposing your container on a container network cannot be specified in a Dockerfile.
 
 If you want to use a port mapping on the VCH endpoint VM, it's rarely the case that you want the container engine to pick a random port and again, that's not something that can be specified in the Dockerfile. Better to use `docker run -p <external>:<internal>` at deployment.
 
@@ -63,7 +63,7 @@ Network isolation is handled in a similar way to Docker, except that containers 
 
 This kind of strong isolation is best suited to a container workload that is a long-running service. If the service fails, it should have no impact on any other services. Examples of a long-running service are a database, web server, key-value store etc.
 
-Containers are very flexible abstractions however and not every container is designed to be a single service. In fact, some containers are designed to be combined to form a single service and a single unit of scale. This notion is sometimes described as a Pod. In such a circumstance, it may be beneficial to run these as Linux containers in a single VM. VIC engine provides built-in support for this model of provisioning Linux container hosts as VIC containers since 1.2.
+Containers are very flexible abstractions however and not every container is designed to be a single service. In fact, some containers are designed to be combined to form a single service and a single unit of scale. This notion is sometimes described as a Pod. In such a circumstance, it may be beneficial to run these as Linux containers in a single VM. vSphere Integrated Containers Engine provides built-in support for this model of provisioning Linux container hosts as VIC containers since 1.2.
 
 What's important is to consider the policy needs of your application in terms of isolation. Strong isolation is a very important consideration in deploying robust applications into production and VIC makes it easy to turn that policy into plumbing.
 
