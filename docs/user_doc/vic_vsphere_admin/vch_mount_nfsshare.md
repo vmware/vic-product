@@ -19,15 +19,16 @@ If you deploy VCHs that use NFS share points as volume stores, you can test  the
     This package adds the  `/etc/services` file, which is not present by default.<pre>tdnf install iana-etc</pre>
 3. Start the `rpcbind` service.<pre>systemctl start rpcbind</pre>
 4. Check the status of the `rpcbind` service.<pre>systemctl status rpcbind</pre>If `rpcbind` is running correctly, you should see the message:<pre>* rpcbind.service - RPC Bind Service
-   Loaded: loaded (/usr/lib/systemd/system/rpcbind.service; disabled; vendor preset: disabled)
-   Active: active (running) since Tue 2018-01-30 12:46:43 UTC; 9s ago
-  Process: 1000 ExecStart=/usr/sbin/rpcbind $RPCBIND_OPTIONS -w (code=exited, status=0/SUCCESS)
- Main PID: 1003 (rpcbind)
+   Loaded: loaded (/usr/lib/systemd/system/rpcbind.service; enabled; vendor preset: enabled)
+   Active: active (running) since Tue 2018-03-06 16:15:17 UTC; 10s ago
+  Process: 1025 ExecStart=/usr/sbin/rpcbind $RPCBIND_OPTIONS -w (code=exited, status=0/SUCCESS)
+ Main PID: 1028 (rpcbind)
     Tasks: 1
    CGroup: /system.slice/rpcbind.service
-           `-1003 /usr/sbin/rpcbind -w
-Jan 30 12:46:43 Linux systemd[1]: Starting RPC Bind Service...
-Jan 30 12:46:43 Linux systemd[1]: Started RPC Bind Service.
+           `-1028 /usr/sbin/rpcbind -w
+
+Mar 06 16:15:17 Linux systemd[1]: Starting RPC Bind Service...
+Mar 06 16:15:17 Linux systemd[1]: Started RPC Bind Service.
 </pre>
 5. Mount the NFS share point in the VCH endpoint VM.<pre>mount -t nfs <i>nfs_sharepoint_url</i></pre>
 

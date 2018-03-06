@@ -19,9 +19,9 @@ Enable SSH access to the VCH endpoint VM and to set the root password by running
 
 1. Use SSH to connect to the VCH endpoint VM as `root` user.
 2. Open the Photon OS updates repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-updates-local.repo</pre>
-3.  Update the entry for the repository URL and save the change.<pre>baseurl=http://dl.bintray.com/vmware/photon_dev_x86_64/</pre>
+3.  Update the entry for the repository URL and save the change.<pre>baseurl=https://vmware.bintray.com/photon_updates_1.0_x86_64/</pre>
 4.  Open the Photon OS repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-local.repo</pre>
-5.  Update the entry for the repository URL and save the change.<pre>baseurl=http://dl.bintray.com/vmware/photon_dev_x86_64/</pre>
+5.  Update the entry for the repository URL and save the change.<pre>baseurl=https://vmware.bintray.com/photon_release_1.0_x86_64/</pre>
 6. Create a folder for `rpm` and initialize the `rpm` database.
 
     1. `mkdir /root/rpm`
@@ -29,7 +29,7 @@ Enable SSH access to the VCH endpoint VM and to set the root password by running
 7. Install the dependencies that Tiny DNF requires to install packages.<pre>tdnf --installroot /root/rpm --nogpgcheck install haveged systemd openssh iptables e2fsprogs procps-ng iputils iproute2 iptables net-tools sudo tdnf vim gzip lsof logrotate photon-release</pre>
 8. Copy the `/root/rpm/var/lib/rpm/Packages` file to the following location.<pre>cp /root/rpm/var/lib/rpm/Packages /var/lib/rpm/Packages</pre>
 9. Run the command to rebuild the database in the endpoint VM.<pre>rpm --rebuilddb</pre>
-3. Run a Tiny DNF command to test the reconfiguration.<pre>tdntdnf list installed</pre>The `tdnf list installed` command should display information about the installed packages. 
+3. Run a Tiny DNF command to test the reconfiguration.<pre>tdnf list installed</pre>The `tdnf list installed` command should display information about the installed packages. 
 
 **Result**
 
