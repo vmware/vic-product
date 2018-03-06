@@ -118,7 +118,7 @@ The following table lists which roles to assign to which type of inventory objec
 <td>No</td>
 </tr>
 <tr>
-<td>Network folders</td>
+<td>Network folders, if the vSphere Distributed Switches that the VCH uses are in network folders.</td>
 <td><code>Read-only</code></td>
 <td>Yes</td>
 </tr>
