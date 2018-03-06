@@ -323,14 +323,18 @@ issue
 
 #### Harbor
 
-TODO Add information about general failures that may occur
+If user sees issues in below areas, there are likely some errors in Harbor components:
+ - Unable to list repositories on UI (Home > Library > Project repositories).
+ - Errors in image scan/replication. 
+ - Unexpected error in `docker pull` or `docker push`
+ - Failed to deploy containers and the error happens when pulling the image.
 
 ##### Support Information
 
-TODO Add steps to troubleshoot and gather required information for debugging if unable to resolve an
-issue
+ - Check the status of Harbor's containers: Run `docker ps` on the appliance VM, and make sure the follow containers are running: `nginx`, `harbor-jobservice`, `harbor-ui`, `harbor-adminserver`, `harbor-log`, `harbor-db`, `notary-signer`, `notary-server`, `notary-db`, `clair`, `clair-db`.
 
-
+ - Log collection: The log files are stored in the directory `/storage/log/harbor` of the appliance. 
+As for scan/replication failure, please also check the job logs from UI page where the scan/replication actions are triggered.
 
 ## Additional Information
 
