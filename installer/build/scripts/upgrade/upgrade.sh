@@ -215,8 +215,8 @@ function moveDisks {
   umount /storage/data /storage/db /storage/log
 
   myip=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
-  govc datacenter.info
-  if [ ! $? -eq 0 ]; then
+  datacenters=$(govc datacenter.info -json | jq '.Datacenters | length')
+  if [ ! $datacenters -eq 1 ]; then
     local DC=""
     read -p "Please enter the target vSphere Datacenter: " DC
     export GOVC_DATACENTER="$DC"
