@@ -36,7 +36,7 @@ You can direct traffic between containers, the VCH, the external Internet, and y
 
 **IMPORTANT**: All hosts in a cluster should be attached to the port groups that you use for the VCH networks and for any mapped container networks. 
 
-For general information VCH networking requirements and how to create a distributed virtual switch and port group, see [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
+For general information VCH networking requirements and how to create a VMware vSphere Distributed Switch and port group, see [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
 
 - **Bridge Networks**: In Docker terminology, the VCH bridge network corresponds to the default bridge network on a Docker host. You can also create additional bridge networks, that correspond to Docker user-defined networks. You must create a dedicated port group for the bridge network for every VCH. For information about VCH bridge networks, see [Configure Bridge Networks](bridge_network.md).
 - **Public Network:** The network that container VMs and VCHs use to access the Internet. If you use the Create Virtual Container Host Wizard, you must create a port group for the public network. You cannot use the same port group for the public network as you use for the bridge network. However, you can use the public network port group for the client and management networks. For information about VCH public networks, see [Configure the Public Network](public_network.md).
