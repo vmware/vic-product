@@ -100,7 +100,7 @@ For more information about volume operations with vSphere Integrated Containers 
 
 ## Docker Compose Commands <a id="compose"></a>
 
-vSphere Integrated Containers Engine 1.3 supports Docker Compose version 1.18.
+vSphere Integrated Containers Engine 1.3 supports Docker Compose version 1.11.2.
 
 For more information about using Docker Compose with vSphere Integrated Containers Engine, see [Creating a Containerized Application with vSphere Integrated Containers Engine](creating_containerized_app_with_vic.md).
 
