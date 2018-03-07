@@ -42,6 +42,14 @@ This script gathers appliance state and log information and is the best tool for
 comprehensive support information. Provide this output for all support requests along with the
 _Support Information_ from the corresponding stage of the Appliance Lifecycle.
 
+The location of the resulting log bundle is shown in the script output, similar to this example:
+
+```
+Created log bundle /storage/log/vic_appliance_logs_2018-01-01-00-01-00.tar.gz
+```
+
+Provide this `.tar.gz` file to support.
+
 
 ## Appliance Lifecycle
 
