@@ -215,6 +215,12 @@ function moveDisks {
   umount /storage/data /storage/db /storage/log
 
   myip=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
+  datacenters=$(govc datacenter.info -json | jq '.Datacenters | length')
+  if [ ! $datacenters -eq 1 ]; then
+    local DC=""
+    read -p "Please enter the target vSphere Datacenter: " DC
+    export GOVC_DATACENTER="$DC"
+  fi
 
   OLD_VM_NAME=$(govc vm.info -json -vm.ip $APPLIANCE_TARGET | jq -r ".VirtualMachines[].Name")
   OLD_DATASTORE=$(govc vm.info -json $OLD_VM_NAME | jq -r ".VirtualMachines[].Config.DatastoreUrl[0].Name")
