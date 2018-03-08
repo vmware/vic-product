@@ -31,6 +31,7 @@ timestamp_file="/registration-timestamps.txt"
 VCENTER_TARGET=""
 VCENTER_USERNAME=""
 VCENTER_PASSWORD=""
+VCENTER_DATACENTER=""
 EXTERNAL_PSC=""
 PSC_DOMAIN=""
 
@@ -55,6 +56,7 @@ function usage {
       [--target]:                VC Target IP Address for psc registration.
       [--username]:              VC Username for psc registration.
       [--password]:              VC Password for psc registration.
+      [--dc]:                    VC Target Datacenter of the Old VIC Appliance
       [--external-psc]:          External PSC IP Address.
       [--external-psc-domain]:   External PSC Domain Name.
 
@@ -80,7 +82,7 @@ function callRegisterEndpoint {
 function registerAppliance {
 
   tab_retries=0
-  max_tab_retries=6 # 60 seconds
+  max_tab_retries=30 # 5 minutes
   while [[ "$(callRegisterEndpoint)" != *"200"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
     timecho "Waiting for register appliance..." | tee /dev/fd/3
     sleep 10
@@ -212,7 +214,9 @@ function prepareForUpgrade {
 function moveDisks {
   systemctl disable vic-mounts.target
   systemctl stop vic-mounts.target
-  umount /storage/data /storage/db /storage/log
+
+  # ignore errors if disks are already unmounted.
+  ( umount /storage/data /storage/db /storage/log || true ) && echo "Storage disks unmounted."
 
   myip=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
 
@@ -286,6 +290,10 @@ function main {
         VCENTER_TARGET="$2"
         shift # past argument
         ;;
+      --dc)
+        VCENTER_DATACENTER="$2"
+        shift
+        ;;
       --username)
         VCENTER_USERNAME="$2"
         shift # past argument
@@ -324,6 +332,9 @@ function main {
   done
 
   [ -z "${VCENTER_TARGET}" ] && read -p "Enter vCenter Server FQDN or IP: " VCENTER_TARGET
+  [ -z "${VCENTER_DATACENTER}" ] && read -p "Enter vCenter Datacenter of the old vic-appliance: " VCENTER_DATACENTER
+  export GOVC_DATACENTER="$VCENTER_DATACENTER"
+
   [ -z "${VCENTER_USERNAME}" ] && read -p "Enter vCenter Administrator Username: " VCENTER_USERNAME
   if [ -z "$VCENTER_PASSWORD" ] ; then
     echo -n "Enter vCenter Administrator Password: "
