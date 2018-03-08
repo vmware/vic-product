@@ -80,7 +80,7 @@ function callRegisterEndpoint {
 function registerAppliance {
 
   tab_retries=0
-  max_tab_retries=6 # 60 seconds
+  max_tab_retries=18 # 3 minutes
   while [[ "$(callRegisterEndpoint)" != *"200"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
     timecho "Waiting for register appliance..." | tee /dev/fd/3
     sleep 10
@@ -212,13 +212,16 @@ function prepareForUpgrade {
 function moveDisks {
   systemctl disable vic-mounts.target
   systemctl stop vic-mounts.target
-  umount /storage/data /storage/db /storage/log
+
+  # ignore errors if disks are already unmounted.
+  ( umount /storage/data /storage/db /storage/log || true ) && echo "Storage disks unmounted."
 
   myip=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
   datacenters=$(govc datacenter.info -json | jq '.Datacenters | length')
   if [ ! $datacenters -eq 1 ]; then
     local DC=""
-    read -p "Please enter the target vSphere Datacenter: " DC
+    echo "Please enter the target vSphere Datacenter: " | tee /dev/fd/3
+    read -p "" DC
     export GOVC_DATACENTER="$DC"
   fi
 
