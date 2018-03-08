@@ -5,9 +5,9 @@ Before submitting an issue, please read the troubleshooting guide
 https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md
 
 Issues related to individual components should be submitted to their respective projects:
-VIC Engine: https://github.com/vmware/vic/issues
-Container Management Portal (Admiral): https://github.com/vmware/admiral/issues
-Container Registry (Harbor): https://github.com/vmware/harbor/issues
+- VIC Engine: https://github.com/vmware/vic/issues
+- Container Management Portal (Admiral): https://github.com/vmware/admiral/issues
+- Container Registry (Harbor): https://github.com/vmware/harbor/issues
 
 If you are unsure which component your issue relates to, submit it here and we will triage it
 Thank you for contributing to VIC Product!
@@ -28,10 +28,9 @@ REQUIRED:
 - Does the VIC appliance recieve configuration by DHCP?
 - What stage of the Appliance Lifecycle is the VIC appliance in?
   https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-lifecycle
-- Attach the VIC appliance support bundle
+- Attach the VIC appliance support bundle (e.g. vic_appliance_logs_2018-01-01-00-01-00.tar.gz)
   https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-support-bundle
-  If you are not comfortable with posting this publicly, please email it to andrewchin@vmware.com
-  and reference the created issue number in the subject
+  Note: The support bundle may contain private information. If you are not comfortable with posting this publicly, please contact VMware GSS.
 
 OPTIONAL, but helpful:
 
