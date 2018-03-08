@@ -30,7 +30,7 @@ REQUIRED:
   https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-lifecycle
 - Attach the VIC appliance support bundle (e.g. vic_appliance_logs_2018-01-01-00-01-00.tar.gz)
   https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-support-bundle
-  If you are not comfortable with posting this publicly, please email it to andrewchin@vmware.com and reference the created issue number in the subject
+  Note: The support bundle may contain private information. If you are not comfortable with posting this publicly, please contact VMware GSS.
 
 OPTIONAL, but helpful:
 
