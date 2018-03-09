@@ -86,12 +86,16 @@ function setup() {
   task "ensuring necessary packages are present"
 
   progress "installing ${brprpl}gptfdisk e2fsprogs grub2 parted${creset}"
+  date
   tdnf install -y gptfdisk e2fsprogs grub2 parted &>/dev/null
+  date
 
   [ -f /usr/bin/qemu-img ] && return
 
   progress "installing ${brprpl}qemu-img${creset}"
+  date
   tdnf install -y xz
+  date
   curl -OL'#' https://storage.googleapis.com/vic-product-ova-build-deps/qemu-img.xz
   xz -d qemu-img.xz
   chmod +x qemu-img
@@ -130,11 +134,16 @@ function set_stage() {
   cp /etc/resolv.conf "${rt}/etc/"
 
   progress "verifying yum and tdnf setup"
+  date
   tdnf repolist --refresh
+  date
 
   progress "installing ${brprpl}filesystem bash shadow coreutils findutils${creset}"
+  date
   tdnf install -q --installroot "${rt}/" --refresh -y filesystem bash shadow coreutils findutils &>/dev/null
+  date
   progress "installing ${brprpl}systemd linux-esx tdnf ca-certificates sed gzip tar glibc${creset}"
+  date
   tdnf install -q --installroot "${rt}/" --refresh -y \
     systemd util-linux \
     pkgconfig dbus \
@@ -148,9 +157,12 @@ function set_stage() {
     bc kmod libdb \
     cpio procps-ng \
     cracklib-dicts &>/dev/null
+  date
 
   progress "installing ${brprpl}tzdata glibc-lang vim${creset}"
+  date
   tdnf install -q --installroot "${rt}/" -y tzdata glibc-lang vim &>/dev/null
+  date
 
   progress "installing ${brprpl}installer${creset}"
   install -D --mode=0755 --owner=root --group=root "${src}/install.sh" "${tgt}/install.sh"
