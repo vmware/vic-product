@@ -75,7 +75,7 @@ Information from below.
 
 ##### Support Information
 
-Provide the following information to support if encountering Deployment failures:
+Provide the following information to support if encountering Deployment Stage failures:
 
 - Hash (MD5, SHA-1, or SHA-256) of the OVA you deployed
 - Deployment method:
@@ -110,26 +110,70 @@ booted but before the Initialization Stage are usually related to user customiza
 
 ##### Support Information
 
-Provide the following information to support if encountering Boot failures:
+Provide the following information to support if encountering Boot Stage failures:
 
 - Is this a fresh deploy of the VIC appliance or an upgrade?
     - If upgrading, what version is the old VIC appliance?
 - Were any changes made to the disk configuration of the VIC appliance?
     - If yes, what changes?
-- Are you able to SSH into the VIC appliance?
-    - If the version is 1.3.1 or greater and able to SSH, please run
-      `/etc/vmware/support/appliance-support.sh` and provide the resulting file to support
+- Are you able to view the web page at http://<appliance_ip or FQDN>?
+    - If no, did you provide custom TLS certificates during the Deployment Stage?
+        - If yes and the version is 1.3.1 or less, verify the format is correct [Certificate
+          Reference](#additional-information)
+        - Run `journalctl -u fileserver`and provide the entire resulting output to support
+    - If no, attempt SSH debugging in the following step.
+- Are you able to SSH into the VIC appliance? If no, attempt network debugging in the following step.
+    - If the version is 1.3.1 or greater and able to SSH, please obtain a [VIC appliance support
+      bundle](#appliance-support-bundle)
     - If the version is 1.3.0 or less and able to SSH
         - Run `journalctl -u fileserver`and provide the entire resulting output to support
     - If the version is 1.3.0
         - Run `systemctl status vic-appliance-load-docker-images.service`
             - If this unit is still in progress, system required images are being loaded. Continue
               waiting until this unit is finished.
-- Are you able to view the web page at http://<appliance_ip or FQDN>?
-    - If no, did you provide custom TLS certificates during the Deployment Stage?
-        - If yes and the version is 1.3.1 or less, verify the format is correct [Certificate
-          Reference](#additional-information)
-        - Run `journalctl -u fileserver`and provide the entire resulting output to support
+
+###### Network Troubleshooting
+
+- Does the VM console of the deployed VIC appliance show an IP address? Is this address the expected
+  value based on DHCP or provided static IP settings?
+- Do you have a route to the deployed VIC appliance's IP address?
+  - `ping <VIC appliance IP>`
+    - If ping is successful, but SSH is not, check network firewall settings.
+    - If ping is not successful, check network settings and continue with [Console
+      Troubleshooting](#console-troubleshooting)
+
+###### Console Troubleshooting
+
+The goal of this step is to be able to SSH to the VIC appliance to allow for better debugging
+information to be obtained from the appliance.
+
+- Access the vSphere console for the VIC appliance. Press `ALT` + `->` to access the login prompt.
+  - Login with username `root` and the credentials you provided in the OVA deployment
+    customizations. If the deployment has failed to set your credentials, the default password is
+    `VMw@re!23`.
+  - Are there any startup components that failed to start? Run `systemctl list-units --state=failed`
+    - If no, continue with the next steps. If there are any failed units, provide the output of the
+      following commands to support:
+      - `systemctl list-units --state=failed`
+        - For each failed unit: `journalctl -u <unit name>`
+      - `ip addr show`
+      - `ip route show`
+  - Run `ip addr show`
+    - Is the IP address the expected value based on DHCP or provided static IP settings?
+  - Run `ip route show`
+    - Is the default route valid?
+  - Can you ping the default gateway? Run `ping <default gateway IP>`. Obtain the default gateway IP
+    from the `ip route show` command output.
+    - If no, check your network settings. Attach the VIC appliance to a network that has a valid
+      route between your client and the appliance.
+    - If yes, verify the routing configuration between the client that is unable to SSH to the VIC
+      appliance.
+  - If still unable to SSH to the VIC appliance, provide the output of the following commands to
+    support:
+    - `systemctl list-units --state=failed`
+      - For each failed unit: `journalctl -u <unit name>`
+    - `ip addr show`
+    - `ip route show`
 
 
 ### Initialization Stage
@@ -158,7 +202,7 @@ important to determine whether PSC registration was successfully completed.
 
 ##### Support Information
 
-Provide the following information to support if encountering Initialization failures:
+Provide the following information to support if encountering Initialization Stage failures:
 
 - Are you able to view the web page at http://<appliance_ip or FQDN>?
     - If yes, after providing initialization information, did you see a green bar showing a success
@@ -198,10 +242,10 @@ Provide the following information to support if encountering Initialization fail
     - If yes:
         - Provide the entire `curl` command attempted
         - Provide the response received when executing the command
-- Are you able to SSH into the VIC appliance?
-    - If you are using VIC appliance version 1.3.1 or greater and are able to SSH into the
-      appliance, please run `/etc/vmware/support/appliance-support.sh` and provide the resulting
-      file to support.
+- Are you able to SSH into the VIC appliance? If no, follow [network troubleshooting
+  steps](#network-troubleshooting)
+  - If you are using VIC appliance version 1.3.1 or greater and are able to SSH into the
+      appliance, please obtain a [VIC appliance support bundle](#appliance-support-bundle).
     - If using VIC appliance version 1.2.1 or 1.3.0:
         - Run `journalctl -u fileserver`and provide the entire resulting output to support
     - Run `systemctl status fileserver`
@@ -242,8 +286,10 @@ of Running Failures. After verifying that Admiral and Harbor services are runnin
 
 ##### Support Information
 
-Provide the following information to support if encountering Initialization failures:
+Provide the following information to support if encountering Running Stage failures:
 
+- If you are using VIC appliance version 1.3.1 or greater and are able to SSH into the
+  appliance, please obtain a [VIC appliance support bundle](#appliance-support-bundle).
 - Are Admiral and Harbor running?
     - Run `systemctl status admiral`
     - Run `journalctl -u admiral` and provide the entire resulting output to support
@@ -297,6 +343,8 @@ services that run on the VIC appliance.
 
 ##### Support Information
 
+- If you are using VIC appliance version 1.3.1 or greater, please obtain a [VIC appliance support
+  bundle](#appliance-support-bundle).
 - What is the old version of the VIC appliance?
     - Run `cat /etc/vmware/version` on the old appliance and provide the entire resulting output to
       support
