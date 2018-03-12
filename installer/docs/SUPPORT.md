@@ -122,7 +122,8 @@ Provide the following information to support if encountering Boot Stage failures
           Reference](#additional-information)
         - Run `journalctl -u fileserver`and provide the entire resulting output to support
     - If no, attempt SSH debugging in the following step.
-- Are you able to SSH into the VIC appliance? If no, attempt network debugging in the following step.
+- Are you able to SSH into the VIC appliance? If no, continue with [Network
+  Troubleshooting](#network-troubleshooting)
     - If the version is 1.3.1 or greater and able to SSH, please obtain a [VIC appliance support
       bundle](#appliance-support-bundle)
     - If the version is 1.3.0 or less and able to SSH
@@ -242,8 +243,8 @@ Provide the following information to support if encountering Initialization Stag
     - If yes:
         - Provide the entire `curl` command attempted
         - Provide the response received when executing the command
-- Are you able to SSH into the VIC appliance? If no, follow [network troubleshooting
-  steps](#network-troubleshooting)
+- Are you able to SSH into the VIC appliance? If no, follow [Network Troubleshooting
+  ](#network-troubleshooting)
   - If you are using VIC appliance version 1.3.1 or greater and are able to SSH into the
       appliance, please obtain a [VIC appliance support bundle](#appliance-support-bundle).
     - If using VIC appliance version 1.2.1 or 1.3.0:
