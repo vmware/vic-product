@@ -98,10 +98,10 @@ The following network requirements apply to deployment of VCHs to standalone ESX
 
 The following network requirements apply to the deployment of VCHs to vCenter Server: 
  
-- Create a distributed virtual switch with a port group for each VCH, for use as the bridge network. You can create multiple port groups on the same distributed virtual switch, but each VCH requires its own port group for the bridge network. 
+- Create a VMware vSphere Distributed Switch with a port group for each VCH, for use as the bridge network. You can create multiple port groups on the same switch, but each VCH requires its own port group for the bridge network. 
   - For information about bridge networks, see [Configure Bridge Networks](bridge_network.md). 
-  - For information about how to create a distributed virtual switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere  documentation. 
-  - For information about how to add hosts to a distributed virtual switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
+  - For information about how to create a vSphere Distributed Switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere  documentation. 
+  - For information about how to add hosts to a vSphere Distributed Switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
 - If you use the Create Virtual Container Host wizard to deploy VCHs, you must create and use a port group for the public network. The VCH endpoint VM must be able to obtain an IP address on this port group. If you use `vic-machine` to deploy VCHs, it is still strongly recommended that use a port group for the public network. Using the default VM Network for the public network instead of a port group prevents vSphere vMotion from moving the VCH endpoint VM between hosts in the cluster. You can use the same port group as the public network for multiple VCHs.
 - Optionally create port groups for each of the management and client networks. 
 - Optionally create port groups for use as mapped container networks. For information about container networks, see [Configure Container Networks](container_networks.md). 

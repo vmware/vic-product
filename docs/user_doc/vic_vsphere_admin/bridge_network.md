@@ -18,7 +18,7 @@ The sections in this topic each correspond to an entry in the Configure Networks
 
 A port group that container VMs use to communicate with each other. 
 
-Before you deploy a VCH, you must create a distributed virtual switch and a port group for the bridge network. You must add the target ESXi host or hosts to the distributed virtual switch, and assign a VLAN ID to the port group, to ensure that the bridge network is isolated. For information about how to create a distributed virtual switch and port group, see [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
+Before you deploy a VCH, you must create a VMware vSphere Distributed Switch and a port group for the bridge network. You must add the target ESXi host or hosts to the switch, and assign a VLAN ID to the port group, to ensure that the bridge network is isolated. For information about how to create a vSphere Distributed Switch and port group, see [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
 
 **IMPORTANT** 
 
@@ -39,7 +39,7 @@ You designate the bridge network by specifying the `vic-machine create --bridge-
 
 The `--bridge-network` option is **mandatory** if you are deploying a VCH to vCenter Server. 
 
-The `--bridge-network` option is **optional** if you are deploying a VCH to an ESXi host that is not managed by vCenter Server. In this case, if you do not specify `--bridge-network`, `vic-machine` creates a  virtual switch and a port group that each have the same name as the VCH. You can optionally specify this option to assign an existing port group for use as the bridge network for container VMs. You can also optionally specify this option to create a new virtual switch and port group that have a different name to the VCH.
+The `--bridge-network` option is **optional** if you are deploying a VCH to an ESXi host that is not managed by vCenter Server. In this case, if you do not specify `--bridge-network`, `vic-machine` creates a vSphere Distributed Switch and a port group that each have the same name as the VCH. You can optionally specify this option to assign an existing port group for use as the bridge network for container VMs. You can also optionally specify this option to create a new switch and port group that have a different name to the VCH.
 
 
 <pre>--bridge-network <i>port_group_name</i></pre>
