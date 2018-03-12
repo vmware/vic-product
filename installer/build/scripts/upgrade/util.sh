@@ -107,7 +107,7 @@ function getApplianceVersion() {
   local VER_UNKNOWN="unknown"
   local VER_1_1_1="v1.1.1"
   local VER_1_2_0="v1.2.0"
-  local VALID_VER=("v1.3.0" "v1.3.1")
+  local VALID_VER=("v1.2.1" "v1.3.0" "v1.3.1")
   local COPIED_DIR="$1"
 
   # Appliance is older than 1.2.0, could be 1.0.x or 1.1.x, refer to these as v1.1.1
@@ -126,13 +126,13 @@ function getApplianceVersion() {
   ver=$(readKeyValue "appliance" "$COPIED_DIR/storage/data/version")
   root_ver=$(readKeyValue "appliance" "$COPIED_DIR/etc/vmware/version")
   if [ "${root_ver}" != "${ver}" ]; then
-    echo -e "Appliance versions to not match in /storage/data/version and /etc/vmware/version\nExiting..." tee /dev/fd/3 
+    echo -e "Appliance versions do not match in /storage/data/version and /etc/vmware/version\nContact VMware support.\nExiting..." tee /dev/fd/3
     exit 1
   fi
-  
+
   tag=$(getTagVersion "$ver")
 
-  # Check for known versions
+  # Check for valid versions
   for valid in ${VALID_VER[*]}
   do
     test "$tag" == "$valid" && { echo "$tag"; return; }
@@ -144,4 +144,9 @@ function getApplianceVersion() {
 
 function timecho {
   echo -e "$(date +"%Y-%m-%d %H:%M:%S") [==] $*"
+}
+
+# Get the fingerprint of vCenter
+function getFingerprint() {
+  govc about.cert -k -thumbprint
 }
