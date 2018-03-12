@@ -88,7 +88,7 @@ The following table lists which roles to assign to which type of inventory objec
 <tr>
 <th>Inventory Object</th>
 <th>Role to Assign</th>
-<th>Propagate</th>
+<th>Propagate?</th>
 </tr>
 </thead>
 <tbody>
@@ -100,7 +100,7 @@ The following table lists which roles to assign to which type of inventory objec
 <tr>
 <td>Datacenters</td>
 <td><code>VCH - datacenter</code></td>
-<td>No</td>
+<td>Yes, if vSphere Distributed Switches are not in network folders. No, if you use network folders. See <a href="#vds">About vSphere Distributed Switches</a> below</td>
 </tr>
 <tr>
 <td>Clusters. All datastores in the cluster inherit permissions from the cluster.</td>
@@ -118,9 +118,9 @@ The following table lists which roles to assign to which type of inventory objec
 <td>No</td>
 </tr>
 <tr>
-<td>Network folders, if the vSphere Distributed Switches that the VCH uses are in network folders.</td>
+<td>Network folders</td>
 <td><code>Read-only</code></td>
-<td>Yes</td>
+<td>Yes, if used. See <a href="#vds">About vSphere Distributed Switches</a> below</td>
 </tr>
 <tr>
 <td>Port groups</td>
@@ -133,6 +133,13 @@ The following table lists which roles to assign to which type of inventory objec
 <td>Yes</td>
 </tr>
 </tbody></table>
+
+**About vSphere Distributed Switches** <a id="vds"></a>
+
+The operations user account must have the `Read-only` role on all of the vSphere Distributed Switches that VCHs use. You can assign this role to switches in either of the following ways:
+
+- If you do not place the switches in network folders, enable propagation of the  `VCH - datacenter` role on datacenters. 
+- If you place the switches in network folders, assign the `Read-only` role to the network folders, and enable propagation. In this case, you must still assign the `VCH - datacenter` role to datacenters, but you do not need to enable propagation.
 
 **What to Do Next**
 
