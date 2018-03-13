@@ -84,7 +84,7 @@ Note that running multiple commands on a container can be done using `/bin/bash 
 
 Building a custom image allows you to copy the sample webapp into the container image filesystem and make some other improvements and upgrades while you're there. This then creates a single purpose container that runs the webapp(s) baked into it.
 
-Note that VIC engine does not have a native docker build capability. Containers should be built using docker engine and VIC engine relies on the portability of the Docker image format to run them. In order to do this, the built image needs to be pushed to a registry that the VCH can access. This is one reason why such a registry is built into the vSphere Integrated Containers product.
+Note that vSphere Integrated Containers Engine does not have a native docker build capability. Containers should be built using docker engine and vSphere Integrated Containers Engine relies on the portability of the Docker image format to run them. In order to do this, the built image needs to be pushed to a registry that the VCH can access. This is one reason why such a registry is built into the vSphere Integrated Containers product.
 
 Dockerfile:
 ```
@@ -117,7 +117,7 @@ RUN apt-get update;apt-get install -y openssh-server
 COPY sample.war /usr/local/bin/webapps
 CMD /usr/sbin/sshd && catalina.sh run
 ```
-So this is not a recommended approach. Try running `docker stop` and it will timeout and eventually kill the container. This is not a problem exclusive to VIC engine, this is a general problem with container images.
+So this is not a recommended approach. Try running `docker stop` and it will timeout and eventually kill the container. This is not a problem exclusive to vSphere Integrated Containers Engine, this is a general problem with container images.
 
 A much simpler approach is to run sshd using `docker exec` once the container is started:
 
@@ -178,7 +178,7 @@ Let's build VIC using the volume created above. That's a simple matter of approp
 ```
 docker run --rm -m 4g -v vic-build:/go/src/github.com/vmware/ -w /go/src/github.com/vmware/vic golang:1.8 make all
 ```
-The output of the build also lives on the volume. You need to ensure that the volume is big enough. VIC engine supports NFS volume mounts which could be a great alternative for the build source and output.
+The output of the build also lives on the volume. You need to ensure that the volume is big enough. vSphere Integrated Containers Engine supports NFS volume mounts which could be a great alternative for the build source and output.
 
 
 
