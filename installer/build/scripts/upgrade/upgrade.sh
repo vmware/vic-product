@@ -64,7 +64,6 @@ function usage {
       [--destroy]:               Destroy the old appliance after upgrade is finished.
       [--manual-disks]:          Skip the automated govc disk migration.
     "
-    exit 1
 }
 
 function callRegisterEndpoint {
@@ -214,6 +213,8 @@ function prepareForUpgrade {
 }
 
 function moveDisks {
+  local ver="$1"
+
   systemctl disable vic-mounts.target
   systemctl stop vic-mounts.target
 
@@ -246,10 +247,10 @@ function moveDisks {
 
   # detach new disks
   NEW_DATA_DISK=$(govc vm.info -json "$NEW_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[1].DiskFile[0]" | awk '{print $NF}')
-  NEW_DB_DISK=$(govc vm.info -json "$NEW_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[2].DiskFile[0]" | awk '{print $NF}')
-  NEW_LOG_DISK=$(govc vm.info -json "$NEW_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[3].DiskFile[0]" | awk '{print $NF}')
   echo "NEW_DATA_DISK: $NEW_DATA_DISK"
+  NEW_DB_DISK=$(govc vm.info -json "$NEW_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[2].DiskFile[0]" | awk '{print $NF}')
   echo "NEW_DB_DISK: $NEW_DB_DISK"
+  NEW_LOG_DISK=$(govc vm.info -json "$NEW_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[3].DiskFile[0]" | awk '{print $NF}')
   echo "NEW_LOG_DISK: $NEW_LOG_DISK"
 
   # TODO Check count
@@ -260,30 +261,41 @@ function moveDisks {
   done
 
   echo "Migrating old disks to new VIC appliance..." | tee /dev/fd/3
-  OLD_DATA_DISK=$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[1].DiskFile[0]" | awk '{print $NF}')
-  OLD_DB_DISK=$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[2].DiskFile[0]" | awk '{print $NF}')
-  OLD_LOG_DISK=$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[3].DiskFile[0]" | awk '{print $NF}')
   echo "OLD_DATA_DISK: $OLD_DATA_DISK"
-  echo "OLD_DB_DISK: $OLD_DB_DISK"
-  echo "OLD_LOG_DISK: $OLD_LOG_DISK"
-
-  if [ -z "$OLD_DATA_DISK" ] || [ -z "$OLD_DB_DISK" ] || [ -z "$OLD_LOG_DISK" ]; then
+  OLD_DATA_DISK=$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[1].DiskFile[0]" | awk '{print $NF}')
+  if [ -z "$OLD_DATA_DISK" ]; then
     echo "Failed to gather information about disks on the old VIC appliance" | tee /dev/fd/3
     echo "Please contact VMware support" | tee /dev/fd/3
     exit 1
   fi
 
+  if [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
+    OLD_DB_DISK=$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[2].DiskFile[0]" | awk '{print $NF}')
+    echo "OLD_DB_DISK: $OLD_DB_DISK"
+    OLD_LOG_DISK=$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[3].DiskFile[0]" | awk '{print $NF}')
+    echo "OLD_LOG_DISK: $OLD_LOG_DISK"
+    if [ -z "$OLD_DB_DISK" ] || [ -z "$OLD_LOG_DISK" ]; then
+      echo "Failed to gather information about disks on the old VIC appliance" | tee /dev/fd/3
+      echo "Please contact VMware support" | tee /dev/fd/3
+      exit 1
+    fi
+  fi
+
   echo "Copying old data disk. Please wait." | tee /dev/fd/3
   govc datastore.cp -ds "$OLD_DATASTORE" -ds-target "$NEW_DATASTORE" "$OLD_DATA_DISK" "$NEW_DATA_DISK" || ( echo "Failed to copy data disk. Please try again. Exiting..." | tee /dev/fd/3 && exit 1)
-  echo "Copying old database disk. Please wait." | tee /dev/fd/3
-  govc datastore.cp -ds "$OLD_DATASTORE" -ds-target "$NEW_DATASTORE" "$OLD_DB_DISK" "$NEW_DB_DISK" || ( echo "Failed to copy database disk. Please try again. Exiting..." | tee /dev/fd/3 && exit 1)
-  echo "Copying old log disk. Please wait." | tee /dev/fd/3
-  govc datastore.cp -ds "$OLD_DATASTORE" -ds-target "$NEW_DATASTORE" "$OLD_LOG_DISK" "$NEW_LOG_DISK" || ( echo "Failed to copy log disk. Please try again. Exiting..." | tee /dev/fd/3 && exit 1)
+  if [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
+    echo "Copying old database disk. Please wait." | tee /dev/fd/3
+    govc datastore.cp -ds "$OLD_DATASTORE" -ds-target "$NEW_DATASTORE" "$OLD_DB_DISK" "$NEW_DB_DISK" || ( echo "Failed to copy database disk. Please try again. Exiting..." | tee /dev/fd/3 && exit 1)
+    echo "Copying old log disk. Please wait." | tee /dev/fd/3
+    govc datastore.cp -ds "$OLD_DATASTORE" -ds-target "$NEW_DATASTORE" "$OLD_LOG_DISK" "$NEW_LOG_DISK" || ( echo "Failed to copy log disk. Please try again. Exiting..." | tee /dev/fd/3 && exit 1)
+  fi
 
   echo "Attaching migrated disks to new VIC appliance"
   govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_DATA_DISK" || (echo "Failed to attach data disk" | tee /dev/fd/3 && exit 1)
-  govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_DB_DISK" || (echo "Failed to attach database disk" | tee /dev/fd/3 && exit 1)
-  govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_LOG_DISK" || (echo "Failed to attach log disk" | tee /dev/fd/3 && exit 1)
+  if [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
+    govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_DB_DISK" || (echo "Failed to attach database disk" | tee /dev/fd/3 && exit 1)
+    govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_LOG_DISK" || (echo "Failed to attach log disk" | tee /dev/fd/3 && exit 1)
+  fi
   echo "Finished attaching migrating disks to new VIC appliance" | tee /dev/fd/3
 
   echo "Mounting migrated disks" | tee /dev/fd3
@@ -358,6 +370,7 @@ function main {
         ;;
       -h|--help|*)
         usage
+        exit 0
         ;;
     esac
     shift # past argument or value
@@ -415,7 +428,7 @@ function main {
   ver=$(getApplianceVersion "$OLD_APP_DIR")
   proceedWithUpgrade "$ver"
   if [ -z "${MANUAL_DISK_MOVE}" ]; then
-    moveDisks "$APPLIANCE_USERNAME" "$APPLIANCE_TARGET"
+    moveDisks "$APPLIANCE_USERNAME" "$APPLIANCE_TARGET" "$ver"
   fi
 
   echo "Preparing upgrade environment" | tee /dev/fd/3
