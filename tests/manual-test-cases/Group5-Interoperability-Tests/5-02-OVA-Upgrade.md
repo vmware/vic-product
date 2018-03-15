@@ -20,6 +20,6 @@ This test requires access to VMWare Nimbus cluster for dynamic ESXi and vCenter 
 8. Run a variety of docker commands on the previously created VCH
 
 # Expected Outcome:
-The VCH OVA appliance upgrade should succeed without error and each of the docker commands executed against it should return without error
+The VCH and VIC appliance upgrade should succeed without error and each of the docker commands executed against it should return without error
 
 # Possible Problems:

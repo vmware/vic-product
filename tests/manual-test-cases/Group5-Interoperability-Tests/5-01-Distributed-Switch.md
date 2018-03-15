@@ -17,7 +17,7 @@ This test requires access to VMWare Nimbus cluster for dynamic ESXi and vCenter 
 4. Run a variety of docker commands on the VCH appliance
 
 # Expected Outcome:
-The VCH OVA appliance should deploy without error and each of the docker commands executed against it should return without error
+The VCH and VIC appliance should deploy without error and each of the docker commands executed against it should return without error
 
 # Possible Problems:
 * When you add an ESXi host to the vCenter it will overwrite its datastore name from datastore1 to datastore1 (n)
