@@ -25,6 +25,7 @@ Resource  VC-Util.robot
 Resource  VCH-Util.robot
 Resource  UI-Util.robot
 Resource  Docker-Util.robot
+Resource  Nimbus-Util.robot
 Library  Selenium2Library  timeout=30  implicit_wait=15  run_on_failure=Capture Page Screenshot  screenshot_root_directory=test-screenshots
 # UI page object utils
 Resource  page-objects/Getting-Started-Page-Util.robot
