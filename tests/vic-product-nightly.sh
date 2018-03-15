@@ -42,12 +42,13 @@ done
 start_node firefox1 selenium/node-firefox:3.9.1
 start_node firefox2 selenium/node-firefox:3.9.1
 start_node firefox3 selenium/node-firefox:3.9.1
+start_node firefox4 selenium/node-firefox:3.9.1
 
 input=$(gsutil ls -l gs://vic-product-ova-builds/vic-* | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | cut -d '/' -f 4)
 echo "Downloading VIC Product OVA build $input..."
-wget https://storage.googleapis.com/vic-product-ova-builds/$input -qO -P vic-product
+wget -P vic-product https://storage.googleapis.com/vic-product-ova-builds/$input -qO
 
-docker run --net grid --rm -v $PWD/vic-product:/go --env-file vic-internal/vic-product-nightly-secrets.list gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --processes 2 --removekeywords TAG:secret --exclude skip tests/manual-test-cases
+docker run --net grid --rm -v $PWD/vic-product:/go --env-file vic-internal/vic-product-nightly-secrets.list gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --processes 4 --removekeywords TAG:secret --exclude skip tests/manual-test-cases
 
 DATE=`date +%m-%d-%H-%M`
 outfile="vic-product-ova-results-"$DATE".zip"
