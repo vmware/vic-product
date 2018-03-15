@@ -3,12 +3,13 @@ workspace:
   base: /go
   path: src/github.com/vmware/vic-product
 
-pipeline:
-  clone:
+clone:
+  git:
     image: plugins/git
     tags: true
     recursive: false
 
+pipeline:
   display-status:
     image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.42'
     pull: true
