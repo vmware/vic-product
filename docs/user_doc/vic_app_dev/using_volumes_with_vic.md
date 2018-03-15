@@ -178,3 +178,11 @@ volume rm <i>volume_name</i></pre>
 To remove a container and anonymous volumes joined to that container, run `docker rm -v`. If an anonymous volume is in use by another container, it is not removed.
 
 <pre>$ docker rm -v container1</pre>
+
+## Run a Container and Delete the Anonymous Volumes Attached to it when it Stops <a id="delete_anon_vol"></a>
+
+To run a container that creates anonymous volumes and then removes those volumes at the end of its run, run `docker run --rm`.
+
+<pre>$ docker run --rm container1</pre>
+
+**IMPORTANT**: Do not use `docker run --rm` with vSphere Integrated Containers 1.3.0. Using `docker run --rm` with vSphere Integrated Containers 1.3.0 removes named volumes, resulting in data loss. In vSphere Integrated Containers 1.3.1 only anonymous volumes are removed.
