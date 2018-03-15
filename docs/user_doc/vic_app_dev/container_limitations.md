@@ -30,7 +30,7 @@ For limitations of using vSphere Integrated Containers with volumes, see [Using 
 ## Limitations of vSphere Integrated Containers Engine
 vSphere Integrated Containers Engine includes these limitations:
 
-- **IMPORTANT**: Do not use `docker rm -v` with vSphere Integrated Containers 1.3.0. Using `docker rm -v` with vSphere Integrated Containers 1.3.0 removes named volumes as well as anonymous volumes, resulting in data loss. In vSphere Integrated Containers 1.3.1 only anonymous volumes are removed.
+- **IMPORTANT**: Do not use `docker run --rm` with vSphere Integrated Containers 1.3.0. Using `docker run --rm` with vSphere Integrated Containers 1.3.0 removes named volumes as well as anonymous volumes, resulting in data loss. In vSphere Integrated Containers 1.3.1 only anonymous volumes are removed.
 - If you do not configure a `PATH` environment variable, or if you create a container from an image that does not supply a `PATH`, vSphere Integrated Containers Engine provides a default `PATH`.
 - You can resolve the symbolic names of a container from within another container, except in the following cases:
 	- Aliases
