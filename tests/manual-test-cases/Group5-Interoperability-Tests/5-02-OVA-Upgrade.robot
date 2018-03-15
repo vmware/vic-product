@@ -57,7 +57,7 @@ Test
     Install VIC Product OVA  vic-v1.2.1-4104e5f9.ova  %{OVA_NAME}
     
     Set Global Variable  ${FIREFOX_BROWSER}  firefox
-    Set Global Variable  ${GRID_URL}  http://127.0.0.1:4444/wd/hub
+    Set Global Variable  ${GRID_URL}  http://selenium-hub:4444/wd/hub
     Set Global Variable  ${EXPLICIT_WAIT}  30
     Set Global Variable  ${EXTRA_EXPLICIT_WAIT}  50
     Set Global Variable  ${PRIMARY_PORT}  8282
