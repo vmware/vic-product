@@ -12,6 +12,36 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License
+start_node () {
+    docker run -d --net grid -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm --name $1 $2
+
+    for i in `seq 1 10`; do
+        if [[ "$(docker logs $1)" = *"The node is registered to the hub and ready to use"* ]]; then
+            echo "$1 node is up and ready to use";
+            return 0;
+        fi
+        sleep 3;
+    done
+}
+
+echo "Kill any old selenium infrastructure..."
+docker rm -f selenium-hub firefox1 firefox2 firefox3 firefox4
+docker network prune -f
+
+echo "Create the network, hub and workers..."
+docker network create grid
+docker run -d -p 4444:4444 --net grid --name selenium-hub selenium/hub:3.9.1
+for i in `seq 1 10`; do
+    if [[ "$(docker logs selenium-hub 2>&1)" = *"Selenium Grid hub is up and running"* ]]; then
+        echo 'Selenium Server is up and running';
+        break
+    fi
+    sleep 3;
+done
+
+start_node firefox1 selenium/node-firefox:3.9.1
+start_node firefox2 selenium/node-firefox:3.9.1
+start_node firefox3 selenium/node-firefox:3.9.1
 
 input=$(gsutil ls -l gs://vic-product-ova-builds/vic-* | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | cut -d '/' -f 4)
 echo "Downloading VIC Product OVA build $input..."
