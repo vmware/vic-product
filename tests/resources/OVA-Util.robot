@@ -60,7 +60,6 @@ Install VIC Product OVA
     ${ova-ip}=  Install VIC Product OVA Only  ${ova-file}  ${ova-name}
 
     # set env var for ova ip
-    Set Environment Variable  OVA_IP  ${ova-ip}
     Wait For Online Components  ${ova-ip}
     
     # validate complete installation on UI

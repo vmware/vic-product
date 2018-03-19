@@ -86,7 +86,7 @@ Test
     Set Environment Variable  OVA_NAME  OVA-5-03-TEST
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
-    ${ova-ip}=  Install VIC Product OVA Only  vic-*.ova  %{OVA_NAME}
+    Install VIC Product OVA Only  vic-*.ova  %{OVA_NAME}
     
     Set Global Variable  ${FIREFOX_BROWSER}  firefox
     Set Global Variable  ${GRID_URL}  http://selenium-hub:4444/wd/hub
