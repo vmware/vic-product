@@ -48,7 +48,7 @@ input=$(gsutil ls -l gs://vic-product-ova-builds/vic-* | grep -v TOTAL | sort -k
 echo "Downloading VIC Product OVA build $input..."
 wget -P vic-product https://storage.googleapis.com/vic-product-ova-builds/$input
 
-docker run --net grid --rm -v $PWD:/go --env-file vic-product-nightly-secrets.list gcr.io/eminent-nation-87317/vic-integration-test:1.46 pybot --removekeywords TAG:secret --exclude skip tests/manual-test-cases
+docker run --net grid --rm -v $PWD:/go --env-file vic-product-nightly-secrets.list gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --processes 4 --removekeywords TAG:secret --exclude skip tests/manual-test-cases
 
 DATE=`date +%m-%d-%H-%M`
 outfile="vic-product-ova-results-"$DATE".zip"
