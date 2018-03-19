@@ -33,6 +33,8 @@ For an introduction to containers and Docker before reading further, watch the f
 
 [![Containers 101](graphics/containers101.jpg)](https://www.youtube.com/watch?v=VqLcWftIaQI)  [![What is Docker?](graphics/what_is_docker.jpg)](https://www.youtube.com/watch?v=IhUvORodQAQ) 
 
+[![Containers and VMs - A Practical Comparison](graphics/containers_vs_vms.jpg)](https://www.youtube.com/watch?v=L1ie8negCjc)  [![Truths and Myths of Containers and VMs](graphics/truths_myths_containers_vms.jpg)](https://www.youtube.com/watch?v=PoiXuVnSxfE)
+
 
 [![Container Registry](graphics/container_registry.jpg)](https://www.youtube.com/watch?v=76rX4s73MrM)  [![Container Registries](graphics/container_registries.jpg)](https://www.youtube.com/watch?v=jpC_p3bxXCI)  
 
