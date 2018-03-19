@@ -16,7 +16,7 @@
 Documentation  Test 5-03 - Multiple Datacenters
 Resource  ../../resources/Util.robot
 Suite Setup  Multiple Datacenter Setup
-#Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Keywords ***
 # Insert elements from dict2 into dict1, overwriting conflicts in dict1 & returning new dict
@@ -30,7 +30,7 @@ Combine Dictionaries
 
 Multiple Datacenter Setup
     [Timeout]    110 minutes
-    #Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
+    Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
     &{esxes}=  Create Dictionary
     ${num_of_esxes}=  Evaluate  2
     :FOR  ${i}  IN RANGE  3
