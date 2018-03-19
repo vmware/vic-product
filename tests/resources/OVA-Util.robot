@@ -33,8 +33,7 @@ Set Test OVA IP If Available
     Run Keyword If  ${rc} == 0  Set Environment Variable  OVA_IP  ${output}
     [Return]  ${rc}
 
-Install VIC Product OVA
-    [Tags]  secret
+Install VIC Product OVA Only
     [Arguments]  ${ova-file}  ${ova-name}
     Log To Console  \nInstalling VIC appliance...
     ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
@@ -49,6 +48,14 @@ Install VIC Product OVA
     \   ${ova-ip}=  Run Keyword If  ${status}  Set Variable  ${ip}  ELSE  Set Variable  ${ova-ip}
 
     Wait For Register Page  ${ova-ip}
+    Set Environment Variable  OVA_IP  ${ova-ip}
+
+    [Return]  ${ova-ip}
+
+Install VIC Product OVA
+    [Arguments]  ${ova-file}  ${ova-name}
+    Log To Console  \nInstalling VIC appliance and validating services...
+    ${ova-ip}=  Install VIC Product OVA Only  ${ova-file}  ${ova-name}
 
     # set env var for ova ip
     Set Environment Variable  OVA_IP  ${ova-ip}
