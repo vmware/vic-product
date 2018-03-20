@@ -6,10 +6,10 @@ The VCH endpoint VM runs Photon OS. Photon OS provides a package manager named T
 
 Before you can use Tiny DNF to install packages in the endpoint VM, you must run the `rpm --rebuilddb` command to rebuild the embedded database. To run `rpm --rebuilddb`, you must first modify the Photon OS configuration to satisfy certain dependencies that are not present in the VCH endpoint VM by default. If you do not successfully run `rpm --rebuilddb`, attempts to run certain Tiny DNF commands in the endpoint VM result in the following error:
 
-<pre>
+```console
 root@ [ ~ ]# tdnf info
 Error(1304) : Hawkey - I/O error
-</pre>
+```
 
 **Prerequisite**
 
@@ -18,18 +18,52 @@ Enable SSH access to the VCH endpoint VM and to set the root password by running
 **Procedure**
 
 1. Use SSH to connect to the VCH endpoint VM as `root` user.
-2. Open the Photon OS updates repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-updates-local.repo</pre>
-3.  Update the entry for the repository URL and save the change.<pre>baseurl=https://vmware.bintray.com/photon_updates_1.0_x86_64/</pre>
-4.  Open the Photon OS repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-local.repo</pre>
-5.  Update the entry for the repository URL and save the change.<pre>baseurl=https://vmware.bintray.com/photon_release_1.0_x86_64/</pre>
+2. Open the Photon OS updates repository configuration file in a text editor.
+
+    ```console
+    vi /etc/yum.repos.d/photon-updates-local.repo
+    ```
+3.  Update the entry for the repository URL and save the change.
+
+    ```shell
+    baseurl=https://vmware.bintray.com/photon_updates_1.0_x86_64/
+    ```
+4.  Open the Photon OS repository configuration file in a text editor.
+
+    ```console
+    vi /etc/yum.repos.d/photon-local.repo
+    ```
+5.  Update the entry for the repository URL and save the change.
+
+    ```console
+    baseurl=https://vmware.bintray.com/photon_release_1.0_x86_64/
+    ```
 6. Create a folder for `rpm` and initialize the `rpm` database.
 
     1. `mkdir /root/rpm`
     2. `rpm --root /root/rpm -initdb`
-7. Install the dependencies that Tiny DNF requires to install packages.<pre>tdnf --installroot /root/rpm --nogpgcheck install haveged systemd openssh iptables e2fsprogs procps-ng iputils iproute2 iptables net-tools sudo tdnf vim gzip lsof logrotate photon-release</pre>
-8. Copy the `/root/rpm/var/lib/rpm/Packages` file to the following location.<pre>cp /root/rpm/var/lib/rpm/Packages /var/lib/rpm/Packages</pre>
-9. Run the command to rebuild the database in the endpoint VM.<pre>rpm --rebuilddb</pre>
-3. Run a Tiny DNF command to test the reconfiguration.<pre>tdnf list installed</pre>The `tdnf list installed` command should display information about the installed packages. 
+7. Install the dependencies that Tiny DNF requires to install packages.
+
+    ```console
+    tdnf --installroot /root/rpm --nogpgcheck install haveged systemd openssh iptables e2fsprogs procps-ng iputils iproute2 iptables net-tools sudo tdnf vim gzip lsof logrotate photon-release
+    ```
+8. Copy the `/root/rpm/var/lib/rpm/Packages` file to the following location.
+
+    ```console
+    cp /root/rpm/var/lib/rpm/Packages /var/lib/rpm/Packages
+    ```
+9. Run the command to rebuild the database in the endpoint VM.
+
+    ```console
+    rpm --rebuilddb
+    ```
+3. Run a Tiny DNF command to test the reconfiguration.
+
+    ```console
+    tdnf list installed
+    ```
+
+    The `tdnf list installed` command should display information about the installed packages. 
 
 **Result**
 
