@@ -21,7 +21,7 @@ ${pr-title}  css=.content-area .title
 ${pr-repositories-table-row}  css=div.datagrid-body .datagrid-row
 
 # expected text values
-${pr-title-text}  Project Repositories
+${pr-title-text}  Project repositories
 
 *** Keywords ***
 Verify Project Repositories Page
