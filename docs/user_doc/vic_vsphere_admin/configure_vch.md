@@ -127,7 +127,7 @@ This example sets `--no-tlsverify` to disable the verification of client certifi
 
 ## Add Volume Stores <a id="volumes"></a>
 
-You can add volume stores to VCHs by using the `vic-machine configure --volume-store` option. You can add volume stores backed by vSphere datastores or by NFSv3 mounts.
+You can add volume stores to VCHs by using the `vic-machine configure --volume-store` option. You can add volume stores backed by vSphere datastores or by NFSv3 shares.
 
 The `vic-machine configure --volume-store` option functions in the same way as the equivalent `vic-machine create --volume-store` option. For information about the `vic-machine create --volume-store` option, see [Specify Volume Stores](volume_stores.md).
 
