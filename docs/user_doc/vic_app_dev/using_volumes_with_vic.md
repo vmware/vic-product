@@ -14,6 +14,7 @@ vSphere Integrated Containers supports the use of container volumes. You can cre
 - [Obtain Information About a Volume](#inspect_vol) 
 - [Delete a Named Volume from a Volume Store](#delete_vol)
 - [Delete a Container and the Anonymous Volumes Attached to It](#delete_anon_vol)
+- [Run a Container and Delete the Anonymous Volumes Attached to it when it Stops](#delete_vol_stop)
 
 For simplicity, the examples in this topic assume that the VCHs implement TLS authentication with self-signed server certificates, with no client verification.
 
@@ -179,7 +180,7 @@ To remove a container and anonymous volumes joined to that container, run `docke
 
 <pre>$ docker rm -v container1</pre>
 
-## Run a Container and Delete the Anonymous Volumes Attached to it when it Stops <a id="delete_anon_vol"></a>
+## Run a Container and Delete the Anonymous Volumes Attached to it when it Stops <a id="delete_vol_stop"></a>
 
 To run a container that creates anonymous volumes and then removes those volumes at the end of its run, run `docker run --rm`.
 
