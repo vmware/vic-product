@@ -2420,6 +2420,7 @@
 <li><a href="#inspect_vol">Obtain Information About a Volume</a> </li>
 <li><a href="#delete_vol">Delete a Named Volume from a Volume Store</a></li>
 <li><a href="#delete_anon_vol">Delete a Container and the Anonymous Volumes Attached to It</a></li>
+<li><a href="#delete_vol_stop">Run a Container and Delete the Anonymous Volumes Attached to it when it Stops</a></li>
 </ul>
 <p>For simplicity, the examples in this topic assume that the VCHs implement TLS authentication with self-signed server certificates, with no client verification.</p>
 <h2 id="obtain-the-list-of-available-volume-stores-">Obtain the List of Available Volume Stores <a id="list_vs"></a></h2>
@@ -2558,6 +2559,13 @@ volume rm <i>volume_name</i></pre>
 <h2 id="delete-a-container-and-the-anonymous-volumes-attached-to-it--">Delete a Container and the Anonymous Volumes Attached to It  <a id="delete_anon_vol"></a></h2>
 <p>To remove a container and anonymous volumes joined to that container, run <code>docker rm -v</code>. If an anonymous volume is in use by another container, it is not removed.</p>
 <pre>$ docker rm -v container1</pre>
+
+<h2 id="run-a-container-and-delete-the-anonymous-volumes-attached-to-it-when-it-stops-">Run a Container and Delete the Anonymous Volumes Attached to it when it Stops <a id="delete_vol_stop"></a></h2>
+<p>To run a container that creates anonymous volumes and then removes those volumes at the end of its run, run <code>docker run --rm</code>.</p>
+<pre>$ docker run --rm container1</pre>
+
+<p><strong>IMPORTANT</strong>: Do not use <code>docker run --rm</code> with vSphere Integrated Containers 1.3.0. Using <code>docker run --rm</code> with vSphere Integrated Containers 1.3.0 removes named volumes, resulting in data loss. In vSphere Integrated Containers 1.3.1 only anonymous volumes are removed.</p>
+
                                 
                                 </section>
                             
@@ -2600,7 +2608,7 @@ volume rm <i>volume_name</i></pre>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Using Volumes","level":"4.1.7","depth":2,"next":{"title":"Container Networking","level":"4.1.8","depth":2,"path":"vic_app_dev/network_use_cases.md","ref":"vic_app_dev/network_use_cases.md","articles":[]},"previous":{"title":"Advanced dch-photon Deployment","level":"4.1.6.4","depth":3,"path":"vic_app_dev/dchphoton_options.md","ref":"vic_app_dev/dchphoton_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/using_volumes_with_vic.md","mtime":"2018-02-02T10:10:26.103Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-02-08T09:48:21.374Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Using Volumes","level":"4.1.7","depth":2,"next":{"title":"Container Networking","level":"4.1.8","depth":2,"path":"vic_app_dev/network_use_cases.md","ref":"vic_app_dev/network_use_cases.md","articles":[]},"previous":{"title":"Advanced dch-photon Deployment","level":"4.1.6.4","depth":3,"path":"vic_app_dev/dchphoton_options.md","ref":"vic_app_dev/dchphoton_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/using_volumes_with_vic.md","mtime":"2018-03-19T11:00:16.077Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-19T11:06:01.742Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
