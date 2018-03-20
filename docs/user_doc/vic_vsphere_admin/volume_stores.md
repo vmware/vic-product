@@ -1,6 +1,6 @@
 # Specify Volume Datastores #
 
-Volume stores for virtual container hosts (VCHs) are storage locations in your infrastructure, in which to create volumes when container developers use the `docker volume create` command or deploy containers that use volumes. You can specify a mix of volume stores backed by vSphere datastores or NFSv3 shares.
+Volume stores for virtual container hosts (VCHs) are storage locations in your infrastructure, in which to create volumes when container developers use the `docker volume create` command or deploy containers that use volumes. You can specify a mix of volume stores backed by vSphere datastores or NFSv3 shares. The volume stores that are available to a VCH appear under `VolumeStores` when you run `docker info` against the VCH.
 
 - [About Volume Stores](#about)
   - [vSphere Datastores](#vsphereusage)
@@ -71,7 +71,14 @@ ERROR op=363.7: error occurred while attempting to mount volumestore (shared). e
 ERROR op=363.7: dial tcp <i>nfs_server</i>:111: getsockopt: connection refused
 </pre>
 
-After you deploy a VCH, you can test that an NFS share point is configured correctly so that containers can access it by mounting the NFS share point directly in the VCH endpoint VM. For information about how to perform this test, see [Install Packages in the Virtual Container Host Endpoint VM](vch_install_packages.md) and [Mount an NFS Share Point in the VCH Endpoint VM](vch_mount_nfsshare.md).
+**NOTE**: The `DEBUG` line in the example above is only included if you run the VCH with a `debug` setting of greater than 1. 
+
+After you deploy a VCH, you can test that an NFS share point is configured correctly so that containers can access it by running the following commands:
+
+<pre>docker volume create --name test --opt VolumeStore=nfs
+docker run -it test:/mnt/test alpine /bin/ash</pre>
+
+You can also test the configuration mounting the NFS share point directly in the VCH endpoint VM. For information about how to perform this test, see [Install Packages in the Virtual Container Host Endpoint VM](vch_install_packages.md) and [Mount an NFS Share Point in the VCH Endpoint VM](vch_mount_nfsshare.md).
 
 Another option is to start a container that has an NFS client and attempt to mount the NFS share point in that container. This is a good option for VCH users that do not have access to `vic-machine` and cannot log in to the VCH by using SSH. This is also a good way to test access to NFS volume stores through firewalls  and for VCHs that implement container networks. Containers connect to NFS volume stores over the network stack of the container VM, so the containers must be able to connect to the NFS server.
 

@@ -11,9 +11,12 @@ root@ [ ~ ]# tdnf info
 Error(1304) : Hawkey - I/O error
 </pre>
 
+**IMPORTANT**: Any changes that you make to the VCH endpoint VM, including installing packages, are non-persistent and are lost if the endpoint VM reboots.
+
 **Prerequisite**
 
-Enable SSH access to the VCH endpoint VM and to set the root password by running the `vic-machine debug` command on the VCH with the `--enable-ssh` and `--rootpw` options. For information about `vic-machine debug`, see [Debug Running Virtual Container Hosts](debug_vch.md).
+- Enable SSH access to the VCH endpoint VM. For information about enabling SSH access, see [Debug Running Virtual Container Hosts](debug_vch.md).
+- Ensure that the VCH can access the Photon OS repositories at https://vmware.bintray.com/, either via the Internet or via a mirror on the local network.
 
 **Procedure**
 
