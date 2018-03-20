@@ -5,7 +5,7 @@ services:
     ports:
       - "4444:4444"
   chrome:
-    cpu_count:1
+    cpu_count: 1
     image: "selenium/node-chrome"
     environment:
       - HUB_PORT_4444_TCP_ADDR=hub
@@ -18,7 +18,7 @@ services:
     expose:
       - "5555"
   firefox:
-    cpu_count:1
+    cpu_count: 1
     image: "selenium/node-firefox"
     environment:
       - HOME=/home/seluser
