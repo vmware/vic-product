@@ -20,13 +20,9 @@ Documentation  This resource contains any keywords dealing with Project Reposito
 ${pr-title}  css=.content-area .title
 ${pr-repositories-table-row}  css=div.datagrid-body .datagrid-row
 
-# expected text values
-${pr-title-text}  Project repositories
-
 *** Keywords ***
 Verify Project Repositories Page
     Wait Until Element Is Visible  ${pr-title}  timeout=${EXPLICIT_WAIT}
-    Element Text Should Be  ${pr-title}  ${pr-title-text}
 
 Verify Row Value In Project Repositories Table
     [Arguments]  ${expected}
