@@ -23,6 +23,8 @@ This topic describes the interoperability of VCHs with other vSphere features an
 ## VMware vRealize Suite <a id="vrealize"></a>
 Your organization could use VMware vRealize Automation to provide a self-provisioning service  for VCHs, by using the vRealize Automation interface or APIs to request VCHs. At the end of the provisioning process, vRealize Automation would communicate the VCH endpoint VM address to the requester. If you deploy VCHs with TLS authentication, `vic-machine create` generates a file named `vch_name.env`. The `env` file contains Docker environment variables that are specific to the VCH. vRealize Automation could potentially provide the `env` file at the end of a provisioning process for VCHs.
 
+**NOTE**: vRealize Automation 7.3 supports vSphere Integrated Containers 1.1.x. Support for this release of vSphere Integrated Containers will be added in a future release of vRealize Automation.
+
 ## VMware vSphere vMotion <a id="vmotion"></a>
 
 You can use vMotion to move VCHs without needing to take the container VMs offline. The VCH endpoint VM does not need to be running for vMotion to occur on the container VMs. Clusters with a mix of container VMs and non-container VMs can use vMotion with fully automated DRS. 
