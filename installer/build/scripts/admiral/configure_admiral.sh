@@ -72,7 +72,7 @@ iptables -w -A INPUT -j ACCEPT -p tcp --dport "${ADMIRAL_PORT}"
 touch $data_dir/custom.conf
 
 # Configure the integration URL
-echo "harbor.tab.url=https://${HOSTNAME}:${REGISTRY_PORT}" > $data_dir/custom.conf
+echo "harbor.tab.url=https://harbor-ui:${REGISTRY_PORT}" > $data_dir/custom.conf
 
 # Copy files needed by Admiral into one directory
 cp $appliance_jks $config_dir

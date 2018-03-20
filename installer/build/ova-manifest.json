@@ -92,6 +92,11 @@
   },
   {
     "type": "file",
+    "source": "scripts/harbor/configure_internal_network.sh",
+    "destination": "/etc/vmware/harbor/configure_internal_network.sh"
+  },
+  {
+    "type": "file",
     "source": "scripts/upgrade/upgrade.sh",
     "destination": "/etc/vmware/upgrade/upgrade.sh"
   },
