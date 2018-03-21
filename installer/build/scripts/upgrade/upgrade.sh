@@ -306,6 +306,7 @@ function moveDisks {
     govc datastore.cp -ds "$OLD_DATASTORE" -ds-target "$NEW_DATASTORE" "$OLD_LOG_DISK" "$NEW_LOG_DISK" || ( echo "Failed to copy log disk. Please try again. Exiting..." | tee /dev/fd/3 && exit 1)
   fi
 
+  # TODO rename to new version
   echo "Attaching migrated disks to new VIC appliance"
   govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_DATA_DISK" || (echo "Failed to attach data disk" | tee /dev/fd/3 && exit 1)
   if [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
