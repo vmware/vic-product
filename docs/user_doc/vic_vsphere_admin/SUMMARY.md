@@ -84,6 +84,8 @@
   * [Troubleshooting](troubleshoot_vic.md) 
      * [Access and Configure Appliance Logs](appliance_logs.md)
      * [Access VCH Logs](log_bundles.md)
+     * [Install Packages](vch_install_packages.md)
+         * [Mount an NFS Share Point](vch_mount_nfsshare.md) 
      * [VCH Deployment Times Out](ts_vch_deployment_timeout.md)
      * [Appliance OVF Error](ts_ovf_error.md)
      * [Certificate Verification Error](ts_thumbprint_error.md)

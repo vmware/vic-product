@@ -4,6 +4,7 @@ This section provides solutions for common problems that you might encounter dur
 
 * [Access Appliance Logs](appliance_logs.md)
 * [Access VCH Logs](log_bundles.md)
+* [Install Packages in the VCH](vch_install_packages.md)
 * [VCH Deployment Times Out](ts_vch_deployment_timeout.md)
 * [Appliance OVF Error](ts_ovf_error.md)
 * [VCH Deployment Fails with a Certificate Verification Error](ts_thumbprint_error.md)

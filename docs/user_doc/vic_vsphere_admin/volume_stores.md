@@ -1,10 +1,10 @@
 # Specify Volume Datastores #
 
-Volume stores for virtual container hosts (VCHs) are datastores in which to create volumes when container developers use the `docker volume create` command or deploy containers that use volumes. You can specify either a datastore that is backed by vSphere or an NFS share point as the volume store.
+Volume stores for virtual container hosts (VCHs) are storage locations in your infrastructure, in which to create volumes when container developers use the `docker volume create` command or deploy containers that use volumes. You can specify a mix of volume stores backed by vSphere datastores or NFSv3 shares. The volume stores that are available to a VCH appear under `VolumeStores` when you run `docker info` against the VCH.
 
 - [About Volume Stores](#about)
   - [vSphere Datastores](#vsphereusage)
-  - [NFS Datastores](#nfsusage)
+  - [NFS Volume Stores](#nfsusage)
   - [Anonymous Volumes](#default)
 - [Add Volume Datastores](#volume-store)
 - [What to Do Next](#whatnext)
@@ -41,13 +41,46 @@ vSphere Integrated Containers Engine creates the `volumes` folder independently 
 
 **IMPORTANT**: If multiple VCHs use the same datastore for their volume stores, specify a different datastore folder for each VCH. Do not designate the same datastore folder as the volume store for multiple VCHs.
 
-### NFS Datastores <a id="nfsusage"></a>
+### NFS Volume Stores <a id="nfsusage"></a>
 
-If you use NFS volume stores, container developers can share the data in the volumes in the volume stores between containers by attaching the same volume to multiple containers. For example, you can use shared NFS volume stores to share configuration information between containers, or to allow containers to access the data of another container. To use shared NFS volume stores, it is recommended that the NFS share points that you designate as the volume stores be directly accessible by the network that you use as the container network. For information about container networks, see the description of the [`--container-network`](#container-network) option.
+If you use NFS volume stores, concurrently running containers can share the volumes from those stores, whereas volumes on vSphere datastores cannot be shared by concurrently running containers. For example, you can use shared NFS volume stores to share configuration information between running containers, or to allow running containers to access the data of another container. Another use case for NFS volume stores is a build system, in which you might have multiple identical containers that are potentially running parallel tasks, and you want to store their output in a single place. 
+
+To use shared NFS volume stores, it is recommended that the NFS share points that you designate as the volume stores be directly accessible by the network that you use as the container network. For information about container networks, see the description of the [`--container-network`](#container-network) option.
 
 **IMPORTANT**: When container developers run `docker info` or `docker volume ls` against a VCH, there is currently no indication whether a volume store is backed by vSphere or by an NFS share point. Consequently, you should include an indication that a volume store is an NFS share point in the volume store label. 
 
 You cannot specify the root folder of an NFS server as a volume store.
+
+#### Testing and Debugging NFS Volume Store Configuration
+
+When you deploy a VCH, if you configured an NFS volume store and the NFS share point is not accessible by the VCH, the following errors appear in the output of `vic-machine create`:
+
+<pre>
+DEBU[0269] Portlayer has established volume stores (default others)
+ERRO[0269] VolumeStore (shared) cannot be brought online - check network, nfs server, and --volume-store configurations
+ERRO[0269] Not all configured volume stores are online - check port layer log via vicadmin
+</pre>
+
+More detailed information about the NFS share point appears in the Port Layer Service logs, that you can access by using the [VCH Administration Portal](log_bundles.md) for the VCH:
+
+<pre>
+INFO  op=363.7: Creating nfs volumestore shared on nfs://<i>nfs_server</i>/not-there
+DEBUG op=363.7: Mounting nfs://<i>nfs_server</i>/not-there
+Failed to connect to portmapper: dial tcp <i>nfs_server</i>:111: getsockopt: connection refused
+ERROR op=363.7: error occurred while attempting to mount volumestore (shared). err: (dial tcp <i>nfs_server</i>:111: getsockopt: connection refused)
+ERROR op=363.7: dial tcp <i>nfs_server</i>:111: getsockopt: connection refused
+</pre>
+
+**NOTE**: The `DEBUG` line in the example above is only included if you run the VCH with a `debug` setting of 1 or greater. 
+
+After you deploy a VCH, you can test that an NFS share point is configured correctly so that containers can access it by running the following commands:
+
+<pre>docker volume create --name test --opt VolumeStore=nfs
+docker run -it test:/mnt/test alpine /bin/ash</pre>
+
+You can also test the configuration mounting the NFS share point directly in the VCH endpoint VM. For information about how to perform this test, see [Install Packages in the Virtual Container Host Endpoint VM](vch_install_packages.md) and [Mount an NFS Share Point in the VCH Endpoint VM](vch_mount_nfsshare.md).
+
+Another option is to start a container that has an NFS client and attempt to mount the NFS share point in that container. This is a good option for VCH users that do not have access to `vic-machine` and cannot log in to the VCH by using SSH. This is also a good way to test access to NFS volume stores through firewalls  and for VCHs that implement container networks. Containers connect to NFS volume stores over the network stack of the container VM, so the containers must be able to connect to the NFS server.
 
 ### Anonymous Volumes <a id="default"></a>
 
@@ -73,7 +106,7 @@ This section describes the Volume Datastores section of the Storage Capacity pag
 
 **NOTE**: It is not currently possible to specify an NFS share point as a volume store in the Create Virtual Container Host wizard. If you use the wizard to create VCHs, after deployment, run `vic-machine configure` with the `--volume-store` option to add NFS share points to the VCH. For information about adding volume stores after deployment, see [Add Volume Stores](configure_vch.md#volumes).
 
-#### vic-machine Option
+#### vic-machine Option 
 
 `--volume-store`, `--vs`
 
@@ -93,8 +126,12 @@ To specify an NFS share point as a volume store, use the `nfs://` prefix and the
 
 <pre>nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
 
-You can also specify the URL, UID, GID, and access protocol of a shared NFS mount point when you specify an NFS share point. If you do not specify a UID and GID, vSphere Integrated Containers Engine uses the `anon` UID and GID when creating and interacting with the volume store. The `anon` UID and GID is 1000.
-<pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&gid=5678&proto=tcp:<i>nfs_volume_store_label</i></pre> 
+<a id="nfsoptions"></a>
+You can also specify the URL, UID, and GID of a shared NFS mount point when you specify an NFS share point. Connections are made over TCP. If you do not specify a UID and GID, vSphere Integrated Containers Engine uses the `anon` UID and GID when creating and interacting with the volume store. The `anon` UID and GID is 1000:1000.
+
+**NOTE**: If your NFS server uses a different `anon` UID/GID to the default, you must specify the UID/GID in the `--volume-store` option. Configuring a VCH to use a different default `anon` UID/GID for NFS volume stores is not supported.
+
+<pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&gid=5678&:<i>nfs_volume_store_label</i></pre> 
 
 Use the label `default` to allow container developers to create anonymous volumes:
 
