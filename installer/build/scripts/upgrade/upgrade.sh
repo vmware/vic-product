@@ -186,11 +186,13 @@ function proceedWithUpgrade {
   exit 1
 }
 
-function prepareForUpgrade {
+# Copy files from old appliance for version check
+function prepareForAutomatedUpgrade {
   local tmpdir="$1"
   local username="$2"
   local ip="$3"
-  # setup ssh access
+
+  # Add automation key
   echo "Please enter the VIC appliance password for user $username at ip $ip" | tee /dev/fd/3
 
   mkdir -p  ~/.ssh
@@ -200,6 +202,7 @@ function prepareForUpgrade {
 
   files=(
     "/etc/vmware/version"
+    "/data/version"
     "/storage/data/version"
     "/storage/data/admiral/configs/psc-config.properties"
   )
@@ -208,8 +211,9 @@ function prepareForUpgrade {
     scp "$username@$ip:$file" "$tmpdir$file"
   done
 
-   ssh "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
-   rm ~/.ssh/id_rsa
+  # Remove automation key
+  ssh "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
+  rm ~/.ssh/id_rsa
 }
 
 function moveDisks {
@@ -423,8 +427,9 @@ function main {
   # In the automated use case, scp the version files from the old appliance to a tmpdir.
   if [ -z "${MANUAL_DISK_MOVE}" ]; then
     OLD_APP_DIR=$(mktemp -d)
-    prepareForUpgrade "$OLD_APP_DIR" "$APPLIANCE_USERNAME" "$APPLIANCE_TARGET"
+    prepareForAutomatedUpgrade "$OLD_APP_DIR" "$APPLIANCE_USERNAME" "$APPLIANCE_TARGET"
   fi
+
   ver=$(getApplianceVersion "$OLD_APP_DIR")
   proceedWithUpgrade "$ver"
   if [ -z "${MANUAL_DISK_MOVE}" ]; then
@@ -459,10 +464,28 @@ function main {
   fi
 
   # TODO: Add Admiral Health Check
-  echo "Upgrade script complete. Exiting." | tee /dev/fd/3
-  echo "-------------------------"
-  echo ""
+
+  # Completed successfully
+  rc=0 # Set good return code
   exit 0
 }
+
+function finish() {
+  if [ "$rc" -eq 0 ]; then
+    echo "Upgrade completed successfully. Exiting." | tee /dev/fd/3
+    echo "-------------------------"
+    echo ""
+  else
+    echo "Upgrade failed." | tee /dev/fd/3
+    echo "Please save ${upgrade_log_file} and contact VMware support." | tee /dev/fd/3
+    echo "-------------------------"
+    echo ""
+  fi
+
+  exit $rc
+}
+
+rc=1  # Default return code
+trap finish EXIT HUP INT TERM
 
 main "$@"
