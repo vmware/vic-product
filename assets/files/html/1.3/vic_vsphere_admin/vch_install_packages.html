@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Plug-In Does Not Appear · VMware vSphere Integrated Containers 1.3 Documentation</title>
+        <title>Install Packages · VMware vSphere Integrated Containers 1.3 Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="ts_no_access_to_vic_services.html" />
+    <link rel="next" href="vch_mount_nfsshare.html" />
     
     
-    <link rel="prev" href="ts_plugin_script_fails.html" />
+    <link rel="prev" href="log_bundles.html" />
     
 
     </head>
@@ -1355,7 +1355,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.8.3" data-path="vch_install_packages.html">
+        <li class="chapter active" data-level="2.1.8.3" data-path="vch_install_packages.html">
             
                 <a href="vch_install_packages.html">
             
@@ -1517,7 +1517,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.1.8.14" data-path="ts_ui_not_appearing.html">
+        <li class="chapter " data-level="2.1.8.14" data-path="ts_ui_not_appearing.html">
             
                 <a href="ts_ui_not_appearing.html">
             
@@ -2423,7 +2423,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Plug-In Does Not Appear</a>
+        <a href=".." >Install Packages</a>
     </h1>
 </div>
 
@@ -2438,49 +2438,48 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="vsphere-integrated-containers-plug-ins-not-deploying-correctly">vSphere Integrated Containers Plug-Ins Not Deploying Correctly</h1>
-<p>After you have installed the plug-ins for vSphere Integrated Containers, the HTML5 vSphere Client plug-in appears but is empty, or the plug-ins do not appear at all in one or both of the HTML5 vSphere Client or the Flex-based vSphere Web Client.</p>
-<h2 id="problem">Problem</h2>
-<p>The UI plug-in installer reported success, but you experience one of the following problems:</p>
+                                <h1 id="install-packages-in-the-virtual-container-host-endpoint-vm">Install Packages in the Virtual Container Host Endpoint VM</h1>
+<p>In certain circumstances, you might need to install a capability in the virtual container host (VCH) endpoint VM that does not exist by default. For example, you might want to install an NFS client in the endpoint VM, to test or debug connections from the VCH to an NFS server.</p>
+<p>The VCH endpoint VM runs Photon OS. Photon OS provides a package manager named Tiny DNF, or <code>tdnf</code>, that is the default means of installing packages. For information about Tiny DNF, see <a href="https://github.com/vmware/photon/blob/master/docs/photon-admin-guide.md#tiny-dnf-for-package-management" target="_blank">Tiny DNF for Package Management</a> in the <em>Photon OS Administration Guide</em>. </p>
+<p>Before you can use Tiny DNF to install packages in the endpoint VM, you must run the <code>rpm --rebuilddb</code> command to rebuild the embedded database. To run <code>rpm --rebuilddb</code>, you must first modify the Photon OS configuration to satisfy certain dependencies that are not present in the VCH endpoint VM by default. If you do not successfully run <code>rpm --rebuilddb</code>, attempts to run certain Tiny DNF commands in the endpoint VM result in the following error:</p>
+<pre>
+root@ [ ~ ]# tdnf info
+Error(1304) : Hawkey - I/O error
+</pre>
+
+<p><strong>IMPORTANT</strong>: Any changes that you make to the VCH endpoint VM, including installing packages, are non-persistent and are lost if the endpoint VM reboots.</p>
+<p><strong>Prerequisite</strong></p>
 <ul>
-<li>The HTML5 plug-in appears in the vSphere Client, but the vSphere Integrated Containers Summary, Virtual Container Hosts, and Containers tabs are empty. </li>
-<li>The plug-ins do not appear in the client at all.</li>
+<li>Enable SSH access to the VCH endpoint VM. For information about enabling SSH access, see <a href="debug_vch.html">Debug Running Virtual Container Hosts</a>.</li>
+<li>Ensure that the VCH can access the Photon OS repositories at <a href="https://vmware.bintray.com/" target="_blank">https://vmware.bintray.com/</a>, either via the Internet or via a mirror on the local network.</li>
 </ul>
-<p>Logging out of the client and logging back in again does not resolve the problem.</p>
-<h2 id="causes">Causes</h2>
-<p>If the vSphere Integrated Containers plug-in appears in the HTML5 client but the tabs are empty, you are not running the correct version of vCenter Server 6.5.0. The vSphere Integrated Containers HTML5 plug-in requires vCenter Server 6.5.0d or later. </p>
-<p>If the plug-ins do not appear at all: </p>
+<p><strong>Procedure</strong></p>
+<ol>
+<li>Use SSH to connect to the VCH endpoint VM as <code>root</code> user.</li>
+<li>Open the Photon OS updates repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-updates-local.repo</pre></li>
+<li>Update the entry for the repository URL and save the change.<pre>baseurl=https://vmware.bintray.com/photon_updates_1.0_x86_64/</pre></li>
+<li>Open the Photon OS repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-local.repo</pre></li>
+<li>Update the entry for the repository URL and save the change.<pre>baseurl=https://vmware.bintray.com/photon_release_1.0_x86_64/</pre></li>
+<li><p>Create a folder for <code>rpm</code> and initialize the <code>rpm</code> database.</p>
+<ol>
+<li><code>mkdir /root/rpm</code></li>
+<li><code>rpm --root /root/rpm -initdb</code></li>
+</ol>
+</li>
+<li>Install the dependencies that Tiny DNF requires to install packages.<pre>tdnf --installroot /root/rpm --nogpgcheck install haveged systemd openssh iptables e2fsprogs procps-ng iputils iproute2 iptables net-tools sudo tdnf vim gzip lsof logrotate photon-release</pre></li>
+<li>Copy the <code>/root/rpm/var/lib/rpm/Packages</code> file to the following location.<pre>cp /root/rpm/var/lib/rpm/Packages /var/lib/rpm/Packages</pre></li>
+<li>Run the command to rebuild the database in the endpoint VM.<pre>rpm --rebuilddb</pre></li>
+<li>Run a Tiny DNF command to test the reconfiguration.<pre>tdnf list installed</pre>The <code>tdnf list installed</code> command should display information about the installed packages. </li>
+</ol>
+<p><strong>Result</strong></p>
+<p>You can now use Tiny DNF to install new packages in the VCH endpoint VM.</p>
+<p><strong>IMPORTANT</strong>: </p>
 <ul>
-<li>A previous attempt at installing the vSphere Integrated Containers plug-ins failed, and the failed installation state was retained in the client cache.</li>
-<li>You installed a new version of the vSphere Integrated Containers plug-ins that has the same version number as the previous version, for example a hot patch.</li>
+<li>Any installations and configurations that you perform by using Tiny DNF in the endpoint VM do not persist if you reboot the endpoint VM.</li>
+<li>Running <code>rpm --rebuilddb</code> results in an unpopulated database. Consequently, when you use Tiny DNF to install a package, it tries to install all of the dependencies for that package in the endpoint VM, even if those dependencies are already present.</li>
 </ul>
-<h2 id="solutions">Solutions</h2>
-<p>If the vSphere Integrated Containers plug-in appears in the HTML5 client but the tabs are empty, upgrade vCenter Server to version 6.5.0d or later.</p>
-<p>If the plug-ins do not appear at all, restart the vSphere Client services.</p>
-<h3 id="restart-the-html5-client-on-vcenter-server-on-windows">Restart the HTML5 Client on vCenter Server on Windows</h3>
-<ol>
-<li>Log into the Windows system on which vCenter Server is running.</li>
-<li>Open a command prompt as Administrator.</li>
-<li>Use the <code>service-control</code> command-line utility to stop and then restart the vSphere Client service.<pre>&quot;C:\Program Files\VMware\vCenter Server\bin\service-control&quot; --stop vsphere-ui</pre><pre>&quot;C:\Program Files\VMware\vCenter Server\bin\service-control&quot; --start vsphere-ui</pre></li>
-</ol>
-<h3 id="restart-the-flex-client-on-vcenter-server-on-windows">Restart the Flex Client on vCenter Server on Windows</h3>
-<ol>
-<li>Log into the Windows system on which vCenter Server is running.</li>
-<li>Open a command prompt as Administrator.</li>
-<li>Use the <code>service-control</code> command-line utility to stop and then restart the vSphere Client service.<pre>&quot;C:\Program Files\VMware\vCenter Server\bin\service-control&quot; --stop vsphere-client</pre><pre>&quot;C:\Program Files\VMware\vCenter Server\bin\service-control&quot; --start vsphere-client</pre></li>
-</ol>
-<h3 id="restart-the-html5-client-on-a-vcenter-server-appliance">Restart the HTML5 Client on a vCenter Server Appliance</h3>
-<ol>
-<li>Use SSH to log in to the vCenter Server Appliance as <code>root</code>.</li>
-<li>Use the <code>service-control</code> command-line utility to stop the vSphere Client service.<pre>service-control --stop vsphere-ui</pre></li>
-<li>Restart the vSphere Client service.<pre>service-control --start vsphere-ui</pre></li>
-</ol>
-<h3 id="restart-the-flex-client-on-a-vcenter-server-appliance">Restart the Flex Client on a vCenter Server Appliance</h3>
-<ol>
-<li>Use SSH to log in to the vCenter Server Appliance as <code>root</code>.</li>
-<li>Use the <code>service-control</code> command-line utility to stop the vSphere Web Client service.<pre>service-control --stop vsphere-client</pre></li>
-<li>Restart the vSphere Web Client service.<pre>service-control --start vsphere-client</pre></li>
-</ol>
+<p><strong>What to Do Next</strong></p>
+<p>For an example of how to install a package in the VCH endpoint VM, see <a href="vch_mount_nfsshare.html">Mount an NFS Share Point in the VCH Endpoint VM</a>.</p>
 
                                 
                                 </section>
@@ -2508,12 +2507,12 @@
 
             
                 
-                <a href="ts_plugin_script_fails.html" class="navigation navigation-prev " aria-label="Previous page: Plug-In Scripts Fail">
+                <a href="log_bundles.html" class="navigation navigation-prev " aria-label="Previous page: Access VCH Logs">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="ts_no_access_to_vic_services.html" class="navigation navigation-next " aria-label="Next page: Some Users Cannot Access Services">
+                <a href="vch_mount_nfsshare.html" class="navigation navigation-next " aria-label="Next page: Mount an NFS Share Point">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2524,7 +2523,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Plug-In Does Not Appear","level":"2.1.8.14","depth":3,"next":{"title":"Some Users Cannot Access Services","level":"2.1.8.15","depth":3,"path":"vic_vsphere_admin/ts_no_access_to_vic_services.md","ref":"vic_vsphere_admin/ts_no_access_to_vic_services.md","articles":[]},"previous":{"title":"Plug-In Scripts Fail","level":"2.1.8.13","depth":3,"path":"vic_vsphere_admin/ts_plugin_script_fails.md","ref":"vic_vsphere_admin/ts_plugin_script_fails.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/ts_ui_not_appearing.md","mtime":"2018-03-19T11:56:24.330Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-21T09:01:32.938Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Install Packages","level":"2.1.8.3","depth":3,"next":{"title":"Mount an NFS Share Point","level":"2.1.8.3.1","depth":4,"path":"vic_vsphere_admin/vch_mount_nfsshare.md","ref":"vic_vsphere_admin/vch_mount_nfsshare.md","articles":[]},"previous":{"title":"Access VCH Logs","level":"2.1.8.2","depth":3,"path":"vic_vsphere_admin/log_bundles.md","ref":"vic_vsphere_admin/log_bundles.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.3 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_install_packages.md","mtime":"2018-03-21T08:44:19.692Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-21T09:01:32.938Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
