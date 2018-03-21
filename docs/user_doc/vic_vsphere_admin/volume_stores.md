@@ -71,7 +71,7 @@ ERROR op=363.7: error occurred while attempting to mount volumestore (shared). e
 ERROR op=363.7: dial tcp <i>nfs_server</i>:111: getsockopt: connection refused
 </pre>
 
-**NOTE**: The `DEBUG` line in the example above is only included if you run the VCH with a `debug` setting of greater than 1. 
+**NOTE**: The `DEBUG` line in the example above is only included if you run the VCH with a `debug` setting of 1 or greater. 
 
 After you deploy a VCH, you can test that an NFS share point is configured correctly so that containers can access it by running the following commands:
 
