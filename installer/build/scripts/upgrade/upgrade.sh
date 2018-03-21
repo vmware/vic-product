@@ -202,18 +202,30 @@ function prepareForAutomatedUpgrade {
 
   files=(
     "/etc/vmware/version"
-    "/data/version"
     "/storage/data/version"
     "/storage/data/admiral/configs/psc-config.properties"
+    "/data/version"  # Remove after end of 1.2.1 support
+    "/data/admiral/configs/psc-config.properties"  # Remove after end of 1.2.1 support
   )
   for file in "${files[@]}"; do
     mkdir -p "$tmpdir$(dirname "$file")"
+    set +e  # Copying files from /data will fail, remove after end of 1.2.1 support
     scp "$username@$ip:$file" "$tmpdir$file"
+    set -e
   done
 
   # Remove automation key
   ssh "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
   rm ~/.ssh/id_rsa
+
+  # Expect 3 files in temp dir
+  local count=0
+  count=$(find "$tmpdir" -maxdepth 1 -type f | wc -l)
+  if [ "$count" -ne 3 ]; then
+    echo "Failed to gather information about old VIC appliance" | tee /dev/fd/3
+    echo "Please contact VMware support" | tee /dev/fd/3
+    exit 1
+  fi
 }
 
 function moveDisks {
