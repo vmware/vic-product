@@ -277,8 +277,8 @@ function moveDisks {
   done
 
   echo "Migrating old disks to new VIC appliance..." | tee /dev/fd/3
-  echo "OLD_DATA_DISK: $OLD_DATA_DISK"
   OLD_DATA_DISK=$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[1].DiskFile[0]" | awk '{print $NF}')
+  echo "OLD_DATA_DISK: $OLD_DATA_DISK"
   if [ -z "$OLD_DATA_DISK" ]; then
     echo "Failed to gather information about disks on the old VIC appliance" | tee /dev/fd/3
     echo "Please contact VMware support" | tee /dev/fd/3
@@ -487,13 +487,13 @@ function finish() {
   set +e
   if [ "$rc" -eq 0 ]; then
     echo "Upgrade completed successfully. Exiting." | tee /dev/fd/3
-    echo "-------------------------"
-    echo ""
+    echo "-------------------------" | tee /dev/fd/3
+    echo "" | tee /dev/fd/3
   else
     echo "Upgrade failed." | tee /dev/fd/3
     echo "Please save ${upgrade_log_file} and contact VMware support." | tee /dev/fd/3
-    echo "-------------------------"
-    echo ""
+    echo "-------------------------" | tee /dev/fd/3
+    echo "" | tee /dev/fd/3
   fi
 
   exit $rc
