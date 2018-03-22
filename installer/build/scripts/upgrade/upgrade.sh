@@ -220,7 +220,7 @@ function prepareForAutomatedUpgrade {
 
   # Expect 3 files in temp dir
   local count=0
-  count=$(find "$tmpdir" -maxdepth 1 -type f | wc -l)
+  count=$(find "$tmpdir" -type f | wc -l)
   if [ "$count" -ne 3 ]; then
     echo "Failed to gather information about old VIC appliance" | tee /dev/fd/3
     echo "Please contact VMware support" | tee /dev/fd/3
@@ -484,6 +484,7 @@ function main {
 }
 
 function finish() {
+  set +e
   if [ "$rc" -eq 0 ]; then
     echo "Upgrade completed successfully. Exiting." | tee /dev/fd/3
     echo "-------------------------"
