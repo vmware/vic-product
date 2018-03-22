@@ -313,7 +313,7 @@ function moveDisks {
     govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_DB_DISK" || (echo "Failed to attach database disk" | tee /dev/fd/3 && exit 1)
     govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_LOG_DISK" || (echo "Failed to attach log disk" | tee /dev/fd/3 && exit 1)
   fi
-  echo "Finished attaching migrating disks to new VIC appliance" | tee /dev/fd/3
+  echo "Finished attaching migrated disks to new VIC appliance" | tee /dev/fd/3
 
   echo "Mounting migrated disks" | tee /dev/fd3
   systemctl enable vic-mounts.target
