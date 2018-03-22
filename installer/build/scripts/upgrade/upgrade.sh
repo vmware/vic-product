@@ -486,10 +486,14 @@ function main {
 function finish() {
   set +e
   if [ "$rc" -eq 0 ]; then
+    echo "" | tee /dev/fd/3
+    echo "-------------------------" | tee /dev/fd/3
     echo "Upgrade completed successfully. Exiting." | tee /dev/fd/3
     echo "-------------------------" | tee /dev/fd/3
     echo "" | tee /dev/fd/3
   else
+    echo "" | tee /dev/fd/3
+    echo "-------------------------" | tee /dev/fd/3
     echo "Upgrade failed." | tee /dev/fd/3
     echo "Please save ${upgrade_log_file} and contact VMware support." | tee /dev/fd/3
     echo "-------------------------" | tee /dev/fd/3
