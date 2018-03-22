@@ -19,12 +19,13 @@ If the plug-ins do not appear at all:
 
 - A previous attempt at installing the vSphere Integrated Containers plug-ins failed, and the failed installation state was retained in the client cache.
 - You installed a new version of the vSphere Integrated Containers plug-ins that has the same version number as the previous version, for example a hot patch.
+- You might be encountering an SSL certificate mismatch issue. This can occur if the root CA on the vCenter Server Virtual Appliance is updated, either by upgrading to a newer build of vSphere or by running the VMCA Certificate Manager.
 
 ## Solutions ##
 
-If the vSphere Integrated Containers plug-in appears in the HTML5 client but the tabs are empty, upgrade vCenter Server to version 6.5.0d or later.
-
-If the plug-ins do not appear at all, restart the vSphere Client services.
+- If the vSphere Integrated Containers plug-in appears in the HTML5 client but the tabs are empty, upgrade vCenter Server to version 6.5.0d or later.
+- If the plug-ins do not appear at all, see the sections below to restart the vSphere Client services.
+- If the plug-ins still do not appear after restarting the vSphere Client services, see https://kb.vmware.com/kb/52540. 
 
 ### Restart the HTML5 Client on vCenter Server on Windows ###
 
