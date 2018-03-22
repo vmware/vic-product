@@ -257,7 +257,7 @@ function moveDisks {
 
   govc vm.power -s=true "$OLD_VM_NAME"
   while [ "$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Runtime.PowerState")" != "poweredOff" ]; do
-    echo "Wating for old VIC appliance to power off" | tee /dev/fd/3
+    echo "Waiting for old VIC appliance to power off" | tee /dev/fd/3
     sleep 15
   done
 
@@ -269,11 +269,29 @@ function moveDisks {
   NEW_LOG_DISK=$(govc vm.info -json "$NEW_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[3].DiskFile[0]" | awk '{print $NF}')
   echo "NEW_LOG_DISK: $NEW_LOG_DISK"
 
-  # TODO Check count
   disks=$(govc device.ls -vm="$NEW_VM_NAME" | grep disk- | tail -n +2 | awk '{print $1}')
+  # Expected result:
+  # disk-1000-1
+  # disk-1000-2
+  # disk-1000-3
+  count=$(echo "$disks" | wc -l)
+  if [ "$count" -ne 3 ]; then
+    echo "Failed to find the correct number of disks on the new VIC appliance" | tee /dev/fd/3
+    echo "Please contact VMware support" | tee /dev/fd/3
+    exit 1
+  fi
+
   echo "$disks" | while read disk; do
-    echo "Remove disk $disk from $NEW_VM_NAME"
-    govc device.remove -vm="$NEW_VM_NAME" "$disk"
+    # For 1.2.1 only remove data disk, remove this after end of 1.2.1 support
+    if [[ "$disk" =~ -1$ ]]; then
+      echo "Remove disk $disk from $NEW_VM_NAME"
+      govc device.remove -vm="$NEW_VM_NAME" "$disk"
+    fi
+    # Only remove log and database disks from 1.3.0 and greater
+    if [[ ( "$disk" =~ -2$ || "$disk" =~ -3$ ) && ( "$ver" == "$VER_1_3_0"  ||  "$ver" == "$VER_1_3_1" ) ]]; then
+      echo "Remove disk $disk from $NEW_VM_NAME"
+      govc device.remove -vm="$NEW_VM_NAME" "$disk"
+    fi
   done
 
   echo "Migrating old disks to new VIC appliance..." | tee /dev/fd/3
@@ -324,8 +342,12 @@ function moveDisks {
 
 function main {
 
+  local new_ver=""
+  local tag=""
+  new_ver=$(readKeyValue "appliance" "/etc/vmware/version")
+  tag=$(getTagVersion "$new_ver")
   echo "-------------------------------" | tee /dev/fd3
-  echo "VIC Appliance Upgrade to v1.4.0" | tee /dev/fd3
+  echo "VIC Appliance Upgrade to $tag" | tee /dev/fd3
   echo "-------------------------------" | tee /dev/fd3
   echo "" | tee /dev/fd3
   firstboot="/etc/vmware/firstboot"
@@ -443,6 +465,7 @@ function main {
     prepareForAutomatedUpgrade "$OLD_APP_DIR" "$APPLIANCE_USERNAME" "$APPLIANCE_TARGET"
   fi
 
+  local ver=""
   ver=$(getApplianceVersion "$OLD_APP_DIR")
   proceedWithUpgrade "$ver"
   if [ -z "${MANUAL_DISK_MOVE}" ]; then

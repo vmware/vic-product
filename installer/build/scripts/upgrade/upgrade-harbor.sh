@@ -33,6 +33,7 @@ harbor_upgrade_status_prev="/etc/vmware/harbor/upgrade_status"
 DB_USER=""
 DB_PASSWORD=""
 
+HARBOR_VER_1_2_0="harbor-offline-installer-v1.2.0.tgz"
 HARBOR_VER_1_3_0="harbor-offline-installer-v1.3.0.tgz"
 
 MANAGED_KEY="# Managed by configure_harbor.sh"
@@ -163,36 +164,35 @@ function upgradeHarborConfiguration {
 }
 
 # https://github.com/vmware/harbor/blob/master/docs/migration_guide.md
-# TODO: Evaluate if needed for 1.4.0
-# function migrateHarborData {
-#   checkDir ${harbor_backup}
-#   mkdir ${harbor_backup}
+function migrateHarborData {
+  checkDir ${harbor_backup}
+  mkdir ${harbor_backup}
 
-#   local migrator_image="vmware/harbor-db-migrator:1.3"
-#   local harbor_old_database_dir="/storage/data/harbor"
-#   local harbor_new_database_dir="/storage/db/harbor"
-#   local harbor_database="${harbor_old_database_dir}/database"
+  local migrator_image="vmware/harbor-db-migrator:1.3"
+  local harbor_old_database_dir="/storage/data/harbor"
+  local harbor_new_database_dir="/storage/db/harbor"
+  local harbor_database="${harbor_old_database_dir}/database"
 
-#   # Test database connection
-#   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql ${migrator_image} test
-#   if [ $? -ne 0 ]; then
-#     echo "Invalid database credentials" | tee /dev/fd/3
-#     exit 1
-#   fi
+  # Test database connection
+  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql ${migrator_image} test
+  if [ $? -ne 0 ]; then
+    echo "Invalid database credentials" | tee /dev/fd/3
+    exit 1
+  fi
 
-#   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql -v ${harbor_backup}:/harbor-migration/backup ${migrator_image} backup
-#   docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e SKIP_CONFIRM=y -v ${harbor_database}:/var/lib/mysql ${migrator_image} up head
-#   if [ $? -ne 0 ]; then
-#     echo "Harbor up head command failed" | tee /dev/fd/3
-#     exit 1
-#   fi
+  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql -v ${harbor_backup}:/harbor-migration/backup ${migrator_image} backup
+  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e SKIP_CONFIRM=y -v ${harbor_database}:/var/lib/mysql ${migrator_image} up head
+  if [ $? -ne 0 ]; then
+    echo "Harbor up head command failed" | tee /dev/fd/3
+    exit 1
+  fi
 
-#   mkdir -p ${harbor_new_database_dir}
+  mkdir -p ${harbor_new_database_dir}
 
-#   DIR="database";  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
-#   DIR="clair-db";  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
-#   DIR="notary-db"; mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
-# }
+  DIR="database";  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
+  DIR="clair-db";  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
+  DIR="notary-db"; mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
+}
 
 # Upgrade entry point from upgrade.sh
 function upgradeHarbor {
@@ -215,11 +215,13 @@ function upgradeHarbor {
   echo "Performing pre-upgrade checks" | tee /dev/fd/3
 
   if [ "$HARBOR_VER" == "$HARBOR_VER_1_3_0" ]; then
-    echo "No upgrade operations required for upgrade from Harbor $HARBOR_VER" | tee /dev/fd/3
+    echo "No data migration required for upgrade from Harbor $HARBOR_VER" | tee /dev/fd/3
     cleanupFiles
+    echo "[=] Migrating Harbor configuration" | tee /dev/fd/3
     upgradeHarborConfiguration
+    echo "[=] Finished migrating Harbor configuration" | tee /dev/fd/3
     return
-  else
+  elif [ "$HARBOR_VER" != "$HARBOR_VER_1_2_0" ]; then
     echo "Invalid Harbor version $HARBOR_VER detected. Aborting upgrade." | tee /dev/fd/3
     exit 1
   fi
@@ -236,12 +238,12 @@ function upgradeHarbor {
   echo "[=] Shutting down Harbor" | tee /dev/fd/3
   systemctl stop harbor.service
 
-  # # possible data migration needed for 1.4.0
-  # if [ "$HARBOR_VER" == "$HARBOR_VER_1_3_0" ]; then
-  #   echo "[=] Migrating Harbor data" | tee /dev/fd/3
-  #   migrateHarborData
-  #   echo "[=] Finished migrating Harbor data" | tee /dev/fd/3
-  # fi
+  # possible data migration needed for 1.4.0
+  if [ "$HARBOR_VER" == "$HARBOR_VER_1_2_0" ]; then
+    echo "[=] Migrating Harbor data" | tee /dev/fd/3
+    migrateHarborData
+    echo "[=] Finished migrating Harbor data" | tee /dev/fd/3
+  fi
 
   echo "[=] Migrating Harbor configuration" | tee /dev/fd/3
   upgradeHarborConfiguration
