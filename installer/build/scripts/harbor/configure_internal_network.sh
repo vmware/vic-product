@@ -20,12 +20,12 @@ function timecho {
 }
 
 function connect_once {
-    docker network connect internal $*
+    docker network connect internal $* 2>&1
 }
 
 function connect {
     out=$(connect_once $*)
-    while [[ ! $? -eq 0 && $out != *"already exists"* ]]; do
+    while [[ ! $? -eq 0 && "$out" != *"already exists"* ]]; do
         timecho "Internal connect for '$*' failed. Retrying in $TIMEOUT seconds..."
         sleep $TIMEOUT
         connect_once $*
