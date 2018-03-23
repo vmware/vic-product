@@ -87,10 +87,10 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
 
 12. Enter the connection details for the vCenter Server instance on which you deployed the appliance.
 
-     - The address and single sign-on credentials of vCenter Server.
+     - The vCenter Server address and the Single Sign-on credentials for a vSphere administrator account.
      - If vCenter Server is managed by an external Platform Services Controller, enter the FQDN and administrator domain for the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, leave the External PSC text boxes empty.
 
-    **IMPORTANT**: The installation process requires the single sign-on credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller and to tag the appliance VM for use in Docker content trust. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
+    **IMPORTANT**: The installation process requires administrator credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller and to tag the appliance VM for use in Docker content trust. Administrator credentials are not stored on the appliance VM after use in the installation process. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
 
 12. Click **Continue** to initialize the appliance.
 
