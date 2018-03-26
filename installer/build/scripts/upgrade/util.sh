@@ -107,32 +107,44 @@ function getApplianceVersion() {
   local VER_UNKNOWN="unknown"
   local VER_1_1_1="v1.1.1"
   local VER_1_2_0="v1.2.0"
-  local VALID_VER=("v1.3.0" "v1.3.1")
+  local VER_1_2_1="v1.2.1"
+  local VALID_VER=($VER_1_2_1 "v1.3.0" "v1.3.1")
   local COPIED_DIR="$1"
+  local ver=""
+  local tag=""
 
-  # Appliance is older than 1.2.0, could be 1.0.x or 1.1.x, refer to these as v1.1.1
-  if [ ! -f "$COPIED_DIR/storage/data/admiral/configs/psc-config.properties" ]; then
+  # No PSC config -> appliance is older than 1.2.0, could be 1.0.x or 1.1.x, refer to these as v1.1.1
+  # Remove check for /data after end of 1.2.1 support
+  if [ ! -f "$COPIED_DIR/storage/data/admiral/configs/psc-config.properties" ] && [ ! -f "$COPIED_DIR/data/admiral/configs/psc-config.properties" ]; then
     echo $VER_1_1_1
     return
   fi
 
-  # PSC file exists, but no version file
+  # Handle automated disk move check for v1.2.1
+  # Remove after end of 1.2.1 support
+  if [ -f "$COPIED_DIR/data/version" ]; then
+    ver=$(readKeyValue "appliance" "$COPIED_DIR/data/version")
+    tag=$(getTagVersion "$ver")
+    if [ "$tag" != $VER_1_2_1 ]; then
+      echo "Invalid version detected from old VIC appliance" | tee /dev/fd/3
+      echo "Please contact VMware support" | tee /dev/fd/3
+      exit 1
+    fi
+
+    echo $VER_1_2_1
+    return
+  fi
+
+  # PSC file exists, but no version file in either /storage/data or /data
   if [ ! -f "$COPIED_DIR/storage/data/version" ]; then
     echo $VER_1_2_0
     return
   fi
 
-  local ver=""
   ver=$(readKeyValue "appliance" "$COPIED_DIR/storage/data/version")
-  root_ver=$(readKeyValue "appliance" "$COPIED_DIR/etc/vmware/version")
-  if [ "${root_ver}" != "${ver}" ]; then
-    echo -e "Appliance versions to not match in /storage/data/version and /etc/vmware/version\nExiting..." tee /dev/fd/3 
-    exit 1
-  fi
-  
   tag=$(getTagVersion "$ver")
 
-  # Check for known versions
+  # Check for valid versions
   for valid in ${VALID_VER[*]}
   do
     test "$tag" == "$valid" && { echo "$tag"; return; }
@@ -144,4 +156,9 @@ function getApplianceVersion() {
 
 function timecho {
   echo -e "$(date +"%Y-%m-%d %H:%M:%S") [==] $*"
+}
+
+# Get the fingerprint of vCenter
+function getFingerprint() {
+  govc about.cert -k -thumbprint
 }
