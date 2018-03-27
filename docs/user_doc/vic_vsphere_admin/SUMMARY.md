@@ -88,6 +88,7 @@
      * [Install Packages](vch_install_packages.md)
          * [Mount an NFS Share Point](vch_mount_nfsshare.md) 
      * [VCH Deployment Times Out](ts_vch_deployment_timeout.md)
+     * [Recover Appliance Password](ts_recover_password.md)
      * [Appliance OVF Error](ts_ovf_error.md)
      * [Certificate Verification Error](ts_thumbprint_error.md)
      * [Browser Rejects Certificates](ts_cert_error.md)
