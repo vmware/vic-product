@@ -38,6 +38,7 @@ pipeline:
       status: success
 
   dch-build:
+    group: build
     image: 'gcr.io/eminent-nation-87317/vic-product-build:latest'
     pull: true
     privileged: true
@@ -77,6 +78,7 @@ pipeline:
       status: success
 
   unified-ova-build:
+    group: build
     image: 'gcr.io/eminent-nation-87317/vic-product-build:latest'
     pull: true
     privileged: true
