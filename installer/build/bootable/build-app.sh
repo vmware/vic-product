@@ -39,22 +39,6 @@ log3 "configuring ${brprpl}en_US.UTF-8${creset} locale"
 /bin/echo "LANG=en_US.UTF-8" > /etc/locale.conf
 /sbin/locale-gen.sh
 
-log3 "installing system dependencies"
-tdnf install --refresh -y \
-    haveged ethtool gawk \
-    socat git nfs-utils \
-    cifs-utils ebtables \
-    iproute2 iptables iputils \
-    cdrkit xfsprogs sudo \
-    lvm2 parted gptfdisk \
-    e2fsprogs docker gzip\
-    net-tools logrotate &>/dev/null
-
-log3 "installing package dependencies"
-tdnf install -q --refresh -y \
-    openjre python-pip &>/dev/null
-
-
 log3 "configuring ${brprpl}haveged${creset}"
 systemctl enable haveged
 
@@ -103,11 +87,7 @@ echo -ne '' >/var/log/lastlog
 echo -ne '' >/var/log/wtmp
 echo -ne '' >/var/log/btmp
 
-<<<<<<< HEAD
-progress "resetting bashrc"
-=======
 log3 "resetting bashrs"
->>>>>>> [BROKEN] tar needs fixing
 echo -ne '' > /root/.bashrc
 echo -ne '' > /root/.bash_profile
 echo 'shopt -s histappend' >> /root/.bash_profile

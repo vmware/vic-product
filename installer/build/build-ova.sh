@@ -121,4 +121,4 @@ ${DIR}/build/build-cache.sh -c "${CACHE}"
 
 echo "--------------------------------------------------"
 echo "building OVA..."
-${DIR}/build/bootable/build-main.sh -m "${DIR}/build/ova-manifest.json" -r "${DIR}/bin" -a "${DIR}/bin/.appliance.tar.gz" -b "${DIR}/bin/.appliance-base.tar.gz" -c "${CACHE}" 
+${DIR}/build/bootable/build-main.sh -m "${DIR}/build/ova-manifest.json" -r "${DIR}/bin" -b "${DIR}/bin/.appliance-base.tar.gz" -c "${CACHE}" 

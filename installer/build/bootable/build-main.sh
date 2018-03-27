@@ -20,37 +20,29 @@ DIR=$(dirname $(readlink -f "$0"))
 RESOURCE=""
 BASE=""
 CACHE=""
-APP=""
 MANIFEST=""
 
 function cleanup() {
-  echo "--------------------------------------------------"
-  echo "cleaning up..."
-  ${DIR}/cleanup.sh
+    log3 "--------------------------------------------------"
+    log3 "cleaning up..."
+    log3 "removing dev loops and images"
+    losetup -D;
 }
 trap cleanup EXIT
 
-function build_app_pre {
-    ROOT=$1
-    DATA=$1
 
-    log2 "run in chroot ${brprpl}build-app.sh pre-step${creset}"
+function build_app {
+    # run build-app in chroot
+    ROOT=$1
+    DATA=$2
+
+    log2 "run in chroot ${brprpl}build-app.sh${creset}"
     [ -e "${ROOT}/dev/console" ] || mknod -m 600 "${ROOT}/dev/console" c 5 1
     [ -e "${ROOT}/dev/null" ]    || mknod -m 666 "${ROOT}/dev/null" c 1 3
     [ -e "${ROOT}/dev/random" ]  || mknod -m 444 "${ROOT}/dev/random" c 1 8
     [ -e "${ROOT}/dev/urandom" ] || mknod -m 444 "${ROOT}/dev/urandom" c 1 9
     if [ -h "${ROOT}/dev/shm" ]; then mkdir -pv "${ROOT}/$(readlink "${ROOT}/dev/shm")"; fi
     if ! mountpoint "${ROOT}/data" >/dev/null 2>&1; then mkdir -p "${ROOT}/data" && mount --bind "${DATA}" "${ROOT}/data"; fi
-
-    log2 "copying static assets"
-    log3 "copying cache to /etc/cache/"
-    cp -a "${CACHE}" "${ROOT}/etc/cache"
-    cp -a "${CACHE}/installer.env" "${ROOT}/"
-}
-
-function build_app {
-    # run build-app in chroot
-    ROOT=$1
 
     log2 "setting mountpoints and adding build scripts"
     # if ! mountpoint "${ROOT}/dev"     >/dev/null 2>&1; then mkdir -p "${ROOT}/dev"  && mount --bind /dev "${ROOT}/dev"; fi
@@ -84,6 +76,13 @@ function build_app {
         done
     )
 
+    log2 "copying static assets"
+    if [ -n "${CACHE}" ]; then 
+        log3 "copying cache to /etc/cache/"
+        cp -a "${CACHE}" "${ROOT}/etc/cache"
+        cp -a "${CACHE}/installer.env" "${ROOT}/"
+    fi
+
     chroot "$ROOT" \
     /usr/bin/env -i \
     HOME=/root \
@@ -104,10 +103,6 @@ function build_app {
     umount "${ROOT}/proc"
     umount "${ROOT}/sys"
     umount "${ROOT}/run"
-}
-
-function build_app_post {
-    ROOT=$1
     umount "${ROOT}/data"
 }
 
@@ -128,19 +123,10 @@ function main {
         [ -n "${BASE}" ] && tar -czf "${BASE}" -C "${PACKAGE}/mnt/root" .
     fi
 
-    #extract or build app install
+    # install app dependencies and setup rootfs
     log1 "Installing application layer"
-    build_app_pre "${PACKAGE}/mnt/root" "${PACKAGE}/mnt/data"
-    if [ -f "${APP}" ]; then
-        log2 "extracting app"
-        tar -xzf "${APP}" --skip-old-files -C "${PACKAGE}/mnt/"
-    else
-        log2 "building app"
-        build_app "${PACKAGE}/mnt/root"
-        log2 "exporting app"
-        [ -n "${APP}" ] && tar -czf "${APP}" -C "${PACKAGE}/mnt/" .
-    fi
-    build_app_post "${PACKAGE}/mnt/root"
+    log2 "building app"
+    build_app "${PACKAGE}/mnt/root" "${PACKAGE}/mnt/data"
 
     # package
     ${DIR}/build-disks.sh -a "export" -p "${PACKAGE}"
@@ -165,10 +151,10 @@ function main {
 }
 
 function usage() {
-    echo "Usage: $0 -r resource-location -m manifest-location [-a app.tar.gz -b base.tar.gz -c cache-dir] 1>&2"
+    echo "Usage: $0 -r resource-location -m manifest-location [-b base.tar.gz -c cache-dir] 1>&2"
     exit 1
 }
-while getopts "r:a:b:c:m:" flag
+while getopts "r:b:c:m:" flag
 do
     case $flag in
 
@@ -178,10 +164,6 @@ do
 
         m)
             MANIFEST="$OPTARG"
-            ;;
-
-        a)
-            APP="$OPTARG"
             ;;
 
         b)
@@ -199,7 +181,7 @@ do
 done
 shift $((OPTIND-1))
 # check there were no extra args and the required ones are set
-if [ -n "$*" -o -z "${RESOURCE}" -o -z "${MANIFEST}" -o -z "${CACHE}" ]; then
+if [ -n "$*" -o -z "${RESOURCE}" -o -z "${MANIFEST}" ]; then
     usage
 fi
 

@@ -40,6 +40,10 @@ downloads=(
   ${BUILD_VICENGINE_URL}
 )
 
+function timecho {
+  echo -e "$(date +"%Y-%m-%d %H:%M:%S") [==] $*"
+}
+
 function add() {
   src=$1
   dest=$2
@@ -47,40 +51,40 @@ function add() {
     curl -fL"#" "$src" -o "$dest"
   else
     cp "$src" "$dest"
-    echo "copied from local fs"
+    timecho "copied from local fs"
   fi
 }
 
 function cacheImages() {
-  echo "${warrow} caching container images"
+  timecho "${warrow} caching container images"
   mkdir -p ${CACHE}/docker/
   for img in "${images[@]}"; do
-    echo "${barrow} checking cache for ${brprpl}${img}${creset} archive"
+    timecho "${barrow} checking cache for ${brprpl}${img}${creset} archive"
     archive="${CACHE}/docker/$(echo "${img##*/}" | tr ':' '-').tar.gz"
-    echo "${yarrow} pulling ${brprpl}${img}${creset}"
+    timecho "${yarrow} pulling ${brprpl}${img}${creset}"
     pull=$(docker pull "$img")
     if [[ -f "$archive" && "$pull" == *"Image is up to date"* ]]; then
-      echo "${yarrow} cache is up to date - not saving ${brprpl}${img}${creset}"
+      timecho "${yarrow} cache is up to date - not saving ${brprpl}${img}${creset}"
     else
-      echo "${yarrow} saving ${brprpl}${archive##*/}${creset}"
+      timecho "${yarrow} saving ${brprpl}${archive##*/}${creset}"
       docker save "$img" | gzip > "$archive"
     fi
+    timecho "${warrow} ${img} details \n$(docker images --digests -f "dangling=false" --format "tag: {{.Tag}}, digest: {{.Digest}}, age: {{.CreatedSince}}" $(echo ${img} | cut -d ':' -f1))\n"
   done
-  docker_images=$(docker images --digests)
-  echo "${warrow} ${docker_images}"
-  echo "${warrow} saved all images"
+
+  timecho "${warrow} saved all images"
 }
 
 function cacheOther() {
-  echo "${warrow} caching other dependencies"
+  timecho "${warrow} caching other dependencies"
   for download in "${downloads[@]}"; do
     filename=$(basename "${download}")
-    echo "${barrow} checking cache for ${brprpl}${filename}${creset} archive"
+    timecho "${barrow} checking cache for ${brprpl}${filename}${creset} archive"
     archive="${CACHE}/${filename}"
     if [ -f "$archive" ]; then
-      echo "${yarrow} cache is up to date - not saving ${brprpl}${filename}${creset}"
+      timecho "${yarrow} cache is up to date - not saving ${brprpl}${filename}${creset}"
     else
-      echo "${yarrow} downloading and saving ${brprpl}${filename}${creset}"
+      timecho "${yarrow} downloading and saving ${brprpl}${filename}${creset}"
       set +e
       basefile=$(ls "$(dirname "$archive")/$(echo "${filename}" | cut -f1 -d"-" | cut -f1 -d"_" | cut -f1 -d".")"* 2>/dev/null)
       [ $? -eq 0 ] && [ -f "$basefile" ] && rm "$basefile"*
@@ -88,11 +92,11 @@ function cacheOther() {
       add "${download}" "$archive"
     fi
   done
-  echo "${warrow} saved all downloads"
+  timecho "${warrow} saved all downloads"
 }
 
 function usage() {
-echo "Usage: $0 -c cache-directory" 1>&2
+timecho "Usage: $0 -c cache-directory" 1>&2
 exit 1
 }
 

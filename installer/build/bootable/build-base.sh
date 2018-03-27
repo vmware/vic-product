@@ -18,7 +18,7 @@ set -e -o pipefail +h && [ -n "$DEBUG" ] && set -x
 DIR=$(dirname $(readlink -f "$0"))
 . ${DIR}/log.sh
 
-function set_stage() {
+function set_base() {
   src=${1}
   rt="${2}"
   tgt="${rt}/build"
@@ -35,12 +35,12 @@ function set_stage() {
   log3 "configuring ${brprpl}yum repos${creset}"
   mkdir -p "${rt}/etc/yum.repos.d/"
   rm /etc/yum.repos.d/{photon,photon-updates}.repo
+  cp ${DIR}/repo/*-remote.repo /etc/yum.repos.d/
   # TODO: Use local yum repo in CI
-  cp ${src}/repo/*-remote.repo /etc/yum.repos.d/
   # if [[ $DRONE_BUILD_NUMBER && $DRONE_BUILD_NUMBER > 0 ]]; then
+  #   mkdir -p /etc/yum.repos.d.old/
+  #   mv /etc/yum.repos.d/* /etc/yum.repos.d.old/
   #   cp repo/*-local.repo /etc/yum.repos.d/
-  # else
-  #   cp repo/*-remote.repo /etc/yum.repos.d/
   # fi
   cp -a /etc/yum.repos.d/ "${rt}/etc/"
   cp /etc/resolv.conf "${rt}/etc/"
@@ -49,25 +49,40 @@ function set_stage() {
   tdnf repolist --refresh
 
   log3 "installing ${brprpl}filesystem bash shadow coreutils findutils${creset}"
-  tdnf install --installroot "${rt}/" --refresh -y filesystem bash shadow coreutils findutils
+  tdnf install --installroot "${rt}/" --refresh -y \
+    filesystem bash shadow coreutils findutils
   
   log3 "installing ${brprpl}systemd linux-esx tdnf ca-certificates sed gzip tar glibc${creset}"
   tdnf install --installroot "${rt}/" --refresh -y \
     systemd util-linux \
-    pkgconfig dbus \
+    pkgconfig dbus cpio\
     photon-release tdnf \
     openssh linux-esx sed \
     gzip tar xz bzip2 \
     glibc iana-etc \
     ca-certificates \
     curl which initramfs \
-    krb5 motd Linux-PAM \
-    bc kmod libdb \
-    cpio procps-ng \
-    cracklib-dicts
+    krb5 motd procps-ng \
+    bc kmod libdb
 
   log3 "installing ${brprpl}tzdata glibc-lang vim${creset}"
-  tdnf install --installroot "${rt}/" -y tzdata glibc-lang vim
+  tdnf install --installroot "${rt}/" --refresh -y \
+    tzdata glibc-lang vim
+
+  log3 "installing system dependencies"
+  tdnf install --installroot "${rt}/" --refresh -y \
+    haveged ethtool gawk \
+    socat git nfs-utils \
+    cifs-utils ebtables \
+    iproute2 iptables iputils \
+    cdrkit xfsprogs sudo \
+    lvm2 parted gptfdisk \
+    e2fsprogs docker gzip \
+    net-tools logrotate
+
+  log3 "installing package dependencies"
+  tdnf install --installroot "${rt}/" --refresh -y \
+    openjre python-pip
 
   log3 "installing ${brprpl}root${creset}"
   cp -a "${src}/root" "${tgt}/"
@@ -97,9 +112,9 @@ if [ -n "$*" -o -z "${ROOT}" ]; then
     usage
 fi
 
-log1 "install OS to ${ROOT}"
+log2 "install OS to ${ROOT}"
 
-set_stage "${DIR}" "${ROOT}"
+set_base "${DIR}" "${ROOT}"
 
 # TODO: Use local yum repo in CI
 # log3 "reset yum repos to remote"

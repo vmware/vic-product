@@ -203,8 +203,6 @@ if [ "${ACTION}" == "create" ]; then
     create_disk "${IMAGES[$i]}.img" "${IMAGESIZES[$i]}" "${IMAGEROOTS[$i]}" $BOOT
   done
 
-  
-
 elif [ "${ACTION}" == "export" ]; then
   log1 "export images to VMDKs"
   for i in "${!IMAGES[@]}"; do
@@ -215,6 +213,8 @@ elif [ "${ACTION}" == "export" ]; then
 
   log2 "VMDK Sizes"
   log2 "$(du -h *.vmdk)"
+
 else
   usage
+
 fi
