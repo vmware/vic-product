@@ -19,7 +19,7 @@
      * [Download Installer](vic_vsphere_admin/download_vic.md) 
      * [Deployment Prerequisites](vic_vsphere_admin/vic_installation_prereqs.md)
      * [Deploy the Appliance](vic_vsphere_admin/deploy_vic_appliance.md)
-        * [PSC Regration API](vic_vsphere_admin/ova_reg_api.md) 
+         * [Appliance Initiation API](vic_vsphere_admin/ova_reg_api.md) 
      * [Download the vSphere Integrated Containers Engine Bundle](vic_vsphere_admin/vic_engine_bundle.md)
      * [Installing the Plug-ins](vic_vsphere_admin/install_vic_plugin.md)
          * [vCenter Server for Windows](vic_vsphere_admin/plugins_vc_windows.md)
