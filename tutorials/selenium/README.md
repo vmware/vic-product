@@ -21,6 +21,7 @@ e.g export DOCKER_HOST=10.158.204.227:2375
 
 
 ### Start the hub and chrome/firefox nodes:
+Download the docker-compose.yml file and make sure the it is in the same directory from where you are running the docker-compose up -d command
 
 ```
 #!/bin/bash
