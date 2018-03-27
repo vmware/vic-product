@@ -156,6 +156,7 @@ pipeline:
       status: success
 
   integration-test-ova-cleanup:
+    group: post-build
     image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
     pull: true
     environment:
@@ -181,6 +182,7 @@ pipeline:
       status: [success, failure]
 
   bundle-logs:
+    group: post-build
     image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
     pull: true
     environment:
@@ -217,6 +219,7 @@ pipeline:
       status: [success, failure]
 
   bundle-dev-builds:
+    group: post-build
     image: 'wdc-harbor-ci.eng.vmware.com/default-project/golang:1.8'
     pull: true
     commands:
@@ -234,6 +237,7 @@ pipeline:
       status: success
 
   bundle-stage-builds:
+    group: post-build
     image: 'wdc-harbor-ci.eng.vmware.com/default-project/golang:1.8'
     pull: true
     commands:
@@ -252,6 +256,7 @@ pipeline:
       status: success
 
   bundle-release-builds:
+    group: post-build
     image: 'wdc-harbor-ci.eng.vmware.com/default-project/golang:1.8'
     pull: true
     commands:
