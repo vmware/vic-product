@@ -15,4 +15,4 @@ By default, the cloud administrator role is assigned to the Administrators group
 
 Optionally, you can log in as one of the example users that were created during the OVA deployment, if you used that option. The example users allow you to see what each type of role can do in vSphere Integrated Containers Management Portal.
 
-For more information about users and roles, see [Users and Roles](../vic_overview/introduction.md#usersandroles).
+For more information about users and roles, see [vSphere Integrated Containers Roles and Personas](../vic_overview/roles_and_personas.md).

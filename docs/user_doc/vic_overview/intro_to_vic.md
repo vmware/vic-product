@@ -58,7 +58,7 @@ With vSphere Integrated Containers:
 - The vSphere administrator identifies datastores, networking, and compute resources on a cluster that users can use for their Docker environment. 
 - The vSphere administrator uses the vSphere Integrated Containers plug-in for the vSphere Client or a command-line utility called `vic-machine` to install a small appliance, called a virtual container host (VCH). The VCH represents an authorization to use the infrastructure that they have identified, into which users can self-provision container workloads.
 - The appliance runs a secure remote Docker API, that is the only access that the user has to the vSphere infrastructure.
-- Instead of sending the user a Linux VM, the vSphere administrator sends them the IP address of the appliance, the port of the remote Docker API, and a certificate for secure access.
+- Instead of sending the user a Linux VM, the vSphere administrator sends them the IP address of the VCH, the port of the remote Docker API, and a certificate for secure access.
 
 In this scenario, the vSphere administrator has provided the user with a service portal. This is better for the user because they do not have to worry about isolation, patching, security, backup, and so on. It is better for the vSphere administrator because every container that the user deploys is a container VM. vSphere administrators can perform vMotion and monitor container VMs just like all of their other VMs.
 
@@ -66,7 +66,9 @@ If the user needs more compute capacity, in Scenario 1, the pragmatic choice is 
 
 vSphere Integrated Containers allows the vSphere administrator to select and dictate the appropriate infrastructure for the task in hand:
 
-- Networking: Select multiple port groups for different types of network traffic, ensuring that all of the containers that a user provisions get the appropriate interfaces on the right networks.
-- Storage: Select different vSphere datastores for different types of state. For example, container state is ephemeral and is unlikely to need to be backed up, but volume state almost certainly should be backed up. vSphere Integrated Containers automatically ensures that state gets written to the appropriate datastore when the user provisions a container.
+- **Networking**: Select multiple port groups for different types of network traffic, ensuring that all of the containers that a user provisions get the appropriate interfaces on the right networks.
+- **Storage**: Select different vSphere datastores for different types of state. For example, container state is ephemeral and is unlikely to need to be backed up, but volume state almost certainly should be backed up. vSphere Integrated Containers automatically ensures that state gets written to the appropriate datastore when the user provisions a container.
 
 To summarize, vSphere Integrated Containers gives vSphere administrators a mechanism that allows users to self-provision VMs as containers into the virtual infrastructure.
+
+**Next topic**: [Introduction to vSphere Integrated Containers Engine](intro_to_vic_engine.md)

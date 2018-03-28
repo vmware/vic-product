@@ -32,3 +32,5 @@ You can configure vSphere Integrated Containers Registry to perform garbage coll
 ## Logging <a id="logging"></a>
 
 vSphere Integrated Containers Registry keeps a log of every operation that users perform in a project. The logs are fully searchable, to assist you with activity auditing. For information about project logs, see [Access Project Logs](../vic_cloud_admin/access_project_logs.md).
+
+**Next topic**: [vSphere Integrated Containers Roles and Personas](roles_and_personas.md)

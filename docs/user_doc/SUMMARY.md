@@ -17,10 +17,9 @@
      * [Engine](vic_overview/intro_to_vic_engine.md)
      * [Management Portal](vic_overview/intro_to_vic_mp.md)
      * [Registry](vic_overview/intro_to_vic_registry.md)
-  * [Roles and Personas](vic_overview/roles_and_personas.md)
+     * [Roles and Personas](vic_overview/roles_and_personas.md)
 
 ----
-
 
 * [Install, Deploy, Maintain Infrastructure](vic_vsphere_admin/README.md)
  * [Installation](vic_vsphere_admin/installing_vic.md)
