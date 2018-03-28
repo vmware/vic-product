@@ -87,10 +87,10 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
 
 12. Enter the connection details for the vCenter Server instance on which you deployed the appliance.
 
-     - The address and single sign-on credentials of vCenter Server.
+     - The vCenter Server address and the Single Sign-on credentials for a vSphere administrator account.
      - If vCenter Server is managed by an external Platform Services Controller, enter the FQDN and administrator domain for the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, leave the External PSC text boxes empty.
 
-    **IMPORTANT**: The installation process requires the single sign-on credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller and to tag the appliance VM for use in Docker content trust. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
+    **IMPORTANT**: The installation process requires administrator credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller and to tag the appliance VM for use in Docker content trust. Administrator credentials are not stored on the appliance VM after use in the installation process. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
 
 12. Click **Continue** to initialize the appliance.
 
@@ -107,10 +107,12 @@ You see the vSphere Integrated Containers Getting Started page at http://<i>vic_
 - [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md).
 - [Install the vSphere Client Plug-ins](install_vic_plugin.md).
 - Log in to vSphere Integrated Containers Management Portal. For information about the management portal, see [Configure and Manage vSphere Integrated Containers](../vic_cloud_admin/).      
-- If necessary, you can reconfigure the appliance after deployment by editing the settings of the appliance VM. For information about reconfiguring the appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.md).   
+- If necessary, you can reconfigure the appliance after deployment by editing the settings of the appliance VM. For information about reconfiguring the appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.md).
+- If you need to deploy multiple appliances, you can use the initialization API to initialize appliances without manual intervention. For information about the initialization API, see [Initialize the Appliance by Using the Initialization API](ova_reg_api.md).
 
 **Troubleshooting**
 
 - If you do not see a green success banner at the top of the Getting Started page after initializing the appliance, the appliance has not initialized correctly. For more information, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md). You should not reinitialize the appliance in any circumstances other than those described in that topic.
 - To remove security warnings when you connect to the Getting Started page or management portal, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](obtain_appliance_certs.md) and [Verify and Trust vSphere Integrated Containers Appliance Certificates](../vic_cloud_admin/trust_vic_certs.md).
 - If you see a certificate error when you attempt to go to http://<i>vic_appliance_address</i>, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](ts_cert_error.md).
+- If you see Platform Services Controller token errors when you go to the vSphere Integrated Containers Management Portal, see [Connections Fail with Certificate or Platform Services Controller Token Errors](ts_clock_skew.md).

@@ -1,12 +1,27 @@
 # Automating Selenium Grid with vSphere Integrated Containers
 
-This is a simple [docker-compose](https://docs.docker.com/compose/) file that deploys a sample grid with one hub and one chrome and firefox node. It is very important to set the `COMPOSE_TLS_VERSION` correctly (e.g in `$HOME/.bashrc` ot `$HOME/.bash_profile`), otherwise you will get an error.
+This is a simple [docker-compose](https://docs.docker.com/compose/) file that deploys a sample grid with one hub and one chrome and firefox node. 
+
+
+### Set the COMPOSE_TLS_VERSION correctly
+
+It is very important to set the `COMPOSE_TLS_VERSION` correctly (e.g in `$HOME/.bashrc` ot `$HOME/.bash_profile`), otherwise you will get an error.
 
 ```
 export COMPOSE_TLS_VERSION=TLSv1_2
 ```
 
+### Point your docker client to the VCH
+
+```
+export DOCKER_HOST=<VCH_IP:port>
+
+e.g export DOCKER_HOST=10.158.204.227:2375
+```
+
+
 ### Start the hub and chrome/firefox nodes:
+Download the docker-compose.yml file and make sure the it is in the same directory from where you are running the docker-compose up -d command
 
 ```
 #!/bin/bash

@@ -14,7 +14,7 @@ After you log in, the VCH Admin portal displays information about the VCH and th
 
 - Status information about the VCH, registry and Internet connections,  firewall configuration, and license. For information about these statuses and how to remedy error states, see the [VCH Status Reference](vicadmin_status_ref.md).
 - The address of the Docker endpoint.
-- The system time of the VCH. This is useful to know because clock skews between VCHs and client systems can cause TLS authentication to fail. For information about clock skews, see [Connections Fail with Certificate Errors when Using Full TLS Authentication with Trusted Certificates](ts_clock_skew.md). 
+- The system time of the VCH. This is useful to know because clock skews between VCHs and client systems can cause TLS authentication to fail. For information about clock skews, see [Connections Fail with Certificate or Platform Services Controller Token Errors](ts_clock_skew.md). 
 - The remaining capacity of the datastore that you designated as the image store. If the VCH is unable to connect to vSphere, the datastore information is not displayed.
 - Live logs and log bundles for different aspects of the VCH. For information about the logs, see [Access vSphere Integrated Containers Engine Log Bundles](log_bundles.md).
 

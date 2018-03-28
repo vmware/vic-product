@@ -1,0 +1,49 @@
+# Initialize the Appliance by Using the Initialization API #
+
+The vSphere Integrated Containers appliance provides an API that allows you to initialize the appliance after deployment without having to manually enter information in the Getting Started page. This API helps you to automate the deployment of appliances without manual intervention.
+
+The appliance exposes the initialization API endpoint at http://<i>vic_appliance_address</i>:9443/register.
+
+**Prerequistes**
+
+You deployed an instance of the vSphere Integrated Containers appliance without completing the Platform Services Controller registration wizard that appears when you first go to http://<i>vic_appliance_address</i>.
+
+**Procedure**
+
+1. On your usual working system, create a file named `payload.json`, to include information about your vSphere environment.
+
+    vCenter Server with an embedded Platform Services Controller:<pre>{
+  "target":"<i>vcenter_server_address</i>",
+  "user":"<i>sso_administrator_account</i>",
+  "password":"<i>sso_administrator_password</i>"
+}</pre>
+
+    vCenter Server with an external Platform Services Controller:<pre>{
+  "target":"<i>vcenter_server_address</i>",
+  "user":"<i>sso_administrator_account</i>",
+  "password":"<i>sso_administrator_password</i>",
+  "externalpsc":"psc_address",
+  "pscdomain":"psc_domain"
+}</pre> 
+
+2. Run a `curl` command to pass the `payload.json` file to the initialization API endpoint.
+
+    Copy the command as shown, replacing <i>vic_appliance_address</i> with the address of the appliance.<pre>curl -k -w '%{http_code}' -d @payload.json https://<i>vic_appliance_address</i>:9443/register
+</pre>If successful, you see the message `operation complete
+200`. 
+
+**Result**
+
+The appliance initializes and registers with the Platforms Services Controller. After initialization, vSphere Integrated Containers services are available at  http://<i>vic_appliance_address</i>.
+
+**Example**
+
+Here is an example of a completed `payload.json` file: 
+
+<pre>{
+  "target":"vcenter-server1.mycompany.org",
+  "user":"Administrator@vsphere.local",
+  "password":"p@ssw0rd!",
+  "externalpsc":"psc1.mycompany.org",
+  "pscdomain":"vsphere.local"
+}</pre> 

@@ -42,7 +42,6 @@ MANUAL_DISK_MOVE=""
 
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S %z %Z")
 
-VER_1_1_1="v1.1.1"
 VER_1_2_1="v1.2.1"
 VER_1_3_0="v1.3.0"
 VER_1_3_1="v1.3.1"
@@ -65,7 +64,6 @@ function usage {
       [--destroy]:               Destroy the old appliance after upgrade is finished.
       [--manual-disks]:          Skip the automated govc disk migration.
     "
-    exit 1
 }
 
 function callRegisterEndpoint {
@@ -145,16 +143,18 @@ function enableServicesStart {
   systemctl start harbor.service
 }
 
-### Valid upgrade paths to v1.3.1
+### Valid upgrade paths to v1.4.0
 #   v1.2.1 /data/version has "appliance=v1.2.1"
 #   v1.3.0 /storage/data/version has "appliance=v1.3.0-3033-f8cc7317"
+#   v1.3.1 /storage/data/version has "appliance=v1.3.1-3409-132fb13d"
 ###
 function proceedWithUpgrade {
   checkUpgradeStatus "VIC Appliance" ${appliance_upgrade_status}
   local ver="$1"
 
-  if [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
-    echo "Detected valid upgrade path. Upgrade will perform data migration." | tee /dev/fd/3
+  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
+    echo "" | tee /dev/fd/3
+    echo "Detected old appliance's version as $ver." | tee /dev/fd/3
     echo -n "If the old appliance's version is not detected correctly, please enter \"n\" to abort the upgrade and contact VMware support." | tee /dev/fd/3
     while true; do
       echo "" | tee /dev/fd/3
@@ -179,19 +179,22 @@ function proceedWithUpgrade {
     return # continue with upgrade
   fi
 
-  echo -n "Detected old appliance's version $ver as 1.2.x or older." | tee /dev/fd/3
-  echo -n "Upgrade from this version is not a supported upgrade path." | tee /dev/fd/3
-  echo -n "If the old appliance's version is not detected correctly, please contact VMware support." | tee /dev/fd/3
+  echo "" | tee /dev/fd/3
+  echo "Detected old appliance's version $ver as 1.2.0 or older." | tee /dev/fd/3
+  echo "Upgrade from this version is not a supported upgrade path." | tee /dev/fd/3
+  echo "If the old appliance's version is not detected correctly, please contact VMware support." | tee /dev/fd/3
   exit 1
 }
 
-function prepareForUpgrade {
+# Copy files from old appliance for version check
+function prepareForAutomatedUpgrade {
   local tmpdir="$1"
   local username="$2"
   local ip="$3"
-  # setup ssh access
-  echo "Please enter the vic appliance password for user $username at ip $ip" | tee /dev/fd/3
-  
+
+  # Add automation key
+  echo "Please enter the VIC appliance password for user $username at ip $ip" | tee /dev/fd/3
+
   mkdir -p  ~/.ssh
   [ ! -f ~/.ssh/id_rsa ] && ssh-keygen -b 4096 -f ~/.ssh/id_rsa -t rsa -N '' -C 'VIC Appliance Upgrade Automation Key'
   KEY_FILE=$(cat ~/.ssh/id_rsa.pub)
@@ -201,17 +204,33 @@ function prepareForUpgrade {
     "/etc/vmware/version"
     "/storage/data/version"
     "/storage/data/admiral/configs/psc-config.properties"
+    "/data/version"  # Remove after end of 1.2.1 support
+    "/data/admiral/configs/psc-config.properties"  # Remove after end of 1.2.1 support
   )
-  for file in ${files[@]}; do
-    mkdir -p "$tmpdir$(dirname $file)"
-    scp "$username@$ip":"$file" "$tmpdir$file"
+  for file in "${files[@]}"; do
+    mkdir -p "$tmpdir$(dirname "$file")"
+    set +e  # Copying files from /data will fail, remove after end of 1.2.1 support
+    scp "$username@$ip:$file" "$tmpdir$file"
+    set -e
   done
 
-   ssh "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
-   rm ~/.ssh/id_rsa
+  # Remove automation key
+  ssh "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
+  rm ~/.ssh/id_rsa
+
+  # Expect 3 files in temp dir
+  local count=0
+  count=$(find "$tmpdir" -type f | wc -l)
+  if [ "$count" -ne 3 ]; then
+    echo "Failed to gather information about old VIC appliance" | tee /dev/fd/3
+    echo "Please contact VMware support" | tee /dev/fd/3
+    exit 1
+  fi
 }
 
 function moveDisks {
+  local ver="$1"
+
   systemctl disable vic-mounts.target
   systemctl stop vic-mounts.target
 
@@ -221,52 +240,116 @@ function moveDisks {
   myip=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
 
   OLD_VM_NAME=$(govc vm.info -json -vm.ip $APPLIANCE_TARGET | jq -r ".VirtualMachines[].Name")
-  OLD_DATASTORE=$(govc vm.info -json $OLD_VM_NAME | jq -r ".VirtualMachines[].Config.DatastoreUrl[0].Name")
+  OLD_DATASTORE=$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Config.DatastoreUrl[0].Name")
+  echo "OLD_VM_NAME: $OLD_VM_NAME"
+  echo "OLD_DATASTORE: $OLD_DATASTORE"
 
-  NEW_VM_NAME=$(govc vm.info -json -vm.ip $myip | jq -r ".VirtualMachines[].Name")
-  NEW_DATASTORE=$(govc vm.info -json $NEW_VM_NAME | jq -r ".VirtualMachines[].Config.DatastoreUrl[0].Name")
+  NEW_VM_NAME=$(govc vm.info -json -vm.ip "$myip" | jq -r ".VirtualMachines[].Name")
+  NEW_DATASTORE=$(govc vm.info -json "$NEW_VM_NAME" | jq -r ".VirtualMachines[].Config.DatastoreUrl[0].Name")
+  echo "NEW_VM_NAME: $NEW_VM_NAME"
+  echo "NEW_DATASTORE: $NEW_DATASTORE"
 
-  govc vm.power -s=true $OLD_VM_NAME
+  if [ -z "$OLD_VM_NAME" ] || [ -z "$OLD_DATASTORE" ] || [ -z "$NEW_VM_NAME" ] || [ -z "$NEW_DATASTORE" ]; then
+    echo "Failed to gather environment information about old or new VIC appliance" | tee /dev/fd/3
+    echo "Please contact VMware support" | tee /dev/fd/3
+    exit 1
+  fi
 
-  while [ $(govc vm.info -json $OLD_VM_NAME | jq -r ".VirtualMachines[].Runtime.PowerState") != "poweredOff" ]; do
-    echo "Wating for old vm to power off.." | tee /dev/fd/3
+  govc vm.power -s=true "$OLD_VM_NAME"
+  while [ "$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Runtime.PowerState")" != "poweredOff" ]; do
+    echo "Waiting for old VIC appliance to power off" | tee /dev/fd/3
     sleep 15
   done
 
   # detach new disks
-  NEW_DATA_DISK=$(govc vm.info -json $NEW_VM_NAME | jq -r ".VirtualMachines[].Layout.Disk[1].DiskFile[0]" | awk '{print $2}')
-  NEW_DB_DISK=$(govc vm.info -json $NEW_VM_NAME | jq -r ".VirtualMachines[].Layout.Disk[2].DiskFile[0]" | awk '{print $2}')
-  NEW_LOG_DISK=$(govc vm.info -json $NEW_VM_NAME | jq -r ".VirtualMachines[].Layout.Disk[3].DiskFile[0]" | awk '{print $2}')
-  disks=$(govc device.ls -vm=$NEW_VM_NAME | grep disk- | tail -n +2 | awk {'print $1'})
-  echo $disks | while read disk; do
-    govc device.remove -vm=$NEW_VM_NAME $disk
+  NEW_DATA_DISK=$(govc vm.info -json "$NEW_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[1].DiskFile[0]" | awk '{print $NF}')
+  echo "NEW_DATA_DISK: $NEW_DATA_DISK"
+  NEW_DB_DISK=$(govc vm.info -json "$NEW_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[2].DiskFile[0]" | awk '{print $NF}')
+  echo "NEW_DB_DISK: $NEW_DB_DISK"
+  NEW_LOG_DISK=$(govc vm.info -json "$NEW_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[3].DiskFile[0]" | awk '{print $NF}')
+  echo "NEW_LOG_DISK: $NEW_LOG_DISK"
+
+  disks=$(govc device.ls -vm="$NEW_VM_NAME" | grep disk- | tail -n +2 | awk '{print $1}')
+  # Expected result:
+  # disk-1000-1
+  # disk-1000-2
+  # disk-1000-3
+  count=$(echo "$disks" | wc -l)
+  if [ "$count" -ne 3 ]; then
+    echo "Failed to find the correct number of disks on the new VIC appliance" | tee /dev/fd/3
+    echo "Please contact VMware support" | tee /dev/fd/3
+    exit 1
+  fi
+
+  echo "$disks" | while read disk; do
+    # For 1.2.1 only remove data disk, remove this after end of 1.2.1 support
+    if [[ "$disk" =~ -1$ ]]; then
+      echo "Remove disk $disk from $NEW_VM_NAME"
+      govc device.remove -vm="$NEW_VM_NAME" "$disk"
+    fi
+    # Only remove log and database disks from 1.3.0 and greater
+    if [[ ( "$disk" =~ -2$ || "$disk" =~ -3$ ) && ( "$ver" == "$VER_1_3_0"  ||  "$ver" == "$VER_1_3_1" ) ]]; then
+      echo "Remove disk $disk from $NEW_VM_NAME"
+      govc device.remove -vm="$NEW_VM_NAME" "$disk"
+    fi
   done
 
-  # copy old disks to new disks
-  echo "Migrating old disks to new vic-appliance..." | tee /dev/fd/3
-  OLD_DATA_DISK=$(govc vm.info -json $OLD_VM_NAME | jq -r ".VirtualMachines[].Layout.Disk[1].DiskFile[0]" | awk '{print $2}')
-  OLD_DB_DISK=$(govc vm.info -json $OLD_VM_NAME | jq -r ".VirtualMachines[].Layout.Disk[2].DiskFile[0]" | awk '{print $2}')
-  OLD_LOG_DISK=$(govc vm.info -json $OLD_VM_NAME | jq -r ".VirtualMachines[].Layout.Disk[3].DiskFile[0]" | awk '{print $2}')
-  govc datastore.cp -ds $OLD_DATASTORE -ds-target $NEW_DATASTORE $OLD_DATA_DISK $NEW_DATA_DISK || ( echo "Disk copy failed. Please try again. Exiting..." | tee /dev/fd/3 && exit 1)
-  govc datastore.cp -ds $OLD_DATASTORE -ds-target $NEW_DATASTORE $OLD_DB_DISK $NEW_DB_DISK || ( echo "Disk copy failed. Please try again. Exiting..." | tee /dev/fd/3 && exit 1)
-  govc datastore.cp -ds $OLD_DATASTORE -ds-target $NEW_DATASTORE $OLD_LOG_DISK $NEW_LOG_DISK || ( echo "Disk copy failed. Please try again. Exiting..." | tee /dev/fd/3 && exit 1)
+  echo "Migrating old disks to new VIC appliance..." | tee /dev/fd/3
+  OLD_DATA_DISK=$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[1].DiskFile[0]" | awk '{print $NF}')
+  echo "OLD_DATA_DISK: $OLD_DATA_DISK"
+  if [ -z "$OLD_DATA_DISK" ]; then
+    echo "Failed to gather information about disks on the old VIC appliance" | tee /dev/fd/3
+    echo "Please contact VMware support" | tee /dev/fd/3
+    exit 1
+  fi
 
-  govc vm.disk.attach -vm=$NEW_VM_NAME -ds $NEW_DATASTORE -disk $NEW_DATA_DISK
-  govc vm.disk.attach -vm=$NEW_VM_NAME -ds $NEW_DATASTORE -disk $NEW_DB_DISK
-  govc vm.disk.attach -vm=$NEW_VM_NAME -ds $NEW_DATASTORE -disk $NEW_LOG_DISK
-  echo "Disk migration successful to new vic-appliance." | tee /dev/fd/3
+  if [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
+    OLD_DB_DISK=$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[2].DiskFile[0]" | awk '{print $NF}')
+    echo "OLD_DB_DISK: $OLD_DB_DISK"
+    OLD_LOG_DISK=$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[3].DiskFile[0]" | awk '{print $NF}')
+    echo "OLD_LOG_DISK: $OLD_LOG_DISK"
+    if [ -z "$OLD_DB_DISK" ] || [ -z "$OLD_LOG_DISK" ]; then
+      echo "Failed to gather information about disks on the old VIC appliance" | tee /dev/fd/3
+      echo "Please contact VMware support" | tee /dev/fd/3
+      exit 1
+    fi
+  fi
 
+  echo "Copying old data disk. Please wait." | tee /dev/fd/3
+  govc datastore.cp -ds "$OLD_DATASTORE" -ds-target "$NEW_DATASTORE" "$OLD_DATA_DISK" "$NEW_DATA_DISK" || ( echo "Failed to copy data disk. Please try again. Exiting..." | tee /dev/fd/3 && exit 1)
+  if [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
+    echo "Copying old database disk. Please wait." | tee /dev/fd/3
+    govc datastore.cp -ds "$OLD_DATASTORE" -ds-target "$NEW_DATASTORE" "$OLD_DB_DISK" "$NEW_DB_DISK" || ( echo "Failed to copy database disk. Please try again. Exiting..." | tee /dev/fd/3 && exit 1)
+    echo "Copying old log disk. Please wait." | tee /dev/fd/3
+    govc datastore.cp -ds "$OLD_DATASTORE" -ds-target "$NEW_DATASTORE" "$OLD_LOG_DISK" "$NEW_LOG_DISK" || ( echo "Failed to copy log disk. Please try again. Exiting..." | tee /dev/fd/3 && exit 1)
+  fi
+
+  # TODO rename to new version
+  echo "Attaching migrated disks to new VIC appliance"
+  govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_DATA_DISK" || (echo "Failed to attach data disk" | tee /dev/fd/3 && exit 1)
+  if [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
+    govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_DB_DISK" || (echo "Failed to attach database disk" | tee /dev/fd/3 && exit 1)
+    govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_LOG_DISK" || (echo "Failed to attach log disk" | tee /dev/fd/3 && exit 1)
+  fi
+  echo "Finished attaching migrated disks to new VIC appliance" | tee /dev/fd/3
+
+  echo "Mounting migrated disks" | tee /dev/fd3
   systemctl enable vic-mounts.target
   systemctl start vic-mounts.target
   systemctl --no-block start vic-appliance.target
+  echo "Finished mounting migrated disks" | tee /dev/fd3
 }
 
 function main {
 
-  ### ------------------ ###
-  ###  Appliance Upgrade ###
-  ### ------------------ ###
-
+  local new_ver=""
+  local tag=""
+  new_ver=$(readKeyValue "appliance" "/etc/vmware/version")
+  tag=$(getTagVersion "$new_ver")
+  echo "-------------------------------" | tee /dev/fd3
+  echo "VIC Appliance Upgrade to $tag" | tee /dev/fd3
+  echo "-------------------------------" | tee /dev/fd3
+  echo "" | tee /dev/fd3
   firstboot="/etc/vmware/firstboot"
   if [ ! -f "$firstboot" ]; then
     echo "Appliance services not ready. Please wait until vic-appliance-load-docker-images.service has completed."
@@ -326,15 +409,13 @@ function main {
         ;;
       -h|--help|*)
         usage
+        exit 0
         ;;
     esac
     shift # past argument or value
   done
 
   [ -z "${VCENTER_TARGET}" ] && read -p "Enter vCenter Server FQDN or IP: " VCENTER_TARGET
-  [ -z "${VCENTER_DATACENTER}" ] && read -p "Enter vCenter Datacenter of the old vic-appliance: " VCENTER_DATACENTER
-  export GOVC_DATACENTER="$VCENTER_DATACENTER"
-
   [ -z "${VCENTER_USERNAME}" ] && read -p "Enter vCenter Administrator Username: " VCENTER_USERNAME
   if [ -z "$VCENTER_PASSWORD" ] ; then
     echo -n "Enter vCenter Administrator Password: "
@@ -345,46 +426,50 @@ function main {
   [ -z "${EXTERNAL_PSC}" ] && read -p "If using an external PSC, enter the FQDN of the PSC instance (leave blank otherwise): " EXTERNAL_PSC
   [ -z "${PSC_DOMAIN}" ] && read -p "If using an external PSC, enter the PSC Admin Domain (leave blank otherwise): " PSC_DOMAIN
 
+  export GOVC_TLS_KNOWN_HOSTS=/tmp/govc_known_hosts
+  export GOVC_URL="$VCENTER_USERNAME:$VCENTER_PASSWORD@$VCENTER_TARGET"
+  fingerprint=$(getFingerprint)
+  echo -e "\nPlease verify the vCenter IP and TLS fingerprint: ${fingerprint}"
+  read -p "Is the fingerprint correct? (y/n): " resp
+  if [ "$resp" != "y" ]; then
+    echo "TLS connection is not secure, unable to proceed with upgrade. Please contact VMware support. Exiting..."
+    exit 1
+  fi
+  echo "${fingerprint}" > $GOVC_TLS_KNOWN_HOSTS
+
+  [ -z "${VCENTER_DATACENTER}" ] && read -p "Enter vCenter Datacenter of the old VIC appliance: " VCENTER_DATACENTER
+  export GOVC_DATACENTER="$VCENTER_DATACENTER"
   [ -z "${APPLIANCE_TARGET}" ] && read -p "Enter old VIC appliance FQDN or IP: " APPLIANCE_TARGET
-  [ -z "${APPLIANCE_USERNAME}" ] && read -p "Enter old VIC appliance Username: " APPLIANCE_USERNAME
+  [ -z "${APPLIANCE_USERNAME}" ] && read -p "Enter old VIC appliance username: " APPLIANCE_USERNAME
 
   if [ -n "${DESTROY_ENABLED}" ] ; then
     local resp=""
-    read -p "You have set the destroy option. This will delete the old appliance after upgrade. Are you sure? (y/n):" resp
+    read -p "Destroy option enabled. This will delete the old VIC appliance after upgrade. Are you sure? (y/n):" resp
     if [ "$resp" != "y" ]; then
       echo "Exiting..."
       exit 1
     fi
   fi
 
-  thumbprint=$(openssl s_client -connect ${VCENTER_TARGET}:443 < /dev/null 2>/dev/null | openssl x509 -fingerprint -noout -in /dev/stdin)
-  echo -e "\nPlease verify the vCenter TLS fingerprint: ${thumbprint}"
-  read -p "Is the fingerprint correct? (y/n):" resp
-  if [ "$resp" != "y" ]; then
-    echo "TLS connection is not secure, unable to proceed with upgrade. Please contact VMware support. Exiting..."
-    exit 1
-  fi
-
-  export GOVC_INSECURE=1
-  export GOVC_URL="$VCENTER_USERNAME:$VCENTER_PASSWORD@$VCENTER_TARGET"
-
   systemctl start docker.service
 
   exec 3>&1 1>>${upgrade_log_file} 2>&1
   echo -e "\n-------------------------\nStarting upgrade ${TIMESTAMP}" | tee /dev/fd/3
-  
+
   # default to manual use case, where old disks root is current root.
   OLD_APP_DIR="/"
 
   # In the automated use case, scp the version files from the old appliance to a tmpdir.
   if [ -z "${MANUAL_DISK_MOVE}" ]; then
     OLD_APP_DIR=$(mktemp -d)
-    prepareForUpgrade "$OLD_APP_DIR" "$APPLIANCE_USERNAME" "$APPLIANCE_TARGET"
+    prepareForAutomatedUpgrade "$OLD_APP_DIR" "$APPLIANCE_USERNAME" "$APPLIANCE_TARGET"
   fi
+
+  local ver=""
   ver=$(getApplianceVersion "$OLD_APP_DIR")
-  proceedWithUpgrade $ver
+  proceedWithUpgrade "$ver"
   if [ -z "${MANUAL_DISK_MOVE}" ]; then
-    moveDisks "$APPLIANCE_USERNAME" "$APPLIANCE_TARGET"
+    moveDisks "$APPLIANCE_USERNAME" "$APPLIANCE_TARGET" "$ver"
   fi
 
   echo "Preparing upgrade environment" | tee /dev/fd/3
@@ -409,18 +494,39 @@ function main {
   enableServicesStart
 
   if [ -n "${DESTROY_ENABLED}" ] ; then
-    echo "Deleting the old appliance..." | tee /dev/fd/3
-
-    govc vm.destroy $VM_NAME
-
-    echo "Old appliance deleted." | tee /dev/fd/3
+    echo "Destroying the old VIC appliance" | tee /dev/fd/3
+    govc vm.destroy "$VM_NAME"
+    echo "Old VIC appliance destroyed" | tee /dev/fd/3
   fi
 
   # TODO: Add Admiral Health Check
-  echo "Upgrade script complete. Exiting." | tee /dev/fd/3
-  echo "-------------------------"
-  echo ""
+
+  # Completed successfully
+  rc=0 # Set good return code
   exit 0
 }
+
+function finish() {
+  set +e
+  if [ "$rc" -eq 0 ]; then
+    echo "" | tee /dev/fd/3
+    echo "-------------------------" | tee /dev/fd/3
+    echo "Upgrade completed successfully. Exiting." | tee /dev/fd/3
+    echo "-------------------------" | tee /dev/fd/3
+    echo "" | tee /dev/fd/3
+  else
+    echo "" | tee /dev/fd/3
+    echo "-------------------------" | tee /dev/fd/3
+    echo "Upgrade failed." | tee /dev/fd/3
+    echo "Please save ${upgrade_log_file} and contact VMware support." | tee /dev/fd/3
+    echo "-------------------------" | tee /dev/fd/3
+    echo "" | tee /dev/fd/3
+  fi
+
+  exit $rc
+}
+
+rc=1  # Default return code
+trap finish EXIT HUP INT TERM
 
 main "$@"

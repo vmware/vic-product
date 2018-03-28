@@ -106,6 +106,7 @@ function getFailedLogs {
 function getPrivateFiles {
   echo "Including private values in log bundle"
 
+  commandToFile "ovfenv" "ovfenv" "appliance"
   commandToFile "openssl x509 -in /storage/data/certs/ca.crt -text -noout" "ca.crt" "certs"
   commandToFile "openssl x509 -in /storage/data/certs/server.crt -text -noout" "server.crt" "certs"
   commandToFile "cat /storage/data/certs/cert_gen_type" "cert_gen_type" "certs"
@@ -129,7 +130,6 @@ function getDiagInfo {
   commandToFile "hostnamectl" "hostnamectl" "appliance"
   commandToFile "timedatectl" "timedatectl" "appliance"
   commandToFile "ip address show" "ip_addr" "appliance"
-  commandToFile "ovfenv" "ovfenv" "appliance"
   commandToFile "cat /etc/vmware/environment" "environment" "appliance"
   commandToFile "cat /etc/vmware/firstboot" "firstboot" "appliance"
   commandToFile "uptime" "uptime" "appliance"
