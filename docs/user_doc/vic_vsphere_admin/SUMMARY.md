@@ -102,7 +102,7 @@
      * [Plug-In Does Not Appear](ts_ui_not_appearing.md)
      * [Some Users Cannot Access Services](ts_no_access_to_vic_services.md)
      * [Deleting or Inspecting a VCH Fails](ts_delete_inspect_error.md)
-     * [Certificate Errors when Using Full TLS Authentication with Trusted Certificates](ts_clock_skew.md)
+     * [Certificate and PSC Token Errors](ts_clock_skew.md)
      * [Appliance VM Password Refused](ts_appliance_password_refused.md)
      * [Default Volume Store Error](ts_volume_store_error.md)
      * [Docker Login Fails](ts_dockerlogin_error.md)

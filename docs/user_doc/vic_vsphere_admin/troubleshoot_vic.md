@@ -19,7 +19,7 @@ This section provides solutions for common problems that you might encounter dur
 * [vSphere Integrated Containers Plug-Ins Not Deploying Correctly](ts_ui_not_appearing.md)
 * [Some Users Cannot Access vSphere Integrated Containers Services](ts_no_access_to_vic_services.md)
 * [Deleting or Inspecting a VCH Fails with a Not a VCH or Resource Pool Not Found Error](ts_delete_inspect_error.md)
-* [Connections Fail with Certificate Errors when Using Full TLS Authentication with Trusted Certificates](ts_clock_skew.md)
+* [Connections Fail with Certificate or Platform Services Controller Token Errors](ts_clock_skew.md)
 * [vSphere Integrated Containers Appliance VM Password Refused](ts_appliance_password_refused.md)
 * [Default Volume Store Error](ts_volume_store_error.md)
 * [Logging in to vSphere Integrated Containers Registry from Docker Fails](ts_dockerlogin_error.md)
