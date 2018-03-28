@@ -8,6 +8,7 @@ This section provides solutions for common problems that you might encounter dur
 * [VCH Deployment Times Out](ts_vch_deployment_timeout.md)
 * [Appliance OVF Error](ts_ovf_error.md)
 * [VCH Deployment Fails with a Certificate Verification Error](ts_thumbprint_error.md)
+* [Recover the Root Password for the vSphere Integrated Containers Appliance](ts_recover_password.md)
 * [Browser Rejects Certificates with ERR_CERT_INVALID Error](ts_cert_error.md)
 * [VCH Deployment Fails with Missing Common Name Error Even When TLS Options Are Specified Correctly](ts_cli_argument_error.md)
 * [VCH Deployment Fails with Firewall Validation Error](ts_firewall_error.md)

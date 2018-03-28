@@ -103,6 +103,7 @@
          * [Mount an NFS Share Point](vic_vsphere_admin/vch_mount_nfsshare.md)
      * [VCH Deployment Times Out](vic_vsphere_admin/ts_vch_deployment_timeout.md)
      * [Appliance OVF Error](vic_vsphere_admin/ts_ovf_error.md)
+     * [Recover Appliance Password](vic_vsphere_admin/ts_recover_password.md)
      * [Certificate Verification Error](vic_vsphere_admin/ts_thumbprint_error.md)
      * [Browser Rejects Certificates](vic_vsphere_admin/ts_cert_error.md)
      * [Missing Common Name Error Even When TLS Options Are Specified Correctly](vic_vsphere_admin/ts_cli_argument_error.md)
