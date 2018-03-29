@@ -36,7 +36,7 @@ function build_app {
     ROOT=$1
     DATA=$2
 
-    log2 "run in chroot ${brprpl}build-app.sh${creset}"
+    log2 "run in chroot ${brprpl}build-app.sh${reset}"
     [ -e "${ROOT}/dev/console" ] || mknod -m 600 "${ROOT}/dev/console" c 5 1
     [ -e "${ROOT}/dev/null" ]    || mknod -m 666 "${ROOT}/dev/null" c 1 3
     [ -e "${ROOT}/dev/random" ]  || mknod -m 444 "${ROOT}/dev/random" c 1 8

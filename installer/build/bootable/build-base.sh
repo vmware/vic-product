@@ -24,15 +24,15 @@ function set_base() {
   tgt="${rt}/build"
 
   log2 "preparing install stage"
-  log3 "configuring ${brprpl}tdnf${creset}"
+  log3 "configuring ${brprpl}tdnf${reset}"
   install -D --mode=0644 --owner=root --group=root /etc/pki/rpm-gpg/VMWARE-RPM-GPG-KEY "${rt}/etc/pki/rpm-gpg/VMWARE-RPM-GPG-KEY"
   mkdir -p "${rt}/var/lib/rpm"
   mkdir -p "${rt}/cache/tdnf"
-  log3 "initializing ${brprpl}rpm db${creset}"
+  log3 "initializing ${brprpl}rpm db${reset}"
   rpm --root "${rt}/" --initdb
   rpm --root "${rt}/" --import "${rt}/etc/pki/rpm-gpg/VMWARE-RPM-GPG-KEY"
 
-  log3 "configuring ${brprpl}yum repos${creset}"
+  log3 "configuring ${brprpl}yum repos${reset}"
   mkdir -p "${rt}/etc/yum.repos.d/"
   rm /etc/yum.repos.d/{photon,photon-updates}.repo
   cp "${DIR}"/repo/*-remote.repo /etc/yum.repos.d/
@@ -48,11 +48,11 @@ function set_base() {
   log3 "verifying yum and tdnf setup"
   tdnf repolist --refresh
 
-  log3 "installing ${brprpl}filesystem bash shadow coreutils findutils${creset}"
+  log3 "installing ${brprpl}filesystem bash shadow coreutils findutils${reset}"
   tdnf install --installroot "${rt}/" --refresh -y \
     filesystem bash shadow coreutils findutils
   
-  log3 "installing ${brprpl}systemd linux-esx tdnf ca-certificates sed gzip tar glibc${creset}"
+  log3 "installing ${brprpl}systemd linux-esx tdnf ca-certificates sed gzip tar glibc${reset}"
   tdnf install --installroot "${rt}/" --refresh -y \
     systemd util-linux \
     pkgconfig dbus cpio\
@@ -65,7 +65,7 @@ function set_base() {
     krb5 motd procps-ng \
     bc kmod libdb
 
-  log3 "installing ${brprpl}tzdata glibc-lang vim${creset}"
+  log3 "installing ${brprpl}tzdata glibc-lang vim${reset}"
   tdnf install --installroot "${rt}/" --refresh -y \
     tzdata glibc-lang vim
 
@@ -84,7 +84,7 @@ function set_base() {
   tdnf install --installroot "${rt}/" --refresh -y \
     openjre python-pip
 
-  log3 "installing ${brprpl}root${creset}"
+  log3 "installing ${brprpl}root${reset}"
   cp -a "${src}/root" "${tgt}/"
 }
 

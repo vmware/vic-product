@@ -17,19 +17,9 @@
 
 set -eu -o pipefail +h
 
-brwhte="$(tput setaf 15)"
-brblue="$(tput setaf 12)"
-bryllw="$(tput setaf 11)"
-brprpl="$(tput setaf 13)"
-creset="$(tput sgr0)"
-
-warrow="${brwhte}=>${creset}"
-barrow="${brblue}==>${creset}"
-yarrow="${bryllw} ->${creset}"
-
-# my custom logging script
 escape="\033[";
 reset="${escape}0m";
+brprpl="${reset}${escape}0;00;95m"
 
 declare -A text_colors=(
     [default]="0;39"
@@ -69,8 +59,7 @@ function log () {
 
     shift $((OPTIND-1))
 
-
-    printf "${escape}${text_styles[$STYLE]}${text_colors[$COLOR]}m%s${reset}${break}" "$*"  | tee /dev/fd/3 2>/dev/null || true;
+    echo -ne "${escape}${text_styles[$STYLE]}${text_colors[$COLOR]}m$*${reset}${break}"; | tee /dev/fd/3 2>/dev/null || true;
 }
 
 function log1 () {

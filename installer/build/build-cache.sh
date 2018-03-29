@@ -17,15 +17,12 @@
 set -e -o pipefail +h && [ -n "$DEBUG" ] && set -x
 DIR=$(dirname $(readlink -f "$0"))
 
-brwhte="$(tput setaf 15)"
-brblue="$(tput setaf 12)"
-bryllw="$(tput setaf 11)"
-brprpl="$(tput setaf 13)"
-creset="$(tput sgr0)"
+brprpl="\033[0;00;95m"
+reset="\033[0m"
 
-warrow="${brwhte}=>${creset}"
-barrow="${brblue}==>${creset}"
-yarrow="${bryllw} ->${creset}"
+warrow="\033[0;00;97m=>\033[0m"
+barrow="\033[0;00;94m=>\033[0m"
+yarrow="\033[0;00;93m=>\033[0m"
 
 # cache docker images
 images=(
@@ -59,14 +56,14 @@ function cacheImages() {
   timecho "${warrow} caching container images"
   mkdir -p ${CACHE}/docker/
   for img in "${images[@]}"; do
-    timecho "${barrow} checking cache for ${brprpl}${img}${creset} archive"
+    timecho "${barrow} checking cache for ${brprpl}${img}${reset} archive"
     archive="${CACHE}/docker/$(echo "${img##*/}" | tr ':' '-').tar.gz"
-    timecho "${yarrow} pulling ${brprpl}${img}${creset}"
+    timecho "${yarrow} pulling ${brprpl}${img}${reset}"
     pull=$(docker pull "$img")
     if [[ -f "$archive" && "$pull" == *"Image is up to date"* ]]; then
-      timecho "${yarrow} cache is up to date - not saving ${brprpl}${img}${creset}"
+      timecho "${yarrow} cache is up to date - not saving ${brprpl}${img}${reset}"
     else
-      timecho "${yarrow} saving ${brprpl}${archive##*/}${creset}"
+      timecho "${yarrow} saving ${brprpl}${archive##*/}${reset}"
       docker save "$img" | gzip > "$archive"
     fi
     timecho "${warrow} ${img} details \n$(docker images --digests -f "dangling=false" --format "tag: {{.Tag}}, digest: {{.Digest}}, age: {{.CreatedSince}}" $(echo ${img} | cut -d ':' -f1))\n"
@@ -79,12 +76,12 @@ function cacheOther() {
   timecho "${warrow} caching other dependencies"
   for download in "${downloads[@]}"; do
     filename=$(basename "${download}")
-    timecho "${barrow} checking cache for ${brprpl}${filename}${creset} archive"
+    timecho "${barrow} checking cache for ${brprpl}${filename}${reset} archive"
     archive="${CACHE}/${filename}"
     if [ -f "$archive" ]; then
-      timecho "${yarrow} cache is up to date - not saving ${brprpl}${filename}${creset}"
+      timecho "${yarrow} cache is up to date - not saving ${brprpl}${filename}${reset}"
     else
-      timecho "${yarrow} downloading and saving ${brprpl}${filename}${creset}"
+      timecho "${yarrow} downloading and saving ${brprpl}${filename}${reset}"
       set +e
       basefile=$(ls "$(dirname "$archive")/$(echo "${filename}" | cut -f1 -d"-" | cut -f1 -d"_" | cut -f1 -d".")"* 2>/dev/null)
       [ $? -eq 0 ] && [ -f "$basefile" ] && rm "$basefile"*

@@ -32,17 +32,17 @@ echo 'root:Vmw@re!23' | chpasswd
 log3 "configuring password expiration"
 chage -I -1 -m 0 -M 99999 -E -1 root
 
-log3 "configuring ${brprpl}UTC${creset} timezone"
+log3 "configuring ${brprpl}UTC${reset} timezone"
 ln --force --symbolic /usr/share/zoneinfo/UTC /etc/localtime
-log3 "configuring ${brprpl}en_US.UTF-8${creset} locale"
+log3 "configuring ${brprpl}en_US.UTF-8${reset} locale"
 /usr/bin/touch /etc/locale.conf
 /bin/echo "LANG=en_US.UTF-8" > /etc/locale.conf
 /sbin/locale-gen.sh
 
-log3 "configuring ${brprpl}haveged${creset}"
+log3 "configuring ${brprpl}haveged${reset}"
 systemctl enable haveged
 
-log3 "configuring ${brprpl}sshd${creset}"
+log3 "configuring ${brprpl}sshd${reset}"
 echo "UseDNS no" >> /etc/ssh/sshd_config
 systemctl enable sshd
 

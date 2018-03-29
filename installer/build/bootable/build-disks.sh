@@ -23,7 +23,7 @@ function setup_grub() {
   device="${1}p2"
   root=$2
 
-  log3 "install grub to ${brprpl}${root}/boot${creset} on ${brprpl}${disk}${creset}"
+  log3 "install grub to ${brprpl}${root}/boot${reset} on ${brprpl}${disk}${reset}" 
   mkdir -p "${root}/boot/grub2"
   ln -sfv grub2 "${root}/boot/grub"
   grub2-install --target=i386-pc --modules "part_gpt gfxterm vbe tga png ext2" --no-floppy --force --boot-directory="${root}/boot" "$disk"
@@ -94,7 +94,7 @@ function create_disk() {
 
   losetup -f || ( echo "Cannot setup loop devices" && exit 1 )
 
-  log3 "allocating raw image of ${brprpl}${disk_size}${creset}"
+  log3 "allocating raw image of ${brprpl}${disk_size}${reset}"
   fallocate -l "$disk_size" -o 1024 "$img"
 
   log3 "wiping existing filesystems"
@@ -116,7 +116,7 @@ function create_disk() {
   log3 "formatting linux partition"
   mkfs.ext4 -F "${disk}p$part_num" 
 
-  log3 "mounting partition ${brprpl}${disk}p$part_num${creset} at ${brprpl}${mp}${creset}"
+  log3 "mounting partition ${brprpl}${disk}p$part_num${reset} at ${brprpl}${mp}${reset}"
   mkdir -p "$mp"
   mount "${disk}p$part_num" "$mp"
 
@@ -138,10 +138,10 @@ function convert() {
     umount -R "${mount}/" >/dev/null 2>&1
   fi
 
-  log3 "release loopback device ${brprpl}${dev}${creset}"
+  log3 "release loopback device ${brprpl}${dev}${reset}"
   losetup -d "$dev"
 
-  log3 "converting raw image ${brprpl}${raw}${creset} into ${brprpl}${vmdk}${creset}"
+  log3 "converting raw image ${brprpl}${raw}${reset} into ${brprpl}${vmdk}${reset}"
   qemu-img convert -f raw -O vmdk -o 'compat6,adapter_type=lsilogic,subformat=streamOptimized' "$raw" "$vmdk"
   rm "$raw"
 }

@@ -15,6 +15,7 @@
 
 # this file is responsible for parsing cli args and spinning up a build container
 # wraps bootable/build-main.sh in a docker container
+DEBUG=${DEBUG:-}
 set -e -o pipefail +h && [ -n "$DEBUG" ] && set -x
 ROOT_DIR="$GOPATH/src/github.com/vmware/vic-product/"
 ROOT_WORK_DIR="/go/src/github.com/vmware/vic-product/"
