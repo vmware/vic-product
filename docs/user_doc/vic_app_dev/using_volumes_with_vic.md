@@ -163,6 +163,8 @@ If your volume store is in an NFS share point, sharing volumes between container
 
 <pre>docker volume create --opt volumestore=<i>nfs_volumestore_name</i></pre>
 
+**NOTE**: vSphere Integrated Containers mounts NFS volumes as `root`. Consequently, if containers are to run as non-root users, the volume  store must be configured with the correct permissions so that the non-root users can access it.
+
 ## Obtain Information About a Volume <a id="inspect_vol"></a>
 To get information about a volume, run `docker volume inspect` and specify the name of the volume.
 <pre>docker -H <i>virtual_container_host_address</i>:2376 --tls 
