@@ -2,7 +2,7 @@
 
 # Deploy Virtual Container Hosts #
 
-In vSphere Integrated Containers, you deploy virtual container hosts (VCHs) that serve as Docker API endpoints. VCHs allow Docker developers to provision containers as VMs in your vSphere environment. For a description of the role and function of VCHs, see [What is vSphere Integrated Containers Engine?](../vic_overview/introduction.md#whats_vic_for) in *Overview of vSphere Integrated Containers*. 
+In vSphere Integrated Containers, you deploy virtual container hosts (VCHs) that serve as Docker API endpoints. VCHs allow Docker developers to provision containers as VMs in your vSphere environment. For a description of the role and function of VCHs, see [Introduction to vSphere Integrated Containers Engine](../vic_overview/intro_to_vic_engine.md). 
 
 After you deploy the vSphere Integrated Containers appliance, you download the vSphere Integrated Containers Engine bundle from the appliance to your usual working machine. The vSphere Integrated Containers Engine bundle includes the `vic-machine` CLI utility. You use `vic-machine` to deploy and manage VCHs at the command line. 
 

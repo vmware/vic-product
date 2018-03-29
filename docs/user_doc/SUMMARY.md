@@ -8,11 +8,18 @@
 
 * [Introduction](README.md)
   * [Quick Start Links](vic_quickstart.md)
-  * [Overview](vic_overview/introduction.md)
-  * [Roles and Personas](vic_overview/roles_and_personas.md)
 
 ----
 
+* [Overview](vic_overview/README.md)
+  * [Containers, Docker, Registries](vic_overview/intro_to_containers.md)
+  * [vSphere Integrated Containers](vic_overview/intro_to_vic.md)
+     * [Engine](vic_overview/intro_to_vic_engine.md)
+     * [Management Portal](vic_overview/intro_to_vic_mp.md)
+     * [Registry](vic_overview/intro_to_vic_registry.md)
+     * [Roles and Personas](vic_overview/roles_and_personas.md)
+
+----
 
 * [Install, Deploy, Maintain Infrastructure](vic_vsphere_admin/README.md)
  * [Installation](vic_vsphere_admin/installing_vic.md)
