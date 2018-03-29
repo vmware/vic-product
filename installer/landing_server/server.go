@@ -15,28 +15,10 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 )
 
-func handler(w http.ResponseWriter, req *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
-	w.WriteHeader(http.StatusOK)
-	data, err := ioutil.ReadFile("html/index.html")
-	if err != nil {
-		panic(err)
-	}
-	w.Header().Set("Content-Length", fmt.Sprint(len(data)))
-	_, err = fmt.Fprint(w, string(data))
-	if err != nil {
-		panic(err)
-	}
-}
-
 func main() {
-	http.HandleFunc("/", handler)
-	// only serve on 80 since the fileserver will serve TLS on 9443
-	log.Fatal(http.ListenAndServe(":80", nil))
+	log.Fatal(http.ListenAndServe(":80", http.FileServer(http.Dir("html/"))))
 }
