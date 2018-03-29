@@ -29,7 +29,7 @@ systemctl enable ovf-network.service ova-firewall.service
 systemctl enable get_token.timer reconfigure_token.path psc-ready.target
 systemctl enable admiral.service
 systemctl enable harbor.service
-systemctl enable fileserver.service
+systemctl enable landing_server.service fileserver.service
 systemctl enable vic-machine-server.service
 
 # Set our vic target as the default boot target

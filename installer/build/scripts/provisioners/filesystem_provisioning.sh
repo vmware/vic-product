@@ -31,6 +31,9 @@ mkdir -p /etc/vmware/psc/engine
 mkdir -p /data/{admiral,harbor,fileserver,certs}
 mkdir -p /root/.ssh
 
+# v1.3.1 landing server
+mkdir -p /opt/vmware/landing_server
+
 # Write version files
 echo "appliance=${BUILD_OVA_REVISION}" > /data/version
 echo "appliance=${BUILD_OVA_REVISION}" > /etc/vmware/version
