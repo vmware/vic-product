@@ -15,8 +15,8 @@
 
 # fail on error, unassigned vars or failed pipes
 set -e -o pipefail +h && [ -n "$DEBUG" ] && set -x
-DIR=$(dirname $(readlink -f "$0"))
-. ${DIR}/log.sh
+DIR=$(dirname "$(readlink -f "$0")")
+. "${DIR}/log.sh"
 
 function set_base() {
   src=${1}
@@ -35,7 +35,7 @@ function set_base() {
   log3 "configuring ${brprpl}yum repos${creset}"
   mkdir -p "${rt}/etc/yum.repos.d/"
   rm /etc/yum.repos.d/{photon,photon-updates}.repo
-  cp ${DIR}/repo/*-remote.repo /etc/yum.repos.d/
+  cp "${DIR}"/repo/*-remote.repo /etc/yum.repos.d/
   # TODO: Use local yum repo in CI
   # if [[ $DRONE_BUILD_NUMBER && $DRONE_BUILD_NUMBER > 0 ]]; then
   #   mkdir -p /etc/yum.repos.d.old/
@@ -108,7 +108,7 @@ do
     esac
 done
 shift $((OPTIND-1))
-if [ -n "$*" -o -z "${ROOT}" ]; then
+if [[ -n "$*" || -z "${ROOT}" ]]; then
     usage
 fi
 

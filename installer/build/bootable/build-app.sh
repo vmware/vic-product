@@ -15,8 +15,8 @@
 
 # this build file is responsible for parsing cli args and spinning up a build container
 set -e -o pipefail +h && [ -n "$DEBUG" ] && set -x
-DIR=$(dirname $(readlink -f "$0"))
-. ${DIR}/log.sh
+DIR=$(dirname "$(readlink -f "$0")")
+. "${DIR}/log.sh"
 
 # Importing the pubkey
 log2 "configuring os"
@@ -47,9 +47,9 @@ echo "UseDNS no" >> /etc/ssh/sshd_config
 systemctl enable sshd
 
 log2 "running provisioners"
-ls script-provisioners | while read SCRIPT; do
+find script-provisioners -type f | while read -r SCRIPT; do
   log3 "running ${brprpl}$SCRIPT${creset}"
-  ./script-provisioners/$SCRIPT
+  ./script-provisioners/"$SCRIPT"
 done;
 
 log2 "cleaning up base os disk"
@@ -80,7 +80,7 @@ echo -n > /root/.bash_history
 
 # Clean up log files
 log3 "cleaning log files"
-find /var/log -type f | while read f; do echo -ne '' > $f; done;
+find /var/log -type f | while read -r f; do echo -ne '' > "$f"; done;
 
 log3 "clearing last login information"
 echo -ne '' >/var/log/lastlog

@@ -15,8 +15,8 @@
 
 # this file generates disks and grub configs for the vic product appliance
 set -e -o pipefail +h && [ -n "$DEBUG" ] && set -x
-DIR=$(dirname $(readlink -f "$0"))
-. ${DIR}/log.sh
+DIR=$(dirname "$(readlink -f "$0")")
+. "${DIR}/log.sh"
 
 function setup_grub() {
   disk=$1
@@ -36,9 +36,9 @@ function setup_grub() {
   rm -rf "${root}/boot/grub2/fonts"
   cp "${DIR}/boot/ascii.pf2" "${root}/boot/grub2/"
   mkdir -p "${root}/boot/grub2/themes/photon"
-  cp ${DIR}/boot/splash.png "${root}/boot/grub2/themes/photon/photon.png"
-  cp ${DIR}/boot/terminal_*.tga "${root}/boot/grub2/themes/photon/"
-  cp ${DIR}/boot//theme.txt "${root}/boot/grub2/themes/photon/"
+  cp "${DIR}"/boot/splash.png "${root}/boot/grub2/themes/photon/photon.png"
+  cp "${DIR}"/boot/terminal_*.tga "${root}/boot/grub2/themes/photon/"
+  cp "${DIR}"/boot//theme.txt "${root}/boot/grub2/themes/photon/"
   # linux-esx tries to mount rootfs even before nvme got initialized.
   # rootwait fixes this issue
   EXTRA_PARAMS=""
@@ -90,7 +90,7 @@ function create_disk() {
   local disk_size="$2"
   local mp="$3"
   local boot="${4:-}"
-  cd ${PACKAGE}
+  cd "${PACKAGE}"
 
   losetup -f || ( echo "Cannot setup loop devices" && exit 1 )
 
@@ -104,7 +104,7 @@ function create_disk() {
   if [[ -n $boot ]]; then
     log3 "creating bios boot partition"
     sgdisk -n $part_num:2048:+2M -c $part_num:"BIOS Boot" -t $part_num:ef02 "$img"
-    part_num=$(($part_num+1))
+    part_num=$((part_num+1))
   fi
 
   log3 "creating linux partition"
@@ -132,7 +132,7 @@ function convert() {
   local mount=$2
   local raw=$3
   local vmdk=$4
-  cd ${PACKAGE}
+  cd "${PACKAGE}"
   log3 "unmount ${brprpl}${mount}${creset}"
   if mountpoint "${mount}" >/dev/null 2>&1; then
     umount -R "${mount}/" >/dev/null 2>&1
@@ -171,7 +171,7 @@ do
     esac
 done
 shift $((OPTIND-1))
-if [ -n "$*" -o -z "${PACKAGE}" -o -z "${ACTION}" ]; then
+if [[ -n "$*" || -z "${PACKAGE}" || -z "${ACTION}" ]]; then
     usage
 fi
 
@@ -190,7 +190,7 @@ IMAGEROOTS=(
 )
 
 # check there were no extra args and the required ones are set
-if [ -n "$*" -o -z "${PACKAGE}" -o -z "${ACTION}" ]; then
+if [[ -n "$*" || -z "${PACKAGE}" || -z "${ACTION}" ]]; then
     usage
 fi
 
@@ -207,12 +207,12 @@ elif [ "${ACTION}" == "export" ]; then
   log1 "export images to VMDKs"
   for i in "${!IMAGES[@]}"; do
     log2 "exporting ${IMAGES[$i]}.img to ${IMAGES[$i]}.vmdk"
-    DEV=$(losetup -l -O NAME,BACK-FILE -a | tail -n +2 | grep ${IMAGES[$i]} | awk '{print $1}')
+    DEV=$(losetup -l -O NAME,BACK-FILE -a | tail -n +2 | grep "${IMAGES[$i]}" | awk '{print $1}')
     convert "${DEV}" "${IMAGEROOTS[$i]}" "${IMAGES[$i]}.img" "${IMAGES[$i]}.vmdk"
   done
 
   log2 "VMDK Sizes"
-  log2 "$(du -h *.vmdk)"
+  log2 "$(du -h ./*.vmdk)"
 
 else
   usage
