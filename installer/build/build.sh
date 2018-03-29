@@ -36,9 +36,10 @@ BUILD_NUMBER=${DRONE_BUILD_NUMBER:-}
 function usage() {
     echo -e "Usage:
       <ova-dev|ova-ci>
-      [--admiral|--vicmachineserver] <given a revision, eg. 'dev', 'latest'>
+      [--admiral|--vicmachineserver] <given a revision, ie. 'dev', 'latest'>
       [--vicengine|--harbor] <given a url, eg. 'https://storage.googleapis.com/vic-engine-builds/vic_13806.tar.gz'>
       [--vicengine|--harbor] <given a file in cwd, eg. 'vic_13806.tar.gz'>
+      [passthrough args for ./bootable/build-main.sh, eg. '-b bin/.vic-appliance-base.tar.gz']
     ie: $0 ova-dev --harbor v1.2.0-38-ge79334a --vicengine https://storage.googleapis.com/vic-engine-builds/vic_13806.tar.gz --admiral v1.2" >&2
     exit 1
 }
@@ -62,6 +63,10 @@ if [ "$step" == "ova-dev" ]; then
     gcr.io/eminent-nation-87317/vic-product-build ./build/build-ova.sh $*
 elif [ "$step" == "ova-ci" ]; then
   echo "starting ci build..."
+  export DEBUG=${DEBUG}
+  export BUILD_OVA_REVISION=${BUILD_OVA_REVISION}
+  export BUILD_NUMBER=${BUILD_NUMBER}
+  export DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER}
   ./build/build-ova.sh $*
 else
   usage

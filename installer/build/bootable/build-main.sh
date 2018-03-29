@@ -23,9 +23,9 @@ CACHE=""
 MANIFEST=""
 
 function cleanup() {
-    log3 "--------------------------------------------------"
-    log3 "cleaning up..."
-    log3 "removing dev loops and images"
+    log1 "--------------------------------------------------"
+    log1 "cleaning up..."
+    log1 "removing dev loops and images"
     losetup -D;
 }
 trap cleanup EXIT

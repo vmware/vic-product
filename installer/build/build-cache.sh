@@ -88,6 +88,7 @@ function cacheOther() {
       set -e
       add "${download}" "$archive"
     fi
+    echo ""
   done
   timecho "${warrow} saved all downloads"
 }

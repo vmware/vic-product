@@ -19,9 +19,8 @@ DIR=$(dirname "$(readlink -f "$0")")
 . "${DIR}/log.sh"
 
 function set_base() {
-  src=${1}
+  src="${1}"
   rt="${2}"
-  tgt="${rt}/build"
 
   log2 "preparing install stage"
   log3 "configuring ${brprpl}tdnf${reset}"
@@ -85,7 +84,7 @@ function set_base() {
     openjre python-pip
 
   log3 "installing ${brprpl}root${reset}"
-  cp -a "${src}/root" "${tgt}/"
+  cp -a "${src}/root/." "${rt}/"
 }
 
 function usage() {

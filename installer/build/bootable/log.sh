@@ -59,7 +59,7 @@ function log () {
 
     shift $((OPTIND-1))
 
-    echo -ne "${escape}${text_styles[$STYLE]}${text_colors[$COLOR]}m$*${reset}${break}"; | tee /dev/fd/3 2>/dev/null || true;
+    echo -ne "${escape}${text_styles[$STYLE]}${text_colors[$COLOR]}m$*${reset}${break}" | tee /dev/fd/3 2>/dev/null || true;
 }
 
 function log1 () {

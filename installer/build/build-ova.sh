@@ -16,7 +16,7 @@
 # this file sets vic-product specific variables for the build configuration
 set -e -o pipefail +h && [ -n "$DEBUG" ] && set -x
 DIR=$(pwd)
-CACHE=${DIR}/bin/.cache
+CACHE=${DIR}/bin/.cache/
 mkdir -p ${CACHE}
 
 # Check if it's a file in `scripts`, URL, or REVISION
@@ -51,22 +51,24 @@ do
   case $key in
     --admiral)
       ADMIRAL="$2"
-      shift # past argument
+      shift 2 # past argument
       ;;
     --vicengine)
       VICENGINE="$2"
-      shift # past argument
+      shift 2 # past argument
       ;;
     --vicmachineserver)
       VIC_MACHINE_SERVER="$2"
-      shift # past argument
+      shift 2 # past argument
       ;;
     --harbor)
       HARBOR="$2"
-      shift # past argument
+      shift 2 # past argument
       ;;
+    *)
+      # unknown
+      break; break;
   esac
-  shift # past argument or value
 done
 
 # set Admiral
@@ -112,4 +114,4 @@ ${DIR}/build/build-cache.sh -c "${CACHE}"
 
 echo "--------------------------------------------------"
 echo "building OVA..."
-${DIR}/build/bootable/build-main.sh -m "${DIR}/build/ova-manifest.json" -r "${DIR}/bin" -c "${CACHE} $*" 
+${DIR}/build/bootable/build-main.sh -m "${DIR}/build/ova-manifest.json" -r "${DIR}/bin" -c "${CACHE}" $@
