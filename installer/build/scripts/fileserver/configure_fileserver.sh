@@ -17,6 +17,7 @@ set -xuf -o pipefail
 umask 077
 data_dir="/opt/vmware/fileserver"
 cert="/storage/data/certs/server.crt"
+error_index_file="${data_dir}/files/index.html"
 
 ca_download_dir="${data_dir}/ca_download"
 mkdir -p ${ca_download_dir}
@@ -25,7 +26,7 @@ function updateConfigFiles {
   ui_dir="${data_dir}/files"
   # cove cli has package in form of vic-adm_*.tar.gz, so use 'vic_*.tar.gz' here
   # to avoid including cove cli
-  tar_gz=$(find "${ui_dir}" -name "vic_*.tar.gz")
+  tar_gz=$(find "${data_dir}" -name "vic_*.tar.gz")
 
   # untar vic package to tmp dir
   tar -zxf "${tar_gz}" -C /tmp
@@ -61,9 +62,10 @@ iptables -w -A INPUT -j ACCEPT -p tcp --dport "${FILESERVER_PORT}"
 updateConfigFiles
 if [ $? -eq 0 ]; then
   echo "Fileserver configuration complete."
+  [ -f "${error_index_file}" ] && rm "${error_index_file}"
 else
   echo "Fileserver configuration failed."
-  cat >"index.html" <<EOF 
+  cat >"${error_index_file}" <<EOF 
 <html>
   <h1>VIC Appliance Fileserver has hit an error...</h1>
   <p>The VIC Appliance Fileserver failed to configure the vic archive.</p>

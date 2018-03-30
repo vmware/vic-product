@@ -14,21 +14,22 @@
 # limitations under the License.
 set -euf -o pipefail
 
-FILES_DIR="/opt/vmware/fileserver/files"
+DATA_DIR="/opt/vmware/fileserver"
+FILES_DIR="${DATA_DIR}/files"
 
 mkdir -p /etc/vmware/fileserver # Fileserver config scripts
-mkdir -p ${FILES_DIR}            # Files to serve
+mkdir -p ${FILES_DIR}           # Files to serve
+mkdir -p ${DATA_DIR}            # Backup of the original vic tar
 
 cd /var/tmp
 
 echo "Provisioning VIC Engine ${BUILD_VICENGINE_FILE}"
 cp /etc/cache/${BUILD_VICENGINE_FILE} .
 
-
 # Copy UI plugin zip files to fileserver directory
 tar tf "${BUILD_VICENGINE_FILE}" | grep "vic/ui" | grep ".zip" | xargs  -I '{}' tar xzf "${BUILD_VICENGINE_FILE}" -C ${FILES_DIR} '{}' --strip-components=3
 
-mv "${BUILD_VICENGINE_FILE}" ${FILES_DIR}
+mv "${BUILD_VICENGINE_FILE}" ${DATA_DIR}
 
 # Write version files
 echo "engine=${BUILD_VICENGINE_FILE}" >> /data/version
