@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-set -xuf -o pipefail
+set -uf -o pipefail
 
 umask 077
 data_dir="/opt/vmware/fileserver"
@@ -70,6 +70,13 @@ else
   <h1>VIC Appliance Fileserver has hit an error...</h1>
   <p>The VIC Appliance Fileserver failed to configure the vic archive.</p>
   <p>It may contain incorrect values required to install the VIC UI plugin.</p>
+  <p>
+    In order to correct this error, you must do one of the following:
+    <ul>
+      <li>Restart the VIC Appliance.</li>
+      <li>Using ssh, restart the fileserver with <pre>systemctl restart fileserver</pre></li>
+    </ul>
+  </p>
 </html>
 EOF
 fi
