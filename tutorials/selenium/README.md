@@ -51,4 +51,4 @@ docker-compose stop
 docker-compose rm
 ```
 
-Check also the [Selenium Blog Article](https://blogs.vmware.com/cloudnative/2018/02/28/running-selenium-grid-vsphere-vsphere-integrated-containers/) on the VMware CNA Blog for a more detailed description.
+Check also the [Selenium Blog Article](https://blogs.vmware.com/cloudnative/2018/03/07/running-selenium-grid-vsphere-integrated-containers/) on the VMware CNA Blog for a more detailed description.
