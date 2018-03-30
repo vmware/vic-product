@@ -52,7 +52,7 @@ function updateConfigFiles {
   sed -i -e s%${cur_file_server_w}%vic_ui_host_url=${file_server}%g $wconfig
 
   # tar all files again
-  tar zcf "$tar_gz" -C /tmp vic
+  tar zcf "$ui_dir/$(basename $tar_gz)" -C /tmp vic
   rm -rf /tmp/vic
 }
 
