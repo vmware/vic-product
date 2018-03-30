@@ -16,18 +16,19 @@ set -uf -o pipefail
 
 umask 077
 data_dir="/opt/vmware/fileserver"
+files_dir="${data_dir}/files"
 cert="/storage/data/certs/server.crt"
-error_index_file="${data_dir}/files/index.html"
+error_index_file="index.html"
 
 ca_download_dir="${data_dir}/ca_download"
 mkdir -p ${ca_download_dir}
 
 function updateConfigFiles {
-  ui_dir="${data_dir}/files"
+  set -e
   # cove cli has package in form of vic-adm_*.tar.gz, so use 'vic_*.tar.gz' here
   # to avoid including cove cli
-  tar_gz=$(find "${data_dir}" -name "vic_*.tar.gz")
-
+  tar_gz=$(find "${data_dir}" -maxdepth 1 -name "vic_*.tar.gz")
+  
   # untar vic package to tmp dir
   tar -zxf "${tar_gz}" -C /tmp
 
@@ -52,33 +53,20 @@ function updateConfigFiles {
   sed -i -e s%${cur_file_server_w}%vic_ui_host_url=${file_server}%g $wconfig
 
   # tar all files again
-  tar zcf "$ui_dir/$(basename $tar_gz)" -C /tmp vic
+  tar zcf "$files_dir/$(basename $tar_gz)" -C /tmp vic
   rm -rf /tmp/vic
 }
 
 iptables -w -A INPUT -j ACCEPT -p tcp --dport "${FILESERVER_PORT}"
 
-# Update configurations
-updateConfigFiles
+# Update configurations, run in subshell to preserve +e
+( updateConfigFiles )
 if [ $? -eq 0 ]; then
   echo "Fileserver configuration complete."
   if [ -f "${error_index_file}" ]; then
-    rm "${error_index_file}"
+    rm "${files_dir}/${error_index_file}"
   fi
 else
   echo "Fileserver configuration failed."
-  cat >"${error_index_file}" <<EOF 
-<html>
-  <h1>VIC Appliance Fileserver has hit an error...</h1>
-  <p>The VIC Appliance Fileserver failed to configure the vic archive.</p>
-  <p>It may contain incorrect values required to install the VIC UI plugin.</p>
-  <p>
-    In order to correct this error, you must do one of the following:
-    <ul>
-      <li>Restart the VIC Appliance.</li>
-      <li>Using ssh, restart the fileserver with <pre>systemctl restart fileserver</pre></li>
-    </ul>
-  </p>
-</html>
-EOF
+  cp "${data_dir}/${error_index_file}" "${files_dir}/${error_index_file}"
 fi
