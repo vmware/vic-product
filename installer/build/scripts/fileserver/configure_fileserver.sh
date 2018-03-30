@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-set -euf -o pipefail
+set -xuf -o pipefail
 
 umask 077
 data_dir="/opt/vmware/fileserver"
@@ -55,9 +55,19 @@ function updateConfigFiles {
   rm -rf /tmp/vic
 }
 
-
 iptables -w -A INPUT -j ACCEPT -p tcp --dport "${FILESERVER_PORT}"
-iptables -w -A INPUT -j ACCEPT -p tcp --dport 80
 
 # Update configurations
 updateConfigFiles
+if [ $? -eq 0 ]; then
+  echo "Fileserver configuration complete."
+else
+  echo "Fileserver configuration failed."
+  cat >"index.html" <<EOF 
+<html>
+  <h1>VIC Appliance Fileserver has hit an error...</h1>
+  <p>The VIC Appliance Fileserver failed to configure the vic archive.</p>
+  <p>It may contain incorrect values required to install the VIC UI plugin.</p>
+</html>
+EOF
+fi
