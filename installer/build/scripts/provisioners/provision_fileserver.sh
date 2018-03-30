@@ -30,6 +30,7 @@ cp /etc/cache/${BUILD_VICENGINE_FILE} .
 tar tf "${BUILD_VICENGINE_FILE}" | grep "vic/ui" | grep ".zip" | xargs  -I '{}' tar xzf "${BUILD_VICENGINE_FILE}" -C ${FILES_DIR} '{}' --strip-components=3
 
 mv "${BUILD_VICENGINE_FILE}" ${DATA_DIR}
+touch "${FILES_DIR}/${BUILD_VICENGINE_FILE}"
 
 # Write version files
 echo "engine=${BUILD_VICENGINE_FILE}" >> /data/version

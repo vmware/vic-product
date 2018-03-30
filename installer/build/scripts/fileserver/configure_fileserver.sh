@@ -62,7 +62,9 @@ iptables -w -A INPUT -j ACCEPT -p tcp --dport "${FILESERVER_PORT}"
 updateConfigFiles
 if [ $? -eq 0 ]; then
   echo "Fileserver configuration complete."
-  [ -f "${error_index_file}" ] && rm "${error_index_file}"
+  if [ -f "${error_index_file}" ]; then
+    rm "${error_index_file}"
+  fi
 else
   echo "Fileserver configuration failed."
   cat >"${error_index_file}" <<EOF 
