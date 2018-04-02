@@ -29,7 +29,7 @@ import (
 )
 
 const (
-	pscBinaryPath    = "/etc/vmware/admiral/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar"
+	pscBinaryPath    = "/etc/vmware/admiral/admiral-auth-psc-1.3.2-SNAPSHOT-command.jar"
 	vcHostnameOption = "config.vpxd.hostnameUrl"
 	pscConfDir       = "/etc/vmware/psc"
 	pscConfFileName  = "psc-config.properties"
