@@ -26,9 +26,6 @@ Resource  VCH-Util.robot
 Resource  UI-Util.robot
 Resource  Docker-Util.robot
 Resource  Nimbus-Util.robot
-Resource  Vsphere-VCH-Plugin.robot
-Resource  VCH-Creation-Wizard-UI-Util.robot
-Resource  Vsphere-UI-Util.robot
 Library  Selenium2Library  timeout=30  implicit_wait=15  run_on_failure=Capture Page Screenshot  screenshot_root_directory=test-screenshots
 # UI page object utils
 Resource  page-objects/Getting-Started-Page-Util.robot
@@ -45,6 +42,8 @@ Resource  page-objects/Provision-Container-Page-Util.robot
 Resource  page-objects/Right-Context-Panel-Util.robot
 Resource  page-objects/Registries-Page-Util.robot
 Resource  page-objects/Project-Repositories-Page-Util.robot
+Resource  page-objects/Vsphere-VCH-Plugin-Util.robot
+Resource  page-objects/Vsphere-UI-Util.robot
 
 *** Keywords ***
 Global Environment Setup
@@ -110,6 +109,8 @@ Set Browser Variables
     Set Global Variable  ${HARBOR_URL}  ${IP_URL}:${HARBOR_PORT}
     Set Global Variable  ${DEFAULT_HARBOR_NAME}  default-vic-registry
     Set Global Variable  ${DEFAULT_HARBOR_PROJECT}  default-project
+    Set Global Variable  ${VC_URL}  https://%{TEST_URL}/ui/
+    Set Global Variable  ${VC_SHORTCUTS_PAGE_URL}  ${VC_URL}#?extensionId=vsphere.core.controlcenter.domainView
 
 Run command and Return output
     [Arguments]  ${command}
@@ -123,3 +124,11 @@ Check service running
     Log To Console  Checking status of ${service-name}...
     ${out}=  Execute Command  systemctl status -l ${service-name}
     Should Contain  ${out}  Active: active (running)
+
+Execute Command And Return Output
+    [Arguments]  ${command}
+    ${output}  ${rc}=  Execute Command  ${command}
+    ...           return_stdout=${true}  return_rc=${true}
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    [Return]  ${output}

@@ -26,10 +26,21 @@ ${vcsso-button-login}  id=submit
 # expected text values
 
 *** Keywords ***
+Navigate To VC UI Home Page
+	Log To Console  Navigating to URL ${VC_URL} ...
+    Go To  ${VC_URL}
+
 Login On Single Sign-On Page
     [Tags]  secret
+    Log To Console  Login into single sign-on...
     Wait Until Element Is Visible  ${vcsso-image-title}  timeout=${EXPLICIT_WAIT}
     Input Text  ${vcsso-username}  %{TEST_USERNAME}
     Input Text  ${vcsso-password}  %{TEST_PASSWORD}
     Click Button  ${vcsso-button-login}
-    Verify VIC UI Header Display
+
+Verify VC Home Page
+	Log To Console  Verifying VC home page...
+    Wait Until Page Contains  Summary
+    Wait Until Page Contains  Monitor
+    Wait Until Page Contains  Configure
+    Wait Until Page Contains  Permissions

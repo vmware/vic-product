@@ -30,6 +30,7 @@ Setup Base State
     Open Firefox Browser
     Navigate To VIC UI Home Page
     Login On Single Sign-On Page
+    Verify VIC UI Header Display
 
 Cleanup VCH And Teardown
     [Arguments]  ${vch-name}

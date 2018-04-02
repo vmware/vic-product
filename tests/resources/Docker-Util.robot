@@ -17,6 +17,9 @@ Documentation  This resource contains any keywords dealing with docker operation
 Library  OperatingSystem
 Library  Process
 
+*** Variables ***
+${busybox}  busybox
+
 *** Keywords ***
 # The local dind version is embedded in Dockerfile
 # docker:1.13-dind
@@ -90,3 +93,40 @@ Push Docker Image To Harbor Registry
     ${rc}=  Run And Return Rc  ${docker} -H ${docker-endpoint} push ${image-tag}
     Should Be Equal As Integers  ${rc}  0
     Log To Console  \n${image-tag} pushed successfully
+
+Wait Until Container Stops
+    [Arguments]  ${container}  ${sleep-time}=1
+    :FOR  ${idx}  IN RANGE  0  60
+    \   ${out}=  Run  docker ${VCH-PARAMS} inspect -f '{{.State.Running}}' ${container}
+    \   Return From Keyword If  '${out}' == 'false'
+    \   Sleep  ${sleep-time}
+    Fail  Container did not stop within 60 seconds
+
+Run Docker Regression Tests For VCH
+    Log To Console  \nRunning VCH regression tests...
+    ${rc}  ${output}=  Run And Return Rc And Output  docker ${VCH-PARAMS} pull ${busybox}
+    Should Be Equal As Integers  ${rc}  0
+    # Pull an image that has been pulled already
+    ${rc}  ${output}=  Run And Return Rc And Output  docker ${VCH-PARAMS} pull ${busybox}
+    Should Be Equal As Integers  ${rc}  0
+    ${rc}  ${output}=  Run And Return Rc And Output  docker ${VCH-PARAMS} images
+    Should Be Equal As Integers  ${rc}  0
+    Should Contain  ${output}  busybox
+    ${rc}  ${container}=  Run And Return Rc And Output  docker ${VCH-PARAMS} create ${busybox} /bin/top
+    Should Be Equal As Integers  ${rc}  0
+    ${rc}  ${output}=  Run And Return Rc And Output  docker ${VCH-PARAMS} start ${container}
+    Should Be Equal As Integers  ${rc}  0
+    ${rc}  ${output}=  Run And Return Rc And Output  docker ${VCH-PARAMS} ps
+    Should Be Equal As Integers  ${rc}  0
+    Should Contain  ${output}  /bin/top
+    ${rc}  ${output}=  Run And Return Rc And Output  docker ${VCH-PARAMS} stop ${container}
+    Should Be Equal As Integers  ${rc}  0
+    Wait Until Container Stops  ${container}
+    ${rc}  ${output}=  Run And Return Rc And Output  docker ${VCH-PARAMS} ps -a
+    Should Be Equal As Integers  ${rc}  0
+    Should Contain  ${output}  Exited
+    ${rc}  ${output}=  Run And Return Rc And Output  docker ${VCH-PARAMS} rm ${container}
+    Should Be Equal As Integers  ${rc}  0
+    ${rc}  ${output}=  Run And Return Rc And Output  docker ${VCH-PARAMS} ps -a
+    Should Be Equal As Integers  ${rc}  0
+    Should Not Contain  ${output}  /bin/top
