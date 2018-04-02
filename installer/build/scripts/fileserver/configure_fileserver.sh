@@ -12,21 +12,23 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-set -euf -o pipefail
+set -uf -o pipefail
 
 umask 077
 data_dir="/opt/vmware/fileserver"
+files_dir="${data_dir}/files"
 cert="/storage/data/certs/server.crt"
+error_index_file="index.html"
 
 ca_download_dir="${data_dir}/ca_download"
 mkdir -p ${ca_download_dir}
 
 function updateConfigFiles {
-  ui_dir="${data_dir}/files"
+  set -e
   # cove cli has package in form of vic-adm_*.tar.gz, so use 'vic_*.tar.gz' here
   # to avoid including cove cli
-  tar_gz=$(find "${ui_dir}" -name "vic_*.tar.gz")
-
+  tar_gz=$(find "${data_dir}" -maxdepth 1 -name "vic_*.tar.gz")
+  
   # untar vic package to tmp dir
   tar -zxf "${tar_gz}" -C /tmp
 
@@ -51,13 +53,20 @@ function updateConfigFiles {
   sed -i -e s%${cur_file_server_w}%vic_ui_host_url=${file_server}%g $wconfig
 
   # tar all files again
-  tar zcf "$tar_gz" -C /tmp vic
+  tar zcf "$files_dir/$(basename $tar_gz)" -C /tmp vic
   rm -rf /tmp/vic
 }
 
-
 iptables -w -A INPUT -j ACCEPT -p tcp --dport "${FILESERVER_PORT}"
-iptables -w -A INPUT -j ACCEPT -p tcp --dport 80
 
-# Update configurations
-updateConfigFiles
+# Update configurations, run in subshell to preserve +e
+( updateConfigFiles )
+if [ $? -eq 0 ]; then
+  echo "Fileserver configuration complete."
+  if [ -f "${error_index_file}" ]; then
+    rm "${files_dir}/${error_index_file}"
+  fi
+else
+  echo "Fileserver configuration failed."
+  cp "${data_dir}/${error_index_file}" "${files_dir}/${error_index_file}"
+fi

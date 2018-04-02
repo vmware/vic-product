@@ -175,6 +175,11 @@
   },
   {
     "type": "file",
+    "source": "../fileserver/files/error_index.html",
+    "destination": "/opt/vmware/fileserver/index.html"
+  },
+  {
+    "type": "file",
     "source": "../landing_server/html",
     "destination": "/opt/vmware/landing_server/html"
   },
