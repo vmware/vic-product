@@ -24,5 +24,5 @@ EOF
 curl -L"#" -o govc_linux_amd64.gz https://github.com/vmware/govmomi/releases/download/v0.17.1/govc_linux_amd64.gz
 shasum -a 256 --check SHA256SUMS || (echo "Failed to verify govc checksum" && exit 1)
 
-gunzip govc_linux_amd64.gz > govc
+gunzip --stdout govc_linux_amd64.gz > govc
 sudo install -t /usr/local/bin/ govc
