@@ -108,11 +108,8 @@ Test
     Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
     Wait Until Keyword Succeeds  10x  20s  Check service running  admiral
     Wait Until Keyword Succeeds  10x  20s  Check service running  fileserver
-    Close connection
 
     # Install VIC Plugin
-    Open Connection  %{TEST_URL}
-    Wait Until Keyword Succeeds  10x  5s  Login  root  %{TEST_PASSWORD}
     Set Global Variable  ${VIC_BUNDLE}  vic_v1.3.1.tar.gz
     Execute Command  curl -kL https://${OVA_IP}:9443/files/${VIC_BUNDLE} -o ${VIC_BUNDLE}
     Execute Command  tar -zxf ${VIC_BUNDLE}
@@ -123,7 +120,6 @@ Test
     Execute Command  service-control --start vsphere-ui
     Execute Command  service-control --stop vsphere-client
     Execute Command  service-control --start vsphere-client
-    Close Connection
 
     # Navigate to the wizard and create a VCH
     Open Browser  ${BASE_URL}  browser=firefox  remote_url=${GRID_URL}
@@ -147,3 +143,4 @@ Test
     # Finish
     Click Next Button
 
+    Close connection
