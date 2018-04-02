@@ -84,10 +84,47 @@ Get VCH Docker Params
     Run Keyword If  ${port} == 2376  Set Test Variable  ${VCH-PARAMS}  -H ${DOCKER-HOST} --tls
     Run Keyword If  ${port} == 2375  Set Test Variable  ${VCH-PARAMS}  -H ${DOCKER-HOST}
 
+    # set vic admin var
+    ${status}=                Run Keyword And Return Status  Should Match Regexp  ${line}  msg\="([^"]*)"
+    ${ignore}  ${vic-admin}=  Run Keyword If      ${status}  Should Match Regexp  ${line}  msg\="([^"]*)"
+                              ...  ELSE                      Split String From Right  ${line}  ${SPACE}  1
+    Set Test Variable  ${VIC-ADMIN}  ${vic-admin}
+
+Gather Logs From Test Server
+    [Arguments]  ${vch-name}  ${name-suffix}=${EMPTY}
+    Run Keyword And Continue On Failure  Run  zip ${vch-name}-certs -r ${vch-name}
+    Curl Container Logs  ${vch-name}  ${name-suffix}
+    ${host}=  Get VM Host Name  ${vch-name}
+    Log  ${host}
+    ${out}=  Run  govc datastore.download -host ${host} -ds %{TEST_DATASTORE} ${vch-name}/vmware.log ${vch-name}-vmware${name-suffix}.log
+    Log  ${out}
+    Should Contain  ${out}  OK
+    ${out}=  Run  govc datastore.download -host ${host} -ds %{TEST_DATASTORE} ${vch-name}/tether.debug ${vch-name}-tether${name-suffix}.debug
+    Log  ${out}
+    Should Contain  ${out}  OK
+
+Curl Container Logs
+    [Arguments]  ${vch-name}  ${name-suffix}=${EMPTY}
+    ${out1}  ${out2}  ${out3}=  Secret Curl Container Logs  ${vch-name}  ${name-suffix}
+    Log  ${out1}
+    Log  ${out2}
+    Log  ${out3}
+    Should Not Contain  ${out3}  SIGSEGV: segmentation violation
+
+Secret Curl Container Logs
+    [Tags]  secret
+    [Arguments]  ${vch-name}  ${name-suffix}=${EMPTY}
+    ${out1}=  Run  curl -k -D vic-admin-cookies -Fusername=%{TEST_USERNAME} -Fpassword=%{TEST_PASSWORD} ${VIC-ADMIN}/authentication
+    ${out2}=  Run  curl -k -b vic-admin-cookies ${VIC-ADMIN}/container-logs.zip -o ${SUITE NAME}-${vch-name}-container-logs${name-suffix}.zip
+    ${out3}=  Run  curl -k -b vic-admin-cookies ${VIC-ADMIN}/logs/port-layer.log
+    Remove File  vic-admin-cookies
+    [Return]  ${out1}  ${out2}  ${out3}
+
 Cleanup VCH
     [Tags]  secret
     [Arguments]  ${vch-name}
     Log To Console  Deleting the VCH ${vch-name}
+    Run Keyword And Continue On Failure  Gather Logs From Test Server  ${vch-name}
     ${rc}  ${output}=  Run And Return Rc And Output  bin/vic-machine-linux delete --name=${vch-name} --target=%{TEST_URL} --user=%{TEST_USERNAME} --password=%{TEST_PASSWORD} --force=true --compute-resource=%{TEST_RESOURCE} --timeout %{VCH_TIMEOUT}
     Wait Until Keyword Succeeds  6x  5s  Check Delete Success  ${vch-name}
     Should Be Equal As Integers  ${rc}  0
