@@ -1,6 +1,6 @@
 # Supported Docker Commands
 
- vSphere Integrated Containers Engine 1.3 supports Docker client 1.13.0. The supported version of the Docker API is 1.25. 
+ vSphere Integrated Containers Engine 1.4 supports Docker client 1.13.0. The supported version of the Docker API is 1.25. 
 
 - [Docker Management Commands](#mgmt)
 - [Image Commands](#image)
@@ -55,7 +55,7 @@
 |`rename`|[Rename a container](https://docs.docker.com/engine/reference/commandline/rename/)|Yes, since 1.1. Name resolution for renamed running containers is not supported, but if you restart the container the new name is resolved.|
 |`restart`|[Restart a container](https://docs.docker.com/engine/reference/commandline/restart/)|Yes, since 1.0|
 |`rm`|[Remove a container](https://docs.docker.com/engine/reference/commandline/rm/)|Yes, since 1.0. Supports the `--force` option and the `name` parameter. To view volumes attached to a container that is removed, use `docker volume ls` and `docker volume inspect <id>`. If you continually invoke `docker create` to make more anonymous volumes, those volumes are left behind after each subsequent removal of that container. <br>Supports `docker rm -v` since 1.3. Running the command removes the container and any anonymous volumes joined to that container. If an anonymous volume is in use by another container, it is not removed. Named volumes that you specify by name in the create/run command are not deleted.|
-|`run`|[Run a command in a new container](https://docs.docker.com/engine/reference/commandline/run/)| <a id="docker_run"></a>Yes, since 1.0.  Supports mapping a random host port to the container when the host port is not specified. <br>Supports running images from private and custom registries.<br>`docker run -h` is supported since 1.3.0. You can specify a container network by using the [`--container-network`](../vic_vsphere_admin/container_networks.md) option when you deploy a virtual container host. Supports the `--attach`, `--cidfile`, `--cpuset-cpus`, `--detach`, `--detach-keys`, `--entrypoint`, `--env`, `--env-file`, `--help`, `--interactive`, `--ip`, `--link`, `--memory`, `--name`, `--net`, `--net-alias`, `--publish`, `--rm`, `--stop-signal`, `--stop-timeout`, `--tty`, `--user`, `--volume`, and `--workdir` options.<br>**IMPORTANT**: Do not use `docker run --rm` with vSphere Integrated Containers 1.3.0. Using `docker run --rm` with vSphere Integrated Containers 1.3.0 removes named volumes, resulting in data loss. In vSphere Integrated Containers 1.3.1 only anonymous volumes are removed.|
+|`run`|[Run a command in a new container](https://docs.docker.com/engine/reference/commandline/run/)| <a id="docker_run"></a>Yes, since 1.0.  Supports mapping a random host port to the container when the host port is not specified. <br>Supports running images from private and custom registries.<br>`docker run -h` is supported since 1.3.0. You can specify a container network by using the [`--container-network`](../vic_vsphere_admin/container_networks.md) option when you deploy a virtual container host. Supports the `--attach`, `--cidfile`, `--cpuset-cpus`, `--detach`, `--detach-keys`, `--entrypoint`, `--env`, `--env-file`, `--help`, `--interactive`, `--ip`, `--link`, `--memory`, `--name`, `--net`, `--net-alias`, `--publish`, `--rm`, `--stop-signal`, `--stop-timeout`, `--tty`, `--user`, `--volume`, and `--workdir` options.<br>|
 |`start`|[Start a container](https://docs.docker.com/engine/reference/commandline/start/)|Yes, since 1.0. Supports the `--attach` and `--interactive` options.|
 |`stats`|[Get container stats based on resource usage](https://docs.docker.com/engine/reference/commandline/stats/)|Yes. Provides statistics about CPU and memory usage since 1.1. Provides statistics about network or disk usage since 1.2.|
 |`stop`|[Stop a container](https://docs.docker.com/engine/reference/commandline/stop/)|Yes, since 1.0. Attempts to politely stop the container. If that fails, powers down the VM.|
@@ -100,7 +100,7 @@ For more information about volume operations with vSphere Integrated Containers 
 
 ## Docker Compose Commands <a id="compose"></a>
 
-vSphere Integrated Containers Engine 1.3 supports Docker Compose version 1.11.2.
+vSphere Integrated Containers Engine 1.4 supports Docker Compose version 1.11.2.
 
 For more information about using Docker Compose with vSphere Integrated Containers Engine, see [Creating a Containerized Application with vSphere Integrated Containers Engine](creating_containerized_app_with_vic.md).
 

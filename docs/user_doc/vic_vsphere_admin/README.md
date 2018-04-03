@@ -2,9 +2,9 @@
 
 *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as a vSphere administrator.
 
-**Product version: 1.3**
+**Product version: 1.4**
 
-This documentation applies to all 1.3.x releases.
+This documentation applies to all 1.4.x releases.
 
 ## Intended Audience
 

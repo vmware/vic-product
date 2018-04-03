@@ -31,8 +31,6 @@ The following sections each correspond to an entry in the **Registry Access** pa
 
 Certain options in this section are exposed in the `vic-machine create` help if you run `vic-machine create --extended-help`, or `vic-machine create -x`.
 
-**NOTE**: In vSphere Integrated Containers 1.3.0, the registry access settings are located in a tab in the **Security** page of the Create Virtual Container Host wizard, that is visible when **Enable secure access to this VCH** is set to the green ON position. From version 1.3.1 onwards, the registry access settings are in a separate page. 
-
 ### Whitelist Registry Mode <a id="whitelist-registry"></a>
 
 You can restrict the registries to which a VCH allows access by setting the VCH in whitelist registry mode. You can allow VCHs to access multiple registries. In whitelist mode, users can only access those registries that you have specified. Users cannot access any registries that are not in the whitelist, even if they are public registries, such as Docker Hub. You can configure a VCH so that it includes both secure and insecure registries in its whitelist.

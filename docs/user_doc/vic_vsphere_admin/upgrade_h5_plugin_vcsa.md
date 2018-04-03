@@ -5,8 +5,8 @@ If you have previous installations of the vSphere Client plug-ins for vSphere In
 **Prerequisites**
 
 - You are upgrading the plug-ins on a vCenter Server appliance instance. If you are running vCenter Server on Windows, see [Upgrade the HTML5 vSphere Client Plug-In on vCenter Server for Windows](upgrade_h5_plugin_windows.md).
-- You deployed the vSphere Integrated Containers plug-ins with vSphere Integrated Containers 1.2.x. For information about installing the plug-ins for the first time, see [Install the Client Plug-Ins on a vCenter Server Appliance](plugins_vcsa.md).
-- You upgraded an existing vSphere Integrated Containers 1.3.x appliance to a newer 1.3.y version. For information about upgrading the vSphere Integrated Containers appliance, see [Upgrade the vSphere Integrated Containers Appliance](upgrade_appliance.md).
+- You deployed the vSphere Integrated Containers plug-ins with vSphere Integrated Containers 1.2.x or 1.3.x. For information about installing the plug-ins for the first time, see [Install the Client Plug-Ins on a vCenter Server Appliance](plugins_vcsa.md).
+- You upgraded an existing vSphere Integrated Containers 1.4.x appliance to a newer 1.4.y version. For information about upgrading the vSphere Integrated Containers appliance, see [Upgrade the vSphere Integrated Containers Appliance](upgrade_appliance.md).
 - Go to the vCenter Server Appliance Management Interface (VAMI) at https://<i>vcsa_address</i>:5480, click **Access**, and make sure that Bash Shell is enabled.
 - Obtain the vCenter Server certificate thumbprint. For information about how to obtain and verify the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 - The system on which you run the script is running `awk`.
