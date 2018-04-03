@@ -14,24 +14,15 @@
 # limitations under the License.
 set -euf -o pipefail
 
-# Need updated release of govc to support datastore.cp
-# Build off of master for now.
+DIR="$(mktemp -d)"
+cd $DIR
+GOVC_SHA256="316013c42b77d9b191a766bce53f55aeab751170704e8d5000bf3ee0d39a98f6  govc_linux_amd64.gz"
+cat > "SHA256SUMS" << EOF
+${GOVC_SHA256}
+EOF
 
-# DIR=$(mktemp -d)
-# cd $DIR
-# curl -L"#" https://github.com/vmware/govmomi/releases/download/v0.16.0/govc_linux_amd64.gz | gunzip > govc
-# sudo install -t /usr/local/bin/ govc
+curl -L"#" -o govc_linux_amd64.gz https://github.com/vmware/govmomi/releases/download/v0.17.1/govc_linux_amd64.gz
+shasum -a 256 --check SHA256SUMS || (echo "Failed to verify govc checksum" && exit 1)
 
-tdnf install -y git
-curl -L'#' -k https://storage.googleapis.com/golang/go1.9.2.linux-amd64.tar.gz | tar xzf - -C /usr/local
-export PATH=$PATH:/usr/local/go/bin
-MASTER='3c1bff8adbaf7408746a1f3b28ace708639b9e3e'
-GOVMOMI='/root/go/src/github.com/vmware/govmomi'
-mkdir -p $GOVMOMI
-git clone https://github.com/vmware/govmomi.git $GOVMOMI
-( cd $GOVMOMI && git checkout $MASTER )
-GOOS=linux GOARCH=amd64 go build \
-      -o="/usr/local/bin/govc" -ldflags="-X github.com/vmware/govmomi/govc/version.gitVersion=00.16.1" \
-      github.com/vmware/govmomi/govc
-govc version
-tdnf remove -y git
+gunzip --stdout govc_linux_amd64.gz > govc
+sudo install -t /usr/local/bin/ govc
