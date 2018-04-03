@@ -5,6 +5,7 @@ Wants=network-pre.target
 
 [Service]
 Type=oneshot
+EnvironmentFile=/etc/vmware/environment
 ExecStart=/etc/vmware/network-config.sh
 
 [Install]

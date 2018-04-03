@@ -18,9 +18,9 @@ umask 077
 
 ENV_FILE="/etc/vmware/environment"
 
-TLS_CERT="$(ovfenv -k appliance.tls_cert)"
-TLS_PRIVATE_KEY="$(ovfenv -k appliance.tls_cert_key)"
-TLS_CA_CERT="$(ovfenv -k appliance.ca_cert)"
+APPLIANCE_TLS_CERT="$(ovfenv -k appliance.tls_cert)"
+APPLIANCE_TLS_PRIVATE_KEY="$(ovfenv -k appliance.tls_cert_key)"
+APPLIANCE_TLS_CA_CERT="$(ovfenv -k appliance.ca_cert)"
 ADMIRAL_PORT="$(ovfenv -k management_portal.port)"
 REGISTRY_PORT="$(ovfenv -k registry.port)"
 NOTARY_PORT="$(ovfenv -k registry.notary_port)"
@@ -31,6 +31,13 @@ DEFAULT_USERS_CREATE_DEF_USERS="$(ovfenv -k default_users.create_def_users)"
 DEFAULT_USERS_DEF_USER_PREFIX="$(ovfenv -k default_users.def_user_prefix)"
 DEFAULT_USERS_DEF_USER_PASSWORD="$(ovfenv -k default_users.def_user_password)"
 REGISTRY_GC_ENABLED="$(ovfenv --key registry.gc_enabled)"
+APPLIANCE_PERMIT_ROOT_LOGIN="$(ovfenv --key appliance.permit_root_login)"
+NETWORK_FQDN="$(ovfenv --key network.fqdn)"
+NETWORK_IP0="$(ovfenv --key network.ip0)"
+NETWORK_NETMASK0="$(ovfenv --key network.netmask0)"
+NETWORK_GATEWAY="$(ovfenv --key network.gateway)"
+NETWORK_DNS="$(ovfenv --key network.DNS | sed 's/,/ /g' | tr -s ' ')"
+NETWORK_SEARCHPATH="$(ovfenv --key network.searchpath)"
 
 function detectHostname() {
   HOSTNAME=$(hostnamectl status --static) || true
@@ -79,21 +86,28 @@ echo "Using hostname: ${HOSTNAME}"
 
 
 {
-  echo "TLS_CERT=${TLS_CERT}";
-  echo "TLS_PRIVATE_KEY=${TLS_PRIVATE_KEY}";
-  echo "TLS_CA_CERT=${TLS_CA_CERT}";
-  echo "ADMIRAL_PORT=${ADMIRAL_PORT}";
-  echo "REGISTRY_PORT=${REGISTRY_PORT}";
-  echo "NOTARY_PORT=${NOTARY_PORT}";
-  echo "FILESERVER_PORT=${FILESERVER_PORT}";
   echo "VIC_MACHINE_SERVER_PORT=8443";
   echo "APPLIANCE_SERVICE_UID=10000";
   echo "HOSTNAME=${HOSTNAME}";
   echo "IP_ADDRESS=${IP_ADDRESS}";
+  echo "ADMIRAL_PORT=${ADMIRAL_PORT}";
+  echo "REGISTRY_PORT=${REGISTRY_PORT}";
+  echo "NOTARY_PORT=${NOTARY_PORT}";
+  echo "FILESERVER_PORT=${FILESERVER_PORT}";
+  echo "APPLIANCE_TLS_CERT=${APPLIANCE_TLS_CERT}";
+  echo "APPLIANCE_TLS_PRIVATE_KEY=${APPLIANCE_TLS_PRIVATE_KEY}";
+  echo "APPLIANCE_TLS_CA_CERT=${APPLIANCE_TLS_CA_CERT}";
   echo "DEFAULT_USERS_CREATE_DEF_USERS=${DEFAULT_USERS_CREATE_DEF_USERS}";
   echo "DEFAULT_USERS_DEF_USER_PREFIX=${DEFAULT_USERS_DEF_USER_PREFIX}";
   echo "DEFAULT_USERS_DEF_USER_PASSWORD=${DEFAULT_USERS_DEF_USER_PASSWORD}";
   echo "REGISTRY_GC_ENABLED=${REGISTRY_GC_ENABLED}";
+  echo "APPLIANCE_PERMIT_ROOT_LOGIN=${APPLIANCE_PERMIT_ROOT_LOGIN}";
+  echo "NETWORK_FQDN=${NETWORK_FQDN}";
+  echo "NETWORK_IP0=${NETWORK_IP0}";
+  echo "NETWORK_NETMASK0=${NETMASK0}";
+  echo "NETWORK_GATEWAY=${NETWORK_GATEWAY}";
+  echo "NETWORK_DNS=${NETWORK_DNS}";
+  echo "NETWORK_SEARCHPATH=${NETWORK_SEARCHPATH}";
 } > ${ENV_FILE}
 
 # Only run on first boot
