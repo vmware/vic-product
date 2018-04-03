@@ -6,7 +6,7 @@ Requires=vic-mounts.target resizefs.service docker.service
 [Service]
 Type=oneshot
 # allow other services to view this services as 'running' after exit
-RemainAfterExit=yes 
+RemainAfterExit=yes
 ExecStart=/etc/vmware/load-docker-images.sh
 ExecStartPost=/usr/bin/systemctl disable vic-appliance-load-docker-images.service
 

@@ -28,13 +28,14 @@ function get_property
     grep "^$2=" "$1" | cut -d'=' -f2
 }
 
-create_def_users=$(ovfenv -k default_users.create_def_users)
-user_prefix=$(ovfenv -k default_users.def_user_prefix)
-user_password=$(ovfenv -k default_users.def_user_password)
+# Values from vic-appliance-environment
+create_def_users=${DEFAULT_USERS_CREATE_DEF_USERS}
+user_prefix=${DEFAULT_USERS_DEF_USER_PREFIX}
+user_password=${DEFAULT_USERS_DEF_USER_PASSWORD}
 
 echo "add_default_users: $create_def_users, $user_prefix"
 
-if [ ${create_def_users} != "True" ] || [ -z ${user_prefix} ] || [ -z ${user_password} ]; then
+if [ "${create_def_users}" != "True" ] || [ -z "${user_prefix}" ] || [ -z "${user_password}" ]; then
     echo "add_default_users, not creating default users"
     exit 0
 fi
@@ -56,15 +57,15 @@ while true ; do
     fi
 done
 
-token=`cat $token_file`
+token=$(cat "$token_file")
 
 echo "add_default_users loaded token"
 
-tenant=`get_property $psc_prop_file "tenant"`
-defuser_prefix=`get_property $psc_prop_file "default-user-prefix"`
-admiral_url=`get_property $psc_prop_file admiral-url`
+tenant=$(get_property $psc_prop_file "tenant")
+defuser_prefix=$(get_property $psc_prop_file "default-user-prefix")
+admiral_url=$(get_property $psc_prop_file admiral-url)
 # remove backslashes
-admiral_url=`echo $admiral_url | sed 's/\\\//g'`
+admiral_url=$(echo "$admiral_url" | sed 's/\\\//g')
 
 cloud_admin_name=$defuser_prefix
 cloud_admin_name+="-cloud-admin"
@@ -88,7 +89,7 @@ while true ; do
 
     echo "add_default_users ping result: ${http_code}"
 
-    if [ ${http_code} -eq "200" ]; then
+    if [ "${http_code}" -eq "200" ]; then
         break;
     fi
 

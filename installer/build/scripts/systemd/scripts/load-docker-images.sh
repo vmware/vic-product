@@ -16,12 +16,7 @@ set -euf -o pipefail
 source /installer.env
 
 if [[ ! -f /etc/vmware/firstboot ]]; then
-  # change root password
   set +e
-  echo "root:$(ovfenv --key appliance.root_pwd)" | chpasswd
-  # Reset password expiration to 90 days by default
-  chage -d $(date +"%Y-%m-%d") -m 0 -M 90 root
-
   # Only load the docker images if it's the first time booting
   ls "/etc/cache/docker/" | while read line; do
     docker load -i "/etc/cache/docker/$line"
@@ -60,10 +55,4 @@ if [[ ! -f /etc/vmware/firstboot ]]; then
   date -u +"%Y-%m-%dT%H:%M:%SZ" > /etc/vmware/firstboot
 else
   echo "No images to load...."
-fi
-
-# We then obscure the root password, if the VM is reconfigured with another
-# password after deployment, we don't act on it and keep obscuring it.
-if [[ $(ovfenv --key appliance.root_pwd) != '*******' ]]; then
-  ovfenv --key appliance.root_pwd --set '*******'
 fi

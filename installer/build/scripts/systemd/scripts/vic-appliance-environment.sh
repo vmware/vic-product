@@ -27,12 +27,32 @@ NOTARY_PORT="$(ovfenv -k registry.notary_port)"
 FILESERVER_PORT="$(ovfenv -k appliance.config_port)"
 HOSTNAME=""
 IP_ADDRESS=""
+DEFAULT_USERS_CREATE_DEF_USERS="$(ovfenv -k default_users.create_def_users)"
+DEFAULT_USERS_DEF_USER_PREFIX="$(ovfenv -k default_users.def_user_prefix)"
+DEFAULT_USERS_DEF_USER_PASSWORD="$(ovfenv -k default_users.def_user_password)"
+REGISTRY_GC_ENABLED="$(ovfenv --key registry.gc_enabled)"
 
-function detectHostname {
+function detectHostname() {
   HOSTNAME=$(hostnamectl status --static) || true
   if [ -n "$HOSTNAME" ]; then
     echo "Using hostname from 'hostnamectl status --static': $HOSTNAME"
     return
+  fi
+}
+
+function firstboot() {
+  set +e
+  echo "root:$(ovfenv --key appliance.root_pwd)" | chpasswd
+  # Reset password expiration to 90 days by default
+  chage -d $(date +"%Y-%m-%d") -m 0 -M 90 root
+  set -e
+}
+
+function clearPrivate() {
+  # We then obscure the root password, if the VM is reconfigured with another
+  # password after deployment, we don't act on it and keep obscuring it.
+  if [[ $(ovfenv --key appliance.root_pwd) != '*******' ]]; then
+    ovfenv --key appliance.root_pwd --set '*******'
   fi
 }
 
@@ -70,4 +90,15 @@ echo "Using hostname: ${HOSTNAME}"
   echo "APPLIANCE_SERVICE_UID=10000";
   echo "HOSTNAME=${HOSTNAME}";
   echo "IP_ADDRESS=${IP_ADDRESS}";
+  echo "DEFAULT_USERS_CREATE_DEF_USERS=${DEFAULT_USERS_CREATE_DEF_USERS}";
+  echo "DEFAULT_USERS_DEF_USER_PREFIX=${DEFAULT_USERS_DEF_USER_PREFIX}";
+  echo "DEFAULT_USERS_DEF_USER_PASSWORD=${DEFAULT_USERS_DEF_USER_PASSWORD}";
+  echo "REGISTRY_GC_ENABLED=${REGISTRY_GC_ENABLED}";
 } > ${ENV_FILE}
+
+# Only run on first boot
+if [[ ! -f /etc/vmware/firstboot ]]; then
+  firstboot
+fi
+# Remove private values from ovfenv
+clearPrivate

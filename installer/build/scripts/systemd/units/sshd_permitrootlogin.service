@@ -4,6 +4,7 @@ Before=sshd.service
 
 [Service]
 Type=oneshot
+EnvironmentFile=/etc/vmware/environment
 ExecStart=/etc/vmware/sshd_permitrootlogin.sh
 
 [Install]
