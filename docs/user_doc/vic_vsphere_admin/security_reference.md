@@ -9,7 +9,7 @@ The Security Reference provides information to allow you to secure your vSphere 
 - [Sensitive Data](#data)
 
 ## Service Accounts, Privileges, and User Authentication <a id="accounts"></a>
-vSphere Integrated Containers does not create service accounts and does not assign any vSphere privileges. The vSphere Integrated Containers appliance uses vCenter Single Sign-On user accounts to manage user authentication. You can optionally create example Single Sign-On user accounts for vSphere Integrated Containers Management Portal when you deploy the appliance. For information about the example user accounts, see [User Authentication](../vic_overview/introduction.html#authentication) and [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
+vSphere Integrated Containers does not create service accounts and does not assign any vSphere privileges. The vSphere Integrated Containers appliance uses vCenter Single Sign-On user accounts to manage user authentication. You can optionally create example Single Sign-On user accounts for vSphere Integrated Containers Management Portal when you deploy the appliance. For information about the example user accounts, see [User Authentication](../vic_overview/intro_to_vic_mp.md#authentication) and [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 
 ### VCH Authentication with vSphere
 
