@@ -83,7 +83,7 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
     
 11. In a browser, go to http://<i>vic_appliance_address</i>.
 
-    Wait for a few minutes to allow the appliance services to start. In vSphere Integrated Containers 1.3.1 onwards you see the message `The VIC Appliance is initializing`. Refresh your browser at regular intervals until you see the Complete VIC appliance installation panel.
+    Wait for a few minutes to allow the appliance services to start. During this time, you see the message `The VIC Appliance is initializing`. Refresh your browser at regular intervals until you see the Complete VIC appliance installation panel.
 
 12. Enter the connection details for the vCenter Server instance on which you deployed the appliance.
 

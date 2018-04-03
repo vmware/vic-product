@@ -78,8 +78,6 @@ Certain options in this section are exposed in the `vic-machine create` help if 
 
 You upload an existing CA for vSphere Integrated Containers Engine to use to sign automatically generated client certificates. If you use `vic-machine`, you can opt for vSphere Integrated Containers Engine to automatically generate a CA. 
 
-**NOTE**: In vSphere Integrated Containers 1.3.0 the client certificate options appear at the bottom of the Security page of the Create Virtual Container Host wizard. From version 1.3.1 onwards, they appear at the top of the page.
-
 ### Select CA Certificate PEM File <a id="ca-pem"></a>
 
 The public portion of a CA that vSphere Integrated Containers Engine uses to validate client certificates. The client certificates are used as credentials for access to the Docker API running in the VCH. This does not need to be the same CA as you use to sign the server certificate, if you use a custom CA to sign server certificates. You can specify multiple CAs.

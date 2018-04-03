@@ -2,9 +2,9 @@
 
 This document provides an introduction to container technology and an overview of VMware vSphere&reg; Integrated Containers&trade;.
 
-**Product version: 1.3**
+**Product version: 1.4**
 
-This documentation applies to all 1.3.x releases.
+This documentation applies to all 1.4.x releases.
 
 ## Intended Audience
 

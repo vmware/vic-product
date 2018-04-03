@@ -32,8 +32,6 @@ For example, you can access information about a VCH that uses a server certifica
 
 To disable client certificate verification, set the **Client Certificates** switch to the gray OFF position. You must still either upload a custom server certificate or configure an automatically generated server certificate.
 
-**NOTE**: In vSphere Integrated Containers 1.3.0 the client certificate options appear at the bottom of the Security page of the Create Virtual Container Host wizard. From version 1.3.1 onwards, they appear at the top of the page.
-
 #### vic-machine Option 
 
 `--no-tlsverify`, `--kv`

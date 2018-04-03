@@ -42,8 +42,6 @@ If you specify an operations user, `vic-machine` and the VCH behave differently 
 
 The user account that you specify as the operations user must exist before you deploy the VCH. vSphere Integrated Containers Engine provides an option to automatically assign all of the required roles and permissions to the operations user account. If you prefer to assign roles and permissions manually, see [Manually Create a User Account for the Operations User](ops_user_manual.md).
 
-**NOTE**: In vSphere Integrated Containers 1.3.0, you must manually configure the account with ready-only non-propagating permissions on the datacenter in which you are deploying the VCH. From version 1.3.1 onwards, this manual configuration is not necessary.
-
 You can use the same user account as the operations user for multiple VCHs.
 
 **Prerequisite**
@@ -57,14 +55,6 @@ Log into the Flex-based vSphere Web Client with a vSphere administrator account.
 3. Select the appropriate domain and click the **+** button to add a new user.
 4. Enter a user name for the operations user account, for example `vic-ops`.
 5. Enter and confirm the password for this account, optionally provide the additional information, and click **OK**. 
-6. (Optional) If you are using vSphere Integrated Containers 1.3.0, configure ready-only non-propagating permissions on the datacenter.
-
-    If you are using version 1.3.1 or later, these steps are not required. 
-
-    1. In the Hosts and Clusters view, right-click the datacenter in which to deploy the VCH and select **Add Permission**.
-    2. Under Users and Groups, select the operations user that you created.
-    3. Under Assigned Role, select **Read-only** from the drop-down menu.
-    4. Do not select the Propagate to children checkbox, and click **OK**.
 
 **Result**
 

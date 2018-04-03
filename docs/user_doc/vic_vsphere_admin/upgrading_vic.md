@@ -1,6 +1,6 @@
 # Upgrading vSphere Integrated Containers #
 
-You can only upgrade vSphere Integrated Containers from version 1.2.x to 1.3.x, or from 1.3.x to a later 1.3.y update release. You cannot upgrade any release earlier than 1.2.x to 1.3.x.
+You can only upgrade vSphere Integrated Containers from version 1.2.x or  1.3.x to 1.4.x, or from 1.4.x to a later 1.4.y update release. You cannot upgrade any release earlier than 1.2.x to 1.4.x.
 
 You upgrade vSphere Integrated Containers in three stages: 
 
