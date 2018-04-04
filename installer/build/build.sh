@@ -60,7 +60,7 @@ if [ "$step" == "ova-dev" ]; then
     -e BUILD_NUMBER=${BUILD_NUMBER} \
     -e DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER} \
     -e TERM -w ${ROOT_INSTALLER_WORK_DIR} \
-    gcr.io/eminent-nation-87317/vic-product-build ./build/build-ova.sh $*
+    gcr.io/eminent-nation-87317/vic-product-build:2ea9bdfd ./build/build-ova.sh $*
 elif [ "$step" == "ova-ci" ]; then
   echo "starting ci build..."
   export DEBUG=${DEBUG}

@@ -70,7 +70,7 @@ function build_app {
             elif [[ $LINE == "file" ]]; then
                 SOURCE=$(jq '.['$LINE_NUM'] | .source' "${MANIFEST}" | tr -d '"')
                 DESTINATION=$(echo "${ROOT}/$(cat "${MANIFEST}" | jq '.['$LINE_NUM'] | .destination')" | tr -d '"' )
-                mkdir -p "$(dirname "$DESTINATION")" && cp -R "$SOURCE" "$DESTINATION"
+                mkdir -p "$(dirname "$DESTINATION")" && cp -R $SOURCE "$DESTINATION"
             fi
                 LINE_NUM=$((LINE_NUM+1))
         done
