@@ -75,7 +75,7 @@ These three scripts are self-explanatory:
 
 The `bootable` folder also contains ovf template and tdnf repos for building the ova.
 
-There are many useful arguments for `build-main.sh`, but most notable is the `-b` argument for cachine the base layer for faster builds. This option can be passed throught the first `build.sh` script, like `./build/build.sh ova-dev -b bin/.vic-appliance-base.tar.gz`.
+There are many useful arguments for `build-main.sh`, but most notable is the `-b` argument for caching the base layer for faster builds. This option can be passed throught the first `build.sh` script, like `./build/build.sh ova-dev -b bin/.vic-appliance-base.tar.gz`.
 
 The general order of execution is `build.sh` -> `build-ova.sh`  -> `build-cache.sh` -> `bootable/build-main.sh` -> `bootable/build-disks.sh` -> `bootable/build-base.sh` -> `bootable/build-app.sh` -> ova export.
 

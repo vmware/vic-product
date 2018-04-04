@@ -133,7 +133,7 @@ function convert() {
   local raw=$3
   local vmdk=$4
   cd "${PACKAGE}"
-  log3 "unmount ${brprpl}${mount}${creset}"
+  log3 "unmount ${brprpl}${mount}${reset}"
   if mountpoint "${mount}" >/dev/null 2>&1; then
     umount -R "${mount}/" >/dev/null 2>&1
   fi

@@ -64,7 +64,7 @@ function build_app {
             LINE=$(echo "$LINE" | tr -d '"')
             if [ "$LINE" == "shell" ]; then
                 SCRIPT=$(jq '.['$LINE_NUM'] | .script' "${MANIFEST}" | tr -d '"')
-                cp "$SCRIPT" "${ROOT}/build/script-provisioners/$SCRIPT_NUM-$(basename "$SCRIPT")"
+                cp $SCRIPT "${ROOT}/build/script-provisioners/$SCRIPT_NUM-$(basename "$SCRIPT")"
                 chmod +x "${ROOT}/build/script-provisioners/$SCRIPT_NUM-$(basename "$SCRIPT")"
             SCRIPT_NUM=$((SCRIPT_NUM+1))
             elif [[ $LINE == "file" ]]; then
@@ -186,5 +186,5 @@ if [[ -n "$*" || -z "${RESOURCE}" || -z "${MANIFEST}" ]]; then
 fi
 
 exec 3>&1 1>>"${RESOURCE}/installer-build.log" 2>&1
-log1 "Staring appliance build."
+log1 "Starting appliance build."
 main 2> /dev/fd/3

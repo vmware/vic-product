@@ -47,9 +47,9 @@ echo "UseDNS no" >> /etc/ssh/sshd_config
 systemctl enable sshd
 
 log2 "running provisioners"
-find script-provisioners -type f | while read -r SCRIPT; do
-  log3 "running ${brprpl}$SCRIPT${creset}"
-  ./script-provisioners/"$SCRIPT"
+find script-provisioners -type f | sort -n | while read -r SCRIPT; do
+  log3 "running ${brprpl}$SCRIPT${reset}"
+  ./"$SCRIPT"
 done;
 
 log2 "cleaning up base os disk"
