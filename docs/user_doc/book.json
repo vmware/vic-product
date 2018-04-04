@@ -9,7 +9,7 @@
                 "style": "background: none"
         },
             "edit-link": {
-                "base": "https://github.com/vmware/vic-product/tree/master/docs/user_doc",
+                "base": "https://github.com/vmware/vic-product/tree/1.3-docs/docs/user_doc",
                 "label": "Edit this Page"
             }
         },
