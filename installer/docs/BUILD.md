@@ -23,6 +23,7 @@ The build machine must have `docker` and if using `build.sh` must have `gsutil`.
 
 This is the recommended way to build the OVA.
 
+###### Versioning Components
 
 The build script pulls the desired versions of each included component into the build container.
 It accepts files in the `installer/build` directory, URLs, or revisions and automatically sets
@@ -60,6 +61,23 @@ specified by their respective URLs, Admiral tag `vic_v1.1.1`, and VIC Machine Se
 
 Note: the VIC Engine artifact used when building the OVA must be named following the `vic_*.tar.gz` format.
 This is required by the OVA in order to automatically configure the VIC Engine UI plugins correctly for installation.
+
+###### Build Script Flow
+
+The VIC Appliance Builder is made up of three bash scripts `installer/build/build.sh`, `installer/build/build-ova.sh`, and `installer/build/build-cache.sh`. These three scripts set up the necessary environment variables needed to build VIC, download and make the component dependencies, and kick off the bootable build in a docker container. 
+
+The `bootable` folder contains all the files needed to make a bootable ova. These include `build-main.sh`, which organizes the calls for `build-disks.sh`, `build-base.sh`, and `build-app.sh`. 
+
+These three scripts are self-explanatory:
+ - `build-disks.sh`: Provisions local disk space for the boot and data drives. Installs grub2 to the boot drive.
+ - `build-base.sh`: Installs all repo components, like a linux kernel and coreutils, to the base disks. Can be cached as a gzipped tar.
+ - `build-app.sh`: Performs any necessary configuration of the ova by running all script provisioners in a chroot.
+
+The `bootable` folder also contains ovf template and tdnf repos for building the ova.
+
+There are many useful arguments for `build-main.sh`, but most notable is the `-b` argument for caching the base layer for faster builds. This option can be passed throught the first `build.sh` script, like `./build/build.sh ova-dev -b bin/.vic-appliance-base.tar.gz`.
+
+The general order of execution is `build.sh` -> `build-ova.sh`  -> `build-cache.sh` -> `bootable/build-main.sh` -> `bootable/build-disks.sh` -> `bootable/build-base.sh` -> `bootable/build-app.sh` -> ova export.
 
 #### Upload
 

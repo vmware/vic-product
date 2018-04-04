@@ -19,12 +19,12 @@ IMAGE="vic-product-build"
 REPO="gcr.io/eminent-nation-87317/"
 
 # `docker build` the build container
-docker build --pull --force-rm --no-cache -t "$IMAGE:$OVA_REV" .
+docker build --pull --force-rm --no-cache -t "$IMAGE:$OVA_REV" -f build/container/Dockerfile .
 
 # tag the build container with latest and a commit hash
 docker tag "$IMAGE:$OVA_REV" "$REPO$IMAGE:latest"
 docker tag "$IMAGE:$OVA_REV" "$REPO$IMAGE:$OVA_REV"
 
-# push both container tags using gcloud for auth
-gcloud docker -- push "$REPO$IMAGE:latest"
-gcloud docker -- push "$REPO$IMAGE:$OVA_REV"
+# # push both container tags using gcloud for auth
+# gcloud docker -- push "$REPO$IMAGE:latest"
+# gcloud docker -- push "$REPO$IMAGE:$OVA_REV"
