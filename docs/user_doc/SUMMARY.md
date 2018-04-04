@@ -12,6 +12,7 @@
 ----
 
 * [Overview](vic_overview/README.md)
+  * [Introduction](vic_overview/introduction.md)
   * [Containers, Docker, Registries](vic_overview/intro_to_containers.md)
   * [vSphere Integrated Containers](vic_overview/intro_to_vic.md)
      * [Engine](vic_overview/intro_to_vic_engine.md)
