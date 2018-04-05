@@ -138,6 +138,7 @@ function getDiagInfo {
   commandToFile "timedatectl" "timedatectl" "appliance"
   commandToFile "ip address show" "ip_addr" "appliance"
   commandToFile "cat /etc/vmware/firstboot" "firstboot" "appliance"
+  commandToFile "cat /registration-timestamps.txt" "registration-timestamps.txt" "appliance"
   commandToFile "uptime" "uptime" "appliance"
   commandToFile "cat /etc/vmware/version" "appliance_version" "appliance"
   commandToFile "cat /storage/data/version" "data_version" "appliance"
