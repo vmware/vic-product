@@ -26,11 +26,11 @@ APPLIANCE_IP=$(ip addr show dev eth0 | sed -nr 's/.*inet ([^ ]+)\/.*/\1/p')
 # Check if required PSC token is present
 function checkAdmiralPSCToken {
   if [ ! -f "${admiral_psc_token_file}" ]; then
-    echo "PSC token ${admiral_psc_token_file} not present." | tee /dev/fd/3
+    log "PSC token ${admiral_psc_token_file} not present."
     exit 1
   fi
   if [ ! -s "${admiral_psc_token_file}" ]; then
-    echo "PSC token ${admiral_psc_token_file} has zero size." | tee /dev/fd/3
+    log "PSC token ${admiral_psc_token_file} has zero size."
     exit 1
   fi
 }
@@ -49,7 +49,7 @@ function setTabUrl {
 
 # Upgrade entry point from upgrade.sh
 function upgradeAdmiral {
-  echo "Performing pre-upgrade checks" | tee /dev/fd/3
+  log "Performing pre-upgrade checks"
   checkAdmiralPSCToken
 
   # Remove files from old upgrade
@@ -57,24 +57,24 @@ function upgradeAdmiral {
     rm -rf "${admiral_upgrade_status_prev}"
   fi
 
-  echo "Starting Admiral upgrade" | tee /dev/fd/3
+  log "Starting Admiral upgrade"
   systemctl start admiral.service
-  echo "Updating Admiral configuration" | tee /dev/fd/3
+  log "Updating Admiral configuration"
 
   tab_retries=0
   max_tab_retries=6 # 60 seconds
   while [[ "$(setTabUrl)" != "200" && ${tab_retries} -lt ${max_tab_retries} ]]; do
-    timecho "Waiting for admiral api tab update..." | tee /dev/fd/3
+    log "Waiting for admiral api tab update..."
     sleep 10
     let "tab_retries+=1"
   done
 
   if [ ${tab_retries} -eq ${max_tab_retries} ]; then
-    timecho "Admiral api could not be reached. Exiting..." | tee /dev/fd/3
+    log "Admiral api could not be reached. Exiting..."
     exit 1
   fi
 
-  echo "Restarting Admiral" | tee /dev/fd/3
+  log "Restarting Admiral"
   systemctl restart admiral.service
   sleep 5
 }

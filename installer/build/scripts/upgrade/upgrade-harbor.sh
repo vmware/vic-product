@@ -29,7 +29,7 @@ harbor_backup="/storage/data/harbor_backup"
 DB_USER=""
 DB_PASSWORD=""
 
-HARBOR_VER_1_2_1="harbor-offline-installer-v1.2.1.tgz"
+VER_1_2_1="v1.2.1"
 
 # Configure attr in harbor.cfg
 MANAGED_KEY="# Managed by configure_harbor.sh"
@@ -65,11 +65,11 @@ function readHarborCfgKey {
 # Check if required PSC token is present
 function checkHarborPSCToken {
   if [ ! -f "${harbor_psc_token_file}" ]; then
-    echo "PSC token ${harbor_psc_token_file} not present. Unable to perform data migration to Harbor." | tee /dev/fd/3
+    log "PSC token ${harbor_psc_token_file} not present. Unable to perform data migration to Harbor." 
     exit 1
   fi
   if [ ! -s "${harbor_psc_token_file}" ]; then
-    echo "PSC token ${harbor_psc_token_file} has zero size. Unable to perform data migration to Harbor." | tee /dev/fd/3
+    log "PSC token ${harbor_psc_token_file} has zero size. Unable to perform data migration to Harbor."
     exit 1
   fi
 }
@@ -91,8 +91,7 @@ function runMigratorCmd {
 
 # https://github.com/vmware/harbor/blob/master/docs/migration_guide.md
 function migrateHarbor {
-  HARBOR_VER=$(readKeyValue "harbor" "/storage/data/version")
-  if [ "$HARBOR_VER" != "$HARBOR_VER_1_2_1" ]; then
+  if [ "$HARBOR_VER" == "$VER_1_2_1" ]; then
     harbor_old_database_dir="/storage/data/harbor"
     mkdir -p "${harbor_db_mount}"
     DIR="database";  mv "${harbor_old_database_dir}/$DIR" "${harbor_db_mount}"
@@ -102,26 +101,26 @@ function migrateHarbor {
 
   # Test database connection
   # Subshell to preserve -e
-  echo "Testing database credentials..." | tee /dev/fd/3
+  log "Testing database credentials..."
   ( runMigratorCmd "test" )
   if [ $? -ne 0 ]; then
-    echo "Invalid database credentials" | tee /dev/fd/3
+    log "Invalid database credentials"
     exit 1
   fi
 
-  echo "Backing up harbor config..." | tee /dev/fd/3
+  log "Backing up harbor config..."
   ( runMigratorCmd "backup" )
     if [ $? -ne 0 ]; then
-    echo "Harbor backup failed..." | tee /dev/fd/3
+    log "Harbor backup failed..."
     exit 1
   fi
 
   ( runMigratorCmd "up" )
   if [ $? -ne 0 ]; then
-    echo "Harbor up head command failed" | tee /dev/fd/3
-    echo "Restoring from backup..." | tee /dev/fd/3
+    log "Harbor up head command failed"
+    log "Restoring from backup..."
     runMigratorCmd "restore"
-    echo "Backup restored. Exiting..." | tee /dev/fd/3
+    log "Backup restored. Exiting..."
     exit 1
   fi
 
@@ -138,6 +137,8 @@ function migrateHarbor {
 
 # Upgrade entry point from upgrade.sh
 function upgradeHarbor {
+  export HARBOR_VER="$1"
+  
   if [ -z "${DB_USER}" ]; then
     DB_USER="root"
   fi
@@ -153,7 +154,7 @@ function upgradeHarbor {
     exit 1
   fi
 
-  echo "Performing pre-upgrade checks" | tee /dev/fd/3
+  log "Performing pre-upgrade checks"
   checkDir ${harbor_backup}
   cleanupFiles
   mkdir -p ${harbor_backup}
@@ -162,23 +163,23 @@ function upgradeHarbor {
   # Start Admiral for data migration
   systemctl start admiral.service
 
-  echo "Starting Harbor upgrade" | tee /dev/fd/3
+  log "Starting Harbor upgrade"
 
-  echo "[=] Shutting down Harbor" | tee /dev/fd/3
+  log "[=] Shutting down Harbor"
   systemctl stop harbor.service
 
-  echo "[=] Migrating Harbor configuration and data" | tee /dev/fd/3
+  log "[=] Migrating Harbor configuration and data"
   # subshell to capture -e
   ( migrateHarbor )
   if [ $? -ne 0 ]; then
-    echo "[=] Harbor migration failed from the Old VIC Appliance" | tee /dev/fd/3
-    echo "[=] Please contact VMware support" | tee /dev/fd/3
+    log "[=] Harbor migration failed from the Old VIC Appliance"
+    log "[=] Please contact VMware support"
     exit 1
   fi
   
-  echo "[=] Successfully migrated Harbor configuration and data" | tee /dev/fd/3
-  echo "Harbor upgrade complete" | tee /dev/fd/3
+  log "[=] Successfully migrated Harbor configuration and data"
+  log "Harbor upgrade complete"
 
-  echo "Starting Harbor" | tee /dev/fd/3
+  log "Starting Harbor"
   systemctl start harbor.service
 }

@@ -18,24 +18,24 @@
 # Check if directory is present, prompt user to continue
 function checkDir {
   if [ -d "$1" ]; then
-    echo "Directory $1 already exists. If upgrade to this version is already running or previously completed, data corruption may occur if you proceed." | tee /dev/fd/3
+    log "Directory $1 already exists. If upgrade to this version is already running or previously completed, data corruption may occur if you proceed."
     while true; do
-      echo "" | tee /dev/fd/3
-      echo "Do you wish to proceed? [y/n]" | tee /dev/fd/3
+      log ""
+      log "Do you wish to proceed? [y/n]"
       read response
       case $response in
           [Yy] )
-              echo "Continuing with upgrade" | tee /dev/fd/3
-              echo "" | tee /dev/fd/3
+              log "Continuing with upgrade"
+              log ""
               break
               ;;
           [Nn] )
-              echo "Exiting without performing upgrade" | tee /dev/fd/3
+              log "Exiting without performing upgrade"
               exit 1
               ;;
           *)
               # unknown option
-              echo "Please enter [y/n]" | tee /dev/fd/3
+              log "Please enter [y/n]"
               ;;
       esac
     done
@@ -49,25 +49,25 @@ function readFile {
 # Check status file, prompt user to continue
 function checkUpgradeStatus {
   if [ -f "$2" ]; then
-    echo "Detected $1 upgrade was previously completed" | tee /dev/fd/3
-    echo "If upgrade to this version is already running or previously completed, data corruption may occur if you proceed." | tee /dev/fd/3
+    log "Detected $1 upgrade was previously completed"
+    log "If upgrade to this version is already running or previously completed, data corruption may occur if you proceed."
     while true; do
-      echo "" | tee /dev/fd/3
-      echo "Do you wish to proceed? [y/n]" | tee /dev/fd/3
+      log ""
+      log "Do you wish to proceed? [y/n]"
       read response
       case $response in
           [Yy] )
-              echo "Continuing with upgrade" | tee /dev/fd/3
-              echo "" | tee /dev/fd/3
+              log "Continuing with upgrade"
+              log ""
               break
               ;;
           [Nn] )
-              echo "Exiting without performing upgrade" | tee /dev/fd/3
+              log "Exiting without performing upgrade"
               exit 1
               ;;
           *)
               # unknown option
-              echo "Please enter [y/n]" | tee /dev/fd/3
+              log "Please enter [y/n]"
               ;;
       esac
     done
@@ -126,8 +126,8 @@ function getApplianceVersion() {
     ver=$(readKeyValue "appliance" "$COPIED_DIR/data/version")
     tag=$(getTagVersion "$ver")
     if [ "$tag" != $VER_1_2_1 ]; then
-      echo "Invalid version detected from old VIC appliance" | tee /dev/fd/3
-      echo "Please contact VMware support" | tee /dev/fd/3
+      log "Invalid version detected from old VIC appliance"
+      log "Please contact VMware support"
       exit 1
     fi
 
@@ -154,8 +154,20 @@ function getApplianceVersion() {
   return
 }
 
-function timecho {
-  echo -e "$(date +"%Y-%m-%d %H:%M:%S") [==] $*"
+function log {
+  if [ $REDIRECT_ENABLED -eq 1 ]; then
+    echo -e "$(date +"%Y-%m-%d %H:%M:%S") [=] $*" | tee /dev/fd/3
+  else
+    echo -e "$(date +"%Y-%m-%d %H:%M:%S") [=] $*"
+  fi
+}
+
+function logn {
+  if [ $REDIRECT_ENABLED -eq 1 ]; then
+    echo -ne "$(date +"%Y-%m-%d %H:%M:%S") [=] $*" | tee /dev/fd/3
+  else
+    echo -ne "$(date +"%Y-%m-%d %H:%M:%S") [=] $*"
+  fi
 }
 
 # Get the fingerprint of vCenter
