@@ -469,7 +469,7 @@ function main {
   ver=$(getApplianceVersion "$OLD_APP_DIR")
   proceedWithUpgrade "$ver"
   if [ -z "${MANUAL_DISK_MOVE}" ]; then
-    moveDisks "$APPLIANCE_USERNAME" "$APPLIANCE_TARGET" "$ver"
+    moveDisks "$ver"
   fi
 
   echo "Preparing upgrade environment" | tee /dev/fd/3
