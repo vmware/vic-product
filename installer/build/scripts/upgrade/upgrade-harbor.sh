@@ -18,89 +18,33 @@ set -euf -o pipefail && [ -n "$DEBUG" ] && set -x
 source /installer.env
 . "${0%/*}"/util.sh
 
-data_mount="/storage/data/harbor"
-cfg="${data_mount}/harbor.cfg"
-# TODO: Give harbor upgrade containers a single volume mount
-# TODO: Backup may not be needed with 1.4.0 technique of disk copy
-harbor_backup_prev="/storage/data/harbor_backup"
-harbor_backup="/storage/data/harbor_backup_1.3.1"
-harbor_migration="/storage/data/harbor_migration"
+harbor_data_mount="/storage/data/harbor"
+harbor_db_mount="/storage/db/harbor"
+harbor_cfg="${harbor_data_mount}/harbor.cfg"
+harbor_database="${harbor_db_mount}/database"
 harbor_psc_token_file="/etc/vmware/psc/harbor/tokens.properties"
-
-# File used in previous upgrades to indicate Harbor upgrade was complete
-harbor_upgrade_status_prev="/etc/vmware/harbor/upgrade_status"
+harbor_upgrade_status="/etc/vmware/harbor/upgrade_status"
+harbor_backup="/storage/data/harbor_backup"
 
 DB_USER=""
 DB_PASSWORD=""
 
-HARBOR_VER_1_2_0="harbor-offline-installer-v1.2.0.tgz"
-HARBOR_VER_1_3_0="harbor-offline-installer-v1.3.0.tgz"
+VER_1_2_1="v1.2.1"
 
+# Configure attr in harbor.cfg
 MANAGED_KEY="# Managed by configure_harbor.sh"
-export LC_ALL="C"
 
 # Cleanup files from previous upgrade operations
 function cleanupFiles {
-  if [ -f "${harbor_upgrade_status_prev}" ]; then
-    rm -rf "${harbor_upgrade_status_prev}"
-  fi
-  if [ -d "${harbor_backup_prev}" ]; then
-    rm -rf "${harbor_backup_prev}"
-  fi
-  if [ -d "${harbor_migration}" ]; then
-    rm -rf "${harbor_migration}"
-  fi
-}
-
-# Check if required PSC token is present
-function checkHarborPSCToken {
-  if [ ! -f "${harbor_psc_token_file}" ]; then
-    echo "PSC token ${harbor_psc_token_file} not present. Unable to perform data migration to Admiral." | tee /dev/fd/3
-    exit 1
-  fi
-  if [ ! -s "${harbor_psc_token_file}" ]; then
-    echo "PSC token ${harbor_psc_token_file} has zero size. Unable to perform data migration to Admiral." | tee /dev/fd/3
-    exit 1
-  fi
-}
-
-# Add key if it is not present in the config
-# Does not handle if key is present, but value unset
-function configureHarborCfgUnset {
-  local cfg_key=$1
-  local cfg_value=$2
-  local managed="${3:-false}"
-  local line
-  line=$(sed -n "/^$cfg_key\s*=/p" $cfg)
-
-  if [ -z "$line" ]; then
-    echo "Key not found: $cfg_key, adding key"
-    if [ "$managed" = true ]; then
-      echo "Setting managed key $cfg_key"
-      echo "${MANAGED_KEY}" >> $cfg
-      echo "$cfg_key = $cfg_value" >> $cfg
-    else
-      echo "Setting $cfg_key"
-      echo "$cfg_key = $cfg_value" >> $cfg
+  files=(
+    ${harbor_backup}
+    ${harbor_upgrade_status}
+  )
+  for file in "${files[@]}"; do
+    if [ -e "${file}" ]; then
+      rm -rf "${file}"
     fi
-  else
-    echo "Key found: $cfg_key, skipping"
-  fi
-}
-
-# Remove key if it is not needed in the config
-# Does not handle the comments of key
-function removeHarborCfgKey {
-  local cfg_key=$1
-  local line
-  line=$(sed -n "/^$cfg_key\s*=/p" $cfg)
-
-  if [ -z "$line" ]; then
-    echo "Key removed: $cfg_key, skipping"
-  else
-    echo "Key found: $cfg_key, removing key"
-    sed -i "/$line/d" $cfg
-  fi
+  done
 }
 
 # Returns value from cfg given key to search for
@@ -109,7 +53,7 @@ function readHarborCfgKey {
   local cfg_key=$1
   local  __resultvar=$2
   local value
-  value=$(grep "^$cfg_key " $cfg | cut -d' ' -f 3 | xargs)
+  value=$(grep "^$cfg_key " $harbor_cfg | cut -d' ' -f 3 | xargs)
 
   if [ -z "$value" ]; then
       echo "Key not found: $cfg_key"
@@ -118,86 +62,83 @@ function readHarborCfgKey {
     fi
 }
 
-# Add managed keyword to key if not already managed
-function configureHarborCfgManageKey {
-  local cfg_key=$1
-  local prev_line
-  prev_line=$(sed -n "/^$cfg_key\s*=/{x;p;d;}; x" $cfg)
-  local line
-  line=$(sed -n "/^$cfg_key\s*=/p" $cfg)
-
-  if [ -z "$line" ]; then
-    echo "Key not found: $cfg_key"
-    return
+# Check if required PSC token is present
+function checkHarborPSCToken {
+  if [ ! -f "${harbor_psc_token_file}" ]; then
+    log "PSC token ${harbor_psc_token_file} not present. Unable to perform data migration to Harbor." 
+    exit 1
   fi
-
-  if [[ $prev_line != *"${MANAGED_KEY}"* ]]; then
-    echo "Setting managed key $cfg_key"
-    sed -i -r "s/^$cfg_key\s*=.*/${MANAGED_KEY}\n$line/g" $cfg
-  else
-    echo "Key $cfg_key already managed, skipping."
+  if [ ! -s "${harbor_psc_token_file}" ]; then
+    log "PSC token ${harbor_psc_token_file} has zero size. Unable to perform data migration to Harbor."
+    exit 1
   fi
 }
 
-# Upgrade config file in place
-function upgradeHarborConfiguration {
-  # Add generated log_rotate_count, log_rotate_size, email_insecure, db_host, db_port, db_user, uaa_endpoint,
-  # uaa_clientid, uaa_clientsecret, uaa_ca_root, and ldap_verify_cert as managed key if not present
-  configureHarborCfgUnset log_rotate_count 50
-  configureHarborCfgUnset log_rotate_size 200M
-  configureHarborCfgUnset email_insecure false
-  configureHarborCfgUnset db_host mysql
-  configureHarborCfgUnset db_port 3306
-  configureHarborCfgUnset db_user root
-  configureHarborCfgUnset uaa_endpoint uaa.mydomain.org
-  configureHarborCfgUnset uaa_clientid id
-  configureHarborCfgUnset uaa_clientsecret secret
-  configureHarborCfgUnset uaa_ca_root /path/to/uaa_ca.pem
-  configureHarborCfgUnset ldap_verify_cert true
+# Run the harbor migrator docker image
+# TODO(morris-jason): remove the test tag
+function runMigratorCmd {
+  local migrator_image="vmware/harbor-migrator:v1.5.0-test"
 
-  # Add managed tags to db_password and clair_db_password
-  configureHarborCfgManageKey db_password
-  configureHarborCfgManageKey clair_db_password
-
-  # Remove key verify_remote_cert
-  removeHarborCfgKey verify_remote_cert
+  docker run -it --rm \
+    -e DB_USR=${DB_USER} \
+    -e DB_PWD=${DB_PASSWORD} \
+    -e SKIP_CONFIRM=y \
+    -v ${harbor_database}:/var/lib/mysql \
+    -v ${harbor_data_mount}:/harbor-migration/harbor-cfg \
+    -v ${harbor_backup}:/harbor-migration/backup \
+    ${migrator_image} "$@"
 }
 
 # https://github.com/vmware/harbor/blob/master/docs/migration_guide.md
-function migrateHarborData {
-  checkDir ${harbor_backup}
-  mkdir ${harbor_backup}
-
-  local migrator_image="vmware/harbor-db-migrator:1.3"
-  local harbor_old_database_dir="/storage/data/harbor"
-  local harbor_new_database_dir="/storage/db/harbor"
-  local harbor_database="${harbor_old_database_dir}/database"
+function migrateHarbor {
+  if [ "$HARBOR_VER" == "$VER_1_2_1" ]; then
+    harbor_old_database_dir="/storage/data/harbor"
+    mkdir -p "${harbor_db_mount}"
+    DIR="database";  mv "${harbor_old_database_dir}/$DIR" "${harbor_db_mount}"
+    DIR="clair-db";  mv "${harbor_old_database_dir}/$DIR" "${harbor_db_mount}"
+    DIR="notary-db"; mv "${harbor_old_database_dir}/$DIR" "${harbor_db_mount}"
+  fi
 
   # Test database connection
-  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql ${migrator_image} test
+  # Subshell to preserve -e
+  log "Testing database credentials..."
+  ( runMigratorCmd "test" )
   if [ $? -ne 0 ]; then
-    echo "Invalid database credentials" | tee /dev/fd/3
+    log "Invalid database credentials"
     exit 1
   fi
 
-  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -v ${harbor_database}:/var/lib/mysql -v ${harbor_backup}:/harbor-migration/backup ${migrator_image} backup
-  docker run -it --rm -e DB_USR=${DB_USER} -e DB_PWD=${DB_PASSWORD} -e SKIP_CONFIRM=y -v ${harbor_database}:/var/lib/mysql ${migrator_image} up head
-  if [ $? -ne 0 ]; then
-    echo "Harbor up head command failed" | tee /dev/fd/3
+  log "Backing up harbor config..."
+  ( runMigratorCmd "backup" )
+    if [ $? -ne 0 ]; then
+    log "Harbor backup failed..."
     exit 1
   fi
 
-  mkdir -p ${harbor_new_database_dir}
+  ( runMigratorCmd "up" )
+  if [ $? -ne 0 ]; then
+    log "Harbor up head command failed"
+    log "Restoring from backup..."
+    runMigratorCmd "restore"
+    log "Backup restored. Exiting..."
+    exit 1
+  fi
 
-  DIR="database";  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
-  DIR="clair-db";  mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
-  DIR="notary-db"; mv "${harbor_old_database_dir}/$DIR" "${harbor_new_database_dir}/"
+  # Preserve the managed keys from configure_harbor.sh
+  keys=(
+    db_password
+    clair_db_password
+  )
+  for cfg_key in "${keys[@]}"; do
+    sed -i -r "s/^$cfg_key\s*=/${MANAGED_KEY}\n$cfg_key =/g" $harbor_cfg
+  done;
+  chmod 600 ${harbor_cfg}
 }
 
 # Upgrade entry point from upgrade.sh
 function upgradeHarbor {
-  HARBOR_VER=$(readKeyValue "harbor" "/storage/data/version")
-
+  export HARBOR_VER="$1"
+  
   if [ -z "${DB_USER}" ]; then
     DB_USER="root"
   fi
@@ -209,53 +150,36 @@ function upgradeHarbor {
 
   # If DB_PASSWORD not set by cfg, exit
   if [ -z "${DB_PASSWORD}" ]; then
-    echo "--dbpass not set and value not found in $cfg"
-    exit 1
-  fi
-  echo "Performing pre-upgrade checks" | tee /dev/fd/3
-
-  if [ "$HARBOR_VER" == "$HARBOR_VER_1_3_0" ]; then
-    echo "No data migration required for upgrade from Harbor $HARBOR_VER" | tee /dev/fd/3
-    cleanupFiles
-    echo "[=] Migrating Harbor configuration" | tee /dev/fd/3
-    upgradeHarborConfiguration
-    echo "[=] Finished migrating Harbor configuration" | tee /dev/fd/3
-    return
-  elif [ "$HARBOR_VER" != "$HARBOR_VER_1_2_0" ]; then
-    echo "Invalid Harbor version $HARBOR_VER detected. Aborting upgrade." | tee /dev/fd/3
+    echo "--dbpass not set and value not found in $harbor_cfg"
     exit 1
   fi
 
-  cleanupFiles
+  log "Performing pre-upgrade checks"
   checkDir ${harbor_backup}
+  cleanupFiles
+  mkdir -p ${harbor_backup}
   checkHarborPSCToken
-
+  
   # Start Admiral for data migration
   systemctl start admiral.service
 
-  echo "Starting Harbor upgrade" | tee /dev/fd/3
+  log "Starting Harbor upgrade"
 
-  echo "[=] Shutting down Harbor" | tee /dev/fd/3
+  log "[=] Shutting down Harbor"
   systemctl stop harbor.service
 
-  # possible data migration needed for 1.4.0
-  if [ "$HARBOR_VER" == "$HARBOR_VER_1_2_0" ]; then
-    echo "[=] Migrating Harbor data" | tee /dev/fd/3
-    migrateHarborData
-    echo "[=] Finished migrating Harbor data" | tee /dev/fd/3
+  log "[=] Migrating Harbor configuration and data"
+  # subshell to capture -e
+  ( migrateHarbor )
+  if [ $? -ne 0 ]; then
+    log "[=] Harbor migration failed from the Old VIC Appliance"
+    log "[=] Please contact VMware support"
+    exit 1
   fi
+  
+  log "[=] Successfully migrated Harbor configuration and data"
+  log "Harbor upgrade complete"
 
-  echo "[=] Migrating Harbor configuration" | tee /dev/fd/3
-  upgradeHarborConfiguration
-  echo "[=] Finished migrating Harbor configuration" | tee /dev/fd/3
-
-  echo "Harbor upgrade complete" | tee /dev/fd/3
-
-  # Cleanup
-  if [ -d "${harbor_backup}" ]; then
-    rm -rf "${harbor_backup}"
-  fi
-
-  echo "Starting Harbor" | tee /dev/fd/3
+  log "Starting Harbor"
   systemctl start harbor.service
 }
