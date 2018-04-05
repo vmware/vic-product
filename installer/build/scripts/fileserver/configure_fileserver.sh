@@ -28,7 +28,7 @@ function updateConfigFiles {
   # cove cli has package in form of vic-adm_*.tar.gz, so use 'vic_*.tar.gz' here
   # to avoid including cove cli
   tar_gz=$(find "${data_dir}" -maxdepth 1 -name "vic_*.tar.gz")
-  
+
   # untar vic package to tmp dir
   tar -zxf "${tar_gz}" -C /tmp
 
