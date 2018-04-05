@@ -9,8 +9,8 @@ Type=simple
 Restart=on-failure
 RestartSec=15
 EnvironmentFile=/etc/vmware/environment
-ExecStartPre=-/usr/bin/systemctl stop landing_server.service
 ExecStartPre=/usr/bin/bash /etc/vmware/fileserver/configure_fileserver.sh
+ExecStartPre=-/usr/bin/systemctl stop landing_server.service
 ExecStart=/etc/vmware/fileserver/start_fileserver.sh
 
 [Install]
