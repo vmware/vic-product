@@ -53,7 +53,7 @@ function readHarborCfgKey {
   local cfg_key=$1
   local  __resultvar=$2
   local value
-  value=$(grep "^$cfg_key " $cfg | cut -d' ' -f 3 | xargs)
+  value=$(grep "^$cfg_key " $harbor_cfg | cut -d' ' -f 3 | xargs)
 
   if [ -z "$value" ]; then
       echo "Key not found: $cfg_key"
@@ -84,30 +84,38 @@ function runMigratorCmd {
     -e DB_PWD=${DB_PASSWORD} \
     -e SKIP_CONFIRM=y \
     -v ${harbor_database}:/var/lib/mysql \
-    -v ${harbor_cfg}:/harbor-migration/harbor-cfg \
+    -v ${harbor_data_mount}:/harbor-migration/harbor-cfg \
     -v ${harbor_backup}:/harbor-migration/backup \
     ${migrator_image} "$@"
 }
 
 # https://github.com/vmware/harbor/blob/master/docs/migration_guide.md
-function migrateHarborData {
+function migrateHarbor {
   HARBOR_VER=$(readKeyValue "harbor" "/storage/data/version")
   if [ "$HARBOR_VER" != "$HARBOR_VER_1_2_1" ]; then
     harbor_old_database_dir="/storage/data/harbor"
-    DIR="database";  mv "${harbor_old_database_dir}/$DIR" "${harbor_db_mount}/"
-    DIR="clair-db";  mv "${harbor_old_database_dir}/$DIR" "${harbor_db_mount}/"
-    DIR="notary-db"; mv "${harbor_old_database_dir}/$DIR" "${harbor_db_mount}/"
+    mkdir -p "${harbor_db_mount}"
+    DIR="database";  mv "${harbor_old_database_dir}/$DIR" "${harbor_db_mount}"
+    DIR="clair-db";  mv "${harbor_old_database_dir}/$DIR" "${harbor_db_mount}"
+    DIR="notary-db"; mv "${harbor_old_database_dir}/$DIR" "${harbor_db_mount}"
   fi
 
   # Test database connection
-  runMigratorCmd "test"
+  # Subshell to preserve -e
+  echo "Testing database credentials..." | tee /dev/fd/3
+  ( runMigratorCmd "test" )
   if [ $? -ne 0 ]; then
     echo "Invalid database credentials" | tee /dev/fd/3
     exit 1
   fi
 
-  runMigratorCmd "backup"
-  # Subshell to preserve -e
+  echo "Backing up harbor config..." | tee /dev/fd/3
+  ( runMigratorCmd "backup" )
+    if [ $? -ne 0 ]; then
+    echo "Harbor backup failed..." | tee /dev/fd/3
+    exit 1
+  fi
+
   ( runMigratorCmd "up" )
   if [ $? -ne 0 ]; then
     echo "Harbor up head command failed" | tee /dev/fd/3
@@ -123,8 +131,9 @@ function migrateHarborData {
     clair_db_password
   )
   for cfg_key in "${keys[@]}"; do
-    sed -i -r "s/^$cfg_key/${MANAGED_KEY}\n$cfg_key/g" $harbor_cfg
+    sed -i -r "s/^$cfg_key\s*=/${MANAGED_KEY}\n$cfg_key =/g" $harbor_cfg
   done;
+  chmod 600 ${harbor_cfg}
 }
 
 # Upgrade entry point from upgrade.sh
@@ -140,7 +149,7 @@ function upgradeHarbor {
 
   # If DB_PASSWORD not set by cfg, exit
   if [ -z "${DB_PASSWORD}" ]; then
-    echo "--dbpass not set and value not found in $cfg"
+    echo "--dbpass not set and value not found in $harbor_cfg"
     exit 1
   fi
 
