@@ -54,6 +54,13 @@ Run GOVC
     Should Be Equal As Integers  ${rc}  0
     [Return]  ${rc}
 
+Get VM Host Name
+    [Arguments]  ${vm}
+    ${out}=  Run  govc vm.info ${vm}
+    ${out}=  Split To Lines  ${out}
+    ${host}=  Fetch From Right  @{out}[-1]  ${SPACE}
+    [Return]  ${host}
+
 Download VIC And Install UI Plugin
     [Arguments]  ${ova-ip}
     Open Connection  %{TEST_URL}
