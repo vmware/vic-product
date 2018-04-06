@@ -65,7 +65,11 @@ tenant=$(get_property $psc_prop_file "tenant")
 defuser_prefix=$(get_property $psc_prop_file "default-user-prefix")
 admiral_url=$(get_property $psc_prop_file admiral-url)
 # remove backslashes
-admiral_url=$(echo "$admiral_url" | sed 's/\\\//g')
+admiral_url=`echo "$admiral_url" | sed 's/\\\//g'`
+
+echo "tenant: $tenant"
+echo "defuser_prefix: $defuser_prefix"
+echo "admiral_url: $admiral_url"
 
 cloud_admin_name=$defuser_prefix
 cloud_admin_name+="-cloud-admin"
