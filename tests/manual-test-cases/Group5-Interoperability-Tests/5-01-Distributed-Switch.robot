@@ -108,5 +108,42 @@ Test
     Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
     Wait Until Keyword Succeeds  10x  20s  Check service running  admiral
     Wait Until Keyword Succeeds  10x  20s  Check service running  fileserver
-
     Close connection
+
+    # Install VIC Plugin
+    Open Connection  %{TEST_URL}
+    Wait Until Keyword Succeeds  10x  5s  Login  root  %{TEST_PASSWORD}
+    Set Global Variable  ${VIC_BUNDLE}  vic_v1.3.1.tar.gz
+    Execute Command  curl -kL https://${OVA_IP}:9443/files/${VIC_BUNDLE} -o ${VIC_BUNDLE}
+    Execute Command  tar -zxf ${VIC_BUNDLE}
+    Execute Command  cd vic/ui/VCSA
+    Execute Command  ./install.sh
+    
+    Execute Command  service-control --stop vsphere-ui
+    Execute Command  service-control --start vsphere-ui
+    Execute Command  service-control --stop vsphere-client
+    Execute Command  service-control --start vsphere-client
+    Close Connection
+
+    # Navigate to the wizard and create a VCH
+    Open Browser  ${BASE_URL}  browser=firefox  remote_url=${GRID_URL}
+    Maximize Browser Window
+    Login To Vsphere UI
+    Navigate To VCH Creation Wizard
+    Navigate To VCH Tab
+    Click New Virtual Container Host Button
+    ${name}=  Evaluate  'VCH-5-01-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
+    Input VCH Name  ${name}
+    Click Next Button
+    Select Cluster
+    Click Next Button
+    Select Image Datastore  datastore1
+    Click Next Button
+    Select Bridge Network  bridge
+    Select Public Network  vm-network  
+    Click Next Button
+    # Security
+    Click Next Button
+    # Finish
+    Click Next Button
+
