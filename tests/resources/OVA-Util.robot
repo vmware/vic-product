@@ -51,16 +51,14 @@ Install VIC Product OVA Only
     Wait For Register Page  ${ova-ip}
     Set Environment Variable  OVA_IP  ${ova-ip}
 
-    [Return]  ${ova-ip}
-
 Install VIC Product OVA
     [Tags]  secret
     [Arguments]  ${ova-file}  ${ova-name}
     Log To Console  \nInstalling VIC appliance and validating services...
-    ${ova-ip}=  Install VIC Product OVA Only  ${ova-file}  ${ova-name}
+    Install VIC Product OVA Only  ${ova-file}  ${ova-name}
 
     # set env var for ova ip
-    Wait For Online Components  ${ova-ip}
+    Wait For Online Components  %{OVA_IP}
     
     # validate complete installation on UI
     Log To Console  Initializing the OVA using the getting started ui...
@@ -70,10 +68,10 @@ Install VIC Product OVA
     Close All Browsers
 
     # wait for component services to get started
-    Wait For Online Components  ${ova-ip}
-    Wait For SSO Redirect  ${ova-ip}
+    Wait For Online Components  %{OVA_IP}
+    Wait For SSO Redirect  %{OVA_IP}
 
-    [Return]  ${ova-ip}
+    [Return]  %{OVA_IP}
 
 Install Common OVA If Not Already
     [Arguments]  ${ova-file}

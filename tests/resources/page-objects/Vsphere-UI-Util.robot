@@ -19,7 +19,7 @@ Resource  ../../resources/UI-Util.robot
 *** Variables ***
 # css locators
 ${vcsso-image-title}  id=VCSSO
-${vic-link}  css=#center-pane span[title='vSphere Integrated Containers
+${vic-link}  css=#center-pane span[title='vSphere Integrated Containers']
 
 *** Keywords ***
 Navigate To VCH Creation Wizard
