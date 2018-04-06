@@ -16,8 +16,8 @@
 # remove all default settings
 sed -i "/^PermitRootLogin.*/d" /etc/ssh/sshd_config
 
-# From vic-appliance-environment
-PERMIT=${APPLIANCE_PERMIT_ROOT_LOGIN}
+# TODO use environment file
+PERMIT="$(ovfenv --key appliance.permit_root_login)"
 
 # Only accepts True as yes
 if [ "${PERMIT,,}" == "true" ]; then

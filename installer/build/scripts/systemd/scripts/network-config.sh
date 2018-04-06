@@ -24,13 +24,13 @@ mask2cdr () {
 netConfig=''
 dhcpOpts=''
 
-# From vic-appliance-environment
-fqdn="${NETWORK_FQDN}"
-network_address="${NETWORK_IP0}"
-netmask="${NETWORK_NETMASK0}"
-gateway="${NETWORK_GATEWAY}"
-dns="${NETWORK_DNS}"
-domains="${NETWORK_SEARCHPATH}"
+# TODO use environment file
+fqdn="$(ovfenv --key network.fqdn)"
+network_address="$(ovfenv --key network.ip0)"
+netmask="$(ovfenv --key network.netmask0)"
+gateway="$(ovfenv --key network.gateway)"
+dns="$(ovfenv --key network.DNS | sed 's/,/ /g' | tr -s ' ')"
+domains="$(ovfenv --key network.searchpath)"
 
 # static OR DHCP options.
 if [[ -n $network_address || -n $netmask || -n $gateway ]]; then

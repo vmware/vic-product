@@ -33,6 +33,8 @@ DEFAULT_USERS_CREATE_DEF_USERS="$(ovfenv -k default_users.create_def_users)"
 DEFAULT_USERS_DEF_USER_PREFIX="$(ovfenv -k default_users.def_user_prefix)"
 DEFAULT_USERS_DEF_USER_PASSWORD="$(ovfenv -k default_users.def_user_password)"
 REGISTRY_GC_ENABLED="$(ovfenv --key registry.gc_enabled)"
+
+# TODO split into separate unit to run before ovf-network and network-online
 APPLIANCE_PERMIT_ROOT_LOGIN="$(ovfenv --key appliance.permit_root_login)"
 NETWORK_FQDN="$(ovfenv --key network.fqdn)"
 NETWORK_IP0="$(ovfenv --key network.ip0)"
@@ -106,7 +108,7 @@ echo "Using hostname: ${HOSTNAME}"
   echo "APPLIANCE_PERMIT_ROOT_LOGIN=${APPLIANCE_PERMIT_ROOT_LOGIN}";
   echo "NETWORK_FQDN=${NETWORK_FQDN}";
   echo "NETWORK_IP0=${NETWORK_IP0}";
-  echo "NETWORK_NETMASK0=${NETMASK0}";
+  echo "NETWORK_NETMASK0=${NETWORK_NETMASK0}";
   echo "NETWORK_GATEWAY=${NETWORK_GATEWAY}";
   echo "NETWORK_DNS=${NETWORK_DNS}";
   echo "NETWORK_SEARCHPATH=${NETWORK_SEARCHPATH}";
