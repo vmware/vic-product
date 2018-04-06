@@ -10,7 +10,7 @@ test_secrets.yml
 
 ```
 NIMBUS_USER=
-NIMBUS_PASSWORD=!!!!
+NIMBUS_PASSWORD=
 NIMBUS_GW=
 DRONE_BUILD_NUMBER=1
 DOMAIN=eng.vmware.com
