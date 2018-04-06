@@ -2,7 +2,7 @@ Test 5-01 - Distributed Switch
 =======
 
 # Purpose:
-To verify the VIC OVA appliance works in a variety of different vCenter networking configurations
+To verify the VIC OVA appliance works in a VC config having distributed switch and standalone hosts (no cluster)
 
 # References:
 [1 - VMware Distributed Switch Feature](https://www.vmware.com/products/vsphere/features/distributed-switch.html)
@@ -11,7 +11,7 @@ To verify the VIC OVA appliance works in a variety of different vCenter networki
 This test requires access to VMWare Nimbus cluster for dynamic ESXi and vCenter creation
 
 # Test Steps:
-1. Deploy a new vCenter in Nimbus that is a simple VC with a distributed switch
+1. Deploy a new vCenter in Nimbus that is a simple VC with a distributed switch and no cluster for hosts
 2. Install the VIC OVA appliance
 3. Walk through completing the install and use the VCH creation wizard to create a VCH
 4. Run a variety of docker commands on the VCH appliance

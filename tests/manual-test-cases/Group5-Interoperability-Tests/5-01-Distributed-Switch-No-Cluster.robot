@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#	http://www.apache.org/licenses/LICENSE-2.0
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
 Documentation  Test 5-01 - Distributed Switch
 Resource  ../../resources/Util.robot
 Suite Setup  Wait Until Keyword Succeeds  10x  10m  Distributed Switch Setup
-#Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Variables ***
 ${esx_number}=  3
@@ -64,13 +64,12 @@ Distributed Switch Setup
     \   Should Contain  ${out}  OK
     \   Wait Until Keyword Succeeds  5x  15 seconds  Add Host To Distributed Switch  @{esx_ips}[${IDX}]
 
-    Log To Console  Deploy VIC to the VC cluster
     Set Environment Variable  TEST_URL  ${vc_ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/@{esx_ips}[0]/Resources
+    Set Environment Variable  TEST_RESOURCE  /${datacenter}/host/@{esx_ips}[0]/Resources
     Set Environment Variable  TEST_TIMEOUT  30m
     Set Environment Variable  TEST_DATASTORE  datastore1
 
@@ -80,70 +79,55 @@ Test
     Set Environment Variable  OVA_NAME  OVA-5-01-TEST
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
-    Install VIC Product OVA  vic-*.ova  %{OVA_NAME}
-    
-    Set Global Variable  ${FIREFOX_BROWSER}  firefox
-    Set Global Variable  ${GRID_URL}  http://selenium-hub/wd/hub
-    Set Global Variable  ${EXPLICIT_WAIT}  30
-    Set Global Variable  ${EXTRA_EXPLICIT_WAIT}  50
-    Set Global Variable  ${PRIMARY_PORT}  8282
-    Set Global Variable  ${GS_PAGE_PORT}  9443
-    Set Global Variable  ${HARBOR_PORT}  443
-    Set Global Variable  ${IP_URL}  https://%{OVA_IP}
-    Set Global Variable  ${BASE_URL}  ${IP_URL}:${PRIMARY_PORT}
-    Set Global Variable  ${GS_PAGE_BASE_URL}  ${IP_URL}:${GS_PAGE_PORT}
-    Set Global Variable  ${COMPLETE_INSTALL_URL}  ${GS_PAGE_BASE_URL}/?login=true
-    Set Global Variable  ${HARBOR_URL}  ${IP_URL}:${HARBOR_PORT}
-    Set Global Variable  ${DEFAULT_HARBOR_NAME}  default-vic-registry
-    Set Global Variable  ${DEFAULT_HARBOR_PROJECT}  default-project
-    Open Firefox Browser
-    Log In And Complete OVA Installation
+    Install VIC Product OVA Only  vic-*.ova  %{OVA_NAME}
 
-    Log To Console  ssh into appliance...
-    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@%{OVA_IP}
-
-    Open Connection  %{OVA_IP}
-    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
-
-    Wait Until Keyword Succeeds  10x  20s  Check service running  harbor
-    Wait Until Keyword Succeeds  10x  20s  Check service running  admiral
-    Wait Until Keyword Succeeds  10x  20s  Check service running  fileserver
-    Close connection
+    Set Browser Variables
 
     # Install VIC Plugin
-    Open Connection  %{TEST_URL}
-    Wait Until Keyword Succeeds  10x  5s  Login  root  %{TEST_PASSWORD}
-    Set Global Variable  ${VIC_BUNDLE}  vic_v1.3.1.tar.gz
-    Execute Command  curl -kL https://${OVA_IP}:9443/files/${VIC_BUNDLE} -o ${VIC_BUNDLE}
-    Execute Command  tar -zxf ${VIC_BUNDLE}
-    Execute Command  cd vic/ui/VCSA
-    Execute Command  ./install.sh
-    
-    Execute Command  service-control --stop vsphere-ui
-    Execute Command  service-control --start vsphere-ui
-    Execute Command  service-control --stop vsphere-client
-    Execute Command  service-control --start vsphere-client
-    Close Connection
+    Download VIC And Install UI Plugin  %{OVA_IP}
 
     # Navigate to the wizard and create a VCH
-    Open Browser  ${BASE_URL}  browser=firefox  remote_url=${GRID_URL}
-    Maximize Browser Window
-    Login To Vsphere UI
+    Open Firefox Browser
+    Navigate To VC UI Home Page
+    Login On Single Sign-On Page
+    Verify VC Home Page
     Navigate To VCH Creation Wizard
     Navigate To VCH Tab
     Click New Virtual Container Host Button
+
+    #general
     ${name}=  Evaluate  'VCH-5-01-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
     Input VCH Name  ${name}
     Click Next Button
-    Select Cluster
+    # compute capacity
+    Log To Console  Selecting compute resource...
+    Wait Until Element Is Visible And Enabled  css=button.clr-treenode-caret
+    Click Button  css=button.clr-treenode-caret
+    Wait Until Element Is Visible And Enabled  css=.clr-treenode-content clr-tree-node:nth-of-type(1) .cc-resource
+    Click Button  css=.clr-treenode-content clr-tree-node:nth-of-type(1) .cc-resource
     Click Next Button
-    Select Image Datastore  datastore1
+    # storage capacity
+    Select Image Datastore  %{TEST_DATASTORE}
     Click Next Button
-    Select Bridge Network  bridge
-    Select Public Network  vm-network  
+    #networks
+    Select Bridge Network  %{BRIDGE_NETWORK}
+    Select Public Network  %{PUBLIC_NETWORK}
     Click Next Button
-    # Security
+    # security
+    Toggle Client Certificate Option
     Click Next Button
-    # Finish
+    #registry access
     Click Next Button
+    # ops-user
+    Input Ops User Name  %{TEST_USERNAME}
+    Input Ops User Password  %{TEST_PASSWORD}
+    Click Next Button
+    # summary
+    Click Finish Button
+    Unselect Frame
+    Wait Until Page Does Not Contain  VCH name
+    # retrieve docker parameters from UI
+    Set Docker Host Parameters
 
+    # run vch regression tests
+    Run Docker Regression Tests For VCH

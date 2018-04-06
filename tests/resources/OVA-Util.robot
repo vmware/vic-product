@@ -33,7 +33,7 @@ Set Test OVA IP If Available
     Run Keyword If  ${rc} == 0  Set Environment Variable  OVA_IP  ${output}
     [Return]  ${rc}
 
-Install VIC Product OVA
+Install VIC Product OVA Only
     [Tags]  secret
     [Arguments]  ${ova-file}  ${ova-name}
     Log To Console  \nInstalling VIC appliance...
@@ -49,10 +49,16 @@ Install VIC Product OVA
     \   ${ova-ip}=  Run Keyword If  ${status}  Set Variable  ${ip}  ELSE  Set Variable  ${ova-ip}
 
     Wait For Register Page  ${ova-ip}
+    Set Environment Variable  OVA_IP  ${ova-ip}
+
+Install VIC Product OVA
+    [Tags]  secret
+    [Arguments]  ${ova-file}  ${ova-name}
+    Log To Console  \nInstalling VIC appliance and validating services...
+    Install VIC Product OVA Only  ${ova-file}  ${ova-name}
 
     # set env var for ova ip
-    Set Environment Variable  OVA_IP  ${ova-ip}
-    Wait For Online Components  ${ova-ip}
+    Wait For Online Components  %{OVA_IP}
     
     # validate complete installation on UI
     Log To Console  Initializing the OVA using the getting started ui...
@@ -62,10 +68,10 @@ Install VIC Product OVA
     Close All Browsers
 
     # wait for component services to get started
-    Wait For Online Components  ${ova-ip}
-    Wait For SSO Redirect  ${ova-ip}
+    Wait For Online Components  %{OVA_IP}
+    Wait For SSO Redirect  %{OVA_IP}
 
-    [Return]  ${ova-ip}
+    [Return]  %{OVA_IP}
 
 Install Common OVA If Not Already
     [Arguments]  ${ova-file}
@@ -107,10 +113,13 @@ Wait For Online Components
     [Arguments]  ${ova-ip}
     Log To Console  ssh into appliance...
     ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@${ova-ip}
-
+    Log To Console  open connection...
     Open Connection  ${ova-ip}
+
+    Log To Console  login...
     Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
 
+    Log To Console  check service...
     Wait Until Keyword Succeeds  20x  10s  Check service running  fileserver
     Wait Until Keyword Succeeds  20x  10s  Check service running  admiral
     Wait Until Keyword Succeeds  20x  10s  Check service running  harbor
