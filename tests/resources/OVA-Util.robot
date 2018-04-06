@@ -101,10 +101,10 @@ Cleanup VIC Product OVA
 Wait For Register Page
     [Arguments]  ${ova-ip}
     Log To Console  \nWaiting for Getting Started Page to Come Up...
-    :FOR  ${i}  IN RANGE  20
+    :FOR  ${i}  IN RANGE  30
     \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}"}' https://${ova-ip}:9443/register
     \   Exit For Loop If  '200' in '''${out}'''
-    \   Sleep  3s
+    \   Sleep  60s
     Log To Console  ${rc}
     Log To Console  ${out}
     Should Contain  ${out}  200

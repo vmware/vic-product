@@ -16,11 +16,11 @@
 # remove all default settings
 sed -i "/^PermitRootLogin.*/d" /etc/ssh/sshd_config
 
-# fetch user setting
-PERMIT=$(ovfenv --key appliance.permit_root_login)
+# TODO use environment file
+PERMIT="$(ovfenv --key appliance.permit_root_login)"
 
-# currently only accepts True as yes
-if [ ${PERMIT,,} == "true" ]; then
+# Only accepts True as yes
+if [ "${PERMIT,,}" == "true" ]; then
   echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 else
   echo "PermitRootLogin no" >> /etc/ssh/sshd_config

@@ -31,6 +31,11 @@ key="${cert_dir}/server.key"
 flag="${cert_dir}/cert_gen_type"
 jks="${cert_dir}/trustedcertificates.jks"
 
+# From vic-appliance-environment
+tls_cert="${APPLIANCE_TLS_CERT}"
+tls_private_key="${APPLIANCE_TLS_PRIVATE_KEY}"
+tls_ca_cert="${APPLIANCE_TLS_CA_CERT}"
+
 # Format cert file
 function formatCert {
   content=$1
@@ -89,18 +94,17 @@ function genCert {
 }
 
 function secure {
-  if [ -n "${TLS_PRIVATE_KEY}" ] && [ "${TLS_PRIVATE_KEY}" == "*ENCRYPTED*" ]; then
+  if [ -n "$tls_private_key" ] && [ "$tls_private_key" == "*ENCRYPTED*" ]; then
     echo "Private key is encrypted - will generate a self-signed certificate"
     genCert
     return
   fi
 
-  # Provided TLS values from environment file
-  if [ -n "${TLS_CERT}" ] && [ -n "${TLS_PRIVATE_KEY}" ] && [ -n "${TLS_CA_CERT}" ]; then
+  if [ -n "$tls_cert" ] && [ -n "$tls_private_key" ] && [ -n "$tls_ca_cert" ]; then
     echo "TLS certificate, private key, and CA certificate are set, using customized certificate"
-    formatCert "${TLS_CERT}" $cert
-    formatCert "${TLS_PRIVATE_KEY}" $key
-    formatCert "${TLS_CA_CERT}" $ca_cert
+    formatCert "$tls_cert" $cert
+    formatCert "$tls_private_key" $key
+    formatCert "$tls_ca_cert" $ca_cert
 
     echo "customized" > $flag
 

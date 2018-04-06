@@ -107,6 +107,7 @@ function getPrivateFiles {
   echo "Including private values in log bundle"
 
   commandToFile "ovfenv" "ovfenv" "appliance"
+  commandToFile "cat /etc/vmware/environment" "environment" "appliance"
   commandToFile "openssl x509 -in /storage/data/certs/ca.crt -text -noout" "ca.crt" "certs"
   commandToFile "openssl x509 -in /storage/data/certs/server.crt -text -noout" "server.crt" "certs"
   commandToFile "cat /storage/data/certs/cert_gen_type" "cert_gen_type" "certs"
@@ -124,14 +125,20 @@ function getPrivateFiles {
   set -e
 }
 
+# filterEnvironment filters private values from the environment file
+function filterEnvironment {
+  commandToFile "cat /etc/vmware/environment | grep -v APPLIANCE_TLS_PRIVATE_KEY" "environment_filtered" "appliance"
+}
+
 # getDiagInfo gathers diagnostic info and logs
 function getDiagInfo {
   # Appliance
+  filterEnvironment
   commandToFile "hostnamectl" "hostnamectl" "appliance"
   commandToFile "timedatectl" "timedatectl" "appliance"
   commandToFile "ip address show" "ip_addr" "appliance"
-  commandToFile "cat /etc/vmware/environment" "environment" "appliance"
   commandToFile "cat /etc/vmware/firstboot" "firstboot" "appliance"
+  commandToFile "cat /registration-timestamps.txt" "registration-timestamps.txt" "appliance"
   commandToFile "uptime" "uptime" "appliance"
   commandToFile "cat /etc/vmware/version" "appliance_version" "appliance"
   commandToFile "cat /storage/data/version" "data_version" "appliance"

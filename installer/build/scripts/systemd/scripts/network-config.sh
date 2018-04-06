@@ -24,16 +24,17 @@ mask2cdr () {
 netConfig=''
 dhcpOpts=''
 
-fqdn=$(ovfenv --key network.fqdn)
-network_address=$(ovfenv --key network.ip0)
-netmask=$(ovfenv --key network.netmask0)
-gateway=$(ovfenv --key network.gateway)
-dns=$(ovfenv --key network.DNS | sed 's/,/ /g' | tr -s ' ')
-domains=$(ovfenv --key network.searchpath)
+# TODO use environment file
+fqdn="$(ovfenv --key network.fqdn)"
+network_address="$(ovfenv --key network.ip0)"
+netmask="$(ovfenv --key network.netmask0)"
+gateway="$(ovfenv --key network.gateway)"
+dns="$(ovfenv --key network.DNS | sed 's/,/ /g' | tr -s ' ')"
+domains="$(ovfenv --key network.searchpath)"
 
 # static OR DHCP options.
 if [[ -n $network_address || -n $netmask || -n $gateway ]]; then
-  netConfig="Address=${network_address}/$(mask2cdr $netmask)\n\
+  netConfig="Address=${network_address}/$(mask2cdr "$netmask")\n\
          Gateway=$gateway\n"
 else
   netConfig="DHCP=ipv4\n"
@@ -53,7 +54,7 @@ fi
 
 # always set the fqdn if it exists using hostnamectl
 if [[ -n $fqdn ]]; then
-  hostnamectl set-hostname $fqdn
+  hostnamectl set-hostname "$fqdn"
   dhcpOpts+="UseHostname=false\n"
 fi
 
@@ -62,7 +63,7 @@ cat <<EOF | tee ${network_conf_file}
 Name=eth0
 
 [Network]
-$(echo -e $netConfig)
+$(echo -e "$netConfig")
 
 [DHCP]
 $(echo -e $dhcpOpts)
