@@ -15,9 +15,8 @@
 *** Settings ***
 Documentation  Test 5-04 - Multiple Clusters
 Resource  ../../resources/Util.robot
-Suite Setup  Multiple Cluster Setup
-# Suite Setup  Wait Until Keyword Succeeds  10x  10m  Multiple Cluster Setup
-# Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Suite Setup  Wait Until Keyword Succeeds  10x  10m  Multiple Cluster Setup
+Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Keywords ***
 # Insert elements from dict2 into dict1, overwriting conflicts in dict1 & returning new dict
@@ -31,7 +30,7 @@ Combine Dictionaries
 
 Multiple Cluster Setup
     [Timeout]    110 minutes
-    # Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
+    Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
     &{esxes}=  Create Dictionary
     ${num_of_esxes}=  Evaluate  2
     :FOR  ${i}  IN RANGE  3
@@ -106,10 +105,8 @@ Test
     Click Next Button
     # compute capacity
     Log To Console  Selecting compute resource...
-    Wait Until Element Is Visible And Enabled  css=button.clr-treenode-caret
-    Click Button  css=button.clr-treenode-caret
-    Wait Until Element Is Visible And Enabled  css=.clr-treenode-content clr-tree-node:nth-of-type(1) .cc-resource
-    Click Button  css=.clr-treenode-content clr-tree-node:nth-of-type(1) .cc-resource
+    Wait Until Element Is Visible And Enabled  css=.clr-treenode-children .cc-resource
+    Click Button  css=.clr-treenode-children .cc-resource
     Click Next Button
     # storage capacity
     Select Image Datastore  %{TEST_DATASTORE}
