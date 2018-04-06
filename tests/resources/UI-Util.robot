@@ -19,3 +19,8 @@ Documentation  This resource contains any keywords dealing with browser UI testi
 Open Firefox Browser
     Log To Console  \nOpening firefox browser...
     Open Browser  about:  browser=${FIREFOX_BROWSER}  remote_url=${GRID_URL}
+
+Wait Until Element Is Visible And Enabled
+    [Arguments]  ${element}
+	Wait Until Element Is Visible  ${element}
+	Wait Until Element Is Enabled  ${element}
