@@ -15,11 +15,11 @@
 *** Settings ***
 Documentation  Test 5-12 - Multiple VLAN
 Resource  ../../resources/Util.robot
-Suite Setup  Wait Until Keyword Succeeds  10x  10m  Multiple VLAN Setup And Install OVA With UI Plugin
+Suite Setup  Wait Until Keyword Succeeds  10x  10m  Multiple VLAN Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Keywords ***
-Multiple VLAN Setup And Install OVA With UI Plugin
+Multiple VLAN Setup
     [Timeout]    110 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
     ${esx1}  ${esx2}  ${esx3}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${esx3-ip}  ${vc-ip}=  Create a Simple VC Cluster  multi-vlan-1  cls
@@ -90,7 +90,7 @@ Test
     Click Finish Button
     Unselect Frame
     Wait Until Page Does Not Contain  VCH name
-    # retrive docker parameters from UI
+    # retrieve docker parameters from UI
     Set Docker Host Parameters
 
     # run vch regression tests
