@@ -128,7 +128,7 @@ Test
     Click Finish Button
     Unselect Frame
     Wait Until Page Does Not Contain  VCH name
-    # retrive docker parameters from UI
+    # retrieve docker parameters from UI
     Set Docker Host Parameters
 
     # run vch regression tests
