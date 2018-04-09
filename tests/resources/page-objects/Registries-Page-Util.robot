@@ -22,7 +22,7 @@ ${rp-title}  css=.content-area .title
 ${rp-registries-table}  css=.table
 
 # expected text values
-${rp-title-text}  Registries
+
 
 *** Keywords ***
 Select Registries Page Iframe
@@ -33,7 +33,6 @@ Unselect Registries Page Iframe
 
 Verify Registries Page
     Wait Until Element Is Visible  ${rp-title}  timeout=${EXPLICIT_WAIT}
-    Element Text Should Be  ${rp-title}  ${rp-title-text}
 
 Verify Column Value In Registries Table
     [Arguments]  ${col_number}  ${expected}

@@ -28,13 +28,11 @@ ${ch-button-card-dropdown}  css=.card button.dropdown-toggle
 ${ch-link-delete}  css=card > div > div.card-header > div > clr-dropdown > clr-dropdown-menu > button.dropdown-item.remove-cluster
 
 # expected text values
-${ch-title-text}  Container Hosts
 ${ch-card-status-on}  ON
 
 *** Keywords ***
 Verify Container Hosts Page
     Wait Until Element Is Visible  ${ch-title}  timeout=${EXPLICIT_WAIT}
-    Element Text Should Be  ${ch-title}  ${ch-title-text}
 
 Click New Host Button
     Click Button   ${ch-button-new-host}
