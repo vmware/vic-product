@@ -51,6 +51,7 @@ Install VIC Product OVA Only
     [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
     Log To Console  \nInstalling VIC appliance...
     ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:appliance.tls_cert="${tls_cert}" --prop:appliance.tls_cert_key="${tls_cert_key}" --prop:appliance.ca_cert="${ca_cert}" --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
+    Log  ${output}
     Should Contain  ${output}  Completed successfully
     Should Contain  ${output}  Received IP address:
 
@@ -61,18 +62,18 @@ Install VIC Product OVA Only
     \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
     \   ${ova-ip}=  Run Keyword If  ${status}  Set Variable  ${ip}  ELSE  Set Variable  ${ova-ip}
 
+    Log  ${ova-ip}
     Wait For Register Page  ${ova-ip}
     Set Environment Variable  OVA_IP  ${ova-ip}
 
 Install VIC Product OVA
     [Tags]  secret
-    [Arguments]  ${ova-file}  ${ova-name}
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
     Log To Console  \nInstalling VIC appliance and validating services...
-    Install VIC Product OVA Only  ${ova-file}  ${ova-name}
+    Install VIC Product OVA Only  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
 
     # set env var for ova ip
-    Set Environment Variable  OVA_IP  ${ova-ip}
-    Wait For Online Components  ${ova-ip}
+    Wait For Online Components  %{OVA_IP}
 
     # validate complete installation on UI
     Log To Console  Initializing the OVA using the getting started ui...
