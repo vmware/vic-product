@@ -22,10 +22,9 @@ mkdir -p /etc/vmware/psc/engine
 mkdir -p /etc/vmware/psc/admiral
 
 PSC_BINARY="/etc/vmware/admiral/admiral-auth-psc-1.3.2-SNAPSHOT-command.jar"
-version=$(grep "version" /etc/vmware/psc/admiral/psc-config.properties | awk -F= '{print $2}')
 
 function getToken() {
-  /usr/bin/java -jar ${PSC_BINARY} --command=get-token --version="$version" --configFile="$1" --tokenFile="$2"
+  /usr/bin/java -jar ${PSC_BINARY} --command=get-token --configFile="$1" --tokenFile="$2"
 }
 
 # Generate token files
