@@ -16,8 +16,18 @@ set -euf -o pipefail
 
 conf_dir=/etc/vmware/admiral
 
+DIR="$(mktemp -d)"
+SHA256SUMS="${DIR}/SHA256SUMS"
+PSC_JAR_SHA256="c5de3a821ed7aece85331b22dfa49a99bbb38524ec9f4803b6b54f43cef91237  admiral-auth-psc-1.3.2-SNAPSHOT-command.jar"
+cat > "${SHA256SUMS}" << EOF
+${PSC_JAR_SHA256}
+EOF
+
 # Get the PSC binary for use during initialization
-curl -L"#" -o $conf_dir/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar https://storage.googleapis.com/vic-product-ova-build-deps/admiral-auth-psc-1.2.0-SNAPSHOT-command.jar
+curl -L"#" -o $conf_dir/admiral-auth-psc-1.3.2-SNAPSHOT-command.jar https://storage.googleapis.com/vic-product-ova-build-deps/admiral-auth-psc-1.3.2-SNAPSHOT-command.jar
+cd ${conf_dir}
+shasum -a 256 --check "${SHA256SUMS}" || (echo "Failed to verify PSC JAR checksum" && exit 1)
+cd -
 
 # Get Admiral upgrade script
 curl -L"#" -o /etc/vmware/admiral/migrate.sh https://raw.githubusercontent.com/vmware/admiral/master/upgrade/src/main/resources/migrate.sh

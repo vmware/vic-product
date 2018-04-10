@@ -122,7 +122,10 @@ Run command and Return output
 Check service running
     [Arguments]  ${service-name}
     Log To Console  Checking status of ${service-name}...
-    ${out}=  Execute Command  systemctl status -l ${service-name}
+    ${out}=      Execute Command  systemctl status -l ${service-name}
+    ${journal}=  Execute Command  journalctl -u ${service-name} --no-pager
+    Log  ${out}
+    Log  ${journal}
     Should Contain  ${out}  Active: active (running)
 
 Execute Command And Return Output
