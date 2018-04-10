@@ -106,9 +106,11 @@ function secure {
     formatCert "$tls_private_key" $key
     formatCert "$tls_ca_cert" $ca_cert
 
+    ensurePKCS8Format
+
     echo "customized" > $flag
 
-    echo "creating java keystore with provided cert for xenon"
+    echo "creating java keystore with user provided cert"
     createKeystore $cert
     return
   fi
@@ -167,7 +169,12 @@ function ensurePKCS8Format() {
     mv $key.tmp $key
     return
   fi
+  # Override value from environment file
+  tls_private_key="$(cat $key)"
   echo "Converted $key to PKCS8"
+
+  # Cleanup
+  rm -f $key.tmp
 }
 
 # Warn if expiration in less than 60 days
@@ -187,7 +194,6 @@ chown -R "${APPLIANCE_SERVICE_UID}":"${APPLIANCE_SERVICE_UID}" ${cert_dir}
 
 # Init certs
 secure
-ensurePKCS8Format
 checkCertExpiration
 
 # File permissions - components can use shared TLS cert
