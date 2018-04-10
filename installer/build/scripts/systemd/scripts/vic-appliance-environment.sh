@@ -18,10 +18,10 @@ umask 077
 
 ENV_FILE="/etc/vmware/environment"
 
-# Keep \n characters in PEM encoded values
-APPLIANCE_TLS_CERT="$(ovfenv -k appliance.tls_cert | sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g')"
-APPLIANCE_TLS_PRIVATE_KEY="$(ovfenv -k appliance.tls_cert_key | sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g')"
-APPLIANCE_TLS_CA_CERT="$(ovfenv -k appliance.ca_cert | sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g')"
+# Keep as one string, formatted in vic-appliance-tls
+APPLIANCE_TLS_CERT="$(ovfenv -k appliance.tls_cert | sed -E ':a;N;$!ba;s/\r{0,1}\n//g')"
+APPLIANCE_TLS_PRIVATE_KEY="$(ovfenv -k appliance.tls_cert_key | sed -E ':a;N;$!ba;s/\r{0,1}\n//g')"
+APPLIANCE_TLS_CA_CERT="$(ovfenv -k appliance.ca_cert | sed -E ':a;N;$!ba;s/\r{0,1}\n//g')"
 
 ADMIRAL_PORT="$(ovfenv -k management_portal.port)"
 REGISTRY_PORT="$(ovfenv -k registry.port)"
