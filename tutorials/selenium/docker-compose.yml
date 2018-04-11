@@ -16,7 +16,7 @@ services:
     links:
       - "hub"
     expose:
-      - "5555"
+      - "4444"
   firefox:
     cpu_count: 1
     image: "selenium/node-firefox"
