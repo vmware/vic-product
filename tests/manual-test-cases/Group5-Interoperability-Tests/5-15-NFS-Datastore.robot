@@ -53,6 +53,8 @@ Test
     # Install VIC Plugin
     Download VIC And Install UI Plugin  %{OVA_IP}
 
+    Set Global Variable  ${GRID_URL}  http://127.0.0.1:4444/wd/hub
+    
     # Navigate to the wizard and create a VCH
     Open Firefox Browser
     Navigate To VC UI Home Page
