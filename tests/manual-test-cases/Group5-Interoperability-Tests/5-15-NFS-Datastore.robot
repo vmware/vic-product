@@ -52,7 +52,7 @@ Test
 
     # Install VIC Plugin
     Download VIC And Install UI Plugin  %{OVA_IP}
-    
+
     # Navigate to the wizard and create a VCH
     Open Firefox Browser
     Navigate To VC UI Home Page
