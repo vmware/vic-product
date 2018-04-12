@@ -50,6 +50,7 @@ OVA Upgrade Setup
 
 *** Test Cases ***
 Test
+    [Tags]  skip
     Log To Console  \nStarting test...
     Set Environment Variable  OVA_NAME  OVA-5-02-TEST
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
