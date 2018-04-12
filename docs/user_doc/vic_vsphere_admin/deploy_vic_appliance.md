@@ -35,8 +35,8 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
     - Optionally uncheck the **Permit Root Login** checkbox.
   
         **IMPORTANT**: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Only use SSH to access the appliance when instructed to do so in the documentation, or under the guidance of VMware GSS.
-    - To use custom certificates to authenticate connections to the vSphere Integrated Containers appliance, optionally paste the content of the appropriate certificate, key, and Certificate Authority (CA) files in the **Appliance TLS Certificate**, **Appliance TLS Certificate Key**, and **Certificate Authority Certificate** text boxes. The appliance supports RSA format for TLS private keys. To use auto-generated certificates, leave the text boxes blank.
-    - In the **Appliance Configuration Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Getting Started page and the `vic_machine_server` service.
+    - To use a custom certificate to authenticate connections to the vSphere Integrated Containers appliance, optionally paste the  PEM encoded content of the appropriate certificate, key, and Certificate Authority (CA) files in the **Appliance TLS Certificate**, **Appliance TLS Certificate Key**, and **Certificate Authority Certificate** text boxes. The appliance supports PEM encoded PKCS#1 and PEM encoded PKCS#8 formats for TLS private keys. To use auto-generated certificates, leave the text boxes blank. The certificate is used by all of the services that run in the appliance.
+    - In the **Appliance Configuration Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Getting Started page.
 
 5. Expand **Networking Properties** and optionally configure a static IP address and fully qualified domain name (FQDN) for the appliance VM. 
 
@@ -74,7 +74,7 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
     
 11. In a browser, go to http://<i>vic_appliance_address</i>.
 
-    Wait for a few minutes to allow the appliance services to start. During this time, you see the message `The VIC Appliance is initializing`. When the initialization finishes, the Complete VIC appliance installation panel appears automatically.
+    Wait for a few minutes to allow the appliance services to start. During this time, you see the message `The VIC Appliance is initializing`. When the initialization finishes, the Complete VIC appliance installation panel appears automatically. If you see a page not found error during initialization, refresh your browser.
 
 12. Enter the connection details for the vCenter Server instance on which you deployed the appliance.
 
