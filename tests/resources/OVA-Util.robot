@@ -34,6 +34,7 @@ Set Test OVA IP If Available
     [Return]  ${rc}
 
 Install VIC Product OVA Only
+    [Tags]  secret
     [Arguments]  ${ova-file}  ${ova-name}
     Log To Console  \nInstalling VIC appliance...
     ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
