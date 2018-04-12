@@ -64,12 +64,19 @@ Get VCH Docker Params
     \   Run Keyword If  '${status}' == 'PASS'  Set Suite Variable  ${line}  ${item}
 
     # If using the default logrus format
-    ${status}=  Run Keyword And Return Status  Should Match Regexp  ${line}  msg\="([^"]*)"
-    ${match}  ${vars}=  Run Keyword If  ${status}  Should Match Regexp  ${line}  msg\="([^"]*)"
+    ${status1}=  Run Keyword And Return Status  Should Match Regexp  ${line}  msg\="([^"]*)"
+    ${match}  ${vars1}=  Run Keyword If  ${status1}  Should Match Regexp  ${line}  msg\="([^"]*)"
+
+    #  If using the old logging format
+    ${status2}=  Run Keyword And Return Status  Should Contain  ${line}  DOCKER_HOST
+    ${logdeco}  ${vars2}=  Run Keyword If  ${status1} is ${FALSE} and ${status2} is ${TRUE}  Split String From Right  ${line}  ${SPACE}  1
+
+    ${docker-vars}=  Set Variable If  ${status1}  ${vars1}
+    ...                               ${status2}  ${vars2}                  
 
     # Set env variables
-    @{vars}=  Split String  ${vars}
-    :FOR  ${var}  IN  @{vars}
+    @{docker-vars}=  Split String  ${docker-vars}
+    :FOR  ${var}  IN  @{docker-vars}
     \   ${varname}  ${varval}=  Split String  ${var}  =
     \   Run Keyword If  '${varname}' == 'DOCKER_HOST'  Set Test Variable  ${DOCKER-HOST}  ${varval}
 
@@ -119,6 +126,25 @@ Secret Curl Container Logs
     ${out3}=  Run  curl -k -b vic-admin-cookies ${VIC-ADMIN}/logs/port-layer.log
     Remove File  vic-admin-cookies
     [Return]  ${out1}  ${out2}  ${out3}
+
+Install VCH And Create Running Busybox Container
+    [Arguments]  ${ova-ip}  ${target_dir}=bin
+    Log To Console  \nInstall VCH and create running busybox container...
+    ${vch-name}=  Install VCH  certs=${false}
+    # create a running busybox container
+    Log To Console  Creating running docker container...
+    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} pull ${busybox}
+    Should Be Equal As Integers  ${rc}  0
+    ${rc}  ${container}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} create ${busybox} /bin/top
+    Should Be Equal As Integers  ${rc}  0
+    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} start ${container}
+    Should Be Equal As Integers  ${rc}  0
+    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} ps
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    Should Contain  ${output}  /bin/top
+
+    [Return]  ${container}
 
 Cleanup VCH
     [Tags]  secret
