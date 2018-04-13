@@ -6,3 +6,5 @@ VIC Integration Test Suite
 -
 [Group 5 - Interoperability Tests](Group5-Interoperability-Tests/TestCases.md)
 -
+[Group 6 - OVA TLS](Group6-OVA-TLS/TestCases.md)
+-
