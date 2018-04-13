@@ -25,7 +25,7 @@ ${datacenter}=  ha-datacenter
 
 *** Keywords ***
 OVA Setup
-    [Timeout]    75 minutes
+    [Timeout]    110 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
 
     ${latest-ova}=  Download Latest VIC Appliance OVA
@@ -67,7 +67,7 @@ User Provided Certificate
 
     ${ova-ip}=  Install VIC Product OVA  %{LATEST_OVA}  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
 
-    Verify VIC Appliance TLS Certificates  ${ova-ip}  issuer=/C=US/ST=California/L=Los Angeles/O=Stark Enterprises/OU=Stark Enterprises Certificate Authority/CN=Stark Enterprises Global CA
+    Wait Until Keyword Succeeds  10x  15s  Verify VIC Appliance TLS Certificates  ${ova-ip}  issuer=/C=US/ST=California/L=Los Angeles/O=Stark Enterprises/OU=Stark Enterprises Certificate Authority/CN=Stark Enterprises Global CA
     Cleanup Generated Certificate
 
 
@@ -93,5 +93,5 @@ User Provided Certificate PKCS8
 
     ${ova-ip}=  Install VIC Product OVA  %{LATEST_OVA}  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
 
-    Verify VIC Appliance TLS Certificates  ${ova-ip}  issuer=/C=US/ST=California/L=Los Angeles/O=Stark Enterprises/OU=Stark Enterprises Certificate Authority/CN=Stark Enterprises Global CA
+    Wait Until Keyword Succeeds  10x  15s  Verify VIC Appliance TLS Certificates  ${ova-ip}  issuer=/C=US/ST=California/L=Los Angeles/O=Stark Enterprises/OU=Stark Enterprises Certificate Authority/CN=Stark Enterprises Global CA
     Cleanup Generated Certificate
