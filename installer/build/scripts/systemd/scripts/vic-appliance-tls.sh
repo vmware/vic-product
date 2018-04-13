@@ -192,11 +192,6 @@ function checkCertExpiration() {
 mkdir -p ${cert_dir}
 chown -R "${APPLIANCE_SERVICE_UID}":"${APPLIANCE_SERVICE_UID}" ${cert_dir}
 
-# Provided TLS values from environment file
-tls_cert="${TLS_CERT}"
-tls_private_key="${TLS_PRIVATE_KEY}"
-tls_ca_cert="${TLS_CA_CERT}"
-
 # Init certs
 secure
 checkCertExpiration
