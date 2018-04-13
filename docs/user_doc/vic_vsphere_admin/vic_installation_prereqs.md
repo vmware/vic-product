@@ -110,4 +110,4 @@ The following network requirements apply to the deployment of VCHs to vCenter Se
 
 ## Custom Certificates <a id="customcerts"></a>
 
-If you intend to use custom certificates, vSphere Integrated Containers Management Portal requires the TLS private key to be supplied as a PEM-encoded PKCS#8-formatted file. For information about how to convert keys to the correct format, see [Converting Keys for Use with vSphere Integrated Containers Management Portal](vic_cert_reference.md#convertkeys).
+If you intend to use a custom certificate, the vSphere Integrated Containers appliance supports PEM encoded PKCS#1 and PEM encoded PKCS#8 formats for TLS private keys. If you provide a PKCS#1 format certificate, vSphere Integrated Containers converts it to PKCS8 format. The appliance uses a single TLS certificate for all of the services that run in the appliance.
