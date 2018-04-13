@@ -35,13 +35,13 @@ http://<vch_ip>:4444/grid/console
 ### If you need more nodes, just scale it up:
 
 ```
-docker-compose scale chrome=5
+docker-compose up --scale chrome=5 -d
 ```
 
 ### If you need less, scale it down:
 
 ```
-docker-compose scale chrome=1
+docker-compose down --scale chrome=1 -d
 ```
 
 ### If you need to stop everyting and restart:
