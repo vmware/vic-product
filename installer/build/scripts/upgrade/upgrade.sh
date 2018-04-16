@@ -56,7 +56,11 @@ VER_1_3_1="v1.3.1"
 function usage {
     echo -e "Usage: $0 [args...]
 
-      All arguments are optional - you will be prompted for them if not entered on the cli.
+      All arguments are optional - you will be prompted for required values if not provided.
+
+      Values containing $ (dollar sign), \` (backquote), and \\ (backslash) will not work.
+      Change passwords containing these values before running this script.
+
       [--dbpass value]:                Harbor db password.
       [--dbuser value]:                Harbor db username.
       [--target value]:                VC Target IP Address for PSC registration.
@@ -218,20 +222,25 @@ function prepareForAutomatedUpgrade {
   local tmpdir="$1"
   local username="$2"
   local ip="$3"
-
-  # Add automation key
-  log "Please enter the VIC appliance password for user $username at ip $ip"
-
-  mkdir -p  ~/.ssh
-  local key_file=~/.ssh/vic-appliance-automation-key
-  [ ! -f $key_file ] && ssh-keygen -b 4096 -f $key_file -t rsa -N '' -C 'VIC Appliance Upgrade Automation Key'
-  key=$(cat $key_file)
+  local skip_verify=""
 
   if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
     # Skip host key checking
-    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $key_file "$username@$ip" "mkdir -p ~/.ssh/ && echo $key >> ~/.ssh/authorized_keys"
+    skip_verify="-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+  fi
+
+  mkdir -p  /root/.ssh
+  local key_file="/root/.ssh/vic-appliance-automation-key"
+  [ ! -f $key_file ] && ssh-keygen -b 4096 -f $key_file -t rsa -N '' -C 'VIC Appliance Upgrade Automation Key'
+  key=$(cat $key_file)
+
+  # Add automation key
+  if [ -z "${APPLIANCE_PASSWORD}" ]; then
+    log "Please enter the VIC appliance password for $username@$ip"
+    ssh "$skip_verify" "$username@$ip" "mkdir -p ~/.ssh/ && echo $key >> ~/.ssh/authorized_keys"
   else
-    ssh -i $key_file "$username@$ip" "mkdir -p ~/.ssh/ && echo $key >> ~/.ssh/authorized_keys"
+    log "Using provided VIC appliance password from --appliance-password"
+    sshpass -p "${APPLIANCE_PASSWORD}" ssh "$skip_verify" "$username@$ip" "mkdir -p ~/.ssh/ && echo $key >> ~/.ssh/authorized_keys"
   fi
 
   files=(
@@ -244,18 +253,12 @@ function prepareForAutomatedUpgrade {
   for file in "${files[@]}"; do
     mkdir -p "$tmpdir$(dirname "$file")"
     set +e  # Copying files from /data will fail, remove after end of 1.2.1 support
-    scp "$username@$ip:$file" "$tmpdir$file"
+    scp -i $key_file "$username@$ip:$file" "$tmpdir$file"
     set -e
   done
 
   # Remove automation key
-  if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
-    # Skip host key checking
-    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $key_file "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
-  else
-    ssh -i $key_file "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
-  fi
-
+  ssh "$skip_verify" -i $key_file "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
   rm $key_file
 
   # Expect 3 files in temp dir
@@ -472,6 +475,9 @@ function main {
     esac
     shift # past argument or value
   done
+
+  log "Values containing $ (dollar sign), \` (backquote), and \\ (backslash) will not work."
+  log "Change passwords containing these values before running this script."
 
   [ -z "${VCENTER_TARGET}" ] && read -p "Enter vCenter Server FQDN or IP: " VCENTER_TARGET
   [ -z "${VCENTER_USERNAME}" ] && read -p "Enter vCenter Administrator Username: " VCENTER_USERNAME
