@@ -41,9 +41,10 @@ APPLIANCE_USERNAME=""
 APPLIANCE_PASSWORD=""
 APPLIANCE_VERSION=""
 
-EMBEDDED_PSC=""
 DESTROY_ENABLED=""
 MANUAL_DISK_MOVE=""
+EMBEDDED_PSC=""
+INSECURE_SKIP_VERIFY=""
 
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S %z %Z")
 export REDIRECT_ENABLED=0
@@ -72,9 +73,11 @@ function usage {
       [--appliance-target value]:      IP Address of the old appliance.
       [--appliance-version value]:     Version the old appliance. v1.2.1, v1.3.0, or v1.3.1.
 
-      [--embedded-psc]:                Using embedded PSC. Do not prompt for external PSC options.
       [--destroy]:                     Destroy the old appliance after upgrade is finished.
       [--manual-disks]:                Skip the automated govc disk migration.
+
+      [--embedded-psc]:                Using embedded PSC. Do not prompt for external PSC options.
+      [--ssh-insecure-skip-verify]:    Skip host key checking when SSHing to the old appliance.
     "
 }
 
@@ -169,9 +172,15 @@ function proceedWithUpgrade {
     log "Detected old appliance's version as $ver."
     logn "If the old appliance's version is not detected correctly, please enter \"n\" to abort the upgrade and contact VMware support."
 
-    if [ -n "${APPLIANCE_VERSION}" ] && [ "$ver" == "${APPLIANCE_VERSION}" ]; then
-      log "Detected old appliance version matches expected value from --appliance-version ${APPLIANCE_VERSION}"
-      return # continue with upgrade
+    if [ -n "${APPLIANCE_VERSION}" ]; then
+      if [ "$ver" == "${APPLIANCE_VERSION}" ]; then
+        log "Detected old appliance version matches expected value from --appliance-version ${APPLIANCE_VERSION}"
+        return # continue with upgrade
+      else
+        log "Detected old appliance version does not match expected value from --appliance-version ${APPLIANCE_VERSION}"
+        log "Exiting without performing upgrade"
+        exit 1
+      fi
     fi
 
     while true; do
@@ -214,9 +223,16 @@ function prepareForAutomatedUpgrade {
   log "Please enter the VIC appliance password for user $username at ip $ip"
 
   mkdir -p  ~/.ssh
-  [ ! -f ~/.ssh/id_rsa ] && ssh-keygen -b 4096 -f ~/.ssh/id_rsa -t rsa -N '' -C 'VIC Appliance Upgrade Automation Key'
-  KEY_FILE=$(cat ~/.ssh/id_rsa.pub)
-  ssh "$username@$ip" "mkdir -p ~/.ssh/ && echo $KEY_FILE >> ~/.ssh/authorized_keys"
+  local key_file=~/.ssh/vic-appliance-automation-key
+  [ ! -f $key_file ] && ssh-keygen -b 4096 -f $key_file -t rsa -N '' -C 'VIC Appliance Upgrade Automation Key'
+  key=$(cat $key_file)
+
+  if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
+    # Skip host key checking
+    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $key_file "$username@$ip" "mkdir -p ~/.ssh/ && echo $key >> ~/.ssh/authorized_keys"
+  else
+    ssh -i $key_file "$username@$ip" "mkdir -p ~/.ssh/ && echo $key >> ~/.ssh/authorized_keys"
+  fi
 
   files=(
     "/etc/vmware/version"
@@ -233,8 +249,14 @@ function prepareForAutomatedUpgrade {
   done
 
   # Remove automation key
-  ssh "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
-  rm ~/.ssh/id_rsa
+  if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
+    # Skip host key checking
+    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $key_file "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
+  else
+    ssh -i $key_file "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
+  fi
+
+  rm $key_file
 
   # Expect 3 files in temp dir
   local count=0
@@ -431,14 +453,17 @@ function main {
         APPLIANCE_VERSION="$2"
         shift
         ;;
-      --embedded-psc)
-        EMBEDDED_PSC="1"
-        ;;
       --destroy)
         DESTROY_ENABLED="1"
         ;;
       --manual-disks)
         MANUAL_DISK_MOVE="1"
+        ;;
+      --embedded-psc)
+        EMBEDDED_PSC="1"
+        ;;
+      --ssh-insecure-skip-verify)
+        INSECURE_SKIP_VERIFY="1"
         ;;
       -h|--help|*)
         usage
@@ -472,7 +497,7 @@ function main {
     fi
     echo "${fingerprint}" > $GOVC_TLS_KNOWN_HOSTS
   else
-    log "Using provided vCenter fingerprint from --vcenter-fingerprint ${VCENTER_FINGERPRINT}"
+    log "Using provided vCenter fingerprint from --fingerprint ${VCENTER_FINGERPRINT}"
     echo "${VCENTER_FINGERPRINT}" > $GOVC_TLS_KNOWN_HOSTS
   fi
 
