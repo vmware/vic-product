@@ -9,6 +9,7 @@ report.html
 output.xml
 test-screenshots
 bin
+*.ova
 
 # drone
 secrets.yml

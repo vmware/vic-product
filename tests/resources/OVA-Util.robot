@@ -25,6 +25,19 @@ Get Test OVA Name
     ${name}=  Evaluate  'OVA-%{DRONE_BUILD_NUMBER}-' + str(random.randint(1000,9999))  modules=random
     [Return]  ${name}
 
+Download Latest VIC Appliance OVA
+    ${latest-ova}=  Run  gsutil ls -l gs://vic-product-ova-builds/ | grep -v TOTAL | sort -k2r | (head -n1 ; dd of=/dev/null 2>&1 /dev/null) | xargs | cut -d ' ' -f 3 | cut -d '/' -f 4
+    Log To Console  \nStart downloading ${latest-ova}...
+    # ${pid1}=  Start Process  wget https://storage.googleapis.com/vic-product-ova-builds/${latest-ova}  shell=True
+    ${pid1}=  Start Process  gsutil cp gs://vic-product-ova-builds/${latest-ova} .  shell=True
+    ${ret}=  Wait For Process  ${pid1}
+    ${output}=  Run  ls -alh
+    Log  ${output}
+    Log  ${ret.stdout}
+    Log  ${ret.stderr}
+    Log To Console  \nFinished downloading ${latest-ova}
+    [Return]  ${latest-ova}
+
 Set Test OVA IP If Available
     Log To Console  \nCheck VIC appliance and set OVA_IP env variable...
     Set Common Test OVA Name
@@ -35,12 +48,13 @@ Set Test OVA IP If Available
 
 Install VIC Product OVA Only
     [Tags]  secret
-    [Arguments]  ${ova-file}  ${ova-name}
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
     Log To Console  \nInstalling VIC appliance...
-    ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
+    ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:appliance.tls_cert="${tls_cert}" --prop:appliance.tls_cert_key="${tls_cert_key}" --prop:appliance.ca_cert="${ca_cert}" --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
+    Log  ${output}
     Should Contain  ${output}  Completed successfully
     Should Contain  ${output}  Received IP address:
-    
+
     ${output}=  Split To Lines  ${output}
     ${ova-ip}=  Set Variable  NULL
     :FOR  ${line}  IN  @{output}
@@ -48,18 +62,19 @@ Install VIC Product OVA Only
     \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
     \   ${ova-ip}=  Run Keyword If  ${status}  Set Variable  ${ip}  ELSE  Set Variable  ${ova-ip}
 
+    Log  ${ova-ip}
     Wait For Register Page  ${ova-ip}
     Set Environment Variable  OVA_IP  ${ova-ip}
 
 Install VIC Product OVA
     [Tags]  secret
-    [Arguments]  ${ova-file}  ${ova-name}
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
     Log To Console  \nInstalling VIC appliance and validating services...
-    Install VIC Product OVA Only  ${ova-file}  ${ova-name}
+    Install VIC Product OVA Only  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
 
     # set env var for ova ip
     Wait For Online Components  %{OVA_IP}
-    
+
     # validate complete installation on UI
     Log To Console  Initializing the OVA using the getting started ui...
     Set Browser Variables
@@ -170,3 +185,23 @@ Copy Support Bundle
 
     # copy log bundle
     ${output}=  Run command and Return output  sshpass -p ${OVA_PASSWORD_ROOT} scp -o StrictHostKeyChecking\=no -o UserKnownHostsFile=/dev/null ${OVA_USERNAME_ROOT}@${ova-ip}:${file} .
+
+Verify VIC Appliance TLS Certificates
+    # Verify that services are using the provided TLS certificate
+    # Match based on {validate-string} from openssl output
+    [Arguments]  ${ova-ip}  ${validate-string}
+    # Verify that the supplied certificate is presented on web interface
+    ${output}=  Get Remote Certificate  ${ova-ip}:9443
+    Should Contain  ${output}  ${validate-string}
+
+    # Verify that the supplied certificate is presented on the Admiral interface
+    ${output}=  Get Remote Certificate  ${ova-ip}:8282
+    Should Contain  ${output}  ${validate-string}
+
+    # Verify that the supplied certificate is presented on the VIC Machine API interface
+    ${output}=  Get Remote Certificate  ${ova-ip}:8443
+    Should Contain  ${output}  ${validate-string}
+
+    # Verify that the supplied certificate is presented on the Harbor interface
+    ${output}=  Get Remote Certificate  ${ova-ip}:443
+    Should Contain  ${output}  ${validate-string}
