@@ -65,7 +65,7 @@ function readHarborCfgKey {
 # Check if required PSC token is present
 function checkHarborPSCToken {
   if [ ! -f "${harbor_psc_token_file}" ]; then
-    log "PSC token ${harbor_psc_token_file} not present. Unable to perform data migration to Harbor." 
+    log "PSC token ${harbor_psc_token_file} not present. Unable to perform data migration to Harbor."
     exit 1
   fi
   if [ ! -s "${harbor_psc_token_file}" ]; then
@@ -77,7 +77,7 @@ function checkHarborPSCToken {
 # Run the harbor migrator docker image
 # TODO(morris-jason): remove the test tag
 function runMigratorCmd {
-  local migrator_image="vmware/harbor-migrator:v1.5.0-test"
+  local migrator_image="vmware/harbor-migrator:v1.5.0"
 
   docker run -it --rm \
     -e DB_USR=${DB_USER} \
@@ -138,7 +138,7 @@ function migrateHarbor {
 # Upgrade entry point from upgrade.sh
 function upgradeHarbor {
   export HARBOR_VER="$1"
-  
+
   if [ -z "${DB_USER}" ]; then
     DB_USER="root"
   fi
@@ -159,7 +159,7 @@ function upgradeHarbor {
   cleanupFiles
   mkdir -p ${harbor_backup}
   checkHarborPSCToken
-  
+
   # Start Admiral for data migration
   systemctl start admiral.service
 
@@ -172,11 +172,11 @@ function upgradeHarbor {
   # subshell to capture -e
   ( migrateHarbor )
   if [ $? -ne 0 ]; then
-    log "[=] Harbor migration failed from the Old VIC Appliance"
+    log "[=] Harbor migration failed from the old VIC Appliance"
     log "[=] Please contact VMware support"
     exit 1
   fi
-  
+
   log "[=] Successfully migrated Harbor configuration and data"
   log "Harbor upgrade complete"
 
