@@ -34,9 +34,14 @@ VCENTER_PASSWORD=""
 VCENTER_DATACENTER=""
 EXTERNAL_PSC=""
 PSC_DOMAIN=""
+VCENTER_FINGERPRINT=""
 
 APPLIANCE_TARGET=""
 APPLIANCE_USERNAME=""
+APPLIANCE_PASSWORD=""
+APPLIANCE_VERSION=""
+
+EMBEDDED_PSC=""
 DESTROY_ENABLED=""
 MANUAL_DISK_MOVE=""
 
@@ -51,19 +56,25 @@ function usage {
     echo -e "Usage: $0 [args...]
 
       All arguments are optional - you will be prompted for them if not entered on the cli.
-      [--dbpass]:                Harbor db password.
-      [--dbuser]:                Harbor db username.
-      [--target]:                VC Target IP Address for psc registration.
-      [--username]:              VC Username for psc registration.
-      [--password]:              VC Password for psc registration.
-      [--dc]:                    VC Target Datacenter of the Old VIC Appliance
-      [--external-psc]:          External PSC IP Address.
-      [--external-psc-domain]:   External PSC Domain Name.
+      [--dbpass value]:                Harbor db password.
+      [--dbuser value]:                Harbor db username.
+      [--target value]:                VC Target IP Address for PSC registration.
+      [--username value]:              VC Username for PSC registration.
+      [--password value]:              VC Password for PSC registration.
+      [--dc value]:                    VC Target Datacenter of the old VIC Appliance.
+      [--fingerprint value]:           VC Target fingerprint in GOVC format (govc about.cert -k -thumbprint).
 
-      [--appliance-username]:    Username of the old appliance.
-      [--appliance-target]:      IP Address of the old appliance.
-      [--destroy]:               Destroy the old appliance after upgrade is finished.
-      [--manual-disks]:          Skip the automated govc disk migration.
+      [--external-psc value]:          External PSC IP Address.
+      [--external-psc-domain value]:   External PSC Domain Name.
+
+      [--appliance-username value]:    Username of the old appliance.
+      [--appliance-password value]:    Password of the old appliance.
+      [--appliance-target value]:      IP Address of the old appliance.
+      [--appliance-version value]:     Version the old appliance. v1.2.1, v1.3.0, or v1.3.1.
+
+      [--embedded-psc]:                Using embedded PSC. Do not prompt for external PSC options.
+      [--destroy]:                     Destroy the old appliance after upgrade is finished.
+      [--manual-disks]:                Skip the automated govc disk migration.
     "
 }
 
@@ -157,6 +168,12 @@ function proceedWithUpgrade {
     log ""
     log "Detected old appliance's version as $ver."
     logn "If the old appliance's version is not detected correctly, please enter \"n\" to abort the upgrade and contact VMware support."
+
+    if [ -n "${APPLIANCE_VERSION}" ] && [ "$ver" == "${APPLIANCE_VERSION}" ]; then
+      log "Detected old appliance version matches expected value from --appliance-version ${APPLIANCE_VERSION}"
+      return # continue with upgrade
+    fi
+
     while true; do
       log ""
       log "Do you wish to proceed with upgrade? [y/n]"
@@ -394,13 +411,28 @@ function main {
         PSC_DOMAIN="$2"
         shift # past argument
         ;;
+      --fingerprint)
+        VCENTER_FINGERPRINT="$2"
+        shift # past argument
+        ;;
       --appliance-username)
         APPLIANCE_USERNAME="$2"
+        shift
+        ;;
+      --appliance-password)
+        APPLIANCE_PASSWORD="$2"
         shift
         ;;
       --appliance-target)
         APPLIANCE_TARGET="$2"
         shift
+        ;;
+      --appliance-version)
+        APPLIANCE_VERSION="$2"
+        shift
+        ;;
+      --embedded-psc)
+        EMBEDDED_PSC="1"
         ;;
       --destroy)
         DESTROY_ENABLED="1"
@@ -424,19 +456,25 @@ function main {
     echo ""
   fi
 
-  [ -z "${EXTERNAL_PSC}" ] && read -p "If using an external PSC, enter the FQDN of the PSC instance (leave blank otherwise): " EXTERNAL_PSC
-  [ -z "${PSC_DOMAIN}" ] && read -p "If using an external PSC, enter the PSC Admin Domain (leave blank otherwise): " PSC_DOMAIN
+  [ -z "${EMBEDDED_PSC}" ] && [ -z "${EXTERNAL_PSC}" ] && read -p "If using an external PSC, enter the FQDN of the PSC instance (leave blank otherwise): " EXTERNAL_PSC
+  [ -z "${EMBEDDED_PSC}" ] && [ -z "${PSC_DOMAIN}" ] && read -p "If using an external PSC, enter the PSC Admin Domain (leave blank otherwise): " PSC_DOMAIN
 
   export GOVC_TLS_KNOWN_HOSTS=/tmp/govc_known_hosts
   export GOVC_URL="$VCENTER_USERNAME:$VCENTER_PASSWORD@$VCENTER_TARGET"
-  fingerprint=$(getFingerprint)
-  echo -e "\nPlease verify the vCenter IP and TLS fingerprint: ${fingerprint}"
-  read -p "Is the fingerprint correct? (y/n): " resp
-  if [ "$resp" != "y" ]; then
-    echo "TLS connection is not secure, unable to proceed with upgrade. Please contact VMware support. Exiting..."
-    exit 1
+
+  if [ -z "${VCENTER_FINGERPRINT}" ]; then
+    fingerprint=$(getFingerprint)
+    echo -e "\nPlease verify the vCenter IP and TLS fingerprint: ${fingerprint}"
+    read -p "Is the fingerprint correct? (y/n): " resp
+    if [ "$resp" != "y" ]; then
+      echo "TLS connection is not secure, unable to proceed with upgrade. Please contact VMware support. Exiting..."
+      exit 1
+    fi
+    echo "${fingerprint}" > $GOVC_TLS_KNOWN_HOSTS
+  else
+    log "Using provided vCenter fingerprint from --vcenter-fingerprint ${VCENTER_FINGERPRINT}"
+    echo "${VCENTER_FINGERPRINT}" > $GOVC_TLS_KNOWN_HOSTS
   fi
-  echo "${fingerprint}" > $GOVC_TLS_KNOWN_HOSTS
 
   [ -z "${VCENTER_DATACENTER}" ] && read -p "Enter vCenter Datacenter of the old VIC appliance: " VCENTER_DATACENTER
   export GOVC_DATACENTER="$VCENTER_DATACENTER"
