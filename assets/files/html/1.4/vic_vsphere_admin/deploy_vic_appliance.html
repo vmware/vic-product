@@ -1164,6 +1164,25 @@
             
 
             
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.4.2.1" data-path="upgrade_appliance_manual.html">
+            
+                <a href="upgrade_appliance_manual.html">
+            
+                    
+                    Move Disks Manually
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
         </li>
     
         <li class="chapter " data-level="3.1.4.3" data-path="upgrade_vch.html">
@@ -2578,7 +2597,7 @@
 <li>vSphere Integrated Containers Registry service</li>
 <li>vSphere Integrated Containers Management Portal service</li>
 <li>The file server for vSphere Integrated Containers Engine downloads and installation of the vSphere Client plug-ins</li>
-<li>The <code>vic_machine_server</code> service, that powers the Create Virtual Container Host wizard in the HTML5 vSphere Client plug-in</li>
+<li>The <code>vic_machine_server</code> service, that powers the virtual container host deployment and management wizards in the HTML5 vSphere Client plug-in</li>
 </ul>
 <p>You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. Also, if a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller.</p>
 <p><strong>Prerequisites</strong></p>
@@ -2600,9 +2619,15 @@
 <li>Select the network that the appliance connects to</li>
 </ul>
 </li>
-<li><p>On the <strong>Customize template</strong> page, under <strong>Appliance Security</strong>, set the root password for the appliance VM and optionally uncheck the <strong>Permit Root Login</strong> checkbox. </p>
-<p> Setting the root password for the appliance is mandatory. </p>
-<p> <strong>IMPORTANT</strong>: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Only use SSH to access the appliance when instructed to do so in the documentation, or under the guidance of VMware GSS.</p>
+<li><p>On the <strong>Customize template</strong> page, expand <strong>Appliance Configuration</strong>.</p>
+<ul>
+<li>Set the root password for the appliance VM. Setting the root password for the appliance is mandatory. </li>
+<li><p>Optionally uncheck the <strong>Permit Root Login</strong> checkbox.</p>
+<p>  <strong>IMPORTANT</strong>: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Only use SSH to access the appliance when instructed to do so in the documentation, or under the guidance of VMware GSS.</p>
+</li>
+<li>To use a custom certificate to authenticate connections to the vSphere Integrated Containers appliance, optionally paste the  PEM encoded content of the appropriate certificate, key, and Certificate Authority (CA) files in the <strong>Appliance TLS Certificate</strong>, <strong>Appliance TLS Certificate Key</strong>, and <strong>Certificate Authority Certificate</strong> text boxes. The appliance supports PEM encoded PKCS#1 and PEM encoded PKCS#8 formats for TLS private keys. To use auto-generated certificates, leave the text boxes blank. The certificate is used by all of the services that run in the appliance.</li>
+<li>In the <strong>Appliance Configuration Port</strong> text box, optionally change the port on which to publish the vSphere Integrated Containers Getting Started page.</li>
+</ul>
 </li>
 <li><p>Expand <strong>Networking Properties</strong> and optionally configure a static IP address and fully qualified domain name (FQDN) for the appliance VM. </p>
 <p> To use DHCP, leave the networking properties blank. If you specify an FQDN, the appliance uses this FQDN to register with the Platform Services Controller and runs the Registry, Management Portal, and file server services at that FQDN.</p>
@@ -2615,22 +2640,7 @@
 <li>Optionally check the <strong>Garbage Collection</strong> check box to enable garbage collection on the registry when the appliance reboots. </li>
 </ul>
 </li>
-<li><p>Expand <strong>Management Portal Configuration</strong> to configure the deployment of vSphere Integrated Containers Management Portal. </p>
-<ul>
-<li>In the <strong>Management Portal Port</strong> text box, optionally change the port on which to publish the vSphere Integrated Containers Management Portal service.</li>
-<li><p>To use custom certificates to authenticate connections to vSphere Integrated Containers Management Portal, optionally paste the content of the appropriate certificate, key, and Certificate Authority (CA) files in the <strong>SSL Cert</strong>, <strong>SSL Cert Key</strong>, and <strong>CA Cert</strong> text boxes. </p>
-<p>  <strong>IMPORTANT</strong>: Provide the TLS private key as a PEM-encoded PKCS#8-formatted file.</p>
-</li>
-<li><p>Leave the text boxes blank to use auto-generated certificates.</p>
-</li>
-</ul>
-</li>
-<li><p>Expand <strong>Fileserver Configuration</strong> to configure the file server from which you download the vSphere Integrated Containers Engine binaries, and which publishes the plug-in packages for the vSphere Client. </p>
-<ul>
-<li>In the <strong>Fileserver Port</strong> text box, optionally change the port on which the vSphere Integrated Containers file server runs.</li>
-<li>To use custom certificates to authenticate connections to the vSphere Integrated Containers file server, optionally paste the content of the appropriate certificate and key files in the <strong>SSL Cert</strong> and <strong>SSL Cert Key</strong> text boxes. The file server supports RSA format for TLS private keys. </li>
-<li>Leave the text boxes blank to use auto-generated certificates.    </li>
-</ul>
+<li><p>(Optional) Expand <strong>Management Portal Configuration</strong> and optionally change the port on which to publish the vSphere Integrated Containers Management Portal service.</p>
 </li>
 <li><p>Expand <strong>Configure Example Users</strong> to configure the ready-made  example user accounts that vSphere Integrated Containers creates by default in the Platform Services Controller.</p>
 <p>  You can use these accounts to test the different user personas that can access vSphere Integrated Containers Management Portal and Registry.</p>
@@ -2654,7 +2664,7 @@
 <p>The network status shows whether the network settings that you provided during the deployment match the settings with which the appliance is running. If there are mismatches, power off the appliance and select <strong>Edit Settings</strong> &gt; <strong>vApp Options</strong> to correct the network settings.</p>
 </li>
 <li><p>In a browser, go to http://<i>vic_appliance_address</i>.</p>
-<p>Wait for a few minutes to allow the appliance services to start. During this time, you see the message <code>The VIC Appliance is initializing</code>. Refresh your browser at regular intervals until you see the Complete VIC appliance installation panel.</p>
+<p>Wait for a few minutes to allow the appliance services to start. During this time, you see the message <code>The VIC Appliance is initializing</code>. When the initialization finishes, the Complete VIC appliance installation panel appears automatically. If you see a page not found error during initialization, refresh your browser.</p>
 </li>
 <li><p>Enter the connection details for the vCenter Server instance on which you deployed the appliance.</p>
 <ul>
@@ -2683,7 +2693,7 @@
 </ul>
 <p><strong>Troubleshooting</strong></p>
 <ul>
-<li>If you do not see a green success banner at the top of the Getting Started page after initializing the appliance, the appliance has not initialized correctly. For more information, see <a href="reinitialize_appliance.html">Reinitialize the vSphere Integrated Containers Appliance</a>. You should not reinitialize the appliance in any circumstances other than those described in that topic.</li>
+<li>If you do not see a green success banner at the top of the Getting Started page after initializing the appliance, the appliance has not initialized correctly. For more information, see <a href="reinitialize_appliance.html">Reinitialize the vSphere Integrated Containers Appliance</a>.</li>
 <li>To remove security warnings when you connect to the Getting Started page or management portal, see <a href="obtain_appliance_certs.html">Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates</a> and <a href="../vic_cloud_admin/trust_vic_certs.html">Verify and Trust vSphere Integrated Containers Appliance Certificates</a>.</li>
 <li>If you see a certificate error when you attempt to go to http://<i>vic_appliance_address</i>, see <a href="ts_cert_error.html">Browser Rejects Certificates with <code>ERR_CERT_INVALID</code> Error</a>.</li>
 <li>If you see Platform Services Controller token errors when you go to the vSphere Integrated Containers Management Portal, see <a href="ts_clock_skew.html">Connections Fail with Certificate or Platform Services Controller Token Errors</a>.</li>
@@ -2731,7 +2741,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Deploy the Appliance","level":"3.1.1.3","depth":3,"next":{"title":"Appliance Initialization API","level":"3.1.1.3.1","depth":4,"path":"vic_vsphere_admin/ova_reg_api.md","ref":"vic_vsphere_admin/ova_reg_api.md","articles":[]},"previous":{"title":"Deployment Prerequisites","level":"3.1.1.2","depth":3,"path":"vic_vsphere_admin/vic_installation_prereqs.md","ref":"vic_vsphere_admin/vic_installation_prereqs.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"url":"VMW_logo.png","style":"background: none"},"expandable-chapters":{}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/deploy_vic_appliance.md","mtime":"2018-04-04T09:21:02.856Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-04T09:21:41.454Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Deploy the Appliance","level":"3.1.1.3","depth":3,"next":{"title":"Appliance Initialization API","level":"3.1.1.3.1","depth":4,"path":"vic_vsphere_admin/ova_reg_api.md","ref":"vic_vsphere_admin/ova_reg_api.md","articles":[]},"previous":{"title":"Deployment Prerequisites","level":"3.1.1.2","depth":3,"path":"vic_vsphere_admin/vic_installation_prereqs.md","ref":"vic_vsphere_admin/vic_installation_prereqs.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"url":"VMW_logo.png","style":"background: none"},"expandable-chapters":{}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/deploy_vic_appliance.md","mtime":"2018-04-13T07:31:50.194Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-17T16:18:00.798Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

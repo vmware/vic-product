@@ -1164,6 +1164,25 @@
             
 
             
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.4.2.1" data-path="upgrade_appliance_manual.html">
+            
+                <a href="upgrade_appliance_manual.html">
+            
+                    
+                    Move Disks Manually
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
         </li>
     
         <li class="chapter " data-level="3.1.4.3" data-path="upgrade_vch.html">
@@ -2598,8 +2617,8 @@
 <h3 id="vsphere-integrated-containers-appliance-requirements-">vSphere Integrated Containers Appliance Requirements <a id="appliancereqs"></a></h3>
 <p>You deploy the vSphere Integrated Containers appliance on a vCenter Server instance. Deploying the appliance directly on an ESXi host is not supported.</p>
 <ul>
-<li>vCenter Server 6.0 or 6.5.</li>
-<li>ESXi 6.0 or 6.5 for all hosts.</li>
+<li>vCenter Server 6.0, 6.5, or 6.7.</li>
+<li>ESXi 6.0, 6.5, or 6.7 for all hosts.</li>
 <li>At least 2 vCPUs.</li>
 <li>At least 8GB RAM.</li>
 <li>At least 80GB free disk space on the datastore. The disk space for the appliance uses thin provisioning.</li>
@@ -2607,15 +2626,15 @@
 <h3 id="vsphere-client-requirements-">vSphere Client Requirements <a id="client"></a></h3>
 <p>vSphere Integrated Containers provides a basic plug-in for the Flex-based vSphere Web Client and a more feature-complete plug-in for the HTML5 vSphere Client: </p>
 <ul>
-<li>The Flex-based plug-in for vSphere 6.0 and 6.5 has limited functionality and only provides information about VCHs and container VMs. </li>
-<li>The HTML5 plug-in for vSphere 6.5 has a more extensive feature set that allows you to deploy and interact with VCHs. The HTML5 vSphere Client plug-in for vSphere Integrated Containers requires vCenter Server 6.5.0d or later.</li>
+<li>The Flex-based plug-in for vSphere 6.0, 6.5, and 6.7 has limited functionality and only provides information about VCHs and container VMs. </li>
+<li>The HTML5 plug-in for vSphere 6.5 and 6.7 has a more extensive feature set that allows you to deploy and interact with VCHs. The HTML5 vSphere Client plug-in for vSphere Integrated Containers requires vCenter Server 6.7 or vCenter Server 6.5.0d or later.</li>
 </ul>
 <h3 id="supported-configurations-for-virtual-container-host-deployment-">Supported Configurations for Virtual Container Host Deployment <a id="configs"></a></h3>
 <p>You can deploy virtual container hosts (VCHs) in the following types of setup:</p>
 <ul>
-<li>vCenter Server 6.0 or 6.5, managing a cluster of ESXi 6.0 or 6.5 hosts, with VMware vSphere Distributed Resource Scheduler&#x2122; (DRS) enabled.</li>
-<li>vCenter Server 6.0 or 6.5, managing one or more standalone ESXi 6.0 or 6.5 hosts.</li>
-<li>Standalone ESXi 6.0 or 6.5 host that is not managed by a vCenter Server instance.</li>
+<li>vCenter Server 6.0, 6.5, or 6.7 managing a cluster of ESXi  6.0, 6.5, or 6.7 hosts, with VMware vSphere Distributed Resource Scheduler&#x2122; (DRS) enabled.</li>
+<li>vCenter Server 6.0, 6.5, or 6.7, managing one or more standalone ESXi 6.0, 6.5, or 6.7 hosts.</li>
+<li>Standalone ESXi 6.0, 6.5, or 6.7 host that is not managed by a vCenter Server instance.</li>
 </ul>
 <p>Caveats and limitations:</p>
 <ul>
@@ -2668,7 +2687,7 @@
 <li>Isolate the bridge network and any mapped container networks. You can isolate networks by using a separate VLAN for each network. For information about how to assign a VLAN ID to a port group, see <a href="https://kb.vmware.com/kb/1003825" target="_blank">VMware KB 1003825</a>. For more information about private VLAN, see <a href="https://kb.vmware.com/kb/1010691" target="_blank">VMware KB 1010691</a>.</li>
 </ul>
 <h2 id="custom-certificates-">Custom Certificates <a id="customcerts"></a></h2>
-<p>If you intend to use custom certificates, vSphere Integrated Containers Management Portal requires the TLS private key to be supplied as a PEM-encoded PKCS#8-formatted file. For information about how to convert keys to the correct format, see <a href="vic_cert_reference.html#convertkeys">Converting Keys for Use with vSphere Integrated Containers Management Portal</a>.</p>
+<p>If you intend to use a custom certificate, the vSphere Integrated Containers appliance supports PEM encoded PKCS#1 and PEM encoded PKCS#8 formats for TLS private keys. If you provide a PKCS#1 format certificate, vSphere Integrated Containers converts it to PKCS8 format. The appliance uses a single TLS certificate for all of the services that run in the appliance.</p>
 
                                 
                                 </section>
@@ -2712,7 +2731,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Deployment Prerequisites","level":"3.1.1.2","depth":3,"next":{"title":"Deploy the Appliance","level":"3.1.1.3","depth":3,"path":"vic_vsphere_admin/deploy_vic_appliance.md","ref":"vic_vsphere_admin/deploy_vic_appliance.md","articles":[{"title":"Appliance Initialization API","level":"3.1.1.3.1","depth":4,"path":"vic_vsphere_admin/ova_reg_api.md","ref":"vic_vsphere_admin/ova_reg_api.md","articles":[]}]},"previous":{"title":"Download Installer","level":"3.1.1.1","depth":3,"path":"vic_vsphere_admin/download_vic.md","ref":"vic_vsphere_admin/download_vic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"url":"VMW_logo.png","style":"background: none"},"expandable-chapters":{}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vic_installation_prereqs.md","mtime":"2018-04-04T09:21:03.043Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-04T09:21:41.454Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Deployment Prerequisites","level":"3.1.1.2","depth":3,"next":{"title":"Deploy the Appliance","level":"3.1.1.3","depth":3,"path":"vic_vsphere_admin/deploy_vic_appliance.md","ref":"vic_vsphere_admin/deploy_vic_appliance.md","articles":[{"title":"Appliance Initialization API","level":"3.1.1.3.1","depth":4,"path":"vic_vsphere_admin/ova_reg_api.md","ref":"vic_vsphere_admin/ova_reg_api.md","articles":[]}]},"previous":{"title":"Download Installer","level":"3.1.1.1","depth":3,"path":"vic_vsphere_admin/download_vic.md","ref":"vic_vsphere_admin/download_vic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"url":"VMW_logo.png","style":"background: none"},"expandable-chapters":{}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vic_installation_prereqs.md","mtime":"2018-04-17T16:14:24.125Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-17T16:18:00.798Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
