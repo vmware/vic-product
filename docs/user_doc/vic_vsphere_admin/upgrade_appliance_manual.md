@@ -6,7 +6,7 @@ By default, the upgrade script copies the relevant disk files from the old appli
 
 Manually upgrading the vSphere Integrated Containers appliance requires you to remove disks from the old appliance VM and move them to a new instance of the appliance. In vSphere Integrated Containers 1.2.x, the appliance has two disks. In vSphere Integrated Containers 1.3.x, the appliance has four disks. As a consequence, you must move different disks between the VMs depending on whether you are upgrading from 1.2.x to 1.4.x, or from 1.3.x to 1.4.x.
 
-During a manual upgrade, all configurations from the previous installation transfer to the upgraded appliance. The old appliance is no longer functional after you move the disks.
+During a manual upgrade, all configurations that you made in vSphere Integrated Containers Management Portal and Registry in the previous installation transfer to the upgraded appliance. The old appliance is no longer functional after you move the disks.
 
 **Prerequisites**
 
