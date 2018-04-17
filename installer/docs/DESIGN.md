@@ -167,6 +167,11 @@ components should use this certificate for user facing connections and can acces
 this directory as a read only volume to the component container
 (`-v /storage/data/certs:/path/on/container:ro`)
 
+For user provided certificates, the user must provide in PEM format a server certificate, unencrypted
+server private key, and certificate authority certificate. If the server private key is not in PKCS8
+format (beginning with `-----BEGIN PRIVATE KEY-----`), the appliance will attempt to convert it into
+PKCS8 format before saving it for use by the appliance.
+
 `/storage/data/certs/` contains:
 ```
 - cert_gen_type    # self-signed or custom
@@ -186,6 +191,22 @@ this directory as a read only volume to the component container
 - All shell scripts MUST be checked using ShellCheck and resolve all errors prior to inclusion
 
   https://github.com/koalaman/shellcheck
+
+
+## Networking
+
+The VIC appliance has one NIC. The VIC appliance will respond to ICMP echo requests and has the
+following ports open for services running on the appliance. Users may customize ports for certain
+services during appliance deployment.
+
+```
+22   SSH
+80   Loading page and redirect to Getting Started Page
+443  Harbor Registry
+8282 Admiral Container Management Portal
+8443 VIC Machine API
+9443 VIC appliance Getting Started Page
+```
 
 
 ## Component Inclusion and Continuous Integration
