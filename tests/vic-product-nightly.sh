@@ -49,6 +49,12 @@ echo "Downloading VIC Product OVA build $input..."
 wget -P vic-product https://storage.googleapis.com/vic-product-ova-builds/$input
 
 docker run --net grid --rm --link selenium-hub:selenium-grid-hub -v $PWD/vic-product:/go --env-file vic-internal/vic-product-nightly-secrets.list gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --processes 4 --removekeywords TAG:secret --exclude skip tests/manual-test-cases
+cat pabot_results/*/stdout.txt | grep '::' | grep -E 'PASS|FAIL' > console.log
+
+# Pretty up the email results
+sed -i -e 's/^/<br>/g' console.log
+sed -i -e 's|PASS|<font color="green">PASS</font>|g' console.log
+sed -i -e 's|FAIL|<font color="red">FAIL</font>|g' console.log
 
 DATE=`date +%m-%d-%H-%M`
 outfile="vic-product-ova-results-"$DATE".zip"
