@@ -66,6 +66,7 @@
   * [Upgrading](upgrading_vic.md) 
      * [Pre-Upgrade Tasks](pre_upgrade_tasks.md)
      * [Upgrade the Appliance](upgrade_appliance.md)
+         * [Move Disks Manually](upgrade_appliance_manual.md)
      * [Upgrade VCHs](upgrade_vch.md)
          * [VCH Upgrade Options](upgrade_vch_options.md)
      * [Upgrade Plug-In on Windows](upgrade_h5_plugin_windows.md)

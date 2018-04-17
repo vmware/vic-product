@@ -85,6 +85,7 @@
   * [Upgrading](vic_vsphere_admin/upgrading_vic.md)
      * [Pre-Upgrade Tasks](vic_vsphere_admin/pre_upgrade_tasks.md)
      * [Upgrade the Appliance](vic_vsphere_admin/upgrade_appliance.md)
+         * [Move Disks Manually](vic_vsphere_admin/upgrade_appliance_manual.md)
      * [Upgrade VCHs](vic_vsphere_admin/upgrade_vch.md)
          * [VCH Upgrade Options](vic_vsphere_admin/upgrade_vch_options.md)
      * [Upgrade Plug-In on Windows](vic_vsphere_admin/upgrade_h5_plugin_windows.md)
