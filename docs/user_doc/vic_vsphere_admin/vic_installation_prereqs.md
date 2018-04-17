@@ -27,8 +27,8 @@ The different components of vSphere Integrated Containers have different virtual
 
 You deploy the vSphere Integrated Containers appliance on a vCenter Server instance. Deploying the appliance directly on an ESXi host is not supported.
 
-- vCenter Server 6.0 or 6.5.
-- ESXi 6.0 or 6.5 for all hosts.
+- vCenter Server 6.0, 6.5, or 6.7.
+- ESXi 6.0, 6.5, or 6.7 for all hosts.
 - At least 2 vCPUs.
 - At least 8GB RAM.
 - At least 80GB free disk space on the datastore. The disk space for the appliance uses thin provisioning.
@@ -37,16 +37,16 @@ You deploy the vSphere Integrated Containers appliance on a vCenter Server insta
 
 vSphere Integrated Containers provides a basic plug-in for the Flex-based vSphere Web Client and a more feature-complete plug-in for the HTML5 vSphere Client: 
 
-- The Flex-based plug-in for vSphere 6.0 and 6.5 has limited functionality and only provides information about VCHs and container VMs. 
-- The HTML5 plug-in for vSphere 6.5 has a more extensive feature set that allows you to deploy and interact with VCHs. The HTML5 vSphere Client plug-in for vSphere Integrated Containers requires vCenter Server 6.5.0d or later.
+- The Flex-based plug-in for vSphere 6.0, 6.5, and 6.7 has limited functionality and only provides information about VCHs and container VMs. 
+- The HTML5 plug-in for vSphere 6.5 and 6.7 has a more extensive feature set that allows you to deploy and interact with VCHs. The HTML5 vSphere Client plug-in for vSphere Integrated Containers requires vCenter Server 6.7 or vCenter Server 6.5.0d or later.
 
 ### Supported Configurations for Virtual Container Host Deployment <a id="configs"></a>
 
 You can deploy virtual container hosts (VCHs) in the following types of setup:
 
-* vCenter Server 6.0 or 6.5, managing a cluster of ESXi 6.0 or 6.5 hosts, with VMware vSphere Distributed Resource Scheduler&trade; (DRS) enabled.
-* vCenter Server 6.0 or 6.5, managing one or more standalone ESXi 6.0 or 6.5 hosts.
-* Standalone ESXi 6.0 or 6.5 host that is not managed by a vCenter Server instance.
+* vCenter Server 6.0, 6.5, or 6.7 managing a cluster of ESXi  6.0, 6.5, or 6.7 hosts, with VMware vSphere Distributed Resource Scheduler&trade; (DRS) enabled.
+* vCenter Server 6.0, 6.5, or 6.7, managing one or more standalone ESXi 6.0, 6.5, or 6.7 hosts.
+* Standalone ESXi 6.0, 6.5, or 6.7 host that is not managed by a vCenter Server instance.
 
 Caveats and limitations:
 

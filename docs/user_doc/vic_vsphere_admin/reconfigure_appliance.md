@@ -5,7 +5,7 @@ After you have deployed the vSphere Integrated Containers appliance, you can rec
 **Prerequisites**
 
 - Log in to a vSphere Web Client instance for the vCenter Server instance on which the vSphere Integrated Containers appliance is running.
-- If you use vSphere 6.5, log in to the Flex-based vSphere Web Client, not the HTML5 vSphere Client.
+- If you use vSphere 6.5 or 6.7, log in to the Flex-based vSphere Web Client, not the HTML5 vSphere Client.
 
 **Procedure**
 
