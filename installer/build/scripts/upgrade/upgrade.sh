@@ -220,31 +220,29 @@ function proceedWithUpgrade {
 
 # Copy files from old appliance for version check
 function prepareForAutomatedUpgrade {
-  local tmpdir="$1"
-  local username="$2"
-  local ip="$3"
-  # Skip host key checking
-  local skip_verify="-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-  local add_authorized_key="mkdir -p ~/.ssh/ && echo $pubkey >> ~/.ssh/authorized_keys"
-
   mkdir -p  /root/.ssh
   rm -f $key_file
   rm -f ${key_file}.pub
   ssh-keygen -b 4096 -f $key_file -t rsa -N '' -C 'VIC Appliance Upgrade Automation Key'
   pubkey=$(cat ${key_file}.pub)
 
+  local tmpdir="$1"
+  local username="$2"
+  local ip="$3"
+  local add_authorized_key="mkdir -p ~/.ssh/ && echo $pubkey >> ~/.ssh/authorized_keys"
+
   # Add automation key
   if [ -z "${APPLIANCE_PASSWORD}" ]; then
     log "Please enter the VIC appliance password for $username@$ip"
     if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
-      ssh "$skip_verify" "$username@$ip" "$add_authorized_key"
+      ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$username@$ip" "$add_authorized_key"
     else
       ssh "$username@$ip" "$add_authorized_key"
     fi
   else
     log "Using provided VIC appliance password from --appliance-password"
     if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
-      sshpass -p "${APPLIANCE_PASSWORD}" ssh "$skip_verify" "$username@$ip" "$add_authorized_key"
+      sshpass -p "${APPLIANCE_PASSWORD}" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$username@$ip" "$add_authorized_key"
     else
       sshpass -p "${APPLIANCE_PASSWORD}" ssh "$username@$ip" "$add_authorized_key"
     fi
@@ -260,14 +258,18 @@ function prepareForAutomatedUpgrade {
   for file in "${files[@]}"; do
     mkdir -p "$tmpdir$(dirname "$file")"
     set +e  # Copying files from /data will fail, remove after end of 1.2.1 support
-    scp -i $key_file "$username@$ip:$file" "$tmpdir$file"
+    if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
+      scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $key_file "$username@$ip:$file" "$tmpdir$file"
+    else
+      scp -i $key_file "$username@$ip:$file" "$tmpdir$file"
+    fi
     set -e
   done
 
   # Remove automation key
   local remove_authorized_key="sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
   if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
-    ssh "$skip_verify" -i $key_file "$username@$ip" "$remove_authorized_key"
+    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $key_file "$username@$ip" "$remove_authorized_key"
   else
     ssh -i $key_file "$username@$ip" "$remove_authorized_key"
   fi
