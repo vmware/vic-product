@@ -223,10 +223,9 @@ function prepareForAutomatedUpgrade {
   local tmpdir="$1"
   local username="$2"
   local ip="$3"
-  local skip_verify=""
-
   # Skip host key checking
   local skip_verify="-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+  local add_authorized_key="mkdir -p ~/.ssh/ && echo $pubkey >> ~/.ssh/authorized_keys"
 
   mkdir -p  /root/.ssh
   rm -f $key_file
@@ -238,16 +237,16 @@ function prepareForAutomatedUpgrade {
   if [ -z "${APPLIANCE_PASSWORD}" ]; then
     log "Please enter the VIC appliance password for $username@$ip"
     if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
-      ssh "$skip_verify" "$username@$ip" "mkdir -p ~/.ssh/ && echo $pubkey >> ~/.ssh/authorized_keys"
+      ssh "$skip_verify" "$username@$ip" "$add_authorized_key"
     else
-      ssh "$username@$ip" "mkdir -p ~/.ssh/ && echo $pubkey >> ~/.ssh/authorized_keys"
+      ssh "$username@$ip" "$add_authorized_key"
     fi
   else
     log "Using provided VIC appliance password from --appliance-password"
     if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
-      sshpass -p "${APPLIANCE_PASSWORD}" ssh "$skip_verify" "$username@$ip" "mkdir -p ~/.ssh/ && echo $pubkey >> ~/.ssh/authorized_keys"
+      sshpass -p "${APPLIANCE_PASSWORD}" ssh "$skip_verify" "$username@$ip" "$add_authorized_key"
     else
-      sshpass -p "${APPLIANCE_PASSWORD}" ssh "$username@$ip" "mkdir -p ~/.ssh/ && echo $pubkey >> ~/.ssh/authorized_keys"
+      sshpass -p "${APPLIANCE_PASSWORD}" ssh "$username@$ip" "$add_authorized_key"
     fi
   fi
 
@@ -266,10 +265,11 @@ function prepareForAutomatedUpgrade {
   done
 
   # Remove automation key
+  local remove_authorized_key="sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
   if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
-    ssh "$skip_verify" -i $key_file "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
+    ssh "$skip_verify" -i $key_file "$username@$ip" "$remove_authorized_key"
   else
-    ssh -i $key_file "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
+    ssh -i $key_file "$username@$ip" "$remove_authorized_key"
   fi
   rm -f $key_file
   rm -f ${key_file}.pub
