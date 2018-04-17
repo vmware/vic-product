@@ -22,59 +22,11 @@ Suite Teardown  Nimbus Cleanup  ${list}
 DRS Setup
     [Timeout]    110 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
-    ${esx1}  ${esx1-ip}=  Deploy Nimbus ESXi Server  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
-    Set Suite Variable  ${ESX1}  ${esx1}
-    ${esx2}  ${esx2-ip}=  Deploy Nimbus ESXi Server  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
-    Set Suite Variable  ${ESX2}  ${esx2}
-    ${esx3}  ${esx3-ip}=  Deploy Nimbus ESXi Server  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
-    Set Suite Variable  ${ESX3}  ${esx3}
+    Create a Simple VC Cluster
 
-    ${vc}  ${vc-ip}=  Deploy Nimbus vCenter Server  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
-    Set Suite Variable  ${VC}  ${vc}
-
-    Set Suite Variable  @{list}  ${esx1}  ${esx2}  ${esx3}  ${vc}
-
-    Log To Console  Create a datacenter on the VC
-    ${out}=  Run  govc datacenter.create ha-datacenter
+    Log To Console  Disable DRS on the cluster
+    ${out}=  Run  govc cluster.change -drs-enabled=false /ha-datacenter/host/cls
     Should Be Empty  ${out}
-
-    Log To Console  Create a cluster on the VC
-    ${out}=  Run  govc cluster.create cls
-    Should Be Empty  ${out}
-
-    Log To Console  Add ESX host to the VC
-    ${out}=  Wait Until Keyword Succeeds  5x  15 seconds  Run  govc cluster.add -hostname=${esx1-ip} -username=root -dc=ha-datacenter -password=e2eFunctionalTest -noverify=true
-    Should Contain  ${out}  OK
-    ${out}=  Wait Until Keyword Succeeds  5x  15 seconds  Run  govc cluster.add -hostname=${esx2-ip} -username=root -dc=ha-datacenter -password=e2eFunctionalTest -noverify=true
-    Should Contain  ${out}  OK
-    ${out}=  Wait Until Keyword Succeeds  5x  15 seconds  Run  govc cluster.add -hostname=${esx3-ip} -username=root -dc=ha-datacenter -password=e2eFunctionalTest -noverify=true
-    Should Contain  ${out}  OK
-
-    Log To Console  Create a distributed switch
-    ${out}=  Run  govc dvs.create -dc=ha-datacenter test-ds
-    Should Contain  ${out}  OK
-
-    Log To Console  Create three new distributed switch port groups for management and vm network traffic
-    ${out}=  Run  govc dvs.portgroup.add -nports 12 -dc=ha-datacenter -dvs=test-ds management
-    Should Contain  ${out}  OK
-    ${out}=  Run  govc dvs.portgroup.add -nports 12 -dc=ha-datacenter -dvs=test-ds vm-network
-    Should Contain  ${out}  OK
-    ${out}=  Run  govc dvs.portgroup.add -nports 12 -dc=ha-datacenter -dvs=test-ds bridge
-    Should Contain  ${out}  OK
-
-    Log To Console  Add all the hosts to the distributed switch
-    Wait Until Keyword Succeeds  5x  5min  Add Host To Distributed Switch  /ha-datacenter/host/cls
-
-    Log To Console  Deploy VIC to the VC cluster
-    Set Environment Variable  TEST_URL_ARRAY  ${vc-ip}
-    Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
-    Set Environment Variable  TEST_PASSWORD  Admin\!23
-    Set Environment Variable  BRIDGE_NETWORK  bridge
-    Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Remove Environment Variable  TEST_DATACENTER
-    Set Environment Variable  TEST_DATASTORE  datastore1
-    Set Environment Variable  TEST_RESOURCE  cls
-    Set Environment Variable  TEST_TIMEOUT  30m
 
 *** Test Cases ***
 Test
@@ -82,14 +34,14 @@ Test
     Set Environment Variable  OVA_NAME  OVA-5-04-TEST
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
-    Install VIC Product OVA Only  vic-*.ova  %{OVA_NAME}
+    Install VIC Product OVA  vic-*.ova  %{OVA_NAME}
 
     Set Browser Variables
 
     # Install VIC Plugin
     Download VIC And Install UI Plugin  %{OVA_IP}
 
-Create VCH with DRS disabled
+    Log To Console  Create VCH with DRS disabled....
     # Navigate to the wizard and create a VCH
     Open Firefox Browser
     Navigate To VC UI Home Page
@@ -129,6 +81,7 @@ Create VCH with DRS disabled
     # summary
     Click Finish Button
     Wait Until Page Contains Element  css=.alert-text
+    Element Text Should Be  css=.alert-text  Failed to validate VCH: DRS must be enabled to use VIC
     Capture Page Screenshot
 
     Log To Console  Clicking Cancel button...
@@ -136,16 +89,15 @@ Create VCH with DRS disabled
     Click Button  css=.clr-wizard-btn--tertiary
     Unselect Frame
 
-Enable DRS on the cluster
     Log To Console  Enable DRS on the cluster
     ${out}=  Run  govc cluster.change -drs-enabled /ha-datacenter/host/cls
     Should Be Empty  ${out}
 
-Create VCH with DRS enabled
+    Log To Console  Create VCH with DRS enabled
     Wait Until Page Contains  Summary
     Wait Until Page Contains  Virtual Container Hosts
     Wait Until Page Contains  Containers
-    
+
     Click New Virtual Container Host Button
     #general
     ${name}=  Evaluate  'VCH-5-05-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
