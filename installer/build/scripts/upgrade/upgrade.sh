@@ -27,6 +27,7 @@ upgrade_log_file="/var/log/vmware/upgrade.log"
 appliance_upgrade_status="/etc/vmware/upgrade_status_1.4.0"
 mkdir -p "/var/log/vmware"
 timestamp_file="/registration-timestamps.txt"
+key_file="/root/.ssh/vic-appliance-automation-key"
 
 VCENTER_TARGET=""
 VCENTER_USERNAME=""
@@ -58,8 +59,8 @@ function usage {
 
       All arguments are optional - you will be prompted for required values if not provided.
 
-      Values containing $ (dollar sign), \` (backquote), and \\ (backslash) will not work.
-      Change passwords containing these values before running this script.
+      Values containing \$ (dollar sign), \` (backquote), \' (single quote), \" (double quote), and \\ (backslash) will not be substituted properly.
+      Change any input (passwords) containing these values before running this script.
 
       [--dbpass value]:                Harbor db password.
       [--dbuser value]:                Harbor db username.
@@ -224,23 +225,30 @@ function prepareForAutomatedUpgrade {
   local ip="$3"
   local skip_verify=""
 
-  if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
-    # Skip host key checking
-    skip_verify="-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-  fi
+  # Skip host key checking
+  local skip_verify="-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
   mkdir -p  /root/.ssh
-  local key_file="/root/.ssh/vic-appliance-automation-key"
-  [ ! -f $key_file ] && ssh-keygen -b 4096 -f $key_file -t rsa -N '' -C 'VIC Appliance Upgrade Automation Key'
-  key=$(cat $key_file)
+  rm -f $key_file
+  rm -f ${key_file}.pub
+  ssh-keygen -b 4096 -f $key_file -t rsa -N '' -C 'VIC Appliance Upgrade Automation Key'
+  pubkey=$(cat ${key_file}.pub)
 
   # Add automation key
   if [ -z "${APPLIANCE_PASSWORD}" ]; then
     log "Please enter the VIC appliance password for $username@$ip"
-    ssh "$skip_verify" "$username@$ip" "mkdir -p ~/.ssh/ && echo $key >> ~/.ssh/authorized_keys"
+    if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
+      ssh "$skip_verify" "$username@$ip" "mkdir -p ~/.ssh/ && echo $pubkey >> ~/.ssh/authorized_keys"
+    else
+      ssh "$username@$ip" "mkdir -p ~/.ssh/ && echo $pubkey >> ~/.ssh/authorized_keys"
+    fi
   else
     log "Using provided VIC appliance password from --appliance-password"
-    sshpass -p "${APPLIANCE_PASSWORD}" ssh "$skip_verify" "$username@$ip" "mkdir -p ~/.ssh/ && echo $key >> ~/.ssh/authorized_keys"
+    if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
+      sshpass -p "${APPLIANCE_PASSWORD}" ssh "$skip_verify" "$username@$ip" "mkdir -p ~/.ssh/ && echo $pubkey >> ~/.ssh/authorized_keys"
+    else
+      sshpass -p "${APPLIANCE_PASSWORD}" ssh "$username@$ip" "mkdir -p ~/.ssh/ && echo $pubkey >> ~/.ssh/authorized_keys"
+    fi
   fi
 
   files=(
@@ -258,8 +266,13 @@ function prepareForAutomatedUpgrade {
   done
 
   # Remove automation key
-  ssh "$skip_verify" -i $key_file "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
-  rm $key_file
+  if [ -n "${INSECURE_SKIP_VERIFY}" ]; then
+    ssh "$skip_verify" -i $key_file "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
+  else
+    ssh -i $key_file "$username@$ip" "sed -i.bak '/VIC Appliance Upgrade Automation Key/d' ~/.ssh/authorized_keys"
+  fi
+  rm -f $key_file
+  rm -f ${key_file}.pub
 
   # Expect 3 files in temp dir
   local count=0
@@ -476,8 +489,8 @@ function main {
     shift # past argument or value
   done
 
-  log "Values containing $ (dollar sign), \` (backquote), and \\ (backslash) will not work."
-  log "Change passwords containing these values before running this script."
+  log "Values containing \$ (dollar sign), \` (backquote), \' (single quote), \" (double quote), and \\ (backslash) will not be substituted properly."
+  log "Change any input (passwords) containing these values before running this script."
 
   [ -z "${VCENTER_TARGET}" ] && read -p "Enter vCenter Server FQDN or IP: " VCENTER_TARGET
   [ -z "${VCENTER_USERNAME}" ] && read -p "Enter vCenter Administrator Username: " VCENTER_USERNAME
@@ -579,6 +592,8 @@ function main {
 
 function finish() {
   set +e
+  rm -f $key_file
+  rm -f ${key_file}.pub
   if [ "$rc" -eq 0 ]; then
     log ""
     log "-------------------------"
