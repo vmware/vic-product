@@ -1,6 +1,8 @@
-# Add Registries to the Management Portal #
+# Add Global Registries #
 
-You can add multiple registries, in addition to the integrated vSphere Integrated Containers Registry to gain access to both public and private images. You can enable and disable the registries that you added. When you disable a registry, searching for templates and images in that registry is disabled. Even if you disable the default https://registry.hub.docker.com registry, you can still access the popular templates. To customize your popular templates, see [Customize the Popular Templates list](https://github.com/vmware/admiral/wiki/Configuration-guide#customize-the-popular-templates-list) documentation.
+You can add multiple registries, in addition to the integrated vSphere Integrated Containers Registry to gain access to both public and private images. You can enable and disable the registries that you added. You can add global registries, visible for all projects and project registries available only for the project for which they are added. When you disable a registry, searching for templates and images in that registry is disabled. Even if you disable the default https://registry.hub.docker.com registry, you can still access the popular templates. To customize your popular templates, see [Customize the Popular Templates list](https://github.com/vmware/admiral/wiki/Configuration-guide#customize-the-popular-templates-list) documentation.
+
+Starting with vSphere Integrated Containers 1.4, you can configure namespaces for the registries that you add. If you add a new registry and configure a namespace for it, developers cannot search, browse, or deploy images that are outside of that namespace. You can add a registry multiple times to allow developers to reach different namespaces in that registry.  
 
 Use registries to store and distribute images. You can configure multiple registries to gain access to both public and private images. JFrog Artifactory is also supported.
 
@@ -17,16 +19,19 @@ Protocol | Description
 
 **Procedure**
 
-1. In the management portal, navigate to **Administration** > **Registries** > **Source Registries** and click **+Registry**.
+1. In the management portal, navigate to **Administration** > **Global Registries** > **Source Registries** and click **+Registry**.
 
-5. In the add registry dialog box, configure the registry settings.
-	1. As address, enter the IP or hostname of the registry and the port.
+2. In the add registry dialog box, configure the registry settings.
+	1. As address, enter the IP or hostname of the registry, the port, and optionally a namespace.
+
+	For example: `https://registry.hub.docker.com:443/vmware`
+
 	2. Enter name for the registry.
-	3. Select the login credential and click **Verify**.
+	3. Optionally, select the login credentials to access the registry and click **Verify**.
 	4. If prompted to trust the registry certificate, click **OK**.
 	5. After successful verification, click **Save**.
 
 
 **Result**
 
-The registry appears on the Registries page and you can access the images stored in that registry.
+The registry appears on the Global Registries page and you can access the images stored in that registry.
