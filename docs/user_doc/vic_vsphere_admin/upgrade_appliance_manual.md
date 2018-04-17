@@ -1,8 +1,10 @@
 # Upgrade the vSphere Integrated Containers Appliance by Manually Moving Disks
 
-By default, the upgrade script copies the relevant disk files from the old appliance to the new appliance. If you prefer, you can perform the upgrade by manually moving disks from the old appliance to the new appliance rather than by copying them. 
+By default, the upgrade script copies the relevant disk files from the old appliance to the new appliance. As an alternative, you can perform the upgrade by manually moving disks from the old appliance to the new appliance rather than by copying them. 
 
-**IMPORTANT**: Manually upgrading the vSphere Integrated Containers appliance requires you to remove disks from the old appliance VM and move them to a new instance of the appliance. In vSphere Integrated Containers 1.2.x, the appliance has two disks. In vSphere Integrated Containers 1.3.x, the appliance has four disks. As a consequence, you must move different disks between the VMs depending on whether you are upgrading from 1.2.x to 1.4.x, or from 1.3.x to 1.4.x.
+**IMPORTANT**: The recommended method of upgrading the appliance is to follow the procedure in [Upgrade the vSphere Integrated Containers Appliance](upgrade_appliance.md). Use the manual method if the fully automatic method fails.
+
+Manually upgrading the vSphere Integrated Containers appliance requires you to remove disks from the old appliance VM and move them to a new instance of the appliance. In vSphere Integrated Containers 1.2.x, the appliance has two disks. In vSphere Integrated Containers 1.3.x, the appliance has four disks. As a consequence, you must move different disks between the VMs depending on whether you are upgrading from 1.2.x to 1.4.x, or from 1.3.x to 1.4.x.
 
 During a manual upgrade, all configurations from the previous installation transfer to the upgraded appliance. The old appliance is no longer functional after you move the disks.
 
@@ -153,7 +155,7 @@ During a manual upgrade, all configurations from the previous installation trans
 
     Initialization can take a few minutes.
 
-    **IMPORTANT**: After the new appliance has initialized not go to the Getting Started page of the appliance. Logging in to the Getting Started page for the first time initializes the appliance. Initialization is only applicable to new installations and causes upgraded appliances not to function correctly.
+    **IMPORTANT**: After the new appliance has initialized, do not go to the Getting Started page of the appliance. Logging in to the Getting Started page for the first time initializes the appliance. Initialization is only applicable to new installations and causes upgraded appliances not to function correctly.
 
 7. Use SSH to connect to the new appliance as root user.
     <pre>$ ssh root@<i>new_vic_appliance_address</i></pre>

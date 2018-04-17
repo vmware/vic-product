@@ -4,7 +4,9 @@ If you have a 1.2.1 or 1.3.x version of the vSphere Integrated Containers applia
 
 Upgrading the vSphere Integrated Containers appliance requires you to deploy an instance of the new version of the appliance, use SSH to log in to the new appliance, and run an upgrade script. The script copies the relevant disk files from the old appliance to the new appliance. All configurations from the previous installation transfer to the upgraded appliance. 
 
-Because disk files are copied rather than moved, the old appliance is not affected by the upgrade process. You can keep it as a backup. If you prefer to perform the upgrade by manually moving disks from the old appliance to the new appliance rather than by copying them, see [Upgrade the vSphere Integrated Containers Appliance by Manually Moving Disks](upgrade_appliance_manual.md).
+Because disk files are copied rather than moved, the old appliance is not affected by the upgrade process. You can keep it as a backup. This is the recommended procedure for performing upgrades.
+
+You can also perform the upgrade by manually moving disks from the old appliance to the new appliance rather than by copying them. For information about manual upgrade, see [Upgrade the vSphere Integrated Containers Appliance by Manually Moving Disks](upgrade_appliance_manual.md).
 
 **Prerequisites**
 
@@ -17,7 +19,7 @@ Because disk files are copied rather than moved, the old appliance is not affect
 - Log in to the vSphere Client for the vCenter Server instance on which the previous version is running and on which you deployed the new version. 
 - Power on the new version of the vSphere Integrated Containers appliance and wait for it to initialize. Initialization can take a few minutes.
 
-    **IMPORTANT**: After the new appliance has initialized not go to the Getting Started page of the appliance. Logging in to the Getting Started page for the first time initializes the appliance. Initialization is only applicable to new installations and causes upgraded appliances not to function correctly.
+    **IMPORTANT**: After the new appliance has initialized, do not go to the Getting Started page of the appliance. Logging in to the Getting Started page for the first time initializes the appliance. Initialization is only applicable to new installations and causes upgraded appliances not to function correctly.
 - Do not power off the older version of the appliance.
 
 **Procedure**
