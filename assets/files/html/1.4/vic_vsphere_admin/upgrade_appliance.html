@@ -65,7 +65,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="upgrade_vch.html" />
+    <link rel="next" href="upgrade_appliance_manual.html" />
     
     
     <link rel="prev" href="pre_upgrade_tasks.html" />
@@ -1163,6 +1163,25 @@
                 </a>
             
 
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.4.2.1" data-path="upgrade_appliance_manual.html">
+            
+                <a href="upgrade_appliance_manual.html">
+            
+                    
+                    Move Disks Manually
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -2572,158 +2591,26 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="upgrade-the-vsphere-integrated-containers-appliance">Upgrade the vSphere Integrated Containers Appliance</h1>
-<p>If you have a 1.2.x or 1.3.x version of the vSphere Integrated Containers appliance, you can upgrade your existing installation to 1.4.x. You can also upgrade a 1.4.x release to a later 1.4.y update release.</p>
-<p><strong>IMPORTANT</strong>: Upgrading the vSphere Integrated Containers appliance requires you to remove disks from the old appliance VM and move them to a new instance of the appliance. In vSphere Integrated Containers 1.2.x, the appliance has two disks. In vSphere Integrated Containers 1.4.x, the appliance has four disks. As a consequence, you must move different disks between the VMs depending on whether you are upgrading from 1.2.x to 1.4.x, or from 1.3.x to 1.4.x.</p>
-<p>During the upgrade, all configurations transfer to the upgraded appliance.</p>
+<p>If you have a 1.2.1 or 1.3.x version of the vSphere Integrated Containers appliance, you can upgrade your existing installation to 1.4.x. You can also upgrade a 1.4.x release to a later 1.4.y update release.</p>
+<p>Upgrading the vSphere Integrated Containers appliance requires you to deploy an instance of the new version of the appliance, use SSH to log in to the new appliance, and run an upgrade script. The script copies the relevant disk files from the old appliance to the new appliance. All configurations that you made in vSphere Integrated Containers Management Portal and Registry in the previous installation transfer to the upgraded appliance. </p>
+<p>Because disk files are copied rather than moved, the old appliance is not affected by the upgrade process. You can keep it as a backup. This is the recommended procedure for performing upgrades.</p>
+<p>You can also perform the upgrade by manually moving disks from the old appliance to the new appliance rather than by copying them. For information about manual upgrade, see <a href="upgrade_appliance_manual.html">Upgrade the vSphere Integrated Containers Appliance by Manually Moving Disks</a>.</p>
 <p><strong>Prerequisites</strong></p>
 <ul>
 <li>You have completed the pre-upgrade tasks listed in <a href="pre_upgrade_tasks.html">Tasks to Perform Before Upgrading the vSphere Integrated Containers Appliance</a>.</li>
 <li><p>Deploy the latest version of the vSphere Integrated Containers appliance. For information about deploying the appliance, see <a href="deploy_vic_appliance.html">Deploy the vSphere Integrated Containers Appliance</a>.</p>
-<p>  <strong>IMPORTANT:</strong></p>
-<ul>
-<li>Do not disable SSH access to the new appliance. You require SSH access to the appliance during the upgrade procedure.</li>
-<li>When the OVA deployment finishes, do not power on the new appliance. Attempting to perform the upgrade procedure on a new appliance that you have already powered on and initialized causes vSphere Integrated Containers Management Portal and Registry not to function correctly and might result in data loss. </li>
-</ul>
+<p>  <strong>IMPORTANT:</strong> Do not disable SSH access to the new appliance. You require SSH access to the appliance during the upgrade procedure.</p>
 </li>
 <li>Use the Flex-based vSphere Web Client to deploy the appliance. You cannot deploy OVA files from the HTML5 vSphere Client or from the legacy Windows client.</li>
 <li>Deploy the appliance to the same vCenter Server instance as the one on which the previous version is running, or to a vCenter Server instance that is managed by the same Platform Services Controller.</li>
 <li>Log in to the vSphere Client for the vCenter Server instance on which the previous version is running and on which you deployed the new version. </li>
+<li><p>Power on the new version of the vSphere Integrated Containers appliance and wait for it to initialize. Initialization can take a few minutes.</p>
+<p>  <strong>IMPORTANT</strong>: After the new appliance has initialized, do not go to the Getting Started page of the appliance. Logging in to the Getting Started page for the first time initializes the appliance. Initialization is only applicable to new installations and causes upgraded appliances not to function correctly.</p>
+</li>
+<li>Do not power off the older version of the appliance.</li>
 </ul>
 <p><strong>Procedure</strong></p>
 <ol>
-<li><p>Shut down the older vSphere Integrated Containers appliance by selecting <strong>Shut Down Guest OS</strong>.</p>
-<p> <strong>IMPORTANT</strong>: Do not select <strong>Power Off</strong>.</p>
-</li>
-<li><p>Depending on the type of upgrade you are performing, remove the appropriate disks from the older appliance.</p>
-<ol>
-<li>Right-click the older vSphere Integrated Containers appliance, and select <strong>Edit Settings</strong>. </li>
-<li>Hover your pointer over the appropriate disk and click the <strong>Remove</strong> button on the right.</li>
-<li><strong>IMPORTANT</strong>: Do not check the <strong>Delete files from this datastore</strong> checkbox for any of the disks that you remove.</li>
-<li>When you have marked the appropriate disks for removal, click <strong>OK</strong>.</li>
-</ol>
-<table>
-<tr>
-<td><b>Upgrading From</b></td>
-<td><b>Disk to Remove</b></td>
-<td><b>Description</b></td>
-</tr>
-<tr>
-<td>1.2.x and 1.3.x</td>
-<td>Hard disk 2</td>
-<td>Data disk</td>
-</tr>
-<tr>
-<td>1.3.x</td>
-<td>Hard disk 3</td>
-<td>Database disk</td>
-</tr>
-<tr>
-<td>1.3.x</td>
-<td>Hard disk 4</td>
-<td>Log disk. Migrating logs is optional.</td>
-</tr>
-</table>
-</li>
-<li><p>Depending on the type of upgrade you are performing, remove the corresponding disks from the new appliance.</p>
-<ol>
-<li>Right-click the new vSphere Integrated Containers appliance, and select <strong>Edit Settings</strong>.</li>
-<li>Hover your pointer over the appropriate disk and click the <strong>Remove</strong> button.</li>
-<li>For each disk that you remove, select the <strong>Delete files from this datastore</strong> checkbox.</li>
-<li>When you have marked the appropriate disks for removal, click <strong>OK</strong>.</li>
-</ol>
-<table>
-<tr>
- <td><b>Upgrading From</b></td>
- <td><b>Disk to Remove</b></td>
- <td><b>Description</b></td>
-</tr>
-<tr>
- <td>1.2.x and 1.3.x</td>
- <td>Hard disk 2</td>
- <td>Data disk</td>
-</tr>
-<tr>
- <td>1.3.x</td>
- <td>Hard disk 3</td>
- <td>Database disk</td>
-</tr>
-<tr>
- <td>1.3.x</td>
- <td>Hard disk 4</td>
- <td>Log disk. Migrating logs is optional.</td>
-</tr>
-</table>
-</li>
-<li><p>Move the appropriate VMDK files for the disk or disks from the older appliance into the datastore folder of the new appliance.</p>
-<ol>
-<li>In the <strong>Storage</strong> view of the vSphere Client, navigate to the folder that contains the VDMK files of the older appliance.</li>
-<li>Select the appropriate VMDK file or files, click <strong>Move to...</strong>, and move the disk into the datastore folder of the new appliance.</li>
-</ol>
-<table>
-<tr>
- <td><b>Upgrading From</b></td>
- <td><b>File to Move</b></td>
- <td><b>Description</b></td>
-</tr>
-<tr>
- <td>1.2.x and 1.3.x</td>
- <td><code>&lt;appliance_name&gt;_1.vmdk</code></td>
- <td>Hard disk 2, data disk</td>
-</tr>
-<tr>
- <td>1.3.x</td>
- <td><code>&lt;appliance_name&gt;_2.vmdk</code></td>
- <td>Hard disk 3, database disk</td>
-</tr>
-<tr>
- <td>1.3.x</td>
- <td><code>&lt;appliance_name&gt;_3.vmdk</code></td>
- <td>Hard disk 4, log disk. Migrating logs is optional.</td>
-</tr>
-</table>
-</li>
-<li><p>Add the appropriate disk or disks from the old appliance to the new appliance.</p>
-<ol>
-<li>In the <strong>Hosts and Clusters</strong> view of the vSphere Client, right-click the new appliance and select <strong>Edit Settings</strong>.</li>
-<li>Select the option to add a new disk:<ul>
-<li>Flex-based vSphere Web Client: Click the <strong>New device</strong> drop-down menu, select <strong>Existing Hard Disk</strong>, and click <strong>Add</strong>.</li>
-<li>HTML5 vSphere Client: Click the <strong>Add New Device</strong> button and select <strong>Existing Hard Disk</strong>. </li>
-</ul>
-</li>
-<li>Navigate to the datastore folder into which you moved the disk or disks, select <code>&lt;appliance_name&gt;_1.vmdk</code> from the previous appliance, and click <strong>OK</strong>.</li>
-<li>Expand <strong>New Hard Disk</strong> and make sure that the Virtual Device Node for the disk is set to <strong>SCSI(0:1)</strong>.</li>
-<li>Repeat the procedure to attach <code>&lt;appliance_name&gt;_2.vmdk</code> to <strong>SCSI(0:2)</strong> and <code>&lt;appliance_name&gt;_3.vmdk</code> to <strong>SCSI(0:3)</strong>.</li>
-</ol>
-<table>
-<tr>
- <td><b>Upgrading From</b></td>
- <td><b>VMDK File</b></td>
- <td><b>Virtual Device Node</b></td>
- <td><b>Description</b></td>
-</tr>
-<tr>
- <td>1.2.x and 1.3.x</td>
- <td><code>&lt;appliance_name&gt;_1.vmdk</code></td>
- <td>SCSI(0:1)</td>
- <td>Hard disk 2, data disk</td>
-</tr>
-<tr>
- <td>1.3.x</td>
- <td><code>&lt;appliance_name&gt;_2.vmdk</code></td>
- <td>SCSI(0:2)</td>
- <td>Hard disk 3, database disk</td>
-</tr>
-<tr>
- <td>1.3.x</td>
- <td><code>&lt;appliance_name&gt;_3.vmdk</code></td>
- <td>SCSI(0:3)</td>
- <td>Hard disk 4, log disk. Migrating logs is optional.</td>
-</tr>
-</table>
-</li>
-<li><p>Power on the new vSphere Integrated Containers appliance and note its address.</p>
-<p> <strong>IMPORTANT</strong>: Do not go to the Getting Started page of the appliance. Logging in to the Getting Started page for the first time initializes the appliance. Initialization is only applicable to new installations and causes upgraded appliances not to function correctly. </p>
-</li>
 <li><p>Use SSH to connect to the new appliance as root user.</p>
  <pre>$ ssh root@<i>new_vic_appliance_address</i></pre>
 
@@ -2733,31 +2620,55 @@
  <pre>$ cd /etc/vmware/upgrade</pre>
  <pre>$ ./upgrade.sh</pre>
 
-<p> As the script runs, respond to the prompts to provide the following information: </p>
+<p> If you attempt to run the script while the appliance is still initializing and you see the following message, wait for a few more minutes, then attempt to run the script again.</p>
+ <pre>Appliance services not ready. Please wait until vic-appliance-load-docker-images.service has completed.</pre>
+</li>
+<li><p>Provide information about the new version of the appliance.</p>
 <ol>
 <li>Enter the address of the vCenter Server instance on which you deployed the new appliance.</li>
-<li>Enter the Single Sign-On user name and password of a vSphere administrator account. The script requires these credentials to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.</li>
-<li>If vCenter Server is managed by an external Platform Services Controller, enter the FQDN of the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.</li>
-<li>If vCenter Server is managed by an external Platform Services Controller, enter the administrator domain for the Platform Services Controller. If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.</li>
+<li><p>Enter the Single Sign-On user name and password of a vSphere administrator account.</p>
+<p>The script requires these credentials to access the disk files of the old appliance, and to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.</p>
+</li>
+</ol>
+</li>
+<li><p>Provide information about the Platform Services Controller.</p>
+<ul>
+<li>If vCenter Server is managed by an external Platform Services Controller, enter the FQDN of the Platform Services Controller.</li>
+<li>If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.</li>
+</ul>
+</li>
+<li><p>If applicable, provide the Platform Services Controller domain.</p>
+<ul>
+<li>If vCenter Server is managed by an external Platform Services Controller, enter the administrator domain for the Platform Services Controller.</li>
+<li>If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.</li>
+</ul>
+</li>
+<li>Enter <strong>y</strong> if the vCenter Server certificate thumbprint is legitimate.</li>
+<li><p>Provide information about the old version of the appliance.</p>
+<ol>
+<li>Enter the name of the datacenter that contains the old version of the appliance.</li>
+<li>Enter the address of the old version of the appliance.</li>
+<li>For the old appliance user name, enter <code>root</code>.</li>
+<li>Enter the root password for the old appliance.</li>
+</ol>
+</li>
 <li>Verify that the upgrade script has detected your upgrade path correctly.        <ul>
 <li>If the script detects your upgrade path correctly, enter <code>y</code> to proceed with the upgrade.</li>
 <li>If the upgrade script detects the upgrade path incorrectly, enter <code>n</code> to abort the upgrade and contact VMware support.</li>
 </ul>
 </li>
 </ol>
-</li>
-<li><p>When you see confirmation that the upgrade has completed successfully, go to http://<i>vic_appliance_address</i>, click the link to <strong>Go to the vSphere Integrated Containers Management Portal</strong>, and use vCenter Server Single Sign-On credentials to log in.</p>
+<p><strong>Result</strong></p>
+<p>After you see confirmation that the upgrade has completed successfully, the upgraded appliance initializes. When the upgraded appliance has initialized, you can access its Getting Started page at http://<i>new_appliance_address</i>.</p>
+<p><strong>What to Do Next</strong></p>
+<ul>
+<li><p>Click <strong>Go to the vSphere Integrated Containers Management Portal</strong> in the Getting Started page, and use vCenter Server Single Sign-On credentials to log in.</p>
 <ul>
 <li>In the <strong>Home</strong> tab of the vSphere Integrated Containers Management Portal, check that all existing applications, containers, networks, volumes, and virtual container hosts have migrated successfully.</li>
 <li>In the <strong>Administration</strong> tab, check that projects, registries, repositories, and replication configurations have migrated successfully.</li>
 </ul>
 </li>
-<li><p>When you have confirmed that the upgrade succeeded, delete the appliance VM for the previous version from the vCenter Server inventory.</p>
-</li>
-</ol>
-<p><strong>What to Do Next</strong></p>
-<ul>
-<li>If, in the previous version, you configured vSphere Integrated Containers Registry instances as replication endpoints, upgrade those registry instances. Replication of images from the 1.3.x registry instance to the 1.2.x replication endpoint still functions, but it is recommended that you upgrade the target registry.</li>
+<li>If, in the previous version, you configured vSphere Integrated Containers Registry instances as replication endpoints, upgrade the appliances that run those registry instances. Replication of images from the new registry instance to the older replication endpoint still functions, but it is recommended that you upgrade the target registry.</li>
 <li>Download the vSphere Integrated Containers Engine bundle and upgrade  your VCHs. For information about upgrading VCHs, see <a href="upgrade_vch.html">Upgrade Virtual Container Hosts</a>.</li>
 <li>Upgrade the vSphere Integrated Containers plug-ins for the vSphere Client. For information about upgrading the vSphere Client plug-ins, see: <ul>
 <li><a href="upgrade_h5_plugin_windows.html">Upgrade the vSphere Client Plug-Ins on vCenter Server for Windows</a></li>
@@ -2797,7 +2708,7 @@
                 </a>
                 
                 
-                <a href="upgrade_vch.html" class="navigation navigation-next " aria-label="Next page: Upgrade VCHs">
+                <a href="upgrade_appliance_manual.html" class="navigation navigation-next " aria-label="Next page: Move Disks Manually">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2808,7 +2719,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Upgrade the Appliance","level":"3.1.4.2","depth":3,"next":{"title":"Upgrade VCHs","level":"3.1.4.3","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"3.1.4.3.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},"previous":{"title":"Pre-Upgrade Tasks","level":"3.1.4.1","depth":3,"path":"vic_vsphere_admin/pre_upgrade_tasks.md","ref":"vic_vsphere_admin/pre_upgrade_tasks.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"url":"VMW_logo.png","style":"background: none"},"expandable-chapters":{}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_appliance.md","mtime":"2018-04-04T09:21:02.965Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-04T09:21:41.454Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Upgrade the Appliance","level":"3.1.4.2","depth":3,"next":{"title":"Move Disks Manually","level":"3.1.4.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_appliance_manual.md","ref":"vic_vsphere_admin/upgrade_appliance_manual.md","articles":[]},"previous":{"title":"Pre-Upgrade Tasks","level":"3.1.4.1","depth":3,"path":"vic_vsphere_admin/pre_upgrade_tasks.md","ref":"vic_vsphere_admin/pre_upgrade_tasks.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"url":"VMW_logo.png","style":"background: none"},"expandable-chapters":{}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_appliance.md","mtime":"2018-04-17T16:14:42.585Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-17T16:18:00.798Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
