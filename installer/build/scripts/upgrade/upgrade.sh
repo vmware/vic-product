@@ -145,7 +145,7 @@ function setDataVersion {
   echo "Set new data version: ${new_data_ver}"
 }
 
-# Prevent Admiral and Harbor from starting from path units
+# Prevent Admiral and Harbor from starting
 function disableServicesStart {
   log "Disabling and stopping Admiral and Harbor"
   systemctl stop admiral.service
@@ -154,7 +154,7 @@ function disableServicesStart {
   systemctl disable harbor.service
 }
 
-# Enable Admiral and Harbor starting from path units
+# Enable Admiral and Harbor starting
 function enableServicesStart {
   log "Enabling and starting Admiral and Harbor"
   systemctl enable admiral.service
