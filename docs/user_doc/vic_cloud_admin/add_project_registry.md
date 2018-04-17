@@ -22,4 +22,4 @@ Starting with vSphere Integrated Containers 1.4, you can also configure namespac
 
 **Result**
 
-The registry appears on the Global Registries page and you can access the images stored in that registry.
+The registry appears on the Project Registries page and you can access the images stored in that registry.
