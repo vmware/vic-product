@@ -55,7 +55,7 @@ for dir in "${dirs[@]}"; do
     else
       echo "perms ok for $dir/$file"
     fi
-    owner="$(stat -c %g:%u "$dir/$file")"
+    owner="$(stat -c %u:%g "$dir/$file")"
     if [ "$owner" != "10000:10000" ]; then
       chown 10000:10000 "$dir/$file"
       echo "set owner for $dir/$file"
