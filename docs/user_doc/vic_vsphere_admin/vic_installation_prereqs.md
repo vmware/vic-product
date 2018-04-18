@@ -15,7 +15,7 @@ Before you deploy the vSphere Integrated Containers appliance and virtual contai
 - [Custom Certificates](#customcerts)
 
 ## License Requirements <a id="license"></a>
-vSphere Integrated Containers requires a vSphere Enterprise Plus license.
+vSphere Integrated Containers requires a vSphere Enterprise Plus or vSphere Remote Office Branch Office (ROBO) Advanced license.
 
 All of the ESXi hosts in a cluster require an appropriate license. Deployment of VCHs fails if your environment includes one or more ESXi hosts that have inadequate licenses. 
 
