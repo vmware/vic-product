@@ -153,6 +153,8 @@ function getDiagInfo {
   commandToFile "cat /run/systemd/resolve/resolv.conf" "resolv.conf" "appliance"
   commandToFile "cat /var/log/vmware/upgrade.log" "upgrade.log" "appliance"
 
+  commandToFile "systemctl status --no-pager docker.service" "systemctl_status_docker.service" "appliance"
+  commandToCompressed "journalctl -u docker.service --no-pager" "journal_docker.service" "appliance"
   commandToFile "systemctl status --no-pager vic-mounts.target" "systemctl_status_vic-mounts.target" "appliance"
   commandToCompressed "journalctl -u vic-mounts.target --no-pager" "journal_vic-mounts.target" "appliance"
   commandToFile "systemctl status --no-pager vic-appliance-docker-images-loaded.path" "systemctl_status_vic-appliance-docker-images-loaded.path" "appliance"

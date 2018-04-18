@@ -75,11 +75,10 @@ function checkHarborPSCToken {
 }
 
 # Run the harbor migrator docker image
-# TODO(morris-jason): remove the test tag
 function runMigratorCmd {
   local migrator_image="vmware/harbor-migrator:v1.5.0"
 
-  docker run -it --rm \
+  docker run --rm \
     -e DB_USR=${DB_USER} \
     -e DB_PWD=${DB_PASSWORD} \
     -e SKIP_CONFIRM=y \
