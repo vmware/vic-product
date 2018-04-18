@@ -1,6 +1,6 @@
 # Add Project Specific Registries #
 
-In addition to the integrated vSphere Integrated Containers Registry and the global registries added by the Cloud administrator, DevOps administrators can add project specific registries.
+In addition to the integrated vSphere Integrated Containers Registry and the global registries added by the Cloud administrator, DevOps administrators can add project specific registries. From the Project registries view, DevOps administrators can add, update, and delete project specific registries and also see the available global registries but cannot remove them.
 
 Starting with vSphere Integrated Containers 1.4, you can also configure namespaces for the registries that you add. If you add a new registry and configure a namespace for it, developers cannot search, browse, or deploy images that are outside of that namespace. You can add a registry multiple times to allow developers to reach different namespaces in that registry.    
 
