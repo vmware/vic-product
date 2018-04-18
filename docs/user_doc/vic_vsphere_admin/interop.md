@@ -27,7 +27,7 @@ Your organization could use VMware vRealize Automation to provide a self-provisi
 
 ## VMware vSphere vMotion <a id="vmotion"></a>
 
-You can use vMotion to move VCHs without needing to take the container VMs offline. The VCH endpoint VM does not need to be running for vMotion to occur on the container VMs. Clusters with a mix of container VMs and non-container VMs can use vMotion with fully automated DRS. 
+You can use vMotion to move VCHs without needing to take the container VMs offline. The VCH endpoint VM does not need to be running for vMotion to occur on the container VMs. Clusters with a mix of container VMs and non-container VMs can use vMotion with fully automated VMware vSphere Distributed Resource Scheduler (DRS). 
 
 ## VMware vSphere High Availability <a id="ha"></a>
 

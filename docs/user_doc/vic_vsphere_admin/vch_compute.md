@@ -29,7 +29,14 @@ The sections in this topic each correspond to an entry in the Compute Capacity p
 
 The host, cluster, or resource pool in which to deploy the VCH. 
 
-**NOTE**: You cannot deploy a VCH to a specific host in a cluster. You deploy the VCH to the cluster, and DRS manages the placement of the VCH on a host.
+#### Deploying VCHs to Clusters With and Without DRS
+
+When deploying VCHs to a cluster, you cannot deploy a VCH to a specific host in the cluster. You deploy the VCH to the cluster. 
+
+- If VMware vSphere Distributed Resource Scheduler (DRS) is enabled on that cluster, DRS manages the placement of the VCH on a host. 
+- If DRS is not enabled, vSphere Integrated Containers selects a host in the cluster on which to deploy the VCH. 
+
+It is strongly recommended that DRS is enabled on clusters to which you deploy VCHs. Deployment does not fail if DRS is not enabled, but a warning is issued in the deployment log. Also, if DRS is not enabled, any `vic-machine create` options that apply to the VCH resource pool are ignored, with a warning in the deployment log.
 
 #### Create VCH Wizard 
 
@@ -37,6 +44,8 @@ Selecting a compute resource is **mandatory**.
 
 1. Expand the **Compute resource** inventory hierarchy.
 2. Select a standalone host, cluster, or resource pool to which to deploy the VCH. 
+
+    **NOTE** 
 
 #### vic-machine Option 
 
@@ -71,6 +80,8 @@ Limit the amount of CPU capacity that is available for use by the VCH resource p
 
 In the **CPU** text box, leave the default value of `Unlimited`,  or optionally enter a limit of between the minimum and maximum shown. 
 
+**NOTE**: If you are deploying the VCH to a cluster on which DRS is not enabled, this option is ignored. A warning appears in the deployment log. 
+
 #### vic-machine Option  
 
 `--cpu`, no short name
@@ -85,7 +96,9 @@ Limit the amount of memory that is available for use by the VCH resource pool. T
 
 #### Create VCH Wizard 
 
-In the **Memory** text box, leave the default value of `Unlimited`, or optionally enter a limit of between the minimum and maximum shown.  
+In the **Memory** text box, leave the default value of `Unlimited`, or optionally enter a limit of between the minimum and maximum shown. 
+
+**NOTE**: If you are deploying the VCH to a cluster on which DRS is not enabled, this option is ignored. A warning appears in the deployment log. 
 
 #### vic-machine Option   
 
@@ -107,6 +120,8 @@ For information about vSphere memory and CPU shares and reservations, see [Alloc
 
 Reserve a quantity of CPU capacity for use by the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool.  Specify the CPU reservation value in MHz. 
 
+**NOTE**: If you are deploying the VCH to a cluster on which DRS is not enabled, this option is ignored. A warning appears in the deployment log. 
+
 #### Create VCH Wizard 
 
 1. Expand **Advanced**.
@@ -123,6 +138,8 @@ Specify a limit in MHz. If not specified, `vic-machine create` sets the reservat
 ### CPU Shares <a id="cpushares"></a>
 
 Set CPU shares on the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool.  
+
+**NOTE**: If you are deploying the VCH to a cluster on which DRS is not enabled, this option is ignored. A warning appears in the deployment log. 
 
 #### Create VCH Wizard 
 
@@ -141,6 +158,8 @@ Specify the share value as a level or a number, for example `high`, `normal`, `l
 
 Reserve a quantity of memory for use by the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool. Specify the memory reservation value in MB.  
 
+**NOTE**: If you are deploying the VCH to a cluster on which DRS is not enabled, this option is ignored. A warning appears in the deployment log. 
+
 #### Create VCH Wizard 
 
 1. Expand **Advanced**.
@@ -157,6 +176,8 @@ Specify a limit in MB. If not specified, `vic-machine create` sets the reservati
 ### Memory Shares <a id="memoryshares"></a>
 
 Set memory shares on the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool.  
+
+**NOTE**: If you are deploying the VCH to a cluster on which DRS is not enabled, this option is ignored. A warning appears in the deployment log. 
 
 #### Create VCH Wizard 
 

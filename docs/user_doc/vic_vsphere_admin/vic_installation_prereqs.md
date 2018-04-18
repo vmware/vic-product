@@ -44,7 +44,7 @@ vSphere Integrated Containers provides a basic plug-in for the Flex-based vSpher
 
 You can deploy virtual container hosts (VCHs) in the following types of setup:
 
-* vCenter Server 6.0, 6.5, or 6.7 managing a cluster of ESXi  6.0, 6.5, or 6.7 hosts, with VMware vSphere Distributed Resource Scheduler&trade; (DRS) enabled.
+* vCenter Server 6.0, 6.5, or 6.7 managing a cluster of ESXi  6.0, 6.5, or 6.7 hosts. It is strongly recommended that VMware vSphere Distributed Resource Scheduler&trade; (DRS) is enabled on the cluster, but this is not a requirement.
 * vCenter Server 6.0, 6.5, or 6.7, managing one or more standalone ESXi 6.0, 6.5, or 6.7 hosts.
 * Standalone ESXi 6.0, 6.5, or 6.7 host that is not managed by a vCenter Server instance.
 
