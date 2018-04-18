@@ -14,7 +14,7 @@ Starting with vSphere Integrated Containers 1.4, you can also configure namespac
 
 	For example: `https://registry.hub.docker.com:443/library`
 
-	2. Enter name for the registry.
+	2. Enter a name for the registry.
 	3. Optionally, select the login credentials to access the registry and click **Verify**.
 	4. If prompted to trust the registry certificate, click **OK**.
 	5. After successful verification, click **Save**.
