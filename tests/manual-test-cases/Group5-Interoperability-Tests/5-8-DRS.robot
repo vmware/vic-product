@@ -25,8 +25,9 @@ DRS Setup
     Create a Simple VC Cluster
 
     Log To Console  Disable DRS on the cluster
-    ${out}=  Run  govc cluster.change -drs-enabled=false /ha-datacenter/host/cls
+    ${rc}  ${out}=  Run  govc cluster.change -drs-enabled=false /ha-datacenter/host/cls
     Should Be Empty  ${out}
+    Should Be Equal As Integers  ${rc}  0
 
 *** Test Cases ***
 Test
@@ -51,7 +52,7 @@ Test
     Navigate To VCH Tab
     Click New Virtual Container Host Button
 
-    #general
+    # general
     ${name}=  Evaluate  'VCH-5-04-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
     Input VCH Name  ${name}
     Click Next Button
@@ -65,14 +66,14 @@ Test
     # storage capacity
     Select Image Datastore  %{TEST_DATASTORE}
     Click Next Button
-    #networks
+    # networks
     Select Bridge Network  %{BRIDGE_NETWORK}
     Select Public Network  %{PUBLIC_NETWORK}
     Click Next Button
     # security
     Toggle Client Certificate Option
     Click Next Button
-    #registry access
+    # registry access
     Click Next Button
     # ops-user
     Input Ops User Name  %{TEST_USERNAME}
@@ -90,8 +91,9 @@ Test
     Unselect Frame
 
     Log To Console  Enable DRS on the cluster
-    ${out}=  Run  govc cluster.change -drs-enabled /ha-datacenter/host/cls
+    ${rc}  ${out}=  Run  govc cluster.change -drs-enabled /ha-datacenter/host/cls
     Should Be Empty  ${out}
+    Should Be Equal As Integers  ${rc}  0
 
     Log To Console  Create VCH with DRS enabled
     Wait Until Page Contains  Summary
@@ -99,7 +101,7 @@ Test
     Wait Until Page Contains  Containers
 
     Click New Virtual Container Host Button
-    #general
+    # general
     ${name}=  Evaluate  'VCH-5-05-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
     Input VCH Name  ${name}
     Click Next Button
@@ -113,14 +115,14 @@ Test
     # storage capacity
     Select Image Datastore  %{TEST_DATASTORE}
     Click Next Button
-    #networks
+    # networks
     Select Bridge Network  %{BRIDGE_NETWORK}
     Select Public Network  %{PUBLIC_NETWORK}
     Click Next Button
     # security
     Toggle Client Certificate Option
     Click Next Button
-    #registry access
+    # registry access
     Click Next Button
     # ops-user
     Input Ops User Name  %{TEST_USERNAME}
