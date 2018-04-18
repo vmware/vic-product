@@ -50,7 +50,7 @@ function set_base() {
   log3 "installing ${brprpl}filesystem bash shadow coreutils findutils${reset}"
   tdnf install --installroot "${rt}/" --refresh -y \
     filesystem bash shadow coreutils findutils
-  
+
   log3 "installing ${brprpl}systemd linux-esx tdnf ca-certificates sed gzip tar glibc${reset}"
   tdnf install --installroot "${rt}/" --refresh -y \
     systemd util-linux \
@@ -77,7 +77,7 @@ function set_base() {
     cdrkit xfsprogs sudo \
     lvm2 parted gptfdisk \
     e2fsprogs docker gzip \
-    net-tools logrotate
+    net-tools logrotate sshpass
 
   log3 "installing package dependencies"
   tdnf install --installroot "${rt}/" --refresh -y \
