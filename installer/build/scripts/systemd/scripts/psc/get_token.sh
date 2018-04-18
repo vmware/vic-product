@@ -39,13 +39,28 @@ getToken /etc/vmware/psc/admiral/psc-config.properties /etc/vmware/psc/admiral/t
 mkdir -p /storage/data/harbor/psc
 cp /etc/vmware/psc/harbor/tokens.properties /storage/data/harbor/psc/tokens.properties
 
-# Set PSC dir permissions
+# Set PSC dir permissions if not set
 dirs=("/etc/vmware/psc/admiral" "/etc/vmware/psc/engine" "/etc/vmware/psc/harbor")
+files=("psc-config.keystore" "psc-config.properties" "tokens.properties")
 for dir in "${dirs[@]}"; do
   while [ ! -d "$dir" ]; do
     echo "Waiting for $dir"
     sleep 1
   done
-  chmod --recursive 0600 "$dir"
-  chown --recursive 10000:10000 "$dir"
+  for file in "${files[@]}"; do
+    perms="$(stat -c %a "$dir/$file")"
+    if [ "$perms" != "600" ]; then
+      chmod 0600 "$dir/$file"
+      echo "set perms for $dir/$file"
+    else
+      echo "perms ok for $dir/$file"
+    fi
+    owner="$(stat -c %u:%g "$dir/$file")"
+    if [ "$owner" != "10000:10000" ]; then
+      chown 10000:10000 "$dir/$file"
+      echo "set owner for $dir/$file"
+    else
+      echo "owner ok for $dir/$file"
+    fi
+  done
 done
