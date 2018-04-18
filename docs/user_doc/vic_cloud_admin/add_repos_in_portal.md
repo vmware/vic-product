@@ -27,8 +27,8 @@ Protocol | Description
 	For example: `https://registry.hub.docker.com:443/vmware`
 
 	2. Enter a name for the registry.
-	3. Optionally, select the login credentials to access the registry and click **Verify**.
-	4. If prompted to trust the registry certificate, click **OK**.
+	3. Optionally, select the login credentials to access the registry.
+	4. Click **Verify** and if prompted to trust the registry certificate, click **OK**.
 	5. After successful verification, click **Save**.
 
 
