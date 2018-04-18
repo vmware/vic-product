@@ -21,7 +21,7 @@ Protocol | Description
 
 1. In the management portal, navigate to **Administration** > **Global Registries** > **Source Registries** and click **+Registry**.
 
-2. In the add registry dialog box, configure the registry settings.
+2. In the dialog box that opens, configure the registry settings.
 	1. As address, enter the IP or hostname of the registry, the port, and optionally a namespace.
 
 	For example: `https://registry.hub.docker.com:443/vmware`
