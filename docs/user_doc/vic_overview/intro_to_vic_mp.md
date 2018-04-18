@@ -25,7 +25,7 @@ When you first deploy vSphere Integrated Containers, a default public project na
 
 vSphere Integrated Containers is fully integrated with VMware Platform Services Controller. The Platform Services Controller provides common infrastructure services to the vSphere environment. Services include licensing, certificate management, and authentication with vCenter Single Sign-On. With vCenter Single Sign-On you can use local users created in the Platform Services Controller or configure external identity sources. 
 
-For more information about deploying, configuring, and working with Platform Services Controller, see the [Platform Services Controller Administration Guide](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.psc.doc/GUID-9451A5B4-5747-42C1-8A82-83AFCC1F2861.html) in the VMware vSphere documentation.
+For more information about deploying, configuring, and working with Platform Services Controller, see the [Platform Services Controller Administration Guide](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.psc.doc/GUID-9451A5B4-5747-42C1-8A82-83AFCC1F2861.html) in the VMware vSphere documentation.
 
 You can pull users from the Platform Services Controller and assign them roles through the vSphere Integrated Containers Management Portal. For more information about roles, see [vSphere Integrated Containers Roles and Personas](roles_and_personas.md).
 
