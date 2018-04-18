@@ -45,8 +45,6 @@ Selecting a compute resource is **mandatory**.
 1. Expand the **Compute resource** inventory hierarchy.
 2. Select a standalone host, cluster, or resource pool to which to deploy the VCH. 
 
-    **NOTE** 
-
 #### vic-machine Option 
 
 `--compute-resource`, `-r`
