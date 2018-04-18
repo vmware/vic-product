@@ -50,6 +50,8 @@ Set Test OVA IP If Available
     Run Keyword If  ${rc} == 0  Set Environment Variable  OVA_IP  ${output}
     [Return]  ${rc}
 
+# This is a secret keyword and does not log information for debugging
+# Prefer "Install VIC Product OVA" keyword for deploying
 Install VIC Product OVA Only
     # Deploy OVA but do not initialize
     [Tags]  secret
@@ -69,6 +71,7 @@ Install VIC Product OVA Only
 
     Log  ${ova-ip}
     Set Environment Variable  OVA_IP  ${ova-ip}
+    [Return]  ${output}
 
 Install VIC Product OVA And Wait For Home Page
     # Deploy OVA but do not initialize and wait for home page to come up
