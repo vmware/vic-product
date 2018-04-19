@@ -44,7 +44,7 @@ vSphere Integrated Containers provides a basic plug-in for the Flex-based vSpher
 
 You can deploy virtual container hosts (VCHs) in the following types of setup:
 
-* vCenter Server 6.0, 6.5, or 6.7 managing a cluster of ESXi  6.0, 6.5, or 6.7 hosts. It is strongly recommended that VMware vSphere Distributed Resource Scheduler&trade; (DRS) is enabled on the cluster, but this is not a requirement.
+* vCenter Server 6.0, 6.5, or 6.7 managing a cluster of ESXi  6.0, 6.5, or 6.7 hosts. It is strongly recommended that VMware vSphere Distributed Resource Scheduler (DRS) is enabled on the cluster, but this is not a requirement.
 * vCenter Server 6.0, 6.5, or 6.7, managing one or more standalone ESXi 6.0, 6.5, or 6.7 hosts.
 * Standalone ESXi 6.0, 6.5, or 6.7 host that is not managed by a vCenter Server instance.
 
@@ -52,6 +52,7 @@ Caveats and limitations:
 
 - VMware does not support the use of nested ESXi hosts, namely running ESXi in virtual machines. Deploying vSphere Integrated Containers Engine to a nested ESXi host is acceptable for testing purposes only.
 - If you deploy a VCH onto an ESXi host that is not managed by vCenter Server, and you then move that host into a cluster, the VCH might not function correctly.
+- Clusters that do not implement DRS do not support resource pools. If you deploy a VCH to a cluster on which DRS is disabled, the VCH is created in a VM folder, rather than in a resource pool. This restricts your ability to configure resource usage limits on the VCH.
 
 ### ESXi Host Firewall Requirements <a id="firewall"></a>
 

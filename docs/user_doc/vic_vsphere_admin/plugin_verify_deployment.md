@@ -11,8 +11,8 @@ After you have installed the Flex-based plug-in for vSphere Integrated Container
 **Procedure**
 
 1. In the vSphere Web Client Home page, select **Hosts and Clusters**.
-2. Expand the hierarchy of vCenter Server objects to navigate to the VCH resource pool.
-3. Expand the VCH resource pool and select the VCH endpoint VM.
+2. Expand the hierarchy of vCenter Server objects to navigate to the VCH resource pool or folder.
+3. Expand the VCH resource pool or folder and select the VCH endpoint VM.
 4. Click the **Summary** tab for the VCH endpoint VM and scroll down to the VCH portlet.
 
 **Result**

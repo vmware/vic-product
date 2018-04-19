@@ -265,6 +265,8 @@ If a VCH requires more resources, or if it consumes too many resources, you can 
 
 The `vic-machine configure` options for memory and CPU allocations function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` memory and CPU reservation and shares options, see [Virtual Container Host Compute Capacity](vch_compute.md).
 
+**NOTE**: Clusters that do not implement DRS do not support resource pools. If you deployed a VCH to a cluster on which DRS is disabled, the VCH is in a VM folder, rather than in a resource pool. Consequently,  if you specify any `vic-machine configure` options that apply to the memory or CPU configuration of the VCH resource pool, these options are ignored, with a warning in the configuration log.
+
 This example configures a VCH to impose memory and CPU reservations, limits, and shares.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
