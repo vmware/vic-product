@@ -29,7 +29,9 @@ Log into the Flex-based vSphere Web Client with a vSphere administrator account.
 <tbody>
 <tr>
 <td><code>VCH - vcenter</code></td>
-<td>Datastore &gt; Configure datastore</td>
+<td>Datastore &gt; Configure datastore<br>
+  Global &gt; Enable methods<br>
+  Global &gt; Disable methods</td>
 </tr>
 <tr>
 <td><code>VCH - datacenter</code></td>
@@ -55,8 +57,6 @@ VirtualMachine &gt; Inventory &gt; Remove</td>
 <td>dvPort group &gt; Modify<br>
   dvPort group &gt; Policy operation<br>
   dvPort group &gt; Scope operation<br>
-  Global &gt; Enable methods<br>
-  Global &gt; Disable methods<br>
   Resource &gt; Assign virtual machine to resource pool<br>
   VirtualMachine &gt; Configuration &gt; Add existing disk<br>
   VirtualMachine &gt; Configuration &gt; Add new disk<br>
