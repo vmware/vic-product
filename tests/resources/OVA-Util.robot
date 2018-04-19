@@ -54,16 +54,17 @@ Set Test OVA IP If Available
 # Prefer "Install VIC Product OVA and Wait For Home Page" or
 # "Install and Initialize VIC Product OVA" keywords
 Install VIC Product OVA Secret
-    [Tags]  secret
-    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
+    # [Tags]  secret
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}
     Log To Console  \nInstalling VIC appliance...
-    ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:appliance.tls_cert="${tls_cert}" --prop:appliance.tls_cert_key="${tls_cert_key}" --prop:appliance.ca_cert="${ca_cert}" --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
+    ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:appliance.tls_cert="${tls_cert}" --prop:appliance.tls_cert_key="${tls_cert_key}" --prop:appliance.ca_cert="${ca_cert}" --prop:network.ip0="${static-ip}" --prop:network.netmask0="${netmask}" --prop:network.gateway="${gateway}" --prop:network.DNS="${dns}" --prop:network.searchpath="${searchpath}" --prop:network.fqdn="${fqdn}" --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
+
     [Return]  ${output}
 
 Install VIC Product OVA Only
     # Deploy OVA but do not initialize
-    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
-    ${output}=  Install VIC Product OVA Secret  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}
+    ${output}=  Install VIC Product OVA Secret  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}
     Log  ${output}
     Should Contain  ${output}  Completed successfully
     Should Contain  ${output}  Received IP address:
@@ -81,23 +82,23 @@ Install VIC Product OVA Only
 
 Install VIC Product OVA And Wait For Home Page
     # Deploy OVA but do not initialize and wait for home page to come up
-    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
-    Install VIC Product OVA Only  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}
+    Install VIC Product OVA Only  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}
     Wait For OVA Home Page  %{OVA_IP}
 
 Install And Initialize VIC Product OVA
     # Deploy OVA and initialize it without using browser UI
-    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}
     Log To Console  \nInstalling VIC appliance and validating services...
-    Install VIC Product OVA Only  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
+    Install VIC Product OVA Only  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}
     # initialize ova
     Initialize OVA And Wait For Register Page  %{OVA_IP}
 
 Install VIC Product OVA And Initialize Using UI
     # Deploy OVA and initialize it using browser UI
-    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}
     Log To Console  \nInstalling VIC appliance and validating services...
-    Install VIC Product OVA Only  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
+    Install VIC Product OVA Only  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}
     # initialize ova
     Initialize OVA And Wait For Register Page  %{OVA_IP}
     # set env var for ova ip
@@ -130,6 +131,26 @@ Setup And Install Specific OVA Version
     # install OVA appliance
     Log To Console  \nInstall specific version of OVA...
     Install VIC Product OVA And Initialize Using UI  ${ova-file}  ${ova-name}
+
+Install VIC Product OVA Using Static IP
+    [Tags]  secret
+    [Arguments]  ${ova-file}  ${ova-name}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}
+    Log To Console  \nInstalling VIC appliance...
+    ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:network.ip0=${static-ip} --prop:network.ip0=${netmask} --prop:network.gateway=${gateway} --prop:network.dns=${dns} --prop:network.searchpath=${searchpath} --prop:network.fqdn=${fqdn} --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
+    Log  ${output}
+    Should Contain  ${output}  Completed successfully
+    Should Contain  ${output}  Received IP address:
+
+    ${output}=  Split To Lines  ${output}
+    ${ova-ip}=  Set Variable  NULL
+    :FOR  ${line}  IN  @{output}
+    \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  Received IP address:
+    \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
+    \   ${ova-ip}=  Run Keyword If  ${status}  Set Variable  ${ip}  ELSE  Set Variable  ${ova-ip}
+
+    Log  ${ova-ip}
+    Wait For Register Page  ${ova-ip}
+    Set Environment Variable  OVA_IP  ${ova-ip}
 
 Download VIC Engine
     [Arguments]  ${ova-ip}  ${target_dir}=bin
@@ -260,6 +281,36 @@ Verify VIC Appliance TLS Certificates
     # Verify that the supplied certificate is presented on the Harbor interface
     ${output}=  Get Remote Certificate  ${ova-ip}:443
     Should Contain  ${output}  ${validate-string}
+
+Verify OVA Network Information
+    [Arguments]  ${ova-ip}  ${ova-root-user}  ${ova-root-pwd}  ${ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}
+    Log To Console  ssh into appliance...
+    ${out}=  Run  sshpass -p ${ova-root-pwd} ssh -o StrictHostKeyChecking\=no ${ova-root-user}@${ova-ip}
+    Log To Console  open connection...
+    Open Connection  ${ova-ip}
+
+    Log To Console  login...
+    Wait Until Keyword Succeeds  10x  5s  Login  ${ova-root-user}  ${ova-root-pwd}
+
+    Log To Console  verify network details...
+    ${output}=  Execute Command And Return Output  cat /etc/systemd/network/09-vic.network
+    Should Contain  ${output}  Address=${ip}/${netmask}
+    Should Contain  ${output}  Gateway=${gateway}
+    Should Contain  ${output}  DNS=${dns}
+    Should Contain  ${output}  Domains=${searchpath}
+
+    ${output}=  Execute Command And Return Output  ip addr
+    Should Contain  ${output}  inet ${ip}/${netmask}
+
+    ${output}=  Execute Command And Return Output  ip route show
+    Should Contain  ${output}  default via ${gateway}
+    Should Contain  ${output}  src ${ip}
+
+    ${output}=  Execute Command And Return Output  cat /etc/resolv.conf
+    Should Contain  ${output}  nameserver ${dns}
+    Should Contain  ${output}  search ${searchpath}
+
+    Close connection
 
 Execute Upgrade Script
     # SSH into OVA appliance and execute ./upgrade script
