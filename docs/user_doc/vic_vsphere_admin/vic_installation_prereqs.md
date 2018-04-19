@@ -98,7 +98,7 @@ The following network requirements apply to deployment of VCHs to standalone ESX
 
 The following network requirements apply to the deployment of VCHs to vCenter Server: 
  
-- Create a VMware vSphere Distributed Switch, and create a separate port group for use as the bridge network for each VCH. You can create multiple port groups on the same switch, but each VCH requires its own port group for the bridge network. 
+- Create a VMware vSphere Distributed Switch, and create a dedicated port group for use as the bridge network for each VCH. You can create multiple port groups on the same switch, but each VCH requires its own unique port group for the bridge network. 
   - For information about bridge networks, see [Configure Bridge Networks](bridge_network.md). 
   - For information about how to create a vSphere Distributed Switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere  documentation. 
   - For information about how to add hosts to a vSphere Distributed Switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
