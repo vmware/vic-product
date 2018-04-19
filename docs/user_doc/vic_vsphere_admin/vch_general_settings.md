@@ -110,7 +110,7 @@ If you are using the Create Virtual Container Host wizard, click **Next** to go 
 
 ## Example `vic-machine` Commands <a id="examples"></a>
 
-The following examples show `vic-machine create` commands that use the options described in this topic. For simplicity, the examples all use the `--no-tlsverify` option to automatically generate server certificates but disable client authentication. The examples use an existing port group named `vch1-bridge` for the bridge network and designate `datastore1` as the image store, and deploy the VCH to `cluster1` in datacenter `dc1`. 
+The following examples show `vic-machine create` commands that use the options described in this topic. For simplicity, the examples all use the `--no-tlsverify` option to automatically generate server certificates but disable client authentication. The examples use an existing port group named `vch1-bridge` for the bridge network, a port group named `vic-public` for the public network, designate `datastore1` as the image store, and deploy the VCH to `cluster1` in datacenter `dc1`. 
 
 ### Set a Container Name Convention <a id="convention"></a>
 
@@ -121,6 +121,7 @@ This example `vic-machine create` command deploys a VCH that specifies `--contai
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
@@ -136,6 +137,7 @@ This example `vic-machine create` command deploys a VCH that sets the deployment
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --name vch1
 --thumbprint <i>vcenter_server_certificate_thumbprint</i>
 --no-tlsverify

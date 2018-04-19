@@ -80,6 +80,7 @@ This example `vic-machine create` command deploys a VCH that designates an exist
 --image-store datastore1
 --bridge-network vch1-bridge
 --bridge-network-range 192.168.100.0/16
+--public-network vic-public
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify

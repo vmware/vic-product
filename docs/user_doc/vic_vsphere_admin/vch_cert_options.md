@@ -278,7 +278,7 @@ The Create Virtual Container Host wizard does not support automatic generation o
 
 This example `vic-machine create` command deploys a VCH with the following configuration:
 
-- Provides a wildcard domain, `*.example.org`, for the client systems that will connect to this VCH, for use as the Common Name in the  server certificate. This assumes that there is a DHCP server offering IP addresses on VM Network, and that those addresses have corresponding DNS entries such as `dhcp-a-b-c.example.com`.
+- Provides a wildcard domain, `*.example.org`, for the client systems that will connect to this VCH, for use as the Common Name in the  server certificate. This assumes that there is a DHCP server offering IP addresses on the public network, and that those addresses have corresponding DNS entries such as `dhcp-a-b-c.example.com`.
 - Specifies an empty folder in which to save the auto-generated certificates. 
 - Sets the certificate's `organization` (`O`) field to `My Organization`.
 - Generates a certificate with a key size of 3072 bits.
@@ -288,6 +288,7 @@ This example `vic-machine create` command deploys a VCH with the following confi
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --tls-cname *.example.org
 --tls-cert-path <i>path_to_cert_folder</i>
 --organization 'My Organization'
@@ -334,7 +335,7 @@ This section provides examples of using both the Create Virtual Container Host w
 
 This example `vic-machine create` command deploys a VCH with the following configuration:
 
-- Provides a wildcard domain `*.example.org` as the FQDN for the client systems that connect to the VCH, for use as the Common Name in the  automatically generated server certificate.
+- Provides a wildcard domain `*.example.org` as the FQDN for the client systems that connect to the VCH, for use as the Common Name in the  automatically generated server certificate. This assumes that there is a DHCP server offering IP addresses on the public network, and that those addresses have corresponding DNS entries such as `dhcp-a-b-c.example.com`.
 - Specifies the folder in which to save auto-generated certificates in the `--tls-cert-path` option. 
 - Sets the certificate's `organization` (`O`) field to `My Organization`.
 - Generates certificates with a key size of 3072 bits.
@@ -345,6 +346,7 @@ This example `vic-machine create` command deploys a VCH with the following confi
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --tls-cname *.example.org
 --tls-cert-path <i>path_to_cert_folder</i>
 --organization 'My Organization'
@@ -394,6 +396,7 @@ This example `vic-machine create` command provides the paths relative to the cur
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --tls-server-cert <i>path_to_folder</i>/<i>certificate_file</i>.pem
 --tls-server-key <i>path_to_folder</i>/<i>key_file</i>.pem
 --tls-ca <i>path_to_folder</i>/ca.pem
@@ -435,6 +438,7 @@ This example `vic-machine create` command deploys a VCH with the following confi
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --tls-server-cert ../some/relative/path/<i>certificate_file</i>.pem
 --tls-server-key ../some/relative/path/<i>key_file</i>.pem
 --tls-cname <i>cname_from_server_cert</i>

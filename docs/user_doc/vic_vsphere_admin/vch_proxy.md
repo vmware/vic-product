@@ -67,6 +67,7 @@ This example `vic-machine create` command deploys a VCH that accesses the networ
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --https-proxy https://proxy.example.mycompany.org:443
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>

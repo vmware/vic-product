@@ -20,13 +20,13 @@ You designate a specific port group for traffic from container VMs and the VCH t
 
 **IMPORTANT**: 
 
-- By default, VCHs that you deploy by using `vic-machine` use the standard VM Network for the public network. For deployments to vCenter Server clusters, it is strongly recommended that you create and use a  port group for the public network. The VCH endpoint VM must be able to obtain an IP address on this port group. Using the VM Network instead of a port group prevents vSphere vMotion from moving the VCH endpoint VM between hosts in the cluster.
-- You can use the same port group as the public network for multiple VCHs.
+- If you use the Create Virtual Container Host wizard to create VCHs, it is **mandatory** to use a port group for the public network.
+- If you use `vic-machine` to deploy VCHs, by default the VCH uses the VM Network, if present, for the public network. If the VM Network is present, it is therefore not mandatory to use a port group for the public network, but it is strongly recommended. Using the default VM Network for the public network instead of a port group prevents vSphere vMotion from moving the VCH endpoint VM between hosts in a cluster. If the VM Network is not present, you must create a port group for the public network. 
+- You can use the same port group as the public network for multiple VCHs. You cannot use the same port group for the public network as you use for the bridge network.
+- You can share the public network port group with the client and management networks. If you do not configure the client and management networks to use specific port groups, those networks use the settings that you specify for the public network.
 - The port group must exist before you create the VCH. For information about how to create a VMware vSphere Distributed Switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere documentation.
 - All hosts in a cluster should be attached to the port group. For information about how to add hosts to a vSphere Distributed Switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
-- The Create Virtual Container Host wizard only allows you to select port groups. You cannot select whole networks, for example the standard VM Network. Consequently, if you use the Create Virtual Container Host wizard, you must create a port group for the public network before you deploy the VCH. You cannot use `vic-machine configure` to change the public network setting after you deploy the VCH.
-
-If you do not configure the client and management networks to use specific port groups, those networks use the settings that you specify for the public network. 
+- You cannot use `vic-machine configure` to change the public network setting after you deploy the VCH.
 
 #### Create VCH Wizard
 
@@ -44,7 +44,7 @@ A port group that container VMs and VCHs use to connect to the Internet. Ports t
 
 <pre>--public-network <i>port_group_name</i></pre>
 
-If you do not specify this option, containers use the VM Network for public network traffic. If you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups.
+If you do not specify this option, containers use the VM Network for public network traffic. If do not specify this option and the VM Network is not present, or if you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups.
 
 ### Static IP Address <a id="static-ip"></a>
 
@@ -128,17 +128,17 @@ If you are using the Create Virtual Container Host wizard, the bridge network an
 
 This example `vic-machine create` command deploys a VCH that 
 
-- Directs public network traffic to an existing port group named `vch1-public`.
+- Directs public network traffic to an existing port group named `vic-public`.
 - Sets two DNS servers.
 - Sets a static IP address and gateway for the VCH endpoint VM on the public network.
-- Does not specify either of the `--management-network` or `--client-network` options. Consequently, management and client traffic also routes over `vch1-public` because those networks default to the public network setting if they are not set.
+- Does not specify either of the `--management-network` or `--client-network` options. Consequently, management and client traffic also routes over `vic-public` because those networks default to the public network setting if they are not set.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
---public-network vch1-public
+--public-network vic-public
 --public-network-ip 192.168.1.10/24
 --public-network-gateway 192.168.1.1
 --dns-server 192.168.10.10

@@ -164,6 +164,7 @@ This example `vic-machine create` command deploys a VCH with 3 volume stores:
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
 --compute-resource cluster1
 --bridge-network vch1-bridge
+--public-network vic-public
 --image-store 'datastore 1'
 --volume-store 'datastore 1'/volumes:default
 --volume-store 'datastore 2'/volumes:volume_store_2
