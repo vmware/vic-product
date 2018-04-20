@@ -44,7 +44,7 @@ A port group that container VMs and VCHs use to connect to the Internet. Ports t
 
 <pre>--public-network <i>port_group_name</i></pre>
 
-If you do not specify this option, containers use the VM Network for public network traffic. If do not specify this option and the VM Network is not present, or if you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups.
+If you do not specify this option, containers use the VM Network for public network traffic. If you do not specify this option and the VM Network is not present, or if you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups.
 
 ### Static IP Address <a id="static-ip"></a>
 
