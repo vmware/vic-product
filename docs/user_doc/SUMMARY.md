@@ -122,7 +122,7 @@
          * [Deleting or Inspecting a VCH Fails](vic_vsphere_admin/ts_delete_inspect_error.md)
          * [Docker Login Fails](vic_vsphere_admin/ts_dockerlogin_error.md)
      * [Install Packages in VCHs](vic_vsphere_admin/vch_install_packages.md)
-             * [Mount an NFS Share Point](vic_vsphere_admin/vch_mount_nfsshare.md)
+         * [Mount an NFS Share Point](vic_vsphere_admin/vch_mount_nfsshare.md)
      * [Manage the Appliance](vic_vsphere_admin/manage_appliance.md)
          * [Reconfigure the Appliance](vic_vsphere_admin/reconfigure_appliance.md)
          * [Reinitialize the Appliance](vic_vsphere_admin/reinitialize_appliance.md)
