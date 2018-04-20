@@ -25,9 +25,7 @@ DRS Setup
     Create a Simple VC Cluster
 
     Log To Console  Disable DRS on the cluster
-    ${rc}  ${out}=  Run  govc cluster.change -drs-enabled=false /ha-datacenter/host/cls
-    Should Be Empty  ${out}
-    Should Be Equal As Integers  ${rc}  0
+    Run GOVC  cluster.change -drs-enabled=false /ha-datacenter/host/cls
 
 *** Test Cases ***
 Test
@@ -91,9 +89,7 @@ Test
     Unselect Frame
 
     Log To Console  Enable DRS on the cluster
-    ${rc}  ${out}=  Run  govc cluster.change -drs-enabled /ha-datacenter/host/cls
-    Should Be Empty  ${out}
-    Should Be Equal As Integers  ${rc}  0
+    Run GOVC  cluster.change -drs-enabled /ha-datacenter/host/cls
 
     Log To Console  Create VCH with DRS enabled
     Wait Until Page Contains  Summary
