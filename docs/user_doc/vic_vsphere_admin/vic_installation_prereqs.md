@@ -33,6 +33,8 @@ You deploy the vSphere Integrated Containers appliance on a vCenter Server insta
 - At least 8GB RAM.
 - At least 80GB free disk space on the datastore. The disk space for the appliance uses thin provisioning.
 
+For the latest information about the compatibility of all vSphere Integrated Containers versions with vCenter Server, see the [VMware Product Interoperability Matrices](https://partnerweb.vmware.com/comp_guide2/sim/interop_matrix.php#interop&149=&2=).
+
 ### vSphere Client Requirements <a id="client"></a>
 
 vSphere Integrated Containers provides a basic plug-in for the Flex-based vSphere Web Client and a more feature-complete plug-in for the HTML5 vSphere Client: 
