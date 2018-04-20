@@ -38,6 +38,7 @@ getToken /etc/vmware/psc/admiral/psc-config.properties /etc/vmware/psc/admiral/t
 # Copy harbor token to container mount path
 mkdir -p /storage/data/harbor/psc
 cp /etc/vmware/psc/harbor/tokens.properties /storage/data/harbor/psc/tokens.properties
+chown --recursive 10000:10000 /storage/data/harbor/psc
 
 # Set PSC dir permissions if not set
 dirs=("/etc/vmware/psc/admiral" "/etc/vmware/psc/engine" "/etc/vmware/psc/harbor")
