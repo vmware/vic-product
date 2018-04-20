@@ -1,7 +1,9 @@
 # Interoperability of Virtual Container Hosts with Other VMware Software
 vSphere administrators can use vSphere to view and manage the vSphere Integrated Containers appliance, virtual container hosts (VCHs), and container VMs. You can use any vSphere feature to manage the vSphere Integrated Containers appliance without affecting its behavior.
 
-This topic describes the interoperability of VCHs with other vSphere features and VMware products. 
+For information about the supported versions of VMware software that are compatible with vSphere Integrated Containers, see the [VMware Product Interoperability Matrices](https://partnerweb.vmware.com/comp_guide2/sim/interop_matrix.php#interop&149=&0=). 
+
+This topic describes how vSphere features and other VMware products interact with vSphere Integrated Containers and VCHs. 
 
 - [Performing Operations on VCHs and Container VMs in vSphere](#vms)
 - [VMware vRealize&reg; Suite](#vrealize)
@@ -23,7 +25,7 @@ This topic describes the interoperability of VCHs with other vSphere features an
 ## VMware vRealize Suite <a id="vrealize"></a>
 Your organization could use VMware vRealize Automation to provide a self-provisioning service  for VCHs, by using the vRealize Automation interface or APIs to request VCHs. At the end of the provisioning process, vRealize Automation would communicate the VCH endpoint VM address to the requester. If you deploy VCHs with TLS authentication, `vic-machine create` generates a file named `vch_name.env`. The `env` file contains Docker environment variables that are specific to the VCH. vRealize Automation could potentially provide the `env` file at the end of a provisioning process for VCHs.
 
-**NOTE**: vRealize Automation 7.3 supports vSphere Integrated Containers 1.1.x. Support for this release of vSphere Integrated Containers will be added in a future release of vRealize Automation.
+vSphere Integrated Containers 1.3.x is compatible with vRealize Automation 7.4. For the most up-to-date information about compatibility with vRealize Automation, see the [VMware Product Interoperability Matrices](https://partnerweb.vmware.com/comp_guide2/sim/interop_matrix.php#interop&114=&149=).
 
 ## VMware vSphere vMotion <a id="vmotion"></a>
 
