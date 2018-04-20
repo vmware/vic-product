@@ -22,6 +22,7 @@ For information about how to deploy VCHs that do not verify  connections from cl
   - [Automatically Generate Server Certificates and Use a Custom CA for Client Certificates](#auto-server)
   - [Use a Custom Server Certificate and a Custom CA for Client Certificates](#all-custom)
   - [Use a Custom Server Certificate and Automatically Generate a CA for Client Certificates](#custom-server-auto-client-ca)
+- [Troubleshooting](#troubleshooting)
 - [What to Do Next](#whatnext)
 
 ## Automatically Generated Certificates <a id="auto"></a>
@@ -453,6 +454,14 @@ When you run this command, `vic-machine create` performs the following operation
 After deployment, the Docker API for this VCH is accessible at https://dhcp-a-b-c.example.org:2376.
 
 You must provide the automatically generated `cert.pem`, `key.pem`, and `ca.pem` file to all container developers who need to connect Docker clients to this VCH.
+
+### Troubleshooting <a id="troubleshooting"></a>
+
+If you see certificate errors during deployment, see the following troubleshooting topics:
+
+* [VCH Deployment Fails with a Certificate Verification Error](ts_thumbprint_error.md)
+* [VCH Deployment Fails with Missing Common Name Error Even When TLS Options Are Specified Correctly](ts_cli_argument_error.md)
+* [VCH Deployment Fails with Certificate cname Mismatch](ts_cname_mismatch.md)
 
 # What to Do Next <a id="whatnext"></a>
 

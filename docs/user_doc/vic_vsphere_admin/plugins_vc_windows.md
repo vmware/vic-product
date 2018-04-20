@@ -29,6 +29,10 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 
 **What to Do Next**
 
+To verify the deployment of the plug-ins, see [VCH Administration in the vSphere Client](vch_admin_client.md).
+
+**Troubleshooting**
+
 If you see the error message `At least one plugin is already registered with the target VC`, see [Upgrade the vSphere Client Plug-Ins on vCenter Server for Windows](upgrade_h5_plugin_windows.md).
 
-To verify the deployment of the plug-ins, see [VCH Administration in the vSphere Client](vch_admin_client.md).
+If you encounter other errors, or if the script runs successfully but the plug-ins do not appear in the vSphere Client, see [Troubleshoot vSphere Client Plug-In Installation](ts_install_plugins.md).

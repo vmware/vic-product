@@ -95,3 +95,9 @@ Installer completed successfully</pre>
 **What to Do Next** 
 
 To test your VCH, see [Verify the Deployment of a VCH](verify_vch_deployment.md).
+
+**Troubleshooting**
+
+If you see errors during deployment, see [Troubleshoot Virtual Container Host Deployment](ts_deploy_vch.md).
+
+For information about how to access VCH logs, including the deployment log, see [Access Virtual Container Host Log Bundles](log_bundles.md).

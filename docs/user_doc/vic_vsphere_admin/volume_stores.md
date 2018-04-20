@@ -9,6 +9,7 @@ Volume stores for virtual container hosts (VCHs) are storage locations in your i
 - [Add Volume Datastores](#volume-store)
 - [What to Do Next](#whatnext)
 - [Example `vic-machine` Command](#example)
+- [Troubleshooting](#troubleshooting)
 
 ## About Volume Stores <a id="about"></a>
 
@@ -49,7 +50,7 @@ To use shared NFS volume stores, it is recommended that the NFS share points tha
 
 **IMPORTANT**: When container developers run `docker info` or `docker volume ls` against a VCH, there is currently no indication whether a volume store is backed by vSphere or by an NFS share point. Consequently, you should include an indication that a volume store is an NFS share point in the volume store label. 
 
-You cannot specify the root folder of an NFS server as a volume store.
+You cannot specify the root folder of an NFS server as a volume store. 
 
 #### Testing and Debugging NFS Volume Store Configuration
 
@@ -172,3 +173,7 @@ This example `vic-machine create` command deploys a VCH with 3 volume stores:
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
 </pre> 
+
+## Troubleshooting <a id="troubleshooting"></a>
+
+VCHs require datastores to be writable. For information about how to check whether a shared NFS datastore is possibly mounted as read-only, see [VCH Deployment with a Shared NFS Datastore Fails with an Error About No Single Host Being Able to Access All Datastores](ts_datastore_access_error.md).

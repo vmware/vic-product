@@ -98,12 +98,13 @@ You see the vSphere Integrated Containers Getting Started page at http://<i>vic_
 - [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md).
 - [Install the vSphere Client Plug-ins](install_vic_plugin.md).
 - Log in to vSphere Integrated Containers Management Portal. For information about the management portal, see [Configure and Manage vSphere Integrated Containers](../vic_cloud_admin/).      
-- If necessary, you can reconfigure the appliance after deployment by editing the settings of the appliance VM. For information about reconfiguring the appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.md).
 - If you need to deploy multiple appliances, you can use the initialization API to initialize appliances without manual intervention. For information about the initialization API, see [Initialize the Appliance by Using the Initialization API](ova_reg_api.md).
 
 **Troubleshooting**
 
+- For information about how to access the logs for the appliance, see [Access and Configure Appliance Logs](appliance_logs.md).
 - If you do not see a green success banner at the top of the Getting Started page after initializing the appliance, the appliance has not initialized correctly. For more information, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md).
+- If deployment of the appliance fails, see [Troubleshoot vSphere Integrated Containers Appliance Deployment](ts_deploy_appliance.md).
+- If you see errors when attempting to connect to the Getting Started page or to vSphere Integrated Containers Management Portal, or when downloading the vSphere Integrated Containers Engine bundle, see [Troubleshoot Post-Deployment Operation](ts_post_deployment_op.md).
 - To remove security warnings when you connect to the Getting Started page or management portal, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](obtain_appliance_certs.md) and [Verify and Trust vSphere Integrated Containers Appliance Certificates](../vic_cloud_admin/trust_vic_certs.md).
-- If you see a certificate error when you attempt to go to http://<i>vic_appliance_address</i>, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](ts_cert_error.md).
-- If you see Platform Services Controller token errors when you go to the vSphere Integrated Containers Management Portal, see [Connections Fail with Certificate or Platform Services Controller Token Errors](ts_clock_skew.md).
+- If necessary, you can reconfigure the appliance after deployment by editing the settings of the appliance VM. For information about reconfiguring the appliance and other post-installation management tasks, see [Manage the vSphere Integrated Containers Appliance](manage_appliance.md).
