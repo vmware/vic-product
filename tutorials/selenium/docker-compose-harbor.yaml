@@ -1,0 +1,33 @@
+version: '2.2'
+services:
+  hub:
+    image: "vic.tpm.com/selenium/hub:3.8.1"
+    ports:
+      - "4444:4444"
+  chrome:
+    cpu_count: 1
+    image: "vic.tpm.com/selenium/node-chrome:3.8.1"
+    environment:
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+      - NODE_MAX_INSTANCES=5
+      - NODE_X_SESSION=3
+      - GRID_MAX_SESSION=10
+    links:
+      - "hub"
+    expose:
+      - "5555"
+  firefox:
+    cpu_count: 1
+    image: "vic.tpm.com/selenium/node-firefox:3.8.1"
+    environment:
+      - HOME=/home/seluser
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+      - NODE_MAX_INSTANCES=5
+      - NODE_X_SESSION=3
+      - GRID_MAX_SESSION=10
+    links:
+      - "hub"
+    expose:
+      - "5555"
