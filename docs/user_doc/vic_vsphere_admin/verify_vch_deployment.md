@@ -1,6 +1,6 @@
 # Verify the Deployment of a VCH #
 
-After you have deployed a virtual container host (VCH), you can verify the deployment by connecting a Docker client to the VCH and running Docker operations. You can check the results in the vSphere Client or vSphere Web Client.
+After you have deployed a virtual container host (VCH), you can verify the deployment by connecting a Docker client to the VCH and running Docker operations. You can check the results in the vSphere Client.
 
 **IMPORTANT**: Do not perform operations on virtual container hosts (VCHs) or container VMs in the vSphere Client inventory views. Specifically, using the vSphere Client inventory views to power off, power on, or delete the VCH endpoint VM, or to modify the VCH resource pool or folder, can cause vSphere Integrated Containers Engine to not function correctly. Always use the vSphere Integrated Containers plug-in for the HTML5 vSphere Client or `vic-machine` to perform operations on VCHs. The vSphere Client does not allow you to delete container VMs, but do not use the vSphere Client to power container VMs on or off. Always use Docker commands or vSphere Integrated Containers Management Portal to perform operations on containers.
 
@@ -28,7 +28,7 @@ After you have deployed a virtual container host (VCH), you can verify the deplo
 1. View the container image files in the vSphere Client.
 
     - vCenter Server: Go to **Storage**, right-click the datastore that you designated as the image store, and select **Browse Files**. 
-    - ESXi host: Go to **Storage** and click **Browse Datastore**. 
+    - ESXi host: Right-click the datastore that you designated as the image store, and select **Browse Datastore**. 
 
     vSphere Integrated Containers Engine creates a folder that has the same name as the VCH, that contains a folder named `VIC` in which to store container image files.
   
@@ -36,19 +36,21 @@ After you have deployed a virtual container host (VCH), you can verify the deplo
   
 1. In your Docker client, run the Docker container that you pulled into the VCH.<pre>docker -H <i>vch_address</i>:2376 --tls run --name test busybox</pre>
 
-1. View the container VMs in the vSphere Client.
+1. View the container VM in the vSphere Client.
 
-    - vCenter Server: Go to **Hosts and Clusters** and expand the VCH resource pool.
-    - ESXi host: Go to **Inventory** and expand the VCH resource pool.
+    - vCenter Server: 
+       - Go to **Hosts and Clusters** and expand the VCH resource pool.
+       - Go to **VMs and Templates** and select the VM folder that has the same name as the VCH.
+    - ESXi host: Go to **Virtual Machines**.
  
     You should see a VM for every container that you run, including a VM named <code>test-<i>container_id</i></code>.
 
 1. View the container VM files in the vSphere Client.
 
     - vCenter Server: Go to **Storage** and select the datastore that you designated as the image store. 
-    - ESXi host: Click the **Summary** tab for the ESXi host, right-click the datastore that you designated as the image store, and select **Browse Datastore**. 
+    - ESXi host: Right-click the datastore that you designated as the image store, and select **Browse Datastore**. 
  
-     At the top-level of the datastore, you should see a folder for every container that you run. The folders contain the container VM files.
+     At the top-level of the datastore, you should see a folder that uses the container ID as its name, for every container that you run. The folders contain the container VM files.
 
 **What to Do Next**
 
