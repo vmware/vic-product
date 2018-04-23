@@ -1,4 +1,4 @@
-# Assign Projects to Users #
+# Assign Projects to a User #
 
 You can assign one or more projects to any user from the Platform Services Controller to the vSphere Integrated Containers Management Portal. You assign the same user different roles in different projects.  
 
