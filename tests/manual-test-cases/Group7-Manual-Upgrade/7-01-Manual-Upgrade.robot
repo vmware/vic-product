@@ -27,58 +27,58 @@ ${datacenter}=  ha-datacenter
 *** Test Cases ***
 
 Upgrade from v1.2.1
-    Pass Execution  Not implemented
+    ${old-ova-file-name}=  vic-v1.2.1-4104e5f9.ova
+    ${old-ova-save-file}=  upgrade-${old-ova}
+    ${old-ova-vm-name}=    ${old-ova-file-name}-7-01-Manual-Upgrade
+    ${new-ova-vm-name}=    ${test-name}-LATEST
 
-    ${old-ova}=  vic-v1.2.1-4104e5f9.ova
-    ${old-ova-file-name}=  old-${old-ova}
+    OVA Upgrade Test Setup  ${old-ova-file-name}  ${old-ova-save-file}  ${datacenter}
 
-    OVA Upgrade Test Setup  ${old-ova}  ${old-ova-file-name}  ${datacenter}
+    Set Environment Variable  OVA_NAME  ${old-ova-vm-name}
+    ${old-ova-ip}=  Install And Initialize VIC Product OVA  ${old-ova-file-name}  %{OVA_NAME}
 
-    Set Environment Variable  OVA_NAME  ${old-ova}-7-01-Manual-Upgrade
-    Install And Initialize VIC Product OVA  ${old-ova}  %{OVA_NAME}
-
-    Set Environment Variable  OVA_NAME  ${test-name}-LATEST
-    Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
+    Set Environment Variable  OVA_NAME  ${new-ova-vm-name}
+    ${new-ova-ip}=  Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
 
     # Copy data disk and attach to new appliance
-    Copy and Attach Disk v1.2.1  ${old-ova}  %{OVA_NAME}  ${datacenter}
+    Copy and Attach Disk v1.2.1  ${old-ova-vm-name}  ${new-ova-vm-name}  ${datacenter}
 
-    Execute Upgrade Script Manual Disk Move  ${ova-ip}
+    Execute Upgrade Script Manual Disk Move  ${old-ova-ip}  ${new-ova-ip}
 
 Upgrade from v1.3.0
-    Pass Execution  Not implemented
+    ${old-ova-file-name}=  vic-v1.3.0-3033-f8cc7317.ova
+    ${old-ova-save-file}=  upgrade-${old-ova}
+    ${old-ova-vm-name}=    ${old-ova-file-name}-7-01-Manual-Upgrade
+    ${new-ova-vm-name}=    ${test-name}-LATEST
 
-    ${old-ova}=  vic-v1.3.0-3033-f8cc7317.ova
-    ${old-ova-file-name}=  old-${old-ova}
+    OVA Upgrade Test Setup  ${old-ova-file-name}  ${old-ova-save-file}  ${datacenter}
 
-    OVA Upgrade Test Setup  ${old-ova}  ${old-ova-file-name}  ${datacenter}
+    Set Environment Variable  OVA_NAME  ${old-ova-vm-name}
+    ${old-ova-ip}=  Install And Initialize VIC Product OVA  ${old-ova-file-name}  %{OVA_NAME}
 
-    Set Environment Variable  OVA_NAME  ${old-ova}-7-01-Manual-Upgrade
-    Install And Initialize VIC Product OVA  ${old-ova}  %{OVA_NAME}
-
-    Set Environment Variable  OVA_NAME  ${test-name}-LATEST
-    Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
+    Set Environment Variable  OVA_NAME  ${new-ova-vm-name}
+    ${new-ova-ip}=  Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
 
     # Copy data, log, db disks and attach to new appliance
-    Copy and Attach Disks  ${old-ova}  %{OVA_NAME}  ${datacenter}
+    Copy and Attach Disks  ${old-ova-vm-name}  ${new-ova-vm-name}  ${datacenter}
 
-    Execute Upgrade Script Manual Disk Move  ${ova-ip}
+    Execute Upgrade Script Manual Disk Move  ${old-ova-ip}  ${new-ova-ip}
 
 Upgrade from v1.3.1
-    Pass Execution  Not implemented
+    ${old-ova-file-name}=  vic-v1.3.1-3409-132fb13d.ova
+    ${old-ova-save-file}=  upgrade-${old-ova}
+    ${old-ova-vm-name}=    ${old-ova-file-name}-7-01-Manual-Upgrade
+    ${new-ova-vm-name}=    ${test-name}-LATEST
 
-    ${old-ova}=  vic-v1.3.1-3409-132fb13d.ova
-    ${old-ova-file-name}=  old-${old-ova}
+    OVA Upgrade Test Setup  ${old-ova-file-name}  ${old-ova-save-file}  ${datacenter}
 
-    OVA Upgrade Test Setup  ${old-ova}  ${old-ova-file-name}  ${datacenter}
+    Set Environment Variable  OVA_NAME  ${old-ova-vm-name}
+    ${old-ova-ip}=  Install And Initialize VIC Product OVA  ${old-ova-file-name}  %{OVA_NAME}
 
-    Set Environment Variable  OVA_NAME  ${old-ova}-7-01-Manual-Upgrade
-    Install And Initialize VIC Product OVA  ${old-ova}  %{OVA_NAME}
-
-    Set Environment Variable  OVA_NAME  ${test-name}-LATEST
-    Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
+    Set Environment Variable  OVA_NAME  ${new-ova-vm-name}
+    ${new-ova-ip}=  Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
 
     # Copy data, log, db disks and attach to new appliance
-    Copy and Attach Disks  ${old-ova}  %{OVA_NAME}  ${datacenter}
+    Copy and Attach Disks  ${old-ova-vm-name}  ${new-ova-vm-name}  ${datacenter}
 
-    Execute Upgrade Script Manual Disk Move  ${ova-ip}
+    Execute Upgrade Script Manual Disk Move  ${old-ova-ip}  ${new-ova-ip}

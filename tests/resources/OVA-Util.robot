@@ -423,3 +423,47 @@ Deploy OVA And Install UI Plugin And Run Regression Tests
     Wait Until Keyword Succeeds  3x  1m  Create VCH using UI And Set Docker Parameters  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}
     # run vch regression tests
     Run Docker Regression Tests For VCH
+
+# This powers off the old VM to copy disks
+Copy and Attach Disk v1.2.1
+    [Arguments]  ${old-ova-vm-name}  ${old-ova-ip}  ${new-ova-vm-name}  ${datacenter}
+    ${old-ds}=  Get Datastore  ${old-ova-vm-name}
+    ${new-ds}=  Get Datastore  ${new-ova-vm-name}
+
+    # TODO power off old VM
+    # Detach disk from new VM
+    ${data-disk}=  Get Disk By ID  1
+
+# This powers off the old VM to copy disks
+Copy and Attach Disk
+    [Arguments]  ${old-ova-vm-name}  ${old-ova-ip}  ${new-ova-vm-name}  ${datacenter}
+    ${old-ds}=  Get Datastore  ${old-ova-vm-name}
+    ${new-ds}=  Get Datastore  ${new-ova-vm-name}
+
+    # TODO power off old VM
+    # Detach disks
+    ${data-disk}=  Get Disk By ID  1
+    ${db-disk}=    Get Disk By ID  2
+    ${log-disk}=   Get Disk By ID  3
+
+Get Datastore
+    [Arguments]  ${vm-name}
+    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.info -json "${vm-name}" | jq -r ".VirtualMachines[].Config.DatastoreUrl[0].Name"
+    Log  ${output}
+    Should Be Equal  ${rc}  0
+    [Return]  ${output}
+
+Get Disk By ID
+    [Arguments] ${vm-name}  ${id}
+    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.info -json "${vm-name}" | jq -r ".VirtualMachines[].Layout.Disk[${id}].DiskFile[0]" | awk '{print $NF}'
+    Log  ${output}
+    Should Be Equal  ${rc}  0
+    [Return]  ${output}
+
+Detach Disk By Name
+    [Arguments]  ${vm-name}  ${disk}
+    # TODO
+    govc device.remove -vm="${vm-name}" "${disk}"
+
+Execute Upgrade Script Manual Disk Move
+    [Arguments]  ${old-ova-ip}  ${new-ova-ip}
