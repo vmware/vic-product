@@ -13,7 +13,7 @@ This test requires access to VMWare Nimbus cluster for dynamic ESXi and vCenter 
 
 # Test Cases
 
-## Upgrade from 1.2.1
+## Upgrade from v1.2.1
 
 ### Test Steps:
 1. Deploy, initialize, and populate the management portal and registry of a VIC appliance version 1.2.1
@@ -30,7 +30,7 @@ This test requires access to VMWare Nimbus cluster for dynamic ESXi and vCenter 
   and registry)
 
 
-## Upgrade from 1.3.0 and 1.3.1
+## Upgrade from v1.3.0 and v1.3.1
 
 ### Test Steps:
 1. Deploy, initialize, and populate the management portal and registry of a VIC appliance version 1.3.0
