@@ -25,6 +25,7 @@ REQUIRED:
 - vCenter Server version:
 - Embedded or external PSC:
 - Filename of the OVA you deployed:
+- How was the OVA deployed? (Flex client, HTML5 client, ovftool):
 - Does the VIC appliance recieve configuration by DHCP?
 - What stage of the Appliance Lifecycle is the VIC appliance in?
   https://github.com/vmware/vic-product/blob/master/installer/docs/SUPPORT.md#appliance-lifecycle
