@@ -9,7 +9,9 @@ Make sure that SSH access to the appliance is enabled. To enable SSH access to t
 **Procedure**
 
 1. Use SSH to connect to the appliance as root user.<pre>$ ssh root@vic_appliance_address</pre>When prompted for the password, enter the appliance password that you specified when you deployed the appliance.
-3. To access logs for vSphere Integrated Containers Registry, navigate to `/storage/log/harbor`.<pre>$ cd /storage/log/harbor</pre>The `/storage/log/harbor` folder contains the log files for the following services:
+2. To create a complete log bundle for the appliance, run the `appliance-support.sh` script.<pre>/etc/vmware/support/appliance-support.sh</pre>Running this script creates a log bundle, `/storage/log/vic_appliance_logs_YYYY-MM-DD-00-01-00.tar.gz`, that you can supply to VMware support. This bundle includes the installation logs.
+3. If you performed an upgrade on this appliance instance and need to see the upgrade log, navigate to `/var/log/vmware` to obtain the `upgrade.log` file.<pre>$ cd /var/log/vmware</pre> 
+4. To access logs for vSphere Integrated Containers Registry, navigate to `/storage/log/harbor`.<pre>$ cd /storage/log/harbor</pre>The `/storage/log/harbor` folder contains the log files for the following services:
 
    - `adminserver.log`: Registry administration service
    - `clair-db.log`: Clair database used for vulnerability scanning of images
