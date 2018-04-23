@@ -44,6 +44,7 @@ This example `vic-machine create` command deploys a VCH that specifies `--applia
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
@@ -57,6 +58,7 @@ This example `vic-machine create` command deploys a VCH that specifies `--bootst
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify

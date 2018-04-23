@@ -98,13 +98,14 @@ This example deploys a VCH with the following security configuration.
 
 ### `vic-machine` Command
 
-This example `vic-machine create` command deploys a VCH that specifies `--no-tlsverify` to disable client authentication but that configures the automatically generated server certificate.
+This example `vic-machine create` command specifies `--no-tlsverify` to disable client authentication, but configures the automatically generated server certificate by specifying `--tls-cname`, `--tls-cert-path`, `--organization`, and `--certificate-key-size`.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --tls-cname *.example.org
@@ -147,6 +148,7 @@ This example `vic-machine create` command provides the paths relative to the cur
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --tls-server-cert ../some/relative/path/<i>certificate_file</i>.pem
@@ -186,6 +188,7 @@ This example deploys a VCH with the following configuration:
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
@@ -217,6 +220,7 @@ This example deploys a VCH that specifies `--no-tls` to disable client and serve
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tls

@@ -45,6 +45,7 @@ For simplicity, this example `vic-machine create` command deploys a VCH with the
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch-bridge
+--public-network vic-public
 --name vch_dch_photon
 --thumbprint <i>vcenter_server_certificate_thumbprint</i>
 --no-tlsverify

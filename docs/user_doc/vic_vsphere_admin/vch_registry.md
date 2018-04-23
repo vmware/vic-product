@@ -172,6 +172,7 @@ This example `vic-machine create` command deploys a VCH that uses the `--whiteli
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --whitelist-registry 10.2.40.40:443 
 --whitelist-registry 10.2.2.1/24 
 --whitelist-registry=*.example.com
@@ -215,6 +216,7 @@ This example `vic-machine create` uses the `--registry-ca` and `--insecure-regis
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --insecure-registry *.example.com
 --insecure-registry 192.168.100.207:5000</i>
 --registry-ca /home/admin/mycerts/ca.crt

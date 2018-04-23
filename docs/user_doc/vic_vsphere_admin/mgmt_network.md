@@ -26,6 +26,7 @@ A port group that the VCH uses to communicate with vCenter Server and ESXi hosts
 - Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network.
 - Container VMs communicate with the VCH endpoint VM over the management network when an interactive shell is required. While the communication is encrypted, the public keys are not validated, which leaves scope for man-in-the-middle attacks. This connection is only used when the interactive console is enabled (`stdin`/`out`/`err`), and not for any other purpose. 
 - Ideally, use separate networks for the management network and container networks. 
+- You can use the same port group as the management network for multiple VCHs.
 - The most secure setup is to make sure that VCHs can access vCenter Server and ESXi hosts directly over the management network, and that the management network has route entries for the subnets that contain both the target vCenter Server and the corresponding ESXi hosts. If the management network does not have route entries for the vCenter Server and ESXi host subnets, you must configure asymmetric routing. For more information about asymmetric routing, see [Asymmetric Routes](#asymmetric-routes). 
 
 When you create a VCH, `vic-machine create` checks that the firewall on ESXi hosts allows connections to port 2377 from the management network of the VCH. If access to port 2377 on ESXi hosts is subject to IP address restrictions, and if those restrictions block access to the management network interface, `vic-machine create` fails with a firewall configuration error:
@@ -168,7 +169,7 @@ If you are using the Create Virtual Container Host wizard, the bridge network an
 
 This example `vic-machine create` command deploys a VCH with the following configuration:
 
-- Directs public, client, and management traffic to networks `vch1-public`, `vch1-client`, and `vch1-management` respectively.
+- Directs public, client, and management traffic to networks `vic-public`, `vic-client`, and `vic-management` respectively.
 - Sets two DNS servers for use by the public, management, and client networks.
 - Sets a static IP address and subnet mask for the VCH endpoint VM on the public, client, and management networks. 
 - Specifies the gateway for the public network.
@@ -181,13 +182,13 @@ This example `vic-machine create` command deploys a VCH with the following confi
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
---public-network vch1-public
+--public-network vic-public
 --public-network-ip 192.168.1.10/24
 --public-network-gateway 192.168.1.1
---client-network vch1-client
+--client-network vic-client
 --client-network-ip 192.168.2.10/24
 --client-network-gateway 192.168.2.0/24,192.168.128.0/24:192.168.2.1
---management-network vch1-mgmt
+--management-network vic-management
 --management-network-ip 192.168.3.10/24
 --management-network-gateway 192.168.3.0/24,192.168.128.0/24:192.168.3.1
 --dns-server 192.168.10.10

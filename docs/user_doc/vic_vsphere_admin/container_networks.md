@@ -188,13 +188,13 @@ This example `vic-machine create` command deploys a VCH with the following confi
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
---public-network vch1-public
+--public-network vic-public
 --public-network-ip 192.168.1.10/24
 --public-network-gateway 192.168.1.1
---client-network vch1-client
+--client-network vic-client
 --client-network-ip 192.168.2.10/24
 --client-network-gateway 192.168.2.0/24,192.168.128.0/24:192.168.2.1
---management-network vch1-mgmt
+--management-network vic-management
 --management-network-ip 192.168.3.10/24
 --management-network-gateway 192.168.3.0/24,192.168.128.0/24:192.168.3.1
 --dns-server 192.168.10.10
