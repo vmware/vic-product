@@ -48,7 +48,7 @@ input=$(gsutil ls -l gs://vic-product-ova-builds/vic-* | grep -v TOTAL | sort -k
 echo "Downloading VIC Product OVA build $input..."
 wget -P vic-product https://storage.googleapis.com/vic-product-ova-builds/$input
 
-docker run --net grid --rm --link selenium-hub:selenium-grid-hub -v $PWD/vic-product:/go --env-file vic-internal/vic-product-nightly-secrets.list gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --processes 4 --removekeywords TAG:secret --exclude skip tests/manual-test-cases
+docker run --net grid --rm --link selenium-hub:selenium-grid-hub -v $PWD/vic-product:/go --env-file vic-internal/vic-product-nightly-secrets.list gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --processes 4 --removekeywords TAG:secret --exclude skip tests/manual
 cat vic-product/pabot_results/*/stdout.txt | grep '::' | grep -E 'PASS|FAIL' > console.log
 
 # Pretty up the email results
