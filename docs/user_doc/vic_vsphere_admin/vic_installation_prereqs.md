@@ -15,7 +15,10 @@ Before you deploy the vSphere Integrated Containers appliance and virtual contai
 - [Custom Certificates](#customcerts)
 
 ## License Requirements <a id="license"></a>
-vSphere Integrated Containers requires a vSphere Enterprise Plus or vSphere Remote Office Branch Office (ROBO) Advanced license.
+vSphere Integrated Containers depends on certain features that are included in the following vSphere Editions:
+
+- vSphere Enterprise Plus
+- vSphere Remote Office Branch Office (ROBO) Advanced
 
 All of the ESXi hosts in a cluster require an appropriate license. Deployment of VCHs fails if your environment includes one or more ESXi hosts that have inadequate licenses. 
 
@@ -44,7 +47,7 @@ vSphere Integrated Containers provides a basic plug-in for the Flex-based vSpher
 
 You can deploy virtual container hosts (VCHs) in the following types of setup:
 
-* vCenter Server 6.0, 6.5, or 6.7 managing a cluster of ESXi  6.0, 6.5, or 6.7 hosts. It is strongly recommended that VMware vSphere Distributed Resource Scheduler (DRS) is enabled on the cluster, but this is not a requirement.
+* vCenter Server 6.0, 6.5, or 6.7 managing a cluster of ESXi  6.0, 6.5, or 6.7 hosts. VMware recommends that you enable VMware vSphere Distributed Resource Scheduler (DRS) on clusters whenever possible, but this is not a requirement.
 * vCenter Server 6.0, 6.5, or 6.7, managing one or more standalone ESXi 6.0, 6.5, or 6.7 hosts.
 * Standalone ESXi 6.0, 6.5, or 6.7 host that is not managed by a vCenter Server instance.
 

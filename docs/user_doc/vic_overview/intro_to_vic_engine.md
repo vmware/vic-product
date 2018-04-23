@@ -57,11 +57,9 @@ A VCH is a multi-functional appliance that you can deploy to the following targe
 
 VCHs are deployed as resource pools. The resource pool provides a useful visual parent-child relationship in the vSphere Client so that you can easily identify the container VMs that are provisioned into a VCH. You can also specify resource limits on the resource pool. You can provision multiple VCHs onto a single ESXi host, into a resource pool, or into a vCenter Server cluster.
 
-**NOTE**: Clusters that do not implement VMware vSphere Distributed Resource Scheduler (DRS) do not support resource pools. If you deploy a VCH to a cluster on which DRS is disabled, the VCH is created in a VM folder, rather than in a resource pool. This restricts your ability to configure resource usage limits on the VCH. It is strongly recommended that DRS is enabled on clusters to which you deploy VCHs.
-
 ## The VCH Endpoint VM <a id="endpoint"></a>
 
-The VCH endoint VM is the VM that runs inside the VCH resource pool or folder. There is a 1:1 relationship between a VCH and a VCH endpoint VM. The VCH endpoint VM provides the following functions:
+The VCH endoint VM is the VM that runs inside the VCH resource pool. There is a 1:1 relationship between a VCH and a VCH endpoint VM. The VCH endpoint VM provides the following functions:
 
 - Runs the services that a VCH requires.
 - Provides a secure remote API to a client.

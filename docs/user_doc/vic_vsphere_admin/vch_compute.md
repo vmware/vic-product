@@ -31,14 +31,14 @@ The host, cluster, or resource pool in which to deploy the VCH.
 
 #### Deploying VCHs to Clusters With and Without DRS
 
-When deploying VCHs to a cluster, you cannot deploy a VCH to a specific host in the cluster. You deploy the VCH to the cluster and the placement of the VCH is determined as follows: 
+When deploying VCHs to a cluster, you cannot deploy a VCH to a specific host in the cluster. You deploy the VCH to the cluster. The placement of the VCH, and its associated container VMs, is determined according to whether a given host is appropriate for powering on container VMs. 
 
-- If VMware vSphere Distributed Resource Scheduler (DRS) is enabled on that cluster, DRS manages the placement of the VCH on a host. 
-- If DRS is not enabled, vSphere Integrated Containers selects a host in the cluster on which to deploy the VCH. 
+- If VMware vSphere Distributed Resource Scheduler (DRS) is enabled on that cluster, DRS manages the placement of the VCH and container VMs on hosts. 
+- If DRS is not enabled, the cluster selects a host and vSphere Integrated Containers checks whether the selected host is appropriate for the powering on of container VMs.  
 
-It is strongly recommended that DRS is enabled on clusters to which you deploy VCHs. Deployment does not fail if DRS is not enabled, but a warning is issued in the deployment log. 
+VMware recommends that you enable DRS on clusters whenever possible. Deployment does not fail if DRS is not enabled, but a warning is issued in the deployment log. 
 
-Clusters that do not implement DRS do not support resource pools. If you deploy a VCH to a cluster on which DRS is disabled, the VCH is created in a VM folder, rather than in a resource pool. Consequently, if you specify any options that apply to the memory or CPU configuration of the VCH resource pool, these options are ignored, with a warning in the deployment log. 
+Clusters that do not implement DRS do not support resource pools. If you deploy a VCH to a cluster on which DRS is disabled, the VCH is created in a VM folder. Consequently, if you specify any options that apply to the memory or CPU configuration of the VCH resource pool, these options are ignored, with a warning in the deployment log. 
 
 #### Create VCH Wizard 
 
