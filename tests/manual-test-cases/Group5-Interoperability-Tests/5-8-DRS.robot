@@ -33,9 +33,10 @@ DRS Setup
 Test
     Log To Console  \nStarting test...
     Set Environment Variable  OVA_NAME  OVA-5-04-TEST
+    Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls/Resources
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
-    Install VIC Product OVA  vic-*.ova  %{OVA_NAME}
+    Install VIC Product OVA Only  vic-*.ova  %{OVA_NAME}
 
     Set Browser Variables
 
