@@ -246,7 +246,7 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
     <ProductSection ovf:class="registry" ovf:required="false">
       <Info>Registry Properties</Info>
       <Category>3. Registry Configuration</Category>
-      <Property ovf:key="port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="443">
+      <Property ovf:key="registry_port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="443">
         <Label>3.1. Registry Port</Label>
         <Description>Specifies the port on which registry will be published.</Description>
       </Property>
@@ -262,7 +262,7 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
     <ProductSection ovf:class="management_portal" ovf:required="false">
       <Info>Management Portal Properties</Info>
       <Category>4. Management Portal Configuration</Category>
-      <Property ovf:key="port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="8282">
+      <Property ovf:key="management_portal_port" ovf:qualifiers="MinValue(1),MaxValue(65535)" ovf:type="int" ovf:userConfigurable="true" ovf:value="8282">
         <Label>4.1. Management Portal Port</Label>
         <Description>Specifies the port on which Management Portal will be published.</Description>
       </Property>

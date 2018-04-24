@@ -112,8 +112,8 @@ docker run -it --net=host -v $GOPATH/src/github.com/vmware/vic-product/installer
   --net:Network="VM Network" \
   --prop:appliance.root_pwd="password" \
   --prop:appliance.permit_root_login=True \
-  --prop:management_portal.port=8282 \
-  --prop:registry.port=443 \
+  --prop:management_portal.management_portal_port=8282 \
+  --prop:registry.registry_port=443 \
   /test-bin/$(ls -1t bin | grep "\.ova") \
   vi://$VC_USER:$VC_PASSWORD@$VC_IP/$VC_COMPUTE
 ```
