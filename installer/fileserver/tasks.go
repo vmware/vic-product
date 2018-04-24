@@ -74,7 +74,7 @@ func registerWithPSC(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
-	admiralPort := ovf.Properties["management_portal.port"]
+	admiralPort := ovf.Properties["management_portal.management_portal_port"]
 
 	// Out of the box users
 	defCreateUsers, foundCreateUsers := ovf.Properties["default_users.create_def_users"]

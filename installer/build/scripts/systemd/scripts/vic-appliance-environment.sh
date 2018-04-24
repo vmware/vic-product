@@ -23,8 +23,8 @@ APPLIANCE_TLS_CERT="$(ovfenv -k appliance.tls_cert | sed -E ':a;N;$!ba;s/\r{0,1}
 APPLIANCE_TLS_PRIVATE_KEY="$(ovfenv -k appliance.tls_cert_key | sed -E ':a;N;$!ba;s/\r{0,1}\n//g')"
 APPLIANCE_TLS_CA_CERT="$(ovfenv -k appliance.ca_cert | sed -E ':a;N;$!ba;s/\r{0,1}\n//g')"
 
-ADMIRAL_PORT="$(ovfenv -k management_portal.port)"
-REGISTRY_PORT="$(ovfenv -k registry.port)"
+ADMIRAL_PORT="$(ovfenv -k management_portal.management_portal_port)"
+REGISTRY_PORT="$(ovfenv -k registry.registry_port)"
 NOTARY_PORT="$(ovfenv -k registry.notary_port)"
 FILESERVER_PORT="$(ovfenv -k appliance.config_port)"
 HOSTNAME=""
