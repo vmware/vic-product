@@ -142,7 +142,7 @@ func Init(conf *config) {
 
 	if ip, err := ip.FirstIPv4(ip.Eth0Interface); err == nil {
 		conf.serverHostname = getHostname(ovf, ip)
-		if port, ok := ovf.Properties["management_portal.port"]; ok {
+		if port, ok := ovf.Properties["management_portal.management_portal_port"]; ok {
 			conf.admiralPort = port
 		}
 	}
