@@ -46,6 +46,11 @@ Start Docker Daemon Locally
     Fail  Failed to initialize local dockerd
     [Return]  ${handle}  ${dockerd-pid}
 
+Setup Docker Daemon
+    ${handle}  ${docker_daemon_pid}=  Start Docker Daemon Locally
+    Set Test Variable  ${handle}
+    Set Test Variable  ${docker_daemon_pid}
+
 Kill Local Docker Daemon
     [Arguments]  ${handle}  ${dockerd-pid}
     Terminate Process  ${handle}
@@ -71,28 +76,39 @@ Setup CA Cert for Harbor Registry
 
 Docker Login To Harbor Registry
     [Tags]  secret
-    [Arguments]  ${registry_ip}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker_endpoint}=${DEFAULT_LOCAL_DOCKER_ENDPOINT}
-    ${output}=  Run command and Return output  ${docker} -H ${docker_endpoint} login ${registry_ip} --username %{TEST_USERNAME} --password %{TEST_PASSWORD}
+    [Arguments]  ${registry_ip}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker_endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
+    ${output}=  Run command and Return output  ${docker} ${docker_endpoint} login ${registry_ip} --username %{TEST_USERNAME} --password %{TEST_PASSWORD}
     Should Contain  ${output}  Login Succeeded
     Log To Console  \nDocker login successfully
 
 Pull And Tag Docker Image
-    [Arguments]  ${image-name}  ${tagged-image}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker-endpoint}=${DEFAULT_LOCAL_DOCKER_ENDPOINT}
-    Run command and Return output  ${docker} -H ${docker-endpoint} pull ${image-name}
-    ${output}=  Run command and Return output  ${docker} -H ${docker-endpoint} image ls
+    [Arguments]  ${image-name}  ${tagged-image}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker-endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
+    Run command and Return output  ${docker} ${docker-endpoint} pull ${image-name}
+    ${output}=  Run command and Return output  ${docker} ${docker-endpoint} image ls
     Should Contain  ${output}  ${image-name}
     Log To Console  \n${image-name} pulled successfully
-    Run command and Return output  ${docker} -H ${docker-endpoint} tag ${image-name} ${tagged-image}
+    Run command and Return output  ${docker} ${docker-endpoint} tag ${image-name} ${tagged-image}
     Log To Console  \n${image-name} tagged successfully
     [Return]  ${tagged-image}
 
 Push Docker Image To Harbor Registry
-    [Arguments]  ${registry-ip}  ${image-tag}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker-endpoint}=${DEFAULT_LOCAL_DOCKER_ENDPOINT}
+    [Arguments]  ${registry-ip}  ${image-tag}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker-endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
     Setup CA Cert for Harbor Registry  ${registry-ip}
-    Wait Until Keyword Succeeds  3x  4s  Docker Login To Harbor Registry  ${registry-ip}
-    ${rc}=  Run And Return Rc  ${docker} -H ${docker-endpoint} push ${image-tag}
+    Wait Until Keyword Succeeds  3x  4s  Docker Login To Harbor Registry  ${registry-ip}  ${docker}  ${docker-endpoint}
+    ${rc}=  Run And Return Rc  ${docker} ${docker-endpoint} push ${image-tag}
     Should Be Equal As Integers  ${rc}  0
     Log To Console  \n${image-tag} pushed successfully
+
+Pull And Verify Image In Harbor Registry
+    [Arguments]  ${registry-ip}  ${image-name}  ${image-tag}  ${ova-cert-path}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker-endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
+    ${harbor-image}=  Set Variable  ${registry-ip}/${DEFAULT_HARBOR_PROJECT}/${image-name}
+    ${harbor-image-tagged}=  Set Variable  ${harbor-image}:${image-tag}
+    Set Global Variable  ${OVA_CERT_PATH}  ${ova-cert-path}
+    Setup CA Cert for Harbor Registry  ${registry-ip}
+    Wait Until Keyword Succeeds  10x  5s  Docker Login To Harbor Registry  ${registry-ip}
+    Run command and Return output  ${docker} ${docker-endpoint} pull ${harbor-image-tagged}
+    ${output}=  Run command and Return output  ${docker} ${docker-endpoint} image ls
+    Should Contain  ${output}  ${harbor-image}
 
 Wait Until Container Stops
     [Arguments]  ${container}  ${sleep-time}=1
