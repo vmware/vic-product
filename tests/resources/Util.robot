@@ -56,7 +56,7 @@ Global Environment Setup
     Environment Variable Should Be Set  TEST_PASSWORD
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  PUBLIC_NETWORK
     Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  PUBLIC_NETWORK  'vm-network'
-    ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  PUBLIC_NETWORK
+    ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  BRIDGE_NETWORK
     Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  BRIDGE_NETWORK  'bridge'
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  TEST_DATASTORE
     Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  TEST_DATASTORE  datastore1

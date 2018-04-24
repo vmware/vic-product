@@ -30,6 +30,12 @@ Get VCenter Thumbprint
     Should Be Equal As Integers  ${rc}  0
     [Return]  ${thumbprint}
 
+Get VCenter GOVC Fingerprint
+    [Tags]  secret
+    ${rc}  ${fingerprint}=  Run And Return Rc And Output  govc about.cert -k -thumbprint
+    Should Be Equal As Integers  ${rc}  0
+    [Return]  ${fingerprint}
+
 Set Test VC Variables
     [Tags]  secret
     ${thumbprint}=  Get VCenter Thumbprint

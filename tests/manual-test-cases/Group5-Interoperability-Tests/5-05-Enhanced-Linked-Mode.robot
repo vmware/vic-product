@@ -169,7 +169,7 @@ Test
     Set Environment Variable  OVA_NAME  OVA-5-05-TEST
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
-    Install VIC Product OVA Only  vic-*.ova  %{OVA_NAME}
+    Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}
 
     Set Browser Variables
 

@@ -1,8 +1,8 @@
-Test 5-02 - OVA Upgrade
+Test 7-03 - Upgrade 1.3.1
 =======
 
 # Purpose:
-To verify the VIC OVA appliance works in a variety of different vCenter networking configurations
+To verify the VIC OVA appliance v1.3.1 upgrades to latest with auto upgrade process works as expected
 
 # References:
 
