@@ -1,6 +1,6 @@
 # Configure the Operations User #
 
-A virtual container host (VCH) requires the appropriate permissions in vSphere to perform various tasks during VCH operation. Deployment of a VCH requires a user account with vSphere administrator privileges. However, day-to-day operation of a VCH requires fewer vSphere permissions than deployment.
+A virtual container host (VCH) requires the appropriate permissions in vSphere to perform various tasks during VCH operation. Deployment of a VCH to vCenter Server requires a user account with vSphere administrator privileges. However, day-to-day operation of a VCH requires fewer vSphere permissions than deployment.
 
 During deployment of a VCH, vSphere Integrated Containers Engine runs all deployment operations by using the vSphere administrator account that you specify in the `vic-machine create --user` or `--target` options. If you are using the Create Virtual Container Host wizard, it uses the vSphere administrator account with which you are logged into the vSphere Client. 
 
@@ -40,7 +40,9 @@ If you specify an operations user, `vic-machine` and the VCH behave differently 
 
 ## Create a User Account for the Operations User <a id="createuser"></a>
 
-The user account that you specify as the operations user must exist before you deploy the VCH. vSphere Integrated Containers Engine provides an option to automatically assign all of the required roles and permissions to the operations user account. If you prefer to assign roles and permissions manually, see [Manually Create a User Account for the Operations User](ops_user_manual.md).
+The user account that you specify as the operations user must exist before you deploy the VCH. If you are deploying the VCH to a vCenter Server cluster, vSphere Integrated Containers Engine provides an option to automatically assign all of the required roles and permissions to the operations user account. 
+
+**IMPORTANT**: If you are deploying the VCH to a standalone host that is managed by vCenter Server, rather than to a cluster, you must assign roles and permissions manually. For information about manually configuring the operations user account, see [Manually Create a User Account for the Operations User](ops_user_manual.md).
 
 You can use the same user account as the operations user for multiple VCHs.
 
@@ -92,7 +94,9 @@ If you specify `--ops-user` but you do not specify `--ops-password`, `vic-machin
 
 ### Grant Any Necessary Permissions <a id="perms"></a>
 
-The operations user account must exist before you create a VCH. If you did not manually configure the operations user account with all of the necessary permissions, vSphere Integrated Containers Engine can do this for you.
+The operations user account must exist before you create a VCH. If you are deploying the VCH to a cluster, vSphere Integrated Containers Engine can configure the operations user account with all of the necessary permissions for you.
+
+**IMPORTANT**: If you are deploying the VCH to a standalone host that is managed by vCenter Server, you must configure the operations user account manually. The option to grant any necessary permissions automatically only applies when deploying VCHs to clusters.
 
 #### Create VCH Wizard
 

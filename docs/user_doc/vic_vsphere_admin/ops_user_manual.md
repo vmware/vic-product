@@ -1,6 +1,10 @@
 # Manually Create a User Account for the Operations User #
 
-When you deploy a VCH, the user account that you specify as the operations user must have the correct privileges to allow the VCH to perform post-deployment operations. vSphere Integrated Containers Engine provides a mechanism to automatically assign the necessary permissions to the operations user account, but you can also choose to create the user account manually in vSphere. To do so, you create roles, assign privileges to those roles, and assign the roles to the user account to use as the operations user. 
+When you deploy a virtual container host (VCH), the user account that you specify as the operations user must have the correct privileges to allow the VCH to perform post-deployment operations. vSphere Integrated Containers Engine provides a mechanism to automatically assign the necessary permissions to the operations user account. You can also create the user account manually in vSphere. 
+
+**IMPORTANT**: If you are deploying the VCH to a standalone host that is managed by vCenter Server, you must configure the operations user account manually. The option to grant any necessary permissions automatically only applies when deploying VCHs to clusters.
+
+To assign permissions to the operations user account, you create roles, assign privileges to those roles, and assign the roles to the operations user account. 
 
 - For information about how to create vSphere roles, see [vSphere Permissions and User Management Tasks](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.security.doc/GUID-5372F580-5C23-4E9C-8A4E-EF1B4DD9033E.html) in the vSphere documentation. 
 - For information about how to assign permissions to objects in the vSphere Inventory, see [Add a Permission to an Inventory Object](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.security.doc/GUID-A0F6D9C2-CE72-4FE5-BAFC-309CFC519EC8.html) in the vSphere documentation.
