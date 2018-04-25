@@ -19,6 +19,8 @@ Documentation  This resource contains any keywords dealing with Project Reposito
 # css locators
 ${pr-title}  css=.content-area .title
 ${pr-repositories-table-row}  css=div.datagrid-body .datagrid-row
+${pr-repositories-card-item}  css=div.grid-content .card-item
+${pr-repositories-card-title}  css=.card-media-title
 
 *** Keywords ***
 Verify Project Repositories Page
@@ -33,3 +35,13 @@ Verify Row Value In Project Repositories Table
     \   ${status}=  Run Keyword And Return Status  Should Contain  ${row-text}  ${expected}
     \   Exit For Loop If  ${status} == True
     [Return]  ${row-text}
+
+Verify Row Value In Project Repositories Grid
+    [Arguments]  ${expected}
+    ${visible}=  Run Keyword And Return Status  Element Should Be Visible  ${pr-repositories-card-item}
+    @{card-title-elements}=  Run Keyword If  ${visible} == True  Get Webelements  ${pr-repositories-card-title}
+    :FOR  ${element}  IN  @{card-title-elements}
+    \   ${card-title}=  Get Text  ${element}
+    \   ${status}=  Run Keyword And Return Status  Should Contain  ${title}  ${expected}
+    \   Exit For Loop If  ${status} == True
+    [Return]  ${card-title}

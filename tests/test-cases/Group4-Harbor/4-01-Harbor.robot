@@ -62,7 +62,7 @@ Push an image to harbor and create a container
     Push Docker Image To Harbor Registry  %{OVA_IP}  ${harbor-image-tagged}
     Navigate To VIC UI Home Page
     Navigate To Project Repositories Page
-    Wait Until Keyword Succeeds  3x  2s  Verify Row Value In Project Repositories Table  ${harbor-image-name}
+    Wait Until Keyword Succeeds  3x  2s  Verify Row Value In Project Repositories Grid  ${harbor-image-name}
     # create container from harbor image
     Download VIC Engine If Not Already
     Download CA Cert  %{OVA_IP}
