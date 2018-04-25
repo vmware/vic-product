@@ -65,7 +65,9 @@ VirtualMachine &gt; Inventory &gt; Remove</td>
   VirtualMachine &gt; Configuration &gt; Modify device settings<br>
   VirtualMachine &gt; Configuration &gt; Remove disk<br>
   VirtualMachine &gt; Configuration &gt; Rename<br>
-  VirtualMachine &gt; Guest operations &gt; Guest operation program execution<br>
+  VirtualMachine`Guest operations &gt; Guest operation program execution<br>
+  VirtualMachine &gt; GuestOperations &gt; Modify<br>
+  VirtualMachine &gt; GuestOperations &gt; Query<br>
   VirtualMachine &gt; Interaction &gt; Device connection<br>
   VirtualMachine &gt; Interaction &gt; Power off<br>
   VirtualMachine &gt; Interaction &gt; Power on<br>
