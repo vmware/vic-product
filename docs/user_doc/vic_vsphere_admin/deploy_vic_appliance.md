@@ -35,8 +35,15 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
     - Optionally uncheck the **Permit Root Login** checkbox.
   
         **IMPORTANT**: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Only use SSH to access the appliance when instructed to do so in the documentation, or under the guidance of VMware GSS.
-    - To use a custom certificate to authenticate connections to the vSphere Integrated Containers appliance, optionally paste the  PEM encoded content of the appropriate certificate, key, and Certificate Authority (CA) files in the **Appliance TLS Certificate**, **Appliance TLS Certificate Key**, and **Certificate Authority Certificate** text boxes. The appliance supports PEM encoded PKCS#1 and PEM encoded PKCS#8 formats for TLS private keys. To use auto-generated certificates, leave the text boxes blank. The certificate is used by all of the services that run in the appliance.
-    - In the **Appliance Configuration Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Getting Started page.
+
+4. Configure the appliance certificate, that is used by all of the services that run in the appliance to authenticate connections.<a id="step4"></a>
+    - To use a custom certificate:
+     - Paste the contents of the appropriate certificate in the **Appliance TLS Certificate** text box.
+     - Paste the contents of the certificate key in the **Appliance TLS Certificate Key** text box. The appliance supports PEM encoded PKCS#1 and PEM encoded PKCS#8 formats for TLS private keys. 
+     - Paste the contents of the Certificate Authority (CA) file in the **Certificate Authority Certificate** text box. 
+    - To use a certificate that uses an intermediate CA, see [Use a Certificate with an Intermediate CA for the vSphere Integrated Containers Appliance](vic_cert_reference.md#intermediateca).
+    - To use auto-generated certificates, leave the **Appliance TLS Certificate**, **Appliance TLS Certificate Key**, and **Certificate Authority Certificate** text boxes blank.
+5. In the **Appliance Configuration Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Getting Started page.
 
 5. Expand **Networking Properties** and optionally configure a static IP address and fully qualified domain name (FQDN) for the appliance VM. 
 
