@@ -40,6 +40,7 @@ OVA Setup
     Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls
     Set Environment Variable  TEST_TIMEOUT  30m
     Set Environment Variable  TEST_DATASTORE  datastore1
+    Set Environment Variable  DRONE_BUILD_NUMBER  0
 
 *** Test Cases ***
 User Provided Certificate
