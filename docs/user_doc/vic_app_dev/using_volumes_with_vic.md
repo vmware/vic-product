@@ -10,10 +10,9 @@ vSphere Integrated Containers supports the use of container volumes. You can cre
 - [Creating Volumes from Images](#image_volumes)
 - [Create a Container with a New Anonymous or Named Volume](#create_container)
   - [Create a Container with a New Anonymous Volume](#create_container_anon)
-  - [
+  - [Create a Container with a Named Volume](#create_container_named)
 - [Mount Existing vSphere-Backed Volumes on Containers](#mount)
 - [Sharing NFS-Backed Volumes Between Containers](#mount_nfs)
-  - [About Shared NFS-Backed Volumes and Permissions](#nfs_perms) 
 - [Obtain Information About a Volume](#inspect_vol) 
 - [Delete a Named Volume from a Volume Store](#delete_vol)
 - [Delete a Container and the Anonymous Volumes Attached to It](#delete_anon_vol)
