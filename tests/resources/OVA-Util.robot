@@ -144,6 +144,12 @@ Cleanup VIC Product OVA
 
 Initialize OVA And Wait For Register Page
     [Arguments]  ${ova-ip}
+    # check for optional env variables
+    ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  EXTERNAL_PSC
+    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  EXTERNAL_PSC  ''
+    ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  PSC_DOMAIN
+    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  PSC_DOMAIN  ''
+
     Log To Console  \nInitializing and Waiting for Getting Started Page to Come Up...
     :FOR  ${i}  IN RANGE  30
     \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}","externalpsc":"%{EXTERNAL_PSC}","pscdomain":"%{PSC_DOMAIN}"}' https://${ova-ip}:9443/register
