@@ -13,7 +13,7 @@
 # limitations under the License
 
 *** Settings ***
-Documentation  Test 7-01 - Manual Upgrade
+Documentation  Test 8-01 - Manual Upgrade
 Resource  ../../resources/Util.robot
 Suite Setup     Wait Until Keyword Succeeds  10x  10m  OVA Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
@@ -29,7 +29,7 @@ ${datacenter}=  ha-datacenter
 Upgrade from v1.2.1
     ${old-ova-file-name}=  vic-v1.2.1-4104e5f9.ova
     ${old-ova-save-file}=  upgrade-${old-ova}
-    ${old-ova-vm-name}=    ${old-ova-file-name}-7-01-Manual-Upgrade
+    ${old-ova-vm-name}=    ${old-ova-file-name}-8-01-Manual-Upgrade
     ${new-ova-vm-name}=    ${test-name}-LATEST
 
     OVA Upgrade Test Setup  ${old-ova-file-name}  ${old-ova-save-file}  ${datacenter}
@@ -48,7 +48,7 @@ Upgrade from v1.2.1
 Upgrade from v1.3.0
     ${old-ova-file-name}=  vic-v1.3.0-3033-f8cc7317.ova
     ${old-ova-save-file}=  upgrade-${old-ova}
-    ${old-ova-vm-name}=    ${old-ova-file-name}-7-01-Manual-Upgrade
+    ${old-ova-vm-name}=    ${old-ova-file-name}-8-01-Manual-Upgrade
     ${new-ova-vm-name}=    ${test-name}-LATEST
 
     OVA Upgrade Test Setup  ${old-ova-file-name}  ${old-ova-save-file}  ${datacenter}
@@ -67,7 +67,7 @@ Upgrade from v1.3.0
 Upgrade from v1.3.1
     ${old-ova-file-name}=  vic-v1.3.1-3409-132fb13d.ova
     ${old-ova-save-file}=  upgrade-${old-ova}
-    ${old-ova-vm-name}=    ${old-ova-file-name}-7-01-Manual-Upgrade
+    ${old-ova-vm-name}=    ${old-ova-file-name}-8-01-Manual-Upgrade
     ${new-ova-vm-name}=    ${test-name}-LATEST
 
     OVA Upgrade Test Setup  ${old-ova-file-name}  ${old-ova-save-file}  ${datacenter}

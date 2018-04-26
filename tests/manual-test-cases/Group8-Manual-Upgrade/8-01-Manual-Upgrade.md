@@ -1,4 +1,4 @@
-Test 7-01 - Manual Upgrade
+Test 8-01 - Manual Upgrade
 =======
 
 # Purpose:
