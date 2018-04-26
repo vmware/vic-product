@@ -124,15 +124,15 @@ Host &gt; Configuration &gt; System management</td>
 
 3. In each of the **Hosts and Clusters**, **Storage**, and **Networking** views, select inventory objects and assign the user group and the appropriate role to each one.
 
- 1. Right-click an inventory object and select **Add Permission**.
- 2. Under Users and Groups, select the operations user group that you created.
- 3. Under Assigned Role, assign the appropriate role for each type of inventory object and select the **Propagate to children** check box where necessary.
+    1. Right-click an inventory object and select **Add Permission**.
+    2. Under Users and Groups, select the operations user group that you created.
+    3. Under Assigned Role, assign the appropriate role for each type of inventory object and select the **Propagate to children** check box where necessary.
 
- The following table lists which roles to assign to which type of inventory object, when creating the operations user account. 
+   The following table lists which roles to assign to which type of inventory object, when creating the operations user account.
 
- **NOTE**: <a id="drsnote2"></a>You apply different roles to the inventory objects depending on whether DRS is enabled on a cluster. In DRS environments you apply the <code>VCH - datastore</code> and <code>VCH - endpoint</code> roles to datastores and resource pools respectively. In environments without DRS, you apply the combined <code>VCH - endpoint - datastore</code> role to clusters.
+   **NOTE**: <a id="drsnote2"></a>You apply different roles to the inventory objects depending on whether DRS is enabled on a cluster. In DRS environments you apply the <code>VCH - datastore</code> and <code>VCH - endpoint</code> roles to datastores and resource pools respectively. In environments without DRS, you apply the combined <code>VCH - endpoint - datastore</code> role to clusters.
 
- <table>
+   <table>
 <thead>
 <tr>
 <th>Inventory Object</th>
