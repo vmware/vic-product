@@ -11,7 +11,7 @@ To assign permissions to the operations user account, you create roles, assign p
 
 When creating roles manually, the privileges are not as granular as when you use the option to grant permissions automatically. VMware recommends that you use the option to grant permissions automatically whenever possible.
 
-**Prerequisite**
+**Prerequisites**
 
 - Create one or more user accounts to use as the operations user for VCHs.
 - Log into the Flex-based vSphere Web Client with a vSphere administrator account. You cannot use the HTML5 vSphere Client to create user accounts.
@@ -24,7 +24,9 @@ When creating roles manually, the privileges are not as granular as when you use
 
 2. Go to **Administration** > **Roles** and create one role for each type of inventory object that VCHs need to access.
 
-    It is possible to create a single role, but by creating multiple roles you keep the privileges of the VCH as granular as possible.  
+    It is possible to create a single role, but by creating multiple roles you keep the privileges of the VCH as granular as possible.
+
+    **NOTE**: <a id="drsnote"></a>In environments that do not implement DRS, you combine the permissions of the <code>VCH - datastore</code> and <code>VCH - endpoint</code> roles into a single <code>VCH - endpoint - datastore</code> role.  
 
     <table>
 <thead>
@@ -52,15 +54,20 @@ VirtualMachine &gt; Inventory &gt; Create new<br>
 VirtualMachine &gt; Inventory &gt; Remove</td>
 </tr>
 <tr>
-<td><code>VCH - datastore</code></td>
-<td>Datastore &gt; AllocateSpace<br>Datastore &gt; Browse datastore <br>Datastore &gt; Configure datastore<br>Datastore &gt; Remove file<br>Datastore &gt; Low level file operations<br>Host &gt; Configuration &gt; System management</td>
+<td><code>VCH - datastore</code><br /><br/>This role only applies to DRS environments. See <a href="#drsnote">note</a>.</td>
+<td>Datastore &gt; AllocateSpace<br>
+Datastore &gt; Browse datastore <br>
+Datastore &gt; Configure datastore<br>
+Datastore &gt; Remove file<br>
+Datastore &gt; Low level file operations<br>
+Host &gt; Configuration &gt; System management</td>
 </tr>
 <tr>
 <td><code>VCH - network</code></td>
 <td>Network &gt; Assign network</td>
 </tr>
 <tr>
-<td><code>VCH - endpoint</code></td>
+<td><code>VCH - endpoint</code><br /><br/>This role only applies to DRS environments. See <a href="#drsnote">note</a>.</td>
 <td>dvPort group &gt; Modify<br>
   dvPort group &gt; Policy operation<br>
   dvPort group &gt; Scope operation<br>
@@ -81,9 +88,39 @@ VirtualMachine &gt; Inventory &gt; Remove</td>
   VirtualMachine &gt; Inventory &gt; Create new<br>
   VirtualMachine &gt; Inventory &gt; Remove<br>
   VirtualMachine &gt; Inventory &gt; Register<br>
-  VirtualMachine &gt; Inventory &gt; Unregister
-  </td>
-</tr></tbody></table>
+  VirtualMachine &gt; Inventory &gt; Unregister  </td>
+</tr>
+<tr>
+  <td><code>VCH - endpoint - datastore</code><br /><br/>This role only applies to non-DRS environments. See <a href="#drsnote">note</a>.</td>
+  <td>Datastore &gt; AllocateSpace<br>
+  Datastore &gt; Browse datastore <br>
+  Datastore &gt; Configure datastore<br>
+  Datastore &gt; Remove file<br>
+  Datastore &gt; Low level file operations<br>
+  Host &gt; Configuration &gt; System management<br>
+  dvPort group &gt; Modify<br>
+  dvPort group &gt; Policy operation<br>
+  dvPort group &gt; Scope operation<br>
+  Resource &gt; Assign virtual machine to resource pool<br>
+  VirtualMachine &gt; Configuration &gt; Add existing disk<br>
+  VirtualMachine &gt; Configuration &gt; Add new disk<br>
+  VirtualMachine &gt; Configuration &gt; Add or remove device<br>
+  VirtualMachine &gt; Configuration &gt; Advanced<br>
+  VirtualMachine &gt; Configuration &gt; Modify device settings<br>
+  VirtualMachine &gt; Configuration &gt; Remove disk<br>
+  VirtualMachine &gt; Configuration &gt; Rename<br>
+  VirtualMachine &gt; Guest operations &gt; Guest operation program execution<br>
+  VirtualMachine &gt; Guest operations &gt; Modify<br>
+  VirtualMachine &gt; Guest operations &gt; Query<br>
+  VirtualMachine &gt; Interaction &gt; Device connection<br>
+  VirtualMachine &gt; Interaction &gt; Power off<br>
+  VirtualMachine &gt; Interaction &gt; Power on<br>
+  VirtualMachine &gt; Inventory &gt; Create new<br>
+  VirtualMachine &gt; Inventory &gt; Remove<br>
+  VirtualMachine &gt; Inventory &gt; Register<br>
+  VirtualMachine &gt; Inventory &gt; Unregister</td>
+</tr>
+</tbody></table>
 
 3. In each of the **Hosts and Clusters**, **Storage**, and **Networking** views, select inventory objects and assign the user group and the appropriate role to each one.
 
@@ -93,7 +130,7 @@ VirtualMachine &gt; Inventory &gt; Remove</td>
 
  The following table lists which roles to assign to which type of inventory object, when creating the operations user account. 
 
- **NOTE**: The inventory objects to which you apply the roles are slightly different depending on whether DRS is enabled on a cluster.
+ **NOTE**: <a id="drsnote2"></a>You apply different roles to the inventory objects depending on whether DRS is enabled on a cluster. In DRS environments you apply the <code>VCH - datastore</code> and <code>VCH - endpoint</code> roles to datastores and resource pools respectively. In environments without DRS, you apply the combined <code>VCH - endpoint - datastore</code> role to clusters.
 
  <table>
 <thead>
@@ -117,11 +154,11 @@ VirtualMachine &gt; Inventory &gt; Remove</td>
 <tr>
 <td>Clusters with DRS enabled</td>
 <td><code>VCH - datastore</code></td>
-<td>Yes. All datastores in the cluster inherit permissions from the cluster.</td>
+<td>Yes. All datastores in the cluster inherit permissions from the cluster. This role only applies in DRS environments. See <a href="#drsnote2">note</a>.</td>
 </tr>
 <td>Clusters with DRS disabled</td>
-<td><code>VCH - datastore</code><br /><code>VCH - endpoint</code></td>
-<td>Yes for both. All datastores in the cluster inherit permissions from the cluster. <br />In environments without DRS, you apply the <code>VCH - endpoint</code> role to the cluster.</td>
+<td><code>VCH - endpoint - datastore</code></td>
+<td>Yes. All datastores in the cluster inherit permissions from the cluster. This role only applies in non-DRS environments. See <a href="#drsnote2">note</a>.</td>
 </tr>
 <tr>
 <td>Standalone VMware vSAN datastores</td>
@@ -146,7 +183,7 @@ VirtualMachine &gt; Inventory &gt; Remove</td>
 <tr>
 <td>Resource pools for VCHs</td>
 <td><code>VCH - endpoint</code></td>
-<td>Yes. In environments with DRS enabled, you apply the <code>VCH - endpoint</code> role to the resource pools.</td>
+<td>Yes. This role only applies in DRS environments. See <a href="#drsnote2">note</a>.</td>
 </tr>
 </tbody></table>
 
