@@ -13,7 +13,8 @@ When creating roles manually, the privileges are not as granular as when you use
 
 **Prerequisite**
 
-Log into the Flex-based vSphere Web Client with a vSphere administrator account. You cannot use the HTML5 vSphere Client to create user accounts.
+- Create one or more user accounts to use as the operations user for VCHs.
+- Log into the Flex-based vSphere Web Client with a vSphere administrator account. You cannot use the HTML5 vSphere Client to create user accounts.
 
 **Procedure**
 
@@ -71,9 +72,9 @@ VirtualMachine &gt; Inventory &gt; Remove</td>
   VirtualMachine &gt; Configuration &gt; Modify device settings<br>
   VirtualMachine &gt; Configuration &gt; Remove disk<br>
   VirtualMachine &gt; Configuration &gt; Rename<br>
-  VirtualMachine`Guest operations &gt; Guest operation program execution<br>
-  VirtualMachine &gt; GuestOperations &gt; Modify<br>
-  VirtualMachine &gt; GuestOperations &gt; Query<br>
+  VirtualMachine &gt; Guest operations &gt; Guest operation program execution<br>
+  VirtualMachine &gt; Guest operations &gt; Modify<br>
+  VirtualMachine &gt; Guest operations &gt; Query<br>
   VirtualMachine &gt; Interaction &gt; Device connection<br>
   VirtualMachine &gt; Interaction &gt; Power off<br>
   VirtualMachine &gt; Interaction &gt; Power on<br>
