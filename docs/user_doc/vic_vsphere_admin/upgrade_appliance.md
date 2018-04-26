@@ -32,16 +32,18 @@ For information about the supported upgrade paths for all versions of vSphere In
 
     When prompted for the password, enter the appliance password that you specified when you deployed the new version of the appliance. 
 
-8. Navigate to the upgrade script and run it. 
+2. Navigate to the upgrade script and run it. 
 
     <pre>$ cd /etc/vmware/upgrade</pre>
     <pre>$ ./upgrade.sh</i></pre>
+
+	You can bypass the following steps by specifying additional optional arguments when you run the upgrade script. For information about the arguments that you can specify, see [Specify Command Line Options During Appliance Upgrade](#upgradeoptions) below.	
 
     If you attempt to run the script while the appliance is still initializing and you see the following message, wait for a few more minutes, then attempt to run the script again.
 
     <pre>Appliance services not ready. Please wait until vic-appliance-load-docker-images.service has completed.</pre>
 
-1. Provide information about the new version of the appliance.
+3. Provide information about the new version of the appliance.
 
     1. Enter the address of the vCenter Server instance on which you deployed the new appliance.
     2. Enter the Single Sign-On user name and password of a vSphere administrator account.
@@ -85,3 +87,113 @@ After you see confirmation that the upgrade has completed successfully, the upgr
 **Troubleshooting**
 
 If upgrade fails, generate a log bundle and obtain the upgrade log to provide to VMware support. For information about obtaining the logs, see [Access and Configure Appliance Logs](appliance_logs.md).
+
+## Specify Command Line Options During Appliance Upgrade <a id="upgradeoptions"></a>
+
+When you run the script to upgrade the vSphere Integrated Containers appliance, you are prompted to enter information about the environment in which you are running the old and new versions of the appliance. 
+
+To bypass these prompts, you can specify command line arguments when you run the `/etc/vmware/upgrade/upgrade.sh` script. All arguments are optional. If you omit a required argument, the script prompts you to enter the information. These arguments also allow you to automate the upgrade of the appliance.
+
+<table width="100%" border="1">
+        <tr>
+          <th width="25%" scope="col">Option</th>
+          <th width="75%" scope="col">Description</th>
+        </tr>
+        <tr>
+          <td><code>--target</code></td>
+          <td>Specify the address of the vCenter Server instance on which you deployed the new appliance.</td>
+        </tr>
+        <tr>
+          <td><code>--username</code></td>
+          <td> Specify the Single Sign-On user name of a vSphere administrator account.</td>
+        </tr>
+        <tr>
+          <td><code>--password</code></td>
+          <td>Specify the Single Sign-On password of a vSphere administrator account.</td>
+        </tr>
+        <tr>
+          <td><code>--fingerprint</code></td>
+          <td>Specify the thumbprint of the vCenter Server certificate. Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.</td>
+        </tr>
+        <tr>
+          <td><code>--dc</code></td>
+          <td> Specify the name of the datacenter that contains the old version of the appliance.</td>
+        </tr>
+        <tr>
+          <td><code>--embedded-psc</code></td>
+          <td>Skip the prompts for information about an external Platform Services Controller. Use this option if you run vCenter Server with an embedded Platform Services Controller. </td>
+        </tr>
+        <tr>
+          <td><code>--external-psc</code></td>
+          <td> If vCenter Server is managed by an external Platform Services Controller,  specify the FQDN of the Platform Services Controller.</td>
+        </tr>
+        <tr>
+          <td><code>--external-psc-domain</code></td>
+          <td>If vCenter Server is managed by an external Platform Services Controller,  specify the administrator domain for the Platform Services Controller.</td>
+        </tr>
+
+        <tr>
+          <td><code>--appliance-target</code></td>
+          <td> Specify the address of the old version of the appliance.</td>
+        </tr>
+        <tr>
+          <td><code>--appliance-username</code></td>
+          <td> Specify the user name for the old appliance, usually  <code>root</code>.</td>
+        </tr>
+        <tr>
+          <td><code>--appliance-password</code></td>
+          <td>Specify the password for the <code>root</code> user on the old appliance.</td>
+        </tr>
+        <tr>
+          <td><code>--ssh-insecure-skip-verify</code></td>
+          <td>Skip the host key check for SSH access to the old appliance. Use this option if you disabled SSH access to the old appliance. </td>
+        </tr>
+        <tr>
+          <td><code>--appliance-version</code></td>
+          <td>Specify the version number of the old version of the appliance, to skip the upgrade path check. Upgrade fails if the version specified is incorrect. </td>
+        </tr>
+        <tr>
+          <td><code>--destroy</code></td>
+          <td>Remove the old appliance after the upgrade is finished. Use this option if you do not want to keep the old appliance as a backup.</td>
+        </tr>
+		<tr>
+          <td><code>--manual-disks</code></td>
+          <td>Skip the automated  disk migration. Use this option if you  manually moved the disks from the old appliance to the new appliance. * </td>
+        </tr>
+      </table>
+
+&#42; To use the `--manual-disks` option, follow the instructions in [Upgrade the vSphere Integrated Containers Appliance by Manually Moving Disks](upgrade_appliance_manual.md).
+
+### Example: Upgrade Appliance with Embedded Platform Services Controller
+
+The following command upgrades a vSphere Integrated Containers 1.3.1 appliance. The new appliance runs in a vCenter Server instance with an embedded Platform Services Controller. The old appliance is removed when the upgrade finishes.
+
+<pre>./upgrade.sh --target <i>new_appliance_address</i>
+--username 'Administrator@vsphere.local'
+--password 'P@ssW0rd!'
+--fingerprint <i>vcenter_server_thumbrint</i>
+--dc oldApplianceDatacenter
+--embedded-psc
+--appliance-target <i>old_appliance_address</i>
+--appliance-username root
+--appliance-password <i>old_appliance_root_password</i>
+--appliance-version 1.3.1
+--destroy
+</pre>
+
+### Example: Upgrade Appliance with External Platform Services Controller
+
+The following command upgrades a vSphere Integrated Containers 1.2.1 appliance. The new appliance runs in a vCenter Server instance with an external Platform Services Controller. The old appliance is not removed when the upgrade finishes.
+
+<pre>./upgrade.sh --target <i>new_appliance_address</i>
+--username 'Administrator@vsphere.local'
+--password 'P@ssW0rd!'
+--fingerprint <i>vcenter_server_thumbrint</i>
+--dc oldApplianceDatacenter
+--external-psc <i>psc_address</i>
+--external-psc-domain vsphere.local
+--appliance-target <i>old_appliance_address</i>
+--appliance-username root
+--appliance-password <i>old_appliance_root_password</i>
+--appliance-version 1.2.1
+</pre>
