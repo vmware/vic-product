@@ -94,7 +94,7 @@ Pull And Tag Docker Image
 Push Docker Image To Harbor Registry
     [Arguments]  ${registry-ip}  ${image-tag}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker-endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
     Setup CA Cert for Harbor Registry  ${registry-ip}
-    Wait Until Keyword Succeeds  3x  4s  Docker Login To Harbor Registry  ${registry-ip}  ${docker}  ${docker-endpoint}
+    Wait Until Keyword Succeeds  12x  5s  Docker Login To Harbor Registry  ${registry-ip}  ${docker}  ${docker-endpoint}
     ${rc}=  Run And Return Rc  ${docker} ${docker-endpoint} push ${image-tag}
     Should Be Equal As Integers  ${rc}  0
     Log To Console  \n${image-tag} pushed successfully
