@@ -87,4 +87,14 @@ Download VIC And Install UI Plugin
     Execute Command And Return Output  service-control --stop vsphere-client
     Execute Command And Return Output  service-control --start vsphere-client
     Close Connection
-    
+
+Get PSC Instance
+    [Arguments]  ${vc-ip}  ${vc-root-user}  ${vc-root-pwd}
+    Open Connection  ${vc-ip}
+    Wait Until Keyword Succeeds  10x  5s  Login  ${vc-root-user}  ${vc-root-pwd}
+
+    ${psc}=  Execute Command And Return Output  /usr/lib/vmware-vmafd/bin/vmafd-cli get-ls-location --server-name localhost | awk -F/ '{print $3}'
+
+    Close Connection
+
+    [Return]  ${psc}
