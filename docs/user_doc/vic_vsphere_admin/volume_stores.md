@@ -51,6 +51,16 @@ To use shared NFS volume stores, it is recommended that the NFS share points tha
 
 You cannot specify the root folder of an NFS server as a volume store.
 
+### About NFS Volume Stores and Permissions <a id="nfs_perms"></a>
+
+vSphere Integrated Containers mounts NFS volumes as `root`. Consequently, if containers are to run as non-root users, the volume  store must be configured with the correct permissions so that the non-root users can access it.
+
+Permissions are determined by the NFS server. If a container runs as non-root and it attempts to write into the NFS mount, the permissions on the server side must grant the accessing user the ability to perform the requested actions. To allow this, the `other` (also known as `world`) permissions must be set. Alternatively, the user that is accessing the NFS mount should be part of the same `Group` that owns the share. To facilitate this, you can configure the share point with an anonymous user. You can also use `root_squash`, which is designed to map the root user to the anonymous user. Using `all squash` maps all UIDs/GIDs to the anonymous UID/GID.
+
+In this case, you can configure the volume store with a UID/GID for creation and reading. The configuration of the sharepoint is dependent on your setup, but it will most likely need to map the `root` user to the `anon` user because there will be many containers potentially attempting to read or write to the same location. You make this configuration on the NFS server.
+
+The `root` user must also be a member of the GID that you configure the VCH to use.
+
 #### Testing and Debugging NFS Volume Store Configuration
 
 When you deploy a VCH, if you configured an NFS volume store and the NFS share point is not accessible by the VCH, the following errors appear in the output of `vic-machine create`:
@@ -129,12 +139,13 @@ To specify an NFS share point as a volume store, use the `nfs://` prefix and the
 <a id="nfsoptions"></a>
 You can also specify the URL, UID, and GID of a shared NFS mount point when you specify an NFS share point. Connections are made over TCP. If you do not specify a UID and GID, vSphere Integrated Containers Engine uses the `anon` UID and GID when creating and interacting with the volume store. The `anon` UID and GID is 1000:1000.
 
-<pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&gid=5678&:<i>nfs_volume_store_label</i></pre> 
+<pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&gid=5678:<i>nfs_volume_store_label</i></pre> 
 
 **NOTES**: 
 
-- If your NFS server uses a different `anon` UID/GID to the default, you must specify the UID/GID in the `--volume-store` option. Configuring a VCH to use a different default `anon` UID/GID for NFS volume stores is not supported.
+- If your NFS server uses a different `anon` UID/GID to the default, you must specify the UID/GID in the `--volume-store` option. Configuring a VCH to use a different default `anon` UID/GID for NFS volume stores is not supported. For containers, the user that is running the process in the container needs to have the correct permissions on the mount to read and write.
 - vSphere Integrated Containers mounts NFS volumes as `root`. Consequently, if you specify a UID/GID, it must be valid for `root`. Additionally, if containers are to run as non-root users, the export of the volume must grant the correct permissions to the non-root users so that they can access the volume store.
+- For more information about the preceding points, see [About NFS Volume Stores and Permissions](#nfs_perms) above.
 
 Use the label `default` to allow container developers to create anonymous volumes:
 
