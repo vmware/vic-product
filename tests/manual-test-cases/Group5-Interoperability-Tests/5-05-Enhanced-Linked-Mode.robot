@@ -169,6 +169,12 @@ Test
     Set Environment Variable  OVA_NAME  OVA-5-05-TEST
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
+
+    # set external psc variables
+    ${psc}=  Get PSC Instance  %{TEST_URL}  root  vmware
+    Set Environment Variable  EXTERNAL_PSC  ${psc}
+    Set Environment Variable  PSC_DOMAIN  vsphere.local
+
     Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}
 
     Set Browser Variables
