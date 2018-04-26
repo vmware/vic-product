@@ -51,13 +51,19 @@ Set Test OVA IP If Available
     [Return]  ${rc}
 
 # This is a secret keyword and does not log information for debugging
-# Prefer "Install VIC Product OVA" keyword for deploying
-Install VIC Product OVA Only
-    # Deploy OVA but do not initialize
+# Prefer "Install VIC Product OVA and Wait For Home Page" or
+# "Install and Initialize VIC Product OVA" keywords
+Install VIC Product OVA Secret
     [Tags]  secret
     [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
     Log To Console  \nInstalling VIC appliance...
     ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:appliance.tls_cert="${tls_cert}" --prop:appliance.tls_cert_key="${tls_cert_key}" --prop:appliance.ca_cert="${ca_cert}" --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
+    [Return]  ${output}
+
+Install VIC Product OVA Only
+    # Deploy OVA but do not initialize
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
+    ${output}=  Install VIC Product OVA Secret  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
     Log  ${output}
     Should Contain  ${output}  Completed successfully
     Should Contain  ${output}  Received IP address:
