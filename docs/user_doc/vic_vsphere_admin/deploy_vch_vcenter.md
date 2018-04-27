@@ -10,7 +10,7 @@ The vCenter Server instance to which you deploy the VCH must match the specifica
 * Download the vSphere Integrated Containers Engine bundle from the appliance and unpack it on your usual working machine. For information about how to download the bundle, see [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md). 
 * Create or obtain a vCenter Server instance with the following configuration:
   * One datacenter
-  * One cluster with two ESXi hosts and DRS enabled. You can use nested ESXi hosts for this example.
+  * One cluster with two ESXi hosts. You can use nested ESXi hosts for this example. VMware recommends that you enable VMware vSphere Distributed Resource Scheduler (DRS) on clusters whenever possible.
   * A shared datastore, that is accessible by both of the ESXi hosts.
   * The VM Network is present
   * One VMware vSphere Distributed Switches with two port groups named `vic-bridge` and `vic-public`.

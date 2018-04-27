@@ -11,7 +11,7 @@ You can use either SSH and OpenSSL or the Platform Services Controller to obtain
 
 ## vCenter Server Appliance or ESXi Host <a id="cert_vc_esx"></a>
 
-You can use SSH and OpenSSL to obtain the certificate thumbprint for a vCenter Server Appiance instance or an ESXi host. 
+You can use SSH and OpenSSL to obtain the certificate thumbprint for a vCenter Server Appliance instance or an ESXi host. 
 
 1. Use SSH to connect to the vCenter Server Appliance or ESXi host as `root` user.<pre>$ ssh root@<i>vcsa_or_esxi_host_address</i></pre>
 2. Use `openssl` to view the certificate fingerprint.

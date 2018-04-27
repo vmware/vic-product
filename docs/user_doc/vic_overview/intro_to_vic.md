@@ -15,7 +15,10 @@ vSphere Integrated Containers is delivered as an appliance, that comprises the f
 - **vSphere Integrated Containers Registry**, an enterprise-class container registry server that stores and distributes container images. vSphere Integrated Containers Registry extends the [Docker Distribution](https://github.com/docker/distribution) open source project by adding the functionalities that an enterprise requires, such as security, identity and management.
 - **vSphere Integrated Containers Management Portal**, a container management portal that provides a UI for DevOps teams to provision and manage containers, including the ability to obtain statistics and information about container instances. Cloud administrators can manage container hosts and apply governance to their usage, including capacity quotas and approval workflows. Cloud administrators can create projects, and assign users and resources such as registries and virtual container hosts to those projects.
 
-These components currently support the Docker image format. vSphere Integrated Containers is entirely Open Source and free to use. Support for vSphere Integrated Containers is included in the vSphere Enterprise Plus license.
+These components currently support the Docker image format. vSphere Integrated Containers is entirely Open Source and free to use. vSphere Integrated Containers depends on certain features that are included in the following vSphere Editions:
+
+- vSphere Enterprise Plus
+- vSphere Remote Office Branch Office (ROBO) Advanced
 
 ## Advantages of vSphere Integrated Containers <a id="advantages"></a>
 
