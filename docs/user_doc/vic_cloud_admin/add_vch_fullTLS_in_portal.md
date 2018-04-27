@@ -17,7 +17,7 @@ Obtain the client private key, `key.pem`, and client public key, `cert.pem`, for
 	4. In the **Private certificate** text box, enter the content of the `key.pem` file.
 	5. Click **Save**.
 1. Go to the **Home** view, click the **Project**  drop-down menu, and select the project to which to add the VCH.
-2. Navigate to **Infrastructure** > **Container Hosts** and click **+New**.
+2. Navigate to **Infrastructure** > **Container Hosts** and click **+Host**.
 3. On the New Container Host page, configure the host settings.
 	1. Enter name for the host.
 	2. Select **VCH** as Host type.

@@ -20,7 +20,7 @@ You replicate image repositories between vSphere Integrated Containers Registry 
 
    Use an account with Cloud Administrator privileges.
 2. Select the **Administration** tab, click **Projects** on the left,  and click the name of the project to replicate.
-3. Click **Registry Replication** and click the **+ Replication Rule** button.
+3. Click **Registry Replication** and click the **+ New Replication Rule** button.
 4. Enter a suitable name for the new replication rule and optionally add a description.
 5. Optionally, select the **Enable** checkbox.
 5. Select or create an endpoint registry.
