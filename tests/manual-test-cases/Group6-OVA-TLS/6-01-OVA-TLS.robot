@@ -32,15 +32,16 @@ OVA Setup
     Log To Console  Finished Creating Cluster ${vc}
     Set Suite Variable  @{list}  ${esx1}  ${esx2}  ${esx3}  %{NIMBUS_USER}-${vc}
 
-    Set Environment Variable  TEST_URL  ${vc-ip}
-    Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
-    Set Environment Variable  TEST_PASSWORD  Admin\!23
-    Set Environment Variable  BRIDGE_NETWORK  bridge
-    Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls
-    Set Environment Variable  TEST_TIMEOUT  30m
-    Set Environment Variable  TEST_DATASTORE  datastore1
+    Set Environment Variable  TEST_URL            ${vc-ip}
+    Set Environment Variable  TEST_USERNAME       Administrator@vsphere.local
+    Set Environment Variable  TEST_PASSWORD       Admin\!23
+    Set Environment Variable  BRIDGE_NETWORK      bridge
+    Set Environment Variable  PUBLIC_NETWORK      vm-network
+    Set Environment Variable  TEST_RESOURCE       /ha-datacenter/host/cls
+    Set Environment Variable  TEST_TIMEOUT        30m
+    Set Environment Variable  TEST_DATASTORE      datastore1
     Set Environment Variable  DRONE_BUILD_NUMBER  0
+    Set Environment Variable  DOMAIN              eng.vmware.com
 
 *** Test Cases ***
 User Provided Certificate
