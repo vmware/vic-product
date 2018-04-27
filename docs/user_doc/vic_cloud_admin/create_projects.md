@@ -8,7 +8,7 @@ In vSphere Integrated Containers, you create different projects to which you ass
 1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
 
    Use an account with Cloud administrator privileges.
-2. Navigate to **Administration** > **Projects** and click **+ Project**.
+2. Navigate to **Administration** > **Projects** and click **+Project**.
 3. Provide a name for the project.
 4. (Optional) Check the **Public** check box to make the project public.
 

@@ -7,7 +7,7 @@ If the vSphere administrator deployed a virtual container host (VCH) with server
 **Procedure**
 
 1. In the **Home** view of the management portal, click the **Project**  drop-down menu and select the project to which to add the VCH.
-2. Navigate to **Infrastructure** > **Container Hosts** and click **+New**.
+2. Navigate to **Infrastructure** > **Container Hosts** and click **+Host**.
 2. On the New Container Host page, configure the host settings.
 	1. Enter name for the host.
 	2. Select **VCH** as type.

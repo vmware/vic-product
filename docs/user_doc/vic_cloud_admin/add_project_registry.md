@@ -8,7 +8,7 @@ Starting with vSphere Integrated Containers 1.4, you can also configure namespac
 
 1. In the management portal, navigate to **Administration** > **Projects** and click your project.
 
-2. On the Project Registries tab, click **+New Project Registry**.
+2. On the Project Registries tab, click **+ New Project Registry**.
 3. On the Add Project Registry page, configure your new registry.
 	1. As address, enter the IP or hostname of the registry, the port, and optionally a namespace.
 
