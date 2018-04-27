@@ -32,7 +32,7 @@ DRS Setup
 *** Test Cases ***
 Test
     Log To Console  \nStarting test...
-    Set Environment Variable  OVA_NAME  OVA-5-04-TEST
+    Set Environment Variable  OVA_NAME  OVA-5-08-TEST
     Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls/Resources
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
@@ -59,10 +59,8 @@ Test
     Click Next Button
     # compute capacity
     Log To Console  Selecting compute resource...
-    Wait Until Element Is Visible And Enabled  css=button.clr-treenode-caret.ng-tns-c11-22
-    Click Button  css=button.clr-treenode-caret.ng-tns-c11-22
-    Wait Until Element Is Visible And Enabled  css=button.clr-treenode-link.cc-resource
-    Click Button  css=button.clr-treenode-link.cc-resource
+    Wait Until Element Is Visible And Enabled  css=.clr-treenode-children .cc-resource
+    Click Button  css=.clr-treenode-children .cc-resource
     Click Next Button
     # storage capacity
     Select Image Datastore  %{TEST_DATASTORE}
@@ -82,16 +80,16 @@ Test
     Click Next Button
     # summary
     Click Finish Button
-    Wait Until Page Contains Element  css=.alert-text
-    Element Text Should Be  css=.alert-text  Failed to validate VCH: DRS must be enabled to use VIC
-    Capture Page Screenshot
-
-    Log To Console  Clicking Cancel button...
-    Wait Until Element Is Visible And Enabled  css=.clr-wizard-btn--tertiary
-    Click Button  css=.clr-wizard-btn--tertiary
     Unselect Frame
+    Wait Until Page Does Not Contain  VCH name
+    # retrieve docker parameters from UI
+    Set Docker Host Parameters
 
-    Log To Console  Enable DRS on the cluster
+    # run vch regression tests
+    Run Docker Regression Tests For VCH
+
+
+    Log To Console  Enable DRS on the cluster....
     ${rc}  ${out}=  Run And Return Rc And Output  govc cluster.change -drs-enabled /ha-datacenter/host/cls
     Should Be Empty  ${out}
     Should Be Equal As Integers  ${rc}  0
