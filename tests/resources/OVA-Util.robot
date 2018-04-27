@@ -122,14 +122,14 @@ Install And Initialize Common OVA If Not Already
     ${ova-ip}=  Run Keyword Unless  ${rc} == 0  Install VIC Product OVA And Initialize Using UI  ${ova-file}  %{OVA_NAME}
 
 Setup And Install Specific OVA Version
-    [Arguments]  ${ova-name}  ${ova-file}
+    [Arguments]  ${ova-file}  ${ova-name}
     Log To Console  \nSetting OVA variables...
     Set Environment Variable  OVA_NAME  ${ova-name}
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
     # install OVA appliance
     Log To Console  \nInstall specific version of OVA...
-    Install VIC Product OVA And Initialize Using UI  ${ova-file}  %{OVA_NAME}
+    Install VIC Product OVA And Initialize Using UI  ${ova-file}  ${ova-name}
 
 Download VIC Engine
     [Arguments]  ${ova-ip}  ${target_dir}=bin
@@ -296,7 +296,7 @@ OVA Upgrade Test Setup
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
     # start downloading ova file
     Log To Console  \nStart downloading ${old-ova-file-name}...
-    ${pid1}=  Start Process  wget -nc -o ${old-ova-save-file} https://storage.googleapis.com/vic-product-ova-releases/${old-ova-file-name}  shell=True
+    ${pid1}=  Start Process  wget -nc -O ${old-ova-save-file} https://storage.googleapis.com/vic-product-ova-releases/${old-ova-file-name}  shell=True
     # setup nimbus testbed
     ${esx1}  ${esx2}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${vc-ip}=  Create a Simple VC Cluster  ${ha-datacenter}  ${cluster}  ${esx_number}
     Log To Console  Finished Creating Cluster ${vc}
@@ -310,6 +310,7 @@ OVA Upgrade Test Setup
     Set Environment Variable  TEST_RESOURCE  /${datacenter}/host/cls
     Set Environment Variable  TEST_TIMEOUT  30m
     Set Environment Variable  TEST_DATASTORE  datastore1
+
     # wait for ova file download
     ${ret}=  Wait For Process  ${pid1}
     # set VC variables
@@ -332,7 +333,7 @@ Auto Upgrade OVA With Verification
     # This assumes that testbed and OVA files are already setup
     [Arguments]  ${test-name}  ${old-ova-file}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  ${old-ova-datacenter}
     # setup and deploy old version of ova
-    Setup And Install Specific OVA Version  ${test-name}  ${old-ova-file}
+    Setup And Install Specific OVA Version  ${old-ova-file}  ${test-name}
     # download and install a vch
     # create a running busybox container
     Download VIC Engine If Not Already  %{OVA_IP}

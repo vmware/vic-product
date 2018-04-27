@@ -108,10 +108,8 @@ Test
     Click Next Button
     # compute capacity
     Log To Console  Selecting compute resource...
-    Wait Until Element Is Visible And Enabled  css=button.clr-treenode-caret.ng-tns-c11-22
-    Click Button  css=button.clr-treenode-caret.ng-tns-c11-22
-    Wait Until Element Is Visible And Enabled  css=button.clr-treenode-link.cc-resource
-    Click Button  css=button.clr-treenode-link.cc-resource
+    Wait Until Element Is Visible And Enabled  css=.clr-treenode-children .cc-resource
+    Click Button  css=.clr-treenode-children .cc-resource
     Click Next Button
     # storage capacity
     Select Image Datastore  %{TEST_DATASTORE}
