@@ -155,13 +155,13 @@ Please note that you cannot trigger new CI builds manually, but have to promote 
 
 Make sure `DRONE_SERVER` and `DRONE_TOKEN` environment variables are set before executing these commands.
 
-To promote existing successful CI build to staging...
+To promote existing successful CI build to staging (`vic-product-ova-builds` bucket):
 
 ``
 $ drone deploy --param VICENGINE=<vic_engine_version> --param VIC_MACHINE_SERVER=<vic_machine_server> --param ADMIRAL=<admiral_tag> --param HARBOR=<harbor_version> vmware/vic-product <ci_build_number_to_promote> staging
 ``
 
-To promote existing successful CI build to release...
+To promote existing successful CI build to release (`vic-product-ova-releases` bucket):
 
 ``
 $ drone deploy --param VICENGINE=<vic_engine_version> --param VIC_MACHINE_SERVER=<vic_machine_server> --param ADMIRAL=<admiral_tag> --param HARBOR=<harbor_version> vmware/vic-product <ci_build_number_to_promote> release
