@@ -1,5 +1,5 @@
 # VCH Deployment Fails with Docker API Endpoint Check Failed Error #
-When you use `vic-machine create` to deploy a virtual container host (VCH), deployment fails because `vic-machine` cannot contact the Docker API endpoint.
+When you deploy a virtual container host (VCH), deployment fails because vSphere Integrated Containers cannot contact the Docker API endpoint.
 
 ## Problem ##
 
@@ -15,7 +15,7 @@ API may be slow to start - try to connect to API after a few minutes:
 
 ## Cause ##
 
-During deployment, `vic-machine` checks that the endpoint VM is reachable from Docker clients. If this check fails, `vic-machine create` fails with an error. This error can be caused by the Docker API being slow to start or because it has failed to start.
+During deployment, vSphere Integrated Containers checks that the endpoint VM is reachable from Docker clients. If this check fails, deployment fails with an error. This error can be caused by the Docker API being slow to start or because it has failed to start.
 
 ## Solution ##
 

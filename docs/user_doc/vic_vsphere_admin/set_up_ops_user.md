@@ -140,6 +140,7 @@ This example `vic-machine create` command deploys a VCH with the following optio
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --name vch1
 --ops-user vic-ops@vsphere.local
 --ops-password <i>password</i>

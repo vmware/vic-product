@@ -1,6 +1,6 @@
 # VCH Deployment Times Out #
 
-When you use `vic-machine create` to deploy a virtual container host (VCH), the operation times out.
+When you attempt to deploy a virtual container host (VCH), the operation times out.
 
 ## Problem ##
 Deployment fails with a timeout error that states that the context deadline has been exceeded. 
@@ -21,6 +21,7 @@ This error can have different causes:
 
 1. Set the `vic-machine --timeout` option to allow more time for the ISOs to upload. 
 
-   For example, set `--timeout 10m` or `--timeout 20m`. 
+    For example, set `--timeout 10m` or `--timeout 20m`. 
+
 2. If the ISO upload succeeds with a longer timeout period but the operation still times out, check the DHCP service to make sure than an IP address is available for the VCH.
-3. If the DHCP service is working and the operation still times out, see [VCH Deployment Fails with Docker API Endpoint Check Failed Error](ts_docker_api_check_error.md)  
+3. If the DHCP service is working and the operation still times out, see [VCH Deployment Fails with Docker API Endpoint Check Failed Error](ts_docker_api_check_error.md).  

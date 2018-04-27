@@ -45,6 +45,7 @@ For simplicity, this example `vic-machine create` command deploys a VCH with the
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch-bridge
+--public-network vic-public
 --name vch_dch_photon
 --thumbprint <i>vcenter_server_certificate_thumbprint</i>
 --no-tlsverify
@@ -57,3 +58,9 @@ You could also specify <code>--volume-store nfs://datastore_name/path_to_share_p
 ### Result ##
 
 The VCH that you deployed can access vSphere Integrated Containers Registry, and has a volume store named `default`. It is ready for container developers to use with `dch-photon` containers.
+
+**Troubleshooting**
+
+If you see errors during deployment, see [Troubleshoot Virtual Container Host Deployment](ts_deploy_vch.md).
+
+For information about how to access VCH logs, including the deployment log, see [Access Virtual Container Host Log Bundles](log_bundles.md).

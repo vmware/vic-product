@@ -25,3 +25,9 @@ Container Host wizard in the vSphere Client.
 **What to Do Next**
 
 The Create Virtual Container Host wizard does not include any escape characters in the generated `vic-machine` command. Consequently, if any of the values that you specified in the wizard include special characters or spaces, you must edit the saved `vic-machine` command to wrap those values in quotes before you can reuse the command to create similar VCHs. For information about using quotes to escape special characters and spaces, see [Specifying Option Arguments](running_vicmachine_cmds.md#args). 
+
+**Troubleshooting**
+
+If you see errors during deployment, see [Troubleshoot Virtual Container Host Deployment](ts_deploy_vch.md).
+
+For information about how to access VCH logs, including the deployment log, see [Access Virtual Container Host Log Bundles](log_bundles.md).

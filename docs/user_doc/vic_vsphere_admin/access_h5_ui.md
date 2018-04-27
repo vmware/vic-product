@@ -31,7 +31,7 @@ If you have installed the HTML5 plug-in for vSphere Integrated Containers, you c
     - Provides the link to the VCH Admin Portal for this VCH.
 5. (Optional) Click the 3 vertical dots next to a VCH.
 
-    - Select **Delete** to remove the VCH. You can only remove VCHs that were deployed by using the same version of vSphere Integrated Containers Engine as is used by the vSphere Integrated Containers plug-in for vSphere Client.  
+    - Select **Delete** to remove the VCH. 
     - Select **Download VCH certificate** to download the server certificate for the VCH. Container developers might require the server certificate when they run Docker commands in `--tlsverify` client mode, if you use certificates that are not signed by a trusted certificate authority. 
 5. Select the **Containers** tab.
 

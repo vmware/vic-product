@@ -123,10 +123,24 @@ $ docker run -v mycerts:/certs -e DEBUG=true -p 12376:2376 -it vmware/dch-photon
 
 ### 4. Run a full-fledged DinV host with a separate network connection
 
+- Create and run the DinV container
+
+```console
+$ docker create --name dinv -v myregistry:/var/lib/docker --net=publicNet -p 2376:2376 -p 2375:2375 vmware/dch-photon
+```
+
+- Connect to DinV (this requires [jq](https://stedolan.github.io/jq/))
+```console
+$ export DOCKER_HOST=$(docker inspect dinv | jq -r .[].NetworkSettings.Networks.publicNet.IPAddress):2375
+$ docker info
+```
+
+### 5. Using certificates in a full-fledged DinV host with a separate network connection
+
 - Creates the DinV container, without starting the process
 
 ```console
-$ docker create --name dinv -v mycerts:/certs -v myregistry:/var/lib/docker --net=publicNet vmware/dch-photon -tlsverify
+$ docker create --name dinv -v mycerts:/certs -v myregistry:/var/lib/docker --net=publicNet -p 2376:2376 -p 2375:2375 vmware/dch-photon -tlsverify
 ```
 
 - Copy the certificates (pre created) into the newly created container

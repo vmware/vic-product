@@ -25,4 +25,4 @@ ${default-ova-file-path}  installer/bin/vic-*.ova
 *** Test Cases ***
 Install Common OVA
     Log To Console  \nInstalling ova, enrolling psc, and checking online component status...
-    Install Common OVA If Not Already  ${default-ova-file-path}
+    Install And Initialize Common OVA If Not Already  ${default-ova-file-path}

@@ -28,9 +28,6 @@ OVA Setup
     [Timeout]    110 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
 
-    ${latest-ova}=  Download Latest VIC Appliance OVA
-    Set Environment Variable  LATEST_OVA  ${latest-ova}
-
     ${esx1}  ${esx2}  ${esx3}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${esx3-ip}  ${vc-ip}=  Create a Simple VC Cluster
     Log To Console  Finished Creating Cluster ${vc}
     Set Suite Variable  @{list}  ${esx1}  ${esx2}  ${esx3}  %{NIMBUS_USER}-${vc}
@@ -43,6 +40,7 @@ OVA Setup
     Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls
     Set Environment Variable  TEST_TIMEOUT  30m
     Set Environment Variable  TEST_DATASTORE  datastore1
+    Set Environment Variable  DRONE_BUILD_NUMBER  0
 
 *** Test Cases ***
 User Provided Certificate
@@ -65,7 +63,7 @@ User Provided Certificate
     Log  ${tls_cert_key}
     Log  ${ca_cert}
 
-    ${ova-ip}=  Install VIC Product OVA  %{LATEST_OVA}  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
+    ${ova-ip}=  Install VIC Product OVA And Initialize Using UI  %{LATEST_OVA}  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
 
     Wait Until Keyword Succeeds  10x  15s  Verify VIC Appliance TLS Certificates  ${ova-ip}  issuer=/C=US/ST=California/L=Los Angeles/O=Stark Enterprises/OU=Stark Enterprises Certificate Authority/CN=Stark Enterprises Global CA
     Cleanup Generated Certificate
@@ -91,7 +89,7 @@ User Provided Certificate PKCS8
     Log  ${tls_cert_key}
     Log  ${ca_cert}
 
-    ${ova-ip}=  Install VIC Product OVA  %{LATEST_OVA}  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
+    ${ova-ip}=  Install VIC Product OVA And Initialize Using UI  %{LATEST_OVA}  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
 
     Wait Until Keyword Succeeds  10x  15s  Verify VIC Appliance TLS Certificates  ${ova-ip}  issuer=/C=US/ST=California/L=Los Angeles/O=Stark Enterprises/OU=Stark Enterprises Certificate Authority/CN=Stark Enterprises Global CA
     Cleanup Generated Certificate

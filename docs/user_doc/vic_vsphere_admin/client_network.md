@@ -20,6 +20,7 @@ A port group on which the VCH makes the Docker API available to Docker clients. 
 
 - The port group must exist before you create the VCH. For information about how to create a VMware vSphere Distributed Switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere documentation.
 - All hosts in a cluster should be attached to the port group. For information about how to add hosts to a vSphere Distributed Switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
+- You can use the same port group as the client network for multiple VCHs.
 
 If you do not specify this option, the VCH uses the public network for client traffic.
 
@@ -122,7 +123,7 @@ If you are using the Create Virtual Container Host wizard, the bridge network an
 
 This example `vic-machine create` command deploys a VCH with the following networking configuration:
 
-- Directs public traffic to `vch1-public` and Docker API traffic to `vch1-client`.
+- Directs public traffic to `vic-public` and Docker API traffic to `vic-client`.
 - Sets two DNS servers for use by the public, management, and client networks.
 - Sets a static IP address for the VCH endpoint VM on each of the public and client networks.
 - Specifies the gateway for the public network.
@@ -134,10 +135,10 @@ This example `vic-machine create` command deploys a VCH with the following netwo
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
---public-network vch1-public
+--public-network vic-public
 --public-network-ip 192.168.1.10/24
 --public-network-gateway 192.168.1.1
---client-network vch1-client
+--client-network vic-client
 --client-network-ip 192.168.2.10/24
 --dns-server 192.168.10.10
 --dns-server 192.168.10.11

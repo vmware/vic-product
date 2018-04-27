@@ -8,6 +8,8 @@ Because disk files are copied rather than moved, the old appliance is not affect
 
 You can also perform the upgrade by manually moving disks from the old appliance to the new appliance rather than by copying them. For information about manual upgrade, see [Upgrade the vSphere Integrated Containers Appliance by Manually Moving Disks](upgrade_appliance_manual.md).
 
+For information about the supported upgrade paths for all versions of vSphere Integrated Containers, see Upgrade Paths in the [VMware Product Interoperability Matrices](https://partnerweb.vmware.com/comp_guide2/sim/interop_matrix.php#upgrade&solution=149).
+
 **Prerequisites**
 
 - You have completed the pre-upgrade tasks listed in [Tasks to Perform Before Upgrading the vSphere Integrated Containers Appliance](pre_upgrade_tasks.md).
@@ -79,3 +81,7 @@ After you see confirmation that the upgrade has completed successfully, the upgr
 - Upgrade the vSphere Integrated Containers plug-ins for the vSphere Client. For information about upgrading the vSphere Client plug-ins, see: 
   - [Upgrade the vSphere Client Plug-Ins on vCenter Server for Windows](upgrade_h5_plugin_windows.md)
   - [Upgrade the vSphere Client Plug-Ins on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md)
+
+**Troubleshooting**
+
+If upgrade fails, generate a log bundle and obtain the upgrade log to provide to VMware support. For information about obtaining the logs, see [Access and Configure Appliance Logs](appliance_logs.md).

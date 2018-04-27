@@ -236,7 +236,7 @@ If you are using the Create Virtual Container Host wizard, click **Next** to go 
 
 ## Example `vic-machine` Commmands <a id="examples"></a>
 
-The following examples show `vic-machine create` commands that use the options described in this topic. For simplicity, the examples all use the `--no-tlsverify` option to automatically generate server certificates but disable client authentication. The examples use an existing port group named `vch1-bridge` for the bridge network and designate `datastore1` as the image store. 
+The following examples show `vic-machine create` commands that use the options described in this topic. For simplicity, the examples all use the `--no-tlsverify` option to automatically generate server certificates but disable client authentication. The examples use existing port groups named `vch1-bridge` and `vic-public` for the bridge and public networks, and designate `datastore1` as the image store. 
 
 ### Deploy to a vCenter Server Cluster with Multiple Datacenters and Datastores <a id="cluster"></a>
 
@@ -247,6 +247,7 @@ This example `vic-machine create` command deploys a VCH named `vch1` to the clus
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
@@ -259,6 +260,7 @@ This example `vic-machine create` command deploys a VCH on the ESXi host with th
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
 --bridge-network vch1-bridge
+--public-network vic-public
 --image-store datastore1
 --compute-resource esxihost1.organization.company.com
 --name vch1
@@ -287,6 +289,7 @@ This example `vic-machine create` command deploys a VCH into a resource pool nam
 --compute-resource 'rp 1'
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
@@ -299,6 +302,7 @@ If the name of the resource pool is not unique across all clusters, for example 
 --compute-resource 'cluster 1'/Resources/'rp 1'
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
@@ -313,6 +317,7 @@ This example `vic-machine create` command sets resource limits on the VCH by imp
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --memory 1024
 --memory-reservation 1024
 --memory-shares low

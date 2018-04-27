@@ -30,6 +30,7 @@ Role assigned per project. In addition to the view access, for their assigned pr
 Role assigned per project. For their assigned projects, DevOps administrators can perform additional actions in vSphere Integrated Containers Management Portal:
 
 - Add developers and viewers and assign other DevOps administrators
+- Add new registries to their project
 - Change the project configurations, such as making the project registry public, changing deployment security settings, and enabling vulnerability scanning
 
 ## II. Cloud Administrator <a id="cloudadmin"></a>
@@ -43,6 +44,7 @@ The following global permissions are unique to the cloud administrator role:
 - Add hosts as resources to a given project
 - Add and manage registries, replication endpoints, and replication rules
 - Add predefined credentials and certificates for authentication
+- Add global and per project registries
 - Set global configurations for registries
 - View system logs
 

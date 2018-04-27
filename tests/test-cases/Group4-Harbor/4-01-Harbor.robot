@@ -32,12 +32,6 @@ Setup Base State
     Login On Single Sign-On Page
     Verify VIC UI Header Display
 
-Setup Docker Daemon
-    Setup Base State
-    ${handle}  ${docker_daemon_pid}=  Start Docker Daemon Locally
-    Set Test Variable  ${handle}
-    Set Test Variable  ${docker_daemon_pid}
-
 Teardown VCH And Docker Daemon
     [Arguments]  ${vch-name}  ${handle}  ${docker_daemon_pid}
     Close All Browsers
@@ -54,7 +48,7 @@ Verify default harbor registry is displayed
     Unselect Registries Page Iframe
 
 Push an image to harbor and create a container
-    [Setup]  Setup Docker Daemon
+    Setup Docker Daemon
     # verify push image to harbor
     ${harbor-image-name}=  Set Variable  %{OVA_IP}/${DEFAULT_HARBOR_PROJECT}/${sample-image-name}
     ${harbor-image-tagged}=  Set Variable  ${harbor-image-name}:${sample-image-tag}
@@ -62,9 +56,9 @@ Push an image to harbor and create a container
     Push Docker Image To Harbor Registry  %{OVA_IP}  ${harbor-image-tagged}
     Navigate To VIC UI Home Page
     Navigate To Project Repositories Page
-    Wait Until Keyword Succeeds  3x  2s  Verify Row Value In Project Repositories Table  ${harbor-image-name}
+    Wait Until Keyword Succeeds  3x  2s  Verify Row Value In Project Repositories Grid  ${harbor-image-name}
     # create container from harbor image
-    Download VIC Engine If Not Already
+    Download VIC Engine If Not Already  %{OVA_IP}
     Download CA Cert  %{OVA_IP}
     ${vch-name}=  Install VCH  additional-args=--registry-ca=./ca.crt
     Add New Container Host And Verify Card  ${vch-name}

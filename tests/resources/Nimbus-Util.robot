@@ -170,7 +170,7 @@ Deploy Nimbus ESXi Server Async
     [Tags]  secret
     [Arguments]  ${name}  ${version}=${ESX_VERSION}
     Log To Console  \nDeploying Nimbus ESXi server: ${name}
-    ${out}=  Run Secret SSHPASS command  %{NIMBUS_USER}  '%{NIMBUS_PASSWORD}'  'nimbus-esxdeploy ${name} --disk\=48000000 --ssd\=24000000 --memory\=8192 --lease=1 --nics 2 ${version}'
+    ${out}=  Run Secret SSHPASS command  %{NIMBUS_USER}  '%{NIMBUS_PASSWORD}'  'nimbus-esxdeploy ${name} --disk\=80000000 --ssd\=40000000 --memory\=8192 --lease=1 --nics 2 ${version}'
     [Return]  ${out}
 
 Run Secret SSHPASS command
@@ -423,8 +423,16 @@ Change ESXi Server Password
     ${out}=  Run  govc host.account.update -id root -password ${password}
     Should Be Empty  ${out}
 
+Check License Present
+    ${license}=  Run  govc license.ls
+    Log  ${license}
+    Should Contain      ${license}  Key
+    Should Not Contain  ${license}  SecurityError
+
 Check License Features
+    Check License Present
     ${out}=  Run  govc object.collect -json $(govc object.collect -s - content.licenseManager) licenses | jq '.[].Val.LicenseManagerLicenseInfo[].Properties[] | select(.Key == "feature") | .Value'
+    Log  ${out}
     Should Contain  ${out}  serialuri
     Should Contain  ${out}  dvs
 

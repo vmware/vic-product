@@ -22,6 +22,7 @@ For information about how to deploy VCHs that do not verify  connections from cl
   - [Automatically Generate Server Certificates and Use a Custom CA for Client Certificates](#auto-server)
   - [Use a Custom Server Certificate and a Custom CA for Client Certificates](#all-custom)
   - [Use a Custom Server Certificate and Automatically Generate a CA for Client Certificates](#custom-server-auto-client-ca)
+- [Troubleshooting](#troubleshooting)
 - [What to Do Next](#whatnext)
 
 ## Automatically Generated Certificates <a id="auto"></a>
@@ -278,7 +279,7 @@ The Create Virtual Container Host wizard does not support automatic generation o
 
 This example `vic-machine create` command deploys a VCH with the following configuration:
 
-- Provides a wildcard domain, `*.example.org`, for the client systems that will connect to this VCH, for use as the Common Name in the  server certificate. This assumes that there is a DHCP server offering IP addresses on VM Network, and that those addresses have corresponding DNS entries such as `dhcp-a-b-c.example.com`.
+- Provides a wildcard domain, `*.example.org`, for the client systems that will connect to this VCH, for use as the Common Name in the  server certificate. This assumes that there is a DHCP server offering IP addresses on the public network, and that those addresses have corresponding DNS entries such as `dhcp-a-b-c.example.com`.
 - Specifies an empty folder in which to save the auto-generated certificates. 
 - Sets the certificate's `organization` (`O`) field to `My Organization`.
 - Generates a certificate with a key size of 3072 bits.
@@ -288,6 +289,7 @@ This example `vic-machine create` command deploys a VCH with the following confi
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --tls-cname *.example.org
 --tls-cert-path <i>path_to_cert_folder</i>
 --organization 'My Organization'
@@ -334,7 +336,7 @@ This section provides examples of using both the Create Virtual Container Host w
 
 This example `vic-machine create` command deploys a VCH with the following configuration:
 
-- Provides a wildcard domain `*.example.org` as the FQDN for the client systems that connect to the VCH, for use as the Common Name in the  automatically generated server certificate.
+- Provides a wildcard domain `*.example.org` as the FQDN for the client systems that connect to the VCH, for use as the Common Name in the  automatically generated server certificate. This assumes that there is a DHCP server offering IP addresses on the public network, and that those addresses have corresponding DNS entries such as `dhcp-a-b-c.example.com`.
 - Specifies the folder in which to save auto-generated certificates in the `--tls-cert-path` option. 
 - Sets the certificate's `organization` (`O`) field to `My Organization`.
 - Generates certificates with a key size of 3072 bits.
@@ -345,6 +347,7 @@ This example `vic-machine create` command deploys a VCH with the following confi
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --tls-cname *.example.org
 --tls-cert-path <i>path_to_cert_folder</i>
 --organization 'My Organization'
@@ -394,6 +397,7 @@ This example `vic-machine create` command provides the paths relative to the cur
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --tls-server-cert <i>path_to_folder</i>/<i>certificate_file</i>.pem
 --tls-server-key <i>path_to_folder</i>/<i>key_file</i>.pem
 --tls-ca <i>path_to_folder</i>/ca.pem
@@ -435,6 +439,7 @@ This example `vic-machine create` command deploys a VCH with the following confi
 --compute-resource cluster1
 --image-store datastore1
 --bridge-network vch1-bridge
+--public-network vic-public
 --tls-server-cert ../some/relative/path/<i>certificate_file</i>.pem
 --tls-server-key ../some/relative/path/<i>key_file</i>.pem
 --tls-cname <i>cname_from_server_cert</i>
@@ -453,6 +458,14 @@ When you run this command, `vic-machine create` performs the following operation
 After deployment, the Docker API for this VCH is accessible at https://dhcp-a-b-c.example.org:2376.
 
 You must provide the automatically generated `cert.pem`, `key.pem`, and `ca.pem` file to all container developers who need to connect Docker clients to this VCH.
+
+### Troubleshooting <a id="troubleshooting"></a>
+
+If you see certificate errors during deployment, see the following troubleshooting topics:
+
+* [VCH Deployment Fails with a Certificate Verification Error](ts_thumbprint_error.md)
+* [VCH Deployment Fails with Missing Common Name Error Even When TLS Options Are Specified Correctly](ts_cli_argument_error.md)
+* [VCH Deployment Fails with Certificate cname Mismatch](ts_cname_mismatch.md)
 
 # What to Do Next <a id="whatnext"></a>
 

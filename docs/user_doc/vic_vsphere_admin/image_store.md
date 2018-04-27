@@ -86,6 +86,7 @@ This example `vic-machine create` command deploys a VCH that uses the folder `vc
 --compute-resource cluster1
 --image-store datastore1/vch1_images
 --bridge-network vch1-bridge
+--public-network vic-public
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify

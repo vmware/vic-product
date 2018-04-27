@@ -13,7 +13,7 @@ The vCenter Server instance to which you deploy the VCH must match the specifica
   * One cluster with two ESXi hosts. You can use nested ESXi hosts for this example. VMware recommends that you enable VMware vSphere Distributed Resource Scheduler (DRS) on clusters whenever possible.
   * A shared datastore, that is accessible by both of the ESXi hosts.
   * The VM Network is present
-  * One VMware vSphere Distributed Switch with one port group named `vic-bridge`
+  * One VMware vSphere Distributed Switches with two port groups named `vic-bridge` and `vic-public`.
 * Verify that your vCenter Server instance and both of the ESXi hosts in the cluster meet the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md). 
 
     **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
@@ -38,6 +38,7 @@ The vCenter Server instance to which you deploy the VCH must match the specifica
      --user 'Administrator@vsphere.local'
      --password <i>vcenter_server_password</i>
      --bridge-network vic-bridge
+     --public-network vic-public
      --image-store <i>shared_datastore_name</i>
      --no-tlsverify
      --thumbprint <i>vcenter_server_certificate_thumbprint</i>
@@ -48,6 +49,7 @@ The vCenter Server instance to which you deploy the VCH must match the specifica
      --user "Administrator@vsphere.local"
      --password <i>vcenter_server_password</i>
      --bridge-network vic-bridge
+     --public-network vic-public
      --image-store <i>shared_datastore_name</i>
      --no-tlsverify
      --thumbprint <i>vcenter_server_certificate_thumbprint</i>
@@ -58,6 +60,7 @@ The vCenter Server instance to which you deploy the VCH must match the specifica
      --user 'Administrator@vsphere.local'
      --password <i>vcenter_server_password</i>
      --bridge-network vic-bridge
+     --public-network vic-public
      --image-store <i>shared_datastore_name</i>
      --no-tlsverify
      --thumbprint <i>vcenter_server_certificate_thumbprint</i>
@@ -68,6 +71,7 @@ The `vic-machine create` command in this example specifies the minimum informati
 - The address of the vCenter Server instance on which to deploy the VCH, in the `--target` option.  
 - A vCenter Single Sign-On user and password for a vSphere administrator account, in the `--user` and `--password` options. 
 - The port group named `vic-bridge`, for use as the container bridge network. 
+- The port group named `vic-public`, for use as the public network. 
 - The name of the shared datastore to use as the image store, in which to store container images.
 - For simplicity, disables the verification of client certificates by specifying the `--no-tlsverify` option.
 - Specifies the thumbprint of the vCenter Server host certificate by specifying the `--thumbprint` option.
@@ -95,3 +99,9 @@ Installer completed successfully</pre>
 **What to Do Next** 
 
 To test your VCH, see [Verify the Deployment of a VCH](verify_vch_deployment.md).
+
+**Troubleshooting**
+
+If you see errors during deployment, see [Troubleshoot Virtual Container Host Deployment](ts_deploy_vch.md).
+
+For information about how to access VCH logs, including the deployment log, see [Access Virtual Container Host Log Bundles](log_bundles.md).

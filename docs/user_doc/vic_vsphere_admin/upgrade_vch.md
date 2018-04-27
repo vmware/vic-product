@@ -10,8 +10,8 @@ You can use `vic-machine upgrade` to upgrade VCHs to newer versions. You can run
 
 **IMPORTANT**: 
 
+- By default, vSphere Integrated Containers 1.2.x deployed VCHs as vApps, unless you explicitly deployed them as resource pools by using the `vic-machine create --use-rp` option. Versions of vSphere Integrated Containers 1.3.x and later always deploy VCHs as resource pools, rather than as vApps. If you upgrade vApp VCHs from version 1.2.x to version 1.4.x, these VCHs remain vApps after the upgrade. Any new container VMs that are deployed after the upgrade are deployed in the existing vApp. It is recommended that you delete any remaining vApp VCHs that were deployed with version 1.2.x or earlier, and recreate them as version 1.4.x VCHs rather than upgrading them. Any container VMs that were provisioned in the vApp VCH should be recreated as version 1.4.x container VMs in the new version 1.4.x VCH.
 - Upgrading a VCH does not upgrade any existing container VMs that the VCH manages. For container VMs to boot from the latest version of `bootstrap.iso`, container developers must recreate them.
-- By default, vSphere Integrated Containers 1.2.x deployed VCHs as vApps, unless you explicitly deployed them as resource pools by using the `vic-machine create --use-rp` option. Version 1.3.x of vSphere Integrated Containers always deploys VCHs as resource pools, not as vApps. When you upgrade 1.2.x VCHs that run as vApps, these VCHs remain vApps after the upgrade. Any new container VMs are deployed in the existing vApp.
 
 For descriptions of the options that `vic-machine upgrade` includes in addition to the [Common `vic-machine` Options](common_vic_options.md) , see [VCH Upgrade Options](upgrade_vch_options.md).
 

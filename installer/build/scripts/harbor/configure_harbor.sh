@@ -102,6 +102,7 @@ fi
 
 echo "Copying CA certificate to ${ca_download_dir}"
 cp ${appliance_ca_cert} ${ca_download_dir}
+chown --recursive 10000:10000 ${ca_download_dir}
 
 if [ "${REGISTRY_PORT}" == "443" ] || [ "${REGISTRY_PORT}" == "80" ]; then
   configureHarborCfg "hostname" "${HOSTNAME}"
