@@ -54,7 +54,7 @@ VirtualMachine &gt; Inventory &gt; Create new<br>
 VirtualMachine &gt; Inventory &gt; Remove</td>
 </tr>
 <tr>
-<td><code>VCH - datastore</code><br /><br/>This role only applies to DRS environments. See <a href="#drsnote">note</a>.</td>
+<td><code>VCH - datastore</code></td>
 <td>Datastore &gt; AllocateSpace<br>
 Datastore &gt; Browse datastore <br>
 Datastore &gt; Configure datastore<br>
@@ -102,6 +102,7 @@ Host &gt; Configuration &gt; System management</td>
   dvPort group &gt; Policy operation<br>
   dvPort group &gt; Scope operation<br>
   Resource &gt; Assign virtual machine to resource pool<br>
+  Resource &gt; Migrate powered off virtual machine<br>
   VirtualMachine &gt; Configuration &gt; Add existing disk<br>
   VirtualMachine &gt; Configuration &gt; Add new disk<br>
   VirtualMachine &gt; Configuration &gt; Add or remove device<br>
