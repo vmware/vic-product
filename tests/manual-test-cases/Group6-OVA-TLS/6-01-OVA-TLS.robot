@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 6-01 - OVA TLS
 Resource  ../../resources/Util.robot
-Suite Setup     Wait Until Keyword Succeeds  10x  10m  OVA Setup
+Suite Setup     Wait Until Keyword Succeeds  10x  10m  vSphere and Test Environment Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 Test Teardown   Cleanup VIC Product OVA  %{OVA_NAME}
 
@@ -24,7 +24,7 @@ ${esx_number}=  3
 ${datacenter}=  ha-datacenter
 
 *** Keywords ***
-OVA Setup
+vSphere and Test Environment Setup
     [Timeout]    110 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
 
@@ -44,6 +44,7 @@ OVA Setup
     Set Environment Variable  DOMAIN              eng.vmware.com
 
 *** Test Cases ***
+
 User Provided Certificate
     Log To Console  \nStarting user provided certificate test...
     ${ova-name}=  Get Test OVA Name

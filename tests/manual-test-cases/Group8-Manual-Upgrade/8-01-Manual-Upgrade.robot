@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 8-01 - Manual Upgrade
 Resource  ../../resources/Util.robot
-Suite Setup     Wait Until Keyword Succeeds  10x  10m  OVA Setup
+Suite Setup     Wait Until Keyword Succeeds  10x  10m  Test Environment Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 Test Teardown   Cleanup VIC Product OVA  %{OVA_NAME}
 
@@ -23,62 +23,87 @@ Test Teardown   Cleanup VIC Product OVA  %{OVA_NAME}
 ${datacenter}=  ha-datacenter
 
 *** Keywords ***
+Test Environment Setup
+    vSphere and Test Environment Setup
+    # Used by Install VIC Appliance Secret keyword
+    Set Global Variable       ${OVA_USERNAME_ROOT}  root
+    Set Global Variable       ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
 
 *** Test Cases ***
 
 Upgrade from v1.2.1
-    ${old-ova-file-name}=  vic-v1.2.1-4104e5f9.ova
-    ${old-ova-save-file}=  upgrade-${old-ova}
-    ${old-ova-vm-name}=    ${old-ova-file-name}-8-01-Manual-Upgrade
-    ${new-ova-vm-name}=    ${test-name}-LATEST
+    ${old-ova-file-name}=   vic-v1.2.1-4104e5f9.ova
+    ${old-ova-save-file}=   upgrade-${old-ova}
+    ${old-appliance-name}=  ${old-ova-file-name}-8-01-Manual-Upgrade
+    ${new-appliance-name}=  ${test-name}-LATEST
 
-    OVA Upgrade Test Setup  ${old-ova-file-name}  ${old-ova-save-file}  ${datacenter}
+    ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
 
-    Set Environment Variable  OVA_NAME  ${old-ova-vm-name}
-    ${old-ova-ip}=  Install And Initialize VIC Product OVA  ${old-ova-file-name}  %{OVA_NAME}
+    Set Environment Variable  OVA_NAME  ${old-appliance-name}
+    ${old-appliance-ip}=  Install And Initialize VIC Product OVA  ${old-ova-file-name}  %{OVA_NAME}
+    Install VCH With Test Container And Push Image to Harbor
 
-    Set Environment Variable  OVA_NAME  ${new-ova-vm-name}
-    ${new-ova-ip}=  Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
+    # Deploy new appliance but do not power on
+    Set Environment Variable  OVA_NAME  ${new-appliance-name}
+    ${output}=  Deploy VIC Appliance  vic-*.ova  %{OVA_NAME}  ${EMPTY}  ${EMPTY}  ${EMPTY}  False
 
     # Copy data disk and attach to new appliance
-    Copy and Attach Disk v1.2.1  ${old-ova-vm-name}  ${new-ova-vm-name}  ${datacenter}
+    Copy and Attach Disk v1.2.1  ${old-appliance-name}  ${new-appliance-name}  ${datacenter}
 
-    Execute Upgrade Script Manual Disk Move  ${old-ova-ip}  ${new-ova-ip}
+    Power On VM  ${new-appliance-name}
+    ${new-appliance-ip}=  Get VM IP By Name  ${new-appliance-name}
+
+    Execute Upgrade Script Manual Disk Move  ${old-appliance-ip}  ${new-appliance-ip}
+    Verify Running Test Container And Pushed Image
+
 
 Upgrade from v1.3.0
-    ${old-ova-file-name}=  vic-v1.3.0-3033-f8cc7317.ova
-    ${old-ova-save-file}=  upgrade-${old-ova}
-    ${old-ova-vm-name}=    ${old-ova-file-name}-8-01-Manual-Upgrade
-    ${new-ova-vm-name}=    ${test-name}-LATEST
+    ${old-ova-file-name}=   vic-v1.3.0-3033-f8cc7317.ova
+    ${old-ova-save-file}=   upgrade-${old-ova}
+    ${old-appliance-name}=  ${old-ova-file-name}-8-01-Manual-Upgrade
+    ${new-appliance-name}=  ${test-name}-LATEST
 
-    OVA Upgrade Test Setup  ${old-ova-file-name}  ${old-ova-save-file}  ${datacenter}
+    ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
 
-    Set Environment Variable  OVA_NAME  ${old-ova-vm-name}
-    ${old-ova-ip}=  Install And Initialize VIC Product OVA  ${old-ova-file-name}  %{OVA_NAME}
+    Set Environment Variable  OVA_NAME  ${old-appliance-name}
+    ${old-appliance-ip}=  Install And Initialize VIC Product OVA  ${old-ova-file-name}  %{OVA_NAME}
+    Install VCH With Test Container And Push Image to Harbor
 
-    Set Environment Variable  OVA_NAME  ${new-ova-vm-name}
-    ${new-ova-ip}=  Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
+    # Deploy new appliance but do not power on
+    Set Environment Variable  OVA_NAME  ${new-appliance-name}
+    ${output}=  Deploy VIC Appliance  vic-*.ova  %{OVA_NAME}  ${EMPTY}  ${EMPTY}  ${EMPTY}  False
 
     # Copy data, log, db disks and attach to new appliance
-    Copy and Attach Disks  ${old-ova-vm-name}  ${new-ova-vm-name}  ${datacenter}
+    Copy and Attach Disks  ${old-appliance-name}  ${new-appliance-name}  ${datacenter}
 
-    Execute Upgrade Script Manual Disk Move  ${old-ova-ip}  ${new-ova-ip}
+    Power On VM  ${new-appliance-name}
+    ${new-appliance-ip}=  Get VM IP By Name  ${new-appliance-name}
+
+    Execute Upgrade Script Manual Disk Move  ${old-appliance-ip}  ${new-appliance-ip}
+    Verify Running Test Container And Pushed Image
+
 
 Upgrade from v1.3.1
-    ${old-ova-file-name}=  vic-v1.3.1-3409-132fb13d.ova
-    ${old-ova-save-file}=  upgrade-${old-ova}
-    ${old-ova-vm-name}=    ${old-ova-file-name}-8-01-Manual-Upgrade
-    ${new-ova-vm-name}=    ${test-name}-LATEST
+    ${old-ova-file-name}=   vic-v1.3.1-3409-132fb13d.ova
+    ${old-ova-save-file}=   upgrade-${old-ova}
+    ${old-appliance-name}=  ${old-ova-file-name}-8-01-Manual-Upgrade
+    ${new-appliance-name}=  ${test-name}-LATEST
 
-    OVA Upgrade Test Setup  ${old-ova-file-name}  ${old-ova-save-file}  ${datacenter}
+    ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
 
-    Set Environment Variable  OVA_NAME  ${old-ova-vm-name}
-    ${old-ova-ip}=  Install And Initialize VIC Product OVA  ${old-ova-file-name}  %{OVA_NAME}
+    Set Environment Variable  OVA_NAME  ${old-appliance-name}
+    ${old-appliance-ip}=  Install And Initialize VIC Product OVA  ${old-ova-file-name}  %{OVA_NAME}
+    Install VCH With Test Container And Push Image to Harbor
 
-    Set Environment Variable  OVA_NAME  ${new-ova-vm-name}
-    ${new-ova-ip}=  Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
+    # Deploy new appliance but do not power on
+    Set Environment Variable  OVA_NAME  ${new-appliance-name}
+    ${output}=  Deploy VIC Appliance  vic-*.ova  %{OVA_NAME}  ${EMPTY}  ${EMPTY}  ${EMPTY}  False
 
     # Copy data, log, db disks and attach to new appliance
-    Copy and Attach Disks  ${old-ova-vm-name}  ${new-ova-vm-name}  ${datacenter}
+    Copy and Attach Disks  ${old-appliance-name}  ${new-appliance-name}  ${datacenter}
 
-    Execute Upgrade Script Manual Disk Move  ${old-ova-ip}  ${new-ova-ip}
+    Power On VM  ${new-appliance-name}
+    ${new-appliance-ip}=  Get VM IP By Name  ${new-appliance-name}
+
+    Execute Upgrade Script Manual Disk Move  ${old-appliance-ip}  ${new-appliance-ip}
+    Verify Running Test Container And Pushed Image
