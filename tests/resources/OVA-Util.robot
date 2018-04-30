@@ -132,26 +132,6 @@ Setup And Install Specific OVA Version
     Log To Console  \nInstall specific version of OVA...
     Install VIC Product OVA And Initialize Using UI  ${ova-file}  ${ova-name}
 
-Install VIC Product OVA Using Static IP
-    [Tags]  secret
-    [Arguments]  ${ova-file}  ${ova-name}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}
-    Log To Console  \nInstalling VIC appliance...
-    ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:network.ip0=${static-ip} --prop:network.ip0=${netmask} --prop:network.gateway=${gateway} --prop:network.dns=${dns} --prop:network.searchpath=${searchpath} --prop:network.fqdn=${fqdn} --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
-    Log  ${output}
-    Should Contain  ${output}  Completed successfully
-    Should Contain  ${output}  Received IP address:
-
-    ${output}=  Split To Lines  ${output}
-    ${ova-ip}=  Set Variable  NULL
-    :FOR  ${line}  IN  @{output}
-    \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  Received IP address:
-    \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
-    \   ${ova-ip}=  Run Keyword If  ${status}  Set Variable  ${ip}  ELSE  Set Variable  ${ova-ip}
-
-    Log  ${ova-ip}
-    Wait For Register Page  ${ova-ip}
-    Set Environment Variable  OVA_IP  ${ova-ip}
-
 Download VIC Engine
     [Arguments]  ${ova-ip}  ${target_dir}=bin
     Log To Console  \nDownloading VIC engine...

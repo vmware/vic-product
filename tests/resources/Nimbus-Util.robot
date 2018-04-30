@@ -445,6 +445,14 @@ Power Off Host
     ${out}=  Execute Command  poweroff -d 0 -f
     Close connection
 
+Set Nimbus POD Variable
+    [Arguments]  ${vc-name}
+    Open Connection  %{NIMBUS_GW}
+    Wait Until Keyword Succeeds  10 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
+    ${pod}=  Fetch POD  ${vc-name}
+    Set Suite Variable  ${NIMBUS_POD}  ${pod}
+    Close Connection
+
 Create Static IP Worker
     Open Connection  %{NIMBUS_GW}
     Wait Until Keyword Succeeds  10 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}

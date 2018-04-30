@@ -49,14 +49,11 @@ Deploy OVA With Static IP
     Set Environment Variable  OVA_NAME  OVA-2-05-TEST
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
-
-    Open Connection  %{NIMBUS_GW}
-    Wait Until Keyword Succeeds  10 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
-    ${pod}=  Fetch POD  %{NIMBUS_USER}-${vc}
-    Set Suite Variable  ${NIMBUS_POD}  ${pod}
-    Close Connection
-    Append To List  ${list}  %{STATIC_WORKER_NAME}
-
+    # create static ip
+    Set Nimbus POD Variable  %{NIMBUS_USER}-${vc}
     ${static}=  Get Static IP Address
+    Append To List  ${list}  %{STATIC_WORKER_NAME}
+    # install ova using static ip
     Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}  static-ip=&{static}[ip]  netmask=${subnet-nimbus}  gateway=&{static}[gateway]  dns=${dns-nimbus}  searchpath=${serachpath-nimbus}
+    # verify network details
     Verify OVA Network Information  %{OVA_IP}  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}  &{static}[ip]  &{static}[netmask]  &{static}[gateway]  ${dns-nimbus}  ${serachpath-nimbus}
