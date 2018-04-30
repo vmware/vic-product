@@ -272,7 +272,8 @@ Get OVA Release File For Nightly
     ${old-ova-save-file}=  Run Keyword Unless  ${exists}  Set Variable  old-${release-file-name}
     ${exists-local}=  Run Keyword And Return Status  OperatingSystem.File Should Exist  ${old-ova-save-file}
     Run Keyword Unless  ${exists} or ${exists-local}  Log To Console  \nDownloading release file...
-    Run Keyword Unless  ${exists} or ${exists-local}  Run command and Return output  wget -nc -O ${old-ova-save-file} https://storage.googleapis.com/vic-product-ova-releases/${release-file-name}
+    ${output}=  Run Keyword Unless  ${exists} or ${exists-local}  Run command and Return output  wget -nc -O ${old-ova-save-file} https://storage.googleapis.com/vic-product-ova-releases/${release-file-name}
+    Run Keyword Unless  ${exists} or ${exists-local}  Log  ${output}
     Log To Console  \Got release file ${old-ova-save-file}...
     [Return]  ${old-ova-save-file}
 
@@ -333,7 +334,7 @@ Execute Upgrade Script
     # copy log bundle
     ${output}=  Run command and Return output  sshpass -p ${OVA_PASSWORD_ROOT} scp -o StrictHostKeyChecking\=no -o UserKnownHostsFile=/dev/null ${OVA_USERNAME_ROOT}@${ova-ip}:${file} .
 
-OVA Upgrade Test Setup
+Setup Simple VC And Test Environment For Upgrade Test
     # set up nimbus test bed and env variables for upgrade nightly tests
     [Timeout]    110 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
