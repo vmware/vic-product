@@ -262,6 +262,20 @@ Verify VIC Appliance TLS Certificates
     ${output}=  Get Remote Certificate  ${ova-ip}:443
     Should Contain  ${output}  ${validate-string}
 
+Get OVA Release File For Nightly
+    # Get release OVA file from cached dir '/vic-cache' on nightly executer VM
+    # OR download it locally if not found
+    [Arguments]  ${release-file-name}
+    Log To Console  \nLooking for release file ${release-file-name}...
+    ${exists}=  Run Keyword And Return Status  OperatingSystem.File Should Exist  /vic-cache/${release-file-name}
+    ${old-ova-save-file}=  Run Keyword If  ${exists}  Set Variable  /vic-cache/${release-file-name}
+    ${old-ova-save-file}=  Run Keyword Unless  ${exists}  Set Variable  old-${release-file-name}
+    ${exists-local}=  Run Keyword And Return Status  OperatingSystem.File Should Exist  ${old-ova-save-file}
+    Run Keyword Unless  ${exists} or ${exists-local}  Log To Console  \nDownloading release file...
+    Run Keyword Unless  ${exists} or ${exists-local}  Run command and Return output  wget -nc -O ${old-ova-save-file} https://storage.googleapis.com/vic-product-ova-releases/${release-file-name}
+    Log To Console  \Got release file ${old-ova-save-file}...
+    [Return]  ${old-ova-save-file}
+
 Verify OVA Network Information
     [Arguments]  ${ova-ip}  ${ova-root-user}  ${ova-root-pwd}  ${ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}
     Log To Console  ssh into appliance...
@@ -320,16 +334,11 @@ Execute Upgrade Script
     ${output}=  Run command and Return output  sshpass -p ${OVA_PASSWORD_ROOT} scp -o StrictHostKeyChecking\=no -o UserKnownHostsFile=/dev/null ${OVA_USERNAME_ROOT}@${ova-ip}:${file} .
 
 OVA Upgrade Test Setup
-    # This is a test setup keyword for auto upgrade tests,
-    # which will download previous version of OVA and setup test bed in Nimbus
-    [Arguments]  ${old-ova-file-name}  ${old-ova-save-file}  ${datacenter}
+    # set up nimbus test bed and env variables for upgrade nightly tests
     [Timeout]    110 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
-    # start downloading ova file
-    Log To Console  \nStart downloading ${old-ova-file-name}...
-    ${pid1}=  Start Process  wget -nc -O ${old-ova-save-file} https://storage.googleapis.com/vic-product-ova-releases/${old-ova-file-name}  shell=True
     # setup nimbus testbed
-    ${esx1}  ${esx2}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${vc-ip}=  Create a Simple VC Cluster  ${ha-datacenter}  ${cluster}  ${esx_number}
+    ${esx1}  ${esx2}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${vc-ip}=  Create a Simple VC Cluster  ha-datacenter  cls  2
     Log To Console  Finished Creating Cluster ${vc}
     Set Suite Variable  @{list}  ${esx1}  ${esx2}  %{NIMBUS_USER}-${vc}
     # set test variables
@@ -338,16 +347,11 @@ OVA Upgrade Test Setup
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Set Environment Variable  TEST_RESOURCE  /${datacenter}/host/cls
+    Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls
     Set Environment Variable  TEST_TIMEOUT  30m
     Set Environment Variable  TEST_DATASTORE  datastore1
-
-    # wait for ova file download
-    ${ret}=  Wait For Process  ${pid1}
     # set VC variables
     Set Test VC Variables
-    # set OVA variables
-    Set Global Variable  ${OVA_CERT_PATH}  ${old-ova-cert-path}
     # set VCH variables
     Set Environment Variable  DRONE_BUILD_NUMBER  0
     Set Environment Variable  VCH_TIMEOUT  20m0s
@@ -361,10 +365,13 @@ OVA Upgrade Test Setup
 
 Auto Upgrade OVA With Verification
     # This is a complete keyword to run auto upgrade process and verify that upgrade is successful
-    # This assumes that testbed and OVA files are already setup
-    [Arguments]  ${test-name}  ${old-ova-file}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  ${old-ova-datacenter}
+    # This assumes that testbed is already setup
+    [Arguments]  ${test-name}  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  ${old-ova-datacenter}
+    Set Global Variable  ${OVA_CERT_PATH}  ${old-ova-cert-path}
+    # get ova file
+    ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
     # setup and deploy old version of ova
-    Setup And Install Specific OVA Version  ${old-ova-file}  ${test-name}
+    Setup And Install Specific OVA Version  ${old-ova-save-file}  ${test-name}
     # download and install a vch
     # create a running busybox container
     Download VIC Engine If Not Already  %{OVA_IP}
