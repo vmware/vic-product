@@ -410,9 +410,11 @@ Copy and Attach Disk v1.2.1
     ${old-ds}=  Get Datastore  ${old-ova-vm-name}
     ${new-ds}=  Get Datastore  ${new-ova-vm-name}
 
-    # TODO power off old VM
+    Wait for VM Power Off  ${old-ova-vm-name}
+
     # Detach disk from new VM
     ${data-disk}=  Get Disk By ID  1
+    Detach Disk By Name  ${old-ova-vm-name}  ${data-disk}
 
 # This powers off the old VM to copy disks
 Copy and Attach Disk
@@ -420,11 +422,16 @@ Copy and Attach Disk
     ${old-ds}=  Get Datastore  ${old-ova-vm-name}
     ${new-ds}=  Get Datastore  ${new-ova-vm-name}
 
-    # TODO power off old VM
+    Wait for VM Power Off  ${old-ova-vm-name}
+
     # Detach disks
     ${data-disk}=  Get Disk By ID  1
     ${db-disk}=    Get Disk By ID  2
     ${log-disk}=   Get Disk By ID  3
+
+    Detach Disk By Name  ${old-ova-vm-name}  ${data-disk}
+    Detach Disk By Name  ${old-ova-vm-name}  ${db-disk}
+    Detach Disk By Name  ${old-ova-vm-name}  ${log-disk}
 
 Get Datastore
     [Arguments]  ${vm-name}
@@ -443,7 +450,25 @@ Get Disk By ID
 Detach Disk By Name
     [Arguments]  ${vm-name}  ${disk}
     # TODO
-    govc device.remove -vm="${vm-name}" "${disk}"
+    ${rc}  ${output}=  Run And Return Rc And Output  govc device.remove -vm="${vm-name}" "${disk}"
+    Log ${output}
+    Should Be Equal  ${rc}  0
 
 Execute Upgrade Script Manual Disk Move
     [Arguments]  ${old-ova-ip}  ${new-ova-ip}
+
+Wait for VM Power Off
+    [Arguments]  ${vm-name}
+    ${output}  ${rc}=  govc vm.power -s=true "${vm-name}"
+    Log  ${output}
+    Log  ${rc}
+    Should Be Equal  ${rc}  0
+
+		Wait Until Keyword Succeeds  12x  15s  VM Is Powered Off  "${vm-name}"
+
+VM Is Powered Off
+    [Arguments]  ${vm-name}
+    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.info -json "${vm-name}" | jq -r ".VirtualMachines[].Runtime.PowerState"
+    Log  ${output}
+    Log  ${rc}
+    Should Contain  ${output}  "poweredOff"
