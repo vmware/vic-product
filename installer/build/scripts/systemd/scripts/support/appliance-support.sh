@@ -125,9 +125,28 @@ function getPrivateFiles {
   set -e
 }
 
+# filterLine filters line from a file based on a pattern
+function filterLine {
+  local PATTERN="$1"
+  local FILE="$2"
+  local OUTDIR
+  local DIR="${3:-}"
+  if [ -n "$DIR" ]; then
+    OUTDIR="$TMPDIR/$DIR"
+    mkdir -p "$OUTDIR"
+  else
+    OUTDIR="$TMPDIR"
+  fi
+
+  echo "Removing $PATTERN from $OUTDIR/$FILE"
+  sed -i "/$PATTERN/d" "$OUTDIR/$FILE"
+}
+
 # filterEnvironment filters private values from the environment file
 function filterEnvironment {
-  commandToFile "cat /etc/vmware/environment | grep -v APPLIANCE_TLS_PRIVATE_KEY" "environment_filtered" "appliance"
+  commandToFile "cat /etc/vmware/environment" "environment" "appliance"
+  filterLine "APPLIANCE_TLS_PRIVATE_KEY" "environment" "appliance"
+  filterLine "DEFAULT_USERS_DEF_USER_PASSWORD" "environment" "appliance"
 }
 
 # getDiagInfo gathers diagnostic info and logs
