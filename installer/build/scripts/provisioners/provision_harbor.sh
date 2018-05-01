@@ -36,11 +36,11 @@ f = open(file, "r+")
 dataMap = yaml.safe_load(f)
 for _, s in enumerate(dataMap["services"]):
   if "restart" in dataMap["services"][s]:
-      if "always" in dataMap["services"][s]["restart"]:
+      if "always" in dataMap["services"][s]["restart"] and s != "jobservice":
         dataMap["services"][s]["restart"] = "on-failure"
   if "volumes" in dataMap["services"][s]:
     for kvol, vol in enumerate(dataMap["services"][s]["volumes"]):
-      # Fixing up volumes in compose file. 
+      # Fixing up volumes in compose file.
       if vol.startswith( '/data/database' ):
         dataMap["services"][s]["volumes"][kvol] = vol.replace("/data/database", "/storage/db/harbor/database", 1)
       elif vol.startswith( '/data/notary-db' ):
