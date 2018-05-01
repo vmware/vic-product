@@ -74,10 +74,16 @@ Setup CA Cert for Harbor Registry
     Run command and Return output  mv ca.crt /etc/docker/certs.d/${ova-ip}/ca.crt
     Run command and Return output  ls /etc/docker/certs.d/${ova-ip}
 
-Docker Login To Harbor Registry
+Secret Docker Login To Harbor Registry
     [Tags]  secret
     [Arguments]  ${registry_ip}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker_endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
     ${output}=  Run command and Return output  ${docker} ${docker_endpoint} login ${registry_ip} --username %{TEST_USERNAME} --password %{TEST_PASSWORD}
+    [Return]  ${output}
+
+Docker Login To Harbor Registry
+    [Arguments]  ${registry_ip}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker_endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
+    ${output}=  Secret Docker Login To Harbor Registry  ${registry_ip}  ${docker}  ${docker_endpoint}
+    Log  ${output}
     Should Contain  ${output}  Login Succeeded
     Log To Console  \nDocker login successfully
 
@@ -105,7 +111,7 @@ Pull And Verify Image In Harbor Registry
     ${harbor-image-tagged}=  Set Variable  ${harbor-image}:${image-tag}
     Set Global Variable  ${OVA_CERT_PATH}  ${ova-cert-path}
     Setup CA Cert for Harbor Registry  ${registry-ip}
-    Wait Until Keyword Succeeds  10x  5s  Docker Login To Harbor Registry  ${registry-ip}
+    Wait Until Keyword Succeeds  10x  10s  Docker Login To Harbor Registry  ${registry-ip}
     Run command and Return output  ${docker} ${docker-endpoint} pull ${harbor-image-tagged}
     ${output}=  Run command and Return output  ${docker} ${docker-endpoint} image ls
     Should Contain  ${output}  ${harbor-image}

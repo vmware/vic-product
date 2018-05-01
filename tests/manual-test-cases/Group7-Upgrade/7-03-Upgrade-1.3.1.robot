@@ -19,19 +19,15 @@ Suite Setup  Wait Until Keyword Succeeds  10x  10m  OVA Upgrade Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Variables ***
-${esx_number}=  2
-${cluster}=  cls
-${ha-datacenter}=  ha-datacenter
 ${old-ova-file-name}=  vic-v1.3.1-3409-132fb13d.ova
-${old-ova-save-file}=  old-${old-ova-file-name}
 ${old-ova-version}=  v1.3.1
 ${old-ova-cert-path}=  /storage/data/admiral/ca_download
 ${new-ova-cert-path}=  /storage/data/admiral/ca_download
 
 *** Keywords ***
 OVA Upgrade Setup
-    OVA Upgrade Test Setup  ${old-ova-file-name}  ${old-ova-save-file}  ${ha-datacenter}
+    Setup Simple VC And Test Environment For Upgrade Test
 
 *** Test Cases ***
 Upgrade OVA 1.3.1
-    Auto Upgrade OVA With Verification  7-03-UPGRADE-1-3-1  ${old-ova-save-file}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  ${ha-datacenter}
+    Auto Upgrade OVA With Verification  7-03-UPGRADE-1-3-1  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  ha-datacenter
