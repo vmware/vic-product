@@ -22,6 +22,7 @@ Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 ${datacenter}=  ha-datacenter
 ${cluster}=  cls
 ${esx_number}=  2
+${dvs}=  test-ds
 ${folder}=  /${datacenter}/network/testFolder
 
 *** Keywords ***
@@ -68,17 +69,17 @@ DVS Under Network Folder Setup
     ${out}=  Run  govc folder.create ${folder}
     Should Be Empty  ${out}
     Log To Console  Create a distributed switch under a new network folder...
-    ${out}=  Run  govc dvs.create -dc=${datacenter} -folder=${folder} test-ds
+    ${out}=  Run  govc dvs.create -dc=${datacenter} -folder=${folder} ${dvs}
     Should Contain  ${out}  OK
     Log To Console  Create three new distributed switch port groups for management and vm network traffic
-    ${out}=  Run  govc dvs.portgroup.add -nports 12 -dc=${datacenter} -dvs=test-ds management
+    ${out}=  Run  govc dvs.portgroup.add -nports 12 -dc=${datacenter} -dvs=${dvs} management
     Should Contain  ${out}  OK
-    ${out}=  Run  govc dvs.portgroup.add -nports 12 -dc=${datacenter} -dvs=test-ds vm-network
+    ${out}=  Run  govc dvs.portgroup.add -nports 12 -dc=${datacenter} -dvs=${dvs} vm-network
     Should Contain  ${out}  OK
-    ${out}=  Run  govc dvs.portgroup.add -nports 12 -dc=${datacenter} -dvs=test-ds bridge
+    ${out}=  Run  govc dvs.portgroup.add -nports 12 -dc=${datacenter} -dvs=${dvs} bridge
     Should Contain  ${out}  OK
 
-    Wait Until Keyword Succeeds  10x  3 minutes  Add Host To Distributed Switch  /${datacenter}/host/${cluster}  test-ds
+    Wait Until Keyword Succeeds  10x  3 minutes  Add Host To Distributed Switch  /${datacenter}/host/${cluster}  ${dvs}
 
     Log To Console  Enable DRS on the cluster
     ${out}=  Run  govc cluster.change -drs-enabled /${datacenter}/host/${cluster}
