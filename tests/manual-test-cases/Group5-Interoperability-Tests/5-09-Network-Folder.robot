@@ -37,6 +37,8 @@ DVS Under Network Folder Setup
     @{esx_ips}=  Get Dictionary Values  ${esxes}
     Set Suite Variable  @{list}  @{esx_names}[0]  @{esx_names}[1]  %{NIMBUS_USER}-${vc}
 
+    Set Suite Variable  @{list}  @{esx_names}[0]  @{esx_names}[1]  %{NIMBUS_USER}-${vc}
+
     # Finish vCenter deploy
     ${output}=  Wait For Process  ${pid}
     Should Contain  ${output.stdout}  Overall Status: Succeeded
@@ -91,7 +93,7 @@ DVS Under Network Folder Setup
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  TEST_DATASTORE  datastore1
     Set Environment Variable  TEST_DATACENTER  /${datacenter}
-    Set Environment Variable  TEST_RESOURCE  ${cluster}
+    Set Environment Variable  TEST_RESOURCE  /${datacenter}/host/${cluster}
     Set Environment Variable  TEST_TIMEOUT  30m
 
 *** Test Cases ***
