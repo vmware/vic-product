@@ -269,7 +269,7 @@ Get OVA Release File For Nightly
     Log To Console  \nLooking for release file ${release-file-name}...
     ${exists}=  Run Keyword And Return Status  OperatingSystem.File Should Exist  /vic-cache/${release-file-name}
     ${old-ova-save-file}=  Run Keyword If  ${exists}  Set Variable  /vic-cache/${release-file-name}
-    ${old-ova-save-file}=  Run Keyword Unless  ${exists}  Set Variable  old-${release-file-name}
+    ${old-ova-save-file}=  Set Variable If  ${exists} == False  old-${release-file-name}  ${old-ova-save-file}
     ${exists-local}=  Run Keyword And Return Status  OperatingSystem.File Should Exist  ${old-ova-save-file}
     Run Keyword Unless  ${exists} or ${exists-local}  Log To Console  \nDownloading release file...
     ${output}=  Run Keyword Unless  ${exists} or ${exists-local}  Run command and Return output  wget -nc -O ${old-ova-save-file} https://storage.googleapis.com/vic-product-ova-releases/${release-file-name}
