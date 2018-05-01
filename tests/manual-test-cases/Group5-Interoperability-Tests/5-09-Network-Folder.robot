@@ -91,7 +91,7 @@ DVS Under Network Folder Setup
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  TEST_DATASTORE  datastore1
     Set Environment Variable  TEST_DATACENTER  /${datacenter}
-    Set Environment Variable  TEST_RESOURCE  /${datacenter}/host/${cluster}
+    Set Environment Variable  TEST_RESOURCE  ${cluster}
     Set Environment Variable  TEST_TIMEOUT  30m
 
 *** Test Cases ***
