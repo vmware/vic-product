@@ -175,7 +175,6 @@ function proceedWithUpgrade {
   if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
     log ""
     log "Detected old appliance's version as $ver."
-    logn "If the old appliance's version is not detected correctly, please enter \"n\" to abort the upgrade and contact VMware support."
 
     if [ -n "${APPLIANCE_VERSION}" ]; then
       if [ "$ver" == "${APPLIANCE_VERSION}" ]; then
@@ -188,6 +187,7 @@ function proceedWithUpgrade {
       fi
     fi
 
+    logn "If the old appliance's version is not detected correctly, please enter \"n\" to abort the upgrade and contact VMware support."
     while true; do
       log ""
       log "Do you wish to proceed with upgrade? [y/n]"
@@ -581,7 +581,7 @@ function main {
 
   if [ -n "${DESTROY_ENABLED}" ] ; then
     log "Destroying the old VIC appliance"
-    govc vm.destroy "$VM_NAME"
+    govc vm.destroy "$OLD_VM_NAME"
     log "Old VIC appliance destroyed"
   fi
 
