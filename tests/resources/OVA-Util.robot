@@ -269,12 +269,15 @@ Get OVA Release File For Nightly
     Log To Console  \nLooking for release file ${release-file-name}...
     ${exists}=  Run Keyword And Return Status  OperatingSystem.File Should Exist  /vic-cache/${release-file-name}
     ${old-ova-save-file}=  Run Keyword If  ${exists}  Set Variable  /vic-cache/${release-file-name}
-    ${old-ova-save-file}=  Set Variable If  ${exists} == False  old-${release-file-name}  ${old-ova-save-file}
+    Run Keyword If  ${exists}  Log To Console  \nFound release file in /vic-cache
+    Return From Keyword If  ${exists}  ${old-ova-save-file}
+    # if not exists in cache, then download it after checking locally
+    ${old-ova-save-file}=  Set Variable  old-${release-file-name}
     ${exists-local}=  Run Keyword And Return Status  OperatingSystem.File Should Exist  ${old-ova-save-file}
-    Run Keyword Unless  ${exists} or ${exists-local}  Log To Console  \nDownloading release file...
-    ${output}=  Run Keyword Unless  ${exists} or ${exists-local}  Run command and Return output  wget -nc -O ${old-ova-save-file} https://storage.googleapis.com/vic-product-ova-releases/${release-file-name}
-    Run Keyword Unless  ${exists} or ${exists-local}  Log  ${output}
-    Log To Console  \Got release file ${old-ova-save-file}...
+    Run Keyword If  ${exists-local}  Log To Console  \nRelease file already downloaded so skipping download...
+    Run Keyword Unless  ${exists-local}  Log To Console  \nDownloading release file...
+    ${output}=  Run Keyword Unless  ${exists-local}  Run command and Return output  wget -nc -O ${old-ova-save-file} https://storage.googleapis.com/vic-product-ova-releases/${release-file-name}
+    Run Keyword Unless  ${exists-local}  Log  ${output}
     [Return]  ${old-ova-save-file}
 
 Verify OVA Network Information
