@@ -12,6 +12,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License
+
+: "${GCS_BUCKET:=vic-product-ova-builds}"
+
 start_node () {
     docker run -d --net grid -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm --name $1 $2
 
@@ -44,9 +47,9 @@ start_node firefox2 selenium/node-firefox:3.9.1
 start_node firefox3 selenium/node-firefox:3.9.1
 start_node firefox4 selenium/node-firefox:3.9.1
 
-input=$(gsutil ls -l gs://vic-product-ova-builds/vic-* | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | cut -d '/' -f 4)
+input=$(gsutil ls -l gs://$GCS_BUCKET/vic-* | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | cut -d '/' -f 4)
 echo "Downloading VIC Product OVA build $input..."
-wget -P vic-product https://storage.googleapis.com/vic-product-ova-builds/$input
+wget -P vic-product https://storage.googleapis.com/$GCS_BUCKET/$input
 
 docker run --net grid --privileged --rm --link selenium-hub:selenium-grid-hub -v $PWD/vic-product:/go -v /vic-cache:/vic-cache --env-file vic-internal/vic-product-nightly-secrets.list gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --processes 4 --removekeywords TAG:secret --exclude skip tests/manual-test-cases
 cat vic-product/pabot_results/*/stdout.txt | grep -E '::|\.\.\.' | grep -E 'PASS|FAIL' > console.log
@@ -59,4 +62,3 @@ sed -i -e 's|FAIL|<font color="red">FAIL</font>|g' console.log
 DATE=`date +%m-%d-%H-%M`
 outfile="vic-product-ova-results-"$DATE".zip"
 # zip -9 $outfile output.xml log.html report.html
-
