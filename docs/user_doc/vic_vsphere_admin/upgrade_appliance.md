@@ -37,7 +37,7 @@ For information about the supported upgrade paths for all versions of vSphere In
     <pre>$ cd /etc/vmware/upgrade</pre>
     <pre>$ ./upgrade.sh</i></pre>
 
-	You can bypass the following steps by specifying additional optional arguments when you run the upgrade script. For information about the arguments that you can specify, see [Specify Command Line Options During Appliance Upgrade](#upgradeoptions) below.	
+	You can bypass some or all of the following steps by specifying additional optional arguments when you run the upgrade script. For information about the arguments that you can specify, see [Specify Command Line Options During Appliance Upgrade](#upgradeoptions) below.	
 
     If you attempt to run the script while the appliance is still initializing and you see the following message, wait for a few more minutes, then attempt to run the script again.
 
@@ -113,7 +113,7 @@ To bypass these prompts, you can specify command line arguments when you run the
         </tr>
         <tr>
           <td><code>--fingerprint</code></td>
-          <td>Specify the thumbprint of the vCenter Server certificate. Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.</td>
+          <td>Specify the IP address of vCenter Server and the thumbprint of the vCenter Server certificate, in the format <code>--fingerprint '<i>vcenter_server_address</i> <i>vcenter_server_thumbprint</i>'</code>. Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.</td>
         </tr>
         <tr>
           <td><code>--dc</code></td>
@@ -146,16 +146,16 @@ To bypass these prompts, you can specify command line arguments when you run the
         </tr>
         <tr>
           <td><code>--ssh-insecure-skip-verify</code></td>
-          <td>Skip the host key check for SSH access to the old appliance. Use this option if you disabled SSH access to the old appliance. </td>
+          <td>Skip the host key check for SSH access to the old appliance. Use this option if you want to use the upgrade script completely non-interactively.</td>
         </tr>
         <tr>
           <td><code>--appliance-version</code></td>
-          <td>Specify the version number of the old version of the appliance, to skip the upgrade path check. Upgrade fails if the version specified is incorrect. </td>
+          <td>Specify the version number of the old version of the appliance, in the format <code>v1.x.y</code>, to skip the upgrade path check. Upgrade fails if the version specified is incorrect. </td>
         </tr>
         <tr>
           <td><code>--destroy</code></td>
-          <td>Remove the old appliance after the upgrade is finished. Use this option if you do not want to keep the old appliance as a backup.</td>
-        </tr>
+          <td>Remove the old appliance after the upgrade is finished. Use this option if you do not want to keep the old appliance as a backup. This option requires you to confirm by entering <code>y</code> or <code>n</code> before proceeding.</td>
+        </tr> 
 		<tr>
           <td><code>--manual-disks</code></td>
           <td>Skip the automated  disk migration. Use this option if you  manually moved the disks from the old appliance to the new appliance. * </td>
@@ -171,13 +171,13 @@ The following command upgrades a vSphere Integrated Containers 1.3.1 appliance. 
 <pre>./upgrade.sh --target <i>new_appliance_address</i>
 --username 'Administrator@vsphere.local'
 --password 'P@ssW0rd!'
---fingerprint <i>vcenter_server_thumbrint</i>
+--fingerprint '<i>vcenter_server_address</i> 49:8C:56:6B:F0:E6:54:D1:3F:77:4A:81:DE:BD:61:8B:80:CE:DF:E6'
 --dc oldApplianceDatacenter
 --embedded-psc
 --appliance-target <i>old_appliance_address</i>
 --appliance-username root
 --appliance-password <i>old_appliance_root_password</i>
---appliance-version 1.3.1
+--appliance-version v1.3.1
 --destroy
 </pre>
 
@@ -188,12 +188,12 @@ The following command upgrades a vSphere Integrated Containers 1.2.1 appliance. 
 <pre>./upgrade.sh --target <i>new_appliance_address</i>
 --username 'Administrator@vsphere.local'
 --password 'P@ssW0rd!'
---fingerprint <i>vcenter_server_thumbrint</i>
+--fingerprint '<i>vcenter_server_address</i> 49:8C:56:6B:F0:E6:54:D1:3F:77:4A:81:DE:BD:61:8B:80:CE:DF:E6'
 --dc oldApplianceDatacenter
 --external-psc <i>psc_address</i>
 --external-psc-domain vsphere.local
 --appliance-target <i>old_appliance_address</i>
 --appliance-username root
 --appliance-password <i>old_appliance_root_password</i>
---appliance-version 1.2.1
+--appliance-version v1.2.1
 </pre>
