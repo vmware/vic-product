@@ -214,7 +214,7 @@ function proceedWithUpgrade {
   fi
 
   log ""
-  log "Detected old appliance's version $ver as 1.2.0 or older."
+  log "Detected old appliance's version as $ver."
   log "Upgrade from this version is not a supported upgrade path."
   log "If the old appliance's version is not detected correctly, please contact VMware support."
   exit 1
