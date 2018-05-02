@@ -164,6 +164,8 @@ To bypass these prompts, you can specify command line arguments when you run the
 
 &#42; To use the `--manual-disks` option, follow the instructions in [Upgrade the vSphere Integrated Containers Appliance by Manually Moving Disks](upgrade_appliance_manual.md).
 
+**NOTE**: Option values that contain $ (dollar sign), ` (backquote), ' (single quote), " (double quote), and \ (backslash) are not substituted correctly. Change any input, particularly passwords, that contain these values before  you run this script.
+
 ### Example: Upgrade Appliance with Embedded Platform Services Controller
 
 The following command upgrades a vSphere Integrated Containers 1.3.1 appliance. The new appliance runs in a vCenter Server instance with an embedded Platform Services Controller. The old appliance is removed when the upgrade finishes.
