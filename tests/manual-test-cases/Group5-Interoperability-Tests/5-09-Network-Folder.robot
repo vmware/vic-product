@@ -35,7 +35,6 @@ DVS Under Network Folder Setup
     &{esxes}=  Deploy Multiple Nimbus ESXi Servers in Parallel  ${esx_number}  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  ${ESX_VERSION}
     @{esx_names}=  Get Dictionary Keys  ${esxes}
     @{esx_ips}=  Get Dictionary Values  ${esxes}
-
     Set Suite Variable  @{list}  @{esx_names}[0]  @{esx_names}[1]  %{NIMBUS_USER}-${vc}
 
     # Finish vCenter deploy
@@ -87,8 +86,6 @@ DVS Under Network Folder Setup
 
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
-
-
     Set Environment Variable  TEST_URL  ${vc_ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
     Set Environment Variable  TEST_PASSWORD  Admin\!23
