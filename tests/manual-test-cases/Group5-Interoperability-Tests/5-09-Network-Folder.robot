@@ -35,7 +35,6 @@ DVS Under Network Folder Setup
     &{esxes}=  Deploy Multiple Nimbus ESXi Servers in Parallel  ${esx_number}  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  ${ESX_VERSION}
     @{esx_names}=  Get Dictionary Keys  ${esxes}
     @{esx_ips}=  Get Dictionary Values  ${esxes}
-    Set Suite Variable  @{list}  @{esx_names}[0]  @{esx_names}[1]  %{NIMBUS_USER}-${vc}
 
     Set Suite Variable  @{list}  @{esx_names}[0]  @{esx_names}[1]  %{NIMBUS_USER}-${vc}
 
