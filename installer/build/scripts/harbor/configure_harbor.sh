@@ -138,9 +138,10 @@ configureHarborCfg ssl_cert $cert
 configureHarborCfg ssl_cert_key $key
 configureHarborCfg secretkey_path $data_dir
 
-# Set MySQL and Clair DB passwords on first boot
-configureHarborCfgOnce db_password "$(genPass)"
-configureHarborCfgOnce clair_db_password "$(genPass)"
+# Set Harbor DB and Clair DB passwords on first boot
+random_pwd=$(genPass)
+configureHarborCfgOnce db_password "$random_pwd"
+configureHarborCfgOnce clair_db_password "$random_pwd"
 
 setPortInYAML $harbor_compose_file "${REGISTRY_PORT}" "${NOTARY_PORT}"
 
