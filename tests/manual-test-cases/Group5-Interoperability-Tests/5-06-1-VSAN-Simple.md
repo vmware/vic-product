@@ -13,9 +13,10 @@ This test requires access to VMWare Nimbus cluster for dynamic ESXi and vCenter 
 # Test Steps:
 1. Deploy a new vCenter in Nimbus:  
    ```--testbedName test-vpx-4esx-virtual-fullInstall-vcva-8gbmem```  
-2. Install the VIC OVA appliance
-3. Walk through completing the install and use the VCH creation wizard to create a VCH
-4. Run a variety of docker commands on the VCH appliance
+2. Enable DRS and VSAN on the cluster
+3. Install the VIC OVA appliance
+4. Walk through completing the install and use the VCH creation wizard to create a VCH
+5. Run Docker Regression Tests For VCH
 
 # Expected Outcome:
 The VCH and VIC appliance should deploy without error and each of the docker commands executed against it should return without error
