@@ -20,7 +20,7 @@ Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Variables ***
 ${old-ova-file-name}=  vic-v1.3.0-3033-f8cc7317.ova
-${old-ova-version}=  v1.3.0
+${old-ova-version}=    v1.3.0
 ${old-ova-cert-path}=  /storage/data/admiral/ca_download
 ${new-ova-cert-path}=  /storage/data/admiral/ca_download
 
