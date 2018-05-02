@@ -210,11 +210,13 @@ Wait For SSO Redirect
     Should Contain  ${out}  302
 
 Gather Support Bundle
+    # Use "Copy Support Bundle" to copy from appliance to executor
     Log To Console  \nGathering VIC Appliance support bundle
     ${out}=  Execute Command  /etc/vmware/support/appliance-support.sh
     [Return]  ${out}
 
 Get Support Bundle File
+    # Use "Copy Support Bundle" to copy from appliance to executor
     # ${command_output} is return value from Gather Support Bundle
     [Arguments]  ${command_output}
     ${lines}=  Get Lines Matching Pattern  ${command_output}  Created log bundle*
@@ -311,35 +313,8 @@ Verify OVA Network Information
 
     Close connection
 
-Execute Upgrade Script
-    # SSH into OVA appliance and execute ./upgrade script
-    # Also, gather and save log bundle
-    [Arguments]  ${ova-ip}  ${ova-ip-old}  ${datacenter-old}  ${version-old}
-    ${fingerprint}=  Get VCenter GOVC Fingerprint
-    Log To Console  ssh into appliance...
-    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@${ova-ip}
-    Log To Console  open connection...
-    Open Connection  ${ova-ip}
-
-    Log To Console  login...
-    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
-
-    # run upgrade script
-    Log To Console  upgrade ova...
-    Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${version-old} --dc ${datacenter-old} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${ova-ip-old}
-
-    # get support bundle file
-    ${output}=  Gather Support Bundle
-    Should Contain  ${output}  Created log bundle
-    ${file}=  Get Support Bundle File  ${output}
-
-    Close Connection
-
-    # copy log bundle
-    ${output}=  Run command and Return output  sshpass -p ${OVA_PASSWORD_ROOT} scp -o StrictHostKeyChecking\=no -o UserKnownHostsFile=/dev/null ${OVA_USERNAME_ROOT}@${ova-ip}:${file} .
-
-Setup Simple VC And Test Environment For Upgrade Test
-    # set up nimbus test bed and env variables for upgrade nightly tests
+Setup Simple VC And Test Environment
+    # set up nimbus test bed and env variables
     [Timeout]    110 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
     # setup nimbus testbed
@@ -381,13 +356,14 @@ Install VCH With Test Container And Push Image to Harbor
     Push Docker Image To Harbor Registry  %{OVA_IP}  ${harbor-image-tagged}
 
 Verify Running Test Container And Pushed Image
+    [Arguments]  ${cert-path}
     # verify previously created container is migrated and still running
     ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} ps
     Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  /bin/top
     # verify previously tagged and pushed image is still available
-    Pull And Verify Image In Harbor Registry  %{OVA_IP}  ${busybox}  ${sample-image-tag}  ${new-ova-cert-path}
+    Pull And Verify Image In Harbor Registry  %{OVA_IP}  ${busybox}  ${sample-image-tag}  ${cert-path}
 
 Auto Upgrade OVA With Verification
     # This is a complete keyword to run auto upgrade process and verify that upgrade is successful
@@ -410,14 +386,52 @@ Auto Upgrade OVA With Verification
     Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
 
     Execute Upgrade Script  %{OVA_IP}  %{OVA_IP_OLD}  ${old-ova-datacenter}  ${old-ova-version}
-    Verify Running Test Container And Pushed Image
+    Verify Running Test Container And Pushed Image  ${new-ova-cert-path}
+
+Execute Upgrade Script
+    # SSH into OVA appliance and execute ./upgrade script
+    # Also, gather and save log bundle
+    [Arguments]  ${new-appliance-ip}  ${old-appliance-ip}  ${datacenter}  ${old-appliance-version}
+    ${fingerprint}=  Get VCenter GOVC Fingerprint
+    Log To Console  ssh into appliance...
+    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@${new-appliance-ip}
+    Log To Console  open connection...
+    Open Connection  ${new-appliance-ip}
+
+    Log To Console  login...
+    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
+
+    # run upgrade script
+    Log To Console  upgrade ova...
+    Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip}
+
+    Copy Support Bundle
+
+Execute Upgrade Script Manual Disk Move
+    # Executes the VIC appliance upgrade script using --manual-disks flag
+    # Assumes old disks are already attached to the new appliance
+    [Arguments]  ${new-appliance-ip}  ${old-appliance-ip}  ${datacenter}  ${old-appliance-version}
+    ${fingerprint}=  Get VCenter GOVC Fingerprint
+    Log To Console  ssh into appliance...
+    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@${new-appliance-ip}
+    Log To Console  open connection...
+    Open Connection  ${new-appliance-ip}
+
+    Log To Console  login...
+    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
+
+    # run upgrade script
+    Log To Console  upgrade ova...
+    Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip}  --manual-disks
+
+    Copy Support Bundle
 
 # TODO Remove after end of 1.2.1 support
 Copy and Attach Disk v1.2.1
     # This powers off the old appliance to copy data disk
     # Blank data disk is detached from the new appliance
     # Copied disk is attached to the new appliance
-    [Arguments]  ${old-ova-vm-name}  ${old-ova-ip}  ${new-ova-vm-name}  ${datacenter}
+    [Arguments]  ${old-ova-vm-name}  ${new-ova-vm-name}  ${datacenter}
     ${old-ds}=  Get Datastore  ${old-ova-vm-name}
     ${new-ds}=  Get Datastore  ${new-ova-vm-name}
 
@@ -440,7 +454,7 @@ Copy and Attach Disk
     # This powers off the old appliance to copy disks
     # Blank disks are detached from the new appliance
     # Copied disks are attached to the new appliance
-    [Arguments]  ${old-ova-vm-name}  ${old-ova-ip}  ${new-ova-vm-name}  ${datacenter}
+    [Arguments]  ${old-ova-vm-name}  ${new-ova-vm-name}  ${datacenter}
     ${old-ds}=  Get Datastore  ${old-ova-vm-name}
     ${new-ds}=  Get Datastore  ${new-ova-vm-name}
 
@@ -531,9 +545,3 @@ VM Is Powered Off
     Log  ${output}
     Log  ${rc}
     Should Contain  ${output}  "poweredOff"
-
-Execute Upgrade Script Manual Disk Move
-    # Executes the VIC appliance upgrade script using --manual-disks flag
-    # Assumes old disks are already attached to the new appliance
-    [Arguments]  ${old-ova-ip}  ${new-ova-ip}
-
