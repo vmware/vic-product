@@ -403,3 +403,22 @@ Auto Upgrade OVA With Verification
     Should Contain  ${output}  /bin/top
     # verify previously tagged and pushed image is still available
     Pull And Verify Image In Harbor Registry  %{OVA_IP}  ${busybox}  ${sample-image-tag}  ${new-ova-cert-path}
+
+Deploy OVA And Install UI Plugin And Run Regression Tests
+    # Deploy OVA and then install UI plugin
+    # run regression tests on UI wizard and docker commands on VCH created using UI
+    [Arguments]  ${test-name}  ${ova-file}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${have-cluster}=${TRUE}
+    Log To Console  \nStarting test ${test-name}...
+    Set Environment Variable  OVA_NAME  OVA-${test-name}
+    Set Global Variable  ${OVA_USERNAME_ROOT}  root
+    Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
+    # install ova
+    Install And Initialize VIC Product OVA  ${ova-file}  %{OVA_NAME}
+    # set browser variables
+    Set Browser Variables
+    # Install VIC Plugin
+    Download VIC And Install UI Plugin  %{OVA_IP}
+    # create vch using UI
+    Create VCH using UI And Set Docker Parameters  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${have-cluster}
+    # run vch regression tests
+    Run Docker Regression Tests For VCH
