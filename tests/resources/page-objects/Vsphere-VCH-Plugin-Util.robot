@@ -14,7 +14,7 @@
 
 *** Settings ***
 Documentation  This resource contains any keywords dealing with web based operations being performed within vSphere on the VCH plugin
-Resource  ../../resources/UI-Util.robot
+Resource  ../../resources/Util.robot
 
 *** Variables ***
 # css locators
@@ -153,3 +153,53 @@ Set Docker Host Parameters
     Set Test Variable  ${VCH-PORT}  ${port}
     Run Keyword If  ${port} == 2376  Set Test Variable  ${VCH-PARAMS}  -H ${docker-host} --tls
     Run Keyword If  ${port} == 2375  Set Test Variable  ${VCH-PARAMS}  -H ${docker-host}
+
+Create VCH using UI And Set Docker Parameters
+    # navigate to the wizard and create a VCH
+    # set docker parameters for created VCH
+    [Arguments]  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${have-cluster}=${TRUE}
+    Open Firefox Browser
+    Navigate To VC UI Home Page
+    Login On Single Sign-On Page
+    Verify VC Home Page
+    Navigate To VCH Creation Wizard
+    Navigate To VCH Tab
+    Click New Virtual Container Host Button
+
+    #general
+    ${name}=  Evaluate  'VCH-${test-name}-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
+    Input VCH Name  ${name}
+    Click Next Button
+    # compute capacity
+    Log To Console  Selecting compute resource...
+    # if cluster is present
+    Run Keyword If  ${have-cluster}  Wait Until Element Is Visible And Enabled  css=.clr-treenode-children .cc-resource
+    Run Keyword If  ${have-cluster}  Click Button  css=.clr-treenode-children .cc-resource
+    # if cluster is not present
+    Run Keyword Unless  ${have-cluster}  Wait Until Element Is Visible And Enabled  css=button.clr-treenode-caret
+    Run Keyword Unless  ${have-cluster}  Click Button  css=button.clr-treenode-caret
+    Run Keyword Unless  ${have-cluster}  Wait Until Element Is Visible And Enabled  css=.clr-treenode-content clr-tree-node:nth-of-type(1) .cc-resource
+    Run Keyword Unless  ${have-cluster}  Click Button  css=.clr-treenode-content clr-tree-node:nth-of-type(1) .cc-resource
+    Click Next Button
+    # storage capacity
+    Select Image Datastore  ${datastore}
+    Click Next Button
+    #networks
+    Select Bridge Network  ${bridge-network}
+    Select Public Network  ${public-network}
+    Click Next Button
+    # security
+    Toggle Client Certificate Option
+    Click Next Button
+    #registry access
+    Click Next Button
+    # ops-user
+    Input Ops User Name  ${ops-user}
+    Input Ops User Password  ${ops-pwd}
+    Click Next Button
+    # summary
+    Click Finish Button
+    Unselect Frame
+    Wait Until Page Does Not Contain  VCH name
+    # retrieve docker parameters from UI
+    Set Docker Host Parameters

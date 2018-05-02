@@ -30,108 +30,19 @@ DRS Setup
     Should Be Empty  ${out}
     Should Be Equal As Integers  ${rc}  0
 
+    Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls/Resources
+
 *** Test Cases ***
 Test
-    Log To Console  \nStarting test...
-    Set Environment Variable  OVA_NAME  OVA-5-08-TEST
-    Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls/Resources
-    Set Global Variable  ${OVA_USERNAME_ROOT}  root
-    Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
-    Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}
-
-    Set Browser Variables
-
-    # Install VIC Plugin
-    Download VIC And Install UI Plugin  %{OVA_IP}
-
-    Log To Console  Create VCH with DRS disabled....
-    # Navigate to the wizard and create a VCH
-    Open Firefox Browser
-    Navigate To VC UI Home Page
-    Login On Single Sign-On Page
-    Verify VC Home Page
-    Navigate To VCH Creation Wizard
-    Navigate To VCH Tab
-    Click New Virtual Container Host Button
-
-    # general
-    ${name}=  Evaluate  'VCH-5-04-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
-    Input VCH Name  ${name}
-    Click Next Button
-    # compute capacity
-    Log To Console  Selecting compute resource...
-    Wait Until Element Is Visible And Enabled  css=.clr-treenode-children .cc-resource
-    Click Button  css=.clr-treenode-children .cc-resource
-    Click Next Button
-    # storage capacity
-    Select Image Datastore  %{TEST_DATASTORE}
-    Click Next Button
-    # networks
-    Select Bridge Network  %{BRIDGE_NETWORK}
-    Select Public Network  %{PUBLIC_NETWORK}
-    Click Next Button
-    # security
-    Toggle Client Certificate Option
-    Click Next Button
-    # registry access
-    Click Next Button
-    # ops-user
-    Input Ops User Name  %{TEST_USERNAME}
-    Input Ops User Password  %{TEST_PASSWORD}
-    Click Next Button
-    # summary
-    Click Finish Button
-    Unselect Frame
-    Wait Until Page Does Not Contain  VCH name
-    # retrieve docker parameters from UI
-    Set Docker Host Parameters
-
-    # run vch regression tests
-    Run Docker Regression Tests For VCH
-
+    Log To Console  Create VCH with DRS disabled...
+    Deploy OVA And Install UI Plugin And Run Regression Tests  5-8-NO-DRS  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
 
     Log To Console  Enable DRS on the cluster....
     ${rc}  ${out}=  Run And Return Rc And Output  govc cluster.change -drs-enabled /ha-datacenter/host/cls
     Should Be Empty  ${out}
     Should Be Equal As Integers  ${rc}  0
 
-    Log To Console  Create VCH with DRS enabled
-    Wait Until Page Contains  Summary
-    Wait Until Page Contains  Virtual Container Hosts
-    Wait Until Page Contains  Containers
-
-    Click New Virtual Container Host Button
-    # general
-    ${name}=  Evaluate  'VCH-5-05-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
-    Input VCH Name  ${name}
-    Click Next Button
-    # compute capacity
-    Log To Console  Selecting compute resource...
-    Wait Until Element Is Visible And Enabled  css=.clr-treenode-children .cc-resource
-    Click Button  css=.clr-treenode-children .cc-resource
-    Click Next Button
-    # storage capacity
-    Select Image Datastore  %{TEST_DATASTORE}
-    Click Next Button
-    # networks
-    Select Bridge Network  %{BRIDGE_NETWORK}
-    Select Public Network  %{PUBLIC_NETWORK}
-    Click Next Button
-    # security
-    Toggle Client Certificate Option
-    Click Next Button
-    # registry access
-    Click Next Button
-    # ops-user
-    Input Ops User Name  %{TEST_USERNAME}
-    Input Ops User Password  %{TEST_PASSWORD}
-    Click Next Button
-    # summary
-    Click Finish Button
-    Unselect Frame
-    Wait Until Page Does Not Contain  VCH name
-    # retrieve docker parameters from UI
-    Set Docker Host Parameters
-
+    Log To Console  Create VCH with DRS enabled...
+    Create VCH using UI And Set Docker Parameters  5-8-TEST-DRS  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
     # run vch regression tests
     Run Docker Regression Tests For VCH
