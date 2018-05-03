@@ -16,7 +16,7 @@
 Documentation  Test 2-05 - Static IP
 Resource  ../../resources/Util.robot
 Suite Setup  Wait Until Keyword Succeeds  10x  10m  Simple VC Setup
-Suite Teardown  Run Keywords And Ignore Error  Nimbus Cleanup  ${list}
+Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Variables ***
 ${esx_number}=  2
