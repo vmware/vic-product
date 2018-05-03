@@ -360,8 +360,9 @@ Setup Simple VC And Test Environment For Upgrade Test
     Set Environment Variable  DRONE_BUILD_NUMBER  0
     Set Environment Variable  VCH_TIMEOUT  20m0s
     # set docker variables
-    Set Global Variable  ${DEFAULT_LOCAL_DOCKER}  DOCKER_API_VERSION=1.23 docker
-    Set Global Variable  ${DEFAULT_LOCAL_DOCKER_ENDPOINT}  unix:///var/run/docker-local.sock
+    # not using dind but host dockerd for these nightly tests
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER}  docker
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER_ENDPOINT}  unix:///var/run/docker.sock
     # set harbor variables
     Set Global Variable  ${DEFAULT_HARBOR_PROJECT}  default-project
     # check VC
@@ -381,7 +382,6 @@ Auto Upgrade OVA With Verification
     Download VIC Engine If Not Already  %{OVA_IP}
     Install VCH And Create Running Busybox Container  %{OVA_IP}
     # tag and push an image to harbor
-    Setup Docker Daemon
     ${harbor-image-name}=  Set Variable  %{OVA_IP}/${DEFAULT_HARBOR_PROJECT}/${busybox}
     ${harbor-image-tagged}=  Set Variable  ${harbor-image-name}:${sample-image-tag}
     Pull And Tag Docker Image  ${busybox}  ${harbor-image-tagged}
