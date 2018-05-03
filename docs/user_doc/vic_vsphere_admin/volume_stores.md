@@ -57,7 +57,7 @@ vSphere Integrated Containers mounts NFS volumes as `root`. Consequently, if con
 
 Permissions are determined by the NFS server. If a container runs as non-root and it attempts to write into the NFS mount, the permissions on the server side must grant the accessing user the ability to perform the requested actions. To allow this, the `other` (also known as `world`) permissions must be set. Alternatively, the user that is accessing the NFS mount should be part of the same `Group` that owns the share. To facilitate this, you can configure the share point with an anonymous user. You can also use `root_squash`, which is designed to map the root user to the anonymous user. Using `all squash` maps all UIDs/GIDs to the anonymous UID/GID.
 
-In this case, you can configure the volume store with a UID/GID for creation and reading. The configuration of the sharepoint is dependent on your setup, but it will most likely need to map the `root` user to the `anon` user because there will be many containers potentially attempting to read or write to the same location. You make this configuration on the NFS server.
+In this case, you must configure the volume store with a UID/GID for creation and reading. The configuration of the sharepoint is dependent on your setup, but it will need to map the `root` user to the `anon` user with at least root level squashing enabled. This is because there will be many containers potentially attempting to read or write to the same location. You make this configuration on the NFS server.
 
 The `root` user must also be a member of the GID that you configure the VCH to use.
 
