@@ -29,8 +29,6 @@ Start Docker Daemon Locally
     OperatingSystem.File Should Exist  ${dockerd-path}
     Log To Console  Starting docker daemon locally
     ${pid}=  Run  pidof dockerd
-    Run Keyword If  '${pid}' != '${EMPTY}'  Run  kill -9 ${pid}
-    Run Keyword If  '${pid}' != '${EMPTY}'  Log To Console  \nKilling local dangling dockerd process: ${pid}
     ${handle}=  Start Process  ${dockerd-path} >${log} 2>&1  shell=True
     Process Should Be Running  ${handle}
     :FOR  ${IDX}  IN RANGE  5
