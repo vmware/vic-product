@@ -382,7 +382,6 @@ Auto Upgrade OVA With Verification
     Download VIC Engine If Not Already  %{OVA_IP}
     Install VCH And Create Running Busybox Container  %{OVA_IP}
     # tag and push an image to harbor
-    Setup Docker Daemon
     ${harbor-image-name}=  Set Variable  %{OVA_IP}/${DEFAULT_HARBOR_PROJECT}/${busybox}
     ${harbor-image-tagged}=  Set Variable  ${harbor-image-name}:${sample-image-tag}
     Pull And Tag Docker Image  ${busybox}  ${harbor-image-tagged}
