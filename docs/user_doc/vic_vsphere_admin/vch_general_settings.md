@@ -34,7 +34,7 @@ If a folder of the same name exists in the target datastore, `vic-machine create
 
 ### Container VM Name Template <a id="container-name-convention"></a>
 
-Enforce a naming convention for container VMs, that applies a prefix or suffix to the names of all container VMs that run in the VCH. Applying a naming convention to container VMs facilitates organizational requirements such as chargeback. The container naming convention applies to the display name of the container VM that appears in the vSphere Client, not to the container name that Docker uses. 
+Enforce a naming convention for container VMs, that applies a prefix and/or suffix to the names of all container VMs that run in the VCH. Applying a naming convention to container VMs facilitates organizational requirements such as chargeback. The container naming convention applies to the display name of the container VM that appears in the vSphere Client, not to the container name that Docker uses. 
 
 You specify whether to use the container name or the container ID for the second part of the container VM display name. If you use the container name, the container VM display names use either the name that Docker generates for the container, or a name that the container developer specifies in `docker run --name` when they run the container.
 
@@ -48,7 +48,7 @@ You specify whether to use the container name or the container ID for the second
 
 `--container-name-convention`, `--cnc`
 
-Specify a prefix and/or suffix to apply to container names, and add `{name}` or `{id}`, including the curly brackets, to specify whether to use the container name or the container ID for the second part of the container VM display name. 
+Specify a prefix and/or suffix to apply to container names, and add `{name}` or `{id}` including the curly brackets, to specify whether to use the container name or the container ID for the second part of the container VM display name. 
 
 <pre>--container-name-convention <i>cVM_name_prefix</i>-{name}</pre>
 <pre>--container-name-convention {id}-<i>cVM_name_suffix</i></pre>
@@ -114,7 +114,7 @@ The following examples show `vic-machine create` commands that use the options d
 
 ### Set a Container Name Convention <a id="convention"></a>
 
-This example `vic-machine create` command deploys a VCH that specifies `--container-name-convention` so that the vCenter Server  display names of all container VMs include the prefix `vch1-container` followed by the container name.
+This example `vic-machine create` command deploys a VCH that specifies `--container-name-convention` so that the vCenter Server display names of all container VMs include the prefix `vch1`, followed by the container name, and the suffix `project1`.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
@@ -125,7 +125,7 @@ This example `vic-machine create` command deploys a VCH that specifies `--contai
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
---container-name-convention vch1-container-{name}
+--container-name-convention vch1-{name}-project1
 </pre>
 
 ### Configure Debugging and Sylog on a VCH <a id="syslog"></a>
