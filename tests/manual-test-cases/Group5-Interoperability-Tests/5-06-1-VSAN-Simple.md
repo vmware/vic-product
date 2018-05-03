@@ -12,7 +12,7 @@ This test requires access to VMWare Nimbus cluster for dynamic ESXi and vCenter 
 
 # Test Steps:
 1. Deploy a new vCenter in Nimbus:  
-   ```--testbedName test-vpx-4esx-virtual-fullInstall-vcva-8gbmem```  
+   ```--testbedName vic-vsan-simple-pxeBoot-vcva```  
 2. Enable DRS and VSAN on the cluster
 3. Install the VIC OVA appliance
 4. Walk through completing the install and use the VCH creation wizard to create a VCH
