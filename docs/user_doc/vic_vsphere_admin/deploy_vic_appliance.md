@@ -15,7 +15,9 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
 
 - You downloaded an official build or an open-source build of the OVA installer. For information about where to download the installer, see [Download the vSphere Integrated Containers Installer](download_vic.md).
 - Verify that the environment in which you are deploying the appliance meets the prerequisites described in [Deployment Prerequisites for vSphere Integrated Containers](vic_installation_prereqs.md).
-- Use the Flex-based vSphere Web Client to deploy the appliance. You cannot deploy OVA files from the HTML5 vSphere Client or from the legacy Windows client.
+- Use the Flex-based vSphere Web Client to deploy the appliance. You cannot deploy OVA files from the HTML5 vSphere Client or from the legacy Windows client. 
+
+    **IMPORTANT**: In vSphere 6.7, the HTML5 client does not prevent you from deploying OVA files and deployment appears to succeed. However, the resulting appliance does not function correctly due to an issue with the vSphere 6.7 HTML5 client. Always use the Flex-based vSphere Web Client to deploy the appliance OVA, even if you are using vSphere 6.7.
 
 **Procedure**
 

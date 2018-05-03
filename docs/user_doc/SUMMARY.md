@@ -102,6 +102,7 @@
          * [Access VCH Logs](vic_vsphere_admin/log_bundles.md)
      * [Appliance Deployment](vic_vsphere_admin/ts_deploy_appliance.md)
          * [Appliance OVF Error](vic_vsphere_admin/ts_ovf_error.md)
+         *  [Registry Services Do Not Start](vic_vsphere_admin/ts_reg_doesnt_start.md)
          * [Appliance VM Password Refused](vic_vsphere_admin/ts_appliance_password_refused.md)
          * [Browser Rejects Certificates](vic_vsphere_admin/ts_cert_error.md)
      * [Plug-In Installation](vic_vsphere_admin/ts_install_plugins.md)     
