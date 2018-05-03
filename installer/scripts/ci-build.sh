@@ -47,7 +47,21 @@ fi
 if [ -n "${VIC_MACHINE_SERVER}" ]; then
   OPTIONS="$OPTIONS --vicmachineserver $VIC_MACHINE_SERVER"
 elif [[ "$DRONE_BRANCH" == *"releases/"* ]]; then
-  vicmachineserver_release="latest"
+
+  # Listing container tags requires permissions
+  if [ -z "$(gcloud auth list --filter=status:ACTIVE --format='value(account)')" ]; then
+    if [ -z "${GOOGLE_KEY}" ]; then
+      echo "No google service account key found..."
+      exit 1
+    fi
+    echo "Attempting to login with google account service key"
+    KEY_FILE=".tmp.token"
+    cat "${GOOGLE_KEY}" > ${KEY_FILE}
+    gcloud auth activate-service-account --key-file ${KEY_FILE} || (echo "Login with service account key failed..." && exit 1)
+    rm ${KEY_FILE}
+  fi
+
+  vicmachineserver_release="$(gcloud container images list-tags gcr.io/eminent-nation-87317/vic-machine-server --filter='tags~.' | grep -v DIGEST | awk '{print $2}' | sed -rn '/^v([0-9]\.?){3}(-rc[0-9])?$/p' | head -n 1)"
   OPTIONS="$OPTIONS --vicmachineserver $vicmachineserver_release"
 fi
 
