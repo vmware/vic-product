@@ -83,6 +83,7 @@
          * [Access VCH Logs](log_bundles.md)
      * [Appliance Deployment](ts_deploy_appliance.md)
          * [Appliance OVF Error](ts_ovf_error.md)
+         * [Registry Services Do Not Start](ts_reg_doesnt_start.md)
          * [Appliance VM Password Refused](ts_appliance_password_refused.md)
          * [Browser Rejects Certificates](ts_cert_error.md)
      * [Plug-In Installation](ts_install_plugins.md)     
