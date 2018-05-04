@@ -30,6 +30,8 @@ ${subnet-nimbus}=  255.255.224.0
 Simple VC Setup
     [Timeout]    110 minutes
 
+    Set Suite Variable  ${NIMBUS_LOCATION}  NIMBUS_LOCATION=wdc
+
     ${esx1}  ${esx2}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${vc-ip}=  Create a Simple VC Cluster  ${ha-datacenter}  ${cluster}  ${esx_number}
     Log To Console  Finished Creating Cluster ${vc}
 
