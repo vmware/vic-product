@@ -109,7 +109,7 @@ Obtain version information from `/etc/vmware/version`
 
 Description template for release candidates and releases:
 
-```
+``
 ### [Download OVA](https://storage.googleapis.com/vic-product-ova-releases/vic-v1.4.0-rc3-4824-d99cbdb4.ova)
 Filesize: 
 SHA256:  
@@ -117,16 +117,16 @@ SHA1:
 MD5: 
 
 ### OVA will contain:
-````
+```
 appliance=v1.4.0-rc3-4824-d99cbdb4
 harbor=harbor-offline-installer-v1.5.0-rc4.tgz
 engine=vic_v1.4.0-rc2.tar.gz
 admiral=vmware/admiral:vic_v1.4.0-rc4 45a773ffae33
 vic-machine-server=gcr.io/eminent-nation-87317/vic-machine-server:latest b3412e003674
-````
+```
 ### [Changes from v1.3.1](https://github.com/vmware/vic-product/compare/v1.3.1...v1.4.0-rc3)
 
-```
+``
 
 If the release is a release candidate, mark `This is a pre-release`
 
