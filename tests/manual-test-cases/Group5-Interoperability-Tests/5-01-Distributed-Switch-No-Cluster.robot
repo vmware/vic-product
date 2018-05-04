@@ -75,4 +75,4 @@ Distributed Switch Setup
 
 *** Test Cases ***
 Test
-    Deploy OVA And Install UI Plugin And Run Regression Tests  5-01-TEST  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}  ${FALSE}
+    Deploy OVA And Install UI Plugin And Run Regression Tests  5-01-TEST  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
