@@ -1,6 +1,8 @@
 Group 2 - OVA Features
 =======
 
+[Test 2-05 - Static IP](2-05-Static-IP.md)
+-
 [Test 2-06 - Trusted Content](2-06-Trusted-Content.md)
 -
 [Test 2-07 - New Install 1.2](2-07-New-Install-12.md)
