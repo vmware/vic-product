@@ -32,7 +32,9 @@ Simple VC Setup
 
     ${esx1}  ${esx2}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${vc-ip}=  Create a Simple VC Cluster  ${ha-datacenter}  ${cluster}  ${esx_number}
     Log To Console  Finished Creating Cluster ${vc}
-    Set Suite Variable  @{list}  ${esx1}  ${esx2}  %{NIMBUS_USER}-${vc}
+
+    Set Suite Variable  ${vc-name}  %{NIMBUS_USER}-${vc}
+    Set Suite Variable  @{list}  ${esx1}  ${esx2}  ${vc-name}
 
     Set Environment Variable  TEST_URL  ${vc-ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
@@ -50,7 +52,7 @@ Deploy OVA With Static IP
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
     # create static ip
-    Set Nimbus POD Variable  %{NIMBUS_USER}-${vc}
+    Set Nimbus POD Variable  ${vc-name}
     ${static}=  Get Static IP Address
     Append To List  ${list}  %{STATIC_WORKER_NAME}
     # install ova using static ip
