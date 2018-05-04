@@ -166,11 +166,11 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
     <pre>$ cd /etc/vmware/upgrade</pre>
     <pre>$ ./upgrade.sh --manual-disks</i></pre>
 
+    You can bypass the following steps by specifying additional optional arguments when you run the upgrade script. For information about the arguments that you can specify, see [Specify Command Line Options During Appliance Upgrade](upgrade_appliance.md#upgradeoptions).
+    
     If you attempt to run the script while the appliance is still initializing and you see the following message, wait for a few more minutes, then attempt to run the script again.
 
     <pre>Appliance services not ready. Please wait until vic-appliance-load-docker-images.service has completed.</pre>
-
-    As the script runs, respond to the prompts to provide the following information: 
 
 9. Provide information about the new version of the appliance.
 
