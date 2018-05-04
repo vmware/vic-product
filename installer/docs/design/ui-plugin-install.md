@@ -22,8 +22,18 @@
 - If the plugin install fails, an error message will be displayed on the Getting Started Page. This message will include directions to contact support or link to documentation.
 - In case the plugin install fails or reinstallation is later required, a method to redo the plugin install will be provided from the Getting Started Page. 
 - The automated plugin install should also work with the `/register` API endpoint provided by `fileserver`.
-- A manual process for running the plugin install should be documented and tested
-	- This may be either usage of the `/register` API or a standalone plugin install binary
+- A manual process for running the plugin install should be documented and tested.
+	- This may be either usage of the `/register` API or a standalone plugin install binary.
+
+## Testing
+
+- Tests for the automated install process should be added to the nightly test system since the UI
+  plugin requires an isolated vSphere environment.
+  - Tests should verify that errors are not returned during the plugin install.
+  - Tests should login to the vSphere UI and verify that the plugin functions properly.
+  - Tests should cover using both the UI and API. 
+- If a standalone go binary is provided, this should also be tested, though manual tests may be
+  sufficient if automated tests would require excessive engineering effort.
 
 ## References
 
