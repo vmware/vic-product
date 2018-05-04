@@ -9,6 +9,8 @@ vSphere Integrated Containers supports the use of container volumes. You can cre
 - [Create a Volume in a Volume Store](#create_vol)
 - [Creating Volumes from Images](#image_volumes)
 - [Create a Container with a New Anonymous or Named Volume](#create_container)
+  - [Create a Container with a New Anonymous Volume](#create_container_anon)
+  - [Create a Container with a Named Volume](#create_container_named)
 - [Mount Existing vSphere-Backed Volumes on Containers](#mount)
 - [Sharing NFS-Backed Volumes Between Containers](#mount_nfs)
 - [Obtain Information About a Volume](#inspect_vol) 
@@ -101,7 +103,7 @@ If you intend to create named or anonymous volumes by using `docker create -v` w
 - vSphere Integrated Containers Engine does not support mounting  vSphere datastore folders as data volumes. A command such as <code>docker create -v /<i>folder_name</i>:/<i>folder_name</i> busybox</code> is not supported if the volume store is a vSphere datastore.
 - If you use `docker create -v` to create containers and mount new volumes on them, vSphere Integrated Containers Engine only supports the `-r` and `-rw` options.
 
-### Create a Container with a New Anonymous Volume ###
+### Create a Container with a New Anonymous Volume <a id="create_container_anon"></a>
 
 To create an anonymous volume, you include the path to the destination at which you want to mount the anonymous volume in the `docker create -v` command. Docker creates the anonymous volume in the `default` volume store, if it exists. The VCH mounts the anonymous volume on the container.
 
@@ -113,7 +115,7 @@ The `docker create -v` example below performs the following actions:
 <pre>docker -H <i>virtual_container_host_address</i>:2376 --tls 
 create -v /volumes busybox</pre>
 
-### Create a Container with a Named Volume ###
+### Create a Container with a Named Volume <a id="create_container_named"></a>
 
 To create a container with a new named volume, you specify a volume name in the `docker create -v` command. When you create containers that with named volumes, the VCH checks whether the volume exists in the volume store, and if it does not, creates it. The VCH mounts the existing or new volume on the container.
 
@@ -162,6 +164,8 @@ previously mounted to container1]</pre>
 If your volume store is in an NFS share point, sharing volumes between containers is not subject to any limitations. In vSphere Integrated Containers, the `local` driver is the vSphere Integrated Containers Docker personality. Consequently, the way to create NFS volumes with vSphere Integrated Containers is slightly different to how you do it with regular Docker. All that you need to do to create an NFS volume for a container is provide the name of the appropriate volume store in the `docker volume create` command.
 
 <pre>docker volume create --opt volumestore=<i>nfs_volumestore_name</i></pre>
+
+**NOTE**: vSphere Integrated Containers mounts NFS volumes as `root`. Consequently, if containers are to run as non-root users, the volume  store must be configured with the correct permissions so that the non-root users can access it, with at least root level squashing enabled. For information about how to configure NFS volume stores for non-root users, see [About NFS Volume Stores and Permissions](../vic_vsphere_admin/volume_stores.md#nfs_perms) in *Install, Deploy, and Maintain the vSphere Integrated Containers Infrastructure*.
 
 ## Obtain Information About a Volume <a id="inspect_vol"></a>
 To get information about a volume, run `docker volume inspect` and specify the name of the volume.
