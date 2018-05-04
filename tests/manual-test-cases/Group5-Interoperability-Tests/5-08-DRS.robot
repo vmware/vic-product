@@ -13,7 +13,7 @@
 # limitations under the License
 
 *** Settings ***
-Documentation  Test 5-8 - DRS
+Documentation  Test 5-08 - DRS
 Resource  ../../resources/Util.robot
 Suite Setup  Wait Until Keyword Succeeds  10x  10m  DRS Setup
 Suite Teardown  Nimbus Cleanup  ${list}
@@ -35,7 +35,7 @@ DRS Setup
 *** Test Cases ***
 Test
     Log To Console  Create VCH with DRS disabled...
-    Deploy OVA And Install UI Plugin And Run Regression Tests  5-8-NO-DRS  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
+    Deploy OVA And Install UI Plugin And Run Regression Tests  5-08-NO-DRS  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
 
     Log To Console  Enable DRS on the cluster....
     ${rc}  ${out}=  Run And Return Rc And Output  govc cluster.change -drs-enabled /ha-datacenter/host/cls
@@ -43,6 +43,6 @@ Test
     Should Be Equal As Integers  ${rc}  0
 
     Log To Console  Create VCH with DRS enabled...
-    Create VCH using UI And Set Docker Parameters  5-8-TEST-DRS  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
+    Create VCH using UI And Set Docker Parameters  5-08-TEST-DRS  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
     # run vch regression tests
     Run Docker Regression Tests For VCH
