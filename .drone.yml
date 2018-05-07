@@ -79,7 +79,7 @@ pipeline:
 
   unified-ova-build:
     group: build
-    image: 'gcr.io/eminent-nation-87317/vic-product-build:2ea9bdfd'
+    image: 'gcr.io/eminent-nation-87317/vic-product-build:33e3b968'
     pull: true
     privileged: true
     environment:
@@ -91,7 +91,7 @@ pipeline:
       - harbor
       - vic_machine_server
       - vicengine
-      - google_key
+      - gs_token_key
     volumes:
       - '/dev:/dev'
       - '/var/run/docker.sock:/var/run/docker.sock'
