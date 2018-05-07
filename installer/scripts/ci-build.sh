@@ -46,17 +46,17 @@ fi
 
 if [ -n "${VIC_MACHINE_SERVER}" ]; then
   OPTIONS="$OPTIONS --vicmachineserver $VIC_MACHINE_SERVER"
-elif [[ "$DRONE_BRANCH" == *"releases/"* ]]; then
+elif [[ "$DRONE_BRANCH" == *"releases/"* || true ]]; then
 
   # Listing container tags requires permissions
   if [ -z "$(gcloud auth list --filter=status:ACTIVE --format='value(account)')" ]; then
-    if [ -z "${GOOGLE_KEY}" ]; then
+    if [ -z "${GS_TOKEN_KEY}" ]; then
       echo "No google service account key found..."
       exit 1
     fi
     echo "Attempting to login with google account service key"
     KEY_FILE=".tmp.token"
-    echo "${GOOGLE_KEY}" > ${KEY_FILE}
+    echo "${GS_TOKEN_KEY}" > ${KEY_FILE}
     gcloud auth activate-service-account --key-file ${KEY_FILE} || (echo "Login with service account key failed..." && exit 1)
     rm -f ${KEY_FILE}
   fi
@@ -68,4 +68,4 @@ fi
 echo "OPTIONS = $OPTIONS"
 
 # invoke build script
-$INSTALLER_DIR/build/build.sh ova-ci $OPTIONS
+# $INSTALLER_DIR/build/build.sh ova-ci $OPTIONS
