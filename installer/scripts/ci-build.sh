@@ -61,7 +61,7 @@ elif [[ "$DRONE_BRANCH" == *"releases/"* ]]; then
     rm -f ${KEY_FILE}
   fi
 
-  vicmachineserver_release="$(gcloud container images list-tags gcr.io/eminent-nation-87317/vic-machine-server --filter='tags~.' | grep -v DIGEST | awk '{print $2}' | sed -rn '/^v([0-9]+\.){2}[0-9]+(-rc[0-9]+)?$/p' | head -n 1)"
+  vicmachineserver_release="$(gcloud container images list-tags gcr.io/eminent-nation-87317/vic-machine-server --filter='tags~.' | grep -v DIGEST | awk '{print $2}' | sed -rn 's/^(.*,)?(v([0-9]+\.){2}[0-9]+(-rc[0-9]+)?)(,.*)?$/\2/p' | head -n 1)"
   OPTIONS="$OPTIONS --vicmachineserver $vicmachineserver_release"
 fi
 
