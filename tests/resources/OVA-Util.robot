@@ -419,6 +419,7 @@ Deploy OVA And Install UI Plugin And Run Regression Tests
     # Install VIC Plugin
     Download VIC And Install UI Plugin  %{OVA_IP}
     # create vch using UI
-    Create VCH using UI And Set Docker Parameters  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${have-nested}
+    # retry UI steps if failed
+    Wait Until Keyword Succeeds  3x  1m  Create VCH using UI And Set Docker Parameters  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${have-nested}
     # run vch regression tests
     Run Docker Regression Tests For VCH
