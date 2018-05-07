@@ -31,12 +31,24 @@ Gather All vSphere Logs
 
 *** Test Cases ***
 Test
-   Set Test Variable  ${user}  %{NIMBUS_USER}
-   Set Suite Variable  @{list}  ${user}-vic-vmotion-13-1.vcva-${VC_VERSION}  ${user}-vic-vmotion-13-1.esx.0  ${user}-vic-vmotion-13-1.esx.1  ${user}-vic-vmotion-13-1.esx.2  ${user}-vic-vmotion-13-1.esx.3  ${user}-vic-vmotion-13-1.nfs.0  ${user}-vic-vmotion-13-1.iscsi.0
+   #Set Test Variable  ${user}  %{NIMBUS_USER}
+   #Set Suite Variable  @{list}  ${user}-vic-vmotion-13-1.vcva-${VC_VERSION}  ${user}-vic-vmotion-13-1.esx.0  ${user}-vic-vmotion-13-1.esx.1  ${user}-vic-vmotion-13-1.esx.2  ${user}-vic-vmotion-13-1.esx.3  ${user}-vic-vmotion-13-1.nfs.0  ${user}-vic-vmotion-13-1.iscsi.0
+   Log To Console  Deploy VIC to the VC cluster
+   Set Environment Variable  TEST_URL  ${vc-ip}
+   Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
+   Set Environment Variable  TEST_PASSWORD  Admin\!23
+   Set Environment Variable  BRIDGE_NETWORK  bridge
+   Set Environment Variable  PUBLIC_NETWORK  vm-network
+   Remove Environment Variable  TEST_DATACENTER
+   Set Environment Variable  TEST_DATASTORE  datastore1
+   Set Environment Variable  TEST_RESOURCE  /vcqaDC/host/cls
+   Set Environment Variable  TEST_TIMEOUT  30m
+
+
    Set Environment Variable  OVA_NAME  OVA-5-06-1-TEST
    Set Global Variable  ${OVA_USERNAME_ROOT}  root
    Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
-   Install And Initialize VIC Product OVA  bin/vic-dev-v1.5.0-dev1-4696-d2fb430c.ova  %{OVA_NAME}
+   Install And Initialize VIC Product OVA  bin/vic-v1.4.0-rc4-4839-d99cbdb4.ova  %{OVA_NAME}
 
    Set Browser Variables
 
@@ -86,3 +98,9 @@ Test
 
    # run vch regression tests
    Run Docker Regression Tests For VCH
+
+   Log To Console  vMotion VCH...
+   ${host}=  Get VM Host Name  %{VCH-NAME}
+   ${status}=  Run Keyword And Return Status  Should Contain  ${host}  ${esx1-ip}
+   Run Keyword If  ${status}  Run  govc vm.migrate -host cls/${esx2-ip} %{VCH-NAME}
+   Run Keyword Unless  ${status}  Run  govc vm.migrate -host cls/${esx1-ip} %{VCH-NAME}
