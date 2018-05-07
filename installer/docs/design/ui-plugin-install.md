@@ -35,6 +35,19 @@
 - If a standalone go binary is provided, this should also be tested, though manual tests may be
   sufficient if automated tests would require excessive engineering effort.
 
+## Upgrade
+
+- Upgrading the VIC UI plugin is an uninstall operation followed by an install operation.
+- During normal deployment we may want to consider always attempting to remove any existing plugins
+  so that the new version will be installed.
+- This functionality should also be provided by API.
+
+## Uninstall
+
+- A method to uninstall the plugin will be provided from the Getting Started Page. This may be
+  colocated in the UI with the install option.
+- This functionality should also be provided by API.
+
 ## References
 
 - https://github.com/vmware/vic-product/issues/1432
