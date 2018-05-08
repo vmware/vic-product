@@ -21,7 +21,6 @@ Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 *** Variables ***
 ${dns-nimbus}=  10.170.16.48
 ${searchpath-nimbus}=  eng.vmware.com
-${subnet-nimbus}=  255.255.224.0
 
 *** Keywords ***
 Setup VC With Static IP
@@ -37,7 +36,6 @@ Deploy OVA With Static IP
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
     # install ova using static ip
-    Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}  static-ip=&{static}[ip]  netmask=${subnet-nimbus}  gateway=&{static}[gateway]  dns=${dns-nimbus}  searchpath=${searchpath-nimbus}
+    Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}  static-ip=&{static}[ip]  netmask=&{static}[netmask]  gateway=&{static}[gateway]  dns=${dns-nimbus}  searchpath=${searchpath-nimbus}
     # verify network details
     Verify OVA Network Information  %{OVA_IP}  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}  &{static}[ip]  &{static}[netmask]  &{static}[gateway]  ${dns-nimbus}  ${searchpath-nimbus}
-
