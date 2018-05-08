@@ -148,7 +148,7 @@
    * [Create a Project](vic_cloud_admin/create_projects.md)
      * [Manage Projects](vic_cloud_admin/manage_projects.md)
      * [Access Project Logs](vic_cloud_admin/access_project_logs.md)
-     * [Manage Repositories](vic_cloud_admin/manage_repository_registry.md)
+     * [Manage Internal Repositories](vic_cloud_admin/manage_repository_registry.md)
    * [Assign Users to a Project](vic_cloud_admin/add_users.md)
    * [Assign Projects to a User](vic_cloud_admin/assign_project_to_user.md)
    * [Add VCHs](vic_cloud_admin/vchs_and_mgmt_portal.md)
