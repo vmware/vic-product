@@ -522,6 +522,8 @@ Get Static IP Address
     Set To Dictionary  ${static}  ip  ${ip}
     ${netmask}=  Run  echo '${out}' | jq -r ".netmask"
     Set To Dictionary  ${static}  netmask  ${netmask}
+    ${prefix}=  Evaluate  sum([bin(int(x)).count("1") for x in "${netmask}".split(".")])
+    Set To Dictionary  ${static}  prefix  ${prefix}
     ${gateway}=  Run  echo '${out}' | jq -r ".gateway"
     Set To Dictionary  ${static}  gateway  ${gateway}
     [Return]  ${static}

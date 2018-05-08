@@ -24,7 +24,7 @@ ${searchpath-nimbus}=  eng.vmware.com
 
 *** Keywords ***
 Setup VC With Static IP
-    ${name}=  Evaluate  'vic-5-26-' + str(random.randint(1000,9999))  modules=random
+    ${name}=  Evaluate  'vic-2-05-' + str(random.randint(1000,9999))  modules=random
     Wait Until Keyword Succeeds  10x  10m  Create Simple VC Cluster With Static IP  ${name}
 
 *** Test Cases ***
@@ -38,4 +38,4 @@ Deploy OVA With Static IP
     # install ova using static ip
     Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}  static-ip=&{static}[ip]  netmask=&{static}[netmask]  gateway=&{static}[gateway]  dns=${dns-nimbus}  searchpath=${searchpath-nimbus}
     # verify network details
-    Verify OVA Network Information  %{OVA_IP}  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}  &{static}[ip]  &{static}[netmask]  &{static}[gateway]  ${dns-nimbus}  ${searchpath-nimbus}
+    Verify OVA Network Information  %{OVA_IP}  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}  &{static}[ip]  &{static}[prefix]  &{static}[gateway]  ${dns-nimbus}  ${searchpath-nimbus}
