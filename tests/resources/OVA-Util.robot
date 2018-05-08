@@ -281,7 +281,7 @@ Get OVA Release File For Nightly
     [Return]  ${old-ova-save-file}
 
 Verify OVA Network Information
-    [Arguments]  ${ova-ip}  ${ova-root-user}  ${ova-root-pwd}  ${ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}
+    [Arguments]  ${ova-ip}  ${ova-root-user}  ${ova-root-pwd}  ${ip}  ${prefix}  ${gateway}  ${dns}  ${searchpath}
     Log To Console  ssh into appliance...
     ${out}=  Run  sshpass -p ${ova-root-pwd} ssh -o StrictHostKeyChecking\=no ${ova-root-user}@${ova-ip}
     Log To Console  open connection...
@@ -292,13 +292,13 @@ Verify OVA Network Information
 
     Log To Console  verify network details...
     ${output}=  Execute Command And Return Output  cat /etc/systemd/network/09-vic.network
-    Should Contain  ${output}  Address=${ip}/${netmask}
+    Should Contain  ${output}  Address=${ip}/${prefix}
     Should Contain  ${output}  Gateway=${gateway}
     Should Contain  ${output}  DNS=${dns}
     Should Contain  ${output}  Domains=${searchpath}
 
     ${output}=  Execute Command And Return Output  ip addr
-    Should Contain  ${output}  inet ${ip}/${netmask}
+    Should Contain  ${output}  inet ${ip}/${prefix}
 
     ${output}=  Execute Command And Return Output  ip route show
     Should Contain  ${output}  default via ${gateway}
