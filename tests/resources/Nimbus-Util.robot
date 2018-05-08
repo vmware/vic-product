@@ -369,15 +369,14 @@ Create Simple VC Cluster With Static IP
     Set Environment Variable  GOVC_PASSWORD  Admin\!23
 
     Log To Console  Deploy VIC to the VC cluster
-    Set Environment Variable  TEST_URL_ARRAY  ${vc-ip}
+    Set Environment Variable  TEST_URL  ${vc-ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
     Remove Environment Variable  TEST_DATACENTER
     Set Environment Variable  TEST_DATASTORE  nfs0-1
-    Set Environment Variable  TEST_RESOURCE  cls
-    Set Environment Variable  TEST_TIMEOUT  15m
+    Set Environment Variable  TEST_RESOURCE  /dc1/host/cls
 
 Setup Network For Simple VC Cluster
     [Arguments]  ${esx_number}  ${datacenter}  ${cluster}
