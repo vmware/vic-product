@@ -19,6 +19,7 @@
 - Logging of the plugin install operations should be improved to facilitate debugging.
 - The plugin will be installed without user intervention using the user provided information.
 - If the plugin install succeeds, a confirmation message will be displayed on the Getting Started Page. This message will include directions to restart required services for the plugin to be activated in vCenter.
+  - If an API is available to perform the restart, this should also be automated.
 - If the plugin install fails, an error message will be displayed on the Getting Started Page. This message will include directions to contact support or link to documentation.
 - In case the plugin install fails or reinstallation is later required, a method to redo the plugin install will be provided from the Getting Started Page. 
 - The automated plugin install should also work with the `/register` API endpoint provided by `fileserver`.
@@ -51,3 +52,4 @@
 ## References
 
 - https://github.com/vmware/vic-product/issues/1432
+- https://vdc-repo.vmware.com/vmwb-repository/dcr-public/423e512d-dda1-496f-9de3-851c28ca0814/0e3f6e0d-8d05-4f0c-887b-3d75d981bae5/VMware-vSphere-Automation-SDK-REST-6.7.0/docs/apidocs/index.html#PKG_com.vmware.vcenter.services
