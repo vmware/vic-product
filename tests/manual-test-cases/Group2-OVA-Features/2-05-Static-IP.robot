@@ -15,47 +15,27 @@
 *** Settings ***
 Documentation  Test 2-05 - Static IP
 Resource  ../../resources/Util.robot
-Suite Setup  Wait Until Keyword Succeeds  10x  10m  Simple VC Setup
+Suite Setup  Setup VC With Static IP
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Variables ***
-${esx_number}=  2
-${cluster}=  cls
-${ha-datacenter}=  ha-datacenter
 ${dns-nimbus}=  10.170.16.48
-${serachpath-nimbus}=  eng.vmware.com
-${subnet-nimbus}=  255.255.224.0
+${searchpath-nimbus}=  eng.vmware.com
 
 *** Keywords ***
-Simple VC Setup
-    [Timeout]    110 minutes
-
-    ${esx1}  ${esx2}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${vc-ip}=  Create a Simple VC Cluster  ${ha-datacenter}  ${cluster}  ${esx_number}
-    Log To Console  Finished Creating Cluster ${vc}
-
-    Set Suite Variable  ${vc-name}  %{NIMBUS_USER}-${vc}
-    Set Suite Variable  @{list}  ${esx1}  ${esx2}  ${vc-name}
-
-    Set Environment Variable  TEST_URL  ${vc-ip}
-    Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
-    Set Environment Variable  TEST_PASSWORD  Admin\!23
-    Set Environment Variable  BRIDGE_NETWORK  bridge
-    Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Set Environment Variable  TEST_RESOURCE  /${ha-datacenter}/host/${cluster}
-    Set Environment Variable  TEST_TIMEOUT  30m
-    Set Environment Variable  TEST_DATASTORE  datastore1
+Setup VC With Static IP
+    ${name}=  Evaluate  'vic-2-05-' + str(random.randint(1000,9999))  modules=random
+    Wait Until Keyword Succeeds  10x  10m  Create Simple VC Cluster With Static IP  ${name}
 
 *** Test Cases ***
 Deploy OVA With Static IP
     Log To Console  \nStarting test...
+    Custom Testbed Keepalive  /dbc/pa-dbc1111/mhagen
+    
     Set Environment Variable  OVA_NAME  OVA-2-05-TEST
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
-    # create static ip
-    Set Nimbus POD Variable  ${vc-name}
-    ${static}=  Get Static IP Address
-    Append To List  ${list}  %{STATIC_WORKER_NAME}
     # install ova using static ip
-    Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}  static-ip=&{static}[ip]  netmask=${subnet-nimbus}  gateway=&{static}[gateway]  dns=${dns-nimbus}  searchpath=${serachpath-nimbus}
+    Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}  static-ip=&{static}[ip]  netmask=&{static}[netmask]  gateway=&{static}[gateway]  dns=${dns-nimbus}  searchpath=${searchpath-nimbus}
     # verify network details
-    Verify OVA Network Information  %{OVA_IP}  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}  &{static}[ip]  &{static}[netmask]  &{static}[gateway]  ${dns-nimbus}  ${serachpath-nimbus}
+    Verify OVA Network Information  %{OVA_IP}  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}  &{static}[ip]  &{static}[prefix]  &{static}[gateway]  ${dns-nimbus}  ${searchpath-nimbus}

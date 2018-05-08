@@ -24,7 +24,7 @@ ${NIMBUS_LOCATION}  ${EMPTY}
 *** Keywords ***
 Fetch IP
     [Arguments]  ${name}
-    ${out}=  Execute Command  nimbus-ctl ip %{NIMBUS_USER}-${name} | grep %{NIMBUS_USER}-${name}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION} nimbus-ctl ip %{NIMBUS_USER}-${name} | grep %{NIMBUS_USER}-${name}
     Should Not Be Empty  ${out}
     ${len}=  Get Line Count  ${out}
     Should Be Equal As Integers  ${len}  1
@@ -38,7 +38,7 @@ Get IP
 
 Fetch POD
       [Arguments]  ${name}
-      ${out}=  Execute Command  nimbus-ctl list | grep ${name}
+      ${out}=  Execute Command  ${NIMBUS_LOCATION} nimbus-ctl list | grep ${name}
       Should Not Be Empty  ${out}
       ${len}=  Get Line Count  ${out}
       Should Be Equal As Integers  ${len}  1
@@ -59,7 +59,8 @@ Deploy Nimbus ESXi Server
     Wait Until Keyword Succeeds  2 min  30 sec  Login  ${user}  ${password}
 
     :FOR  ${IDX}  IN RANGE  1  5
-    \   ${out}=  Execute Command  nimbus-esxdeploy ${name} --disk=48000000 --ssd=24000000 --memory=8192 --lease=1 --nics 2 ${version}
+    \   ${out}=  Execute Command  ${NIMBUS_LOCATION} nimbus-esxdeploy ${name} --disk=48000000 --ssd=24000000 --memory=8192 --lease=0.25 --nics 2 ${version}
+    \   Log  ${out}
     \   # Make sure the deploy actually worked
     \   ${status}=  Run Keyword And Return Status  Should Contain  ${out}  To manage this VM use
     \   Exit For Loop If  ${status}
@@ -145,7 +146,8 @@ Deploy Nimbus vCenter Server
     Wait Until Keyword Succeeds  2 min  30 sec  Login  ${user}  ${password}
 
     :FOR  ${IDX}  IN RANGE  1  5
-    \   ${out}=  Execute Command  nimbus-vcvadeploy --lease=1 --vcvaBuild ${version} ${name}
+    \   ${out}=  Execute Command  ${NIMBUS_LOCATION} nimbus-vcvadeploy --lease=0.25 --vcvaBuild ${version} ${name}
+    \   Log  ${out}
     \   # Make sure the deploy actually worked
     \   ${status}=  Run Keyword And Return Status  Should Contain  ${out}  Overall Status: Succeeded
     \   Exit For Loop If  ${status}
@@ -171,7 +173,7 @@ Deploy Nimbus ESXi Server Async
     [Tags]  secret
     [Arguments]  ${name}  ${version}=${ESX_VERSION}
     Log To Console  \nDeploying Nimbus ESXi server: ${name}
-    ${out}=  Run Secret SSHPASS command  %{NIMBUS_USER}  '%{NIMBUS_PASSWORD}'  'nimbus-esxdeploy ${name} --disk\=80000000 --ssd\=40000000 --memory\=8192 --lease=1 --nics 2 ${version}'
+    ${out}=  Run Secret SSHPASS command  %{NIMBUS_USER}  '%{NIMBUS_PASSWORD}'  '${NIMBUS_LOCATION} nimbus-esxdeploy ${name} --disk\=80000000 --ssd\=40000000 --memory\=8192 --lease=0.25 --nics 2 ${version}'
     [Return]  ${out}
 
 Run Secret SSHPASS command
@@ -186,7 +188,7 @@ Deploy Nimbus vCenter Server Async
     [Arguments]  ${name}  ${version}=${VC_VERSION}
     Log To Console  \nDeploying Nimbus VC server: ${name}
 
-    ${out}=  Run Secret SSHPASS command  %{NIMBUS_USER}  '%{NIMBUS_PASSWORD}'  'nimbus-vcvadeploy --lease=1 --vcvaBuild ${version} ${name}'
+    ${out}=  Run Secret SSHPASS command  %{NIMBUS_USER}  '%{NIMBUS_PASSWORD}'  '${NIMBUS_LOCATION} nimbus-vcvadeploy --lease=0.25 --vcvaBuild ${version} ${name}'
     [Return]  ${out}
 
 Deploy Nimbus Testbed
@@ -195,7 +197,7 @@ Deploy Nimbus Testbed
     Wait Until Keyword Succeeds  2 min  30 sec  Login  ${user}  ${password}
 
     :FOR  ${IDX}  IN RANGE  1  5
-    \   ${out}=  Execute Command  nimbus-testbeddeploy --lease=1 ${testbed}
+    \   ${out}=  Execute Command  ${NIMBUS_LOCATION} nimbus-testbeddeploy --lease 0.25 ${testbed}
     \   Log  ${out}
     \   # Make sure the deploy actually worked
     \   ${status}=  Run Keyword And Return Status  Should Contain  ${out}  "deployment_result"=>"PASS"
@@ -208,7 +210,7 @@ Kill Nimbus Server
     [Arguments]  ${user}  ${password}  ${name}
     Open Connection  %{NIMBUS_GW}
     Wait Until Keyword Succeeds  2 min  30 sec  Login  ${user}  ${password}
-    ${out}=  Execute Command  nimbus-ctl kill ${name}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION} nimbus-ctl kill ${name}
     Log  ${out}
     Close connection
 
@@ -216,7 +218,7 @@ Cleanup Nimbus PXE folder
     [Arguments]  ${user}  ${password}
     Open Connection  %{NIMBUS_GW}
     Wait Until Keyword Succeeds  2 min  30 sec  Login  ${user}  ${password}
-    ${out}=  Execute Command  rm -rf public_html/pxe/*
+    ${out}=  Execute Command  ${NIMBUS_LOCATION} rm -rf public_html/pxe/*
     Close connection
 
 Nimbus Cleanup
@@ -329,7 +331,6 @@ Create a Simple VC Cluster
     ${out}=  Run  govc cluster.change -drs-enabled /${datacenter}/host/${cluster}
     Should Be Empty  ${out}
 
-    Set Environment Variable  TEST_URL_ARRAY  ${vc_ip}
     Set Environment Variable  TEST_URL  ${vc_ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
     Set Environment Variable  TEST_PASSWORD  Admin\!23
@@ -338,6 +339,44 @@ Create a Simple VC Cluster
     Set Environment Variable  TEST_RESOURCE  ${cluster}
     Set Environment Variable  TEST_TIMEOUT  30m
     [Return]  @{esx_names}  ${vc}  @{esx_ips}  ${vc_ip}
+
+Create Simple VC Cluster With Static IP
+    [Arguments]  ${name}=vic-simple-vc-static-ip
+    [Timeout]    110 minutes
+    Set Suite Variable  ${NIMBUS_LOCATION}  NIMBUS_LOCATION=wdc
+    Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
+    Log To Console  Create a new simple vc cluster with static ip support...
+    ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  --noSupportBundles --plugin testng --vcvaBuild ${VC_VERSION} --esxBuild ${ESX_VERSION} --testbedName vic-simple-cluster-with-static --testbedSpecRubyFile /dbc/pa-dbc1111/mhagen/nimbus-testbeds/testbeds/vic-simple-cluster-with-static.rb --runName ${name}
+    Log  ${out}
+
+    Open Connection  %{NIMBUS_GW}
+    Wait Until Keyword Succeeds  10 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
+    ${vc-ip}=  Get IP  ${name}.vc.0
+    ${worker-ip}=  Get IP  ${name}.worker.0
+    Close Connection
+
+    Set Suite Variable  @{list}  %{NIMBUS_USER}-${name}.esx.0  %{NIMBUS_USER}-${name}.esx.1  %{NIMBUS_USER}-${name}.esx.2  %{NIMBUS_USER}-${name}.nfs.0  %{NIMBUS_USER}-${name}.vc.0  %{NIMBUS_USER}-${name}.worker.0
+    Log To Console  Finished creating cluster ${name}
+
+    Set Environment Variable  STATIC_WORKER_IP  ${worker-ip}
+    ${out}=  Get Static IP Address
+    Set Suite Variable  ${static}  ${out}
+
+    Log To Console  Set environment variables up for GOVC
+    Set Environment Variable  GOVC_INSECURE  1
+    Set Environment Variable  GOVC_URL  ${vc-ip}
+    Set Environment Variable  GOVC_USERNAME  Administrator@vsphere.local
+    Set Environment Variable  GOVC_PASSWORD  Admin\!23
+
+    Log To Console  Deploy VIC to the VC cluster
+    Set Environment Variable  TEST_URL  ${vc-ip}
+    Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
+    Set Environment Variable  TEST_PASSWORD  Admin\!23
+    Set Environment Variable  BRIDGE_NETWORK  bridge
+    Set Environment Variable  PUBLIC_NETWORK  vm-network
+    Remove Environment Variable  TEST_DATACENTER
+    Set Environment Variable  TEST_DATASTORE  nfs0-1
+    Set Environment Variable  TEST_RESOURCE  /dc1/host/cls
 
 Setup Network For Simple VC Cluster
     [Arguments]  ${esx_number}  ${datacenter}  ${cluster}
@@ -404,7 +443,8 @@ Deploy Nimbus NFS Datastore
     Open Connection  %{NIMBUS_GW}
     Wait Until Keyword Succeeds  2 min  30 sec  Login  ${user}  ${password}
 
-    ${out}=  Execute Command  nimbus-nfsdeploy ${name} ${additional-args}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION} nimbus-nfsdeploy ${name} ${additional-args}
+    Log  ${out}
     # Make sure the deploy actually worked
     Should Contain  ${out}  To manage this VM use
     # Now grab the IP address and return the name and ip for later use
@@ -473,7 +513,7 @@ Create Static IP Worker
 
 Get Static IP Address
     ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  STATIC_WORKER_IP
-    Run Keyword If  '${status}' == 'FAIL'  Create Static IP Worker
+    Run Keyword If  '${status}' == 'FAIL'  Wait Until Keyword Succeeds  10x  10s  Create Static IP Worker
     Log To Console  Curl a new static ip address from the created worker...
     ${out}=  Run  curl -s http://%{STATIC_WORKER_IP}:4827/nsips
 
@@ -481,8 +521,9 @@ Get Static IP Address
     ${ip}=  Run  echo '${out}' | jq -r ".ip"
     Set To Dictionary  ${static}  ip  ${ip}
     ${netmask}=  Run  echo '${out}' | jq -r ".netmask"
-    ${netmask}=  Evaluate  sum([bin(int(x)).count("1") for x in "${netmask}".split(".")])
     Set To Dictionary  ${static}  netmask  ${netmask}
+    ${prefix}=  Evaluate  sum([bin(int(x)).count("1") for x in "${netmask}".split(".")])
+    Set To Dictionary  ${static}  prefix  ${prefix}
     ${gateway}=  Run  echo '${out}' | jq -r ".gateway"
     Set To Dictionary  ${static}  gateway  ${gateway}
     [Return]  ${static}
