@@ -40,7 +40,7 @@ Test
    Set Environment Variable  BRIDGE_NETWORK  bridge
    Set Environment Variable  PUBLIC_NETWORK  vm-network
    Remove Environment Variable  TEST_DATACENTER
-   Set Environment Variable  TEST_DATASTORE  datastore1
+   Set Environment Variable  TEST_DATASTORE  vsanDatastore
    Set Environment Variable  TEST_RESOURCE  /vcqaDC/host/cls
    Set Environment Variable  TEST_TIMEOUT  30m
 
@@ -94,13 +94,14 @@ Test
    Unselect Frame
    Wait Until Page Does Not Contain  VCH name
    # retrieve docker parameters from UI
-   Set Docker Host Parameters
+   Wait Until Keyword Succeeds  5x  1m  Set Docker Host Parameters
 
    # run vch regression tests
    Run Docker Regression Tests For VCH
 
    Log To Console  vMotion VCH...
+   Set Environment Variable  VCH-NAME  ${name}
    ${host}=  Get VM Host Name  %{VCH-NAME}
-   ${status}=  Run Keyword And Return Status  Should Contain  ${host}  ${esx1-ip}
-   Run Keyword If  ${status}  Run  govc vm.migrate -host cls/${esx2-ip} %{VCH-NAME}
-   Run Keyword Unless  ${status}  Run  govc vm.migrate -host cls/${esx1-ip} %{VCH-NAME}
+   ${status}=  Run Keyword And Return Status  Should Contain  ${host}  10.192.166.111
+   Run Keyword If  ${status}  Run  govc vm.migrate -host cls/10.192.174.184 %{VCH-NAME}
+   Run Keyword Unless  ${status}  Run  govc vm.migrate -host cls/10.192.166.111 %{VCH-NAME}
