@@ -1,6 +1,6 @@
 # Add Global Registries #
 
-You can add multiple global registries that are available to all users of the management portal. Global registries that are allowed by the cloud admin cannot be disabled or removed by other users. 
+You can add multiple global registries that are added by the cloud admin and are available to all users of the management portal. Global registries that are allowed by the cloud admin cannot be disabled or removed by other users. 
 
 
 **Procedure**
