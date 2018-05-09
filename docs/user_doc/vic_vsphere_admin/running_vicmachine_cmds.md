@@ -8,9 +8,38 @@ You use the `vic-machine create` command to deploy VCHs:
 <pre>vic-machine-linux create --<i>option</i> <i>argument</i> --<i>option</i> <i>argument</i></pre>
 <pre>vic-machine-darwin create --<i>option</i> <i>argument</i> --<i>option</i> <i>argument</i></pre>
 
+- [Specifying Option Arguments](#args)
 - [Basic `vic-machine` Options](#options)
 - [Other `vic-machine` Options](#otheroptions)
-- [Specifying Option Arguments](#args)
+
+## Specifying Option Arguments <a id="args"></a>
+
+Wrap any option arguments that include spaces or special characters in quotes. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system. 
+
+Option arguments that might require quotation marks include the following:
+
+- User names and passwords in `--target`, or in `--user` and `--password`.
+- Datacenter names in `--target`.
+- VCH names in `--name`.
+- Datastore names and paths in `--image-store` and `--volume-store`.
+- Network and port group names in all networking options.
+- Cluster and resource pool names in `--compute-resource`.
+- Folder names in the paths for `--tls-cert-path`, `--tls-server-cert`, `--tls-server-key`, `--appliance-iso`, and `--bootstrap-iso`.
+
+For example, to deploy a VCH into a cluster named `cluster 1` in a vCenter Server instance that requires the  vSphere administrator account `Administrator@vsphere.local`, you must wrap the corresponding option arguments in quotes:
+
+<pre>vic-machine-linux 
+--target <i>vcenter_server_address</i>
+--user 'Administrator@vsphere.local'
+--compute-resource 'cluster 1'
+[...]
+</pre>
+<pre>vic-machine-windows 
+--target <i>vcenter_server_address</i>
+--user "Administrator@vsphere.local"
+--compute-resource "cluster 1"
+[...]
+</pre>
 
 ## Basic `vic-machine create` Options <a id="options"></a>
 
@@ -121,35 +150,7 @@ For information about other VCH deployment options, see the following topics:
 - [Virtual Container Host Security](vch_security.md)
 - [Configure Registry Access](vch_registry.md)
 - [Configure the Operations User](set_up_ops_user.md)
+- [Add Virtual Container Hosts to a DRS Affinity Group](vch_affinity_group.md)
 - [Virtual Container Host Boot Options](vch_boot_options.md)
 
 The options that these topics describe apply to both the `vic-machine` CLI utility and to the Create Virtual Container Host wizard in the vSphere Client. 
-
-## Specifying Option Arguments <a id="args"></a>
-
-Wrap any option arguments that include spaces or special characters in quotes. Use single quotes if you are using `vic-machine` on a Linux or Mac OS system and double quotes on a Windows system. 
-
-Option arguments that might require quotation marks include the following:
-
-- User names and passwords in `--target`, or in `--user` and `--password`.
-- Datacenter names in `--target`.
-- VCH names in `--name`.
-- Datastore names and paths in `--image-store` and `--volume-store`.
-- Network and port group names in all networking options.
-- Cluster and resource pool names in `--compute-resource`.
-- Folder names in the paths for `--tls-cert-path`, `--tls-server-cert`, `--tls-server-key`, `--appliance-iso`, and `--bootstrap-iso`.
-
-For example, to deploy a VCH into a cluster named `cluster 1` in a vCenter Server instance that requires the  vSphere administrator account `Administrator@vsphere.local`, you must wrap the corresponding option arguments in quotes:
-
-<pre>vic-machine-linux 
---target <i>vcenter_server_address</i>
---user 'Administrator@vsphere.local'
---compute-resource 'cluster 1'
-[...]
-</pre>
-<pre>vic-machine-windows 
---target <i>vcenter_server_address</i>
---user "Administrator@vsphere.local"
---compute-resource "cluster 1"
-[...]
-</pre>
