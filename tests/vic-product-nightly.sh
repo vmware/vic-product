@@ -49,7 +49,19 @@ start_node firefox4 selenium/node-firefox:3.9.1
 
 input=$(gsutil ls -l gs://$GCS_BUCKET/vic-* | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | cut -d '/' -f 4)
 echo "Downloading VIC Product OVA build $input..."
-wget -P vic-product https://storage.googleapis.com/$GCS_BUCKET/$input
+n=0
+until [[ $n -ge 5 ]]
+do
+    wget -nc -P vic-product https://storage.googleapis.com/$GCS_BUCKET/$input && break;
+    n=$(($n+1));
+    sleep 10;
+done
+
+if [[ ! -f vic-product/$input ]]; then
+    echo "VIC Product OVA download failed";
+    exit 1;
+fi
+echo "VIC Product OVA download complete...";
 
 docker run --net grid --privileged --rm --link selenium-hub:selenium-grid-hub -v /var/run/docker.sock:/var/run/docker.sock -v /etc/docker/certs.d:/etc/docker/certs.d -v $PWD/vic-product:/go -v /vic-cache:/vic-cache --env-file vic-internal/vic-product-nightly-secrets.list gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --processes 4 --removekeywords TAG:secret --exclude skip tests/manual-test-cases
 cat vic-product/pabot_results/*/stdout.txt | grep -E '::|\.\.\.' | grep -E 'PASS|FAIL' > console.log
