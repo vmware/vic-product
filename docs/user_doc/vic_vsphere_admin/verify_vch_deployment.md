@@ -6,7 +6,7 @@ After you have deployed a virtual container host (VCH), you can verify the deplo
 
 **Prerequisites**
 
-- You followed the instructions in [Deploy a VCH to an ESXi Host with No vCenter Server](deploy_vch_esxi.md) or [Deploy a VCH to a Basic vCenter Server Cluster](deploy_vch_vcenter.md), specifying the `--no-tlsverify` option.
+- You followed the instructions in [Deploy a Virtual Container Host with vSphere Integrated Containers Registry Access and a Volume Store](deploy_vch_dchphoton.md) or [Deploy a VCH to an ESXi Host with No vCenter Server](deploy_vch_esxi.md), specifying the `--no-tlsverify` option.
 - You have installed a Docker client.
 - If you deployed the VCH to vCenter Server, connect a vSphere Client to that vCenter Server instance.
 - If you deployed the VCH to an ESXi host, log in to the UI for that host.

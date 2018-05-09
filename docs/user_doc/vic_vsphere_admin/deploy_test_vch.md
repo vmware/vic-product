@@ -2,5 +2,4 @@
 
 - [Deploy a Virtual Container Host for Use with `dch-photon`](deploy_vch_dchphoton.md)
 - [Deploy a VCH to an ESXi Host with No vCenter Server](deploy_vch_esxi.md)
-- [Deploy a VCH to a Basic vCenter Server Cluster](deploy_vch_vcenter.md)
 - [Verify the Deployment of a VCH](verify_vch_deployment.md)

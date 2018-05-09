@@ -1,4 +1,4 @@
-# Deploy a Virtual Container Host for Use with `dch-photon` #
+# Deploy a Virtual Container Host with vSphere Integrated Containers Registry Access and a Volume Store #
 
 This version of vSphere Integrated Containers includes an image repository named `dch-photon`, that is pre-loaded in the `default-project` in vSphere Integrated Containers Registry. 
 
