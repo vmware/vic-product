@@ -25,6 +25,7 @@
 - The automated plugin install should also work with the `/register` API endpoint provided by `fileserver`.
 - A manual process for running the plugin install should be documented and tested.
 	- This may be either usage of the `/register` API or a standalone plugin install binary.
+- The plugin should not be installed to the flex ui in vSphere 6.7. See [this issue](https://github.com/vmware/vic-ui/issues/452)
 
 ## Testing
 
