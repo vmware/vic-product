@@ -177,8 +177,8 @@ fi
 
 # These sizes are minimal for install, since partitions are resized to full disk space after firstboot.
 IMAGESIZES=(
-  "4GiB"
-  "1GiB"
+  "6GiB"
+  "2GiB"
 )
 IMAGES=(
   "vic-disk1"
@@ -207,7 +207,8 @@ elif [ "${ACTION}" == "export" ]; then
   log1 "export images to VMDKs"
   for i in "${!IMAGES[@]}"; do
     log2 "exporting ${IMAGES[$i]}.img to ${IMAGES[$i]}.vmdk"
-    DEV=$(losetup -l -O NAME,BACK-FILE -a | tail -n +2 | grep "${IMAGES[$i]}" | awk '{print $1}')
+    echo "export ${PACKAGE}/${IMAGES[$i]}"
+    DEV=$(losetup -l -O NAME,BACK-FILE -a | tail -n +2 | grep "${PACKAGE}/${IMAGES[$i]}" | awk '{print $1}')
     convert "${DEV}" "${IMAGEROOTS[$i]}" "${IMAGES[$i]}.img" "${IMAGES[$i]}.vmdk"
   done
 
