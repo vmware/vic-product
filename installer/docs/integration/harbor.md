@@ -1,6 +1,6 @@
 # VIC Appliance Component Integration Documentation
 
-## VIC Machine Server
+## Harbor
 
 ### Component Requirements
 - What is the Docker container or Docker Compose application that will be included in the appliance?
@@ -14,6 +14,10 @@
   `vmware/harbor-ui`
   `vmware/mariadb-photon`
   `vmware/postgresql-photon`
+  `vmware/harbor-adminserver`
+  `vmware/harbor-db`
+  `vmware/harbor-migrator`
+  `vmware/registry-photon`
 
     - Release versions MUST be retained. Where will previously released versions be stored?
       `gcr.io/eminent-nation-87317/harbor-releases/${release_branch}/${release_build}`
@@ -48,6 +52,7 @@
     - Specify the location the component expects any dependencies to be on the filesystem:
   Requires values of hostname, ui_url_protocol, ssl_cert, ssl_cert_key, secretkey_path and admiral_url in `/storage/data/harbor/harbor.cfg`
   Requires `ca.crt` in `/storage/data/harbor/ca_download` with permission 10000:10000
+  Requires `tokens.properties` in `/storage/data/harbor/psc` with permission 10000:10000 
 
 ### Runtime
 - What configuration must be present for the service to start?
@@ -58,7 +63,7 @@
         - Will the component use the default `.env` file? https://docs.docker.com/compose/env-file/
             - If not, specify the environment file:
         - What default values will the VIC appliance need to override?
-- What volumes need to be mounted to the container or application? 
+- What volumes need to be   mounted to the container or application? 
   The volumes need to be mounted should refer to the docker compose yml files in `/etc/vmware/harbor/common`.
 
 - Specify networking requirements
@@ -69,7 +74,7 @@
       NO
 
 - Does the component require any other components to be running before it starts?
-  NO
+  Requires `psc-ready.target` is running before Harbor starts.
 
 - Are there any steps that need to be performed before starting the component?
   NO
@@ -116,7 +121,7 @@
   upgrade script? (This question is about the responsibility for the component upgrade script)
 
     - Should the upgrade script be in component repo? As a container?
-      It's packed into harbor offline installer as a docker images, named as vmware/harbor-migrator
+      It's packed into harbor offline installer as a docker image, named as vmware/harbor-migrator
     - How will the upgrade script be versioned?
       Use the image tag as version, like vmware/harbor-migrator:v1.5.0
 
