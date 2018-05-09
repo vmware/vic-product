@@ -7,7 +7,6 @@ You can create replication endpoints independently of projects, or you can creat
 **Prerequisites**
 
 - You deployed at least two instances of vSphere Integrated Containers Registry. 
--  If the remote registry that you intend to use as the endpoint uses a self-signed or an untrusted certificate, you must disable certificate verification on the registry from which you are replicating. For example, disable certificate verification if the endpoint registry uses the default auto-generated certificates that vSphere Integrated Containers Registry created during the deployment of the vSphere Integrated Containers appliance. For information about disabling certificate verification, see [Configure System Settings](configure_system.md).
 
 **Procedure**
 
