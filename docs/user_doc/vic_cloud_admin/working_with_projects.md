@@ -8,3 +8,4 @@ In vSphere Integrated Containers, you create different projects to which you ass
 - [Manage Internal Repositories in vSphere Integrated Containers Registry](add_vch_fullTLS_in_portal.md)
 - [Assign Viewers, Developers, or DevOps Administrators to a Project](add_users.md)
 - [Assign Projects to a User](assign_project_to_user.md)
+- [Add VCHs in vSphere Integrated Containers Management Portal](vchs_and_mgmt_portal.md)
