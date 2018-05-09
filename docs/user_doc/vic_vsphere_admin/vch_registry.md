@@ -41,6 +41,17 @@ You can specify whitelisted registries in the following formats:
 - CIDR formatted ranges, for example, 192.168.1.1/24. If you specify a CIDR range, the VCH adds to the whitelist any IP addresses within that subnet. Note that vSphere Integrated Containers Engine does not validate CIDR defined ranges during deployment.
 - Wildcard domains, for example, *.example.com. If you specify a wildcard domain, the VCH adds to the whitelist any IP addresses or FQDNs that it can validate against that domain. A numeric IP address causes VCHs to perform a reverse DNS lookup to validate against that wild card domain. Note that vSphere Integrated Containers Engine does not validate wildcard domains during deployment. 
 
+#### VCH Whitelists and Registry Lists in vSphere Integrated Containers Management Portal <a id="vch-whitelist-mp"></a>
+
+If you intend to use a VCH with vSphere Integrated Containers Management Portal, the management portal allows you to provision containers from lists of registries that the cloud and DevOps administrators configure. However, if you deploy a VCH with whitelist mode enabled, and if the whitelist on the VCH is more restrictive than the global and project registry lists in management portal, you can only use management portal to provision containers from registries that the VCH permits in its whitelist, even if the VCH is included in a project that permits other registries. 
+
+As a consequence of this, when using whitelist mode on VCHs that you intend to register with vSphere Integrated Containers Management Portal, you must consider the following points:
+
+- If you enable whitelist mode on a VCH, the whitelist on the VCH should be broader in scope than the lists that cloud admins and DevOps admins configure in the management portal. For example, you can include a wildcard domain in the VCH whitelist, such as `*.example.com`, and then more finely grained domains in the project lists, such as `registry1.example.com`, `registry2.example.com`, and so on.
+- If the whitelist on the VCH is more restrictive than the registry lists in management portal, users cannot provision containers from the registries that are not whitelisted by the VCH, even if they are present in the management portal lists.
+- If the whitelist on the VCH is less restrictive than the registry lists configured in management portal, if users connect directly to the VCH, they will be able to pull images from registries that management portal would not permit.
+- After you deploy a VCH and add it in a project in management portal, if you encounter a problem because the VCH whitelist is more restrictive than the management portal registry lists, you must redeploy the VCH with either no whitelist, a more permissive whitelist, or a whitelist that exactly matches the lists in management portal. You cannot modify a VCH whitelist after the initial deployment of the VCH.
+
 #### Whitelisting Secure Registries
 
 VCHs include a base set of well-known certificates from public CAs. If a registry requires a certificate to authenticate access, and if that registry does not use one of the CAs that the VCH holds, you must provide the CA certificate for that registry to the VCH. If the VCH is running in whitelist mode, you must also add that registry to the whitelist.
