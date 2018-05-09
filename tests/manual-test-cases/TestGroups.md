@@ -10,5 +10,5 @@ VIC Integration Test Suite
 -
 [Group 7 - Upgrade](Group7-Upgrade/TestCases.md)
 -
-[Group 7 - Manual Upgrade](Group7-Manual-Upgrade/TestCases.md)
+[Group 8 - Manual Upgrade](Group8-Manual-Upgrade/TestCases.md)
 -

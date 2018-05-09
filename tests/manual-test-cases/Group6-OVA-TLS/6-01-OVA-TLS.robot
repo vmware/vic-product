@@ -30,7 +30,6 @@ Test Environment Setup
     Set Environment Variable  DOMAIN              eng.vmware.com
 
 *** Test Cases ***
-
 User Provided Certificate
     Log To Console  \nStarting user provided certificate test...
     ${ova-name}=  Get Test OVA Name

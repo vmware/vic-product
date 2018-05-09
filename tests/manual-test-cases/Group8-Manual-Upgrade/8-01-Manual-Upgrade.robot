@@ -34,24 +34,24 @@ Upgrade Environment Setup
     ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
 
     Set Environment Variable  OVA_NAME  ${old-appliance-name}
-    ${old-appliance-ip}=  Install And Initialize VIC Product OVA  ${old-ova-file-name}  %{OVA_NAME}
+    ${old-appliance-ip}=  Install And Initialize VIC Product OVA  ${old-ova-save-file}  %{OVA_NAME}
     Install VCH With Test Container And Push Image to Harbor
+    Set Environment Variable  OLD_OVA_IP  %{OVA_IP}
 
     # Deploy new appliance but do not power on
     Set Environment Variable  OVA_NAME  ${new-appliance-name}
-    ${output}=  Deploy VIC Appliance  vic-*.ova  %{OVA_NAME}  ${EMPTY}  ${EMPTY}  ${EMPTY}  ${EMPTY}  ${EMPTY}  ${EMPTY}  ${EMPTY}  ${EMPTY}  ${EMPTY}  False
+    ${output}=  Deploy VIC Appliance  vic-*.ova  %{OVA_NAME}  power=False
 
 Power On Appliance And Run Upgrade
-    [Arguments]  ${new-appliance-name}  ${new-appliance-ip}  ${old-appliance-ip}  ${old-ova-version}  ${new-appliance-cert-path}
+    [Arguments]  ${new-appliance-name}  ${old-appliance-ip}  ${old-ova-version}  ${new-appliance-cert-path}  ${datacenter}
     Power On VM  ${new-appliance-name}
-    ${new-appliance-ip}=  Get VM IP By Name  ${new-appliance-name}
+    ${rc}  ${new-appliance-ip}=  Get VM IP By Name  ${new-appliance-name}
 
-    Execute Upgrade Script Manual Disk Move  ${new-appliance-ip}  ${old-appliance-ip}  ${datacenter}  ${old-ova-version}
+    Execute Upgrade Script  ${new-appliance-ip}  ${old-appliance-ip}  ${datacenter}  ${old-ova-version}  True
     Verify Running Test Container And Pushed Image  ${new-appliance-cert-path}
 
 
 *** Test Cases ***
-
 # TODO Remove after end of 1.2.1 support
 Upgrade from v1.2.1
     ${old-ova-file-name}=        Set Variable  vic-v1.2.1-4104e5f9.ova
@@ -62,46 +62,45 @@ Upgrade from v1.2.1
     ${new-appliance-cert-path}=  Set Variable  /storage/data/admiral/ca_download
 
     Set Global Variable  ${OVA_CERT_PATH}  ${old-appliance-cert-path}
-    ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
-    Upgrade Environment Setup  ${old-ova-save-file}  ${old-appliance-name}  ${new-appliance-name}
+    Upgrade Environment Setup  ${old-ova-file-name}  ${old-appliance-name}  ${new-appliance-name}
 
     # Copy data disk and attach to new appliance
     Copy and Attach Disk v1.2.1  ${old-appliance-name}  ${new-appliance-name}  ${datacenter}
 
-    Power On Appliance And Run Upgrade  ${new-appliance-name}  ${new-appliance-ip}  ${old-appliance-ip}  ${old-ova-version}  ${new-appliance-cert-path}
+    Power On Appliance And Run Upgrade  ${new-appliance-name}  %{OLD_OVA_IP}  ${old-ova-version}  ${new-appliance-cert-path}  ${datacenter}
 
 
-Upgrade from v1.3.0
-    ${old-ova-file-name}=        Set Variable  vic-v1.3.0-3033-f8cc7317.ova
-    ${old-ova-version}=          Set Variable  v1.3.0
-    ${old-appliance-name}=       Set Variable  manual-upgrade-${old-ova-file-name}
-    ${new-appliance-name}=       Set Variable  manual-upgrade-from-1.3.0-LATEST
-    ${old-appliance-cert-path}=  Set Variable  /storage/data/admiral/ca_download
-    ${new-appliance-cert-path}=  Set Variable  /storage/data/admiral/ca_download
+# Upgrade from v1.3.0
+#     ${old-ova-file-name}=        Set Variable  vic-v1.3.0-3033-f8cc7317.ova
+#     ${old-ova-version}=          Set Variable  v1.3.0
+#     ${old-appliance-name}=       Set Variable  manual-upgrade-${old-ova-file-name}
+#     ${new-appliance-name}=       Set Variable  manual-upgrade-from-1.3.0-LATEST
+#     ${old-appliance-cert-path}=  Set Variable  /storage/data/admiral/ca_download
+#     ${new-appliance-cert-path}=  Set Variable  /storage/data/admiral/ca_download
 
-    Set Global Variable  ${OVA_CERT_PATH}  ${old-appliance-cert-path}
-    ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
-    Upgrade Environment Setup  ${old-ova-save-file}  ${old-appliance-name}  ${new-appliance-name}
+#     Set Global Variable  ${OVA_CERT_PATH}  ${old-appliance-cert-path}
+#     ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
+#     Upgrade Environment Setup  ${old-ova-save-file}  ${old-appliance-name}  ${new-appliance-name}
 
-    # Copy data, log, db disks and attach to new appliance
-    Copy and Attach Disks  ${old-appliance-name}  ${new-appliance-name}  ${datacenter}
+#     # Copy data, log, db disks and attach to new appliance
+#     Copy and Attach Disks  ${old-appliance-name}  ${new-appliance-name}  ${datacenter}
 
-    Power On Appliance And Run Upgrade  ${new-appliance-name}  ${new-appliance-ip}  ${old-appliance-ip}  ${old-ova-version}  ${new-appliance-cert-path}
+#     Power On Appliance And Run Upgrade  ${new-appliance-name}  ${new-appliance-ip}  ${old-appliance-ip}  ${old-ova-version}  ${new-appliance-cert-path}
 
 
-Upgrade from v1.3.1
-    ${old-ova-file-name}=        Set Variable  vic-v1.3.1-3409-132fb13d.ova
-    ${old-ova-version}=          Set Variable  v1.3.1
-    ${old-appliance-name}=       Set Variable  manual-upgrade-${old-ova-file-name}
-    ${new-appliance-name}=       Set Variable  manual-upgrade-from-1.3.1-LATEST
-    ${old-appliance-cert-path}=  Set Variable  /storage/data/admiral/ca_download
-    ${new-appliance-cert-path}=  Set Variable  /storage/data/admiral/ca_download
+# Upgrade from v1.3.1
+#     ${old-ova-file-name}=        Set Variable  vic-v1.3.1-3409-132fb13d.ova
+#     ${old-ova-version}=          Set Variable  v1.3.1
+#     ${old-appliance-name}=       Set Variable  manual-upgrade-${old-ova-file-name}
+#     ${new-appliance-name}=       Set Variable  manual-upgrade-from-1.3.1-LATEST
+#     ${old-appliance-cert-path}=  Set Variable  /storage/data/admiral/ca_download
+#     ${new-appliance-cert-path}=  Set Variable  /storage/data/admiral/ca_download
 
-    Set Global Variable  ${OVA_CERT_PATH}  ${old-appliance-cert-path}
-    ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
-    Upgrade Environment Setup  ${old-ova-save-file}  ${old-appliance-name}  ${new-appliance-name}
+#     Set Global Variable  ${OVA_CERT_PATH}  ${old-appliance-cert-path}
+#     ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
+#     Upgrade Environment Setup  ${old-ova-save-file}  ${old-appliance-name}  ${new-appliance-name}
 
-    # Copy data, log, db disks and attach to new appliance
-    Copy and Attach Disks  ${old-appliance-name}  ${new-appliance-name}  ${datacenter}
+#     # Copy data, log, db disks and attach to new appliance
+#     Copy and Attach Disks  ${old-appliance-name}  ${new-appliance-name}  ${datacenter}
 
-    Power On Appliance And Run Upgrade  ${new-appliance-name}  ${new-appliance-ip}  ${old-appliance-ip}  ${old-ova-version}  ${new-appliance-cert-path}
+#     Power On Appliance And Run Upgrade  ${new-appliance-name}  ${new-appliance-ip}  ${old-appliance-ip}  ${old-ova-version}  ${new-appliance-cert-path}

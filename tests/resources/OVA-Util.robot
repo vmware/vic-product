@@ -42,16 +42,10 @@ Download Latest VIC Appliance OVA
     Log To Console  \nFinished downloading ${latest-ova}
     [Return]  ${latest-ova}
 
-Get VM IP By Name
-    [Arguments]  ${vm-name}
-    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.ip  ${vm-name}
-    Log  ${output}
-    [Return]  ${rc}  ${output}  ${vm-ip}
-
 Set Test OVA IP If Available
     Log To Console  \nCheck VIC appliance and set OVA_IP env variable...
     Set Common Test OVA Name
-    ${rc}  ${output}  ${vm-ip}=  Get VM IP By Name  %{OVA_NAME}
+    ${rc}  ${output}=  Get VM IP By Name  %{OVA_NAME}
     Run Keyword Unless  ${rc} == 0  Should Contain  ${output}  not found
     Run Keyword If  ${rc} == 0  Set Environment Variable  OVA_IP  ${vm-ip}
     [Return]  ${rc}
@@ -76,7 +70,7 @@ Deploy VIC Appliance
     ${output}=  Install VIC Appliance Secret  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}  ${power}
     Log  ${output}
     Should Contain  ${output}  Completed successfully
-    Should Contain  ${output}  Received IP address:
+    Run Keyword If  ${power}  Should Contain  ${output}  Received IP address:
 
     ${output}=  Split To Lines  ${output}
     ${ova-ip}=  Set Variable  NULL
@@ -333,6 +327,7 @@ Setup Simple VC And Test Environment
     Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls
     Set Environment Variable  TEST_TIMEOUT  30m
     Set Environment Variable  TEST_DATASTORE  datastore1
+
     # set VC variables
     Set Test VC Variables
     # set VCH variables
@@ -394,7 +389,7 @@ Auto Upgrade OVA With Verification
 Execute Upgrade Script
     # SSH into OVA appliance and execute ./upgrade script
     # Also, gather and save log bundle
-    [Arguments]  ${new-appliance-ip}  ${old-appliance-ip}  ${datacenter}  ${old-appliance-version}
+    [Arguments]  ${new-appliance-ip}  ${old-appliance-ip}  ${datacenter}  ${old-appliance-version}  ${manual-disk}=False
     ${fingerprint}=  Get VCenter GOVC Fingerprint
     Log To Console  ssh into appliance...
     ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@${new-appliance-ip}
@@ -406,28 +401,11 @@ Execute Upgrade Script
 
     # run upgrade script
     Log To Console  upgrade ova...
-    Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip}
+    Run Keyword Unless  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip}
 
-    Copy Support Bundle
+    Run Keyword If  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --manual-disks
 
-Execute Upgrade Script Manual Disk Move
-    # Executes the VIC appliance upgrade script using --manual-disks flag
-    # Assumes old disks are already attached to the new appliance
-    [Arguments]  ${new-appliance-ip}  ${old-appliance-ip}  ${datacenter}  ${old-appliance-version}
-    ${fingerprint}=  Get VCenter GOVC Fingerprint
-    Log To Console  ssh into appliance...
-    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@${new-appliance-ip}
-    Log To Console  open connection...
-    Open Connection  ${new-appliance-ip}
-
-    Log To Console  login...
-    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
-
-    # run upgrade script
-    Log To Console  upgrade ova...
-    Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip}  --manual-disks
-
-    Copy Support Bundle
+    Copy Support Bundle  ${new-appliance-ip}
 
 Deploy OVA And Install UI Plugin And Run Regression Tests
     # Deploy OVA and then install UI plugin
@@ -461,17 +439,18 @@ Copy and Attach Disk v1.2.1
     Wait for VM Power Off  ${old-ova-vm-name}
 
     # Detach blank disk from new VM
-    ${data-disk}=  Get Disk By ID      ${new-ova-vm-name}  1
-    Detach Disk    ${new-ova-vm-name}  ${data-disk}
+    ${data-disk-name}=  Get Disk Name By ID      ${new-ova-vm-name}  1
+    Detach Disk    ${new-ova-vm-name}  ${data-disk-name}
 
-    # Find disk to copy
-    ${old-data-disk}=  Get Disk By ID  ${old-ova-vm-name}  1
+    # Find disk file to copy
+    ${old-data-disk-file}=  Get Disk File By ID  ${old-ova-vm-name}  1
+    ${data-disk-file}=  Get Disk File By ID      ${new-ova-vm-name}  1
 
     # Copy old disk to new datastore location
-    Copy Disk  ${old-ds}  ${new-ds}  ${old-data-disk}  ${data-disk}
+    Copy Disk  ${old-ds}  ${new-ds}  ${old-data-disk-file}  ${data-disk-file}
 
     # Attach copied disk
-    Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${data-disk}
+    Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${data-disk-file}
 
 Copy and Attach Disk
     # This powers off the old appliance to copy disks
@@ -484,87 +463,28 @@ Copy and Attach Disk
     Wait for VM Power Off  ${old-ova-vm-name}
 
     # Detach blank disks from new VM
-    ${data-disk}=  Get Disk By ID      ${new-ova-vm-name}  1
-    ${db-disk}=    Get Disk By ID      ${new-ova-vm-name}  2
-    ${log-disk}=   Get Disk By ID      ${new-ova-vm-name}  3
-    Detach Disk    ${new-ova-vm-name}  ${data-disk}
-    Detach Disk    ${new-ova-vm-name}  ${db-disk}
-    Detach Disk    ${new-ova-vm-name}  ${log-disk}
+    ${data-disk-name}=  Get Disk Name By ID      ${new-ova-vm-name}  1
+    ${db-disk-name}=    Get Disk Name By ID      ${new-ova-vm-name}  2
+    ${log-disk-name}=   Get Disk Name By ID      ${new-ova-vm-name}  3
+    Detach Disk    ${new-ova-vm-name}  ${data-disk-name}
+    Detach Disk    ${new-ova-vm-name}  ${db-disk-name}
+    Detach Disk    ${new-ova-vm-name}  ${log-disk-name}
 
-    # Find disks to copy
-    ${old-data-disk}=  Get Disk By ID  ${old-ova-vm-name}  1
-    ${old-db-disk}=    Get Disk By ID  ${old-ova-vm-name}  2
-    ${old-log-disk}=   Get Disk By ID  ${old-ova-vm-name}  3
+    # Find disk files to copy
+    ${old-data-disk-file}=  Get Disk File By ID  ${old-ova-vm-name}  1
+    ${old-db-disk-file}=    Get Disk File By ID  ${old-ova-vm-name}  2
+    ${old-log-disk-file}=   Get Disk File By ID  ${old-ova-vm-name}  3
+
+    ${data-disk-file}=  Get Disk File By ID      ${new-ova-vm-name}  1
+    ${db-disk-file}=    Get Disk File By ID      ${new-ova-vm-name}  2
+    ${log-disk-file}=   Get Disk File By ID      ${new-ova-vm-name}  3
 
     # Copy old disk to new datastore location
-    Copy Disk  ${old-ds}  ${new-ds}  ${old-data-disk}  ${data-disk}
-    Copy Disk  ${old-ds}  ${new-ds}  ${old-db-disk}  ${db-disk}
-    Copy Disk  ${old-ds}  ${new-ds}  ${old-log-disk}  ${log-disk}
+    Copy Disk  ${old-ds}  ${new-ds}  ${old-data-disk-file}  ${data-disk-file}
+    Copy Disk  ${old-ds}  ${new-ds}  ${old-db-disk-file}  ${db-disk-file}
+    Copy Disk  ${old-ds}  ${new-ds}  ${old-log-disk-file}  ${log-disk-file}
 
     # Attach copied disks
-    Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${data-disk}
-    Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${db-disk}
-    Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${log-disk}
-
-Get Datastore
-    # Get datastore containing a VM
-    [Arguments]  ${vm-name}
-    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.info -json "${vm-name}" | jq -r ".VirtualMachines[].Config.DatastoreUrl[0].Name"
-    Log  ${output}
-    Should Be Equal  ${rc}  0
-    [Return]  ${output}
-
-Get Disk By ID
-    # Get disk from VM based on it's position
-    [Arguments] ${vm-name}  ${id}
-    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.info -json "${vm-name}" | jq -r ".VirtualMachines[].Layout.Disk[${id}].DiskFile[0]" | awk '{print $NF}'
-    Log  ${output}
-    Should Be Equal  ${rc}  0
-    [Return]  ${output}
-
-Detach Disk
-    # Detach disk from VM
-    [Arguments]  ${vm-name}  ${disk}
-    ${rc}  ${output}=  Run And Return Rc And Output  govc device.remove -vm="${vm-name}" "${disk}"
-    Log ${output}
-    Should Be Equal  ${rc}  0
-    [Return]  ${output}
-
-Attach Disk
-    # Attach disk to VM
-    [Arguments]  ${vm-name}  ${datastore}  ${disk}
-    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.disk.attach -vm="$vm-name" -ds "${datastore}" -disk "${disk}"
-    Log ${output}
-    Should Be Equal  ${rc}  0
-    [Return]  ${output}
-
-
-Copy Disk
-    [Arguments]  ${old-datastore}  ${new-datastore}  ${old-disk}  ${new-disk}
-    ${rc}  ${output}=  Run And Return Rc And Output  govc datastore.cp -ds "${old-datastore}" -ds-target "${new-datastore}" "${old-disk}" "${new-disk}"
-    Log ${output}
-    Should Be Equal  ${rc}  0
-    [Return]  ${output}
-
-Power On VM
-    [Arguments]  ${vm-name}
-    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.power -on=true "${vm-name}"
-    Log ${output}
-    Should Be Equal  ${rc}  0
-    [Return]  ${output}
-
-Wait for VM Power Off
-    [Arguments]  ${vm-name}
-    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.power -s=true "${vm-name}"
-    Log  ${output}
-    Log  ${rc}
-    Should Be Equal  ${rc}  0
-
-		Wait Until Keyword Succeeds  12x  15s  VM Is Powered Off  "${vm-name}"
-
-VM Is Powered Off
-    [Arguments]  ${vm-name}
-    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.info -json "${vm-name}" | jq -r ".VirtualMachines[].Runtime.PowerState"
-    Log  ${output}
-    Log  ${rc}
-    Should Contain  ${output}  "poweredOff"
+    Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${data-disk-file}
+    Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${db-disk-file}
+    Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${log-disk-file}
