@@ -137,7 +137,7 @@ function main {
     cd "${PACKAGE}"
     sed -i -e s~--version--~${BUILD_OVA_REVISION}~ vic-${BUILD_OVA_REVISION}.ovf
     log2 "rebuilding OVF manifest"
-    sha256sum --tag "vic-${BUILD_OVA_REVISION}.ovf" "vic-${BUILD_OVA_REVISION}.mf" *.vmdk | sed s/SHA256\ \(/SHA256\(/ > "vic-${BUILD_OVA_REVISION}.mf"
+    sha256sum --tag "vic-${BUILD_OVA_REVISION}.ovf" *.vmdk | sed s/SHA256\ \(/SHA256\(/ > "vic-${BUILD_OVA_REVISION}.mf"
     tar -cvf "${RESOURCE}/vic-${BUILD_OVA_REVISION}.ova" "vic-${BUILD_OVA_REVISION}.ovf" "vic-${BUILD_OVA_REVISION}.mf" *.vmdk
 
     OUTFILE=${RESOURCE}/vic-${BUILD_OVA_REVISION}.ova
