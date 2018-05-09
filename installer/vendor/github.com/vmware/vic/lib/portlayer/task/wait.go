@@ -15,7 +15,6 @@
 package task
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/vmware/govmomi/vim25/types"
@@ -26,35 +25,45 @@ import (
 
 // Wait waits the task to start
 func Wait(op *trace.Operation, h interface{}, id string) error {
-	defer trace.End(trace.Begin(id))
+	defer trace.End(trace.Begin(id, op))
 
 	handle, ok := h.(*exec.Handle)
 	if !ok {
-		return fmt.Errorf("Type assertion failed for %#+v", handle)
+		return fmt.Errorf("type assertion failed for %#+v", handle)
 	}
 
 	if handle.Runtime != nil && handle.Runtime.PowerState != types.VirtualMachinePowerStatePoweredOn {
-		return fmt.Errorf("Unable to wait for task when container %s is not running", id)
+		err := fmt.Errorf("unable to wait for task when container %s is not running", handle.ExecConfig.ID)
+		op.Errorf("%s", err)
+		return TaskPowerStateError{Err: err}
 	}
 
 	_, okS := handle.ExecConfig.Sessions[id]
 	_, okE := handle.ExecConfig.Execs[id]
 
 	if !okS && !okE {
-		return fmt.Errorf("Unknown task ID: %s", id)
+		return fmt.Errorf("unknown task ID: %s", id)
 	}
 
 	// wait task to set started field
-	ctx, cancel := context.WithTimeout(context.Background(), constants.PropertyCollectorTimeout)
+	timeout, cancel := trace.WithTimeout(op, constants.PropertyCollectorTimeout, "Wait")
 	defer cancel()
 
 	c := exec.Containers.Container(handle.ExecConfig.ID)
 	if c == nil {
-		return fmt.Errorf("Unknown container ID: %s", handle.ExecConfig.ID)
+		return fmt.Errorf("unknown container ID: %s", handle.ExecConfig.ID)
 	}
 
 	if okS {
-		return c.WaitForSession(ctx, id)
+		return c.WaitForSession(timeout, id)
 	}
-	return c.WaitForExec(ctx, id)
+	return c.WaitForExec(timeout, id)
+}
+
+type TaskPowerStateError struct {
+	Err error
+}
+
+func (t TaskPowerStateError) Error() string {
+	return t.Err.Error()
 }

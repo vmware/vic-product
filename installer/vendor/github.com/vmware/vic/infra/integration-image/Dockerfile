@@ -4,9 +4,9 @@
 # docker tag vic-test gcr.io/eminent-nation-87317/vic-integration-test:1.x
 # gcloud auth login
 # gcloud docker -- push gcr.io/eminent-nation-87317/vic-integration-test:1.x
-# open vpn to CI cluster then run:
-# docker tag vic-test 192.168.31.15/library/vic-integration-test:1.x
-# docker push 192.168.31.15/library/vic-integration-test:1.x
+# download and install harbor certs, then docker login, then:
+# docker tag vic-test wdc-harbor-ci.eng.vmware.com/default-project/vic-integration-test:1.x
+# docker push wdc-harbor-ci.eng.vmware.com/default-project/vic-integration-test:1.x
 
 FROM golang:1.8
 
@@ -16,6 +16,7 @@ RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable 
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - && \
     apt-get update && apt-get install -y --no-install-recommends \
     jq \
+    bc \
     time \
     gcc \
     python-dev \
@@ -48,7 +49,8 @@ RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - && \
     rpm \
     ca-certificates \
     xz-utils \
-    xorriso && \
+    xorriso \
+    sendmail && \
 	# Cleanup
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
@@ -56,7 +58,7 @@ RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - && \
 
 RUN wget https://bootstrap.pypa.io/get-pip.py && \
     python ./get-pip.py  && \
-    pip install pyasn1 google-apitools==0.5.15 gsutil robotframework robotframework-sshlibrary robotframework-httplibrary requests dbbot robotframework-selenium2library --upgrade
+    pip install pyasn1 google-apitools==0.5.15 gsutil==4.28 robotframework robotframework-sshlibrary robotframework-httplibrary requests dbbot robotframework-selenium2library robotframework-pabot codecov --upgrade
 
 # Install docker, docker clients 1.11,1.12 and 1.13
 # Also install docker compose 1.13
@@ -81,13 +83,12 @@ RUN curl -fsSLO https://releases.hashicorp.com/packer/0.12.2/packer_0.12.2_linux
     unzip packer_0.12.2_linux_amd64.zip -d /usr/bin && \
 	rm packer_0.12.2_linux_amd64.zip
 
-RUN curl http://downloads.drone.io/release/linux/amd64/drone.tar.gz | tar zx && \
+RUN wget https://github.com/drone/drone-cli/releases/download/v0.8.3/drone_linux_amd64.tar.gz && tar zxf drone_linux_amd64.tar.gz && \
     install -t /usr/local/bin drone
 
-RUN curl -sSL https://github.com/vmware/govmomi/releases/download/v0.15.0/govc_linux_amd64.gz | gzip -d > /usr/local/bin/govc && \
-    chmod +x /usr/local/bin/govc
+RUN curl -sSL https://github.com/vmware/govmomi/releases/download/v0.17.1/govc_linux_amd64.gz | gzip -d > /usr/local/bin/govc && chmod +x /usr/local/bin/govc
 
-RUN  wget http://mirrors.kernel.org/ubuntu/pool/main/w/wget/wget_1.18-2ubuntu1_amd64.deb && \
+RUN  wget https://launchpad.net/ubuntu/+source/wget/1.18-2ubuntu1/+build/10470166/+files/wget_1.18-2ubuntu1_amd64.deb && \
      dpkg -i wget_1.18-2ubuntu1_amd64.deb
 
 # Add docker in docker support

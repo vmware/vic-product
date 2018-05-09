@@ -17,7 +17,12 @@ Documentation  Test 13-2 - vMotion Container
 Resource  ../../resources/Util.robot
 Suite Setup  Wait Until Keyword Succeeds  10x  10m  Create a VSAN Cluster  vic-vmotion-13-2
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
-Test Teardown  Cleanup VIC Appliance On Test Server
+Test Teardown  Run Keyword If Test Failed  Gather All vSphere Logs
+
+*** Keywords ***
+Gather All vSphere Logs
+    ${hostList}=  Run  govc ls -t HostSystem host/cls | xargs
+    Run  govc logs.download ${hostList}
 
 *** Test Cases ***
 Test
@@ -43,9 +48,9 @@ Test
     ${vmName2}=  Get VM display name  ${container2}
     ${vmName3}=  Get VM display name  ${container3}
     
-    vMotion A VM  %{VCH-NAME}/${vmName1}
-    vMotion A VM  %{VCH-NAME}/${vmName2}
-    vMotion A VM  %{VCH-NAME}/${vmName3}
+    vMotion A VM  ${vmName1}
+    vMotion A VM  ${vmName2}
+    vMotion A VM  ${vmName3}
     
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} start ${container1}
     Should Be Equal As Integers  ${rc}  0

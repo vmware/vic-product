@@ -134,6 +134,7 @@ func Init() {
 	}
 
 	viclog.Init(logcfg)
+	trace.InitLogger(logcfg)
 
 	// We don't want to run this as root.
 	ud := syscall.Getuid()
@@ -205,7 +206,7 @@ type versionReader string
 
 func (path versionReader) open() (entry, error) {
 	defer trace.End(trace.Begin(string(path)))
-	return newBytesEntry(string(path), []byte(version.Version)), nil
+	return newBytesEntry(string(path), []byte(version.GetBuild().ShortVersion())), nil
 }
 
 type commandReader string
@@ -324,7 +325,8 @@ func listVMPaths(ctx context.Context, s *session.Session) ([]logfile, error) {
 
 	ref := vchConfig.ComputeResources[0]
 	rp := compute.NewResourcePool(ctx, s, ref)
-	if children, err = rp.GetChildrenVMs(ctx, s); err != nil {
+	op := trace.NewOperation(ctx, "GetChildren")
+	if children, err = rp.GetChildrenVMs(op); err != nil {
 		return nil, err
 	}
 
@@ -345,7 +347,7 @@ func listVMPaths(ctx context.Context, s *session.Session) ([]logfile, error) {
 			continue
 		}
 
-		logname, err := child.Name(ctx)
+		logname, err := child.ObjectName(ctx)
 		if err != nil {
 			log.Errorf("Unable to get the vm name for %s: %s", child.Reference(), err)
 			continue

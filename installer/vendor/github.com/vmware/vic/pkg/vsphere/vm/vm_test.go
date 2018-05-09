@@ -33,6 +33,7 @@ import (
 	"github.com/vmware/govmomi/vim25/mo"
 	"github.com/vmware/govmomi/vim25/types"
 	"github.com/vmware/vic/lib/guest"
+	"github.com/vmware/vic/pkg/trace"
 	"github.com/vmware/vic/pkg/vsphere/extraconfig/vmomi"
 	"github.com/vmware/vic/pkg/vsphere/session"
 	"github.com/vmware/vic/pkg/vsphere/sys"
@@ -91,7 +92,7 @@ func TestDeleteExceptDisk(t *testing.T) {
 	// Wrap the result with our version of VirtualMachine
 	vm := NewVirtualMachine(ctx, session, *moref)
 
-	folder, err := vm.FolderName(ctx)
+	folder, err := vm.DatastoreFolderName(ctx)
 	if err != nil {
 		t.Fatalf("ERROR: %s", err)
 	}
@@ -100,11 +101,7 @@ func TestDeleteExceptDisk(t *testing.T) {
 	diskName := fmt.Sprintf("%s/%s.vmdk", folder, folder)
 
 	// Delete the VM but not it's disk
-	task, err := vm.DeleteExceptDisks(ctx)
-	if err != nil {
-		t.Fatalf("ERROR: %s", err)
-	}
-	_, err = task.WaitForResult(ctx, nil)
+	_, err = vm.DeleteExceptDisks(ctx)
 	if err != nil {
 		t.Fatalf("ERROR: %s", err)
 	}
@@ -116,9 +113,9 @@ func TestDeleteExceptDisk(t *testing.T) {
 	}
 
 	// clean up
-	dm := object.NewVirtualDiskManager(session.Client.Client)
+	dm := object.NewVirtualDiskManager(session.Vim25())
 
-	task, err = dm.DeleteVirtualDisk(context.TODO(), diskName, nil)
+	task, err := dm.DeleteVirtualDisk(context.TODO(), diskName, nil)
 	if err != nil {
 		t.Fatalf("Unable to locate orphan vmdk: %s", err)
 	}
@@ -165,7 +162,7 @@ func TestVM(t *testing.T) {
 	assert.Equal(t, types.VirtualMachinePowerStatePoweredOff, state)
 
 	// Check VM name
-	rname, err := vm.Name(ctx)
+	rname, err := vm.ObjectName(ctx)
 	if err != nil {
 		t.Errorf("Failed to load VM name: %s", err)
 	}
@@ -178,7 +175,7 @@ func TestVM(t *testing.T) {
 	}
 	t.Logf("Got UUID: %s", ruuid)
 
-	err = vm.fixVM(ctx)
+	err = vm.fixVM(trace.FromContext(ctx, "TestVM"))
 	if err != nil {
 		t.Errorf("Failed to fix vm: %s", err)
 	}
@@ -252,17 +249,17 @@ func TestVMAttributes(t *testing.T) {
 	// Wrap the result with our version of VirtualMachine
 	vm := NewVirtualMachine(ctx, session, *moref)
 
-	folder, err := vm.FolderName(ctx)
+	folder, err := vm.DatastoreFolderName(ctx)
 	if err != nil {
 		t.Fatalf("ERROR: %s", err)
 	}
 
-	name, err := vm.Name(ctx)
+	name, err := vm.ObjectName(ctx)
 	if err != nil {
 		t.Fatalf("ERROR: %s", err)
 	}
 	assert.Equal(t, name, folder)
-	task, err := vm.PowerOn(ctx)
+	task, err := vm.VirtualMachine.PowerOn(ctx)
 	if err != nil {
 		t.Fatalf("ERROR: %s", err)
 	}
@@ -461,6 +458,7 @@ func TestProperties(t *testing.T) {
 
 	// Nothing VC specific in this test, so we use the simpler ESX model
 	model := simulator.ESX()
+	model.Autostart = false
 	defer model.Remove()
 	err := model.Create()
 	if err != nil {
@@ -522,6 +520,7 @@ func TestWaitForResult(t *testing.T) {
 
 	// Nothing VC specific in this test, so we use the simpler ESX model
 	model := simulator.ESX()
+	model.Autostart = false
 	defer model.Remove()
 	err := model.Create()
 	if err != nil {
@@ -561,7 +560,7 @@ func TestWaitForResult(t *testing.T) {
 	vmm := NewVirtualMachine(ctx, s, vmo.Reference())
 	// Test the success path
 	_, err = vmm.WaitForResult(ctx, func(ctx context.Context) (tasks.Task, error) {
-		return vmm.PowerOn(ctx)
+		return vmm.VirtualMachine.PowerOn(ctx)
 	})
 	if err != nil {
 		t.Fatal(err)

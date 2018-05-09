@@ -241,7 +241,7 @@ func TestCreateVm(t *testing.T) {
 	}
 }
 
-func TestReconfigVm(t *testing.T) {
+func TestReconfigVmDevice(t *testing.T) {
 	ctx := context.Background()
 
 	m := ESX()
@@ -326,12 +326,241 @@ func TestReconfigVm(t *testing.T) {
 		t.Error("device list mismatch")
 	}
 
-	for _, d := range device.SelectByType((*types.VirtualDisk)(nil)) {
-		info := d.(*types.VirtualDisk).Backing.(*types.VirtualDiskFlatVer2BackingInfo)
+	disks := device.SelectByType((*types.VirtualDisk)(nil))
+
+	for _, d := range disks {
+		disk := d.(*types.VirtualDisk)
+		info := disk.Backing.(*types.VirtualDiskFlatVer2BackingInfo)
 
 		if info.Datastore.Type == "" || info.Datastore.Value == "" {
 			t.Errorf("invalid datastore for %s", device.Name(d))
 		}
+
+		// RemoveDevice and keep the file backing
+		if err = vm.RemoveDevice(ctx, true, d); err != nil {
+			t.Error(err)
+		}
+
+		if err = vm.AddDevice(ctx, d); err == nil {
+			t.Error("expected FileExists error")
+		}
+
+		// Need FileOperation=="" to add an existing disk, see object.VirtualMachine.configureDevice
+		disk.CapacityInKB = 0
+		if err = vm.AddDevice(ctx, d); err != nil {
+			t.Error(err)
+		}
+
+		// RemoveDevice and delete the file backing
+		if err = vm.RemoveDevice(ctx, false, d); err != nil {
+			t.Error(err)
+		}
+
+		if err = vm.AddDevice(ctx, d); err == nil {
+			t.Error("expected FileNotFound error")
+		}
+	}
+}
+
+func TestReconfigVm(t *testing.T) {
+	ctx := context.Background()
+
+	m := ESX()
+	defer m.Remove()
+	err := m.Create()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	s := m.Service.NewServer()
+	defer s.Close()
+
+	c, err := govmomi.NewClient(ctx, s.URL, true)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	vmm := Map.Any("VirtualMachine").(*VirtualMachine)
+	vm := object.NewVirtualMachine(c.Client, vmm.Reference())
+
+	tests := []struct {
+		fail bool
+		spec types.VirtualMachineConfigSpec
+	}{
+		{
+			true, types.VirtualMachineConfigSpec{
+				CpuAllocation: &types.ResourceAllocationInfo{Reservation: types.NewInt64(-1)},
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				CpuAllocation: &types.ResourceAllocationInfo{Reservation: types.NewInt64(100)},
+			},
+		},
+		{
+			true, types.VirtualMachineConfigSpec{
+				GuestId: "enoent",
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				GuestId: string(GuestID[0]),
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				NestedHVEnabled: types.NewBool(true),
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				CpuHotAddEnabled: types.NewBool(true),
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				CpuHotRemoveEnabled: types.NewBool(true),
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				GuestAutoLockEnabled: types.NewBool(true),
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				MemoryHotAddEnabled: types.NewBool(true),
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				MemoryReservationLockedToMax: types.NewBool(true),
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				MessageBusTunnelEnabled: types.NewBool(true),
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				NpivTemporaryDisabled: types.NewBool(true),
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				NpivOnNonRdmDisks: types.NewBool(true),
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				ConsolePreferences: &types.VirtualMachineConsolePreferences{
+					PowerOnWhenOpened: types.NewBool(true),
+				},
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				CpuAffinity: &types.VirtualMachineAffinityInfo{
+					AffinitySet: []int32{1},
+				},
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				CpuAllocation: &types.ResourceAllocationInfo{
+					Reservation: types.NewInt64(100),
+				},
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				MemoryAffinity: &types.VirtualMachineAffinityInfo{
+					AffinitySet: []int32{1},
+				},
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				MemoryAllocation: &types.ResourceAllocationInfo{
+					Reservation: types.NewInt64(100),
+				},
+			},
+		},
+		{
+			false, types.VirtualMachineConfigSpec{
+				LatencySensitivity: &types.LatencySensitivity{
+					Sensitivity: 1,
+				},
+			},
+		},
+	}
+
+	for i, test := range tests {
+		rtask, _ := vm.Reconfigure(ctx, test.spec)
+
+		err := rtask.Wait(ctx)
+		if test.fail {
+			if err == nil {
+				t.Errorf("%d: expected failure", i)
+			}
+		} else {
+			if err != nil {
+				t.Errorf("unexpected failure: %s", err)
+			}
+		}
+	}
+
+	// Verify ReConfig actually works
+	if *vmm.Config.NestedHVEnabled != true {
+		t.Errorf("vm.Config.NestedHVEnabled expected true; got false")
+	}
+	if *vmm.Config.CpuHotAddEnabled != true {
+		t.Errorf("vm.Config.CpuHotAddEnabled expected true; got false")
+	}
+	if *vmm.Config.CpuHotRemoveEnabled != true {
+		t.Errorf("vm.Config.CpuHotRemoveEnabled expected true; got false")
+	}
+	if *vmm.Config.GuestAutoLockEnabled != true {
+		t.Errorf("vm.Config.GuestAutoLockEnabled expected true; got false")
+	}
+	if *vmm.Config.MemoryHotAddEnabled != true {
+		t.Errorf("vm.Config.MemoryHotAddEnabled expected true; got false")
+	}
+	if *vmm.Config.MemoryReservationLockedToMax != true {
+		t.Errorf("vm.Config.MemoryReservationLockedToMax expected true; got false")
+	}
+	if *vmm.Config.MessageBusTunnelEnabled != true {
+		t.Errorf("vm.Config.MessageBusTunnelEnabled expected true; got false")
+	}
+	if *vmm.Config.NpivTemporaryDisabled != true {
+		t.Errorf("vm.Config.NpivTemporaryDisabled expected true; got false")
+	}
+	if *vmm.Config.NpivOnNonRdmDisks != true {
+		t.Errorf("vm.Config.NpivOnNonRdmDisks expected true; got false")
+	}
+	if *vmm.Config.ConsolePreferences.PowerOnWhenOpened != true {
+		t.Errorf("vm.Config.ConsolePreferences.PowerOnWhenOpened expected true; got false")
+	}
+	if vmm.Config.CpuAffinity.AffinitySet[0] != int32(1) {
+		t.Errorf("vm.Config.CpuAffinity.AffinitySet[0] expected %d; got %d",
+			1, vmm.Config.CpuAffinity.AffinitySet[0])
+	}
+	if vmm.Config.MemoryAffinity.AffinitySet[0] != int32(1) {
+		t.Errorf("vm.Config.CpuAffinity.AffinitySet[0] expected %d; got %d",
+			1, vmm.Config.CpuAffinity.AffinitySet[0])
+	}
+	if *vmm.Config.CpuAllocation.Reservation != 100 {
+		t.Errorf("vm.Config.CpuAllocation.Reservation expected %d; got %d",
+			100, *vmm.Config.CpuAllocation.Reservation)
+	}
+	if *vmm.Config.MemoryAllocation.Reservation != 100 {
+		t.Errorf("vm.Config.MemoryAllocation.Reservation expected %d; got %d",
+			100, *vmm.Config.MemoryAllocation.Reservation)
+	}
+	if vmm.Config.LatencySensitivity.Sensitivity != int32(1) {
+		t.Errorf("vmm.Config.LatencySensitivity.Sensitivity expected %d; got %d",
+			1, vmm.Config.LatencySensitivity.Sensitivity)
 	}
 }
 
@@ -360,6 +589,7 @@ func TestCreateVmWithDevices(t *testing.T) {
 	cdrom, _ := devices.CreateCdrom(ide.(*types.VirtualIDEController))
 	scsi, _ := devices.CreateSCSIController("scsi")
 	disk := &types.VirtualDisk{
+		CapacityInKB: 1024,
 		VirtualDevice: types.VirtualDevice{
 			Backing: new(types.VirtualDiskFlatVer2BackingInfo), // Leave fields empty to test defaults
 		},
@@ -461,14 +691,20 @@ func TestVmSnapshot(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	task.Wait(ctx)
+	err = task.Wait(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	task, err = vm.CreateSnapshot(ctx, "child", "description", true, true)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	task.Wait(ctx)
+	err = task.Wait(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	_, err = vm.FindSnapshot(ctx, "child")
 	if err != nil {
@@ -480,21 +716,30 @@ func TestVmSnapshot(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	task.Wait(ctx)
+	err = task.Wait(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	task, err = vm.RevertToSnapshot(ctx, "root", true)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	task.Wait(ctx)
+	err = task.Wait(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	task, err = vm.RemoveSnapshot(ctx, "child", false, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	task.Wait(ctx)
+	err = task.Wait(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	_, err = vm.FindSnapshot(ctx, "child")
 	if err == nil {
@@ -506,10 +751,56 @@ func TestVmSnapshot(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	task.Wait(ctx)
+	err = task.Wait(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	_, err = vm.FindSnapshot(ctx, "root")
 	if err == nil {
 		t.Fatal("all snapshots should be removed")
+	}
+}
+
+func TestVmMarkAsTemplate(t *testing.T) {
+	ctx := context.Background()
+
+	m := VPX()
+	defer m.Remove()
+	err := m.Create()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	s := m.Service.NewServer()
+	defer s.Close()
+
+	c, err := govmomi.NewClient(ctx, s.URL, true)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	vm := object.NewVirtualMachine(c.Client, Map.Any("VirtualMachine").Reference())
+
+	err = vm.MarkAsTemplate(ctx)
+	if err == nil {
+		t.Fatal("cannot create template for a powered on vm")
+	}
+
+	task, err := vm.PowerOff(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	task.Wait(ctx)
+
+	err = vm.MarkAsTemplate(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = vm.PowerOn(ctx)
+	if err == nil {
+		t.Fatal("cannot PowerOn a template")
 	}
 }

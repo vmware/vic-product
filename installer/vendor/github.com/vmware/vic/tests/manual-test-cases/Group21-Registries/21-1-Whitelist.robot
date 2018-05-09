@@ -16,12 +16,13 @@
 Documentation  Test 21-01 - Whitelist
 Resource  ../../resources/Util.robot
 Resource  ../../resources/Harbor-Util.robot
-Suite Setup  Setup Harbor
-Suite Teardown  Nimbus Cleanup  ${list}
+Suite Setup  Wait Until Keyword Succeeds  10x  10m  Setup Harbor
+Suite Teardown  Nimbus Cleanup  ${list}  ${false}
 Test Teardown  Run Keyword If Test Failed  Cleanup VIC Appliance On Test Server
 
 *** Keywords ***
 Simple ESXi Setup
+    [Timeout]    110 minutes
     ${esx}  ${esx-ip}=  Deploy Nimbus ESXi Server  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
     Set Suite Variable  @{list}  ${esx}
 
@@ -38,7 +39,7 @@ Simple ESXi Setup
     Remove Environment Variable  PUBLIC_NETWORK
 
 Setup Harbor
-    Wait Until Keyword Succeeds  10x  10m  Simple ESXi Setup
+    Simple ESXi Setup
 
     # Install a Harbor server with HTTPS a Harbor server with HTTP
     Install Harbor To Test Server  protocol=https  name=harbor-https
@@ -66,6 +67,7 @@ Basic Whitelisting
 
     # Check docker info for whitelist info
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} info
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  Registry Whitelist Mode: enabled
     Should Contain  ${output}  Whitelisted Registries:
@@ -73,23 +75,29 @@ Basic Whitelisting
 
     # Try to login and pull from the HTTPS whitelisted registry (should succeed)
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} login -u admin -p %{TEST_PASSWORD} %{HTTPS_HARBOR_IP}
+    Log  ${output}
     Should Contain  ${output}  Succeeded
     Should Be Equal As Integers  ${rc}  0
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} pull %{HTTPS_HARBOR_IP}/library/photon:1.0
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
 
     # Try to login and pull from the HTTPS whitelisted registry with :443 tacked on at the end (should succeed)
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} login -u admin -p %{TEST_PASSWORD} %{HTTPS_HARBOR_IP}:443
+    Log  ${output}
     Should Contain  ${output}  Succeeded
     Should Be Equal As Integers  ${rc}  0
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} pull %{HTTPS_HARBOR_IP}:443/library/photon:1.0
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
 
     # Try to login and pull from docker hub (should fail)
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} login --username=victest --password=%{TEST_PASSWORD}
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  1
     Should Contain  ${output}  Access denied to unauthorized registry
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} pull victest/busybox
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  1
     Should Contain  ${output}  Access denied to unauthorized registry
 
@@ -103,9 +111,11 @@ Check Login to Insecure Registry (http)
 
     # Try to login and pull from the HTTP insecure registry (should fail)
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} login -u admin -p %{TEST_PASSWORD} %{HTTP_HARBOR_IP}
+    Log  ${output}
     Should Not Contain  ${output}  Succeeded
     Should Be Equal As Integers  ${rc}  1
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} pull %{HTTP_HARBOR_IP}/library/photon:1.0
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  1
 
     Cleanup VIC Appliance On Test Server
@@ -116,9 +126,11 @@ Check Login to Insecure Registry (http)
 
     # Try to login and pull from the HTTP insecure registry (should succeed)
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} login -u admin -p %{TEST_PASSWORD} %{HTTP_HARBOR_IP}
+    Log  ${output}
     Should Contain  ${output}  Succeeded
     Should Be Equal As Integers  ${rc}  0
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} pull %{HTTP_HARBOR_IP}/library/photon:1.0
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
 
     Cleanup VIC Appliance On Test Server
@@ -126,23 +138,26 @@ Check Login to Insecure Registry (http)
 Configure Registry CA
     # Install VCH without registry CA
     ${output}=  Install VIC Appliance To Test Server
-
     Should Not Contain  ${output}  Secure registry %{HTTPS_HARBOR_IP} confirmed
 
     # Try to login to the HTTPS registry (should fail)
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} login -u admin -p %{TEST_PASSWORD} %{HTTPS_HARBOR_IP}
+    Log  ${output}
     Should Not Contain  ${output}  Succeeded
 
     # Add the HTTPS registry CA to cert pool with vic-machine configure
     ${rc}  ${output}=  Run And Return Rc And Output  bin/vic-machine-linux configure --target %{TEST_URL} --user %{TEST_USERNAME} --password=%{TEST_PASSWORD} --compute-resource=%{TEST_RESOURCE} --name %{VCH-NAME} --registry-ca=./ca.crt --thumbprint=%{TEST_THUMBPRINT} --debug=1
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
 
     # Try to login and pull from the HTTPS registry (should succeed)
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} login -u admin -p %{TEST_PASSWORD} %{HTTPS_HARBOR_IP}
+    Log  ${output}
     Should Contain  ${output}  Succeeded
     Should Be Equal As Integers  ${rc}  0
 
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} pull %{HTTPS_HARBOR_IP}/library/photon:1.0
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
 
     ${rc}  ${output}=  Run And Return Rc And Output  bin/vic-machine-linux configure --target %{TEST_URL} --user %{TEST_USERNAME} --password=%{TEST_PASSWORD} --compute-resource=%{TEST_RESOURCE} --name %{VCH-NAME} --thumbprint=%{TEST_THUMBPRINT} --debug=1
@@ -151,9 +166,11 @@ Configure Registry CA
 
     # Try to login and pull from the HTTPS registry (should succeed)
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} login -u admin -p %{TEST_PASSWORD} %{HTTPS_HARBOR_IP}
+    Log  ${output}
     Should Contain  ${output}  Succeeded
     Should Be Equal As Integers  ${rc}  0
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} pull %{HTTPS_HARBOR_IP}/library/photon:1.0
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
 
     Cleanup VIC Appliance On Test Server

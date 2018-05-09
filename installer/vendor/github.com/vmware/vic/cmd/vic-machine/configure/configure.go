@@ -22,7 +22,6 @@ import (
 	"strings"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
 	"gopkg.in/urfave/cli.v1"
 
 	"github.com/vmware/vic/cmd/vic-machine/common"
@@ -49,7 +48,6 @@ type Configure struct {
 
 	certificates common.CertFactory
 
-	upgrade  bool
 	executor *management.Dispatcher
 
 	Force bool
@@ -87,12 +85,6 @@ func (c *Configure) Flags() []cli.Flag {
 			Destination: &c.Rollback,
 			Hidden:      true,
 		},
-		cli.BoolFlag{
-			Name:        "upgrade",
-			Usage:       "Upgrade VCH to latest version together with configure",
-			Destination: &c.upgrade,
-			Hidden:      true,
-		},
 	}
 
 	dns := c.dns.DNSFlags(false)
@@ -119,15 +111,15 @@ func (c *Configure) Flags() []cli.Flag {
 	return flags
 }
 
-func (c *Configure) processParams() error {
-	defer trace.End(trace.Begin(""))
+func (c *Configure) processParams(op trace.Operation) error {
+	defer trace.End(trace.Begin("", op))
 
-	if err := c.HasCredentials(); err != nil {
+	if err := c.HasCredentials(op); err != nil {
 		return err
 	}
 
 	var err error
-	if c.DNS, err = c.dns.ProcessDNSServers(); err != nil {
+	if c.DNS, err = c.dns.ProcessDNSServers(op); err != nil {
 		return err
 	}
 
@@ -139,14 +131,14 @@ func (c *Configure) processParams() error {
 	c.HTTPSProxy = sproxy
 	c.ProxyIsSet = c.proxies.IsSet
 
-	c.ContainerNetworks, err = c.cNetworks.ProcessContainerNetworks()
+	c.ContainerNetworks, err = c.cNetworks.ProcessContainerNetworks(op)
 	if err != nil {
 		return err
 	}
 
 	// Pass empty admin credentials because they are needed only for a create
 	// operation for use as ops credentials if ops credentials are not supplied.
-	if err := c.OpsCredentials.ProcessOpsCredentials(false, "", nil); err != nil {
+	if err := c.OpsCredentials.ProcessOpsCredentials(op, false, "", nil); err != nil {
 		return err
 	}
 
@@ -155,7 +147,7 @@ func (c *Configure) processParams() error {
 		return err
 	}
 
-	if err := c.registries.ProcessRegistries(); err != nil {
+	if err := c.registries.ProcessRegistries(op); err != nil {
 		return err
 	}
 	c.Data.RegistryCAs = c.registries.RegistryCAs
@@ -166,7 +158,7 @@ func (c *Configure) processParams() error {
 // copyChangedConf takes the mostly-empty new config and copies it to the old one. NOTE: o gets installed on the VCH, not n
 // Currently we cannot automatically override old configuration with any difference in the new configuration, because some options are set during the VCH
 // Creation process, for example, image store path, volume store path, network slot id, etc. So we'll copy changes based on user input
-func (c *Configure) copyChangedConf(o *config.VirtualContainerHostConfigSpec, n *config.VirtualContainerHostConfigSpec) {
+func (c *Configure) copyChangedConf(o *config.VirtualContainerHostConfigSpec, n *config.VirtualContainerHostConfigSpec, clic *cli.Context) {
 	//TODO: copy changed data
 	personaSession := o.ExecutorConfig.Sessions[config.PersonaService]
 	vicAdminSession := o.ExecutorConfig.Sessions[config.VicAdminService]
@@ -205,6 +197,11 @@ func (c *Configure) copyChangedConf(o *config.VirtualContainerHostConfigSpec, n 
 	if c.OpsCredentials.IsSet {
 		o.Username = n.Username
 		o.Token = n.Token
+
+		// if the user explicitly set the `ops-grant-user` option, update the permissions level
+		if clic.IsSet("ops-grant-perms") {
+			o.GrantPermsLevel = n.GrantPermsLevel
+		}
 	}
 
 	// Copy the thumbprint directly since it has already been validated.
@@ -251,10 +248,10 @@ func updateSessionEnv(sess *executor.SessionConfig, envName, envValue string) {
 	sess.Cmd.Env = newEnvs
 }
 
-func (c *Configure) processCertificates(client, public, management data.NetworkConfig) error {
+func (c *Configure) processCertificates(op trace.Operation, client, public, management data.NetworkConfig) error {
 
-	if !c.certificates.NoTLSverify && (c.certificates.Skey == "" || c.certificates.Scert == "") {
-		log.Infof("No certificate regeneration requested. No new certificates provided. Certificates left unchanged.")
+	if c.certificates.Cname == "" && !c.certificates.NoTLSverify && (c.certificates.Skey == "" || c.certificates.Scert == "") {
+		op.Info("No certificate regeneration requested. No new certificates provided. Certificates left unchanged.")
 		return nil
 	}
 
@@ -283,7 +280,7 @@ func (c *Configure) processCertificates(client, public, management data.NetworkC
 		ManagementNetworkIP:   management.IP.String(),
 	}
 
-	if err := c.certificates.ProcessCertificates(c.DisplayName, c.Force, debug); err != nil {
+	if err := c.certificates.ProcessCertificates(op, c.DisplayName, c.Force, debug); err != nil {
 		return err
 	}
 
@@ -294,50 +291,45 @@ func (c *Configure) processCertificates(client, public, management data.NetworkC
 }
 
 func (c *Configure) Run(clic *cli.Context) (err error) {
-	// urfave/cli will print out exit in error handling, so no more information in main method can be printed out.
+	parentOp := common.NewOperation(clic, c.Debug.Debug)
+	defer func(op trace.Operation) {
+		// urfave/cli will print out exit in error handling, so no more information in main method can be printed out.
+		err = common.LogErrorIfAny(op, clic, err)
+	}(parentOp)
+	op, cancel := trace.WithTimeout(&parentOp, c.Timeout, clic.App.Name)
+	defer cancel()
 	defer func() {
-		err = common.LogErrorIfAny(clic, err)
+		if op.Err() != nil && op.Err() == context.DeadlineExceeded {
+			//context deadline exceeded, replace returned error message
+			err = errors.Errorf("Configure timed out: use --timeout to add more time")
+		}
 	}()
 
 	// process input parameters, this should reuse same code with create command, to make sure same options are provided
-	if err = c.processParams(); err != nil {
+	if err = c.processParams(op); err != nil {
 		return err
 	}
 
-	if c.Debug.Debug != nil && *c.Debug.Debug > 0 {
-		log.SetLevel(log.DebugLevel)
-		trace.Logger.Level = log.DebugLevel
-	}
-
 	if len(clic.Args()) > 0 {
-		log.Errorf("Unknown argument: %s", clic.Args()[0])
+		op.Errorf("Unknown argument: %s", clic.Args()[0])
 		return errors.New("invalid CLI arguments")
 	}
 
-	// TODO: add additional parameter processing, reuse same code with create command as well
+	op.Infof("### Configuring VCH ####")
 
-	if c.upgrade {
-		// verify upgrade required parameters here
-	}
-
-	log.Infof("### Configuring VCH ####")
-
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	validator, err := validate.NewValidator(ctx, c.Data)
+	validator, err := validate.NewValidator(op, c.Data)
 	if err != nil {
-		log.Errorf("Configuring cannot continue - failed to create validator: %s", err)
+		op.Errorf("Configure cannot continue - failed to create validator: %s", err)
 		return errors.New("configure failed")
 	}
-	defer validator.Session.Logout(ctx)
+	defer validator.Session.Logout(parentOp) // parentOp is used here to ensure the logout occurs, even in the event of timeout
 
-	_, err = validator.ValidateTarget(ctx, c.Data)
+	_, err = validator.ValidateTarget(op, c.Data)
 	if err != nil {
-		log.Errorf("Configuring cannot continue - target validation failed: %s", err)
+		op.Errorf("Configuring cannot continue - target validation failed: %s", err)
 		return errors.New("configure failed")
 	}
-	executor := management.NewDispatcher(validator.Context, validator.Session, nil, c.Force)
+	executor := management.NewDispatcher(validator.Context, validator.Session, management.ConfigureAction, c.Force)
 
 	var vch *vm.VirtualMachine
 	if c.Data.ID != "" {
@@ -346,116 +338,126 @@ func (c *Configure) Run(clic *cli.Context) (err error) {
 		vch, err = executor.NewVCHFromComputePath(c.Data.ComputeResourcePath, c.Data.DisplayName, validator)
 	}
 	if err != nil {
-		log.Errorf("Failed to get Virtual Container Host %s", c.DisplayName)
-		log.Error(err)
+		op.Errorf("Failed to get Virtual Container Host %s", c.DisplayName)
+		op.Error(err)
 		return errors.New("configure failed")
 	}
 
-	log.Infof("")
-	log.Infof("VCH ID: %s", vch.Reference().String())
+	op.Info("")
+	op.Infof("VCH ID: %s", vch.Reference().String())
 
 	if c.ResetInProgressFlag {
-		if err = vch.SetVCHUpdateStatus(ctx, false); err != nil {
-			log.Error("Failed to reset UpdateInProgress flag")
-			log.Error(err)
+		if err = vch.SetVCHUpdateStatus(op, false); err != nil {
+			op.Error("Failed to reset UpdateInProgress flag")
+			op.Error(err)
 			return errors.New("configure failed")
 		}
-		log.Infof("Reset UpdateInProgress flag successfully")
+		op.Info("Reset UpdateInProgress flag successfully")
 		return nil
 	}
 
-	var vchConfig *config.VirtualContainerHostConfigSpec
-	if c.upgrade {
-		vchConfig, err = executor.FetchAndMigrateVCHConfig(vch)
-	} else {
-		vchConfig, err = executor.GetVCHConfig(vch)
-	}
+	vchConfig, err := executor.GetVCHConfig(vch)
 	if err != nil {
-		log.Error("Failed to get Virtual Container Host configuration")
-		log.Error(err)
+		op.Error("Failed to get Virtual Container Host configuration")
+		op.Error(err)
 		return errors.New("configure failed")
 	}
 
 	installerVer := version.GetBuild().PluginVersion
 	if vchConfig.ExecutorConfig.Version == nil {
-		log.Error("Cannot configure VCH with version unavailable")
+		op.Error("Cannot configure VCH with version unavailable")
 		return errors.New("configure failed")
 	}
 	if vchConfig.ExecutorConfig.Version.PluginVersion < installerVer {
-		log.Error(fmt.Sprintf("Cannot configure VCH with version %s, please upgrade first", vchConfig.ExecutorConfig.Version.ShortVersion()))
+		op.Errorf("Cannot configure VCH with version %s, please upgrade first", vchConfig.ExecutorConfig.Version.ShortVersion())
 		return errors.New("configure failed")
 	}
 
 	// Convert guestinfo *VirtualContainerHost back to *Data, decrypt secret data
-	oldData, err := validate.NewDataFromConfig(ctx, validator.Session.Finder, vchConfig)
+	oldData, err := validate.NewDataFromConfig(op, validator.Session.Finder, vchConfig)
 	if err != nil {
-		log.Error("Configuring cannot continue: configuration conversion failed")
-		log.Error(err)
+		op.Error("Configuring cannot continue: configuration conversion failed")
+		op.Error(err)
 		return err
 	}
 
-	if err = validate.SetDataFromVM(ctx, validator.Session.Finder, vch, oldData); err != nil {
-		log.Error("Configuring cannot continue: querying configuration from VM failed")
-		log.Error(err)
+	if err = validate.SetDataFromVM(op, validator.Session.Finder, vch, oldData); err != nil {
+		op.Error("Configuring cannot continue: querying configuration from VM failed")
+		op.Error(err)
 		return err
 	}
 
 	// using new configuration override configuration query from guestinfo
 	if err = oldData.CopyNonEmpty(c.Data); err != nil {
-		log.Error("Configuring cannot continue: copying configuration failed")
+		op.Error("Configuring cannot continue: copying configuration failed")
 		return err
 	}
+	// Copy original and merged resources
+	// This copy is needed so that we validate only the resource settings
+	// (--mem, --cpu, etc) supplied by the user.
+	inputResources := c.Data.ResourceLimits
+	mergedResources := oldData.ResourceLimits
+
+	// overwriting user input w/merged dataset
 	c.Data = oldData
+
+	// Set the ResourceLimits to the input received from
+	// the user
+	oldData.ResourceLimits = inputResources
 
 	// in Create we process certificates as part of processParams but we need the old conf
 	// to do this in the context of Configure so we need to call this method here instead
-	if err = c.processCertificates(c.Data.ClientNetwork, c.Data.PublicNetwork, c.Data.ManagementNetwork); err != nil {
+	if err = c.processCertificates(op, c.Data.ClientNetwork, c.Data.PublicNetwork, c.Data.ManagementNetwork); err != nil {
 		return err
 	}
 
 	// evaluate merged configuration
-	newConfig, err := validator.Validate(ctx, c.Data)
+	newConfig, err := validator.Validate(op, c.Data)
 	if err != nil {
-		log.Error("Configuring cannot continue: configuration validation failed")
+		op.Error("Configuring cannot continue: configuration validation failed")
 		return err
 	}
+	// The user supplied resource information has been validated, so
+	// switch back to the merged results
+	c.Data.ResourceLimits = mergedResources
 
 	// TODO: copy changed configuration here. https://github.com/vmware/vic/issues/2911
-	c.copyChangedConf(vchConfig, newConfig)
+	c.copyChangedConf(vchConfig, newConfig, clic)
 
-	vConfig := validator.AddDeprecatedFields(ctx, vchConfig, c.Data)
+	vConfig := validator.AddDeprecatedFields(op, vchConfig, c.Data)
 	vConfig.Timeout = c.Timeout
 	vConfig.VCHSizeIsSet = c.ResourceLimits.IsSet
 
-	updating, err := vch.VCHUpdateStatus(ctx)
+	updating, err := vch.VCHUpdateStatus(op)
 	if err != nil {
-		log.Error("Unable to determine if upgrade/configure is in progress")
-		log.Error(err)
+		op.Error("Unable to determine if upgrade/configure is in progress")
+		op.Error(err)
 		return errors.New("configure failed")
 	}
 	if updating {
-		log.Error("Configure failed: another upgrade/configure operation is in progress")
-		log.Error("If no other upgrade/configure process is running, use --reset-progress to reset the VCH upgrade/configure status")
+		op.Error("Configure failed: another upgrade/configure operation is in progress")
+		op.Error("If no other upgrade/configure process is running, use --reset-progress to reset the VCH upgrade/configure status")
 		return errors.New("configure failed")
 	}
 
-	if err = vch.SetVCHUpdateStatus(ctx, true); err != nil {
-		log.Error("Failed to set UpdateInProgress flag to true")
-		log.Error(err)
+	if err = vch.SetVCHUpdateStatus(op, true); err != nil {
+		op.Error("Failed to set UpdateInProgress flag to true")
+		op.Error(err)
 		return errors.New("configure failed")
 	}
 
 	defer func() {
-		if err = vch.SetVCHUpdateStatus(ctx, false); err != nil {
-			log.Error("Failed to reset UpdateInProgress")
-			log.Error(err)
+		if err = vch.SetVCHUpdateStatus(op, false); err != nil {
+			op.Error("Failed to reset UpdateInProgress")
+			op.Error(err)
 		}
 	}()
 
 	if !c.Data.Rollback {
-		err = executor.Configure(vch, vchConfig, vConfig, true)
+		err = executor.Configure(vchConfig, vConfig)
 	} else {
-		err = executor.Rollback(vch, vchConfig, vConfig)
+		executor.Action = management.RollbackAction
+		err = executor.Rollback(vchConfig, vConfig)
 	}
 
 	if err != nil {
@@ -464,7 +466,7 @@ func (c *Configure) Run(clic *cli.Context) (err error) {
 		return errors.New("configure failed")
 	}
 
-	log.Infof("Completed successfully")
+	op.Info("Completed successfully")
 
 	return nil
 }

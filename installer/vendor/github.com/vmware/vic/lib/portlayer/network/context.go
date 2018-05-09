@@ -42,7 +42,7 @@ const (
 	DefaultBridgeName = "bridge"
 )
 
-// Context denotes a networking context that represents a set of scopes, endpoints,
+// Context denotes a network context that represents a set of scopes, endpoints,
 // and containers. Each context has its own separate IPAM.
 type Context struct {
 	sync.Mutex
@@ -524,6 +524,9 @@ func (c *Context) NewScope(ctx context.Context, scopeData *ScopeData) (*Scope, e
 	if err != nil {
 		return nil, err
 	}
+
+	log.Debugf("New scope has been created %s: %s", s.name, s.id)
+
 	defer func() {
 		if err != nil {
 			c.deleteScope(s)
@@ -654,15 +657,15 @@ func (c *Context) DefaultScope() *Scope {
 	return c.defaultScope
 }
 
-func (c *Context) BindContainer(h *exec.Handle) ([]*Endpoint, error) {
-	defer trace.End(trace.Begin(""))
+func (c *Context) BindContainer(op trace.Operation, h *exec.Handle) ([]*Endpoint, error) {
+	defer trace.End(trace.Begin("", op))
 	c.Lock()
 	defer c.Unlock()
 
-	return c.bindContainer(h)
+	return c.bindContainer(op, h)
 }
 
-func (c *Context) bindContainer(h *exec.Handle) ([]*Endpoint, error) {
+func (c *Context) bindContainer(op trace.Operation, h *exec.Handle) ([]*Endpoint, error) {
 	con, err := c.container(h)
 	if con != nil {
 		return con.Endpoints(), nil // already bound
@@ -698,14 +701,20 @@ func (c *Context) bindContainer(h *exec.Handle) ([]*Endpoint, error) {
 		var eip *net.IP
 		if ne.Static {
 			eip = &ne.IP.IP
-		} else if !ip.IsUnspecifiedIP(ne.Assigned.IP) {
-			// for VCH restart, we need to reserve
-			// the IP of the running container
-			//
-			// this may be a DHCP assigned IP, however, the
-			// addContainer call below will ignore reserving
-			// an IP if the scope is "dynamic"
-			eip = &ne.Assigned.IP
+			op.Debugf("BindContainer found container %s with static endpoint and IP %s", con.ID(), eip.String())
+		} else {
+			if !ip.IsUnspecifiedIP(ne.Assigned.IP) {
+				// for VCH restart, we need to reserve
+				// the IP of the running container
+				//
+				// this may be a DHCP assigned IP, however, the
+				// addContainer call below will ignore reserving
+				// an IP if the scope is "dynamic"
+				op.Debugf("BindContainer found container %s with dynamic endpoint and assigned IP %s", con.ID(), ne.Assigned.IP.String())
+				eip = &ne.Assigned.IP
+			} else {
+				op.Debugf("BindContainer found container %s with dynamic endpoint and unassigned IP", con.ID())
+			}
 		}
 
 		e := newEndpoint(con, s, eip, nil)
@@ -714,18 +723,16 @@ func (c *Context) bindContainer(h *exec.Handle) ([]*Endpoint, error) {
 			return nil, err
 		}
 
-		ports, _, err := nat.ParsePortSpecs(ne.Ports)
-		if err != nil {
-			return nil, err
-		}
-		for p := range ports {
-			var port Port
-			if port, err = ParsePort(string(p)); err != nil {
+		for i := range ne.Ports {
+			mappings, err := nat.ParsePortSpec(ne.Ports[i])
+			if err != nil {
 				return nil, err
 			}
-
-			if err = e.addPort(port); err != nil {
-				return nil, err
+			for j := range mappings {
+				port := PortFromMapping(mappings[j])
+				if err = e.addPort(port); err != nil {
+					return nil, err
+				}
 			}
 		}
 
@@ -757,7 +764,7 @@ func (c *Context) bindContainer(h *exec.Handle) ([]*Endpoint, error) {
 
 		// container specific aliases
 		for _, a := range ne.Network.Aliases {
-			log.Debugf("parsing alias %s", a)
+			op.Debugf("parsing alias %s", a)
 			l := strings.Split(a, ":")
 			if len(l) != 2 {
 				err = fmt.Errorf("Parsing network alias %s failed", a)
@@ -782,7 +789,7 @@ func (c *Context) bindContainer(h *exec.Handle) ([]*Endpoint, error) {
 				if whoc != nil {
 					aliases[a.scopedName()] = whoc
 				} else {
-					log.Debugf("skipping alias %s since %s is not bound yet", a, who)
+					op.Debugf("skipping alias %s since %s is not bound yet", a, who)
 				}
 			}
 		}
@@ -794,7 +801,6 @@ func (c *Context) bindContainer(h *exec.Handle) ([]*Endpoint, error) {
 				continue
 			}
 
-			log.Debugf("getting aliases for %s from %s", con.name, e.Container().Name())
 			for _, a := range e.getAliases(con.name) {
 				aliases[a.scopedName()] = con
 			}
@@ -911,8 +917,8 @@ func (c *Context) removeAliases(aliases []string, con *Container) {
 
 // RemoveIDFromScopes removes the container from the scopes but doesn't touch the runtime state
 // Because of that it requires an id
-func (c *Context) RemoveIDFromScopes(id string) ([]*Endpoint, error) {
-	defer trace.End(trace.Begin(""))
+func (c *Context) RemoveIDFromScopes(op trace.Operation, id string) ([]*Endpoint, error) {
+	defer trace.End(trace.Begin("", op))
 
 	c.Lock()
 	defer c.Unlock()
@@ -927,7 +933,7 @@ func (c *Context) RemoveIDFromScopes(id string) ([]*Endpoint, error) {
 		return nil, nil // not bound
 	}
 
-	// aliases to remove
+	// marshal the work so we're not iterating over a mutating structure
 	var aliases []string
 	var endpoints []*Endpoint
 	for _, ne := range con.endpoints {
@@ -936,12 +942,16 @@ func (c *Context) RemoveIDFromScopes(id string) ([]*Endpoint, error) {
 		// save the endpoint info
 		e := con.Endpoint(s).copy()
 
-		if err := s.RemoveContainer(con); err != nil {
-			return nil, err
-		}
-
 		aliases = append(aliases, c.populateAliases(con, s, e)...)
 		endpoints = append(endpoints, e)
+	}
+
+	// remove the container from all bound scopes
+	for _, ne := range endpoints {
+		// this modifies the con.endpoint list so iteration has to occur off the copy
+		if err := ne.scope.RemoveContainer(con); err != nil {
+			return nil, err
+		}
 	}
 
 	c.removeAliases(aliases, con)
@@ -951,19 +961,23 @@ func (c *Context) RemoveIDFromScopes(id string) ([]*Endpoint, error) {
 
 // UnbindContainer removes the container from the scopes and clears out the assigned IP
 // Because of that, it requires a handle
-func (c *Context) UnbindContainer(h *exec.Handle) ([]*Endpoint, error) {
-	defer trace.End(trace.Begin(""))
+func (c *Context) UnbindContainer(op trace.Operation, h *exec.Handle) ([]*Endpoint, error) {
+	defer trace.End(trace.Begin("UnbindContainer", op))
 	c.Lock()
 	defer c.Unlock()
 
+	op.Debugf("Trying to unbind container: %s", h.ExecConfig.ID)
 	con, err := c.container(h)
 	if err != nil {
+		op.Debugf("Could not get container %s by handle %s: %s", h.String(), h.ExecConfig.ID, err)
 		if _, ok := err.(ResourceNotFoundError); ok {
 			return nil, nil // not bound
 		}
 
 		return nil, err
 	}
+
+	op.Debugf("Removing endpoints from container %s", con.ID())
 
 	// aliases to remove
 	var aliases []string

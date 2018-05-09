@@ -41,8 +41,10 @@ import (
 
 	vicbackends "github.com/vmware/vic/lib/apiservers/engine/backends"
 	"github.com/vmware/vic/lib/apiservers/engine/backends/executor"
+	vicmiddleware "github.com/vmware/vic/lib/apiservers/engine/backends/middleware"
 	"github.com/vmware/vic/lib/config"
 	"github.com/vmware/vic/lib/constants"
+	vicdns "github.com/vmware/vic/lib/dns"
 	"github.com/vmware/vic/lib/portlayer/util"
 	"github.com/vmware/vic/lib/pprof"
 	viclog "github.com/vmware/vic/pkg/log"
@@ -171,7 +173,12 @@ func initLogging() error {
 
 	tags.Logger = log.StandardLogger()
 
-	return viclog.Init(logcfg)
+	err := viclog.Init(logcfg)
+	if err != nil {
+		return err
+	}
+
+	return trace.InitLogger(logcfg)
 }
 
 func loadCAPool() *x509.CertPool {
@@ -189,6 +196,16 @@ func loadCAPool() *x509.CertPool {
 
 	log.Debugf("Loaded %d CAs from config", len(pool.Subjects()))
 	return pool
+}
+
+func enforceHostHeaderCheck(addr string, api *apiserver.Server) {
+	rdnsNames := vicdns.ReverseLookup(addr)
+	if len(rdnsNames) == 0 {
+		log.Warnf("Could not resolve domain names for %s. Docker endpoint will only be accessible via the IP", addr)
+	}
+	rdnsNames[addr] = true // add the client IP because that's always allowed
+	hostCheckMW := vicmiddleware.HostCheckMiddleware{ValidDomains: rdnsNames}
+	api.UseMiddleware(hostCheckMW)
 }
 
 func startServer() *apiserver.Server {
@@ -241,6 +258,8 @@ func startServer() *apiserver.Server {
 			tlsConfig.ClientCAs = loadCAPool()
 			tlsConfig.InsecureSkipVerify = false
 		}
+	} else {
+		log.Warnf("Docker endpoint running in plain HTTP mode")
 	}
 
 	addr := "0.0.0.0"
@@ -263,6 +282,12 @@ func startServer() *apiserver.Server {
 		version.DockerDefaultVersion,
 		version.DockerMinimumVersion)
 	api.UseMiddleware(mw)
+
+	if vchConfig.HostCertificate.IsNil() && vchConfig.Diagnostics.DebugLevel <= 2 {
+		// only enforce host header check in non-debug http-only mode
+		enforceHostHeaderCheck(addr, api)
+	}
+
 	fullserver := fmt.Sprintf("%s:%d", addr, *cli.serverPort)
 	l, err := listeners.Init(cli.proto, fullserver, "", serverConfig.TLSConfig)
 	if err != nil {

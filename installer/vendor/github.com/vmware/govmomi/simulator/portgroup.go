@@ -43,11 +43,9 @@ func (s *DistributedVirtualPortgroup) ReconfigureDVPortgroupTask(req *types.Reco
 		return nil, nil
 	})
 
-	task.Run()
-
 	return &methods.ReconfigureDVPortgroup_TaskBody{
 		Res: &types.ReconfigureDVPortgroup_TaskResponse{
-			Returnval: task.Self,
+			Returnval: task.Run(),
 		},
 	}
 }
@@ -55,31 +53,18 @@ func (s *DistributedVirtualPortgroup) ReconfigureDVPortgroupTask(req *types.Reco
 func (s *DistributedVirtualPortgroup) DestroyTask(req *types.Destroy_Task) soap.HasFault {
 	task := CreateTask(s, "destroy", func(t *Task) (types.AnyType, types.BaseMethodFault) {
 		vswitch := Map.Get(*s.Config.DistributedVirtualSwitch).(*DistributedVirtualSwitch)
-		for i, pg := range vswitch.Portgroup {
-			if pg.Reference() == s.Reference() {
-				vswitch.Portgroup = append(vswitch.Portgroup[:i], vswitch.Portgroup[i+1:]...)
-				break
-			}
-		}
+		Map.RemoveReference(vswitch, &vswitch.Portgroup, s.Reference())
+		Map.removeString(vswitch, &vswitch.Summary.PortgroupName, s.Name)
 
 		f := Map.getEntityParent(vswitch, "Folder").(*Folder)
 		f.removeChild(s.Reference())
 
-		for i, name := range vswitch.Summary.PortgroupName {
-			if name == s.Name {
-				vswitch.Summary.PortgroupName = append(vswitch.Summary.PortgroupName[:i],
-					vswitch.Summary.PortgroupName[i+1:]...)
-			}
-		}
-
 		return nil, nil
 	})
 
-	task.Run()
-
 	return &methods.Destroy_TaskBody{
 		Res: &types.Destroy_TaskResponse{
-			Returnval: task.Self,
+			Returnval: task.Run(),
 		},
 	}
 

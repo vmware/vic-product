@@ -21,6 +21,8 @@ package.list
 *certs.zip
 integration_logs*
 vmware-ovftool
+.vic.profiles
+.godeps_cache
 
 # generally a bad idea to check certificates into repos - whitelist if needed
 **/*.pem
@@ -34,6 +36,11 @@ lib/apiservers/portlayer/restapi/operations
 lib/config/dynamic/admiral/client
 lib/config/dynamic/admiral/models
 lib/config/dynamic/admiral/operations
+
+lib/apiservers/service/models
+lib/apiservers/service/restapi/*.go
+lib/apiservers/service/restapi/operations
+!lib/apiservers/service/restapi/configure_vic_machine.go
 
 tests/.project
 # go test binaries

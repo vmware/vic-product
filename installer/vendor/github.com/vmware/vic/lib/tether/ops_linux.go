@@ -15,6 +15,7 @@
 package tether
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
@@ -33,7 +34,10 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/d2g/dhcp4"
 	"github.com/docker/docker/pkg/archive"
-	// need to use libcontainer for user validation, for os/user package cannot find user here if container image is busybox
+
+	"github.com/mdlayher/arp"
+	"github.com/mdlayher/ethernet"
+
 	"github.com/opencontainers/runc/libcontainer/user"
 	"github.com/vishvananda/netlink"
 
@@ -51,6 +55,8 @@ var (
 		Gid:  syscall.Getgid(),
 		Home: "/",
 	}
+
+	defaultUserSpecification = "0:0"
 
 	filesForMinOSLinux = map[string]os.FileMode{
 		"/etc/hostname":            0644,
@@ -325,6 +331,37 @@ func renameLink(t Netlink, link netlink.Link, slot int32, endpoint *NetworkEndpo
 	return link, nil
 }
 
+func gratuitous(t Netlink, link netlink.Link, endpoint *NetworkEndpoint) error {
+	if ip.IsUnspecifiedIP(endpoint.Assigned.IP) {
+		// refusing to broadcast unspecified IP
+		return nil
+	}
+
+	intf, err := net.InterfaceByIndex(link.Attrs().Index)
+	if err != nil {
+		return err
+	}
+
+	client, err := arp.Dial(intf)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		client.Close()
+	}()
+
+	srcHW := link.Attrs().HardwareAddr
+	srcPA := endpoint.Assigned.IP
+
+	gratuitousPacket, err := arp.NewPacket(arp.OperationRequest, srcHW, srcPA, ethernet.Broadcast, srcPA)
+	if err != nil {
+		return err
+	}
+
+	log.Debugf("Writing gratuitous arp on %s: %+v", endpoint.Name, gratuitousPacket)
+	return client.WriteTo(gratuitousPacket, ethernet.Broadcast)
+}
+
 func getDynamicIP(t Netlink, link netlink.Link, endpoint *NetworkEndpoint) (client.Client, error) {
 	var ack *dhcp.Packet
 	var err error
@@ -416,14 +453,14 @@ func linkAddrUpdate(old, new *net.IPNet, t Netlink, link netlink.Link) error {
 	return nil
 }
 
-func updateRoutes(t Netlink, link netlink.Link, endpoint *NetworkEndpoint) error {
+func updateRoutes(newIP *net.IPNet, t Netlink, link netlink.Link, endpoint *NetworkEndpoint) error {
 	gw := endpoint.Network.Assigned.Gateway
 	if ip.IsUnspecifiedIP(gw.IP) {
 		return nil
 	}
 
 	if endpoint.Network.Default {
-		return updateDefaultRoute(t, link, endpoint)
+		return updateDefaultRoute(newIP, t, link, endpoint)
 	}
 
 	for _, d := range endpoint.Network.Destinations {
@@ -456,8 +493,9 @@ func bridgeTableExists(t Netlink) bool {
 	return false
 }
 
-func updateDefaultRoute(t Netlink, link netlink.Link, endpoint *NetworkEndpoint) error {
+func updateDefaultRoute(newIP *net.IPNet, t Netlink, link netlink.Link, endpoint *NetworkEndpoint) error {
 	gw := endpoint.Network.Assigned.Gateway
+
 	// Add routes
 	if !endpoint.Network.Default || ip.IsUnspecifiedIP(gw.IP) {
 		log.Debugf("not setting route for network: default=%v gateway=%s", endpoint.Network.Default, gw.IP)
@@ -490,6 +528,27 @@ func updateDefaultRoute(t Netlink, link netlink.Link, endpoint *NetworkEndpoint)
 	}
 
 	if bTablePresent {
+		// Gateway IP may not contain a network mask, so it is taken from the assigned interface configuration
+		// where network mask has to be defined.
+		gwNet := &net.IPNet{
+			IP:   gw.IP.Mask(newIP.Mask),
+			Mask: newIP.Mask,
+		}
+
+		log.Debugf("Adding route to default gateway network: %s/%s", gwNet.IP, gwNet.Mask)
+
+		route = &netlink.Route{LinkIndex: link.Attrs().Index, Dst: gwNet, Table: bridgeTableNumber}
+		if err := t.RouteAdd(route); err != nil {
+			// if IP address has changed and it stays within the same subnet it will cause already exists error,
+			// so we can safely ignore it.
+			errno, ok := err.(syscall.Errno)
+			if !ok || errno != syscall.EEXIST {
+				return fmt.Errorf(
+					"failed to add gateway network route for table bridge.out for endpoint %s: %s",
+					endpoint.Network.Name, err)
+			}
+		}
+
 		route = &netlink.Route{LinkIndex: link.Attrs().Index, Dst: defaultNet, Gw: gw.IP, Table: bridgeTableNumber}
 		if err := t.RouteAdd(route); err != nil {
 			return fmt.Errorf("failed to add gateway route for table bridge.out for endpoint %s: %s", endpoint.Network.Name, err)
@@ -633,7 +692,15 @@ func ApplyEndpoint(nl Netlink, t *BaseOperations, endpoint *NetworkEndpoint) err
 
 	updateEndpoint(newIP, endpoint)
 
-	if err = updateRoutes(nl, link, endpoint); err != nil {
+	// notify our peers of the assigned address
+	err = gratuitous(t, link, endpoint)
+	if err != nil {
+		log.Errorf("Failed to issue gratuitous ARP broadcast for %s: %s", endpoint.Name, err)
+		// continue regardless as this will eventually self-correct
+		// if the error is pernacious then we'll likely hit the other early error returns
+	}
+
+	if err = updateRoutes(newIP, nl, link, endpoint); err != nil {
 		return err
 	}
 
@@ -755,7 +822,7 @@ func (t *BaseOperations) MountLabel(ctx context.Context, label, target string) e
 	fi, err := os.Stat(target)
 	if err != nil {
 		// #nosec
-		if err := os.MkdirAll(target, 0744); err != nil {
+		if err := os.MkdirAll(target, 0755); err != nil {
 			// same as MountFileSystem error for consistency
 			return fmt.Errorf("unable to create mount point %s: %s", target, err)
 		}
@@ -773,7 +840,7 @@ func (t *BaseOperations) MountLabel(ctx context.Context, label, target string) e
 
 	if (e1 == nil && e2 == nil) || os.IsNotExist(e1) {
 		// #nosec
-		if err := os.MkdirAll(bindTarget, 0744); err != nil {
+		if err := os.MkdirAll(bindTarget, 0755); err != nil {
 			return fmt.Errorf("unable to create mount point %s: %s", bindTarget, err)
 		}
 		if err := mountDeviceLabel(ctx, label, bindTarget); err != nil {
@@ -791,7 +858,7 @@ func (t *BaseOperations) MountLabel(ctx context.Context, label, target string) e
 	if err != nil {
 		if os.IsNotExist(err) {
 			// if there's not such directory then revert to using the device directly
-			log.Info("No " + volumeDataDir + " data directory in volume, mounting filesystem directly")
+			log.Info("No %s data directory in volume, mounting filesystem directly", volumeDataDir)
 			mntsrc = label
 			mnttype = ext4FileSystemType
 			mntflags = syscall.MS_NOATIME
@@ -815,8 +882,17 @@ func (t *BaseOperations) MountLabel(ctx context.Context, label, target string) e
 		uid := int(sys.Uid)
 		gid := int(sys.Gid)
 
+		log.Debugf("Setting target uid/gid to the mount source as %d/%d", uid, gid)
 		if err := os.Chown(target, uid, gid); err != nil {
 			return fmt.Errorf("unable to change the owner of the mount point %s: %s", target, err)
+		}
+
+		log.Debugf("Setting target %s permissions to the mount source as: %#o",
+			target, fi.Mode())
+		if err := os.Chmod(target, fi.Mode()); err != nil {
+			return fmt.Errorf("failed to set target %s mount permissions as %#o: %s",
+				target, fi.Mode(), err)
+
 		}
 	}
 	return nil
@@ -855,15 +931,25 @@ WaitForDevice:
 func (t *BaseOperations) MountTarget(ctx context.Context, source url.URL, target string, mountOptions string) error {
 	defer trace.End(trace.Begin(fmt.Sprintf("Mounting %s on %s", source.String(), target)))
 
-	if err := os.MkdirAll(target, 0644); err != nil {
+	// #nosec
+	if err := os.MkdirAll(target, 0755); err != nil {
 		// same as MountLabel error for consistency
 		return fmt.Errorf("unable to create mount point %s: %s", target, err)
 	}
 
-	rawSource := source.Hostname() + ":/" + source.Path
+	var rawSource bytes.Buffer
+	rawSource.WriteString(source.Hostname())
+	rawSource.WriteByte(':')
+	// ensure the path is absolute - not using path.Clean to allow arbitrary content
+	// so as not to bias what can be used for a share identifier.
+	if len(source.Path) == 0 || source.Path[0] != '/' {
+		rawSource.WriteByte('/')
+	}
+	rawSource.WriteString(source.Path)
+
 	// NOTE: by default we are supporting "NOATIME" and it can be configurable later. this must be specfied as a flag.
 	// Additionally, we must parse out the "ro" option and supply it as a flag as well for this flavor of the mount call.
-	if err := Sys.Syscall.Mount(rawSource, target, nfsFileSystemType, syscall.MS_NOATIME, mountOptions); err != nil {
+	if err := Sys.Syscall.Mount(rawSource.String(), target, nfsFileSystemType, syscall.MS_NOATIME, mountOptions); err != nil {
 		log.Errorf("mounting %s on %s failed: %s", source.String(), target, err)
 		return err
 	}
@@ -892,7 +978,8 @@ func (t *BaseOperations) CopyExistingContent(source string) error {
 	}
 
 	log.Debugf("creating directory %s", bind)
-	if err := os.MkdirAll(bind, 0644); err != nil {
+	// #nosec
+	if err := os.MkdirAll(bind, 0755); err != nil {
 		log.Errorf("error creating directory %s: %+v", bind, err)
 		return err
 	}
@@ -935,21 +1022,28 @@ func (t *BaseOperations) CopyExistingContent(source string) error {
 }
 
 // ProcessEnv does OS specific checking and munging on the process environment prior to launch
-func (t *BaseOperations) ProcessEnv(env []string) []string {
-	// TODO: figure out how we're going to specify user and pass all the settings along
-	// in the meantime, hardcode HOME to /root
-	homeIndex := -1
-	for i, tuple := range env {
+func (t *BaseOperations) ProcessEnv(session *SessionConfig) []string {
+	env := session.Cmd.Env
+
+	for _, tuple := range env {
 		if strings.HasPrefix(tuple, "HOME=") {
-			homeIndex = i
-			break
+			// no need for further processing as it's explicit
+			return env
 		}
 	}
-	if homeIndex == -1 {
-		return append(env, "HOME=/root")
+
+	usr := session.User
+	if len(session.User) == 0 {
+		usr = defaultUserSpecification
 	}
 
-	return env
+	u, err := getExecUser(usr)
+	if err == nil {
+		// if no home dir is set then we default to /
+		return append(env, "HOME="+path.Join("/", u.Home))
+	}
+
+	return append(env, "HOME=/")
 }
 
 // Fork triggers vmfork and handles the necessary pre/post OS level operations
@@ -1039,6 +1133,20 @@ func (t *BaseOperations) Cleanup() error {
 	return nil
 }
 
+func getExecUser(u string) (*user.ExecUser, error) {
+	passwdPath, err := user.GetPasswdPath()
+	if err != nil {
+		return nil, err
+	}
+
+	groupPath, err := user.GetGroupPath()
+	if err != nil {
+		return nil, err
+	}
+
+	return user.GetExecUserPath(u, defaultExecUser, passwdPath, groupPath)
+}
+
 // Need to put this here because Windows does not support SysProcAttr.Credential
 // getUserSysProcAttr relies on docker user package to verify user specification
 // Examples of valid user specifications are:
@@ -1049,6 +1157,8 @@ func (t *BaseOperations) Cleanup() error {
 //     * "uid:gid
 //     * "user:gid"
 //     * "uid:group"
+// need to use libcontainer "user" package for user validation as os/user package
+// cannot find user if container image is busybox
 func getUserSysProcAttr(uid, gid string) (*syscall.SysProcAttr, error) {
 	if uid == "" && gid == "" {
 		log.Debugf("no user id or group id specified")
@@ -1059,15 +1169,8 @@ func getUserSysProcAttr(uid, gid string) (*syscall.SysProcAttr, error) {
 	if gid != "" {
 		userGroup = fmt.Sprintf("%s:%s", uid, gid)
 	}
-	passwdPath, err := user.GetPasswdPath()
-	if err != nil {
-		return nil, err
-	}
-	groupPath, err := user.GetGroupPath()
-	if err != nil {
-		return nil, err
-	}
-	execUser, err := user.GetExecUserPath(userGroup, defaultExecUser, passwdPath, groupPath)
+
+	execUser, err := getExecUser(userGroup)
 	if err != nil {
 		return nil, err
 	}

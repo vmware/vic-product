@@ -1,4 +1,4 @@
-# Copyright 2016-2017 VMware, Inc. All Rights Reserved.
+# Copyright 2016-2018 VMware, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 12-01 - Delete
 Resource  ../../resources/Util.robot
-Suite Setup  Install VIC 0.6.0 to Test Server
+Suite Setup  Install VIC 1.1.1 to Test Server
 Test Teardown  Run Keyword If Test Failed  Clean up VIC Appliance And Local Binary
 
 *** Keywords ***
@@ -23,67 +23,27 @@ Clean up VIC Appliance And Local Binary
     Cleanup VIC Appliance On Test Server
     Run  rm -rf vic.tar.gz vic
 
-Install VIC 0.6.0 to Test Server
-    Log To Console  \nDownloading vic 4890 from gcp...
-    ${rc}  ${output}=  Run And Return Rc And Output  wget https://storage.googleapis.com/vic-engine-builds/vic_4890.tar.gz -O vic.tar.gz
+Install VIC 1.1.1 to Test Server
+    Log To Console  \nDownloading VIC 1.1.1 from gcp...
+    ${rc}  ${output}=  Run And Return Rc And Output  wget https://storage.googleapis.com/vic-engine-releases/vic_1.1.1.tar.gz -O vic.tar.gz
     ${rc}  ${output}=  Run And Return Rc And Output  tar zxvf vic.tar.gz
     Set Test Environment Variables
 
     Log To Console  \nInstalling VCH to test server...
-    ${output}=  Run  ./vic/vic-machine-linux create --debug 1 --name=%{VCH-NAME} --target=%{TEST_URL}%{TEST_DATACENTER} --user=%{TEST_USERNAME} --image-store=%{TEST_DATASTORE} --appliance-iso=./vic/appliance.iso --bootstrap-iso=./vic/bootstrap.iso --password=%{TEST_PASSWORD} --bridge-network=%{BRIDGE_NETWORK} --external-network=%{PUBLIC_NETWORK} --compute-resource=%{TEST_RESOURCE} --timeout %{TEST_TIMEOUT}
+    ${output}=  Run  ./vic/vic-machine-linux create --debug 1 --name=%{VCH-NAME} --target=%{TEST_URL}%{TEST_DATACENTER} --user=%{TEST_USERNAME} --image-store=%{TEST_DATASTORE} --appliance-iso=./vic/appliance.iso --bootstrap-iso=./vic/bootstrap.iso --password=%{TEST_PASSWORD} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --compute-resource=%{TEST_RESOURCE} --timeout %{TEST_TIMEOUT} --force=true --no-tlsverify
     Should Contain  ${output}  Installer completed successfully
-    Get 0.6.0 VIC Docker Params  ${output}  false
+    Get Docker Params  ${output}  false
     Log To Console  Installer completed successfully: %{VCH-NAME}
-
-Get 0.6.0 VIC Docker Params
-    # Get VCH docker params e.g. "-H 192.168.218.181:2376 --tls"
-    [Arguments]  ${output}  ${certs}
-    @{output}=  Split To Lines  ${output}
-    :FOR  ${item}  IN  @{output}
-    \   ${status}  ${message}=  Run Keyword And Ignore Error  Should Contain  ${item}  DOCKER_HOST=
-    \   Run Keyword If  '${status}' == 'PASS'  Set Suite Variable  ${line}  ${item}
-
-    # Ensure we start from a clean slate with docker env vars
-    Remove Environment Variable  DOCKER_HOST  DOCKER_TLS_VERIFY  DOCKER_CERT_PATH
-
-    # Split the log log into pieces, discarding the initial log decoration, and assign to env vars
-    ${logdeco}  ${vars}=  Split String  ${line}  ${SPACE}  1
-    ${vars}=  Split String  ${vars}
-    :FOR  ${var}  IN  @{vars}
-    \   ${varname}  ${varval}=  Split String  ${var}  =
-    \   Set Environment Variable  ${varname}  ${varval}
-
-    ${dockerHost}=  Get Environment Variable  DOCKER_HOST
-
-    @{hostParts}=  Split String  ${dockerHost}  :
-    ${ip}=  Strip String  @{hostParts}[0]
-    ${port}=  Strip String  @{hostParts}[1]
-    Set Environment Variable  VCH-IP  ${ip}
-    Set Environment Variable  VCH-PORT  ${port}
-
-    ${proto}=  Set Variable If  ${port} == 2376  "https"  "http"
-    Set Suite Variable  ${proto}
-
-    Run Keyword If  ${port} == 2376  Set Environment Variable  VCH-PARAMS  -H ${dockerHost} --tls
-    Run Keyword If  ${port} == 2375  Set Environment Variable  VCH-PARAMS  -H ${dockerHost}
-
-
-    :FOR  ${index}  ${item}  IN ENUMERATE  @{output}
-    \   ${status}  ${message}=  Run Keyword And Ignore Error  Should Contain  ${item}  http
-    \   Run Keyword If  '${status}' == 'PASS'  Set Suite Variable  ${line}  ${item}
-    \   ${status}  ${message}=  Run Keyword And Ignore Error  Should Contain  ${item}  Published ports can be reached at
-    \   ${idx} =  Evaluate  ${index} + 1
-    \   Run Keyword If  '${status}' == 'PASS'  Set Environment Variable  EXT-IP  @{output}[${idx}]
 
 *** Test Cases ***
 Delete VCH with new vic-machine
     Log To Console  \nRunning docker pull busybox...
-    ${rc}  ${output}=  Run And Return Rc And Output  docker1.11 %{VCH-PARAMS} pull busybox
+    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} pull busybox
     Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     Should Not Contain  ${output}  Error
     ${name}=  Generate Random String  15
-    ${rc}  ${container-id}=  Run And Return Rc And Output  docker1.11 %{VCH-PARAMS} create --name ${name} busybox /bin/top
+    ${rc}  ${container-id}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create --name ${name} busybox /bin/top
     Should Be Equal As Integers  ${rc}  0
     Should Not Contain  ${container-id}  Error
     Set Suite Variable  ${containerName}  ${name}
@@ -95,9 +55,7 @@ Delete VCH with new vic-machine
     Should Contain  ${ret}  is different than installer version
 
     # Delete with force
-    ${ret}=  Run  bin/vic-machine-linux delete --target %{TEST_URL} --user %{TEST_USERNAME} --password=%{TEST_PASSWORD} --compute-resource=%{TEST_RESOURCE} --name %{VCH-NAME} --force
-    Should Contain  ${ret}  Completed successfully
-    Should Not Contain  ${ret}  delete failed
+    Run VIC Machine Delete Command
 
     # Check VM is removed
     ${ret}=  Run  govc vm.info -json=true ${containerName}-*
@@ -107,7 +65,5 @@ Delete VCH with new vic-machine
 
     # Check resource pool is removed
     ${ret}=  Run  govc pool.info -json=true host/*/Resources/%{VCH-NAME}
-	Should Contain  ${ret}  {"ResourcePools":null}
+    Should Contain  ${ret}  {"ResourcePools":null}
     Run  rm -rf vic.tar.gz vic
-
-    Run Keyword And Ignore Error  Cleanup VCH Bridge Network  %{VCH-NAME}

@@ -17,6 +17,7 @@ limitations under the License.
 package progress
 
 import (
+	"context"
 	"io"
 	"strings"
 	"testing"
@@ -25,7 +26,7 @@ import (
 func TestReader(t *testing.T) {
 	s := "helloworld"
 	ch := make(chan Report, 1)
-	pr := NewReader(&dummySinker{ch}, strings.NewReader(s), int64(len(s)))
+	pr := NewReader(context.Background(), &dummySinker{ch}, strings.NewReader(s), int64(len(s)))
 
 	var buf [10]byte
 	var q Report
@@ -71,6 +72,7 @@ func TestReader(t *testing.T) {
 
 	// Read EOF
 	_, err = pr.Read(buf[:])
+	q = <-ch
 	if err != io.EOF {
 		t.Errorf("Expected io.EOF, but got: %s", err)
 	}

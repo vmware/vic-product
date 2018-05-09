@@ -33,7 +33,8 @@ import (
 
 	"github.com/vmware/vic/lib/apiservers/engine/backends/cache"
 	"github.com/vmware/vic/lib/apiservers/engine/backends/container"
-	vicproxy "github.com/vmware/vic/lib/apiservers/engine/proxy"
+	"github.com/vmware/vic/lib/apiservers/engine/network"
+	"github.com/vmware/vic/lib/apiservers/engine/proxy"
 	apiclient "github.com/vmware/vic/lib/apiservers/portlayer/client"
 	"github.com/vmware/vic/lib/apiservers/portlayer/client/containers"
 	"github.com/vmware/vic/lib/apiservers/portlayer/client/misc"
@@ -57,6 +58,7 @@ const (
 	// RetryTimeSeconds defines how many seconds to wait between retries
 	RetryTimeSeconds        = 2
 	defaultSessionKeepAlive = 20 * time.Second
+	APITimeout              = constants.PropertyCollectorTimeout + 3*time.Second
 )
 
 var (
@@ -68,7 +70,7 @@ var (
 
 	vchConfig        *dynConfig
 	RegistryCertPool *x509.CertPool
-	archiveProxy     vicproxy.VicArchiveProxy
+	archiveProxy     proxy.VicArchiveProxy
 
 	eventService *events.Events
 
@@ -141,7 +143,7 @@ func Init(portLayerAddr, product string, port uint, config *config.VirtualContai
 		return err
 	}
 
-	archiveProxy = vicproxy.NewArchiveProxy(portLayerClient)
+	archiveProxy = proxy.NewArchiveProxy(portLayerClient)
 
 	eventService = events.New()
 
@@ -282,7 +284,7 @@ func syncContainerCache() error {
 	log.Debugf("Updating container cache")
 
 	backend := NewContainerBackend()
-	client := backend.containerProxy.Client()
+	client := PortLayerClient()
 
 	reqParams := containers.NewGetContainerListParamsWithContext(ctx).WithAll(swag.Bool(true))
 	containme, err := client.Containers.GetContainerList(reqParams)
@@ -294,7 +296,7 @@ func syncContainerCache() error {
 	cc := cache.ContainerCache()
 	var errs []string
 	for _, info := range containme.Payload {
-		container := ContainerInfoToVicContainer(*info)
+		container := proxy.ContainerInfoToVicContainer(*info, portLayerName)
 		cc.AddContainer(container)
 		if err = setPortMapping(info, backend, container); err != nil {
 			errs = append(errs, err.Error())
@@ -307,19 +309,19 @@ func syncContainerCache() error {
 	return nil
 }
 
-func setPortMapping(info *models.ContainerInfo, backend *Container, container *container.VicContainer) error {
+func setPortMapping(info *models.ContainerInfo, backend *ContainerBackend, container *container.VicContainer) error {
 	if info.ContainerConfig.State == "" {
 		log.Infof("container state is nil")
 		return nil
 	}
+
 	if info.ContainerConfig.State != "Running" || len(container.HostConfig.PortBindings) == 0 {
-		log.Infof("Container info state: %s", info.ContainerConfig.State)
-		log.Infof("container portbinding: %+v", container.HostConfig.PortBindings)
+		log.Infof("No need to restore port bindings, state: %s, portbinding: %+v", info.ContainerConfig.State, container.HostConfig.PortBindings)
 		return nil
 	}
 
 	log.Debugf("Set port mapping for container %q, portmapping %+v", container.Name, container.HostConfig.PortBindings)
-	client := backend.containerProxy.Client()
+	client := PortLayerClient()
 	endpointsOK, err := client.Scopes.GetContainerEndpoints(
 		scopes.NewGetContainerEndpointsParamsWithContext(ctx).WithHandleOrID(container.ContainerID))
 	if err != nil {
@@ -327,7 +329,7 @@ func setPortMapping(info *models.ContainerInfo, backend *Container, container *c
 	}
 	for _, e := range endpointsOK.Payload {
 		if len(e.Ports) > 0 && e.Scope == constants.BridgeScopeType {
-			if err = MapPorts(container.HostConfig, e, container.ContainerID); err != nil {
+			if err = network.MapPorts(container, e, container.ContainerID); err != nil {
 				log.Errorf(err.Error())
 				return err
 			}

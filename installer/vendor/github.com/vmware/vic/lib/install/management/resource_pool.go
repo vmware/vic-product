@@ -17,9 +17,6 @@ package management
 import (
 	"context"
 	"fmt"
-	"path"
-
-	log "github.com/Sirupsen/logrus"
 
 	"github.com/vmware/govmomi/find"
 	"github.com/vmware/govmomi/object"
@@ -34,11 +31,9 @@ import (
 )
 
 func (d *Dispatcher) createResourcePool(conf *config.VirtualContainerHostConfigSpec, settings *data.InstallerData) (*object.ResourcePool, error) {
-	defer trace.End(trace.Begin(""))
+	defer trace.End(trace.Begin("", d.op))
 
-	d.vchPoolPath = path.Join(settings.ResourcePoolPath, conf.Name)
-
-	rp, err := d.session.Finder.ResourcePool(d.ctx, d.vchPoolPath)
+	rp, err := d.session.Finder.ResourcePool(d.op, d.vchPoolPath)
 	if err != nil {
 		// if we didn't find the resource pool then we will create
 		_, ok := err.(*find.NotFoundError)
@@ -51,14 +46,14 @@ func (d *Dispatcher) createResourcePool(conf *config.VirtualContainerHostConfigS
 		return rp, nil
 	}
 
-	log.Infof("Creating Resource Pool %q", conf.Name)
+	d.op.Infof("Creating Resource Pool %q", conf.Name)
 	resSpec := types.DefaultResourceConfigSpec()
 	setResources(&resSpec.CpuAllocation, settings.VCHSize.CPU)
 	setResources(&resSpec.MemoryAllocation, settings.VCHSize.Memory)
 
-	rp, err = d.session.Pool.Create(d.ctx, conf.Name, resSpec)
+	rp, err = d.session.Pool.Create(d.op, conf.Name, resSpec)
 	if err != nil {
-		log.Debugf("Failed to create resource pool %q: %s", d.vchPoolPath, err)
+		d.op.Debugf("Failed to create resource pool %q: %s", d.vchPoolPath, err)
 		return nil, err
 	}
 
@@ -96,25 +91,25 @@ func setResources(spec *types.ResourceAllocationInfo, resource types.ResourceAll
 }
 
 func (d *Dispatcher) destroyResourcePoolIfEmpty(conf *config.VirtualContainerHostConfigSpec) error {
-	defer trace.End(trace.Begin(""))
+	defer trace.End(trace.Begin("", d.op))
 
-	log.Infof("Removing Resource Pool %q", conf.Name)
+	d.op.Infof("Removing Resource Pool %q", conf.Name)
 
 	if d.parentResourcepool == nil {
-		log.Warnf("Did not find parent VCH resource pool")
+		d.op.Warn("Did not find parent VCH resource pool")
 		return nil
 	}
 	var vms []*vm.VirtualMachine
 	var err error
-	if vms, err = d.parentResourcepool.GetChildrenVMs(d.ctx, d.session); err != nil {
+	if vms, err = d.parentResourcepool.GetChildrenVMs(d.op); err != nil {
 		err = errors.Errorf("Unable to get children vm of resource pool %q: %s", d.parentResourcepool.Name(), err)
 		return err
 	}
 	if len(vms) != 0 {
-		err = errors.Errorf("Resource pool is not empty: %q", d.parentResourcepool.Name())
+		err = errors.Errorf("Resource pool is not empty: found %d vms under %q", len(vms), d.parentResourcepool.Name())
 		return err
 	}
-	if _, err := tasks.WaitForResult(d.ctx, func(ctx context.Context) (tasks.Task, error) {
+	if _, err := tasks.WaitForResult(d.op, func(ctx context.Context) (tasks.Task, error) {
 		return d.parentResourcepool.Destroy(ctx)
 	}); err != nil {
 		return err
@@ -123,8 +118,8 @@ func (d *Dispatcher) destroyResourcePoolIfEmpty(conf *config.VirtualContainerHos
 }
 
 func (d *Dispatcher) findResourcePool(path string) (*object.ResourcePool, error) {
-	defer trace.End(trace.Begin(path))
-	rp, err := d.session.Finder.ResourcePool(d.ctx, path)
+	defer trace.End(trace.Begin(path, d.op))
+	rp, err := d.session.Finder.ResourcePool(d.op, path)
 	if err != nil {
 		_, ok := err.(*find.NotFoundError)
 		if !ok {
@@ -140,7 +135,7 @@ func (d *Dispatcher) getPoolResourceSettings(pool *object.ResourcePool) (*config
 	var p mo.ResourcePool
 	ps := []string{"config.cpuAllocation", "config.memoryAllocation"}
 
-	if err := pool.Properties(d.ctx, pool.Reference(), ps, &p); err != nil {
+	if err := pool.Properties(d.op, pool.Reference(), ps, &p); err != nil {
 		return nil, err
 	}
 
@@ -152,10 +147,11 @@ func (d *Dispatcher) getPoolResourceSettings(pool *object.ResourcePool) (*config
 }
 
 func updateResourcePoolConfig(ctx context.Context, pool *object.ResourcePool, name string, size *config.Resources) error {
-	defer trace.End(trace.Begin(fmt.Sprintf("cpu %#v, memory: %#v", size.CPU, size.Memory)))
+	op := trace.FromContext(ctx, "updateResourcePoolConfig")
+	defer trace.End(trace.Begin(fmt.Sprintf("cpu %#v, memory: %#v", size.CPU, size.Memory), op))
 	resSpec := types.DefaultResourceConfigSpec()
 	// update with user provided configuration
 	setResources(&resSpec.CpuAllocation, size.CPU)
 	setResources(&resSpec.MemoryAllocation, size.Memory)
-	return pool.UpdateConfig(ctx, name, &resSpec)
+	return pool.UpdateConfig(op, name, &resSpec)
 }

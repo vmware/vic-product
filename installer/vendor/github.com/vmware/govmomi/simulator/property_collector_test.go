@@ -197,7 +197,7 @@ func TestRetrieveProperties(t *testing.T) {
 		}
 
 		// Retrieve a nested property
-		Map.Get(dc.Reference()).(*mo.Datacenter).Configuration.DefaultHardwareVersionKey = "foo"
+		Map.Get(dc.Reference()).(*Datacenter).Configuration.DefaultHardwareVersionKey = "foo"
 		mdc = mo.Datacenter{}
 		err = client.RetrieveOne(ctx, dc.Reference(), []string{"configuration.defaultHardwareVersionKey"}, &mdc)
 		if err != nil {
@@ -335,7 +335,7 @@ func TestExtractEmbeddedField(t *testing.T) {
 
 	Map.Put(x)
 
-	obj, ok := getObject(x.Reference())
+	obj, ok := getObject(internalContext, x.Reference())
 	if !ok {
 		t.Error("expected obj")
 	}
@@ -355,7 +355,7 @@ func TestExtractEmbeddedField(t *testing.T) {
 	n.ManagedObjectReference = types.ManagedObjectReference{Type: "NoMo", Value: "no-mo"}
 	Map.Put(n)
 
-	_, ok = getObject(n.Reference())
+	_, ok = getObject(internalContext, n.Reference())
 	if ok {
 		t.Error("expected not ok")
 	}
@@ -480,7 +480,7 @@ func TestPropertyCollectorInvalidSpecName(t *testing.T) {
 		},
 	}
 
-	_, err := pc.collect(&req)
+	_, err := pc.collect(internalContext, &req)
 	if err == nil {
 		t.Fatal("expected error")
 	}
@@ -889,5 +889,223 @@ func TestPropertyCollectorSelectionSpec(t *testing.T) {
 
 	if len(content) != count.Machine {
 		t.Fatalf("len(content)=%d", len(content))
+	}
+}
+
+func TestIssue945(t *testing.T) {
+	// pyvsphere request
+	xml := `<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ZSI="http://www.zolera.com/schemas/ZSI/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <SOAP-ENV:Header />
+   <SOAP-ENV:Body xmlns:ns1="urn:vim25">
+      <ns1:RetrievePropertiesEx xsi:type="ns1:RetrievePropertiesExRequestType">
+         <ns1:_this type="PropertyCollector">propertyCollector</ns1:_this>
+         <ns1:specSet>
+            <ns1:propSet>
+               <ns1:type>VirtualMachine</ns1:type>
+               <ns1:pathSet>name</ns1:pathSet>
+            </ns1:propSet>
+            <ns1:objectSet>
+               <ns1:obj type="Folder">group-d1</ns1:obj>
+               <ns1:skip>false</ns1:skip>
+               <ns1:selectSet xsi:type="ns1:TraversalSpec">
+                  <ns1:name>visitFolders</ns1:name>
+                  <ns1:type>Folder</ns1:type>
+                  <ns1:path>childEntity</ns1:path>
+                  <ns1:skip>false</ns1:skip>
+                  <ns1:selectSet>
+                     <ns1:name>visitFolders</ns1:name>
+                  </ns1:selectSet>
+                  <ns1:selectSet>
+                     <ns1:name>dcToHf</ns1:name>
+                  </ns1:selectSet>
+                  <ns1:selectSet>
+                     <ns1:name>dcToVmf</ns1:name>
+                  </ns1:selectSet>
+                  <ns1:selectSet>
+                     <ns1:name>crToH</ns1:name>
+                  </ns1:selectSet>
+                  <ns1:selectSet>
+                     <ns1:name>crToRp</ns1:name>
+                  </ns1:selectSet>
+                  <ns1:selectSet>
+                     <ns1:name>dcToDs</ns1:name>
+                  </ns1:selectSet>
+                  <ns1:selectSet>
+                     <ns1:name>hToVm</ns1:name>
+                  </ns1:selectSet>
+                  <ns1:selectSet>
+                     <ns1:name>rpToVm</ns1:name>
+                  </ns1:selectSet>
+               </ns1:selectSet>
+               <ns1:selectSet xsi:type="ns1:TraversalSpec">
+                  <ns1:name>dcToVmf</ns1:name>
+                  <ns1:type>Datacenter</ns1:type>
+                  <ns1:path>vmFolder</ns1:path>
+                  <ns1:skip>false</ns1:skip>
+                  <ns1:selectSet>
+                     <ns1:name>visitFolders</ns1:name>
+                  </ns1:selectSet>
+               </ns1:selectSet>
+               <ns1:selectSet xsi:type="ns1:TraversalSpec">
+                  <ns1:name>dcToDs</ns1:name>
+                  <ns1:type>Datacenter</ns1:type>
+                  <ns1:path>datastore</ns1:path>
+                  <ns1:skip>false</ns1:skip>
+                  <ns1:selectSet>
+                     <ns1:name>visitFolders</ns1:name>
+                  </ns1:selectSet>
+               </ns1:selectSet>
+               <ns1:selectSet xsi:type="ns1:TraversalSpec">
+                  <ns1:name>dcToHf</ns1:name>
+                  <ns1:type>Datacenter</ns1:type>
+                  <ns1:path>hostFolder</ns1:path>
+                  <ns1:skip>false</ns1:skip>
+                  <ns1:selectSet>
+                     <ns1:name>visitFolders</ns1:name>
+                  </ns1:selectSet>
+               </ns1:selectSet>
+               <ns1:selectSet xsi:type="ns1:TraversalSpec">
+                  <ns1:name>crToH</ns1:name>
+                  <ns1:type>ComputeResource</ns1:type>
+                  <ns1:path>host</ns1:path>
+                  <ns1:skip>false</ns1:skip>
+               </ns1:selectSet>
+               <ns1:selectSet xsi:type="ns1:TraversalSpec">
+                  <ns1:name>crToRp</ns1:name>
+                  <ns1:type>ComputeResource</ns1:type>
+                  <ns1:path>resourcePool</ns1:path>
+                  <ns1:skip>false</ns1:skip>
+                  <ns1:selectSet>
+                     <ns1:name>rpToRp</ns1:name>
+                  </ns1:selectSet>
+                  <ns1:selectSet>
+                     <ns1:name>rpToVm</ns1:name>
+                  </ns1:selectSet>
+               </ns1:selectSet>
+               <ns1:selectSet xsi:type="ns1:TraversalSpec">
+                  <ns1:name>rpToRp</ns1:name>
+                  <ns1:type>ResourcePool</ns1:type>
+                  <ns1:path>resourcePool</ns1:path>
+                  <ns1:skip>false</ns1:skip>
+                  <ns1:selectSet>
+                     <ns1:name>rpToRp</ns1:name>
+                  </ns1:selectSet>
+                  <ns1:selectSet>
+                     <ns1:name>rpToVm</ns1:name>
+                  </ns1:selectSet>
+               </ns1:selectSet>
+               <ns1:selectSet xsi:type="ns1:TraversalSpec">
+                  <ns1:name>hToVm</ns1:name>
+                  <ns1:type>HostSystem</ns1:type>
+                  <ns1:path>vm</ns1:path>
+                  <ns1:skip>false</ns1:skip>
+                  <ns1:selectSet>
+                     <ns1:name>visitFolders</ns1:name>
+                  </ns1:selectSet>
+               </ns1:selectSet>
+               <ns1:selectSet xsi:type="ns1:TraversalSpec">
+                  <ns1:name>rpToVm</ns1:name>
+                  <ns1:type>ResourcePool</ns1:type>
+                  <ns1:path>vm</ns1:path>
+                  <ns1:skip>false</ns1:skip>
+               </ns1:selectSet>
+            </ns1:objectSet>
+         </ns1:specSet>
+         <ns1:options />
+      </ns1:RetrievePropertiesEx>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>`
+
+	method, err := UnmarshalBody([]byte(xml))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	req := method.Body.(*types.RetrievePropertiesEx)
+
+	ctx := context.Background()
+
+	m := VPX()
+
+	defer m.Remove()
+
+	err = m.Create()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	s := m.Service.NewServer()
+	defer s.Close()
+
+	client, err := govmomi.NewClient(ctx, s.URL, true)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	res, err := methods.RetrievePropertiesEx(ctx, client, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	content := res.Returnval.Objects
+	count := m.Count()
+
+	if len(content) != count.Machine {
+		t.Fatalf("len(content)=%d", len(content))
+	}
+}
+
+func TestPropertyCollectorSession(t *testing.T) { // aka issue-923
+	ctx := context.Background()
+
+	m := VPX()
+
+	defer m.Remove()
+
+	err := m.Create()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	s := m.Service.NewServer()
+	defer s.Close()
+
+	u := s.URL.User
+	s.URL.User = nil // skip Login()
+
+	c, err := govmomi.NewClient(ctx, s.URL, true)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for i := 0; i < 2; i++ {
+		if err = c.Login(ctx, u); err != nil {
+			t.Fatal(err)
+		}
+
+		if err = c.Login(ctx, u); err == nil {
+			t.Error("expected Login failure") // Login fails if we already have a session
+		}
+
+		pc := property.DefaultCollector(c.Client)
+		filter := new(property.WaitFilter).Add(c.ServiceContent.RootFolder, "Folder", []string{"name"})
+
+		if err = pc.CreateFilter(ctx, filter.CreateFilter); err != nil {
+			t.Fatal(err)
+		}
+
+		res, err := pc.WaitForUpdates(ctx, "")
+		if err != nil {
+			t.Error(err)
+		}
+
+		if len(res.FilterSet) != 1 {
+			t.Errorf("len FilterSet=%d", len(res.FilterSet))
+		}
+
+		if err = c.Logout(ctx); err != nil {
+			t.Fatal(err)
+		}
 	}
 }

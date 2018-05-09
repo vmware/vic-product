@@ -156,6 +156,11 @@ load test_helper
   run govc dvs.create "$id"
   assert_success
 
+  local host=$GOVC_HOST
+
+  run govc dvs.add -dvs "$id" "$host"
+  assert_success
+
   run govc dvs.portgroup.add -dvs "$id" -type earlyBinding -nports 16 "${id}-ExternalNetwork"
   assert_success
 
@@ -170,6 +175,12 @@ load test_helper
 
   info=$(govc dvs.portgroup.info "$id" | grep VlanId: | uniq | grep 3123)
   [ -n "$info" ]
+
+  info=$(govc dvs.portgroup.info -json "$id" | jq  '.Port[].Config.Setting.Vlan | select(.VlanId == 3123)')
+  [ -n "$info" ]
+
+  info=$(govc dvs.portgroup.info -json "$id" | jq  '.Port[].Config.Setting.Vlan | select(.VlanId == 7777)')
+  [ -z "$info" ]
 
   run govc object.destroy "network/${id}-ExternalNetwork" "network/${id}-InternalNetwork" "network/${id}"
   assert_success

@@ -158,7 +158,8 @@ load test_helper
   assert_matches dvportgroup-
 
   run govc object.collect -s -type DistributedVirtualPortgroup / config.name
-  assert_success DC0_DVPG0
+  assert_matches DC0_DVPG0
+  assert_matches DVS0-DVUplinks-
 
   run govc object.collect -s -type DistributedVirtualPortgroup / effectiveRole
   assert_number
@@ -176,7 +177,7 @@ load test_helper
   assert_success "VMware, Inc."
 
   run govc object.collect -s -type DistributedVirtualSwitch / summary.productInfo.version
-  assert_success 6.0.0
+  assert_success 6.5.0
 
   run govc object.collect -s -type DistributedVirtualSwitch / summary.uuid
   assert_matches "-"
@@ -240,6 +241,9 @@ load test_helper
   run govc object.collect -s -type VirtualMachine / summary.guest.toolsStatus
   assert_matches toolsNotInstalled
 
+  run govc object.collect -s /DC0/vm/DC0_H0_VM0 config.hardware.numCoresPerSocket
+  assert_success 1
+
   run govc object.collect -s -type ClusterComputeResource / summary.effectiveCpu
   assert_number
 
@@ -289,10 +293,20 @@ load test_helper
   assert_number
 
   run govc object.collect -s -type Network / summary.accessible
-  assert_success "$(printf "true\ntrue")"
+  assert_success "$(printf "true\ntrue\ntrue")"
 
   run govc object.collect -s -type Network / summary.ipPoolName
   assert_success ""
+
+  # check that uuid and instanceUuid are set under both config and summary.config
+  for prop in config summary.config ; do
+    uuids=$(govc object.collect -s -type m / "$prop.uuid" | sort)
+    [ -n "$uuids" ]
+    iuuids=$(govc object.collect -s -type m / "$prop.instanceUuid" | sort)
+    [ -n "$iuuids" ]
+
+    [ "$uuids" != "$iuuids" ]
+  done
 }
 
 @test "object.collect view" {
@@ -318,6 +332,34 @@ load test_helper
 
   run govc object.collect -type enoent / name
   assert_failure
+}
+
+@test "object.collect raw" {
+  vcsim_env
+
+  govc object.collect -R - <<EOF | grep serverClock
+<?xml version="1.0" encoding="UTF-8"?>
+<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+ <Body>
+  <CreateFilter xmlns="urn:vim25">
+   <_this type="PropertyCollector">PropertyCollector</_this>
+   <spec>
+    <propSet>
+     <type>ServiceInstance</type>
+     <all>true</all>
+    </propSet>
+    <objectSet>
+     <obj type="ServiceInstance">ServiceInstance</obj>
+    </objectSet>
+   </spec>
+   <partialUpdates>false</partialUpdates>
+  </CreateFilter>
+ </Body>
+</Envelope>
+EOF
+
+  govc object.collect -O | grep types.CreateFilter
+  govc object.collect -O -json | jq .
 }
 
 @test "object.find" {

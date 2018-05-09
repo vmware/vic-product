@@ -1,4 +1,4 @@
-# Copyright 2016-2017 VMware, Inc. All Rights Reserved.
+# Copyright 2016-2018 VMware, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -48,8 +48,8 @@ Hit Nginx Endpoint
     Should Be Equal As Integers  ${rc}  0
 
 Get Container IP
-    [Arguments]  ${docker-params}  ${id}  ${network}=default  ${dockercmd}=docker
-    ${rc}  ${ip}=  Run And Return Rc And Output  ${dockercmd} ${docker-params} network inspect ${network} | jq '.[0].Containers."${id}".IPv4Address' | cut -d \\" -f 2 | cut -d \\/ -f 1
+    [Arguments]  ${docker-params}  ${id}  ${network}=bridge  ${dockercmd}=docker
+    ${rc}  ${ip}=  Run And Return Rc And Output  ${dockercmd} ${docker-params} inspect --format='{{(index .NetworkSettings.Networks "${network}").IPAddress}}' ${id}
     Should Be Equal As Integers  ${rc}  0
     [Return]  ${ip}
 
@@ -124,24 +124,32 @@ Verify Container Rename
 
 Run Regression Tests
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} pull ${busybox}
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     # Pull an image that has been pulled already
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} pull ${busybox}
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} images
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  busybox
     ${rc}  ${container}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create ${busybox} /bin/top
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} start ${container}
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} ps
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  /bin/top
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} stop ${container}
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     Wait Until Container Stops  ${container}
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} ps -a
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  Exited
 
@@ -149,18 +157,23 @@ Run Regression Tests
     Wait Until Keyword Succeeds  5x  10s  Check For The Proper Log Files  ${vmName}
 
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} rm ${container}
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} ps -a
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     Should Not Contain  ${output}  /bin/top
 
     # Check for regression for #1265
     ${rc}  ${container1}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create -it ${busybox} /bin/top
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     ${rc}  ${container2}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create -it ${busybox}
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     ${shortname}=  Get Substring  ${container2}  1  12
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} ps -a
+    Log  ${output}
     ${lines}=  Get Lines Containing String  ${output}  ${shortname}
     Should Not Contain  ${lines}  /bin/top
     ${rc}=  Run And Return Rc  docker %{VCH-PARAMS} rm ${container1}
@@ -169,8 +182,10 @@ Run Regression Tests
     Should Be Equal As Integers  ${rc}  0
 
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} rmi ${busybox}
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} images
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     Should Not Contain  ${output}  ${busybox}
 
@@ -226,7 +241,7 @@ Do Volumes Exist
     [Return]  ${true}
 
 Do Networks Exist
-    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} networks ls -q
+    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} network ls -q
     ${len}=  Get Length  ${output}
     Return From Keyword If  ${len} == 0  ${false}
     [Return]  ${true}
@@ -253,7 +268,7 @@ Kill All Containers
 Remove All Images
     ${exist}=  Do Images Exist
     Run Keyword If  ${exist}  Log To Console  Removing all images from %{VCH-NAME}
-    
+
     Return From Keyword If  ${exist} == ${false}  0
     Run Keyword If  ${exist}  Remove All Containers
     Run Keyword If  ${exist}  Run  docker %{VCH-PARAMS} rmi $(docker %{VCH-PARAMS} images -q)
@@ -283,7 +298,7 @@ Remove All Container Networks
     ${exist}=  Do Networks Exist
     Return From Keyword If  ${exist} == ${false}  0
     [Return]  1
-    
+
 Add List To Dictionary
     [Arguments]  ${dict}  ${list}
     : FOR  ${item}  IN  @{list}
@@ -305,7 +320,7 @@ List Existing Images On VCH
     : FOR  ${tag}  IN  @{tags_dict.keys()}
     \    Log To Console  \t${tag}
 
-List Running Containers On VCH    
+List Running Containers On VCH
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} ps -q
     Log To Console  ${EMPTY}
     ${len}=  Get Length  ${output}

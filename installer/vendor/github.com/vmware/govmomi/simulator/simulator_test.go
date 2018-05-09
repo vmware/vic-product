@@ -197,7 +197,7 @@ func TestUnmarshalError(t *testing.T) {
 	}
 
 	defer func() {
-		typeFunc = types.TypeFunc() // reset
+		typeFunc = defaultMapType // reset
 	}()
 
 	ttypes := map[string]reflect.Type{
@@ -232,6 +232,9 @@ func TestServeHTTP(t *testing.T) {
 		ts := s.NewServer()
 		defer ts.Close()
 
+		u := ts.URL.User
+		ts.URL.User = nil
+
 		ctx := context.Background()
 		client, err := govmomi.NewClient(ctx, ts.URL, true)
 		if err != nil {
@@ -243,7 +246,7 @@ func TestServeHTTP(t *testing.T) {
 			t.Fatal("expected invalid login error")
 		}
 
-		err = client.Login(ctx, ts.URL.User)
+		err = client.Login(ctx, u)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -323,12 +326,7 @@ func TestServeHTTPS(t *testing.T) {
 	ctx := context.Background()
 
 	// insecure=true OK
-	client, err := govmomi.NewClient(ctx, ts.URL, true)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	err = client.Login(ctx, ts.URL.User)
+	_, err := govmomi.NewClient(ctx, ts.URL, true)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -443,21 +441,21 @@ func TestServeHTTPErrors(t *testing.T) {
 	typeFunc = types.TypeFunc() // reset
 
 	// cover the does not implement method error path
-	Map.objects[serviceInstance] = &errorNoSuchMethod{}
+	Map.objects[methods.ServiceInstance] = &errorNoSuchMethod{}
 	_, err = methods.GetCurrentTime(ctx, client)
 	if err == nil {
 		t.Error("expected error")
 	}
 
 	// cover the xml encode error path
-	Map.objects[serviceInstance] = &errorMarshal{}
+	Map.objects[methods.ServiceInstance] = &errorMarshal{}
 	_, err = methods.GetCurrentTime(ctx, client)
 	if err == nil {
 		t.Error("expected error")
 	}
 
 	// cover the no such object path
-	Map.Remove(serviceInstance)
+	Map.Remove(methods.ServiceInstance)
 	_, err = methods.GetCurrentTime(ctx, client)
 	if err == nil {
 		t.Error("expected error")
@@ -469,7 +467,7 @@ func TestServeHTTPErrors(t *testing.T) {
 	if !ok {
 		t.Fatalf("fault=%#v", fault)
 	}
-	if f.Obj != serviceInstance.Reference() {
+	if f.Obj != methods.ServiceInstance {
 		t.Errorf("obj=%#v", f.Obj)
 	}
 

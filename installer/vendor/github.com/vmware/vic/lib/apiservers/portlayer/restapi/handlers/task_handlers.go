@@ -18,7 +18,6 @@ import (
 	"context"
 	"strings"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/go-openapi/runtime/middleware"
 
 	"github.com/vmware/vic/lib/apiservers/portlayer/models"
@@ -99,7 +98,7 @@ func (handler *TaskHandlersImpl) JoinHandler(params tasks.JoinParams) middleware
 
 	handleprime, err := task.Join(&op, handle, sessionConfig)
 	if err != nil {
-		log.Errorf("%s", err.Error())
+		op.Errorf("%s", err.Error())
 
 		return tasks.NewJoinInternalServerError().WithPayload(
 			&models.Error{Message: err.Error()},
@@ -125,11 +124,19 @@ func (handler *TaskHandlersImpl) BindHandler(params tasks.BindParams) middleware
 
 	handleprime, err := task.Bind(&op, handle, params.Config.ID)
 	if err != nil {
-		log.Errorf("%s", err.Error())
+		op.Errorf("%s", err.Error())
 
-		return tasks.NewBindInternalServerError().WithPayload(
-			&models.Error{Message: err.Error()},
-		)
+		switch err.(type) {
+		case task.TaskNotFoundError:
+			return tasks.NewBindNotFound().WithPayload(
+				&models.Error{Message: err.Error()},
+			)
+		default:
+			return tasks.NewBindInternalServerError().WithPayload(
+				&models.Error{Message: err.Error()},
+			)
+		}
+
 	}
 
 	res := &models.TaskBindResponse{
@@ -152,11 +159,19 @@ func (handler *TaskHandlersImpl) UnbindHandler(params tasks.UnbindParams) middle
 
 	handleprime, err := task.Unbind(&op, handle, params.Config.ID)
 	if err != nil {
-		log.Errorf("%s", err.Error())
+		op.Errorf("%s", err.Error())
 
-		return tasks.NewUnbindInternalServerError().WithPayload(
-			&models.Error{Message: err.Error()},
-		)
+		switch err.(type) {
+		case task.TaskNotFoundError:
+			return tasks.NewUnbindNotFound().WithPayload(
+				&models.Error{Message: err.Error()},
+			)
+		default:
+			return tasks.NewUnbindInternalServerError().WithPayload(
+				&models.Error{Message: err.Error()},
+			)
+		}
+
 	}
 
 	res := &models.TaskUnbindResponse{
@@ -178,7 +193,7 @@ func (handler *TaskHandlersImpl) RemoveHandler(params tasks.RemoveParams) middle
 
 	handleprime, err := task.Remove(&op, handle, params.Config.ID)
 	if err != nil {
-		log.Errorf("%s", err.Error())
+		op.Errorf("%s", err.Error())
 
 		return tasks.NewRemoveInternalServerError().WithPayload(
 			&models.Error{Message: err.Error()},
@@ -204,11 +219,18 @@ func (handler *TaskHandlersImpl) InspectHandler(params tasks.InspectParams) midd
 
 	t, err := task.Inspect(&op, handle, params.Config.ID)
 	if err != nil {
-		log.Errorf("%s", err.Error())
+		op.Errorf("%s", err.Error())
 
-		return tasks.NewInspectInternalServerError().WithPayload(
-			&models.Error{Message: err.Error()},
-		)
+		switch err.(type) {
+		case task.TaskNotFoundError:
+			return tasks.NewInspectNotFound().WithPayload(
+				&models.Error{Message: err.Error()},
+			)
+		default:
+			return tasks.NewInspectInternalServerError().WithPayload(
+				&models.Error{Message: err.Error()},
+			)
+		}
 	}
 
 	op.Debugf("ID: %#v", t.ID)
@@ -255,11 +277,20 @@ func (handler *TaskHandlersImpl) WaitHandler(params tasks.WaitParams) middleware
 	// wait task to set started field to something
 	err := task.Wait(&op, handle, params.Config.ID)
 	if err != nil {
-		log.Errorf("%s", err.Error())
-
-		return tasks.NewWaitInternalServerError().WithPayload(
-			&models.Error{Message: err.Error()},
-		)
+		switch err := err.(type) {
+		case *task.TaskPowerStateError:
+			op.Errorf("The container was in an invalid power state for the wait operation: %s", err.Error())
+			return tasks.NewWaitPreconditionRequired().WithPayload(
+				&models.Error{Message: err.Error()})
+		case *task.TaskNotFoundError:
+			op.Errorf("The task was unable to be found: %s", err.Error())
+			return tasks.NewWaitNotFound().WithPayload(
+				&models.Error{Message: err.Error()})
+		default:
+			op.Errorf("%s", err.Error())
+			return tasks.NewWaitInternalServerError().WithPayload(
+				&models.Error{Message: err.Error()})
+		}
 	}
 
 	return tasks.NewWaitOK()

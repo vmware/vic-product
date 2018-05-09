@@ -1,4 +1,4 @@
-// Copyright 2016-2017 VMware, Inc. All Rights Reserved.
+// Copyright 2016-2018 VMware, Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,9 +35,9 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
-	"github.com/vmware/vic/cmd/tether/msgs"
 	"github.com/vmware/vic/lib/config/executor"
 	"github.com/vmware/vic/lib/system"
+	"github.com/vmware/vic/lib/tether/msgs"
 	"github.com/vmware/vic/lib/tether/shared"
 	"github.com/vmware/vic/pkg/dio"
 	"github.com/vmware/vic/pkg/log/syslog"
@@ -158,7 +158,7 @@ func (t *tether) setup() error {
 
 	for name, ext := range t.extensions {
 		log.Infof("Starting extension %s", name)
-		err := ext.Start()
+		err := ext.Start(t.ops)
 		if err != nil {
 			log.Errorf("Failed to start extension %s: %s", name, err)
 			return err
@@ -358,14 +358,13 @@ func (t *tether) initializeSessions() error {
 			log.Debugf("Initializing session %s", id)
 
 			session.Lock()
+
+			// check to see if any of the core configuration has changed.
+			session.block(session.RunBlock)
+
 			if session.wait != nil {
 				log.Warnf("Session %s already initialized", id)
 			} else {
-				if session.RunBlock {
-					log.Infof("Session %s wants attach capabilities. Creating its channel", id)
-					session.ClearToLaunch = make(chan struct{})
-				}
-
 				// this will need altering if tether should be capable of being restarted itself
 				session.Started = ""
 				session.StopTime = 0
@@ -669,13 +668,7 @@ func (t *tether) cleanupSession(session *SessionConfig) {
 	}
 
 	// close the signaling channel (it is nil for detached sessions) and set it to nil (for restart)
-	if session.ClearToLaunch != nil {
-		log.Debugf("Calling close chan: %s", session.ID)
-		close(session.ClearToLaunch)
-		session.ClearToLaunch = nil
-		// reset Runblock to unblock process start next time
-		session.RunBlock = false
-	}
+	session.block(false)
 }
 
 // handleSessionExit processes the result from the session command, records it in persistent
@@ -789,7 +782,7 @@ func (t *tether) launch(session *SessionConfig) error {
 		}
 	}
 
-	session.Cmd.Env = t.ops.ProcessEnv(session.Cmd.Env)
+	session.Cmd.Env = t.ops.ProcessEnv(session)
 	// Set Std{in|out|err} to nil, we will control pipes
 	session.Cmd.Stdin = nil
 	session.Cmd.Stdout = nil
@@ -854,6 +847,10 @@ func (t *tether) launch(session *SessionConfig) error {
 
 		return errors.New(detail)
 	}
+
+	// ensure that this is updated so that we're correct for out-of-band power operations
+	// semantic should conform with port layer
+	session.StartTime = time.Now().UTC().Unix()
 
 	// Set the Started key to "true" - this indicates a successful launch
 	session.Started = "true"

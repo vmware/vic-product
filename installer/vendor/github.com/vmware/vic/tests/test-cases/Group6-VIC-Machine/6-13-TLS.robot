@@ -18,28 +18,51 @@ Resource  ../../resources/Util.robot
 Test Teardown  Run Keyword If Test Failed  Cleanup VIC Appliance On Test Server
 Test Timeout  20 minutes
 
+*** Keywords ***
+Check that requests with invalid host field are rejected
+    ${rc}  ${output}=  Run And Return Rc And Output  curl -vvv -H"Host: please.ddos" %{DOCKER_HOST}/_ping
+    Should Contain  ${output}  invalid host header
+    Should Contain  ${output}  500 Internal Server Error
+    Should Contain  ${output}  to requested host please.ddos
+    Should Not Contain  ${output}  200 OK
+
+Check that normal requests are accepted
+    ${rc}  ${output}=  Run And Return Rc And Output  curl -vvv %{DOCKER_HOST}/_ping
+    Should Contain  ${output}  200 OK
+    Should Not Contain  ${output}  500 Internal Server Error
+
+    # also make sure it works if the port isn't part of the host header
+    ${rc}  ${output}=  Run And Return Rc And Output  curl -vvv -H"Host: %{VCH-IP}" %{DOCKER_HOST}/_ping
+    Should Contain  ${output}  200 OK
+    Should Not Contain  ${output}  500 Internal Server Error
+
 *** Test Cases ***
 Create VCH - defaults with --no-tls
     Set Test Environment Variables
     Run Keyword And Ignore Error  Cleanup Dangling VMs On Test Server
     Run Keyword And Ignore Error  Cleanup Datastore On Test Server
 
-    ${output}=  Run  bin/vic-machine-linux create --name=%{VCH-NAME} --target="%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}" --thumbprint=%{TEST_THUMBPRINT} --image-store=%{TEST_DATASTORE} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --no-tls --insecure-registry harbor.ci.drone.local
+    ${output}=  Run  bin/vic-machine-linux create --name=%{VCH-NAME} --target="%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}" --thumbprint=%{TEST_THUMBPRINT} --image-store=%{TEST_DATASTORE} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --no-tls --insecure-registry wdc-harbor-ci.eng.vmware.com
     Should Contain  ${output}  Installer completed successfully
     Get Docker Params  ${output}  ${true}
     Log To Console  Installer completed successfully: %{VCH-NAME}
 
+    Check that requests with invalid host field are rejected
+    Check that normal requests are accepted
 
     Run Regression Tests
     Cleanup VIC Appliance On Test Server
 
 Create VCH - defaults custom cert path
+    ${domain}=  Get Environment Variable  DOMAIN  ''
+    Run Keyword If  '${domain}' == ''  Pass Execution  Skipping test - domain not set, won't generate keys
+
     Set Test Environment Variables
     Run Keyword And Ignore Error  Cleanup Dangling VMs On Test Server
     Run Keyword And Ignore Error  Cleanup Datastore On Test Server
 
-    ${output}=  Run  bin/vic-machine-linux create ${vicmachinetls} --name=%{VCH-NAME} --target="%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}" --thumbprint=%{TEST_THUMBPRINT} --image-store=%{TEST_DATASTORE} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --tls-cert-path=${EXECDIR}/foo-bar-certs/ --insecure-registry harbor.ci.drone.local
-    Should Contain  ${output}  --tlscacert="${EXECDIR}/foo-bar-certs/ca.pem" --tlscert="${EXECDIR}/foo-bar-certs/cert.pem" --tlskey="${EXECDIR}/foo-bar-certs/key.pem"
+    ${output}=  Run  bin/vic-machine-linux create ${vicmachinetls} --name=%{VCH-NAME} --target="%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}" --thumbprint=%{TEST_THUMBPRINT} --image-store=%{TEST_DATASTORE} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --tls-cert-path=${EXECDIR}/foo-bar-certs/ --insecure-registry wdc-harbor-ci.eng.vmware.com
+    Should Contain  ${output}  --tlscacert=\\"${EXECDIR}/foo-bar-certs/ca.pem\\" --tlscert=\\"${EXECDIR}/foo-bar-certs/cert.pem\\" --tlskey=\\"${EXECDIR}/foo-bar-certs/key.pem\\"
     Should Contain  ${output}  Generating CA certificate/key pair - private key in ${EXECDIR}/foo-bar-certs/ca-key.pem
     Should Contain  ${output}  Generating server certificate/key pair - private key in ${EXECDIR}/foo-bar-certs/server-key.pem
     Should Contain  ${output}  Generating client certificate/key pair - private key in ${EXECDIR}/foo-bar-certs/key.pem
@@ -61,7 +84,7 @@ Create VCH - force accept target thumbprint
     Run Keyword And Ignore Error  Cleanup Datastore On Test Server
 
     # Test that --force without --thumbprint accepts the --target thumbprint
-    ${output}=  Run  bin/vic-machine-linux create --name=%{VCH-NAME} --target="%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}" --force --image-store=%{TEST_DATASTORE} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} ${vicmachinetls} --insecure-registry harbor.ci.drone.local
+    ${output}=  Run  bin/vic-machine-linux create --name=%{VCH-NAME} --target="%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}" --force --image-store=%{TEST_DATASTORE} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} ${vicmachinetls} --insecure-registry wdc-harbor-ci.eng.vmware.com
     Log  ${output}
     Should Contain  ${output}  Installer completed successfully
     Get Docker Params  ${output}  ${true}

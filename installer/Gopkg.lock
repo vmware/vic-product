@@ -4,7 +4,12 @@
 [[projects]]
   branch = "master"
   name = "github.com/GoASTScanner/gas"
-  packages = [".","core","output","rules"]
+  packages = [
+    ".",
+    "core",
+    "output",
+    "rules"
+  ]
   revision = "6de76c92610b387855cdfdd53c99b149928916f7"
 
 [[projects]]
@@ -39,6 +44,12 @@
   version = "v1.3.1"
 
 [[projects]]
+  name = "github.com/cenkalti/backoff"
+  packages = ["."]
+  revision = "2ea60e5f094469f9e65adb9cd103795b73ae743e"
+  version = "v2.0.0"
+
+[[projects]]
   name = "github.com/coreos/go-systemd"
   packages = ["daemon"]
   revision = "24036eb3df68550d24a2736c5d013f4e83366866"
@@ -57,7 +68,12 @@
 
 [[projects]]
   name = "github.com/docker/docker"
-  packages = ["pkg/ioutils","pkg/longpath","pkg/progress"]
+  packages = [
+    "pkg/ioutils",
+    "pkg/longpath",
+    "pkg/progress",
+    "pkg/pubsub"
+  ]
   revision = "092cba3727bb9b4a2f0e922cd6c0f93ea270e363"
   version = "v1.13.1"
 
@@ -85,14 +101,24 @@
 
 [[projects]]
   name = "github.com/golang/dep"
-  packages = [".","internal/fs","internal/gps","internal/gps/internal/pb","internal/gps/paths","internal/gps/pkgtree"]
+  packages = [
+    ".",
+    "internal/fs",
+    "internal/gps",
+    "internal/gps/internal/pb",
+    "internal/gps/paths",
+    "internal/gps/pkgtree"
+  ]
   revision = "8ddfc8afb2d520d41997ebddd921b52152706c01"
   version = "v0.3.2"
 
 [[projects]]
   branch = "master"
   name = "github.com/golang/lint"
-  packages = [".","golint"]
+  packages = [
+    ".",
+    "golint"
+  ]
   revision = "6aaf7c34af0f4c36a57e0c429bace4d706d8e931"
 
 [[projects]]
@@ -143,7 +169,17 @@
 
 [[projects]]
   name = "github.com/nbutton23/zxcvbn-go"
-  packages = [".","adjacency","data","entropy","frequency","match","matching","scoring","utils/math"]
+  packages = [
+    ".",
+    "adjacency",
+    "data",
+    "entropy",
+    "frequency",
+    "match",
+    "matching",
+    "scoring",
+    "utils/math"
+  ]
   revision = "eafdab6b0663b4b528c35975c8b0e78be6e25261"
   version = "v0.1"
 
@@ -196,36 +232,118 @@
 
 [[projects]]
   name = "github.com/stretchr/testify"
-  packages = ["assert"]
+  packages = [
+    "assert",
+    "require"
+  ]
   revision = "69483b4bd14f5845b5a1e55bca19e954e827f1d0"
   version = "v1.1.4"
 
 [[projects]]
-  branch = "master"
   name = "github.com/vmware/govmomi"
-  packages = [".","find","govc/cli","govc/flags","govc/host/esxcli","internal","license","list","nfc","object","ovf","property","session","task","toolbox","toolbox/hgfs","toolbox/vix","vim25","vim25/debug","vim25/methods","vim25/mo","vim25/progress","vim25/soap","vim25/types","vim25/xml"]
-  revision = "3619c1d9adde46bd8f0c0ac02de1316caec90cdb"
+  packages = [
+    ".",
+    "find",
+    "govc/cli",
+    "govc/flags",
+    "govc/host/esxcli",
+    "internal",
+    "license",
+    "list",
+    "nfc",
+    "object",
+    "ovf",
+    "performance",
+    "property",
+    "session",
+    "task",
+    "toolbox",
+    "toolbox/hgfs",
+    "toolbox/vix",
+    "view",
+    "vim25",
+    "vim25/debug",
+    "vim25/methods",
+    "vim25/mo",
+    "vim25/progress",
+    "vim25/soap",
+    "vim25/types",
+    "vim25/xml"
+  ]
+  revision = "123ed177021588bac57b5c87c1a84270ddf2eca8"
+  version = "v0.17.1"
 
 [[projects]]
-  branch = "master"
   name = "github.com/vmware/vic"
-  packages = ["cmd/vic-machine/common","lib/config","lib/config/dynamic","lib/config/executor","lib/constants","lib/guest","lib/install/data","lib/install/validate","lib/migration/feature","lib/spec","pkg/certificate","pkg/errors","pkg/fetcher","pkg/flags","pkg/ip","pkg/log","pkg/log/syslog","pkg/registry","pkg/trace","pkg/version","pkg/vsphere/datastore","pkg/vsphere/extraconfig","pkg/vsphere/extraconfig/vmomi","pkg/vsphere/optmanager","pkg/vsphere/session","pkg/vsphere/sys","pkg/vsphere/tags","pkg/vsphere/tasks","pkg/vsphere/test/env","pkg/vsphere/vm"]
-  revision = "a3d7a5ff74a3c34695daf848a189ea0994ca68df"
+  packages = [
+    "cmd/vic-machine/common",
+    "lib/config",
+    "lib/config/dynamic",
+    "lib/config/executor",
+    "lib/constants",
+    "lib/guest",
+    "lib/install/data",
+    "lib/install/opsuser",
+    "lib/install/validate",
+    "lib/migration/feature",
+    "lib/spec",
+    "pkg/certificate",
+    "pkg/errors",
+    "pkg/fetcher",
+    "pkg/flags",
+    "pkg/ip",
+    "pkg/log",
+    "pkg/log/syslog",
+    "pkg/registry",
+    "pkg/retry",
+    "pkg/trace",
+    "pkg/version",
+    "pkg/vsphere/compute",
+    "pkg/vsphere/compute/placement",
+    "pkg/vsphere/datastore",
+    "pkg/vsphere/extraconfig",
+    "pkg/vsphere/extraconfig/vmomi",
+    "pkg/vsphere/optmanager",
+    "pkg/vsphere/performance",
+    "pkg/vsphere/rbac",
+    "pkg/vsphere/session",
+    "pkg/vsphere/sys",
+    "pkg/vsphere/tags",
+    "pkg/vsphere/tasks",
+    "pkg/vsphere/test/env",
+    "pkg/vsphere/vm"
+  ]
+  revision = "6c385b0f31264c3b18f4d773f0fe799b2396b860"
+  version = "v1.4.0"
 
 [[projects]]
   name = "github.com/vmware/vmw-guestinfo"
-  packages = ["bdoor","message","rpcout","rpcvmx","vmcheck"]
+  packages = [
+    "bdoor",
+    "message",
+    "rpcout",
+    "rpcvmx",
+    "vmcheck"
+  ]
   revision = "0b8dbcdd226303bf776dcac49c2d5f3b8a8190fd"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
-  packages = ["nacl/secretbox","poly1305","salsa20/salsa","ssh/terminal"]
+  packages = [
+    "nacl/secretbox",
+    "poly1305",
+    "salsa20/salsa",
+    "ssh/terminal"
+  ]
   revision = "bd6f299fb381e4c3393d1c4b1f0b94f5e77650c8"
 
 [[projects]]
   name = "golang.org/x/net"
-  packages = ["context","context/ctxhttp"]
+  packages = [
+    "context",
+    "context/ctxhttp"
+  ]
   revision = "a6577fac2d73be281a500b310739095313165611"
 
 [[projects]]
@@ -236,7 +354,10 @@
 
 [[projects]]
   name = "golang.org/x/sys"
-  packages = ["unix","windows"]
+  packages = [
+    "unix",
+    "windows"
+  ]
   revision = "99f16d856c9836c42d24e7ab64ea72916925fa97"
 
 [[projects]]
@@ -248,7 +369,11 @@
 [[projects]]
   branch = "master"
   name = "golang.org/x/tools"
-  packages = ["go/gcexportdata","go/gcimporter15","go/types/typeutil"]
+  packages = [
+    "go/gcexportdata",
+    "go/gcimporter15",
+    "go/types/typeutil"
+  ]
   revision = "c84da9fa1c1dbcae4557e8c8509abeb814ed9632"
 
 [[projects]]
@@ -260,6 +385,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "3c09d851e1b0d042e18b46ec5a8f504bf5662bb3e9b81f8c150c22df95b18c5d"
+  inputs-digest = "6dccde4cfeea07bf830af4b38e961317938e927ea68e362158ac6d59152d6678"
   solver-name = "gps-cdcl"
   solver-version = 1

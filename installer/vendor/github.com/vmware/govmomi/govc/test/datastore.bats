@@ -269,6 +269,54 @@ upload_file() {
   assert_success
 }
 
+@test "datastore.cp" {
+  vcsim_env -dc 2 -ds 2
+
+  id=$(new_id)
+  vmdk="$id/$id.vmdk"
+
+  # GOVC_DATACENTER and GOVC_DATACENTER are set during these tests
+  run govc datastore.mkdir "$id"
+  assert_success
+
+  run govc datastore.disk.create "$vmdk"
+  assert_success
+
+  clone="$id/$id-2.vmdk"
+  run govc datastore.cp "$vmdk" "$clone"
+  assert_success
+
+  # Specifying -dc and -ds flags in the tests below
+  unset GOVC_DATASTORE GOVC_DATACENTER
+
+  run govc datastore.ls -dc DC0 -ds LocalDS_0 "$clone"
+  assert_success # created this file above
+
+  run govc datastore.ls -dc DC0 -ds LocalDS_1 "$clone"
+  assert_failure # should not exist in DS_1
+
+  run govc datastore.ls -dc DC1 -ds LocalDS_1 "$clone"
+  assert_failure # should not exist in DC1 DS_1
+
+  run govc datastore.mkdir -dc DC1 -ds LocalDS_1 "$id"
+  assert_success
+
+  for op in cp mv ; do
+    run govc datastore.ls -dc DC1 -ds LocalDS_0 "$clone"
+    assert_failure # should not exist in DC1 DS_0
+
+    # From DC0 DS_0 to DC1 DS_1
+    run govc datastore.$op -dc DC0 -ds LocalDS_0 -dc-target DC1 -ds-target LocalDS_1 "$clone" "$clone"
+    assert_success
+
+    run govc datastore.ls -dc DC1 -ds LocalDS_1 "$clone"
+    assert_success # now the file exists
+
+    run govc datastore.rm -dc DC1 -ds LocalDS_1 "$clone"
+    assert_success
+  done
+}
+
 @test "datastore.disk.info" {
   esx_env
 
@@ -287,5 +335,36 @@ upload_file() {
   assert_success
 
   run govc datastore.disk.info -c "$GOVC_TEST_VMDK"
+  assert_success
+}
+
+@test "datastore.disk.inflate" {
+  esx_env
+
+  id=$(new_id)
+  vmdk="$id/$id.vmdk"
+
+  run govc datastore.mkdir "$id"
+  assert_success
+
+  run govc datastore.disk.create -size 10MB "$vmdk"
+  assert_success
+
+  type=$(govc datastore.disk.info -json "$vmdk" | jq -r .[].DiskType)
+  [ "$type" = "thin" ]
+
+  run govc datastore.disk.inflate "$vmdk"
+  assert_success
+
+  type=$(govc datastore.disk.info -json "$vmdk" | jq -r .[].DiskType)
+  [ "$type" = "eagerZeroedThick" ]
+
+  run govc datastore.disk.shrink "$vmdk"
+  assert_success
+
+  run govc datastore.disk.shrink -copy "$vmdk"
+  assert_success
+
+  run govc datastore.disk.shrink -copy=false "$vmdk"
   assert_success
 }

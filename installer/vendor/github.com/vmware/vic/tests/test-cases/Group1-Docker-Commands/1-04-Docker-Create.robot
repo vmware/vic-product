@@ -34,6 +34,41 @@ Simple creates
     Should Be Equal As Integers  ${rc}  0
     Should Not Contain  ${output}  Error
 
+Simple Creates Verifying Folder Path
+    ${container1}=  Evaluate  'inventory1' + str(random.randint(1000,9999))  modules=random
+    ${container2}=  Evaluate  'inventory2' + str(random.randint(1000,9999))  modules=random
+    ${container3}=  Evaluate  'inventory3' + str(random.randint(1000,9999))  modules=random
+
+    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} pull ${busybox}
+    Should Be Equal As Integers  ${rc}  0
+    Should Not Contain  ${output}  Error
+    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create --name ${container1} ${busybox}
+    Should Be Equal As Integers  ${rc}  0
+    Should Not Contain  ${output}  Error
+    Check VM Folder Path  ${container1}
+    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create --name ${container2} ${busybox}
+    Should Be Equal As Integers  ${rc}  0
+    Should Not Contain  ${output}  Error
+    Check VM Folder Path  ${container2}
+    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create --name ${container3} ${busybox}
+    Should Be Equal As Integers  ${rc}  0
+    Should Not Contain  ${output}  Error
+    Check VM Folder Path  ${container3}
+
+    # cleanup created containers
+    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} rm -f ${container1}
+    Should Be Equal As Integers  ${rc}  0
+    Should Not Contain  ${output}  Error
+    Check VM Folder Path Doesn't Exist  ${container1}
+    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} rm -f ${container2}
+    Should Be Equal As Integers  ${rc}  0
+    Should Not Contain  ${output}  Error
+    Check VM Folder Path Doesn't Exist  ${container2}
+    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} rm -f ${container3}
+    Should Be Equal As Integers  ${rc}  0
+    Should Not Contain  ${output}  Error
+    Check VM Folder Path Doesn't Exist  ${container3}
+
 Create with anonymous volume
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create -v /var/log ${busybox} ls /var/log
     Should Be Equal As Integers  ${rc}  0
@@ -46,13 +81,29 @@ Create with anonymous volume
     Should Not Contain  ${output}  Error
 
 Create with named volume
+    Run  docker %{VCH-PARAMS} volume rm test-named-vol
     ${disk-size}=  Run  docker %{VCH-PARAMS} logs $(docker %{VCH-PARAMS} start $(docker %{VCH-PARAMS} create -v test-named-vol:/testdir ${busybox} /bin/df -Ph) && sleep 10) | grep by-label | awk '{print $2}'
     Should Contain  ${disk-size}  975.9M
 
 Create with a directory as a volume
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create -v /dir:/dir ${busybox}
     Should Be Equal As Integers  ${rc}  1
-    Should Contain  ${output}  Error response from daemon: Bad request error from portlayer: vSphere Integrated Containers does not support mounting directories as a data volume.
+    Should Contain  ${output}  Error response from daemon: Bad request error from portlayer: mounting directories as a data volume is not supported.
+
+Create with complex volume topology - overriding image volume with named volume
+    # Verify that only anonymous volumes are removed when superseding an image volume with a named volume
+    ${suffix}=  Evaluate  '%{DRONE_BUILD_NUMBER}-' + str(random.randint(1000,9999))  modules=random
+    Set Test Variable  ${namedImageVol}  non-anonymous-image-volume-${suffix}
+    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} volume rm ${namedImageVol}
+    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} volume create --name ${namedImageVol}
+    Should Be Equal As Integers  ${rc}  0
+    Set Test Variable  ${imageVolumeContainer}  I-Have-Two-Anonymous-Volumes-${suffix}
+    ${rc}  ${c5}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create --name ${imageVolumeContainer} -v ${namedImageVol}:/data/db -v /I/AM/ANONYMOOOOSE mongo
+    Should Be Equal As Integers  ${rc}  0
+    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} inspect -f "{{.HostConfig.Binds}}" ${imageVolumeContainer}
+    Should Contain  ${output}  ${namedImageVol}
+    ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} inspect -f "{{.Config.Volumes}}" ${imageVolumeContainer}
+    Should Contain  ${output}  ${namedImageVol}
 
 Create simple top example
     ${rc}  ${output}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create ${busybox} /bin/top
@@ -125,59 +176,47 @@ Create a container with custom CPU count
     ${rc}  ${id}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create -it --cpuset-cpus 3 ${busybox}
     Should Be Equal As Integers  ${rc}  0
     ${id}=  Get VM display name  ${id}
-    ${rc}  ${output}=  Run Keyword If  '%{HOST_TYPE}' == 'VC'  Run And Return Rc And Output  govc vm.info %{VCH-NAME}/${id} |awk '/CPU:/ {print $2}'
-    Run Keyword If  '%{HOST_TYPE}' == 'VC'  Should Be Equal As Integers  ${rc}  0
-    Run Keyword If  '%{HOST_TYPE}' == 'VC'  Should Contain  ${output}  3
-    ${rc}  ${output}=  Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Run And Return Rc And Output  govc vm.info ${id} |awk '/CPU:/ {print $2}'
-    Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Should Be Equal As Integers  ${rc}  0
-    Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Should Contain  ${output}  3
+    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.info ${id} |awk '/CPU:/ {print $2}'
+    Should Be Equal As Integers  ${rc}  0
+    Should Contain  ${output}  3
 
 Create a container with custom amount of memory in GB
     ${rc}  ${id}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create -it -m 4G ${busybox}
     Should Be Equal As Integers  ${rc}  0
     ${id}=  Get VM display name  ${id}
-    ${rc}  ${output}=  Run Keyword If  '%{HOST_TYPE}' == 'VC'  Run And Return Rc And Output  govc vm.info %{VCH-NAME}/${id} |awk '/Memory:/ {print $2}'
-    Run Keyword If  '%{HOST_TYPE}' == 'VC'  Should Be Equal As Integers  ${rc}  0
-    Run Keyword If  '%{HOST_TYPE}' == 'VC'  Should Contain  ${output}  4096MB
-    ${rc}  ${output}=  Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Run And Return Rc And Output  govc vm.info ${id} |awk '/Memory:/ {print $2}'
-    Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Should Be Equal As Integers  ${rc}  0
-    Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Should Contain  ${output}  4096MB
+    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.info ${id} |awk '/Memory:/ {print $2}'
+    Should Be Equal As Integers  ${rc}  0
+    Should Contain  ${output}  4096MB
 
 Create a container with custom amount of memory in MB
     ${rc}  ${id}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create -it -m 2048M ${busybox}
     Should Be Equal As Integers  ${rc}  0
     ${id}=  Get VM display name  ${id}
-    ${rc}  ${output}=  Run Keyword If  '%{HOST_TYPE}' == 'VC'  Run And Return Rc And Output  govc vm.info %{VCH-NAME}/${id} |awk '/Memory:/ {print $2}'
-    Run Keyword If  '%{HOST_TYPE}' == 'VC'  Should Be Equal As Integers  ${rc}  0
-    Run Keyword If  '%{HOST_TYPE}' == 'VC'  Should Contain  ${output}  2048MB
-    ${rc}  ${output}=  Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Run And Return Rc And Output  govc vm.info ${id} |awk '/Memory:/ {print $2}'
-    Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Should Be Equal As Integers  ${rc}  0
-    Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Should Contain  ${output}  2048MB
+    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.info ${id} |awk '/Memory:/ {print $2}'
+    Should Be Equal As Integers  ${rc}  0
+    Should Contain  ${output}  2048MB
 
 Create a container with custom amount of memory in KB
     ${rc}  ${id}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create -it -m 2097152K ${busybox}
     Should Be Equal As Integers  ${rc}  0
     ${id}=  Get VM display name  ${id}
-    ${rc}  ${output}=  Run Keyword If  '%{HOST_TYPE}' == 'VC'  Run And Return Rc And Output  govc vm.info %{VCH-NAME}/${id} |awk '/Memory:/ {print $2}'
-    Run Keyword If  '%{HOST_TYPE}' == 'VC'  Should Be Equal As Integers  ${rc}  0
-    Run Keyword If  '%{HOST_TYPE}' == 'VC'  Should Contain  ${output}  2048MB
-    ${rc}  ${output}=  Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Run And Return Rc And Output  govc vm.info ${id} |awk '/Memory:/ {print $2}'
-    Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Should Be Equal As Integers  ${rc}  0
-    Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Should Contain  ${output}  2048MB
+    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.info ${id} |awk '/Memory:/ {print $2}'
+    Should Be Equal As Integers  ${rc}  0
+    Should Contain  ${output}  2048MB
 
 Create a container with custom amount of memory in Bytes
     ${rc}  ${id}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create -it -m 2147483648B ${busybox}
     Should Be Equal As Integers  ${rc}  0
     ${id}=  Get VM display name  ${id}
-    ${rc}  ${output}=  Run Keyword If  '%{HOST_TYPE}' == 'VC'  Run And Return Rc And Output  govc vm.info %{VCH-NAME}/${id} |awk '/Memory:/ {print $2}'
-    Run Keyword If  '%{HOST_TYPE}' == 'VC'  Should Be Equal As Integers  ${rc}  0
-    Run Keyword If  '%{HOST_TYPE}' == 'VC'  Should Contain  ${output}  2048MB
-    ${rc}  ${output}=  Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Run And Return Rc And Output  govc vm.info ${id} |awk '/Memory:/ {print $2}'
-    Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Should Be Equal As Integers  ${rc}  0
-    Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Should Contain  ${output}  2048MB
+    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.info ${id} |awk '/Memory:/ {print $2}'
+    Should Be Equal As Integers  ${rc}  0
+    Should Contain  ${output}  2048MB
 
 Create a container using rest api call without HostConfig in the form data
-    ${output}=  Run  curl -sk --cert %{DOCKER_CERT_PATH}/cert.pem --key %{DOCKER_CERT_PATH}/key.pem -H "Content-Type: application/json" -d '{"Image": "${busybox}", "Cmd": ["ping", "127.0.0.1"], "NetworkMode": "bridge"}' https://%{VCH-IP}:2376/containers/create
+    ${status}=  Run Keyword And Return Status  Environment Variable Should Be Set  DOCKER_CERT_PATH
+    ${certs}=  Set Variable If  ${status}  --cert %{DOCKER_CERT_PATH}/cert.pem --key %{DOCKER_CERT_PATH}/key.pem  ${EMPTY}
+
+    ${output}=  Run  curl -sk ${certs} -H "Content-Type: application/json" -d '{"Image": "${busybox}", "Cmd": ["ping", "127.0.0.1"], "NetworkMode": "bridge"}' https://%{VCH-IP}:%{VCH-PORT}/containers/create
     Log  ${output}
     Should contain  ${output}  "Warnings":null
 
@@ -185,12 +224,9 @@ Create a container and check the VM display name and datastore folder name
     ${rc}  ${id}=  Run And Return Rc And Output  docker %{VCH-PARAMS} create -it --name busy3 ${busybox}
     Should Be Equal As Integers  ${rc}  0
     ${vmName}=  Get VM display name  ${id}
-    ${rc}  ${output}=  Run Keyword If  '%{HOST_TYPE}' == 'VC'  Run And Return Rc And Output  govc vm.info %{VCH-NAME}/${vmName}
-    Run Keyword If  '%{HOST_TYPE}' == 'VC'  Should Be Equal As Integers  ${rc}  0
-    Run Keyword If  '%{HOST_TYPE}' == 'VC'  Should contain  ${output}  ${vmName}
-    ${rc}  ${output}=  Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Run And Return Rc And Output  govc vm.info ${vmName}
-    Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Should Be Equal As Integers  ${rc}  0
-    Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Should Contain  ${output}  ${vmName}
+    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.info ${vmName}
+    Should Be Equal As Integers  ${rc}  0
+    Should Contain  ${output}  ${vmName}
     ${rc}  ${output}=  Run Keyword If  '%{DATASTORE_TYPE}' == 'VSAN'  Run And Return Rc And Output  govc datastore.ls | grep ${vmName}
     Run Keyword If  '%{DATASTORE_TYPE}' == 'VSAN'  Should Be Equal As Integers  ${rc}  0
     Run Keyword If  '%{DATASTORE_TYPE}' == 'VSAN'  Should contain  ${output}  ${vmName}

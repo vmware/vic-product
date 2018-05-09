@@ -19,9 +19,7 @@ import (
 	"fmt"
 	"io"
 	"math/rand"
-	"net"
 	"net/http"
-	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -45,27 +43,27 @@ import (
 	"github.com/docker/docker/pkg/stdcopy"
 	"github.com/docker/docker/reference"
 	"github.com/docker/docker/utils"
-	gonat "github.com/docker/go-connections/nat"
+	"github.com/docker/go-connections/nat"
 	"github.com/docker/go-units"
-	"github.com/docker/libnetwork/iptables"
-	"github.com/docker/libnetwork/portallocator"
-	"github.com/vishvananda/netlink"
 
 	"github.com/vmware/vic/lib/apiservers/engine/backends/cache"
 	viccontainer "github.com/vmware/vic/lib/apiservers/engine/backends/container"
 	"github.com/vmware/vic/lib/apiservers/engine/backends/convert"
 	"github.com/vmware/vic/lib/apiservers/engine/backends/filter"
-	"github.com/vmware/vic/lib/apiservers/engine/backends/portmap"
+	engerr "github.com/vmware/vic/lib/apiservers/engine/errors"
+	"github.com/vmware/vic/lib/apiservers/engine/network"
+	"github.com/vmware/vic/lib/apiservers/engine/proxy"
 	"github.com/vmware/vic/lib/apiservers/portlayer/client/containers"
 	"github.com/vmware/vic/lib/apiservers/portlayer/client/scopes"
-	"github.com/vmware/vic/lib/apiservers/portlayer/client/tasks"
 	"github.com/vmware/vic/lib/apiservers/portlayer/models"
 	"github.com/vmware/vic/lib/archive"
 	"github.com/vmware/vic/lib/constants"
 	"github.com/vmware/vic/lib/metadata"
+	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/retry"
 	"github.com/vmware/vic/pkg/trace"
 	"github.com/vmware/vic/pkg/uid"
+	"github.com/vmware/vic/pkg/vsphere/sys"
 )
 
 // valid filters as of docker commit 49bf474
@@ -94,7 +92,7 @@ var unSupportedPsFilters = map[string]bool{
 }
 
 const (
-	bridgeIfaceName = "bridge"
+	//bridgeIfaceName = "bridge"
 
 	// MemoryAlignMB is the value to which container VM memory must align in order for hotadd to work
 	MemoryAlignMB = 128
@@ -113,44 +111,28 @@ const (
 	maxElapsedTime = 2 * time.Minute
 )
 
-var (
-	publicIfaceName = "public"
+// These are the constants used for the portlayer exec states checks returned when obtaining the state of a container handle
+const (
+	RunningState   = "Running"
+	CreatedState   = "Created"
+	SuspendedState = "Suspended"
+	StartingState  = "Starting"
+	StoppedState   = "Stopped"
+)
 
+var (
 	defaultScope struct {
 		sync.Mutex
 		scope string
 	}
 
-	portMapper portmap.PortMapper
-
-	// bridge-to-bridge rules, indexed by mapped port;
-	// this map is used to delete the rule once
-	// the container stops or is removed
-	btbRules map[string][]string
-
-	cbpLock         sync.Mutex
-	containerByPort map[string]string // port:containerID
-
 	ctx = context.TODO()
+
+	// allow mocking
+	randomName = namesgenerator.GetRandomName
 )
 
 func init() {
-	portMapper = portmap.NewPortMapper()
-	btbRules = make(map[string][]string)
-	containerByPort = make(map[string]string)
-
-	l, err := netlink.LinkByName(publicIfaceName)
-	if l == nil {
-		l, err = netlink.LinkByAlias(publicIfaceName)
-		if err != nil {
-			log.Errorf("interface %s not found", publicIfaceName)
-			return
-		}
-	}
-
-	// don't use interface alias for iptables rules
-	publicIfaceName = l.Attrs().Name
-
 	// seed the random number generator
 	rand.Seed(time.Now().UTC().UnixNano())
 }
@@ -162,19 +144,23 @@ func (r containerByCreated) Len() int           { return len(r) }
 func (r containerByCreated) Swap(i, j int)      { r[i], r[j] = r[j], r[i] }
 func (r containerByCreated) Less(i, j int) bool { return r[i].Created < r[j].Created }
 
-var containerEngine *Container
+var containerEngine *ContainerBackend
 var once sync.Once
 
 // Container struct represents the Container
-type Container struct {
-	containerProxy VicContainerProxy
+type ContainerBackend struct {
+	containerProxy proxy.VicContainerProxy
+	streamProxy    proxy.VicStreamProxy
+	storageProxy   proxy.VicStorageProxy
 }
 
 // NewContainerBackend will create a new containerEngine or return the existing
-func NewContainerBackend() *Container {
+func NewContainerBackend() *ContainerBackend {
 	once.Do(func() {
-		containerEngine = &Container{
-			containerProxy: NewContainerProxy(PortLayerClient(), PortLayerServer(), PortLayerName()),
+		containerEngine = &ContainerBackend{
+			containerProxy: proxy.NewContainerProxy(PortLayerClient(), PortLayerServer(), PortLayerName()),
+			streamProxy:    proxy.NewStreamProxy(PortLayerClient()),
+			storageProxy:   proxy.NewStorageProxy(PortLayerClient()),
 		}
 	})
 	return containerEngine
@@ -184,124 +170,98 @@ const (
 	defaultEnvPath = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 )
 
-func (c *Container) Handle(id, name string) (string, error) {
-	resp, err := c.containerProxy.Client().Containers.Get(containers.NewGetParamsWithContext(ctx).WithID(id))
+func (c *ContainerBackend) Handle(id, name string) (string, error) {
+	handle, err := c.containerProxy.Handle(context.Background(), id, name)
 	if err != nil {
-		switch err := err.(type) {
-		case *containers.GetNotFound:
+		if engerr.IsNotFoundError(err) {
 			cache.ContainerCache().DeleteContainer(id)
-			return "", NotFoundError(name)
-		case *containers.GetDefault:
-			return "", InternalServerError(err.Payload.Message)
-		default:
-			return "", InternalServerError(err.Error())
 		}
+		return "", err
 	}
-	return resp.Payload, nil
+	return handle, nil
 }
 
 // docker's container.execBackend
 
-func (c *Container) TaskInspect(cid, cname, eid string) (*models.TaskInspectResponse, error) {
-	// obtain a portlayer client
-	client := c.containerProxy.Client()
-
-	handle, err := c.Handle(cid, cname)
-	if err != nil {
-		return nil, err
-	}
-
-	// inspect the Task to obtain ProcessConfig
-	config := &models.TaskInspectConfig{
-		Handle: handle,
-		ID:     eid,
-	}
-
-	params := tasks.NewInspectParamsWithContext(ctx).WithConfig(config)
-	resp, err := client.Tasks.Inspect(params)
-	if err != nil {
-		return nil, err
-	}
-	return resp.Payload, nil
-
-}
-
-func (c *Container) TaskWaitToStart(cid, cname, eid string) error {
-	// obtain a portlayer client
-	client := c.containerProxy.Client()
-
-	handle, err := c.Handle(cid, cname)
-	if err != nil {
-		return err
-	}
-
-	// wait the Task to start
-	config := &models.TaskWaitConfig{
-		Handle: handle,
-		ID:     eid,
-	}
-
-	params := tasks.NewWaitParamsWithContext(ctx).WithConfig(config)
-	_, err = client.Tasks.Wait(params)
-	if err != nil {
-		switch err := err.(type) {
-		case *tasks.WaitInternalServerError:
-			return InternalServerError(err.Payload.Message)
-		default:
-			return InternalServerError(err.Error())
-		}
-	}
-
-	return nil
-}
-
 // ContainerExecCreate sets up an exec in a running container.
-func (c *Container) ContainerExecCreate(name string, config *types.ExecConfig) (string, error) {
-	defer trace.End(trace.Begin(name))
+func (c *ContainerBackend) ContainerExecCreate(name string, config *types.ExecConfig) (string, error) {
+	op := trace.NewOperation(context.TODO(), "")
+	defer trace.End(trace.Begin(fmt.Sprintf("%s: name=(%s)", op, name)))
 
 	// Look up the container name in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainer(name)
 	if vc == nil {
-		return "", NotFoundError(name)
+		return "", engerr.NotFoundError(name)
 	}
 	id := vc.ContainerID
-
-	// Is it running?
-	state, err := c.containerProxy.State(vc)
-	if err != nil {
-		return "", InternalServerError(err.Error())
-	}
-	if state.Restarting {
-		return "", ConflictError(fmt.Sprintf("Container %s is restarting, wait until the container is running", id))
-	}
-	if !state.Running {
-		return "", ConflictError(fmt.Sprintf("Container %s is not running", id))
-	}
-
-	handle, err := c.Handle(id, name)
-	if err != nil {
-		return "", InternalServerError(err.Error())
-	}
 
 	// set up the environment
 	config.Env = setEnvFromImageConfig(config.Tty, config.Env, vc.Config.Env)
 
-	handleprime, eid, err := c.containerProxy.CreateExecTask(handle, config)
-	if err != nil {
-		return "", InternalServerError(err.Error())
+	var eid string
+	operation := func() error {
+
+		handle, err := c.Handle(id, name)
+		if err != nil {
+			op.Error(err)
+			return engerr.InternalServerError(err.Error())
+		}
+
+		// Is it running?
+		handle, state, err := c.containerProxy.GetStateFromHandle(op, handle)
+		if err != nil {
+			return engerr.InternalServerError(err.Error())
+		}
+
+		switch state {
+		case StoppedState, CreatedState, SuspendedState:
+			return engerr.InternalServerError(fmt.Sprintf("Container (%s) is not running", name))
+		case StartingState:
+			// This is a transient state, returning conflict error to trigger a retry in the operation.
+			return engerr.ConflictError(fmt.Sprintf("container (%s) is still starting", id))
+		case RunningState:
+			// NO-OP - this is the state that allows an exec to occur.
+		default:
+			return engerr.InternalServerError(fmt.Sprintf("Container (%s) is in an unknown state: %s", id, state))
+		}
+
+		handle, eid, err = c.containerProxy.CreateExecTask(op, handle, config)
+		if err != nil {
+			op.Errorf("Failed to create exec task for container(%s) due to error(%s)", id, err)
+			return engerr.InternalServerError(err.Error())
+		}
+
+		err = c.containerProxy.CommitContainerHandle(op, handle, id, 0)
+		if err != nil {
+			op.Errorf("Failed to commit exec handle for container(%s) due to error(%s)", id, err)
+			return err
+		}
+
+		return nil
 	}
 
-	err = c.containerProxy.CommitContainerHandle(handleprime, id, 0)
-	if err != nil {
+	// configure custom exec back off configure
+	backoffConf := retry.NewBackoffConfig()
+	backoffConf.MaxInterval = 2 * time.Second
+	backoffConf.InitialInterval = 500 * time.Millisecond
+
+	if err := retry.DoWithConfig(operation, engerr.IsConflictError, backoffConf); err != nil {
+		op.Errorf("Failed to start Exec task for container(%s) due to error (%s)", id, err)
 		return "", err
 	}
 
 	// associate newly created exec task with container
 	cache.ContainerCache().AddExecToContainer(vc, eid)
 
-	ec, err := c.TaskInspect(id, name, eid)
+	handle, err := c.Handle(id, name)
 	if err != nil {
-		return "", InternalServerError(err.Error())
+		op.Error(err)
+		return "", engerr.InternalServerError(err.Error())
+	}
+
+	ec, err := c.containerProxy.InspectTask(op, handle, eid, id)
+	if err != nil {
+		return "", err
 	}
 
 	// exec_create event
@@ -314,20 +274,27 @@ func (c *Container) ContainerExecCreate(name string, config *types.ExecConfig) (
 
 // ContainerExecInspect returns low-level information about the exec
 // command. An error is returned if the exec cannot be found.
-func (c *Container) ContainerExecInspect(eid string) (*backend.ExecInspect, error) {
-	defer trace.End(trace.Begin(eid))
+func (c *ContainerBackend) ContainerExecInspect(eid string) (*backend.ExecInspect, error) {
+	op := trace.NewOperation(context.TODO(), "")
+	defer trace.End(trace.Begin(fmt.Sprintf("opID=(%s) eid=(%s)", op, eid)))
 
 	// Look up the container name in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainerFromExec(eid)
 	if vc == nil {
-		return nil, NotFoundError(eid)
+		return nil, engerr.TaskInspectNotFoundError(eid)
 	}
 	id := vc.ContainerID
 	name := vc.Name
 
-	ec, err := c.TaskInspect(id, name, eid)
+	handle, err := c.Handle(id, name)
 	if err != nil {
-		return nil, InternalServerError(err.Error())
+		op.Error(err)
+		return nil, engerr.InternalServerError(err.Error())
+	}
+
+	ec, err := c.containerProxy.InspectTask(op, handle, eid, id)
+	if err != nil {
+		return nil, err
 	}
 
 	exit := int(ec.ExitCode)
@@ -352,13 +319,13 @@ func (c *Container) ContainerExecInspect(eid string) (*backend.ExecInspect, erro
 // ContainerExecResize changes the size of the TTY of the process
 // running in the exec with the given name to the given height and
 // width.
-func (c *Container) ContainerExecResize(eid string, height, width int) error {
+func (c *ContainerBackend) ContainerExecResize(eid string, height, width int) error {
 	defer trace.End(trace.Begin(eid))
 
 	// Look up the container eid in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainerFromExec(eid)
 	if vc == nil {
-		return NotFoundError(eid)
+		return engerr.NotFoundError(eid)
 	}
 
 	// Call the port layer to resize
@@ -366,7 +333,7 @@ func (c *Container) ContainerExecResize(eid string, height, width int) error {
 	plWidth := int32(width)
 
 	var err error
-	if err = c.containerProxy.Resize(eid, plHeight, plWidth); err == nil {
+	if err = c.containerProxy.Resize(ctx, eid, plHeight, plWidth); err == nil {
 		actor := CreateContainerEventActorWithAttributes(vc, map[string]string{
 			"height": fmt.Sprintf("%d", height),
 			"width":  fmt.Sprintf("%d", width),
@@ -380,67 +347,64 @@ func (c *Container) ContainerExecResize(eid string, height, width int) error {
 
 // ContainerExecStart starts a previously set up exec instance. The
 // std streams are set up.
-func (c *Container) ContainerExecStart(ctx context.Context, eid string, stdin io.ReadCloser, stdout io.Writer, stderr io.Writer) error {
-	defer trace.End(trace.Begin(eid))
+func (c *ContainerBackend) ContainerExecStart(ctx context.Context, eid string, stdin io.ReadCloser, stdout io.Writer, stderr io.Writer) error {
+	op := trace.FromContext(ctx, "exec start")
+	defer trace.End(trace.Begin("", op))
 
 	// Look up the container name in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainerFromExec(eid)
 	if vc == nil {
-		return NotFoundError(eid)
+		return engerr.InternalServerError(fmt.Sprintf("No container was found with exec id: %s", eid))
 	}
 	id := vc.ContainerID
 	name := vc.Name
 
-	// grab the task details
-	ec, err := c.TaskInspect(id, name, eid)
-	if err != nil {
-		return InternalServerError(err.Error())
-	}
-
-	handle, err := c.Handle(id, name)
-	if err != nil {
-		return InternalServerError(err.Error())
-	}
-
-	bindconfig := &models.TaskBindConfig{
-		Handle: handle,
-		ID:     eid,
-	}
-
-	// obtain a portlayer client
-	client := c.containerProxy.Client()
-
-	// call Bind with bindparams
-	bindparams := tasks.NewBindParamsWithContext(ctx).WithConfig(bindconfig)
-	resp, err := client.Tasks.Bind(bindparams)
-	if err != nil {
-		return InternalServerError(err.Error())
-	}
-	handle = resp.Payload.Handle.(string)
+	op.Debugf("exec start of %s in container %d", eid, id)
 
 	operation := func() error {
+		handle, err := c.Handle(id, name)
+		if err != nil {
+			op.Errorf("Failed to obtain handle during exec start for container(%s) due to error: %s", id, err)
+			return engerr.InternalServerError(err.Error())
+		}
+
+		ec, err := c.containerProxy.InspectTask(op, handle, eid, id)
+		if err != nil {
+			return err
+		}
+
+		handle, err = c.containerProxy.BindTask(op, handle, eid)
+		if err != nil {
+			return err
+		}
+
 		// exec doesn't have separate attach path so we will decide whether we need interaction/runblocking or not
 		attach := ec.OpenStdin || ec.OpenStdout || ec.OpenStderr
 		if attach {
-			handle, err = c.containerProxy.BindInteraction(handle, name, eid)
+			handle, err = c.containerProxy.BindInteraction(ctx, handle, name, eid)
 			if err != nil {
+				op.Errorf("Failed to initiate interactivity during exec start for container(%s) due to error: %s", id, err)
 				return err
 			}
 		}
 
-		if err := c.containerProxy.CommitContainerHandle(handle, name, 0); err != nil {
+		if err := c.containerProxy.CommitContainerHandle(ctx, handle, name, 0); err != nil {
+			op.Errorf("Failed to commit handle for container(%s) due to error: %s", id, err)
 			return err
 		}
 
 		// we need to be able to cancel it
-		ctx, cancel := context.WithCancel(ctx)
+		taskCtx, cancel := trace.WithCancel(&op, "exec task wait on %s", eid)
 		defer cancel()
 
+		// we do not return an error here if this fails. TODO: Investigate what exactly happens on error here...
+		// FIXME: This being in a retry could lead to multiple writes to stdout(?)
 		go func() {
 			defer trace.End(trace.Begin(eid))
+
 			// wait property collector
-			if err := c.TaskWaitToStart(id, name, eid); err != nil {
-				log.Errorf("Task wait returned %s, canceling the context", err)
+			if err := c.containerProxy.WaitTask(taskCtx, id, name, eid); err != nil {
+				op.Errorf("Task wait returned %s, canceling the context", err)
 
 				// we can't return a proper error as we close the streams as soon as AttachStreams returns so we mimic Docker and write to stdout directly
 				// https://github.com/docker/docker/blob/a039ca9affe5fa40c4e029d7aae399b26d433fe9/api/server/router/container/exec.go#L114
@@ -459,11 +423,11 @@ func (c *Container) ContainerExecStart(ctx context.Context, eid string, stdin io
 
 		// no need to attach for detached case
 		if !attach {
-			log.Debugf("Detached mode. Returning early.")
+			op.Debugf("Detached mode. Returning early.")
 			return nil
 		}
-		EventService().Log(containerAttachEvent, eventtypes.ContainerEventType, actor)
 
+		EventService().Log(containerAttachEvent, eventtypes.ContainerEventType, actor)
 		ca := &backend.ContainerAttachConfig{
 			UseStdin:  ec.OpenStdin,
 			UseStdout: ec.OpenStdout,
@@ -475,17 +439,17 @@ func (c *Container) ContainerExecStart(ctx context.Context, eid string, stdin io
 			ca.UseStderr = false
 		}
 
-		ac := &AttachConfig{
+		ac := &proxy.AttachConfig{
 			ID: eid,
 			ContainerAttachConfig: ca,
 			UseTty:                ec.Tty,
 			CloseStdin:            true,
 		}
 
-		err = c.containerProxy.AttachStreams(ctx, ac, stdin, stdout, stderr)
+		err = c.streamProxy.AttachStreams(ctx, ac, stdin, stdout, stderr)
 		if err != nil {
-			if _, ok := err.(DetachError); ok {
-				log.Infof("Detach detected, tearing down connection")
+			if _, ok := err.(engerr.DetachError); ok {
+				op.Infof("Detach detected, tearing down connection")
 
 				// QUESTION: why are we returning DetachError? It doesn't seem like an error
 				// fire detach event
@@ -502,7 +466,14 @@ func (c *Container) ContainerExecStart(ctx context.Context, eid string, stdin io
 		}
 		return nil
 	}
-	if err := retry.Do(operation, IsConflictError); err != nil {
+
+	// configure custom exec back off configure
+	backoffConf := retry.NewBackoffConfig()
+	backoffConf.MaxInterval = 2 * time.Second
+	backoffConf.InitialInterval = 500 * time.Millisecond
+
+	if err := retry.DoWithConfig(operation, engerr.IsConflictError, backoffConf); err != nil {
+		op.Errorf("Failed to start Exec task for container(%s) due to error (%s)", id, err)
 		return err
 	}
 	return nil
@@ -510,23 +481,24 @@ func (c *Container) ContainerExecStart(ctx context.Context, eid string, stdin io
 
 // ExecExists looks up the exec instance and returns a bool if it exists or not.
 // It will also return the error produced by `getConfig`
-func (c *Container) ExecExists(eid string) (bool, error) {
+func (c *ContainerBackend) ExecExists(eid string) (bool, error) {
 	defer trace.End(trace.Begin(eid))
 
 	vc := cache.ContainerCache().GetContainerFromExec(eid)
 	if vc == nil {
-		return false, NotFoundError(eid)
+		return false, engerr.NotFoundError(eid)
 	}
 	return true, nil
 }
 
-// docker's container.stateBackend
-
 // ContainerCreate creates a container.
-func (c *Container) ContainerCreate(config types.ContainerCreateConfig) (containertypes.ContainerCreateCreatedBody, error) {
+func (c *ContainerBackend) ContainerCreate(config types.ContainerCreateConfig) (containertypes.ContainerCreateCreatedBody, error) {
 	defer trace.End(trace.Begin(""))
 
 	var err error
+
+	log.Infof("** createconfig = %#v", config)
+	log.Infof("** container config = %#v", config.Config)
 
 	// get the image from the cache
 	image, err := cache.ImageCache().Get(config.Config.Image)
@@ -552,8 +524,23 @@ func (c *Container) ContainerCreate(config types.ContainerCreateConfig) (contain
 	}
 
 	// Reserve the container name to prevent duplicates during a parallel operation.
-	if err := cache.ContainerCache().ReserveName(container, config.Name); err != nil {
-		return containertypes.ContainerCreateCreatedBody{}, derr.NewRequestConflictError(err)
+	if config.Name != "" {
+		err := cache.ContainerCache().ReserveName(container, config.Name)
+		if err != nil {
+			return containertypes.ContainerCreateCreatedBody{}, derr.NewRequestConflictError(err)
+		}
+	} else {
+		for i := 0; i < 5; i++ {
+			generated := randomName(i)
+			if cache.ContainerCache().ReserveName(container, generated) == nil {
+				config.Name = generated
+				break
+			}
+		}
+
+		if config.Name == "" {
+			return containertypes.ContainerCreateCreatedBody{}, derr.NewRequestConflictError(errors.New("attempted random names conflicted with existing containers"))
+		}
 	}
 
 	// Create an actualized container in the VIC port layer
@@ -584,44 +571,44 @@ func (c *Container) ContainerCreate(config types.ContainerCreateConfig) (contain
 //
 // returns:
 //	(container id, error)
-func (c *Container) containerCreate(vc *viccontainer.VicContainer, config types.ContainerCreateConfig) (string, error) {
+func (c *ContainerBackend) containerCreate(vc *viccontainer.VicContainer, config types.ContainerCreateConfig) (string, error) {
 	defer trace.End(trace.Begin("Container.containerCreate"))
 
 	if vc == nil {
-		return "", InternalServerError("Failed to create container")
+		return "", engerr.InternalServerError("Failed to create container")
 	}
 
-	id, h, err := c.containerProxy.CreateContainerHandle(vc, config)
+	id, h, err := c.containerProxy.CreateContainerHandle(ctx, vc, config)
 	if err != nil {
 		return "", err
 	}
 
-	h, err = c.containerProxy.CreateContainerTask(h, id, config)
+	h, err = c.containerProxy.CreateContainerTask(ctx, h, id, config)
 	if err != nil {
 		return "", err
 	}
 
-	h, err = c.containerProxy.AddContainerToScope(h, config)
+	h, err = c.containerProxy.AddContainerToScope(ctx, h, config)
 	if err != nil {
 		return id, err
 	}
 
-	h, err = c.containerProxy.AddInteractionToContainer(h, config)
+	h, err = c.containerProxy.AddInteractionToContainer(ctx, h, config)
 	if err != nil {
 		return id, err
 	}
 
-	h, err = c.containerProxy.AddLoggingToContainer(h, config)
+	h, err = c.containerProxy.AddLoggingToContainer(ctx, h, config)
 	if err != nil {
 		return id, err
 	}
 
-	h, err = c.containerProxy.AddVolumesToContainer(h, config)
+	h, err = c.storageProxy.AddVolumesToContainer(ctx, h, config)
 	if err != nil {
 		return id, err
 	}
 
-	err = c.containerProxy.CommitContainerHandle(h, id, -1)
+	err = c.containerProxy.CommitContainerHandle(ctx, h, id, -1)
 	if err != nil {
 		return id, err
 	}
@@ -633,16 +620,16 @@ func (c *Container) containerCreate(vc *viccontainer.VicContainer, config types.
 // If no signal is given (sig 0), then Kill with SIGKILL and wait
 // for the container to exit.
 // If a signal is given, then just send it to the container and return.
-func (c *Container) ContainerKill(name string, sig uint64) error {
+func (c *ContainerBackend) ContainerKill(name string, sig uint64) error {
 	defer trace.End(trace.Begin(fmt.Sprintf("%s, %d", name, sig)))
 
 	// Look up the container name in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainer(name)
 	if vc == nil {
-		return NotFoundError(name)
+		return engerr.NotFoundError(name)
 	}
 
-	err := c.containerProxy.Signal(vc, sig)
+	err := c.containerProxy.Signal(ctx, vc, sig)
 	if err == nil {
 		actor := CreateContainerEventActorWithAttributes(vc, map[string]string{"signal": fmt.Sprintf("%d", sig)})
 
@@ -654,19 +641,19 @@ func (c *Container) ContainerKill(name string, sig uint64) error {
 }
 
 // ContainerPause pauses a container
-func (c *Container) ContainerPause(name string) error {
-	return fmt.Errorf("%s does not yet implement ContainerPause", ProductName())
+func (c *ContainerBackend) ContainerPause(name string) error {
+	return engerr.APINotSupportedMsg(ProductName(), "ContainerPause")
 }
 
 // ContainerResize changes the size of the TTY of the process running
 // in the container with the given name to the given height and width.
-func (c *Container) ContainerResize(name string, height, width int) error {
+func (c *ContainerBackend) ContainerResize(name string, height, width int) error {
 	defer trace.End(trace.Begin(name))
 
 	// Look up the container name in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainer(name)
 	if vc == nil {
-		return NotFoundError(name)
+		return engerr.NotFoundError(name)
 	}
 
 	// Call the port layer to resize
@@ -674,7 +661,7 @@ func (c *Container) ContainerResize(name string, height, width int) error {
 	plWidth := int32(width)
 
 	var err error
-	if err = c.containerProxy.Resize(vc.ContainerID, plHeight, plWidth); err == nil {
+	if err = c.containerProxy.Resize(ctx, vc.ContainerID, plHeight, plWidth); err == nil {
 		actor := CreateContainerEventActorWithAttributes(vc, map[string]string{
 			"height": fmt.Sprintf("%d", height),
 			"width":  fmt.Sprintf("%d", width),
@@ -692,27 +679,28 @@ func (c *Container) ContainerResize(name string, height, width int) error {
 // timeout, ContainerRestart will wait forever until a graceful
 // stop. Returns an error if the container cannot be found, or if
 // there is an underlying error at any stage of the restart.
-func (c *Container) ContainerRestart(name string, seconds *int) error {
-	defer trace.End(trace.Begin(name))
+func (c *ContainerBackend) ContainerRestart(name string, seconds *int) error {
+	op := trace.NewOperation(context.Background(), "ContainerRestart - %s", name)
+	defer trace.End(trace.Begin(name, op))
 
 	// Look up the container name in the metadata cache ot get long ID
 	vc := cache.ContainerCache().GetContainer(name)
 	if vc == nil {
-		return NotFoundError(name)
+		return engerr.NotFoundError(name)
 	}
 
 	operation := func() error {
-		return c.containerProxy.Stop(vc, name, seconds, false)
+		return c.containerProxy.Stop(ctx, vc, name, seconds, false)
 	}
-	if err := retry.Do(operation, IsConflictError); err != nil {
-		return InternalServerError(fmt.Sprintf("Stop failed with: %s", err))
+	if err := retry.Do(operation, engerr.IsConflictError); err != nil {
+		return engerr.InternalServerError(fmt.Sprintf("Stop failed with: %s", err))
 	}
 
 	operation = func() error {
-		return c.containerStart(name, nil, true)
+		return c.containerStart(op, name, nil, true)
 	}
-	if err := retry.Do(operation, IsConflictError); err != nil {
-		return InternalServerError(fmt.Sprintf("Start failed with: %s", err))
+	if err := retry.Do(operation, engerr.IsConflictError); err != nil {
+		return engerr.InternalServerError(fmt.Sprintf("Start failed with: %s", err))
 	}
 
 	actor := CreateContainerEventActorWithAttributes(vc, map[string]string{})
@@ -724,93 +712,79 @@ func (c *Container) ContainerRestart(name string, seconds *int) error {
 // ContainerRm removes the container id from the filesystem. An error
 // is returned if the container is not found, or if the remove
 // fails. If the remove succeeds, the container name is released, and
-// network links are removed.
-func (c *Container) ContainerRm(name string, config *types.ContainerRmConfig) error {
+// vicnetwork links are removed.
+func (c *ContainerBackend) ContainerRm(name string, config *types.ContainerRmConfig) error {
 	defer trace.End(trace.Begin(name))
 
 	// Look up the container name in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainer(name)
 	if vc == nil {
-		return NotFoundError(name)
+		return engerr.NotFoundError(name)
 	}
 	id := vc.ContainerID
-	// Get the portlayer Client API
-	client := c.containerProxy.Client()
-
-	// TODO: Pass this RemoveVolume flag to somewhere
-	_ = &config.RemoveVolume
+	secs := 0
+	running := false
 
 	// Use the force and stop the container first
-	secs := 0
-
 	if config.ForceRemove {
-		c.containerProxy.Stop(vc, name, &secs, true)
+		if err := c.ContainerStop(name, &secs); err != nil {
+			return err
+		}
 	} else {
-		state, err := c.containerProxy.State(vc)
+		state, err := c.containerProxy.State(ctx, vc)
 		if err != nil {
-			if IsNotFoundError(err) {
+			if engerr.IsNotFoundError(err) {
 				// remove container from persona cache, but don't return error to the user
 				cache.ContainerCache().DeleteContainer(id)
 				return nil
 			}
-			return InternalServerError(err.Error())
+			return engerr.InternalServerError(err.Error())
 		}
-		// force stop if container state is error to make sure container is deletable later
-		if state.Status == ContainerError {
-			c.containerProxy.Stop(vc, name, &secs, true)
-		}
-		// if we are starting let the user know they must use the force
-		if state.Status == "Starting" {
+
+		switch state.Status {
+		case proxy.ContainerError:
+			// force stop if container state is error to make sure container is deletable later
+			c.containerProxy.Stop(ctx, vc, name, &secs, true)
+		case "Starting":
+			// if we are starting let the user know they must use the force
 			return derr.NewRequestConflictError(fmt.Errorf("The container is starting.  To remove use -f"))
+		case proxy.ContainerRunning:
+			running = true
 		}
 
-		handle, err := c.Handle(id, name)
+		handle, err := c.containerProxy.Handle(ctx, id, name)
 		if err != nil {
 			return err
 		}
 
-		_, err = c.containerProxy.UnbindContainerFromNetwork(vc, handle)
+		_, err = c.containerProxy.UnbindContainerFromNetwork(ctx, vc, handle)
 		if err != nil {
 			return err
 		}
 	}
 
-	//call the remove directly on the name. No need for using a handle.
-	_, err := client.Containers.ContainerRemove(containers.NewContainerRemoveParamsWithContext(ctx).WithID(id))
-	if err != nil {
-		switch err := err.(type) {
-		case *containers.ContainerRemoveNotFound:
-			// remove container from persona cache, but don't return error to the user
-			cache.ContainerCache().DeleteContainer(id)
-			return nil
-		case *containers.ContainerRemoveDefault:
-			return InternalServerError(err.Payload.Message)
-		case *containers.ContainerRemoveConflict:
-			return derr.NewRequestConflictError(fmt.Errorf("You cannot remove a running container. Stop the container before attempting removal or use -f"))
-		case *containers.ContainerRemoveInternalServerError:
-			if err.Payload == nil || err.Payload.Message == "" {
-				return InternalServerError(err.Error())
-			}
-			return InternalServerError(err.Payload.Message)
-		default:
-			return InternalServerError(err.Error())
+	// Retry remove operation if container is not in running state.  If in running state, we only try
+	// once to prevent retries from degrading performance.
+	if !running {
+		operation := func() error {
+			return c.containerProxy.Remove(ctx, vc, config)
 		}
+
+		return retry.Do(operation, engerr.IsConflictError)
 	}
 
-	return nil
+	return c.containerProxy.Remove(ctx, vc, config)
 }
 
 // cleanupPortBindings gets port bindings for the container and
 // unmaps ports if the cVM that previously bound them isn't powered on
-func (c *Container) cleanupPortBindings(vc *viccontainer.VicContainer) error {
+func (c *ContainerBackend) cleanupPortBindings(vc *viccontainer.VicContainer) error {
 	defer trace.End(trace.Begin(vc.ContainerID))
 	for ctrPort, hostPorts := range vc.HostConfig.PortBindings {
 		for _, hostPort := range hostPorts {
 			hPort := hostPort.HostPort
 
-			cbpLock.Lock()
-			mappedCtr, mapped := containerByPort[hPort]
-			cbpLock.Unlock()
+			mappedCtr, mapped := network.ContainerWithPort(hPort)
 			if !mapped {
 				continue
 			}
@@ -823,9 +797,9 @@ func (c *Container) cleanupPortBindings(vc *viccontainer.VicContainer) error {
 				// port bindings were cleaned up by another operation.
 				continue
 			}
-			state, err := c.containerProxy.State(cc)
+			state, err := c.containerProxy.State(ctx, cc)
 			if err != nil {
-				if IsNotFoundError(err) {
+				if engerr.IsNotFoundError(err) {
 					log.Debugf("container(%s) not found in portLayer, removing from persona cache", cc.ContainerID)
 					// we have a container in the persona cache, but it's been removed from the portLayer
 					// which is the source of truth -- so remove from the persona cache after this func
@@ -833,7 +807,7 @@ func (c *Container) cleanupPortBindings(vc *viccontainer.VicContainer) error {
 					defer cache.ContainerCache().DeleteContainer(cc.ContainerID)
 				} else {
 					// we have issues of an unknown variety...return..
-					return InternalServerError(err.Error())
+					return engerr.InternalServerError(err.Error())
 				}
 			}
 
@@ -843,7 +817,7 @@ func (c *Container) cleanupPortBindings(vc *viccontainer.VicContainer) error {
 			}
 
 			log.Debugf("Unmapping ports for powered off / removed container %q", mappedCtr)
-			err = UnmapPorts(cc.ContainerID, cc.HostConfig)
+			err = network.UnmapPorts(cc.ContainerID, vc)
 			if err != nil {
 				return fmt.Errorf("Failed to unmap host port %s for container %q: %s",
 					hPort, mappedCtr, err)
@@ -854,31 +828,38 @@ func (c *Container) cleanupPortBindings(vc *viccontainer.VicContainer) error {
 }
 
 // ContainerStart starts a container.
-func (c *Container) ContainerStart(name string, hostConfig *containertypes.HostConfig, checkpoint string, checkpointDir string) error {
-	defer trace.End(trace.Begin(name))
+func (c *ContainerBackend) ContainerStart(name string, hostConfig *containertypes.HostConfig, checkpoint string, checkpointDir string) error {
+	op := trace.NewOperation(context.Background(), "ContainerStart - %s", name)
+	defer trace.End(trace.Begin(name, op))
 
 	operation := func() error {
-		return c.containerStart(name, hostConfig, true)
+		return c.containerStart(op, name, hostConfig, true)
 	}
-	if err := retry.Do(operation, IsConflictError); err != nil {
+	if err := retry.Do(operation, engerr.IsConflictError); err != nil {
+		op.Debugf("Container start failed due to error - %s", err.Error())
 		return err
 	}
 
 	return nil
 }
 
-func (c *Container) containerStart(name string, hostConfig *containertypes.HostConfig, bind bool) error {
+func (c *ContainerBackend) containerStart(op trace.Operation, name string, hostConfig *containertypes.HostConfig, bind bool) error {
 	var err error
 
 	// Get an API client to the portlayer
-	client := c.containerProxy.Client()
+	client := PortLayerClient()
 
 	// Look up the container name in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainer(name)
 	if vc == nil {
-		return NotFoundError(name)
+		return engerr.NotFoundError(name)
 	}
+	if !vc.TryLock(APITimeout) {
+		return engerr.ConcurrentAPIError(name, "ContainerStart")
+	}
+	defer vc.Unlock()
 	id := vc.ContainerID
+	op.Debugf("Obtained container lock for %s", id)
 
 	// handle legacy hostConfig
 	if hostConfig != nil {
@@ -893,25 +874,27 @@ func (c *Container) containerStart(name string, hostConfig *containertypes.HostC
 	}
 
 	// get a handle to the container
-	handle, err := c.Handle(id, name)
+	handle, err := c.containerProxy.Handle(ctx, id, name)
 	if err != nil {
 		return err
 	}
 
 	var endpoints []*models.EndpointConfig
-	// bind network
+	// bind vicnetwork
 	if bind {
+		op.Debugf("Binding vicnetwork to container %s", id)
+
 		var bindRes *scopes.BindContainerOK
 		bindRes, err = client.Scopes.BindContainer(scopes.NewBindContainerParamsWithContext(ctx).WithHandle(handle))
 		if err != nil {
 			switch err := err.(type) {
 			case *scopes.BindContainerNotFound:
 				cache.ContainerCache().DeleteContainer(id)
-				return NotFoundError(name)
+				return engerr.NotFoundError(name)
 			case *scopes.BindContainerInternalServerError:
-				return InternalServerError(err.Payload.Message)
+				return engerr.InternalServerError(err.Payload.Message)
 			default:
-				return InternalServerError(err.Error())
+				return engerr.InternalServerError(err.Error())
 			}
 		}
 
@@ -921,6 +904,7 @@ func (c *Container) containerStart(name string, hostConfig *containertypes.HostC
 		// unbind in case we fail later
 		defer func() {
 			if err != nil {
+				op.Debugf("Unbinding %s due to error - %s", id, err.Error())
 				client.Scopes.UnbindContainer(scopes.NewUnbindContainerParamsWithContext(ctx).WithHandle(handle))
 			}
 		}()
@@ -934,17 +918,18 @@ func (c *Container) containerStart(name string, hostConfig *containertypes.HostC
 
 	// change the state of the container
 	// TODO: We need a resolved ID from the name
+	op.Debugf("Setting container %s state to running", id)
 	var stateChangeRes *containers.StateChangeOK
 	stateChangeRes, err = client.Containers.StateChange(containers.NewStateChangeParamsWithContext(ctx).WithHandle(handle).WithState("RUNNING"))
 	if err != nil {
 		switch err := err.(type) {
 		case *containers.StateChangeNotFound:
 			cache.ContainerCache().DeleteContainer(id)
-			return NotFoundError(name)
+			return engerr.NotFoundError(name)
 		case *containers.StateChangeDefault:
-			return InternalServerError(err.Payload.Message)
+			return engerr.InternalServerError(err.Payload.Message)
 		default:
-			return InternalServerError(err.Error())
+			return engerr.InternalServerError(err.Error())
 		}
 	}
 
@@ -954,224 +939,42 @@ func (c *Container) containerStart(name string, hostConfig *containertypes.HostC
 	if bind {
 		scope, e := c.findPortBoundNetworkEndpoint(hostConfig, endpoints)
 		if scope != nil && scope.ScopeType == constants.BridgeScopeType {
-			if err = MapPorts(hostConfig, e, id); err != nil {
-				return InternalServerError(fmt.Sprintf("error mapping ports: %s", err))
+			if err = network.MapPorts(vc, e, id); err != nil {
+				return engerr.InternalServerError(fmt.Sprintf("error mapping ports: %s", err))
 			}
 
 			defer func() {
 				if err != nil {
-					UnmapPorts(id, hostConfig)
+					op.Debugf("Unbinding ports for %s due to error - %s", id, err.Error())
+					network.UnmapPorts(id, vc)
 				}
 			}()
 		}
 	}
 
 	// commit the handle; this will reconfigure and start the vm
+	op.Debugf("Commit container %s", id)
 	_, err = client.Containers.Commit(containers.NewCommitParamsWithContext(ctx).WithHandle(handle))
 	if err != nil {
 		switch err := err.(type) {
 		case *containers.CommitNotFound:
 			cache.ContainerCache().DeleteContainer(id)
-			return NotFoundError(name)
+			return engerr.NotFoundError(name)
 		case *containers.CommitConflict:
-			return ConflictError(err.Payload.Message)
+			return engerr.ConflictError(err.Payload.Message)
 		case *containers.CommitDefault:
-			return InternalServerError(err.Payload.Message)
+			return engerr.InternalServerError(err.Payload.Message)
 		default:
-			return InternalServerError(err.Error())
+			return engerr.InternalServerError(err.Error())
 		}
 	}
 
-	actor := CreateContainerEventActorWithAttributes(vc, map[string]string{})
-	EventService().Log(containerStartEvent, eventtypes.ContainerEventType, actor)
+	// Started event will be published on confirmation of successful start, triggered by port layer event stream
 
 	return nil
 }
 
-// requestHostPort finds a free port on the host
-func requestHostPort(proto string) (int, error) {
-	pa := portallocator.Get()
-	return pa.RequestPortInRange(nil, proto, 0, 0)
-}
-
-type portMapping struct {
-	intHostPort int
-	strHostPort string
-	portProto   gonat.Port
-}
-
-// unrollPortMap processes config for mapping/unmapping ports e.g. from hostconfig.PortBindings
-func unrollPortMap(portMap gonat.PortMap) ([]*portMapping, error) {
-	var portMaps []*portMapping
-	for i, pb := range portMap {
-
-		proto, port := gonat.SplitProtoPort(string(i))
-		nport, err := gonat.NewPort(proto, port)
-		if err != nil {
-			return nil, err
-		}
-
-		// iterate over all the ports in pb []nat.PortBinding
-		for i := range pb {
-			var hostPort int
-			var hPort string
-			if pb[i].HostPort == "" {
-				// use a random port since no host port is specified
-				hostPort, err = requestHostPort(proto)
-				if err != nil {
-					log.Errorf("could not find available port on host")
-					return nil, err
-				}
-				log.Infof("using port %d on the host for port mapping", hostPort)
-
-				// update the hostconfig
-				pb[i].HostPort = strconv.Itoa(hostPort)
-
-			} else {
-				hostPort, err = strconv.Atoi(pb[i].HostPort)
-				if err != nil {
-					return nil, err
-				}
-			}
-			hPort = strconv.Itoa(hostPort)
-			portMaps = append(portMaps, &portMapping{
-				intHostPort: hostPort,
-				strHostPort: hPort,
-				portProto:   nport,
-			})
-		}
-	}
-	return portMaps, nil
-}
-
-// MapPorts maps ports defined in hostconfig for containerID
-func MapPorts(hostconfig *containertypes.HostConfig, endpoint *models.EndpointConfig, containerID string) error {
-	log.Debugf("mapPorts for %q: %v", containerID, hostconfig.PortBindings)
-
-	if len(hostconfig.PortBindings) == 0 {
-		return nil
-	}
-	if endpoint == nil {
-		return fmt.Errorf("invalid endpoint")
-	}
-
-	var containerIP net.IP
-	containerIP = net.ParseIP(endpoint.Address)
-	if containerIP == nil {
-		return fmt.Errorf("invalid endpoint address %s", endpoint.Address)
-	}
-
-	portMap, err := unrollPortMap(hostconfig.PortBindings)
-	if err != nil {
-		return err
-	}
-
-	cbpLock.Lock()
-	defer cbpLock.Unlock()
-	for _, p := range portMap {
-		if err = portMapper.MapPort(nil, p.intHostPort, p.portProto.Proto(), containerIP.String(), p.portProto.Int(), publicIfaceName, bridgeIfaceName); err != nil {
-			return err
-		}
-
-		// bridge-to-bridge pin hole for traffic from containers for exposed port
-		if err = interBridgeTraffic(portmap.Map, p.strHostPort, p.portProto.Proto(), containerIP.String(), p.portProto.Port()); err != nil {
-			return err
-		}
-
-		// update mapped ports
-		containerByPort[p.strHostPort] = containerID
-		log.Debugf("mapped port %s for container %s", p.strHostPort, containerID)
-	}
-	return nil
-}
-
-// UnmapPorts unmaps ports defined in hostconfig if it's mapped for this container
-func UnmapPorts(id string, hostconfig *containertypes.HostConfig) error {
-	log.Debugf("UnmapPorts: %v", hostconfig.PortBindings)
-
-	if len(hostconfig.PortBindings) == 0 {
-		return nil
-	}
-
-	portMap, err := unrollPortMap(hostconfig.PortBindings)
-	if err != nil {
-		return err
-	}
-
-	cbpLock.Lock()
-	defer cbpLock.Unlock()
-	for _, p := range portMap {
-		// check if we should actually unmap based on current mappings
-		mappedID, mapped := containerByPort[p.strHostPort]
-		if !mapped {
-			log.Debugf("skipping already unmapped %s", p.strHostPort)
-			continue
-		}
-		if mappedID != id {
-			log.Debugf("port is mapped for container %s, not %s, skipping", mappedID, id)
-			continue
-		}
-
-		if err = portMapper.UnmapPort(nil, p.intHostPort, p.portProto.Proto(), p.portProto.Int(), publicIfaceName, bridgeIfaceName); err != nil {
-			return err
-		}
-
-		// bridge-to-bridge pin hole for traffic from containers for exposed port
-		if err = interBridgeTraffic(portmap.Unmap, p.strHostPort, "", "", ""); err != nil {
-			return err
-		}
-
-		// update mapped ports
-		delete(containerByPort, p.strHostPort)
-		log.Debugf("unmapped port %s", p.strHostPort)
-	}
-	return nil
-}
-
-// interBridgeTraffic enables traffic for exposed port from one bridge network to another
-func interBridgeTraffic(op portmap.Operation, hostPort, proto, containerAddr, containerPort string) error {
-	switch op {
-	case portmap.Map:
-		switch proto {
-		case "udp", "tcp":
-		default:
-			return fmt.Errorf("unknown protocol: %s", proto)
-		}
-
-		// rule to allow connections from bridge interface for the
-		// specific mapped port. has to inserted at the top of the
-		// chain rather than appended to supersede bridge-to-bridge
-		// traffic blocking
-		baseArgs := []string{"-t", string(iptables.Filter),
-			"-i", bridgeIfaceName,
-			"-o", bridgeIfaceName,
-			"-p", proto,
-			"-d", containerAddr,
-			"--dport", containerPort,
-			"-j", "ACCEPT",
-		}
-
-		args := append([]string{string(iptables.Insert), "VIC", "1"}, baseArgs...)
-		if _, err := iptables.Raw(args...); err != nil && !os.IsExist(err) {
-			return err
-		}
-
-		btbRules[hostPort] = baseArgs
-	case portmap.Unmap:
-		if args, ok := btbRules[hostPort]; ok {
-			args = append([]string{string(iptables.Delete), "VIC"}, args...)
-			if _, err := iptables.Raw(args...); err != nil && !os.IsNotExist(err) {
-				return err
-			}
-
-			delete(btbRules, hostPort)
-		}
-	}
-
-	return nil
-}
-
-func (c *Container) defaultScope() string {
+func (c *ContainerBackend) defaultScope() string {
 	defaultScope.Lock()
 	defer defaultScope.Unlock()
 
@@ -1179,7 +982,7 @@ func (c *Container) defaultScope() string {
 		return defaultScope.scope
 	}
 
-	client := c.containerProxy.Client()
+	client := PortLayerClient()
 	listRes, err := client.Scopes.List(scopes.NewListParamsWithContext(ctx).WithIDName("default"))
 	if err != nil {
 		log.Error(err)
@@ -1195,12 +998,12 @@ func (c *Container) defaultScope() string {
 	return defaultScope.scope
 }
 
-func (c *Container) findPortBoundNetworkEndpoint(hostconfig *containertypes.HostConfig, endpoints []*models.EndpointConfig) (*models.ScopeConfig, *models.EndpointConfig) {
+func (c *ContainerBackend) findPortBoundNetworkEndpoint(hostconfig *containertypes.HostConfig, endpoints []*models.EndpointConfig) (*models.ScopeConfig, *models.EndpointConfig) {
 	if len(hostconfig.PortBindings) == 0 {
 		return nil, nil
 	}
 
-	// check if the port binding network is a bridge type
+	// check if the port binding vicnetwork is a bridge type
 	listRes, err := PortLayerClient().Scopes.List(scopes.NewListParamsWithContext(ctx).WithIDName(hostconfig.NetworkMode.NetworkName()))
 	if err != nil {
 		log.Error(err)
@@ -1213,11 +1016,11 @@ func (c *Container) findPortBoundNetworkEndpoint(hostconfig *containertypes.Host
 	}
 
 	if listRes.Payload[0].ScopeType != constants.BridgeScopeType {
-		log.Warnf("port binding for network %s is not bridge type", hostconfig.NetworkMode.NetworkName())
+		log.Warnf("port binding for vicnetwork %s is not bridge type", hostconfig.NetworkMode.NetworkName())
 		return listRes.Payload[0], nil
 	}
 
-	// look through endpoints to find the container's IP on the network that has the port binding
+	// look through endpoints to find the container's IP on the vicnetwork that has the port binding
 	for _, e := range endpoints {
 		if hostconfig.NetworkMode.NetworkName() == e.Scope || (hostconfig.NetworkMode.IsDefault() && e.Scope == c.defaultScope()) {
 			return listRes.Payload[0], e
@@ -1233,13 +1036,13 @@ func (c *Container) findPortBoundNetworkEndpoint(hostconfig *containertypes.Host
 // will wait for a graceful termination. An error is returned if the
 // container is not found, is already stopped, or if there is a
 // problem stopping the container.
-func (c *Container) ContainerStop(name string, seconds *int) error {
+func (c *ContainerBackend) ContainerStop(name string, seconds *int) error {
 	defer trace.End(trace.Begin(name))
 
 	// Look up the container name in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainer(name)
 	if vc == nil {
-		return NotFoundError(name)
+		return engerr.NotFoundError(name)
 	}
 
 	if seconds == nil {
@@ -1251,12 +1054,12 @@ func (c *Container) ContainerStop(name string, seconds *int) error {
 	}
 
 	operation := func() error {
-		return c.containerProxy.Stop(vc, name, seconds, true)
+		return c.containerProxy.Stop(ctx, vc, name, seconds, true)
 	}
 
 	config := retry.NewBackoffConfig()
 	config.MaxElapsedTime = maxElapsedTime
-	if err := retry.DoWithConfig(operation, IsConflictError, config); err != nil {
+	if err := retry.DoWithConfig(operation, engerr.IsConflictError, config); err != nil {
 		return err
 	}
 
@@ -1267,13 +1070,13 @@ func (c *Container) ContainerStop(name string, seconds *int) error {
 }
 
 // ContainerUnpause unpauses a container
-func (c *Container) ContainerUnpause(name string) error {
-	return fmt.Errorf("%s does not yet implement ContainerUnpause", ProductName())
+func (c *ContainerBackend) ContainerUnpause(name string) error {
+	return engerr.APINotSupportedMsg(ProductName(), "ContainerUnpause")
 }
 
 // ContainerUpdate updates configuration of the container
-func (c *Container) ContainerUpdate(name string, hostConfig *containertypes.HostConfig) (containertypes.ContainerUpdateOKBody, error) {
-	return containertypes.ContainerUpdateOKBody{}, fmt.Errorf("%s does not yet implement ontainerUpdate", ProductName())
+func (c *ContainerBackend) ContainerUpdate(name string, hostConfig *containertypes.HostConfig) (containertypes.ContainerUpdateOKBody, error) {
+	return containertypes.ContainerUpdateOKBody{}, engerr.APINotSupportedMsg(ProductName(), "ContainerUpdate")
 }
 
 // ContainerWait stops processing until the given container is
@@ -1281,16 +1084,16 @@ func (c *Container) ContainerUpdate(name string, hostConfig *containertypes.Host
 // successful stop, the exit code of the container is returned. On a
 // timeout, an error is returned. If you want to wait forever, supply
 // a negative duration for the timeout.
-func (c *Container) ContainerWait(name string, timeout time.Duration) (int, error) {
+func (c *ContainerBackend) ContainerWait(name string, timeout time.Duration) (int, error) {
 	defer trace.End(trace.Begin(fmt.Sprintf("name(%s):timeout(%s)", name, timeout)))
 
 	// Look up the container name in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainer(name)
 	if vc == nil {
-		return -1, NotFoundError(name)
+		return -1, engerr.NotFoundError(name)
 	}
 
-	dockerState, err := c.containerProxy.Wait(vc, timeout)
+	dockerState, err := c.containerProxy.Wait(ctx, vc, timeout)
 	if err != nil {
 		return -1, err
 	}
@@ -1301,18 +1104,18 @@ func (c *Container) ContainerWait(name string, timeout time.Duration) (int, erro
 // docker's container.monitorBackend
 
 // ContainerChanges returns a list of container fs changes
-func (c *Container) ContainerChanges(name string) ([]docker.Change, error) {
+func (c *ContainerBackend) ContainerChanges(name string) ([]docker.Change, error) {
 	defer trace.End(trace.Begin(name))
 	op := trace.NewOperation(context.Background(), "ContainerChanges: %s", name)
 
 	vc := cache.ContainerCache().GetContainer(name)
 	if vc == nil {
-		return nil, NotFoundError(name)
+		return nil, engerr.NotFoundError(name)
 	}
 
-	r, err := c.containerProxy.GetContainerChanges(op, vc, false)
+	r, err := c.GetContainerChanges(op, vc, false)
 	if err != nil {
-		return nil, InternalServerError(err.Error())
+		return nil, engerr.InternalServerError(err.Error())
 	}
 
 	changes := []docker.Change{}
@@ -1328,7 +1131,7 @@ func (c *Container) ContainerChanges(name string) ([]docker.Change, error) {
 		}
 
 		if err != nil {
-			return []docker.Change{}, InternalServerError(err.Error())
+			return []docker.Change{}, engerr.InternalServerError(err.Error())
 		}
 
 		change := docker.Change{
@@ -1345,44 +1148,66 @@ func (c *Container) ContainerChanges(name string) ([]docker.Change, error) {
 		case "C":
 			change.Kind = docker.ChangeModify
 		default:
-			return []docker.Change{}, InternalServerError("Invalid change type")
+			return []docker.Change{}, engerr.InternalServerError("Invalid change type")
 		}
 		changes = append(changes, change)
 	}
 	return changes, nil
 }
 
+// GetContainerChanges returns container changes from portlayer.
+// Set data to true will return file data, otherwise, only return file headers with change type.
+func (c *ContainerBackend) GetContainerChanges(op trace.Operation, vc *viccontainer.VicContainer, data bool) (io.ReadCloser, error) {
+	host, err := sys.UUID()
+	if err != nil {
+		return nil, engerr.InternalServerError("Failed to determine host UUID")
+	}
+
+	parent := vc.LayerID
+	spec := archive.FilterSpec{
+		Inclusions: make(map[string]struct{}),
+		Exclusions: make(map[string]struct{}),
+	}
+
+	r, err := archiveProxy.ArchiveExportReader(op, constants.ContainerStoreName, host, vc.ContainerID, parent, data, spec)
+	if err != nil {
+		return nil, engerr.InternalServerError(err.Error())
+	}
+
+	return r, nil
+}
+
 // ContainerInspect returns low-level information about a
 // container. Returns an error if the container cannot be found, or if
 // there is an error getting the data.
-func (c *Container) ContainerInspect(name string, size bool, version string) (interface{}, error) {
+func (c *ContainerBackend) ContainerInspect(name string, size bool, version string) (interface{}, error) {
 	// Ignore version.  We're supporting post-1.20 version.
 	defer trace.End(trace.Begin(name))
 
 	// Look up the container name in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainer(name)
 	if vc == nil {
-		return nil, NotFoundError(name)
+		return nil, engerr.NotFoundError(name)
 	}
 	id := vc.ContainerID
 	log.Debugf("Found %q in cache as %q", id, vc.ContainerID)
 
-	client := c.containerProxy.Client()
+	client := PortLayerClient()
 
 	results, err := client.Containers.GetContainerInfo(containers.NewGetContainerInfoParamsWithContext(ctx).WithID(id))
 	if err != nil {
 		switch err := err.(type) {
 		case *containers.GetContainerInfoNotFound:
 			cache.ContainerCache().DeleteContainer(id)
-			return nil, NotFoundError(name)
+			return nil, engerr.NotFoundError(name)
 		case *containers.GetContainerInfoInternalServerError:
-			return nil, InternalServerError(err.Payload.Message)
+			return nil, engerr.InternalServerError(err.Payload.Message)
 		default:
-			return nil, InternalServerError(err.Error())
+			return nil, engerr.InternalServerError(err.Error())
 		}
 	}
 
-	inspectJSON, err := ContainerInfoToDockerContainerInspect(vc, results.Payload, PortLayerName())
+	inspectJSON, err := proxy.ContainerInfoToDockerContainerInspect(vc, results.Payload, PortLayerName())
 	if err != nil {
 		log.Errorf("containerInfoToDockerContainerInspect failed with %s", err)
 		return nil, err
@@ -1395,13 +1220,13 @@ func (c *Container) ContainerInspect(name string, size bool, version string) (in
 
 // ContainerLogs hooks up a container's stdout and stderr streams
 // configured with the given struct.
-func (c *Container) ContainerLogs(ctx context.Context, name string, config *backend.ContainerLogsConfig, started chan struct{}) error {
+func (c *ContainerBackend) ContainerLogs(ctx context.Context, name string, config *backend.ContainerLogsConfig, started chan struct{}) error {
 	defer trace.End(trace.Begin(""))
 
 	// Look up the container name in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainer(name)
 	if vc == nil {
-		return NotFoundError(name)
+		return engerr.NotFoundError(name)
 	}
 	name = vc.ContainerID
 
@@ -1423,7 +1248,7 @@ func (c *Container) ContainerLogs(ctx context.Context, name string, config *back
 	}
 
 	// Make a call to our proxy to handle the remoting
-	err = c.containerProxy.StreamContainerLogs(ctx, name, outStream, started, config.Timestamps, config.Follow, since, tailLines)
+	err = c.streamProxy.StreamContainerLogs(ctx, name, outStream, started, config.Timestamps, config.Follow, since, tailLines)
 	if err != nil {
 		// Don't return an error encountered while streaming logs.
 		// Once we've started streaming logs, the Docker client doesn't expect
@@ -1436,13 +1261,13 @@ func (c *Container) ContainerLogs(ctx context.Context, name string, config *back
 
 // ContainerStats writes information about the container to the stream
 // given in the config object.
-func (c *Container) ContainerStats(ctx context.Context, name string, config *backend.ContainerStatsConfig) error {
+func (c *ContainerBackend) ContainerStats(ctx context.Context, name string, config *backend.ContainerStatsConfig) error {
 	defer trace.End(trace.Begin(name))
 
 	// Look up the container name in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainer(name)
 	if vc == nil {
-		return NotFoundError(name)
+		return engerr.NotFoundError(name)
 	}
 
 	// get the configured CPUMhz for this VCH so that we can calculate docker CPU stats
@@ -1451,7 +1276,7 @@ func (c *Container) ContainerStats(ctx context.Context, name string, config *bac
 		// wrap error to provide a bit more detail
 		sysErr := fmt.Errorf("unable to gather system CPUMhz for container(%s): %s", vc.ContainerID, err)
 		log.Error(sysErr)
-		return InternalServerError(sysErr.Error())
+		return engerr.InternalServerError(sysErr.Error())
 	}
 
 	out := config.OutStream
@@ -1475,14 +1300,14 @@ func (c *Container) ContainerStats(ctx context.Context, name string, config *bac
 
 	// if we are not streaming then we need to get the container state
 	if !config.Stream {
-		statsConfig.ContainerState, err = c.containerProxy.State(vc)
+		statsConfig.ContainerState, err = c.containerProxy.State(ctx, vc)
 		if err != nil {
-			return InternalServerError(err.Error())
+			return engerr.InternalServerError(err.Error())
 		}
 
 	}
 
-	err = c.containerProxy.StreamContainerStats(ctx, statsConfig)
+	err = c.streamProxy.StreamContainerStats(ctx, statsConfig)
 	if err != nil {
 		log.Errorf("error while streaming container (%s) stats: %s", vc.ContainerID, err)
 	}
@@ -1494,12 +1319,12 @@ func (c *Container) ContainerStats(ctx context.Context, name string, config *bac
 // "-ef" if no args are given.  An error is returned if the container
 // is not found, or is not running, or if there are any problems
 // running ps, or parsing the output.
-func (c *Container) ContainerTop(name string, psArgs string) (*types.ContainerProcessList, error) {
-	return nil, fmt.Errorf("%s does not yet implement ContainerTop", ProductName())
+func (c *ContainerBackend) ContainerTop(name string, psArgs string) (*types.ContainerProcessList, error) {
+	return nil, engerr.APINotSupportedMsg(ProductName(), "ContainerTop")
 }
 
 // Containers returns the list of containers to show given the user's filtering.
-func (c *Container) Containers(config *types.ContainerListOptions) ([]*types.Container, error) {
+func (c *ContainerBackend) Containers(config *types.ContainerListOptions) ([]*types.Container, error) {
 	defer trace.End(trace.Begin(fmt.Sprintf("ListOptions %#v", config)))
 
 	// validate filters for support and validity
@@ -1509,7 +1334,7 @@ func (c *Container) Containers(config *types.ContainerListOptions) ([]*types.Con
 	}
 
 	// Get an API client to the portlayer
-	client := c.containerProxy.Client()
+	client := PortLayerClient()
 
 	containme, err := client.Containers.GetContainerList(containers.NewGetContainerListParamsWithContext(ctx).WithAll(&listContext.All))
 	if err != nil {
@@ -1565,17 +1390,24 @@ payloadLoop:
 		}
 
 		var ports []types.Port
-		if t.HostConfig.Address != "" {
-			ports = directPortInformation(t)
-		}
+		if dockerState.Running {
+			// we only present port information in ps output when the container is running and
+			// should be responsive at that address:port
+			ports = network.DirectPortInformation(t)
 
-		ips, err := publicIPv4Addrs()
-		if err != nil {
-			log.Errorf("Could not get IP information for reporting port bindings: %s", err)
-			// display port mappings without IP data if we cannot get it
-			ips = []string{""}
+			ips, err := network.PublicIPv4Addrs()
+			if err != nil {
+				log.Errorf("Could not get IP information for reporting port bindings: %s", err)
+				// display port mappings without IP data if we cannot get it
+				ips = []string{""}
+			}
+			c := cache.ContainerCache().GetContainer(t.ContainerConfig.ContainerID)
+			if c != nil {
+				ports = append(ports, network.PortForwardingInformation(c, ips)...)
+			} else {
+				log.Warningf("Container is not found in cache: %s", t.ContainerConfig.ContainerID)
+			}
 		}
-		ports = append(ports, portForwardingInformation(t, ips)...)
 
 		// verify that the repo:tag exists for the container -- if it doesn't then we should present the
 		// truncated imageID -- if we have a failure determining then we'll show the data we have
@@ -1597,7 +1429,7 @@ payloadLoop:
 		c := &types.Container{
 			ID:      t.ContainerConfig.ContainerID,
 			Image:   repo,
-			Created: t.ContainerConfig.CreateTime,
+			Created: time.Unix(0, t.ContainerConfig.CreateTime).Unix(),
 			Status:  dockerState.Status,
 			Names:   names,
 			Command: cmd,
@@ -1615,51 +1447,51 @@ payloadLoop:
 	return containers, nil
 }
 
-func (c *Container) ContainersPrune(pruneFilters filters.Args) (*types.ContainersPruneReport, error) {
-	return nil, fmt.Errorf("%s does not yet implement ContainersPrune", ProductName())
+func (c *ContainerBackend) ContainersPrune(pruneFilters filters.Args) (*types.ContainersPruneReport, error) {
+	return nil, engerr.APINotSupportedMsg(ProductName(), "ContainersPrune")
 }
 
 // docker's container.attachBackend
 
 // ContainerAttach attaches to logs according to the config passed in. See ContainerAttachConfig.
-func (c *Container) ContainerAttach(name string, ca *backend.ContainerAttachConfig) error {
+func (c *ContainerBackend) ContainerAttach(name string, ca *backend.ContainerAttachConfig) error {
 	defer trace.End(trace.Begin(name))
 
 	operation := func() error {
 		return c.containerAttach(name, ca)
 	}
-	if err := retry.Do(operation, IsConflictError); err != nil {
+	if err := retry.Do(operation, engerr.IsConflictError); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (c *Container) containerAttach(name string, ca *backend.ContainerAttachConfig) error {
+func (c *ContainerBackend) containerAttach(name string, ca *backend.ContainerAttachConfig) error {
 	// Look up the container name in the metadata cache to get long ID
 	vc := cache.ContainerCache().GetContainer(name)
 	if vc == nil {
-		return NotFoundError(name)
+		return engerr.NotFoundError(name)
 
 	}
 	id := vc.ContainerID
 
-	handle, err := c.Handle(id, name)
+	handle, err := c.containerProxy.Handle(ctx, id, name)
 	if err != nil {
 		return err
 	}
 
-	handleprime, err := c.containerProxy.BindInteraction(handle, name, id)
+	handleprime, err := c.containerProxy.BindInteraction(ctx, handle, name, id)
 	if err != nil {
 		return err
 	}
 
-	if err := c.containerProxy.CommitContainerHandle(handleprime, name, 0); err != nil {
+	if err := c.containerProxy.CommitContainerHandle(ctx, handleprime, name, 0); err != nil {
 		return err
 	}
 
 	stdin, stdout, stderr, err := ca.GetStreams()
 	if err != nil {
-		return InternalServerError("Unable to get stdio streams for calling client")
+		return engerr.InternalServerError("Unable to get stdio streams for calling client")
 	}
 	defer stdin.Close()
 
@@ -1680,16 +1512,16 @@ func (c *Container) containerAttach(name string, ca *backend.ContainerAttachConf
 		ca.UseStderr = false
 	}
 
-	ac := &AttachConfig{
+	ac := &proxy.AttachConfig{
 		ID: id,
 		ContainerAttachConfig: ca,
 		UseTty:                vc.Config.Tty,
 		CloseStdin:            vc.Config.StdinOnce,
 	}
 
-	err = c.containerProxy.AttachStreams(context.Background(), ac, stdin, stdout, stderr)
+	err = c.streamProxy.AttachStreams(context.Background(), ac, stdin, stdout, stderr)
 	if err != nil {
-		if _, ok := err.(DetachError); ok {
+		if _, ok := err.(engerr.DetachError); ok {
 			log.Infof("Detach detected, tearing down connection")
 
 			// fire detach event
@@ -1710,7 +1542,7 @@ func (c *Container) containerAttach(name string, ca *backend.ContainerAttachConf
 // ContainerRename changes the name of a container, using the oldName
 // to find the container. An error is returned if newName is already
 // reserved.
-func (c *Container) ContainerRename(oldName, newName string) error {
+func (c *ContainerBackend) ContainerRename(oldName, newName string) error {
 	defer trace.End(trace.Begin(newName))
 
 	if oldName == "" || newName == "" {
@@ -1729,7 +1561,7 @@ func (c *Container) ContainerRename(oldName, newName string) error {
 	vc := cache.ContainerCache().GetContainer(oldName)
 	if vc == nil {
 		log.Errorf("Container %s not found", oldName)
-		return NotFoundError(oldName)
+		return engerr.NotFoundError(oldName)
 	}
 
 	oldName = vc.Name
@@ -1746,10 +1578,10 @@ func (c *Container) ContainerRename(oldName, newName string) error {
 	}
 
 	renameOp := func() error {
-		return c.containerProxy.Rename(vc, newName)
+		return c.containerProxy.Rename(ctx, vc, newName)
 	}
 
-	if err := retry.Do(renameOp, IsConflictError); err != nil {
+	if err := retry.Do(renameOp, engerr.IsConflictError); err != nil {
 		log.Errorf("Rename error: %s", err)
 		cache.ContainerCache().ReleaseName(newName)
 		return err
@@ -1891,7 +1723,7 @@ func validateCreateConfig(config *types.ContainerCreateConfig) error {
 	defer trace.End(trace.Begin("Container.validateCreateConfig"))
 
 	if config.Config == nil {
-		return BadRequestError("invalid config")
+		return engerr.BadRequestError("invalid config")
 	}
 
 	if config.HostConfig == nil {
@@ -1944,9 +1776,9 @@ func validateCreateConfig(config *types.ContainerCreateConfig) error {
 		config.NetworkingConfig = &dnetwork.NetworkingConfig{}
 	} else {
 		if l := len(config.NetworkingConfig.EndpointsConfig); l > 1 {
-			return fmt.Errorf("NetworkMode error: Container can be connected to one network endpoint only")
+			return fmt.Errorf("NetworkMode error: Container can be connected to one vicnetwork endpoint only")
 		}
-		// If NetworkConfig exists, set NetworkMode to the default endpoint network, assuming only one endpoint network as the default network during container create
+		// If NetworkConfig exists, set NetworkMode to the default endpoint vicnetwork, assuming only one endpoint vicnetwork as the default vicnetwork during container create
 		for networkName := range config.NetworkingConfig.EndpointsConfig {
 			config.HostConfig.NetworkMode = containertypes.NetworkMode(networkName)
 		}
@@ -1954,7 +1786,7 @@ func validateCreateConfig(config *types.ContainerCreateConfig) error {
 
 	// validate port bindings
 	var ips []string
-	if addrs, err := publicIPv4Addrs(); err != nil {
+	if addrs, err := network.PublicIPv4Addrs(); err != nil {
 		log.Warnf("could not get address for public interface: %s", err)
 	} else {
 		ips = make([]string, len(addrs))
@@ -1975,14 +1807,14 @@ func validateCreateConfig(config *types.ContainerCreateConfig) error {
 					}
 				}
 				if !found {
-					return InternalServerError("host IP for port bindings is only supported for 0.0.0.0 and the public interface IP address")
+					return engerr.InternalServerError("host IP for port bindings is only supported for 0.0.0.0 and the public interface IP address")
 				}
 			}
 
 			// #nosec: Errors unhandled.
-			start, end, _ := gonat.ParsePortRangeToInt(pb.HostPort)
+			start, end, _ := nat.ParsePortRangeToInt(pb.HostPort)
 			if start != end {
-				return InternalServerError("host port ranges are not supported for port bindings")
+				return engerr.InternalServerError("host port ranges are not supported for port bindings")
 			}
 		}
 	}
@@ -1990,14 +1822,6 @@ func validateCreateConfig(config *types.ContainerCreateConfig) error {
 	// https://github.com/vmware/vic/issues/1378
 	if len(config.Config.Entrypoint) == 0 && len(config.Config.Cmd) == 0 {
 		return derr.NewRequestNotFoundError(fmt.Errorf("No command specified"))
-	}
-
-	// Was a name provided - if not create a friendly name
-	generatedName := namesgenerator.GetRandomName(0)
-	if config.Name == "" {
-		//TODO: Assume we could have a name collison here : need to
-		// provide validation / retry CDG June 9th 2016
-		config.Name = generatedName
 	}
 
 	return nil
@@ -2021,144 +1845,6 @@ func copyConfigOverrides(vc *viccontainer.VicContainer, config types.ContainerCr
 	vc.HostConfig = config.HostConfig
 }
 
-func publicIPv4Addrs() ([]string, error) {
-	l, err := netlink.LinkByName(publicIfaceName)
-	if err != nil {
-		return nil, fmt.Errorf("could not look up link from interface name %s: %s", publicIfaceName, err.Error())
-	}
-
-	addrs, err := netlink.AddrList(l, netlink.FAMILY_V4)
-	if err != nil {
-		return nil, fmt.Errorf("could not get addresses from public link: %s", err.Error())
-	}
-
-	ips := make([]string, len(addrs))
-	for i := range addrs {
-		ips[i] = addrs[i].IP.String()
-	}
-
-	return ips, nil
-}
-
-func directPortInformation(t *models.ContainerInfo) []types.Port {
-	var redirectPorts []types.Port
-	var directPorts []types.Port
-
-	ip := t.HostConfig.Address
-
-	openNetwork := false
-	for _, p := range t.HostConfig.Ports {
-		port := types.Port{IP: ip}
-
-		// see if it's an open network
-		if p == constants.PortsOpenNetwork {
-			openNetwork = true
-			port.Type = "*"
-			// we're presenting this in redirect ports as that's assured to be returned
-			redirectPorts = append(redirectPorts, port)
-			continue
-		}
-
-		portsAndType := strings.SplitN(p, "/", 2)
-		port.Type = portsAndType[1]
-
-		mapping := strings.Split(portsAndType[0], ":")
-		// if no mapping is supplied then there's only one and that's public. If there is a mapping then the first
-		// entry is the public
-		public, err := strconv.Atoi(mapping[0])
-		if err != nil {
-			log.Errorf("Got an error trying to convert public port number \"%s\" to an int: %s", mapping[0], err)
-			continue
-		}
-		port.PublicPort = uint16(public)
-
-		// If port is on container network then a different container could be forwarding the same port via the endpoint
-		// so must check for explicit ID match. If no match, definitely not forwarded via endpoint.
-		if containerByPort[mapping[0]] == t.ContainerConfig.ContainerID {
-			continue
-		}
-
-		// did not find a way to have the client not render both ports so setting them the same even if there's not
-		// redirect occurring
-		port.PrivatePort = port.PublicPort
-
-		if len(mapping) == 1 {
-			directPorts = append(directPorts, port)
-			continue
-		}
-
-		private, err := strconv.Atoi(mapping[1])
-		if err != nil {
-			log.Errorf("Got an error trying to convert private port number \"%s\" to an int: %s", mapping[1], err)
-			continue
-		}
-		port.PrivatePort = uint16(private)
-		redirectPorts = append(redirectPorts, port)
-	}
-
-	// if it's an open network then don't bother detailing ports without a redirection as all ports are exposed
-	if !openNetwork {
-		redirectPorts = append(redirectPorts, directPorts...)
-	}
-
-	return redirectPorts
-}
-
-// returns port bindings as a slice of Docker Ports for return to the client
-// returns empty slice on error
-func portForwardingInformation(t *models.ContainerInfo, ips []string) []types.Port {
-	cid := t.ContainerConfig.ContainerID
-	c := cache.ContainerCache().GetContainer(cid)
-
-	if c == nil {
-		log.Errorf("Could not find container with ID %s", cid)
-		return nil
-	}
-
-	portBindings := c.HostConfig.PortBindings
-	var resultPorts []types.Port
-
-	// create a port for each IP on the interface (usually only 1, but could be more)
-	// (works with both IPv4 and IPv6 addresses)
-	for _, ip := range ips {
-		port := types.Port{IP: ip}
-
-		for portBindingPrivatePort, hostPortBindings := range portBindings {
-			portAndType := strings.SplitN(string(portBindingPrivatePort), "/", 2)
-			portNum, err := strconv.Atoi(portAndType[0])
-			if err != nil {
-				log.Infof("Got an error trying to convert private port number to an int")
-				continue
-			}
-			port.PrivatePort = uint16(portNum)
-			port.Type = portAndType[1]
-
-			for i := 0; i < len(hostPortBindings); i++ {
-				newport := port
-				publicPort, err := strconv.Atoi(hostPortBindings[i].HostPort)
-				if err != nil {
-					log.Infof("Got an error trying to convert public port number to an int")
-					continue
-				}
-
-				// If port is on container network then a different container could be forwarding the same port via the endpoint
-				// so must check for explicit ID match. If no match, definitely not forwarded via endpoint.
-				if containerByPort[hostPortBindings[i].HostPort] != t.ContainerConfig.ContainerID {
-					continue
-				}
-
-				newport.PublicPort = uint16(publicPort)
-				// sanity check -- sometimes these come back as 0 when no binding actually exists
-				// that doesn't make sense, so in that case we don't want to report these bindings
-				if newport.PublicPort != 0 && newport.PrivatePort != 0 {
-					resultPorts = append(resultPorts, newport)
-				}
-			}
-		}
-	}
-	return resultPorts
-}
-
 //----------------------------------
 // ContainerLogs() utility functions
 //----------------------------------
@@ -2168,7 +1854,7 @@ func portForwardingInformation(t *models.ContainerInfo, ips []string) []types.Po
 //
 // returns:
 //	tail lines, since (in unix time), error
-func (c *Container) validateContainerLogsConfig(vc *viccontainer.VicContainer, config *backend.ContainerLogsConfig) (int64, int64, error) {
+func (c *ContainerBackend) validateContainerLogsConfig(vc *viccontainer.VicContainer, config *backend.ContainerLogsConfig) (int64, int64, error) {
 	if !(config.ShowStdout || config.ShowStderr) {
 		return 0, 0, fmt.Errorf("You must choose at least one stream")
 	}

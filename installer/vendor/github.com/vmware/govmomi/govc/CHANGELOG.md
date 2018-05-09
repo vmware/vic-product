@@ -1,5 +1,59 @@
 # changelog
 
+### 0.17.1 (2018-03-19)
+
+* Avoid possible panic in QueryVirtualDiskInfo
+
+* Add goreleaser to automate release process
+
+* Fix dvs.portgroup.info filtering
+
+### 0.17.0 (2018-02-28)
+
+* The datastore cp and mv commands can target a different Datacenter and/or Datastore
+
+* The datastore cp and mv commands now use VirtualDiskManager methods by default
+
+* Add '-M' flag to vm.power command to use Datacenter.PowerOnMultiVM
+
+* Add '-cluster' flag to license.assign command
+
+* Add cluster vm override commands
+
+* User server clock in session.ls
+
+* Add session login and logout commands
+
+* Add '-rescan-vmfs' option to host.storage.info
+
+* Add datastore.disk inflate and shrink commands
+
+* Add cluster.group and cluster.rule commands
+
+* Add vm.upgrade command
+
+* Add cpu + mem allocation support to vm.change
+
+* Allow columns in password for guest login.
+
+### 0.16.0 (2017-11-08)
+
+* Add export.ovf command
+
+* Add '-snapshot' and '-link' options to vm.clone
+
+* Add vm.console command
+
+* Add '-refresh' option to host.storage.info
+
+* Add tasks and task.cancel commands
+
+* The import.vmdk command now requires streamOptimized format
+
+* Add view and filter support to object.collect command
+
+* Add reboot option to host.shutdown
+
 ### 0.15.0 (2017-06-19)
 
 * Remove FileAttr flags from guest.chmod command,

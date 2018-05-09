@@ -42,8 +42,7 @@ Create test containers
     Should Be Equal As Integers  ${rc}  0
     Set Environment Variable  STOPPER  ${output}
     ${stress}=  Get Container ShortID  %{STRESSED}
-    Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Set Environment Variable  VM-PATH  vm/*${stress}
-    Run Keyword If  '%{HOST_TYPE}' == 'VC'  Set Environment Variable  VM-PATH  */%{VCH-NAME}/*${stress}
+    Set Environment Variable  VM-PATH  vm/%{VCH-NAME}/*${stress}
 
 Check Memory Usage
     ${vmomiMemory}=  Get Average Active Memory  %{VM-PATH}
@@ -89,7 +88,9 @@ Stats No Stream All Containers
     Should Contain  ${output}  ${stop}
 
 Stats API Memory Validation
-    ${rc}  ${apiMem}=  Run And Return Rc And Output  curl -sk --cert %{DOCKER_CERT_PATH}/cert.pem --key %{DOCKER_CERT_PATH}/key.pem -H "Accept: application/json" -H "Content-Type: application/json" -X GET https://%{VCH-IP}:%{VCH-PORT}/containers/%{STRESSED}/stats?stream=false | jq -r .memory_stats.usage
+    ${status}=  Run Keyword And Return Status  Environment Variable Should Be Set  DOCKER_CERT_PATH
+    ${certs}=  Set Variable If  ${status}  --cert %{DOCKER_CERT_PATH}/cert.pem --key %{DOCKER_CERT_PATH}/key.pem  ${EMPTY}
+    ${rc}  ${apiMem}=  Run And Return Rc And Output  curl -sk ${certs} -H "Accept: application/json" -H "Content-Type: application/json" -X GET https://%{VCH-IP}:%{VCH-PORT}/containers/%{STRESSED}/stats?stream=false | jq -r .memory_stats.usage
     Should Be Equal As Integers  ${rc}  0
     ${stress}=  Get Container ShortID  %{STRESSED}
     ${vmomiMemory}=  Get Average Active Memory  %{VM-PATH}
@@ -100,7 +101,9 @@ Stats API Memory Validation
     Should Be True  ${diff} < 1000
 
 Stats API CPU Validation
-    ${rc}  ${apiCPU}=  Run And Return Rc And Output  curl -sk --cert %{DOCKER_CERT_PATH}/cert.pem --key %{DOCKER_CERT_PATH}/key.pem -H "Accept: application/json" -H "Content-Type: application/json" -X GET https://%{VCH-IP}:%{VCH-PORT}/containers/%{STRESSED}/stats?stream=false
+    ${status}=  Run Keyword And Return Status  Environment Variable Should Be Set  DOCKER_CERT_PATH
+    ${certs}=  Set Variable If  ${status}  --cert %{DOCKER_CERT_PATH}/cert.pem --key %{DOCKER_CERT_PATH}/key.pem  ${EMPTY}
+    ${rc}  ${apiCPU}=  Run And Return Rc And Output  curl -sk ${certs} -H "Accept: application/json" -H "Content-Type: application/json" -X GET https://%{VCH-IP}:%{VCH-PORT}/containers/%{STRESSED}/stats?stream=false
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${apiCPU}  cpu_stats
     Should Contain  ${apiCPU}  cpu_usage
@@ -118,7 +121,9 @@ Stats No Stream Specific Stopped Container
     Should Contain  ${output}  ${stop}
 
 Stats API Disk and Network Validation
-    ${rc}  ${api}=  Run And Return Rc And Output  curl -sk --cert %{DOCKER_CERT_PATH}/cert.pem --key %{DOCKER_CERT_PATH}/key.pem -H "Accept: application/json" -H "Content-Type: application/json" -X GET https://%{VCH-IP}:%{VCH-PORT}/containers/%{STRESSED}/stats?stream=false
+    ${status}=  Run Keyword And Return Status  Environment Variable Should Be Set  DOCKER_CERT_PATH
+    ${certs}=  Set Variable If  ${status}  --cert %{DOCKER_CERT_PATH}/cert.pem --key %{DOCKER_CERT_PATH}/key.pem  ${EMPTY}
+    ${rc}  ${api}=  Run And Return Rc And Output  curl -sk ${certs} -H "Accept: application/json" -H "Content-Type: application/json" -X GET https://%{VCH-IP}:%{VCH-PORT}/containers/%{STRESSED}/stats?stream=false
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${api}  ethernet
     Should Contain  ${api}  Read

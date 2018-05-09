@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 6-14 - Verify vic-machine update firewall function
 Resource  ../../resources/Util.robot
-Test Teardown  Run Keyword  Cleanup VIC Appliance On Test Server
+Test Teardown  Run Keyword If  '%{HOST_TYPE}' == 'ESXi'  Cleanup VIC Appliance On Test Server
 Test Timeout  20 minutes
 
 *** Test Cases ***
@@ -23,6 +23,8 @@ Enable and disable VIC firewall rule
     Set Test Environment Variables
     Run Keyword And Ignore Error  Cleanup Dangling VMs On Test Server
     Run Keyword And Ignore Error  Cleanup Datastore On Test Server
+    
+    Pass Execution If  '%{HOST_TYPE}' == 'VC'  This test is not applicable to VC
 
     # Save firewall state
     ${fwSetState}=  Get Host Firewall Enabled
@@ -39,7 +41,7 @@ Enable and disable VIC firewall rule
     ${output}=  Run  govc host.esxcli network firewall ruleset list --ruleset-id=vSPC
     Should Contain  ${output}  true
 
-    ${output}=  Run  bin/vic-machine-linux create --name=%{VCH-NAME} --target="%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}" --thumbprint=%{TEST_THUMBPRINT} --image-store=%{TEST_DATASTORE} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --no-tls --insecure-registry harbor.ci.drone.local
+    ${output}=  Run  bin/vic-machine-linux create --name=%{VCH-NAME} --target="%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}" --thumbprint=%{TEST_THUMBPRINT} --image-store=%{TEST_DATASTORE} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --no-tls --insecure-registry wdc-harbor-ci.eng.vmware.com
     Should Contain  ${output}  Installer completed successfully
     Get Docker Params  ${output}  ${true}
     Log To Console  Installer completed successfully: %{VCH-NAME}

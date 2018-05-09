@@ -1,4 +1,4 @@
-// Copyright 2016 VMware, Inc. All Rights Reserved.
+// Copyright 2016-2018 VMware, Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import (
 
 	"context"
 
+	"github.com/vmware/govmomi/vim25/types"
 	"github.com/vmware/vic/pkg/uid"
 	"github.com/vmware/vic/pkg/vsphere/session"
 )
@@ -36,6 +37,7 @@ type containerCache struct {
 	cache map[string]*Container
 }
 
+// Containers is an in-memory cache of containerVMs.
 var Containers *containerCache
 
 func NewContainerCache() {
@@ -53,7 +55,7 @@ func (conCache *containerCache) Container(idOrRef string) *Container {
 	return conCache.cache[idOrRef]
 }
 
-func (conCache *containerCache) Containers(state *State) []*Container {
+func (conCache *containerCache) Containers(states []State) []*Container {
 	conCache.m.RLock()
 	defer conCache.m.RUnlock()
 	// cache contains 2 items for each container
@@ -65,15 +67,44 @@ func (conCache *containerCache) Containers(state *State) []*Container {
 		if !isContainerID(id) {
 			continue
 		}
+
+		// no state filtering
+		if len(states) == 0 {
+			containers = append(containers, con)
+			continue
+		}
+
 		// filter by container state
 		// DO NOT use container.CurrentState as that can
 		// cause cache deadlocks
-		if state == nil || *state == con.State() {
-			containers = append(containers, con)
+		for _, state := range states {
+			if state == con.State() {
+				containers = append(containers, con)
+			}
 		}
 	}
 
 	return containers
+}
+
+// TODO: rework this and Containers above to remove duplication of iteration and filtering logic.
+func (conCache *containerCache) References() []types.ManagedObjectReference {
+	conCache.m.RLock()
+	defer conCache.m.RUnlock()
+	// cache contains 2 items for each container
+	capacity := len(conCache.cache) / 2
+	references := make([]types.ManagedObjectReference, 0, capacity)
+
+	for id, con := range conCache.cache {
+		// is the key a proper ID?
+		if !isContainerID(id) {
+			continue
+		}
+
+		references = append(references, con.VMReference())
+	}
+
+	return references
 }
 
 // puts a container in the cache and will overwrite an existing container

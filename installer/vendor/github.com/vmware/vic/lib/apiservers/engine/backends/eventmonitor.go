@@ -1,4 +1,4 @@
-// Copyright 2017 VMware, Inc. All Rights Reserved.
+// Copyright 2017-2018 VMware, Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,9 +36,13 @@ import (
 	eventtypes "github.com/docker/docker/api/types/events"
 
 	"github.com/vmware/vic/lib/apiservers/engine/backends/cache"
+	"github.com/vmware/vic/lib/apiservers/engine/errors"
+	"github.com/vmware/vic/lib/apiservers/engine/network"
+	"github.com/vmware/vic/lib/apiservers/engine/proxy"
 	"github.com/vmware/vic/lib/apiservers/portlayer/client/events"
 	plevents "github.com/vmware/vic/lib/portlayer/event/events"
 	"github.com/vmware/vic/pkg/trace"
+	"github.com/vmware/vic/pkg/uid"
 )
 
 const (
@@ -84,22 +88,22 @@ func (ep PlEventProxy) StreamEvents(ctx context.Context, out io.Writer) error {
 
 	plClient := PortLayerClient()
 	if plClient == nil {
-		return InternalServerError("eventproxy.StreamEvents failed to get a portlayer client")
+		return errors.InternalServerError("eventproxy.StreamEvents failed to get a portlayer client")
 	}
 
 	params := events.NewGetEventsParamsWithContext(ctx)
 	if _, err := plClient.Events.GetEvents(params, out); err != nil {
 		switch err := err.(type) {
 		case *events.GetEventsInternalServerError:
-			return InternalServerError("Server error from the events port layer")
+			return errors.InternalServerError("Server error from the events port layer")
 		default:
 			//Check for EOF.  Since the connection, transport, and data handling are
 			//encapsulated inside of Swagger, we can only detect EOF by checking the
 			//error string
-			if strings.Contains(err.Error(), swaggerSubstringEOF) {
+			if strings.Contains(err.Error(), proxy.SwaggerSubstringEOF) {
 				return nil
 			}
-			return InternalServerError(fmt.Sprintf("Unknown error from the interaction port layer: %s", err))
+			return errors.InternalServerError(fmt.Sprintf("Unknown error from the interaction port layer: %s", err))
 		}
 	}
 
@@ -119,8 +123,20 @@ func (m *PortlayerEventMonitor) Start() error {
 	}
 
 	m.stop = make(chan struct{})
-	go m.monitor()
-
+	go func() {
+		var err error
+		for {
+			select {
+			case <-m.stop:
+				log.Infof("Portlayer Event Monitor stopped normally")
+				break
+			default:
+				if err = m.monitor(); err != nil {
+					log.Errorf("Restarting Portlayer event monitor due to error: %s", err)
+				}
+			}
+		}
+	}()
 	return nil
 }
 
@@ -211,39 +227,51 @@ func (m *PortlayerEventMonitor) monitor() error {
 	return nil
 }
 
-// publishEvent() translate a portlayer event into a Docker event if the event is for a
-// known container and publishes them to Docker event subscribers.
+// PublishEvent translates select portlayer container events into Docker events
+// and publishes to subscribers
 func (p DockerEventPublisher) PublishEvent(event plevents.BaseEvent) {
-	defer trace.End(trace.Begin(""))
+	// create a shortID for the container for logging purposes
+	containerShortID := uid.Parse(event.Ref).Truncate()
+	defer trace.End(trace.Begin(fmt.Sprintf("Event Monitor received eventID(%s) for container(%s) - %s", event.ID, containerShortID, event.Event)))
 
 	vc := cache.ContainerCache().GetContainer(event.Ref)
 	if vc == nil {
-		log.Warnf("Received portlayer event %s for container %s but not found in cache", event.Event, event.Ref)
+		log.Warnf("Event Monitor received eventID(%s) but container(%s) not in cache", event.ID, containerShortID)
 		return
 	}
 
+	// docker event attributes
 	var attrs map[string]string
-	// TODO: move to a container.OnEvent() so that container drives the necessary changes based on event activity
+
 	switch event.Event {
+	case plevents.ContainerStarted:
+		attrs = make(map[string]string)
+
+		actor := CreateContainerEventActorWithAttributes(vc, attrs)
+		EventService().Log(containerStartEvent, eventtypes.ContainerEventType, actor)
+
 	case plevents.ContainerStopped,
 		plevents.ContainerPoweredOff,
 		plevents.ContainerFailed:
 		// since we are going to make a call to the portLayer lets execute this in a go routine
 		go func() {
-			attrs := make(map[string]string)
+			attrs = make(map[string]string)
 			// get the containerEngine
-			code, _ := NewContainerBackend().containerProxy.exitCode(vc)
+			code, _ := NewContainerBackend().containerProxy.ExitCode(context.Background(), vc)
 
-			log.Infof("Sending die event for container %s - code: %s", vc.ContainerID, code)
+			log.Infof("Sending die event for container(%s) with exitCode[%s] - eventID(%s)", containerShortID, code, event.ID)
 			// if the docker client is unable to convert the code to an int the client will return 125
 			attrs["exitCode"] = code
 			actor := CreateContainerEventActorWithAttributes(vc, attrs)
 			EventService().Log(containerDieEvent, eventtypes.ContainerEventType, actor)
-			if err := UnmapPorts(vc.ContainerID, vc.HostConfig); err != nil {
-				log.Errorf("Failed to unmap ports for container %s: %s", vc.ContainerID, err)
+			// TODO: this really, really shouldn't be in the event publishing code - it's fine to have multiple consumers of events
+			// and this should be registered as a callback by the logic responsible for the MapPorts portion.
+			if err := network.UnmapPorts(vc.ContainerID, vc); err != nil {
+				log.Errorf("Event Monitor failed to unmap ports for container(%s): %s - eventID(%s)", containerShortID, err, event.ID)
 			}
 
 			// auto-remove if required
+			// TODO: this should be a separate event hook registered by logic outside of the publish events loop.
 			if vc.HostConfig.AutoRemove {
 				config := &types.ContainerRmConfig{
 					ForceRemove:  true,
@@ -252,7 +280,7 @@ func (p DockerEventPublisher) PublishEvent(event plevents.BaseEvent) {
 
 				err := NewContainerBackend().ContainerRm(vc.Name, config)
 				if err != nil {
-					log.Errorf("Failed to remove container %s: %s", vc.ContainerID, err)
+					log.Errorf("Event Monitor failed to remove container(%s) - eventID(%s): %s", containerShortID, event.ID, err)
 				}
 			}
 		}()
@@ -261,8 +289,8 @@ func (p DockerEventPublisher) PublishEvent(event plevents.BaseEvent) {
 		// pop the destroy event...
 		actor := CreateContainerEventActorWithAttributes(vc, attrs)
 		EventService().Log(containerDestroyEvent, eventtypes.ContainerEventType, actor)
-		if err := UnmapPorts(vc.ContainerID, vc.HostConfig); err != nil {
-			log.Errorf("Failed to unmap ports for container %s: %s", vc.ContainerID, err)
+		if err := network.UnmapPorts(vc.ContainerID, vc); err != nil {
+			log.Errorf("Event Monitor failed to unmap ports for container(%s): %s - eventID(%s)", containerShortID, err, event.ID)
 		}
 		// remove from the container cache...
 		cache.ContainerCache().DeleteContainer(vc.ContainerID)

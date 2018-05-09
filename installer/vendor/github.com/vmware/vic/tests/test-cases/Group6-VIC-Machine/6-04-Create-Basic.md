@@ -39,6 +39,22 @@ vic-machine-linux create --name=${vch-name} --target=%{TEST_URL} --thumbprint=%{
 * Regression tests pass
 
 
+Folder Structure
+=======
+## Create VCH - Folder Structure Correctness
+This will be a basic test which will confirm that the correct folder gets created for the appliance. Additionally, 
+it will confirm that the VCH is created inside of that folder.
+
+### Steps
+1. Deploy a standard CI VIC appliance. No special parameters are needed for folder support
+2. Confirm that the folder exists with the correct name.
+3. Confirm the VCH exists inside of that folder also with the correct name.
+4. Delete the VCH(Should also remove all folders, this will be a separate test.)
+
+### Expected Outcome
+Step 1 Should succeed without error
+Step 2-3 should have rc's of 0 and Should pass their checks successfully.
+Step 4 should succeed without error
 
 Connection
 =======
@@ -167,7 +183,7 @@ vic-machine-linux create --name=${vch-name} --target=%{TEST_URL} \
 ### Expected Outcome
 * Command failed for VCH is found
 
-
+======
 ## Create VCH - Existing VM name
 1. Create with existing VM name
 2. Run regression tests
@@ -176,6 +192,21 @@ vic-machine-linux create --name=${vch-name} --target=%{TEST_URL} \
 * Deployment succeeds
 * Regression tests pass
 
+## Create VCH - Folder Conflict
+This test is designed to confirm that we report an already exist style error if the VCH folder 
+already exists in the vm folder.
+
+### Steps
+1. Create a folder with the same name as the vch in the vm folder.
+2. Attempt to Create a VCH with the name of the dummy vm.
+3. Cleanup the Dummy vm and folder
+
+### Expected Outcome
+Step 1 Should succeed without error
+Step 2 Should fail with the correct error message.
+Step 3 should succeed without error
+
+======
 
 ## Create VCH - Existing RP on ESX
 1. Create resource pool on ESX
@@ -186,15 +217,6 @@ vic-machine-linux create --name=${vch-name} --target=%{TEST_URL} \
 * Regression tests pass
 
 
-## Create VCH - Existing vApp on vCenter
-1. Create vApp on vCenter
-2. Create VCH with the same (already existing) name
-
-### Expected Outcome
-* Command fails
-
-
-
 Image files
 =======
 
@@ -203,6 +225,25 @@ Image files
 
 ### Expected Outcome
 * Command failed for no iso files found
+
+
+Creation log file
+======
+
+## Creation log file uploaded to datastore
+1. Issue the following commands:
+```
+vic-machine create --name=<VCH_NAME> --target=<TEST_URL> \
+    --user=<TEST_USERNAME> --image-store=<TEST_DATASTORE> --password=<TEST_PASSWORD> \
+    --bridge-network=<NETWORK> --compute-resource=<TEST_RESOURCE>
+```
+2. Verified that the creation log file prefixed by `vic-machine-create` is uploaded to datastore folder
+3. Verified that the creation log file is complete
+
+## Expected Outcome
+* Deployment succeeds
+* The creation log file is uploaded to datastore folder
+* The creation log file is complete
 
 
 
@@ -276,7 +317,7 @@ Appliance size
 
 ### Expected Outcome
 * Deployed successfully
-* Check vApp or rp resource settings is correct through govc
+* Check rp resource settings are correct through govc
 * Integration test passed
 
 
@@ -313,5 +354,5 @@ Appliance size
 
 ### Expected Outcome
 * Deployed successfully
-* Check vApp or rp resource settings is correct through govc
+* Check rp resource settings are correct through govc
 * Integration test passed
