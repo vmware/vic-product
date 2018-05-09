@@ -1,8 +1,10 @@
 # Deploy a Virtual Container Host with vSphere Integrated Containers Registry Access and a Volume Store #
 
+The minimum possible configuration virtual container host (VCH) that you can deploy does not include access to an image registry to feature a volume store. However, you usually need to set up access to internal registries, and common containers very often need to create volumes. Consequently, to create  a useful test VCH, you should deploy it with registry access and at least one volume store.
+
 This version of vSphere Integrated Containers includes an image repository named `dch-photon`, that is pre-loaded in the `default-project` in vSphere Integrated Containers Registry. 
 
-The `dch-photon` image allows container developers to deploy a standard Docker container host that runs in a Photon OS container. Container developers can use this Docker engine to perform operations in standard Docker. For example, developers can use `dch-photon` containers to perform operations that virtual container hosts (VCHs) do not support in this version of vSphere Integrated Containers, such as `docker build` and `docker push`.
+The `dch-photon` image allows container developers to deploy a standard Docker container host that runs in a Photon OS container. Container developers can use this Docker engine to perform operations in standard Docker. For example, developers can use `dch-photon` containers to perform operations that VCHs do not support in this version of vSphere Integrated Containers, such as `docker build` and `docker push`.
 
 For container developers to be able to deploy containers from the `dch-photon` image, you must deploy VCHs with a specific minimum configuration:
 
@@ -57,7 +59,7 @@ You could also specify <code>--volume-store nfs://datastore_name/path_to_share_p
 
 ### Result ##
 
-The VCH that you deployed can access vSphere Integrated Containers Registry, and has a volume store named `default`. It is ready for container developers to use with `dch-photon` containers.
+The VCH that you deployed can access vSphere Integrated Containers Registry, and has a volume store named `default`. It is ready for container developers test and to use with `dch-photon` containers.
 
 **Troubleshooting**
 
