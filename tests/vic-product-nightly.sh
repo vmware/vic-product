@@ -53,7 +53,7 @@ n=0
 until [[ $n -ge 5 ]]
 do
     wget -nc -P vic-product https://storage.googleapis.com/$GCS_BUCKET/$input && break;
-    n=$[$n+1];
+    n=$(($n+1));
     sleep 10;
 done
 
