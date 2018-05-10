@@ -23,11 +23,11 @@
       `gcr.io/eminent-nation-87317/harbor-releases/${release_branch}/${release_build}`
       
 - What is the component's naming scheme for development and release builds?
-  Component is delivered as a tgz file named `harbor-offline-installer-build.${drone_job_id}.tgz` for development and 
+  Component is delivered as a tgz file named `harbor-offline-installer-${tag}-build.${drone_job_id}.tgz` for development and 
   `harbor-offline-installer-${tag}.tgz` for release builds
 
 - What is the component's versioning scheme for development and release builds?
-  Development builds are named as `harbor-offline-installer-build.${drone_job_id}.tgz`, the drone job id is used for version.
+  Development builds are named as `harbor-offline-installer-${tag}-build.${drone_job_id}.tgz`, the drone job id is used for version.
   Release builds are named as `harbor-offline-installer-${tag}.tgz`, the ${tag} is used for the version.
 
 - Aside from the primary component, are there other dependencies maintained by the component team
@@ -105,8 +105,8 @@
     - Link to bucket that will contain tagged builds for releases (including release candidates):
       `gcr.io/eminent-nation-87317/harbor-releases/${branch_name}`
     - How will the VIC appliance build recognize what artifact to pick up?
-      `gcr.io/eminent-nation-87317/harbor-builds/harbor-offline-installer-latest.tgz` for development builds
-      `gcr.io/eminent-nation-87317/harbor-releases/harbor-offline-installer-${tag}.tgz` for release builds
+      `gcr.io/eminent-nation-87317/harbor-builds/latest.build` for development builds, the content is the URL of harbor latest valid build with version.
+      `gcr.io/eminent-nation-87317/harbor-releases/${release_branch}/harbor-offline-installer-${tag}.tgz` for release builds
 
         - Will there be other artifacts in the bucket? If so, component team MUST guarantee that the
           value provided above will identify the correct artifact 
@@ -126,8 +126,7 @@
       Use the image tag as version, like vmware/harbor-migrator:v1.5.0
 
 - How are configuration changes handled during upgrade?
-  The migrator will migrate the needed items of harbor.cfg to the latest version by copying, and set the default value
-  to the newly added items. Also, the migrator will upgarde the DB scheme to latest.
+  The migrator will migrate the needed items of harbor.cfg to the latest version by copying, and set the default value to the newly added items. Also, the migrator will upgarde the DB scheme to latest.
 
 - Are there additional upgrade requirements?
   NO
