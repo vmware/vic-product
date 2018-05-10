@@ -438,13 +438,13 @@ Copy and Attach Disk v1.2.1
 
     Wait for VM Power Off  ${old-ova-vm-name}
 
-    # Detach blank disk from new VM
-    ${data-disk-name}=  Get Disk Name By ID      ${new-ova-vm-name}  1
-    Detach Disk    ${new-ova-vm-name}  ${data-disk-name}
-
     # Find disk file to copy
     ${old-data-disk-file}=  Get Disk File By ID  ${old-ova-vm-name}  1
     ${data-disk-file}=  Get Disk File By ID      ${new-ova-vm-name}  1
+
+    # Detach blank disk from new VM
+    ${data-disk-name}=  Get Disk Name By ID      ${new-ova-vm-name}  1
+    Detach Disk    ${new-ova-vm-name}  ${data-disk-name}
 
     # Copy old disk to new datastore location
     Copy Disk  ${old-ds}  ${new-ds}  ${old-data-disk-file}  ${data-disk-file}
@@ -462,14 +462,6 @@ Copy and Attach Disk
 
     Wait for VM Power Off  ${old-ova-vm-name}
 
-    # Detach blank disks from new VM
-    ${data-disk-name}=  Get Disk Name By ID      ${new-ova-vm-name}  1
-    ${db-disk-name}=    Get Disk Name By ID      ${new-ova-vm-name}  2
-    ${log-disk-name}=   Get Disk Name By ID      ${new-ova-vm-name}  3
-    Detach Disk    ${new-ova-vm-name}  ${data-disk-name}
-    Detach Disk    ${new-ova-vm-name}  ${db-disk-name}
-    Detach Disk    ${new-ova-vm-name}  ${log-disk-name}
-
     # Find disk files to copy
     ${old-data-disk-file}=  Get Disk File By ID  ${old-ova-vm-name}  1
     ${old-db-disk-file}=    Get Disk File By ID  ${old-ova-vm-name}  2
@@ -478,6 +470,14 @@ Copy and Attach Disk
     ${data-disk-file}=  Get Disk File By ID      ${new-ova-vm-name}  1
     ${db-disk-file}=    Get Disk File By ID      ${new-ova-vm-name}  2
     ${log-disk-file}=   Get Disk File By ID      ${new-ova-vm-name}  3
+
+    # Detach blank disks from new VM
+    ${data-disk-name}=  Get Disk Name By ID      ${new-ova-vm-name}  1
+    ${db-disk-name}=    Get Disk Name By ID      ${new-ova-vm-name}  2
+    ${log-disk-name}=   Get Disk Name By ID      ${new-ova-vm-name}  3
+    Detach Disk    ${new-ova-vm-name}  ${data-disk-name}
+    Detach Disk    ${new-ova-vm-name}  ${db-disk-name}
+    Detach Disk    ${new-ova-vm-name}  ${log-disk-name}
 
     # Copy old disk to new datastore location
     Copy Disk  ${old-ds}  ${new-ds}  ${old-data-disk-file}  ${data-disk-file}
