@@ -105,7 +105,7 @@
     - Link to bucket that will contain tagged builds for releases (including release candidates):
       `gcr.io/eminent-nation-87317/harbor-releases/${branch_name}`
     - How will the VIC appliance build recognize what artifact to pick up?
-      `gcr.io/eminent-nation-87317/harbor-builds/latest.build` for development builds, the content is the URL of harbor latest valid build with version.
+      `gcr.io/eminent-nation-87317/harbor-builds/master.stable` for development builds, this file holds the URL of stable build.
       `gcr.io/eminent-nation-87317/harbor-releases/${release_branch}/harbor-offline-installer-${tag}.tgz` for release builds
 
         - Will there be other artifacts in the bucket? If so, component team MUST guarantee that the
