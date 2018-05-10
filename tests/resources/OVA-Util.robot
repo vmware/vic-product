@@ -487,5 +487,6 @@ Power On Appliance And Run Upgrade
     [Arguments]  ${new-appliance-name}  ${old-appliance-ip}  ${old-ova-version}  ${datacenter}
     Power On VM  ${new-appliance-name}
     ${rc}  ${new-appliance-ip}=  Get VM IP By Name  ${new-appliance-name}
-
+    Wait For OVA Home Page  ${new-appliance-ip}
+    
     Execute Upgrade Script  ${new-appliance-ip}  ${old-appliance-ip}  ${datacenter}  ${old-ova-version}  True
