@@ -78,11 +78,21 @@ setenv ADMIRAL "dev"
 setenv VIC_MACHINE_SERVER "dev"
 
 # set Vic-Engine
-url=$(gsutil ls -l "gs://vic-engine-builds" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
+url=""
+if [ -z "${VICENGINE}" ]; then
+    url=$(gsutil ls -l "gs://vic-engine-builds" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
+fi
 setenv VICENGINE "$url"
 
 #set Harbor
-url=$(curl --silent https://storage.googleapis.com/harbor-builds/master.stable)
+url=""
+if [ -z "${HARBOR}" ]; then
+    url=$(curl --silent https://storage.googleapis.com/harbor-builds/master.stable)
+    if [[ ! "$url" =~ ^http://|^https:// ]]; then
+        echo "Cannot find proper harbor archive for link '$url'"
+        exit 1
+    fi
+fi
 setenv HARBOR "$url"
 
 export BUILD_DCHPHOTON_VERSION="1.13"
