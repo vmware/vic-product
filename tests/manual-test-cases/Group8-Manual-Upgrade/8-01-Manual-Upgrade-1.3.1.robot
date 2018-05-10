@@ -45,6 +45,6 @@ Upgrade from v1.3.1
     # Copy data disk and attach to new appliance
     Copy and Attach Disk  ${old-appliance-name}  ${new-appliance-name}  ${datacenter}
     # Power on new appliance and run upgrade script
-    Power On Appliance And Run Upgrade  ${new-appliance-name}  %{OLD_OVA_IP}  ${old-ova-version}  ${datacenter}
+    Power On Appliance And Run Manual Disk Upgrade  ${new-appliance-name}  %{OLD_OVA_IP}  ${old-ova-version}  ${datacenter}
     # verify container and image in harbor
     Verify Running Busybox Container And Its Pushed Harbor Image  %{OVA_IP}  ${sample-image-tag}  ${new-appliance-cert-path}  docker-endpoint=${VCH-PARAMS}

@@ -483,10 +483,17 @@ Manual Upgrade Environment Setup
     Set Environment Variable  OVA_NAME  ${new-appliance-name}
     ${output}=  Deploy VIC Appliance  vic-*.ova  %{OVA_NAME}  power=False
 
-Power On Appliance And Run Upgrade
-    [Arguments]  ${new-appliance-name}  ${old-appliance-ip}  ${old-ova-version}  ${datacenter}
+Power On Appliance
+    [Arguments]  ${new-appliance-name}
     Power On VM  ${new-appliance-name}
     ${rc}  ${new-appliance-ip}=  Get VM IP By Name  ${new-appliance-name}
+    Set Environment Variable  OVA_IP  ${new-appliance-ip}
     Wait For OVA Home Page  ${new-appliance-ip}
-    
+
+    [Return]  ${new-appliance-ip}
+
+Power On Appliance And Run Manual Disk Upgrade
+    [Arguments]  ${new-appliance-name}  ${old-appliance-ip}  ${old-ova-version}  ${datacenter}
+    ${new-appliance-ip}=  Power On Appliance  ${new-appliance-name}
+
     Execute Upgrade Script  ${new-appliance-ip}  ${old-appliance-ip}  ${datacenter}  ${old-ova-version}  True
