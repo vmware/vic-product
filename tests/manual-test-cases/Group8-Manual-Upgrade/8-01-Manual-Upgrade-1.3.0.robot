@@ -17,7 +17,6 @@ Documentation  Test 8-01 - Manual Upgrade 1.3.0
 Resource  ../../resources/Util.robot
 Suite Setup     Wait Until Keyword Succeeds  10x  10m  Test Environment Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
-Test Teardown   Cleanup VIC Product OVA  %{OVA_NAME}
 
 *** Variables ***
 ${datacenter}=  ha-datacenter

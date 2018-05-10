@@ -1,8 +1,8 @@
-Test 8-01 - Manual Upgrade 1.2.1
+Test 8-01 - Manual Upgrade 1.3.0
 =======
 
 # Purpose:
-To verify the VIC OVA appliance works after upgrading from 1.2.1 
+To verify the VIC OVA appliance works after upgrading from 1.3.0
 
 # References:
 [VIC appliance design
@@ -14,7 +14,7 @@ This test requires access to VMWare Nimbus cluster for dynamic ESXi and vCenter 
 # Test Cases
 
 ### Test Steps:
-1. Deploy and initialize a VIC appliance version 1.2.1
+1. Deploy and initialize a VIC appliance version 1.3.0
 2. Creat a VCH, running container and push an image to harbor
 3. Deploy a current VIC appliance version 1.4.0 or greater. Do NOT power on.
 4. Follow instructions for manually moving or copying `/storage/data`, `/storage/log`, and
