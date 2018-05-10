@@ -342,27 +342,6 @@ Setup Simple VC And Test Environment
     # check VC
     Check VCenter
 
-Install VCH With Test Container And Push Image to Harbor
-    # download and install a vch
-    # create a running busybox container
-    Download VIC Engine If Not Already  %{OVA_IP}
-    Install VCH And Create Running Busybox Container  %{OVA_IP}
-    # tag and push an image to harbor
-    ${harbor-image-name}=  Set Variable  %{OVA_IP}/${DEFAULT_HARBOR_PROJECT}/${busybox}
-    ${harbor-image-tagged}=  Set Variable  ${harbor-image-name}:${sample-image-tag}
-    Pull And Tag Docker Image  ${busybox}  ${harbor-image-tagged}
-    Push Docker Image To Harbor Registry  %{OVA_IP}  ${harbor-image-tagged}
-
-Verify Running Test Container And Pushed Image
-    [Arguments]  ${cert-path}
-    # verify previously created container is migrated and still running
-    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} ps
-    Log  ${output}
-    Should Be Equal As Integers  ${rc}  0
-    Should Contain  ${output}  /bin/top
-    # verify previously tagged and pushed image is still available
-    Pull And Verify Image In Harbor Registry  %{OVA_IP}  ${busybox}  ${sample-image-tag}  ${cert-path}
-
 Auto Upgrade OVA With Verification
     # This is a complete keyword to run auto upgrade process and verify that upgrade is successful
     # This assumes that testbed is already setup
@@ -372,7 +351,7 @@ Auto Upgrade OVA With Verification
     ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
     # setup and deploy old version of ova
     Setup And Install Specific OVA Version  ${old-ova-save-file}  ${test-name}
-    Install VCH With Test Container And Push Image to Harbor
+    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}
     # save IP of old ova appliance
     Set Environment Variable  OVA_IP_OLD  %{OVA_IP}
 
@@ -384,7 +363,7 @@ Auto Upgrade OVA With Verification
     Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
 
     Execute Upgrade Script  %{OVA_IP}  %{OVA_IP_OLD}  ${old-ova-datacenter}  ${old-ova-version}
-    Verify Running Test Container And Pushed Image  ${new-ova-cert-path}
+    Verify Running Busybox Container And Its Pushed Harbor Image  %{OVA_IP}  ${sample-image-tag}  ${new-ova-cert-path}  docker-endpoint=${VCH-PARAMS}
 
 Execute Upgrade Script
     # SSH into OVA appliance and execute ./upgrade script
@@ -488,3 +467,25 @@ Copy and Attach Disk
     Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${data-disk-file}
     Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${db-disk-file}
     Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${log-disk-file}
+
+Manual Upgrade Environment Setup
+    [Arguments]  ${old-ova-file-name}  ${old-appliance-name}  ${new-appliance-name}
+    ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
+
+    Set Environment Variable  OVA_NAME  ${old-appliance-name}
+    ${old-appliance-ip}=  Install And Initialize VIC Product OVA  ${old-ova-save-file}  %{OVA_NAME}
+
+    Download VIC Engine If Not Already  %{OVA_IP}
+    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}
+    Set Environment Variable  OLD_OVA_IP  %{OVA_IP}
+
+    # Deploy new appliance but do not power on
+    Set Environment Variable  OVA_NAME  ${new-appliance-name}
+    ${output}=  Deploy VIC Appliance  vic-*.ova  %{OVA_NAME}  power=False
+
+Power On Appliance And Run Upgrade
+    [Arguments]  ${new-appliance-name}  ${old-appliance-ip}  ${old-ova-version}  ${datacenter}
+    Power On VM  ${new-appliance-name}
+    ${rc}  ${new-appliance-ip}=  Get VM IP By Name  ${new-appliance-name}
+
+    Execute Upgrade Script  ${new-appliance-ip}  ${old-appliance-ip}  ${datacenter}  ${old-ova-version}  True
