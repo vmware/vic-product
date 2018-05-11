@@ -67,6 +67,13 @@ Get VM Host Name
     ${host}=  Fetch From Right  @{out}[-1]  ${SPACE}
     [Return]  ${host}
 
+Get VCH Host Name
+    [Arguments]  ${vm}
+    ${out}=  Run  govc vm.info -vm.ip=${vm}
+    ${out}=  Split To Lines  ${out}
+    ${host}=  Fetch From Right  @{out}[-1]  ${SPACE}
+    [Return]  ${host}
+
 Download VIC And Install UI Plugin
     [Arguments]  ${ova-ip}
     Open Connection  %{TEST_URL}
@@ -81,7 +88,7 @@ Download VIC And Install UI Plugin
     Execute Command And Return Output  curl -kL https://${ova-ip}:9443/files/${VIC_BUNDLE} -o ${VIC_BUNDLE}
     Execute Command And Return Output  tar -zxf ${VIC_BUNDLE}
     Execute Command And Return Output  cd vic/ui/VCSA && printf "yes" | ./install.sh -i %{TEST_URL} -u %{TEST_USERNAME} -p %{TEST_PASSWORD}
-    
+
     Execute Command And Return Output  service-control --stop vsphere-ui
     Execute Command And Return Output  service-control --start vsphere-ui
     Execute Command And Return Output  service-control --stop vsphere-client

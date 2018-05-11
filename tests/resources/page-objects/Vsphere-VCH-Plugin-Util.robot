@@ -72,7 +72,7 @@ Click New Virtual Container Host Button
     Wait Until Element Is Visible And Enabled  css=clr-icon[shape='add']
     Click Element  css=clr-icon[shape='add']
     Unselect Frame
-    
+
     Wait Until Element Is Visible And Enabled  css=iframe[ng-src*='view=create-vch']
     Select Frame  css=iframe[ng-src*='view=create-vch']
 
@@ -92,22 +92,22 @@ Click Next Button
 Select Image Datastore
     [Arguments]  ${ds-text}
     Log To Console  Selecting datastore...
-    Wait Until Element Is Visible And Enabled  ${datastore-dropdown}  
+    Wait Until Element Is Visible And Enabled  ${datastore-dropdown}
     Select From List By Value  ${datastore-dropdown}  ${ds-text}
 
 Select Bridge Network
     [Arguments]  ${network-text}
     Log To Console  Selecting bridge network...
-    Wait Until Element Is Visible And Enabled  ${bridge-network-dropdown} 
+    Wait Until Element Is Visible And Enabled  ${bridge-network-dropdown}
     Select From List By Value  ${bridge-network-dropdown}  ${network-text}
 
 Select Public Network
     [Arguments]  ${network-text}
     Log To Console  Selecting public network...
-    Wait Until Element Is Visible And Enabled  ${public-network-dropdown} 
+    Wait Until Element Is Visible And Enabled  ${public-network-dropdown}
     Select From List By Value  ${public-network-dropdown}  ${network-text}
 
-Toggle Client Certificate Option 
+Toggle Client Certificate Option
     Log To Console  Toggle security...
     Wait Until Element Is Visible And Enabled  ${toggle-secure}
     Click Element  ${toggle-secure}
@@ -201,5 +201,6 @@ Create VCH using UI And Set Docker Parameters
     Click Finish Button
     Unselect Frame
     Wait Until Page Does Not Contain  VCH name
+    Set Global Variable   ${VCH}  ${name}
     # retrieve docker parameters from UI
     Set Docker Host Parameters
