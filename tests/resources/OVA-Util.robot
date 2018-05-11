@@ -350,6 +350,8 @@ Auto Upgrade OVA With Verification
     ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
     # setup and deploy old version of ova
     Setup And Install Specific OVA Version  ${old-ova-save-file}  ${test-name}
+    # install VCH, create running container and push image to harbor
+    Download VIC Engine If Not Already  %{OVA_IP}
     Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}
     # save IP of old ova appliance
     Set Environment Variable  OVA_IP_OLD  %{OVA_IP}
