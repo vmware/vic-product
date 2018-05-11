@@ -133,7 +133,7 @@ Setup And Install Specific OVA Version
 Download VIC Engine
     [Arguments]  ${ova-ip}  ${target_dir}=bin
     Log To Console  \nDownloading VIC engine...
-    ${download_url}=  Run command and Return output  curl -k https://${ova-ip}:9443 | tac | tac | grep -Po -m 1 '(?<=href=")[^"]*tar.gz'
+    ${download_url}=  Wait Until Keyword Succeeds  5x  5s  Run command and Return output  curl -k https://${ova-ip}:9443 | tac | tac | grep -Po -m 1 '(?<=href=")[^"]*tar.gz'
     Run command and Return output  mkdir -p ${target_dir}
     Run command and Return output  curl -k ${download_url} --output ${target_dir}/vic.tar.gz
     Run command and Return output  tar -xvzf ${target_dir}/vic.tar.gz --strip-components=1 --directory=${target_dir}
@@ -327,7 +327,6 @@ Setup Simple VC And Test Environment
     Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls
     Set Environment Variable  TEST_TIMEOUT  30m
     Set Environment Variable  TEST_DATASTORE  datastore1
-
     # set VC variables
     Set Test VC Variables
     # set VCH variables
@@ -473,7 +472,7 @@ Manual Upgrade Environment Setup
     ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
 
     Set Environment Variable  OVA_NAME  ${old-appliance-name}
-    ${old-appliance-ip}=  Install And Initialize VIC Product OVA  ${old-ova-save-file}  %{OVA_NAME}
+    Install And Initialize VIC Product OVA  ${old-ova-save-file}  %{OVA_NAME}
 
     Download VIC Engine If Not Already  %{OVA_IP}
     Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}
