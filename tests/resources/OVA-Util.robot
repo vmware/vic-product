@@ -47,7 +47,7 @@ Set Test OVA IP If Available
     Set Common Test OVA Name
     ${rc}  ${output}=  Get VM IP By Name  %{OVA_NAME}
     Run Keyword Unless  ${rc} == 0  Should Contain  ${output}  not found
-    Run Keyword If  ${rc} == 0  Set Environment Variable  OVA_IP  ${vm-ip}
+    Run Keyword If  ${rc} == 0  Set Environment Variable  OVA_IP  ${output}
     [Return]  ${rc}
 
 # This is a secret keyword and does not log information for debugging
