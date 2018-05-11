@@ -252,7 +252,6 @@ Create a VSAN Cluster
     \   Exit For Loop If  ${status}
 
     Log To Console  Set environment variables up for GOVC
-    Set Environment Variable  GOVC_INSECURE  1
     Set Environment Variable  GOVC_URL  ${vc-ip}
     Set Environment Variable  GOVC_USERNAME  Administrator@vsphere.local
     Set Environment Variable  GOVC_PASSWORD  Admin\!23
@@ -279,7 +278,6 @@ Create a VSAN Cluster
 
     Log To Console  Deploy VIC to the VC cluster
     Set Environment Variable  TEST_URL_ARRAY  ${vc-ip}
-    Set Environment Variable  TEST_URL  ${vc-ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  BRIDGE_NETWORK  bridge
@@ -289,7 +287,6 @@ Create a VSAN Cluster
     Set Environment Variable  TEST_TIMEOUT  15m
 
     Gather Host IPs
-    Log To Console  Finished Deploying VSAN Cluster
 
 Create a Simple VC Cluster
     [Arguments]  ${datacenter}=ha-datacenter  ${cluster}=cls  ${esx_number}=3  ${network}=True
