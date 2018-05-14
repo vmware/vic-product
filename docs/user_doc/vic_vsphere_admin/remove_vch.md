@@ -13,15 +13,17 @@ The `vic-machine delete` includes one option in addition to the [Common `vic-mac
 
   - If you do not specify `--force` and the VCH contains running container VMs, the deletion fails with a warning. 
   - If you do not specify `--force` and the VCH has volume stores, the deletion of the VCH succeeds without deleting the volume stores. The list of volume stores appears in the `vic-machine delete` success message for reference and optional manual removal.
-- If your vSphere environment uses untrusted, self-signed certificates, you must specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). 
+- If your vSphere environment uses untrusted, self-signed certificates, you must specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
 
-     Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
+**NOTES**:
 
 When you delete a VCH that uses TLS authentication with trusted Certificate Authority (CA) certificates, `vic-machine delete` does not delete the certificates or the certificate folder, even if you specify the `--force` option. Because `vic-machine delete` does not delete the certificates, you can delete VCHs and create new ones that reuse the same certificates. This is useful if you have already distributed the client certificates for VCHs that you need to recreate.
 
 The `vic-machine delete` command does not modify the firewall on ESXi hosts. If you do not need to deploy or run further VCHs on the ESXi host or cluster after you have deleted VCHs, run `vic-machine update firewall --deny` to close port 2377 on the host or hosts. 
 
-## Example ##
+If you deployed the VCH with the `vic-machine create --affinity-vm-group` option, `vic-machine delete` removes the VM affinity group that was created during deployment.
+
+## Examples ##
 
 The following example includes the options required to remove a VCH from a simple vCenter Server environment. 
 

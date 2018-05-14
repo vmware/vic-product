@@ -23,7 +23,7 @@ When you deployed the vSphere Integrated Containers appliance, vSphere Integrate
 1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and log in with a vSphere administrator or Cloud administrator user account.
 
     vSphere administrator accounts for the Platform Service Controller with which vSphere Integrated Containers is registered are automatically granted Cloud Admin access in the management portal.
-2. Go to **Administration** > **Configuration**, and click the link to download the **Registry Root Cert**.
+2. Go to **Administration** > **Configuration**, and click the link to download the **Registry Root Certificate**.
 
 ## Options <a id="options"></a>
 
