@@ -8,7 +8,7 @@ You might want to restrict the set of hosts on which the VCH and container VMs r
 - Compliance with internal policies.
 - Latency-sensitivity, for workloads that run in an environment with stretched clusters.
 
-You can address each of these use cases by using DRS VM-host affinity groups.
+You can address each of these use cases by using DRS VM-host affinity rules.
 
 - [Usage](#usage)
 - [vic-machine Option](#option)
@@ -25,9 +25,9 @@ To set VM-Host affinity rules on a VCH, you perform the following steps:
 
 - In vSphere, create a DRS host group that includes the set of hosts to which to limit VCH and container VM workloads.
 - Deploy a VCH with the `vic-machine create --affinity-vm-group` option, which automatically creates a DRS VM group in vSphere for the VCH and its container VMs.
-- In vSphere, create a VM-Host affinity rule that includes the VM group and the host group. This ensures that the VCH and container VMs in the VM group only run on the hosts that you specified in the host group.
+- In vSphere, create a VM-Host affinity rule that includes the VM group and the host group. This ensures that the VCH endpoint VM and container VMs in the VM group only run on the hosts that you specified in the host group.
 
-**IMPORTANT**: Because you define VM-host affinity rules on clusters, all of the hosts in a DRS host group must be reside in the same cluster.
+**IMPORTANT**: Because you define VM-host affinity rules on clusters, all of the hosts in a DRS host group must be in the same cluster.
 
 For more information about DRS affinity rules, see [Using DRS Affinity Rules](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.resmgmt.doc/GUID-FF28F29C-8B67-4EFF-A2EF-63B3537E6934.html) in the vSphere documentation.
                           

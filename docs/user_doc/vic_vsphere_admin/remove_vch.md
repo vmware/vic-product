@@ -21,7 +21,7 @@ When you delete a VCH that uses TLS authentication with trusted Certificate Auth
 
 The `vic-machine delete` command does not modify the firewall on ESXi hosts. If you do not need to deploy or run further VCHs on the ESXi host or cluster after you have deleted VCHs, run `vic-machine update firewall --deny` to close port 2377 on the host or hosts. 
 
-If you deployed the VCH with `vic-machine create --affinity-vm-group option`, `vic-machine delete` removes the VM affinity group that was created during deployment.
+If you deployed the VCH with the `vic-machine create --affinity-vm-group` option, `vic-machine delete` removes the VM affinity group that was created during deployment.
 
 ## Examples ##
 
