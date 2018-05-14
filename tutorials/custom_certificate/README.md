@@ -13,15 +13,14 @@ The certificate requirements for VCH are:
     
 **Create an RSA Private Key**
 
-`openssl genrsa -des3 -out fullkey.key 2048 pkcs8`
-    
-**Remove passphrase from key**
-
-`openssl rsa -in fullkey.key -out mykey.key`
-    
+`openssl genrsa -out mykey.key 2048 pkcs8`
+     
 **Generate CSR**
 
 `openssl req -new -key mykey.key -out server.csr -config template.cnf`
+
+obs: template.cnf file is a configuration file which contains the information for the certificate generation;
+     if you dont have one, use the [template provided by openssl] (http://web.mit.edu/crypto/openssl.cnf) and adjust it accordingly with you environment's details.
     
 ###    Optional - generate a self signed certificate
 `openssl x509 -req -days 365 -in server.csr -signkey mykey.key -out server.pem`
