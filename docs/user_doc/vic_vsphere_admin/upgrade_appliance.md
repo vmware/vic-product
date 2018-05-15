@@ -46,13 +46,13 @@ For information about the supported upgrade paths for all versions of vSphere In
 
 3. Provide information about the new version of the appliance.
 
-    1. Enter the address of the vCenter Server instance on which you deployed the new appliance.
+    1. Enter the IP address of the vCenter Server instance on which you deployed the new appliance. The upgrade script does not accept FQDN addresses.
     2. Enter the Single Sign-On user name and password of a vSphere administrator account.
 
     The script requires these credentials to access the disk files of the old appliance, and to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.
 3. Provide information about the Platform Services Controller.
 
-    - If vCenter Server is managed by an external Platform Services Controller, enter the FQDN of the Platform Services Controller.
+    - If vCenter Server is managed by an external Platform Services Controller, enter the IP address of the Platform Services Controller.
     - If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.
 4. If applicable, provide the Platform Services Controller domain.
 
@@ -126,7 +126,7 @@ To bypass these prompts, you can specify command line arguments when you run the
         </tr>
         <tr>
           <td><code>--external-psc</code></td>
-          <td> If vCenter Server is managed by an external Platform Services Controller,  specify the FQDN of the Platform Services Controller.</td>
+          <td> If vCenter Server is managed by an external Platform Services Controller,  specify the IP address of the Platform Services Controller.</td>
         </tr>
         <tr>
           <td><code>--external-psc-domain</code></td>
@@ -171,7 +171,7 @@ To bypass these prompts, you can specify command line arguments when you run the
 
 The following command upgrades a vSphere Integrated Containers 1.3.1 appliance. The new appliance runs in a vCenter Server instance with an embedded Platform Services Controller. The old appliance is removed when the upgrade finishes.
 
-<pre>./upgrade.sh --target <i>new_appliance_address</i>
+<pre>./upgrade.sh --target <i>vcenter_server_address</i>
 --username 'Administrator@vsphere.local'
 --password 'P@ssW0rd!'
 --fingerprint '<i>vcenter_server_address</i> 49:8C:56:6B:F0:E6:54:D1:3F:77:4A:81:DE:BD:61:8B:80:CE:DF:E6'
@@ -188,7 +188,7 @@ The following command upgrades a vSphere Integrated Containers 1.3.1 appliance. 
 
 The following command upgrades a vSphere Integrated Containers 1.2.1 appliance. The new appliance runs in a vCenter Server instance with an external Platform Services Controller. The old appliance is not removed when the upgrade finishes.
 
-<pre>./upgrade.sh --target <i>new_appliance_address</i>
+<pre>./upgrade.sh --target <i>vcenter_server_address</i>
 --username 'Administrator@vsphere.local'
 --password 'P@ssW0rd!'
 --fingerprint '<i>vcenter_server_address</i> 49:8C:56:6B:F0:E6:54:D1:3F:77:4A:81:DE:BD:61:8B:80:CE:DF:E6'
