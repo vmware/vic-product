@@ -62,7 +62,7 @@ vMotion Setup
 
     Gather Host IPs
     Log To Console   Finished Creating vMotion Setup
-    
+
 Gather All vSphere Logs
     ${hostList}=  Run  govc ls -t HostSystem host/cls | xargs
     Run  govc logs.download ${hostList}
@@ -70,11 +70,11 @@ Gather All vSphere Logs
 *** Test Cases ***
 Test
    Log To Console  Deploy VIC to the VC cluster...
-   Deploy OVA And Install UI Plugin And Run Regression Tests  13-01-vMotion  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
+   Deploy OVA And Install UI Plugin And Run Regression Tests  5-16-vMotion  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
 
    Log To Console  vMotion VCH...
-   Set Environment Variable  VCH-NAME  ${VCH}
-   ${host}=  Get VCH Host Name  ${VCH-IP}
+   Set Environment Variable  VCH-NAME  ${VCH-NAME}
+   ${host}=  Get VM Host IP  ${VCH-IP}
 
    ${status}=  Run Keyword And Return Status  Should Contain  ${host}  ${esx1-ip}
    Run Keyword If  ${status}  Run  govc vm.migrate -host cls/${esx2-ip} %{VCH-NAME}

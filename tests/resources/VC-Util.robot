@@ -67,9 +67,9 @@ Get VM Host Name
     ${host}=  Fetch From Right  @{out}[-1]  ${SPACE}
     [Return]  ${host}
 
-Get VCH Host Name
-    [Arguments]  ${vm}
-    ${out}=  Run  govc vm.info -vm.ip=${vm}
+Get VM Host IP
+    [Arguments]  ${vm-ip}
+    ${out}=  Run  govc vm.info -vm.ip=${vm-ip}
     ${out}=  Split To Lines  ${out}
     ${host}=  Fetch From Right  @{out}[-1]  ${SPACE}
     [Return]  ${host}

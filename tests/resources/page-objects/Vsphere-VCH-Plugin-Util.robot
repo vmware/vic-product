@@ -201,6 +201,6 @@ Create VCH using UI And Set Docker Parameters
     Click Finish Button
     Unselect Frame
     Wait Until Page Does Not Contain  VCH name
-    Set Global Variable   ${VCH}  ${name}
+    Set Test Variable   ${VCH-NAME}  ${name}
     # retrieve docker parameters from UI
     Set Docker Host Parameters
