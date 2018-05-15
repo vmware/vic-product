@@ -174,13 +174,13 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
 
 9. Provide information about the new version of the appliance.
 
-    1. Enter the address of the vCenter Server instance on which you deployed the new appliance.
+    1. Enter the IP address of the vCenter Server instance on which you deployed the new appliance. The upgrade script does not accept FQDN addresses.
     2. Enter the Single Sign-On user name and password of a vSphere administrator account.
 
     The script requires these credentials to access the disk files of the old appliance, and to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.
 3. Provide information about the Platform Services Controller.
 
-    - If vCenter Server is managed by an external Platform Services Controller, enter the FQDN of the Platform Services Controller.
+    - If vCenter Server is managed by an external Platform Services Controller, enter the IP address of the Platform Services Controller.
     - If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.
 4. If applicable, provide the Platform Services Controller domain.
 
