@@ -11,7 +11,7 @@ The process of uninstalling vSphere Integrated Containers depends on the way tha
 
 3. Delete any vSphere Integrated Containers virtual appliances that you deployed.
 
-	For information about removing VMs from the datastore, see [Remove Virtual Machines from the Datastore](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.html.hostclient.doc/GUID-358BF9C1-333E-4AB4-A1CB-62BEA1C94878.html) in the vSphere  documentation.
+	For information about removing VMs from the datastore, see [Remove VMs or VM Templates from vCenter Server or from the Datastore](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.vm_admin.doc/GUID-27E53D26-F13F-4F94-8866-9C6CFA40471C.html) in the vSphere  documentation.
 
 4. Unregister the vSphere Integrated Containers plug-ins from vCenter Server by using the Managed Object Browser.
 	1. Log in to https://<i>vCenter_Server_address</i>/mob/?moid=ExtensionManager with vCenter Server administrator credentials.
