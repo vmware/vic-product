@@ -1,4 +1,4 @@
-# Copyright 2016-2017 VMware, Inc. All Rights Reserved.
+# Copyright 2018 VMware, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ Test Teardown  Run Keyword If Test Failed  Gather All vSphere Logs
 vMotion Setup
     [Timeout]    110 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
-    ${name}=  Evaluate  'vic-vmotion-' + str(random.randint(1000,9999))  modules=random
+    ${name}=  Evaluate  '5-16-vic-vmotion-' + str(random.randint(1000,9999))  modules=random
     Set Suite Variable  ${user}  %{NIMBUS_USER}
     ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  --plugin testng --vcfvtBuildPath /dbc/pa-dbc1111/mhagen/ --noSupportBundles --vcvaBuild ${VC_VERSION} --esxPxeDir ${ESX_VERSION} --esxBuild ${ESX_VERSION} --testbedName vic-vsan-simple-pxeBoot-vcva --runName ${name}
     Should Contain  ${out}  "deployment_result"=>"PASS"
@@ -45,7 +45,7 @@ vMotion Setup
 
     Add Host To Distributed Switch  /vcqaDC/host/cls
 
-    Log To Console  Enable DRS and VSAN on the cluster
+    Log To Console  Enable DRS on the cluster
     ${out}=  Run  govc cluster.change -drs-enabled /vcqaDC/host/cls
     Should Be Empty  ${out}
 
@@ -63,21 +63,16 @@ vMotion Setup
     Gather Host IPs
     Log To Console   Finished Creating vMotion Setup
 
-Gather All vSphere Logs
-    ${hostList}=  Run  govc ls -t HostSystem host/cls | xargs
-    Run  govc logs.download ${hostList}
-
 *** Test Cases ***
 Test
    Log To Console  Deploy VIC to the VC cluster...
    Deploy OVA And Install UI Plugin And Run Regression Tests  5-16-vMotion  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
 
    Log To Console  vMotion VCH...
-   Set Environment Variable  VCH-NAME  ${VCH-NAME}
-   ${host}=  Get VM Host IP  ${VCH-IP}
+   ${host}=  Get VM Host By IP  ${VCH-IP}
 
    ${status}=  Run Keyword And Return Status  Should Contain  ${host}  ${esx1-ip}
-   Run Keyword If  ${status}  Run  govc vm.migrate -host cls/${esx2-ip} %{VCH-NAME}
-   Run Keyword Unless  ${status}  Run  govc vm.migrate -host cls/${esx1-ip} %{VCH-NAME}
+   Run Keyword If  ${status}  Run  govc vm.migrate -host cls/${esx2-ip} ${VCH-NAME}
+   Run Keyword Unless  ${status}  Run  govc vm.migrate -host cls/${esx1-ip} ${VCH-NAME}
 
    Run Docker Regression Tests For VCH

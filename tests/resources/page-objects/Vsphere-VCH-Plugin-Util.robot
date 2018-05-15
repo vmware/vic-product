@@ -72,7 +72,6 @@ Click New Virtual Container Host Button
     Wait Until Element Is Visible And Enabled  css=clr-icon[shape='add']
     Click Element  css=clr-icon[shape='add']
     Unselect Frame
-
     Wait Until Element Is Visible And Enabled  css=iframe[ng-src*='view=create-vch']
     Select Frame  css=iframe[ng-src*='view=create-vch']
 
