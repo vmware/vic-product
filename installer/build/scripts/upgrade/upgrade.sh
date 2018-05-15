@@ -187,7 +187,7 @@ function proceedWithUpgrade {
       fi
     fi
 
-    logn "If the old appliance's version is not detected correctly, please enter \"n\" to abort the upgrade and contact VMware support."
+    log "If the old appliance's version is not detected correctly, please enter \"n\" to abort the upgrade and contact VMware support."
     while true; do
       log ""
       log "Do you wish to proceed with upgrade? [y/n]"
@@ -524,7 +524,7 @@ function main {
 
   [ -z "${VCENTER_DATACENTER}" ] && read -p "Enter vCenter Datacenter of the old VIC appliance: " VCENTER_DATACENTER
   export GOVC_DATACENTER="$VCENTER_DATACENTER"
-  [ -z "${APPLIANCE_TARGET}" ] && read -p "Enter old VIC appliance FQDN or IP: " APPLIANCE_TARGET
+  [ -z "${APPLIANCE_TARGET}" ] && read -p "Enter old VIC appliance IP: " APPLIANCE_TARGET
   [ -z "${APPLIANCE_USERNAME}" ] && read -p "Enter old VIC appliance username: " APPLIANCE_USERNAME
 
   if [ -n "${DESTROY_ENABLED}" ] ; then
