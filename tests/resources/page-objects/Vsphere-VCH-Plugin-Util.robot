@@ -157,7 +157,7 @@ Set Docker Host Parameters
 Create VCH using UI And Set Docker Parameters
     # navigate to the wizard and create a VCH
     # set docker parameters for created VCH
-    [Arguments]  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${have-nested}=${TRUE}
+    [Arguments]  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}=1
     Open Firefox Browser
     Navigate To VC UI Home Page
     Login On Single Sign-On Page
@@ -168,18 +168,14 @@ Create VCH using UI And Set Docker Parameters
 
     #general
     ${name}=  Evaluate  'VCH-${test-name}-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
+    Set Environment Variable  VCH_NAME  ${name}
     Input VCH Name  ${name}
     Click Next Button
     # compute capacity
     Log To Console  Selecting compute resource...
     # if cluster is present
-    Run Keyword If  ${have-nested}  Wait Until Element Is Visible And Enabled  css=.clr-treenode-children .cc-resource
-    Run Keyword If  ${have-nested}  Click Button  css=.clr-treenode-children .cc-resource
-    # if cluster is not present
-    Run Keyword Unless  ${have-nested}  Wait Until Element Is Visible And Enabled  css=button.clr-treenode-caret
-    Run Keyword Unless  ${have-nested}  Click Button  css=button.clr-treenode-caret
-    Run Keyword Unless  ${have-nested}  Wait Until Element Is Visible And Enabled  css=.clr-treenode-content clr-tree-node:nth-of-type(1) .cc-resource
-    Run Keyword Unless  ${have-nested}  Click Button  css=.clr-treenode-content clr-tree-node:nth-of-type(1) .cc-resource
+    Wait Until Element Is Visible And Enabled  css=.clr-treenode-children clr-tree-node:nth-of-type(${tree-node}) .cc-resource
+    Click Button  css=.clr-treenode-children clr-tree-node:nth-of-type(${tree-node}) .cc-resource
     Click Next Button
     # storage capacity
     Select Image Datastore  ${datastore}

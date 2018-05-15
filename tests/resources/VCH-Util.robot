@@ -146,14 +146,27 @@ Install VCH And Create Running Busybox Container
 
     [Return]  ${container}
 
-Cleanup VCH
+Run Delete VCH Secret
     [Tags]  secret
+    [Arguments]  ${vch-name}
+    ${rc}  ${output}=  Run And Return Rc And Output  bin/vic-machine-linux delete --name=${vch-name} --target=%{TEST_URL} --user=%{TEST_USERNAME} --password=%{TEST_PASSWORD} --force=true --compute-resource=%{TEST_RESOURCE} --timeout %{VCH_TIMEOUT}
+    Should Be Equal As Integers  ${rc}  0
+
+    [Return]  ${output}
+
+Delete VCH Successfully
+    [Arguments]  ${vch-name}
+    ${output}=  Run Delete VCH Secret  ${vch-name}
+    Log  ${output}
+    Wait Until Keyword Succeeds  6x  5s  Check Delete Success  ${vch-name}
+    Should Contain  ${output}  Completed successfully
+
+    [Return]  ${output}
+
+Cleanup VCH
     [Arguments]  ${vch-name}
     Log To Console  Deleting the VCH ${vch-name}
     Run Keyword And Continue On Failure  Gather Logs From Test Server  ${vch-name}
-    ${rc}  ${output}=  Run And Return Rc And Output  bin/vic-machine-linux delete --name=${vch-name} --target=%{TEST_URL} --user=%{TEST_USERNAME} --password=%{TEST_PASSWORD} --force=true --compute-resource=%{TEST_RESOURCE} --timeout %{VCH_TIMEOUT}
-    Wait Until Keyword Succeeds  6x  5s  Check Delete Success  ${vch-name}
-    Should Be Equal As Integers  ${rc}  0
-    Should Contain  ${output}  Completed successfully
+    ${output}=  Delete VCH Successfully  ${vch-name}
     ${output}=  Run  rm -rf ${vch-name}
     [Return]  ${output}
