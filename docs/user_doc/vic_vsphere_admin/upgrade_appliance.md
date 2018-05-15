@@ -46,13 +46,13 @@ For information about the supported upgrade paths for all versions of vSphere In
 
 3. Provide information about the new version of the appliance.
 
-    1. Enter the IP address of the vCenter Server instance on which you deployed the new appliance. The upgrade script does not accept FQDN addresses.
+    1. Enter the IP address or FQDN of the vCenter Server instance on which you deployed the new appliance.
     2. Enter the Single Sign-On user name and password of a vSphere administrator account.
 
     The script requires these credentials to access the disk files of the old appliance, and to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.
 3. Provide information about the Platform Services Controller.
 
-    - If vCenter Server is managed by an external Platform Services Controller, enter the IP address of the Platform Services Controller.
+    - If vCenter Server is managed by an external Platform Services Controller, enter the IP address or FQDN of the Platform Services Controller.
     - If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.
 4. If applicable, provide the Platform Services Controller domain.
 
@@ -62,7 +62,7 @@ For information about the supported upgrade paths for all versions of vSphere In
 6. Provide information about the old version of the appliance.
 
     1. Enter the name of the datacenter that contains the old version of the appliance.
-    2. Enter the address of the old version of the appliance.
+    2. Enter the IP address of the old version of the appliance.  The upgrade script does not accept FQDN addresses for the old appliance.
     3. For the old appliance user name, enter `root`.
     4. Enter the root password for the old appliance.
 6. Verify that the upgrade script has detected your upgrade path correctly.        
