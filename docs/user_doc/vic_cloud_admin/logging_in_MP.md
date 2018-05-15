@@ -10,7 +10,7 @@ To remove security warnings when you connect to the Getting Started page or mana
 
 If you see a certificate error when you attempt to go to http://<i>vic_appliance_address</i>, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](../vic_vsphere_admin/ts_cert_error.md).
 
-If you are unable to log in to vSphere Integrated Containers Management Portal, see [Troubleshoot Post-Deployment Operation](ts_post_deployment_op.md). 
+If you are unable to log in to vSphere Integrated Containers Management Portal, see [Troubleshoot Post-Deployment Operation](../vic_vsphere_admin/ts_post_deployment_op.md). 
 
 ## Default User Access to the Management Portal ##
 
