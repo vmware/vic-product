@@ -97,8 +97,6 @@ golintf = $(GOLINT) $(1) | sh -c "! grep -v 'lib/apiservers/portlayer/restapi/op
 
 $(ovfenv): $(call godeps,ovatools/ovfenv/*.go)
 	@echo building ovfenv linux...
-	@echo build $(dir $<)
-	@echo output $@
 	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
 $(vic-ova-ui): $(call godeps,ovatools/vic-ova-ui/*.go)

@@ -33,3 +33,12 @@ required = ["github.com/golang/dep", "github.com/GoASTScanner/gas", "github.com/
 [[constraint]]
   name = "github.com/golang/dep"
   version = "0.3.2"
+
+[[constraint]]
+  name = "github.com/GoASTScanner/gas"
+  revision = "6de76c92610b387855cdfdd53c99b149928916f7"
+
+[prune]
+  non-go = true
+  go-tests = true
+  unused-packages = true 
