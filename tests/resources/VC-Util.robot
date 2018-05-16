@@ -67,6 +67,13 @@ Get VM Host Name
     ${host}=  Fetch From Right  @{out}[-1]  ${SPACE}
     [Return]  ${host}
 
+Get VM Host By IP
+    [Arguments]  ${vm-ip}
+    ${out}=  Run  govc vm.info -vm.ip=${vm-ip}
+    ${out}=  Split To Lines  ${out}
+    ${host}=  Fetch From Right  @{out}[-1]  ${SPACE}
+    [Return]  ${host}
+
 Download VIC And Install UI Plugin
     [Arguments]  ${ova-ip}
     Open Connection  %{TEST_URL}
@@ -98,3 +105,7 @@ Get PSC Instance
     Close Connection
 
     [Return]  ${psc}
+
+Gather All vSphere Logs
+    ${hostList}=  Run  govc ls -t HostSystem host/cls | xargs
+    Run  govc logs.download ${hostList}
