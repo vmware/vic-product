@@ -88,7 +88,7 @@ Download VIC And Install UI Plugin
     Execute Command And Return Output  curl -kL https://${ova-ip}:9443/files/${VIC_BUNDLE} -o ${VIC_BUNDLE}
     Execute Command And Return Output  tar -zxf ${VIC_BUNDLE}
     Execute Command And Return Output  cd vic/ui/VCSA && printf "yes" | ./install.sh -i %{TEST_URL} -u %{TEST_USERNAME} -p %{TEST_PASSWORD}
-
+    
     Execute Command And Return Output  service-control --stop vsphere-ui
     Execute Command And Return Output  service-control --start vsphere-ui
     Execute Command And Return Output  service-control --stop vsphere-client
