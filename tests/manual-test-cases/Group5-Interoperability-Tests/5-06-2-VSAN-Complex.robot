@@ -64,10 +64,11 @@ VSAN Complex Setup
 Complex VSAN
     Wait Until Keyword Succeeds  10x  30s  Check No VSAN DOMs In Datastore  %{TEST_DATASTORE}
     Custom Testbed Keepalive  /dbc/pa-dbc1111/mhagen
-
+    # install ova and verify
     Deploy OVA And Install UI Plugin And Run Regression Tests  5-06-2-TEST  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}  2
+    # clean up OVA and VCH
     Download VIC Engine If Not Already  %{OVA_IP}
     Delete VCH Successfully  %{VCH_NAME}
     Cleanup VIC Product OVA  %{OVA_NAME}
-
+    # check vsan doms
     Wait Until Keyword Succeeds  10x  30s  Check No VSAN DOMs In Datastore  %{TEST_DATASTORE}
