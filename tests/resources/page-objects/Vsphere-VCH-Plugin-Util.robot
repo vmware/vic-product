@@ -168,7 +168,6 @@ Create VCH using UI And Set Docker Parameters
 
     #general
     ${name}=  Evaluate  'VCH-${test-name}-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
-    Set Environment Variable  VCH_NAME  ${name}
     Input VCH Name  ${name}
     Click Next Button
     # compute capacity
