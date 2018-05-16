@@ -66,7 +66,8 @@ Complex VSAN
     Custom Testbed Keepalive  /dbc/pa-dbc1111/mhagen
 
     Deploy OVA And Install UI Plugin And Run Regression Tests  5-06-2-TEST  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}  2
-    Cleanup VIC Product OVA  %{OVA_NAME}
+    Download VIC Engine If Not Already  %{OVA_IP}
     Delete VCH Successfully  %{VCH_NAME}
+    Cleanup VIC Product OVA  %{OVA_NAME}
 
     Wait Until Keyword Succeeds  10x  30s  Check No VSAN DOMs In Datastore  %{TEST_DATASTORE}
