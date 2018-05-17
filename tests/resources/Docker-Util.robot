@@ -152,3 +152,13 @@ Run Docker Regression Tests For VCH
     ${rc}  ${output}=  Run And Return Rc And Output  docker ${VCH-PARAMS} ps -a
     Should Be Equal As Integers  ${rc}  0
     Should Not Contain  ${output}  /bin/top
+
+Verify Running Busybox Container And Its Pushed Harbor Image
+    [Arguments]  ${registry-ip}  ${image-tag}  ${cert-path}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker-endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
+    # verify previously created container is migrated and still running
+    ${rc}  ${output}=  Run And Return Rc And Output  ${docker} ${docker-endpoint} ps
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    Should Contain  ${output}  /bin/top
+    # verify previously tagged and pushed image is still available
+    Pull And Verify Image In Harbor Registry  ${registry-ip}  ${busybox}  ${image-tag}  ${cert-path}
