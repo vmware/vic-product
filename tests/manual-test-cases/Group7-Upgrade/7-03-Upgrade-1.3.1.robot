@@ -20,13 +20,13 @@ Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Variables ***
 ${old-ova-file-name}=  vic-v1.3.1-3409-132fb13d.ova
-${old-ova-version}=  v1.3.1
+${old-ova-version}=    v1.3.1
 ${old-ova-cert-path}=  /storage/data/admiral/ca_download
 ${new-ova-cert-path}=  /storage/data/admiral/ca_download
 
 *** Keywords ***
 OVA Upgrade Setup
-    Setup Simple VC And Test Environment For Upgrade Test
+    Setup Simple VC And Test Environment
 
 *** Test Cases ***
 Upgrade OVA 1.3.1
