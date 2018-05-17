@@ -60,15 +60,16 @@ Simple VSAN Setup
     Set Environment Variable  TEST_RESOURCE  /vcqaDC/host/cls
     Set Environment Variable  TEST_TIMEOUT  15m
 
-Check VSAN DOMs In Datastore
-    [Arguments]  ${test_datastore}
-    ${out}=  Run  govc datastore.vsan.dom.ls -ds ${test_datastore} -l -o
-    Should Be Empty  ${out}
-
 *** Test Cases ***
 Simple VSAN
     Log To Console  \nStarting test...
-    Wait Until Keyword Succeeds  10x  30s  Check VSAN DOMs In Datastore  %{TEST_DATASTORE}
+    Wait Until Keyword Succeeds  10x  30s  Check No VSAN DOMs In Datastore  %{TEST_DATASTORE}
     Custom Testbed Keepalive  /dbc/pa-dbc1111/mhagen
-
+    # install ova and verify
     Deploy OVA And Install UI Plugin And Run Regression Tests  5-06-1-TEST  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
+    # clean up OVA and VCH
+    Download VIC Engine If Not Already  %{OVA_IP}
+    Delete VCH Successfully  ${VCH-NAME}
+    Cleanup VIC Product OVA  %{OVA_NAME}
+    # check vsan doms
+    Wait Until Keyword Succeeds  10x  30s  Check No VSAN DOMs In Datastore  %{TEST_DATASTORE}
