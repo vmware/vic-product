@@ -3008,7 +3008,7 @@
 </li>
 <li><p>Provide information about the new version of the appliance.</p>
 <ol>
-<li>Enter the IP address of the vCenter Server instance on which you deployed the new appliance. The upgrade script does not accept FQDN addresses.</li>
+<li>Enter the IP address or FQDN of the vCenter Server instance on which you deployed the new appliance. </li>
 <li><p>Enter the Single Sign-On user name and password of a vSphere administrator account.</p>
 <p>The script requires these credentials to access the disk files of the old appliance, and to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.</p>
 </li>
@@ -3016,7 +3016,7 @@
 </li>
 <li><p>Provide information about the Platform Services Controller.</p>
 <ul>
-<li>If vCenter Server is managed by an external Platform Services Controller, enter the IP address of the Platform Services Controller.</li>
+<li>If vCenter Server is managed by an external Platform Services Controller, enter the IP address or FQDN of the Platform Services Controller.</li>
 <li>If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.</li>
 </ul>
 </li>
@@ -3030,7 +3030,7 @@
 <li><p>Provide information about the old version of the appliance.</p>
 <ol>
 <li>Enter the name of the datacenter that contains the old version of the appliance.</li>
-<li>Enter the address of the old version of the appliance.</li>
+<li>Enter the IP address of the old version of the appliance. The upgrade script does not accept FQDN addresses for the old appliance.</li>
 <li>For the old appliance user name, enter <code>root</code>.</li>
 </ol>
 </li>
@@ -3101,7 +3101,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Move Disks Manually","level":"3.1.4.2.1","depth":4,"next":{"title":"Upgrade VCHs","level":"3.1.4.3","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"3.1.4.3.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},"previous":{"title":"Upgrade the Appliance","level":"3.1.4.2","depth":3,"path":"vic_vsphere_admin/upgrade_appliance.md","ref":"vic_vsphere_admin/upgrade_appliance.md","articles":[{"title":"Move Disks Manually","level":"3.1.4.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_appliance_manual.md","ref":"vic_vsphere_admin/upgrade_appliance_manual.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["insert-logo","expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"url":"VMW_logo.png","style":"background: none"},"expandable-chapters":{}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_appliance_manual.md","mtime":"2018-05-15T12:55:37.267Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-15T12:56:34.370Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Move Disks Manually","level":"3.1.4.2.1","depth":4,"next":{"title":"Upgrade VCHs","level":"3.1.4.3","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"3.1.4.3.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},"previous":{"title":"Upgrade the Appliance","level":"3.1.4.2","depth":3,"path":"vic_vsphere_admin/upgrade_appliance.md","ref":"vic_vsphere_admin/upgrade_appliance.md","articles":[{"title":"Move Disks Manually","level":"3.1.4.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_appliance_manual.md","ref":"vic_vsphere_admin/upgrade_appliance_manual.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["insert-logo","expandable-chapters","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"url":"VMW_logo.png","style":"background: none"},"expandable-chapters":{}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_appliance_manual.md","mtime":"2018-05-17T10:25:34.465Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-17T10:28:00.517Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
