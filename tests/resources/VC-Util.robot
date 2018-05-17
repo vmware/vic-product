@@ -109,3 +109,10 @@ Get PSC Instance
 Gather All vSphere Logs
     ${hostList}=  Run  govc ls -t HostSystem host/cls | xargs
     Run  govc logs.download ${hostList}
+
+Check No VSAN DOMs In Datastore
+    [Arguments]  ${test_datastore}
+    ${out}=  Run  govc datastore.vsan.dom.ls -ds ${test_datastore} -l -o
+    Should Be Empty  ${out}
+
+    [Return]  ${out}
