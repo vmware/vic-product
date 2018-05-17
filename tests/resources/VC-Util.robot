@@ -116,3 +116,9 @@ Check No VSAN DOMs In Datastore
     Should Be Empty  ${out}
 
     [Return]  ${out}
+
+Copy Disk
+    [Arguments]  ${old-datastore}  ${new-datastore}  ${old-disk}  ${new-disk}
+    ${output}=  Run command and Return output  govc datastore.cp -ds "${old-datastore}" -ds-target "${new-datastore}" "${old-disk}" "${new-disk}"
+    [Return]  ${output}
+
