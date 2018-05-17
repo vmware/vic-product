@@ -43,6 +43,7 @@ Test
     Should Be Equal As Integers  ${rc}  0
 
     Log To Console  Create VCH with DRS enabled...
-    Create VCH using UI And Set Docker Parameters  5-08-TEST-DRS  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
+    # create vch and set docker params
+    Wait Until Keyword Succeeds  3x  1m  Create VCH using UI And Set Docker Parameters  5-08-TEST-DRS  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
     # run vch regression tests
     Run Docker Regression Tests For VCH
