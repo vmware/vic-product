@@ -12,56 +12,105 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package tasks
 
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"net"
 	"os/exec"
 	"strings"
+	"time"
 
 	log "github.com/Sirupsen/logrus"
 
 	"github.com/vmware/vic-product/installer/lib"
 	"github.com/vmware/vic-product/installer/pkg/ip"
+	"github.com/vmware/vic-product/installer/tagvm"
+	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/vsphere/optmanager"
 )
 
 const (
-	pscBinaryPath    = "/etc/vmware/admiral/admiral-auth-psc-1.3.2-SNAPSHOT-command.jar"
-	vcHostnameOption = "config.vpxd.hostnameUrl"
-	pscConfDir       = "/etc/vmware/psc"
-	pscConfFileName  = "psc-config.properties"
+	// InitServicesTimestamp exists on the local fs when registration first succeeds
+	InitServicesTimestamp = "./registration-timestamps.txt"
+	pscBinaryPath         = "/etc/vmware/admiral/admiral-auth-psc-1.3.2-SNAPSHOT-command.jar"
+	vcHostnameOption      = "config.vpxd.hostnameUrl"
+	pscConfDir            = "/etc/vmware/psc"
+	pscConfFileName       = "psc-config.properties"
 )
 
-// registerWithPSC runs the PSC register command to register VIC services with
-// the platforms services controller. The command generates config files and
-// keystore files to use while getting and renewing tokens.
-func registerWithPSC(ctx context.Context) error {
-	var err error
+// PSCRegistrationConfig holds the required data for a psc registration
+type PSCRegistrationConfig struct {
+	Admin       *lib.LoginInfo
+	PscInstance string
+	PscDomain   string
+}
 
-	// Obtain the admin user's domain
-	domain := "vsphere.local"
-	userFields := strings.SplitN(admin.User, "@", 2)
-	if len(userFields) == 2 {
-		domain = userFields[1]
+// NewPSCRegistrationConfig returns a PSCRegistrationConfig with a initialized Admin LoginInfo type
+func NewPSCRegistrationConfig() *PSCRegistrationConfig {
+	return &PSCRegistrationConfig{
+		Admin: &lib.LoginInfo{},
+	}
+}
+
+// RegisterAppliance runs the three processes required to register the appliance:
+// TagVM, RegisterWithPSC, and SaveInitializationState
+func RegisterAppliance(conf *PSCRegistrationConfig) error {
+	ctx := context.TODO()
+	if conf.Admin.Validator == nil {
+		err := errors.New("No validator session found")
+		log.Debug(err.Error())
+		return err
 	}
 
-	if pscInstance == "" {
+	if err := tagvm.Run(ctx, conf.Admin.Validator.Session); err != nil {
+		log.Debug(errors.ErrorStack(err))
+		return errors.New("Failed to locate VIC Appliance. Please check the vCenter Server provided and try again")
+	}
+
+	if err := RegisterWithPSC(ctx, conf); err != nil {
+		log.Debug(errors.ErrorStack(err))
+		return errors.New("Failed to register with PSC. Please check the PSC settings provided and try again")
+	}
+
+	if err := ioutil.WriteFile(InitServicesTimestamp, []byte(time.Now().String()), 0644); err != nil {
+		log.Debug(errors.ErrorStack(err))
+		return errors.New("Failed to write to timestamp file")
+	}
+
+	return nil
+}
+
+// RegisterWithPSC runs the PSC register command to register VIC services with
+// the platforms services controller. The command generates config files and
+// keystore files to use while getting and renewing tokens.
+func RegisterWithPSC(ctx context.Context, conf *PSCRegistrationConfig) error {
+	var err error
+
+	// Use vSphere as the psc instance if external psc was not supplied
+	if conf.PscInstance == "" {
 		// Obtain the hostname of the vCenter host to use as PSC instance
-		pscInstance, err = optmanager.QueryOptionValue(ctx, admin.Validator.Session, vcHostnameOption)
+		conf.PscInstance, err = optmanager.QueryOptionValue(ctx, conf.Admin.Validator.Session, vcHostnameOption)
 		if err != nil {
 			return err
 		}
 	}
-	if pscDomain != "" {
-		log.Infof("User domain: %s PSC domain: %s. Using %s", domain, pscDomain, pscDomain)
-		domain = pscDomain
+
+	// Use vSphere or user's domain as the psc domain if external psc was not supplied
+	if conf.PscDomain == "" {
+		// Obtain the Admin user's domain
+		conf.PscDomain = "vsphere.local"
+		userFields := strings.SplitN(conf.Admin.User, "@", 2)
+		if len(userFields) == 2 {
+			conf.PscDomain = userFields[1]
+		}
 	}
-	log.Infof("vCenter user: %s", admin.User)
-	log.Infof("PSC instance: %s", pscInstance)
-	log.Infof("PSC domain: %s", domain)
+
+	log.Infof("vCenter user: %s", conf.Admin.User)
+	log.Infof("PSC instance: %s", conf.PscInstance)
+	log.Infof("PSC domain: %s", conf.PscDomain)
 
 	// Obtain the OVA VM's IP
 	vmIP, err := ip.FirstIPv4(ip.Eth0Interface)
@@ -95,11 +144,11 @@ func registerWithPSC(ctx context.Context) error {
 			"--clientName=" + client,
 			// NOTE(anchal): version set to 6.0 to use SAML for both versions 6.0 and 6.5
 			"--version=6.0",
-			"--tenant=" + domain,
-			"--domainController=" + pscInstance,
-			"--username=" + admin.User,
-			"--password=" + admin.Password,
-			"--admiralUrl=" + fmt.Sprintf("https://%s:%s", getHostname(ovf, vmIP), admiralPort),
+			"--tenant=" + conf.PscDomain,
+			"--domainController=" + conf.PscInstance,
+			"--username=" + conf.Admin.User,
+			"--password=" + conf.Admin.Password,
+			"--admiralUrl=" + fmt.Sprintf("https://%s:%s", GetHostname(ovf, vmIP), admiralPort),
 			"--configDir=" + pscConfDir,
 		}
 
@@ -128,7 +177,8 @@ func registerWithPSC(ctx context.Context) error {
 	return nil
 }
 
-func getHostname(ovf lib.Environment, vmIP net.IP) string {
+// GetHostname returns the non-transient hostname of the Appliance
+func GetHostname(ovf lib.Environment, vmIP net.IP) string {
 
 	// Until we gix transient hostnames, use the static hostname reported by hostnamectl.
 	// os.Hostname() returns the kernel hostname, with no regard to transient or static classifications.
