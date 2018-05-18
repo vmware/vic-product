@@ -43,7 +43,7 @@ func ThumbprintHandler(resp http.ResponseWriter, req *http.Request) {
 		var cert object.HostCertificateInfo
 		if err := cert.FromURL(&url.URL{Host: target}, &tls.Config{}); err != nil {
 			log.Errorf("Error getting thumbprint for %s: %s", target, err.Error())
-			http.Error(resp, "Please supply a target", http.StatusUnprocessableEntity)
+			http.Error(resp, "Error getting thumbprint", http.StatusInternalServerError)
 			return
 		}
 
