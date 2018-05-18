@@ -58,7 +58,7 @@ Simple VSAN Setup
     Remove Environment Variable  TEST_DATACENTER
     Set Environment Variable  TEST_DATASTORE  vsanDatastore
     Set Environment Variable  TEST_RESOURCE  /vcqaDC/host/cls
-    Set Environment Variable  TEST_TIMEOUT  15m
+    Set Environment Variable  VCH_TIMEOUT  30m0s
 
 *** Test Cases ***
 Simple VSAN

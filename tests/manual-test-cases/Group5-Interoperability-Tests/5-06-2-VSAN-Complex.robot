@@ -58,7 +58,7 @@ VSAN Complex Setup
     Set Environment Variable  TEST_DATASTORE  ${datastore}
     Remove Environment Variable  TEST_DATACENTER
     Set Environment Variable  TEST_RESOURCE  /vcqaDC/host/cluster-vsan-1
-    Set Environment Variable  VCH_TIMEOUT  20m0s
+    Set Environment Variable  VCH_TIMEOUT  30m0s
 
 *** Test Cases ***
 Complex VSAN
