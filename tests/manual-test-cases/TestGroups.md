@@ -12,3 +12,4 @@ VIC Integration Test Suite
 -
 [Group 8 - Manual Upgrade](Group8-Manual-Upgrade/TestCases.md)
 -
+[Group 18 - VIC UI](Group18-VIC-UI/TestCases.md) TODO(morris-jason)

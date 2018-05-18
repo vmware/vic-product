@@ -57,6 +57,10 @@ do
       VICENGINE="$2"
       shift 2 # past argument
       ;;
+    --vicui)
+      VICUI="$2"
+      shift 2 # past argument
+      ;;
     --vicmachineserver)
       VIC_MACHINE_SERVER="$2"
       shift 2 # past argument
@@ -84,6 +88,12 @@ if [ -z "${VICENGINE}" ]; then
 fi
 setenv VICENGINE "$url"
 
+url=""
+if [ -z "${VICUI}" ]; then
+    url=$(gsutil ls -l "gs://vic-ui-builds" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d " " -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
+fi
+setenv VICUI "$url"
+
 #set Harbor
 url=""
 if [ -z "${HARBOR}" ]; then
@@ -104,6 +114,8 @@ export BUILD_HARBOR_FILE=${BUILD_HARBOR_FILE:-}
 export BUILD_HARBOR_URL=${BUILD_HARBOR_URL:-}
 export BUILD_VICENGINE_FILE=${BUILD_VICENGINE_FILE:-}
 export BUILD_VICENGINE_URL=${BUILD_VICENGINE_URL:-}
+export BUILD_VICUI_FILE=${BUILD_VICUI_FILE:-}
+export BUILD_VICUI_URL=${BUILD_VICUI_URL:-}
 export BUILD_VIC_MACHINE_SERVER_REVISION=${BUILD_VIC_MACHINE_SERVER_REVISION:-}
 export BUILD_ADMIRAL_REVISION=${BUILD_ADMIRAL_REVISION:-}
 export BUILD_OVA_REVISION=${BUILD_OVA_REVISION:-}
