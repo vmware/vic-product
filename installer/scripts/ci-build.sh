@@ -32,6 +32,9 @@ fi
 if [ -n "${VICENGINE}" ]; then
   OPTIONS="$OPTIONS --vicengine $VICENGINE"
 fi
+if [ -n "${VICUI}" ]; then
+  OPTIONS="$OPTIONS --vicui $VICENGINE"
+fi
 if [ -n "${VIC_MACHINE_SERVER}" ]; then
   OPTIONS="$OPTIONS --vicmachineserver $VIC_MACHINE_SERVER"
 fi
@@ -49,6 +52,10 @@ if [[ ( "$DRONE_BUILD_EVENT" == "tag" && "$DRONE_TAG" != *"dev"* ) || "$DRONE_BR
   if [ -z "${VICENGINE}" ]; then
     vicengine_release=$(gsutil ls -l "gs://vic-engine-releases" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
     OPTIONS="$OPTIONS --vicengine $vicengine_release"
+  fi
+  if [ -z "${VICUI}" ]; then
+    vicui_release=$(gsutil ls -l "gs://vic-ui-releases" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d " " -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
+    OPTIONS="$OPTIONS --vicui $vicui_release"
   fi
   if [ -z "${VIC_MACHINE_SERVER}" ]; then
     # Listing container tags requires permissions
