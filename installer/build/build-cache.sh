@@ -36,6 +36,7 @@ images=(
 downloads=(
   ${BUILD_HARBOR_URL}
   ${BUILD_VICENGINE_URL}
+  ${BUILD_VICUI_URL}
 )
 
 function timecho {
@@ -84,7 +85,7 @@ function cacheOther() {
     else
       timecho "${yarrow} downloading and saving ${brprpl}${filename}${reset}"
       set +e
-      basefile=$(ls "$(dirname "$archive")/$(echo "${filename}" | cut -f1 -d"-" | cut -f1 -d"_" | cut -f1 -d".")"* 2>/dev/null)
+      basefile=$(ls "$(dirname "$archive")/$(echo "${filename}" | grep -v vic | cut -f1 -d"-" | cut -f1 -d"_" | cut -f1 -d".")"* 2>/dev/null)
       [ $? -eq 0 ] && [ -f "$basefile" ] && rm "$basefile"*
       set -e
       add "${download}" "$archive"
