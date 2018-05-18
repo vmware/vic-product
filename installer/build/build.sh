@@ -37,8 +37,8 @@ function usage() {
     echo -e "Usage:
       <ova-dev|ova-ci>
       [--admiral|--vicmachineserver] <given a revision, ie. 'dev', 'latest'>
-      [--vicengine|--harbor] <given a url, eg. 'https://storage.googleapis.com/vic-engine-builds/vic_13806.tar.gz'>
-      [--vicengine|--harbor] <given a file in cwd, eg. 'vic_13806.tar.gz'>
+      [--vicengine|--harbor|--vicui] <given a url, eg. 'https://storage.googleapis.com/vic-engine-builds/vic_13806.tar.gz'>
+      [--vicengine|--harbor|--vicui] <given a file in cwd, eg. 'vic_13806.tar.gz'>
       [passthrough args for ./bootable/build-main.sh, eg. '-b bin/.vic-appliance-base.tar.gz']
     ie: $0 ova-dev --harbor v1.2.0-38-ge79334a --vicengine https://storage.googleapis.com/vic-engine-builds/vic_13806.tar.gz --admiral v1.2" >&2
     exit 1

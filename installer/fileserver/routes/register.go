@@ -1,4 +1,4 @@
-// Copyright 2017 VMware, Inc. All Rights Reserved.
+// Copyright 2017-2018 VMware, Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,31 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package routes
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
-	"time"
 
-	"github.com/vmware/vic-product/installer/tagvm"
+	"github.com/vmware/vic-product/installer/fileserver/tasks"
+	"github.com/vmware/vic/pkg/trace"
 )
 
 type registerPayload struct {
 	Target      string `json:"target"`
 	User        string `json:"user"`
 	Password    string `json:"password"`
+	Thumbprint  string `json:"thumbprint,omitempty"`
 	ExternalPSC string `json:"externalpsc"`
 	PSCDomain   string `json:"pscdomain"`
 }
 
-func registerHandler(resp http.ResponseWriter, req *http.Request) {
+// RegisterHandler unwraps a json body as a PSCRegistrationConfig and preforms
+// the RegisterWithPSC task
+func RegisterHandler(resp http.ResponseWriter, req *http.Request) {
+	defer trace.End(trace.Begin(""))
+
 	switch req.Method {
 	case http.MethodPost:
-
+		op := trace.NewOperation(context.Background(), "RegisterHandler")
 		if req.Body == nil {
 			http.Error(resp, "Please send a request body", http.StatusBadRequest)
 			return
@@ -48,38 +52,31 @@ func registerHandler(resp http.ResponseWriter, req *http.Request) {
 			http.Error(resp, err.Error(), http.StatusBadRequest)
 			return
 		}
-
 		defer req.Body.Close()
-		admin.Target = r.Target
-		admin.User = r.User
-		admin.Password = r.Password
-		cancel, err := admin.VerifyLogin()
+
+		PSCConfig := tasks.NewPSCRegistrationConfig()
+		PSCConfig.Admin.Target = r.Target
+		PSCConfig.Admin.User = r.User
+		PSCConfig.Admin.Password = r.Password
+		PSCConfig.Admin.Thumbprint = r.Thumbprint
+		cancel, err := PSCConfig.Admin.VerifyLogin(op)
 		defer cancel()
 		if err != nil {
+			op.Infof("Validation failed")
 			http.Error(resp, err.Error(), http.StatusUnauthorized)
 			return
 		}
+		defer PSCConfig.Admin.Session.Logout(op)
 
-		ctx := context.TODO()
-		if err := tagvm.Run(ctx, admin.Validator.Session); err != nil {
-			http.Error(resp, err.Error(), http.StatusServiceUnavailable)
+		op.Infof("Validation succeeded")
+		if err := PSCConfig.RegisterAppliance(op); err != nil {
+			errMsg := fmt.Sprintf("Failed to write to register appliance: %s", err.Error())
+			http.Error(resp, errMsg, http.StatusInternalServerError)
 			return
 		}
 
-		pscInstance = r.ExternalPSC
-		pscDomain = r.PSCDomain
-		if err := registerWithPSC(ctx); err != nil {
-			http.Error(resp, err.Error(), http.StatusServiceUnavailable)
-			return
-		}
-
-		if err := ioutil.WriteFile(initServicesTimestamp, []byte(time.Now().String()), 0644); err != nil {
-			errMsg := fmt.Sprintf("Failed to write to timestamp file: %s", err.Error())
-			http.Error(resp, errMsg, http.StatusServiceUnavailable)
-			return
-		}
-
-		http.Error(resp, "operation complete", http.StatusOK)
+		resp.WriteHeader(http.StatusOK)
+		resp.Write([]byte("operation complete"))
 	default:
 		http.Error(resp, "only accepts POST", http.StatusMethodNotAllowed)
 	}
