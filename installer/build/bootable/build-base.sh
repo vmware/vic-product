@@ -57,7 +57,7 @@ function set_base() {
     pkgconfig dbus cpio\
     photon-release tdnf \
     openssh linux-esx sed \
-    gzip tar xz bzip2 \
+    gzip zip tar xz bzip2 \
     glibc iana-etc \
     ca-certificates \
     curl which initramfs \

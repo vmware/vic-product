@@ -54,7 +54,7 @@ vendor: $(DEP)
 
 gas: $(GAS)
 	@echo running go AST tool
-	@$(GAS) -quiet fileserver/... landing_server/... lib/... ovatools/... pkg/... tagvm/... toolbox/... 2> /dev/null
+	@$(GAS) -quiet fileserver/... landing_server/... lib/... ovatools/... pkg/... toolbox/... 2> /dev/null
 
 golint: $(GOLINT)
 	@echo checking go lint...

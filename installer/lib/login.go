@@ -1,4 +1,4 @@
-// Copyright 2017 VMware, Inc. All Rights Reserved.
+// Copyright 2017-2018 VMware, Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,65 +16,91 @@ package lib
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"net/url"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
-
-	"github.com/vmware/vic/lib/install/data"
-	"github.com/vmware/vic/lib/install/validate"
+	"github.com/vmware/govmomi/object"
+	"github.com/vmware/vic-product/installer/pkg/version"
 	"github.com/vmware/vic/pkg/trace"
+	"github.com/vmware/vic/pkg/vsphere/session"
 )
 
 const loginTimeout = 15 * time.Second
 
+// LoginInfo represents credentials needed to access vSphere
 type LoginInfo struct {
-	Target    string `json:"target"`
-	User      string `json:"user"`
-	Password  string `json:"password"`
-	Validator *validate.Validator
+	Target     string `json:"target"`
+	User       string `json:"user"`
+	Password   string `json:"password"`
+	Thumbprint string `json:"thumbprint"`
+	URL        *url.URL
+	Session    *session.Session
 }
 
-// Verify login based on info given, return non nil error if validation fails.
-func (info *LoginInfo) VerifyLogin() (context.CancelFunc, error) {
+// VerifyLogin based on info given, return non nil error if validation fails.
+func (info *LoginInfo) VerifyLogin(op trace.Operation) (context.CancelFunc, error) {
 	defer trace.End(trace.Begin(""))
 
-	var u url.URL
-	u.User = url.UserPassword(info.User, info.Password)
-	u.Host = info.Target
-	u.Path = ""
-	log.Infof("server URL: %v\n", u.Host)
+	info.URL = &url.URL{
+		Scheme: "https",
+		Host:   info.Target,
+		User:   url.UserPassword(info.User, info.Password),
+		Path:   "",
+	}
 
-	input := data.NewData()
-
-	username := u.User.Username()
-	input.OpsCredentials.OpsUser = &username
-	passwd, _ := u.User.Password()
-	input.OpsCredentials.OpsPassword = &passwd
-	input.URL = &u
-	input.Force = true
-
-	input.User = username
-	input.Password = &passwd
+	op.Infof("server URL: %v\n", info.URL.Host)
 
 	ctx, cancel := context.WithTimeout(context.Background(), loginTimeout)
 	loginResponse := make(chan error, 1)
-	var v *validate.Validator
 	var err error
 
 	go func() {
-		v, err = validate.NewValidator(ctx, input)
-		info.Validator = v
+		if info.Thumbprint == "" {
+			var cert object.HostCertificateInfo
+			if err = cert.FromURL(info.URL, new(tls.Config)); err != nil {
+				op.Errorf("failed to get host cert: %s", err)
+				loginResponse <- err
+				return
+			}
+
+			if cert.Err != nil {
+				op.Errorf("Failed to verify certificate for target=%s (thumbprint=%s)",
+					info.URL.Host, cert.ThumbprintSHA1)
+				loginResponse <- cert.Err
+				return
+			}
+
+			info.Thumbprint = cert.ThumbprintSHA1
+			op.Debugf("Accepting host %q thumbprint %s", info.URL.Host, info.Thumbprint)
+		}
+
+		sessionconfig := &session.Config{
+			Thumbprint: info.Thumbprint,
+			UserAgent:  version.UserAgent("vic-appliance"),
+			Service:    info.URL.String(),
+		}
+
+		info.Session = session.NewSession(sessionconfig)
+		info.Session, err = info.Session.Connect(op)
+		if err != nil {
+			op.Errorf("failed to connect: %s", err)
+			loginResponse <- err
+			return
+		}
+
+		// #nosec: Errors unhandled.
+		info.Session.Populate(op)
 		loginResponse <- err
 	}()
 
 	select {
 	case <-ctx.Done():
-		loginResponse <- fmt.Errorf("login failed; validator context exceeded")
+		loginResponse <- fmt.Errorf("login failed; session context deadline exceeded")
 	case err := <-loginResponse:
 		if err != nil {
-			log.Infof("validator: %s", err)
+			op.Infof("session: %s", err)
 			loginResponse <- err
 		} else {
 			loginResponse <- nil
