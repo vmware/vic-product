@@ -52,7 +52,7 @@ echo "Downloading VIC Product OVA build $input..."
 n=0
 until [[ $n -ge 5 ]]
 do
-    wget -o vic-product/$input https://storage.googleapis.com/$GCS_BUCKET/$input && break;
+    wget -O vic-product/$input https://storage.googleapis.com/$GCS_BUCKET/$input && break;
     n=$(($n+1));
     sleep 10;
 done
