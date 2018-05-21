@@ -200,34 +200,122 @@
                 </div>
                 <div class="modal-backdrop" aria-hidden="true"></div>
                 {{ end }}
+
+                
+                {{if not .NeedLogin}}
+                <div class="modal" id="pluginModal">
+                    <div class="modal-dialog" role="dialog" aria-hidden="true">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Complete VIC plugin installation</h3>
+                            </div>
+                            <div id="plugin-spinner" style="display: none;text-align: center">
+                                <div class="spinner"></div>
+                            </div>
+                            <div class="modal-body">
+                                <form id="plugin-form" method="post" class="pt-0">
+                                    <div id="plugin-body">
+                                        
+                                        <p class="mt-0 mb-1">
+                                            Certificate thumbprint for
+                                            vCenter Server: {{ .VCenter }}
+                                        </p>
+                                        <p class="p4 mt-0 mb-1" id="thumbprint"></p>
+                                        <p class="mt-0 mb-1">
+                                                Click Continue to validate
+                                                this certificate or cancel
+                                                if the thumbprint is not valid
+                                        </p>
+                                        <a href="https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/obtain_thumbprint.html" class="btn btn-link" >Read more...</a>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-outline" type="button">Cancel</button>
+                                        <button id="plugin-submit" class="btn btn-primary"  type="submit">Continue</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-backdrop" aria-hidden="true"></div>
+                {{ end }}
+
+
             </div>
         </main>
     </div>
 
     <script>
 
-        (function() {
-
-            $form = document.getElementById('login-form');
-            $spinner = document.getElementById('login-spinner');
-            $body = document.getElementById('login-body');
-            $submit = document.getElementById('login-submit');
-
-            if ($form) {
-                $form.addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    $submit.setAttribute('disabled', 'disabled');
-                    $body.style.display = 'none';
-                    $spinner.style.display = '';
-                    setTimeout(function() {
-                        $form.submit();
-                    });
-                })
+            function getThumbrpint() {
+                var xhr = new XMLHttpRequest();
+                
+                xhr.open('GET', '/thumbprint?target=10.162.26.118');
+                xhr.onreadystatechange = function() {
+                    if (xhr.status === 200) {
+                        alert('Entro aqui'+'Thumbprint: ' + xhr.responseText);
+                        //document.getElementById("thumbprint").innerHTML=xhr.responseText;
+                    }
+                    else {
+                    alert('Request failed.  Returned status of ' + xhr.status);
+                    }
+                };
+                xhr.send();             
             }
-
-        })();
-
-    </script>
+    
+    
+            (function() {
+                //login elements
+                $loginModal= document.getElementById('loginModal');
+                $form = document.getElementById('login-form');
+                $spinner = document.getElementById('login-spinner');
+                $body = document.getElementById('login-body');
+                $submit = document.getElementById('login-submit');
+                
+                //plugin installations items
+                $pluginModal= document.getElementById('pluginModal');
+                $pluginForm = document.getElementById('plugin-form');
+                $pluginSpinner = document.getElementById('plugin-spinner');
+                $pluginSubmit = document.getElementById('plugin-submit');
+                $pluginBody = document.getElementById('plugin-body');
+                $thumbprint = document.getElementById('thumbprint');
+    
+                if ($form) {
+                    $form.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        $submit.setAttribute('disabled', 'disabled');
+                        console.log("llego a poner el body en display none");
+                        $body.style.display = 'none';
+                        console.log("llego a encender el spinner");
+                        $spinner.style.display = '';
+                        setTimeout(function() {
+                            console.log("click login");
+                            console.log("apago el modal");
+                            //$loginModal.style.display = "none";
+                            //$pluginModal.style.display = "";
+                            $form.submit();
+                            
+                            
+                        });
+                    })
+                }
+    
+                if ($pluginForm) {
+                    $pluginForm.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        $pluginSubmit.setAttribute('disabled', 'disabled');
+                        $pluginBody.style.display = 'none';
+                        $pluginSpinner.style.display = '';
+                        setTimeout(function() {
+                            console.log("click plugin");
+                            $pluginForm.submit();
+                        });
+                    })
+                }
+    
+            })();
+    
+        </script>
 </body>
 
 </html>
