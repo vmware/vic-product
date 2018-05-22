@@ -25,9 +25,9 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
+	"github.com/vmware/vic-product/installer/fileserver/tasks/tagvm"
 	"github.com/vmware/vic-product/installer/lib"
 	"github.com/vmware/vic-product/installer/pkg/ip"
-	"github.com/vmware/vic-product/installer/tagvm"
 	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/vsphere/optmanager"
 )
