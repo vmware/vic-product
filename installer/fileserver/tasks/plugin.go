@@ -20,7 +20,6 @@ import (
 	"strings"
 
 	log "github.com/Sirupsen/logrus"
-	"gopkg.in/urfave/cli.v1"
 
 	"github.com/vmware/vic/cmd/vic-machine/common"
 	"github.com/vmware/vic/lib/install/ova"
@@ -34,7 +33,6 @@ import (
 // Plugin has all input parameters for vic-ui ui command
 type Plugin struct {
 	*common.Target
-	common.Debug
 
 	Force     bool
 	Configure bool
@@ -57,95 +55,6 @@ func NewUI() *Plugin {
 	return p
 }
 
-// Flags return all cli flags for ui
-func (p *Plugin) Flags() []cli.Flag {
-	flags := []cli.Flag{
-		cli.BoolFlag{
-			Name:        "force, f",
-			Usage:       "Force install",
-			Destination: &p.Force,
-		},
-		cli.BoolFlag{
-			Name:        "configure-ova",
-			Usage:       "Configure OVA ManagedBy information with plugin",
-			Destination: &p.Configure,
-		},
-		cli.StringFlag{
-			Name:        "company",
-			Value:       "",
-			Usage:       "Plugin company name (required)",
-			Destination: &p.Company,
-		},
-		cli.StringFlag{
-			Name:        "key",
-			Value:       "",
-			Usage:       "Plugin key (required)",
-			Destination: &p.Key,
-		},
-		cli.StringFlag{
-			Name:        "name",
-			Value:       "",
-			Usage:       "Plugin name (required)",
-			Destination: &p.Name,
-		},
-		cli.BoolFlag{
-			Name:        "no-show",
-			Usage:       "Hide plugin in UI",
-			Destination: &p.HideInSolutionManager,
-		},
-		cli.StringFlag{
-			Name:        "server-thumbprint",
-			Value:       "",
-			Usage:       "Plugin server thumbprint (required for HTTPS plugin URL)",
-			Destination: &p.ServerThumbprint,
-		},
-		cli.StringFlag{
-			Name:        "summary",
-			Value:       "",
-			Usage:       "Plugin summary (required)",
-			Destination: &p.Summary,
-		},
-		cli.StringFlag{
-			Name:        "url",
-			Value:       "",
-			Usage:       "Plugin URL (required)",
-			Destination: &p.URL,
-		},
-		cli.StringFlag{
-			Name:        "version",
-			Value:       "",
-			Usage:       "Plugin version (required)",
-			Destination: &p.Version,
-		},
-		cli.StringFlag{
-			Name:        "type",
-			Value:       "",
-			Usage:       "Managed entity type",
-			Destination: &p.EntityType,
-		},
-	}
-	flags = append(p.TargetFlags(), flags...)
-	flags = append(flags, p.DebugFlags(true)...)
-
-	return flags
-}
-
-// InfoFlags return info command
-func (p *Plugin) InfoFlags() []cli.Flag {
-	flags := []cli.Flag{
-		cli.StringFlag{
-			Name:        "key",
-			Value:       "",
-			Usage:       "Plugin key (required)",
-			Destination: &p.Key,
-		},
-	}
-	flags = append(p.TargetFlags(), flags...)
-	flags = append(flags, p.DebugFlags(true)...)
-
-	return flags
-}
-
 func (p *Plugin) processInstallParams(op trace.Operation) error {
 	defer trace.End(trace.Begin("", op))
 
@@ -154,31 +63,31 @@ func (p *Plugin) processInstallParams(op trace.Operation) error {
 	}
 
 	if p.Company == "" {
-		return cli.NewExitError("--company must be specified", 1)
+		return errors.New("company must be specified")
 	}
 
 	if p.Key == "" {
-		return cli.NewExitError("--key must be specified", 1)
+		return errors.New("key must be specified")
 	}
 
 	if p.Name == "" {
-		return cli.NewExitError("--name must be specified", 1)
+		return errors.New("name must be specified")
 	}
 
 	if p.Summary == "" {
-		return cli.NewExitError("--summary must be specified", 1)
+		return errors.New("summary must be specified")
 	}
 
 	if p.URL == "" {
-		return cli.NewExitError("--url must be specified", 1)
+		return errors.New("url must be specified")
 	}
 
 	if p.Version == "" {
-		return cli.NewExitError("--version must be specified", 1)
+		return errors.New("version must be specified")
 	}
 
 	if strings.HasPrefix(strings.ToLower(p.URL), "https://") && p.ServerThumbprint == "" {
-		return cli.NewExitError("--server-thumbprint must be specified when using HTTPS plugin URL", 1)
+		return errors.New("server-thumbprint must be specified when using HTTPS plugin URL")
 	}
 
 	p.Insecure = true
@@ -193,7 +102,7 @@ func (p *Plugin) processRemoveParams(op trace.Operation) error {
 	}
 
 	if p.Key == "" {
-		return cli.NewExitError("--key must be specified", 1)
+		return errors.New("key must be specified")
 	}
 
 	p.Insecure = true
@@ -208,28 +117,17 @@ func (p *Plugin) processInfoParams(op trace.Operation) error {
 	}
 
 	if p.Key == "" {
-		return cli.NewExitError("--key must be specified", 1)
+		return errors.New("key must be specified")
 	}
 	return nil
 }
 
-func (p *Plugin) Install(cli *cli.Context) error {
-	op := trace.NewOperation(context.Background(), "Install")
+func (p *Plugin) Install(ctx context.Context) error {
+	op := trace.NewOperation(ctx, "Install")
 
 	var err error
 	if err = p.processInstallParams(op); err != nil {
 		return err
-	}
-
-	if p.Debug.Debug != nil && *p.Debug.Debug > 0 {
-		log.SetLevel(log.DebugLevel)
-		trace.Logger.Level = log.DebugLevel
-	}
-
-	if len(cli.Args()) > 0 {
-		log.Error("Install cannot continue: invalid CLI arguments")
-		log.Errorf("Unknown argument: %s", cli.Args()[0])
-		return errors.New("invalid CLI arguments")
 	}
 
 	log.Infof("### Installing UI Plugin ####")
@@ -313,22 +211,12 @@ func (p *Plugin) Install(cli *cli.Context) error {
 	return nil
 }
 
-func (p *Plugin) Remove(cli *cli.Context) error {
+func (p *Plugin) Remove(ctx context.Context) error {
 	op := trace.NewOperation(context.Background(), "Remove")
 
 	var err error
 	if err = p.processRemoveParams(op); err != nil {
 		return err
-	}
-	if p.Debug.Debug != nil && *p.Debug.Debug > 0 {
-		log.SetLevel(log.DebugLevel)
-		trace.Logger.Level = log.DebugLevel
-	}
-
-	if len(cli.Args()) > 0 {
-		log.Error("Remove cannot continue: invalid CLI arguments")
-		log.Errorf("Unknown argument: %s", cli.Args()[0])
-		return errors.New("invalid CLI arguments")
 	}
 
 	if p.Force {
@@ -377,18 +265,12 @@ func (p *Plugin) Remove(cli *cli.Context) error {
 	return nil
 }
 
-func (p *Plugin) Info(cli *cli.Context) error {
+func (p *Plugin) Info(ctx context.Context) error {
 	op := trace.NewOperation(context.Background(), "Info")
 
 	var err error
 	if err = p.processInfoParams(op); err != nil {
 		return err
-	}
-
-	if len(cli.Args()) > 0 {
-		log.Error("Info cannot continue: invalid CLI arguments")
-		log.Errorf("Unknown argument: %s", cli.Args()[0])
-		return errors.New("invalid CLI arguments")
 	}
 
 	pInfo := &plugin.Info{
