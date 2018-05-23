@@ -12,27 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ui
+package tasks
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
-	"strings"
+	"net/url"
 
 	log "github.com/Sirupsen/logrus"
 
-	"github.com/vmware/vic/cmd/vic-machine/common"
-	"github.com/vmware/vic/lib/install/ova"
-	"github.com/vmware/vic/lib/install/plugin"
+	"github.com/vmware/govmomi/object"
+	"github.com/vmware/vic-product/installer/fileserver/tasks/ova"
+	"github.com/vmware/vic-product/installer/fileserver/tasks/plugin"
+	"github.com/vmware/vic-product/installer/lib"
+	"github.com/vmware/vic-product/installer/pkg/ip"
+	"github.com/vmware/vic-product/installer/pkg/version"
 	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/trace"
-	"github.com/vmware/vic/pkg/version"
 	"github.com/vmware/vic/pkg/vsphere/session"
 )
 
 // Plugin has all input parameters for vic-ui ui command
 type Plugin struct {
-	*common.Target
+	Target *lib.LoginInfo
 
 	Force     bool
 	Configure bool
@@ -42,24 +45,31 @@ type Plugin struct {
 	HideInSolutionManager bool
 	Key                   string
 	Name                  string
-	ServerThumbprint      string
 	Summary               string
-	Type                  string
-	URL                   string
 	Version               string
 	EntityType            string
+
+	ApplianceHost             string
+	ApplianceURL              string
+	ApplianceServerThumbprint string
 }
 
-func NewUI() *Plugin {
-	p := &Plugin{Target: common.NewTarget()}
-	return p
+// NewUIPlugin Returns a UI Plugin struct with an empty target
+func NewUIPlugin() *Plugin {
+	return &Plugin{Target: &lib.LoginInfo{}}
 }
 
 func (p *Plugin) processInstallParams(op trace.Operation) error {
 	defer trace.End(trace.Begin("", op))
 
-	if err := p.HasCredentials(op); err != nil {
-		return err
+	if p.Target.Validator == nil {
+		cancel, err := p.Target.VerifyLogin()
+		defer cancel()
+
+		if err != nil {
+			log.Error(err.Error())
+			return err
+		}
 	}
 
 	if p.Company == "" {
@@ -78,16 +88,40 @@ func (p *Plugin) processInstallParams(op trace.Operation) error {
 		return errors.New("summary must be specified")
 	}
 
-	if p.URL == "" {
-		return errors.New("url must be specified")
-	}
-
 	if p.Version == "" {
 		return errors.New("version must be specified")
 	}
 
-	if strings.HasPrefix(strings.ToLower(p.URL), "https://") && p.ServerThumbprint == "" {
-		return errors.New("server-thumbprint must be specified when using HTTPS plugin URL")
+	if p.ApplianceHost == "" {
+		// Obtain the OVA VM's IP
+		vmIP, err := ip.FirstIPv4(ip.Eth0Interface)
+		if err != nil {
+			log.Error(err.Error())
+			return errors.Errorf("Cannot generate appliance ip: %s", errors.ErrorStack(err))
+		}
+		// Fetch the OVF env to get the fileserver port
+		ovf, err := lib.UnmarshaledOvfEnv()
+		if err != nil {
+			log.Error(err.Error())
+			return errors.Errorf("Cannot get appliance ovfenv: %s", errors.ErrorStack(err))
+		}
+		p.ApplianceHost = fmt.Sprintf("%s:%s", GetHostname(ovf, vmIP), ovf.Properties["appliance.config_port"])
+		op.Debugf("appliance host not specified. generated host: %s", p.ApplianceHost)
+
+	}
+	if p.ApplianceURL == "" {
+		p.ApplianceURL = fmt.Sprintf("https://%s/files/%s-v%s.zip", p.ApplianceHost, p.Key, p.Version)
+		op.Debugf("https plugin url not specified. generated plugin url: %s", p.ApplianceURL)
+	}
+
+	if p.ApplianceServerThumbprint == "" {
+		var cert object.HostCertificateInfo
+		if err := cert.FromURL(&url.URL{Host: p.ApplianceHost}, &tls.Config{}); err != nil {
+			log.Error(err.Error())
+			return errors.Errorf("Error getting thumbprint for %s: %s", p.ApplianceHost, errors.ErrorStack(err))
+		}
+		p.ApplianceServerThumbprint = cert.ThumbprintSHA1
+		op.Debugf("server-thumbprint not specified with HTTPS plugin URL. generated thumbprint: %s", p.ApplianceServerThumbprint)
 	}
 
 	p.Insecure = true
@@ -97,8 +131,14 @@ func (p *Plugin) processInstallParams(op trace.Operation) error {
 func (p *Plugin) processRemoveParams(op trace.Operation) error {
 	defer trace.End(trace.Begin("", op))
 
-	if err := p.HasCredentials(op); err != nil {
-		return err
+	if p.Target.Validator == nil {
+		cancel, err := p.Target.VerifyLogin()
+		defer cancel()
+
+		if err != nil {
+			log.Error(err.Error())
+			return err
+		}
 	}
 
 	if p.Key == "" {
@@ -112,8 +152,14 @@ func (p *Plugin) processRemoveParams(op trace.Operation) error {
 func (p *Plugin) processInfoParams(op trace.Operation) error {
 	defer trace.End(trace.Begin("", op))
 
-	if err := p.HasCredentials(op); err != nil {
-		return err
+	if p.Target.Validator == nil {
+		cancel, err := p.Target.VerifyLogin()
+		defer cancel()
+
+		if err != nil {
+			log.Error(err.Error())
+			return err
+		}
 	}
 
 	if p.Key == "" {
@@ -127,20 +173,21 @@ func (p *Plugin) Install(ctx context.Context) error {
 
 	var err error
 	if err = p.processInstallParams(op); err != nil {
+		log.Error(err.Error())
 		return err
 	}
 
 	log.Infof("### Installing UI Plugin ####")
-
+	log.Infof("%+v", p.Target.URL)
 	pInfo := &plugin.Info{
 		Company:               p.Company,
 		Key:                   p.Key,
 		Name:                  p.Name,
-		ServerThumbprint:      p.ServerThumbprint,
+		ServerThumbprint:      p.ApplianceServerThumbprint,
 		ShowInSolutionManager: !p.HideInSolutionManager,
 		Summary:               p.Summary,
 		Type:                  "vsphere-client-serenity",
-		URL:                   p.URL,
+		URL:                   p.ApplianceURL,
 		Version:               p.Version,
 	}
 
@@ -153,11 +200,13 @@ func (p *Plugin) Install(ctx context.Context) error {
 
 	pl, err := plugin.NewPluginator(context.TODO(), p.Target.URL, p.Target.Thumbprint, pInfo)
 	if err != nil {
+		log.Error(err.Error())
 		return err
 	}
 
 	reg, err := pl.IsRegistered(pInfo.Key)
 	if err != nil {
+		log.Error(err.Error())
 		return err
 	}
 	if reg {
@@ -165,6 +214,7 @@ func (p *Plugin) Install(ctx context.Context) error {
 			log.Info("Removing existing plugin to force install")
 			err = pl.Unregister(pInfo.Key)
 			if err != nil {
+				log.Error(err.Error())
 				return err
 			}
 			log.Info("Removed existing plugin")
@@ -178,11 +228,13 @@ func (p *Plugin) Install(ctx context.Context) error {
 	log.Info("Installing plugin")
 	err = pl.Register()
 	if err != nil {
+		log.Error(err.Error())
 		return err
 	}
 
 	reg, err = pl.IsRegistered(pInfo.Key)
 	if err != nil {
+		log.Error(err.Error())
 		return err
 	}
 	if !reg {
@@ -197,13 +249,14 @@ func (p *Plugin) Install(ctx context.Context) error {
 		sessionConfig := &session.Config{
 			Service:    p.Target.URL.Scheme + "://" + p.Target.URL.Host,
 			User:       p.Target.URL.User,
-			Thumbprint: p.Thumbprint,
+			Thumbprint: p.Target.Thumbprint,
 			Insecure:   true,
 			UserAgent:  version.UserAgent("vic-ui-installer"),
 		}
 
 		// Configure the OVA vm to be managed by this plugin
 		if err = ova.ConfigureManagedByInfo(context.TODO(), sessionConfig, pInfo.URL); err != nil {
+			log.Error(err.Error())
 			return err
 		}
 	}
@@ -216,6 +269,7 @@ func (p *Plugin) Remove(ctx context.Context) error {
 
 	var err error
 	if err = p.processRemoveParams(op); err != nil {
+		log.Error(err.Error())
 		return err
 	}
 
@@ -231,10 +285,12 @@ func (p *Plugin) Remove(ctx context.Context) error {
 
 	pl, err := plugin.NewPluginator(context.TODO(), p.Target.URL, p.Target.Thumbprint, pInfo)
 	if err != nil {
+		log.Error(err.Error())
 		return err
 	}
 	reg, err := pl.IsRegistered(pInfo.Key)
 	if err != nil {
+		log.Error(err.Error())
 		return err
 	}
 	if reg {
@@ -248,11 +304,13 @@ func (p *Plugin) Remove(ctx context.Context) error {
 	log.Info("Removing plugin")
 	err = pl.Unregister(pInfo.Key)
 	if err != nil {
+		log.Error(err.Error())
 		return err
 	}
 
 	reg, err = pl.IsRegistered(pInfo.Key)
 	if err != nil {
+		log.Error(err.Error())
 		return err
 	}
 	if reg {
@@ -270,6 +328,7 @@ func (p *Plugin) Info(ctx context.Context) error {
 
 	var err error
 	if err = p.processInfoParams(op); err != nil {
+		log.Error(err.Error())
 		return err
 	}
 
@@ -279,11 +338,13 @@ func (p *Plugin) Info(ctx context.Context) error {
 
 	pl, err := plugin.NewPluginator(context.TODO(), p.Target.URL, p.Target.Thumbprint, pInfo)
 	if err != nil {
+		log.Error(err.Error())
 		return err
 	}
 
 	reg, err := pl.GetPlugin(p.Key)
 	if err != nil {
+		log.Error(err.Error())
 		return err
 	}
 	if reg == nil {
