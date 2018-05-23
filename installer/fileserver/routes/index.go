@@ -15,6 +15,7 @@
 package routes
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"os"
@@ -60,6 +61,7 @@ func (i *IndexHTMLRenderer) IndexHandler(resp http.ResponseWriter, req *http.Req
 		PSCConfig.Admin.Target = req.FormValue("target")
 		PSCConfig.Admin.User = req.FormValue("user")
 		PSCConfig.Admin.Password = req.FormValue("password")
+		PSCConfig.Admin.Thumbprint = "40:C3:02:22:2C:E8:75:87:99:B6:DF:E8:EE:B9:09:E0:C3:93:A4:94"
 		PSCConfig.PscInstance = req.FormValue("psc")
 		PSCConfig.PscDomain = req.FormValue("pscDomain")
 
@@ -77,7 +79,25 @@ func (i *IndexHTMLRenderer) IndexHandler(resp http.ResponseWriter, req *http.Req
 			if err := PSCConfig.RegisterAppliance(); err != nil {
 				html.InitErrorFeedback = err.Error()
 			} else {
-				html.InitSuccessFeedback = "Installation successful. Refer to the Post-install and Deployment tasks below."
+
+				// TODO(morris-jason): Make dynamic, add VC thumbprint
+				p := tasks.NewUIPlugin()
+				p.Version = "1.4.0.1193"
+				p.Key = "com.vmware.vic"
+				p.EntityType = "VicApplianceVM"
+				p.Company = "VMware"
+				p.Name = "vSphere Integrated Containers-H5Client"
+				p.Summary = "vSphere Integrated Containers-H5Client"
+				p.Configure = true
+				p.Target = PSCConfig.Admin
+
+				p.Remove(context.Background())
+				if err := p.Install(context.Background()); err != nil {
+					log.Errorf("Install failed: %s", err.Error())
+					html.InitErrorFeedback = fmt.Sprintf("Installation failed: %s", err.Error())
+				} else {
+					html.InitSuccessFeedback = "Installation successful. Refer to the Post-install and Deployment tasks below."
+				}
 			}
 		}
 	}

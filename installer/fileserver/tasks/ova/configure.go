@@ -21,8 +21,8 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
+	"github.com/vmware/govmomi/object"
 	"github.com/vmware/govmomi/vim25/types"
-	"github.com/vmware/vic/lib/config/dynamic/admiral"
 	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/vsphere/session"
 	"github.com/vmware/vic/pkg/vsphere/tasks"
@@ -111,25 +111,27 @@ func getOvaVMByTag(ctx context.Context, sess *session.Session, u string) (*vm.Vi
 		return nil, errors.Errorf("IPV6 support not yet implemented")
 	}
 
-	vms, err := admiral.DefaultDiscovery.Discover(ctx, sess)
+	// Create a vm reference using this appliance ip
+	ref, err := object.NewSearchIndex(sess.Vim25()).FindByIp(ctx, nil, ip, true)
 	if err != nil {
 		return nil, errors.Errorf("failed to discover OVA vm(s): %s", err)
 	}
 
-	log.Infof("Found %d VM(s) tagged as OVA", len(vms))
-	for i, v := range vms {
-		log.Debugf("Checking IP for %s", v.Reference().Value)
-		vmIP, err := v.WaitForIP(ctx)
-		if err != nil && i == len(vms)-1 {
-			return nil, errors.Errorf("failed to get VM IP: %s", err)
-		}
+	v, ok := ref.(*object.VirtualMachine)
+	if !ok {
+		return nil, errors.Errorf("failed to find vm with ip: %s", ip)
+	}
+	log.Debugf("Checking IP for %s", v.Reference().Value)
+	vmIP, err := v.WaitForIP(ctx)
 
-		// verify the tagged vm has the IP we expect
-		if vmIP == ip {
-			log.Debugf("Found OVA with matching IP: %s", ip)
-			return v, nil
-		}
+	// verify the tagged vm has the IP we expect
+	if vmIP == ip {
+		log.Debugf("Found OVA with matching IP: %s", ip)
+		return &vm.VirtualMachine{
+			VirtualMachine: v,
+			Session:        sess,
+		}, nil
 	}
 
-	return nil, errors.Errorf("no VM(s) found with OVA tag")
+	return nil, errors.Errorf("no VM(s) found")
 }
