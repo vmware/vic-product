@@ -26,13 +26,15 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/vmware/govmomi/object"
+	"github.com/vmware/vic/pkg/trace"
 	"github.com/vmware/vic/pkg/vsphere/session"
 )
 
 func TestGetOvaVMByTagBadURL(t *testing.T) {
 	ctx := context.Background()
 	bogusURL := "foo/bar.url://what-is-this"
-	vm, err := getOvaVMByTag(ctx, nil, bogusURL)
+	op := trace.NewOperation(ctx, "TestGetOvaVMByTagBadURL")
+	vm, err := getOvaVMByTag(op, nil, bogusURL)
 	assert.Nil(t, vm)
 	assert.Error(t, err)
 }
@@ -92,8 +94,8 @@ func TestGetOvaVMByTag(t *testing.T) {
 	if err != nil {
 		log.Errorf("Error populating: %s", err.Error())
 	}
-
-	vm, err := getOvaVMByTag(ctx, sess, ovaURL)
+	op := trace.NewOperation(ctx, "TestGetOvaVMByTag")
+	vm, err := getOvaVMByTag(op, sess, ovaURL)
 	if err != nil {
 		log.Errorf("Error getting OVA by tag: %s", err.Error())
 	}

@@ -16,19 +16,13 @@ package plugin
 
 import (
 	"context"
-	"crypto/tls"
-	"errors"
 	"fmt"
-	"net/url"
 	"strings"
 	"time"
-
-	log "github.com/Sirupsen/logrus"
 
 	"github.com/vmware/govmomi/object"
 	"github.com/vmware/govmomi/vim25/types"
 	"github.com/vmware/vic/pkg/trace"
-	"github.com/vmware/vic/pkg/version"
 	"github.com/vmware/vic/pkg/vsphere/session"
 )
 
@@ -59,21 +53,18 @@ type Pluginator struct {
 	Context          context.Context
 
 	info *Info
-
-	tURL        *url.URL
-	tThumbprint string
-	connected   bool
+	op   trace.Operation
 }
 
-func NewPluginator(ctx context.Context, target *url.URL, thumbprint string, i *Info) (*Pluginator, error) {
+func NewPluginator(op trace.Operation, sess *session.Session, i *Info) (*Pluginator, error) {
 	defer trace.End(trace.Begin(""))
 
 	p := &Pluginator{
-		tURL:        target,
-		tThumbprint: thumbprint,
-		info:        i,
+		Session: sess,
+		info:    i,
+		op:      op,
 	}
-	p.Context = ctx
+	p.Context = op
 
 	err := p.connect()
 	if err != nil {
@@ -83,52 +74,8 @@ func NewPluginator(ctx context.Context, target *url.URL, thumbprint string, i *I
 	return p, nil
 }
 
-func (p *Pluginator) disconnect() error {
-	defer trace.End(trace.Begin(""))
-	if p.Session != nil {
-		err := p.Session.Client.Logout(p.Context)
-		if err != nil {
-			return fmt.Errorf("failed to disconnect: %s", err)
-		}
-	}
-	p.connected = false
-	return nil
-}
-
 func (p *Pluginator) connect() error {
 	defer trace.End(trace.Begin(""))
-	var err error
-
-	if p.tURL.Scheme == "https" && p.tThumbprint == "" {
-		var cert object.HostCertificateInfo
-		if err = cert.FromURL(p.tURL, new(tls.Config)); err != nil {
-			return err
-		}
-
-		if cert.Err != nil {
-			log.Errorf("Failed to verify certificate for target=%s (thumbprint=%s)",
-				p.tURL.Host, cert.ThumbprintSHA1)
-			return cert.Err
-		}
-
-		p.tThumbprint = cert.ThumbprintSHA1
-		log.Debugf("Accepting host %q thumbprint %s", p.tURL.Host, p.tThumbprint)
-	}
-
-	sessionconfig := &session.Config{
-		Thumbprint: p.tThumbprint,
-		UserAgent:  version.UserAgent("vic-plugin-installer"),
-	}
-	sessionconfig.Service = p.tURL.String()
-
-	p.Session = session.NewSession(sessionconfig)
-	p.Session, err = p.Session.Connect(p.Context)
-	if err != nil {
-		return fmt.Errorf("failed to connect: %s", err)
-	}
-
-	// #nosec: Errors unhandled.
-	p.Session.Populate(p.Context)
 
 	em, err := object.GetExtensionManager(p.Session.Client.Client)
 	if err != nil {
@@ -136,7 +83,6 @@ func (p *Pluginator) connect() error {
 	}
 	p.ExtensionManager = em
 
-	p.connected = true
 	return nil
 }
 
@@ -144,9 +90,6 @@ func (p *Pluginator) connect() error {
 func (p *Pluginator) Register() error {
 	defer trace.End(trace.Begin(""))
 	var err error
-	if !p.connected {
-		return errors.New("not connected")
-	}
 
 	desc := types.Description{
 		Label:   p.info.Name,
@@ -223,9 +166,6 @@ func (p *Pluginator) Register() error {
 // Unregister removes an extension from the target
 func (p *Pluginator) Unregister(key string) error {
 	defer trace.End(trace.Begin(""))
-	if !p.connected {
-		return errors.New("not connected")
-	}
 
 	if err := p.ExtensionManager.Unregister(p.Context, key); err != nil {
 		return err
@@ -236,28 +176,22 @@ func (p *Pluginator) Unregister(key string) error {
 // IsRegistered checks for presence of an extension on the target
 func (p *Pluginator) IsRegistered(key string) (bool, error) {
 	defer trace.End(trace.Begin(""))
-	if !p.connected {
-		return false, errors.New("not connected")
-	}
 
 	e, err := p.ExtensionManager.Find(p.Context, key)
 	if err != nil {
 		return false, err
 	}
 	if e != nil {
-		log.Debugf("%q is registered", key)
+		p.op.Debugf("%q is registered", key)
 		return true, nil
 	}
-	log.Debugf("%q is not registered", key)
+	p.op.Debugf("%q is not registered", key)
 	return false, nil
 }
 
 // IsRegistered checks for presence of an extension on the target
 func (p *Pluginator) GetPlugin(key string) (*types.Extension, error) {
 	defer trace.End(trace.Begin(""))
-	if !p.connected {
-		return nil, errors.New("not connected")
-	}
 
 	return p.ExtensionManager.Find(p.Context, key)
 }

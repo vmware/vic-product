@@ -19,11 +19,10 @@ import (
 	"net"
 	"net/url"
 
-	log "github.com/Sirupsen/logrus"
-
 	"github.com/vmware/govmomi/object"
 	"github.com/vmware/govmomi/vim25/types"
 	"github.com/vmware/vic/pkg/errors"
+	"github.com/vmware/vic/pkg/trace"
 	"github.com/vmware/vic/pkg/vsphere/session"
 	"github.com/vmware/vic/pkg/vsphere/tasks"
 	"github.com/vmware/vic/pkg/vsphere/vm"
@@ -37,29 +36,29 @@ const (
 )
 
 // ConfigureManagedByInfo takes sets the ManagedBy field for the VM specified by ovaURL
-func ConfigureManagedByInfo(ctx context.Context, config *session.Config, ovaURL string) error {
+func ConfigureManagedByInfo(op trace.Operation, config *session.Config, ovaURL string) error {
 	sess := session.NewSession(config)
-	sess, err := sess.Connect(ctx)
+	sess, err := sess.Connect(op)
 	if err != nil {
 		return err
 	}
 
-	v, err := getOvaVMByTag(ctx, sess, ovaURL)
+	v, err := getOvaVMByTag(op, sess, ovaURL)
 	if err != nil {
 		return err
 	}
 
-	log.Infof("Attempting to configure ManagedByInfo")
-	err = configureManagedByInfo(ctx, sess, v)
+	op.Infof("Attempting to configure ManagedByInfo")
+	err = configureManagedByInfo(op, sess, v)
 	if err != nil {
 		return err
 	}
 
-	log.Infof("Successfully configured ManagedByInfo")
+	op.Infof("Successfully configured ManagedByInfo")
 	return nil
 }
 
-func configureManagedByInfo(ctx context.Context, sess *session.Session, v *vm.VirtualMachine) error {
+func configureManagedByInfo(op trace.Operation, sess *session.Session, v *vm.VirtualMachine) error {
 	spec := types.VirtualMachineConfigSpec{
 		ManagedBy: &types.ManagedByInfo{
 			ExtensionKey: ManagedByKey,
@@ -67,24 +66,24 @@ func configureManagedByInfo(ctx context.Context, sess *session.Session, v *vm.Vi
 		},
 	}
 
-	info, err := v.WaitForResult(ctx, func(ctx context.Context) (tasks.Task, error) {
+	info, err := v.WaitForResult(op, func(ctx context.Context) (tasks.Task, error) {
 		return v.Reconfigure(ctx, spec)
 	})
 
 	if err != nil {
-		log.Errorf("Error while setting ManagedByInfo: %s", err)
+		op.Errorf("Error while setting ManagedByInfo: %s", err)
 		return err
 	}
 
 	if info.State != types.TaskInfoStateSuccess {
-		log.Errorf("Setting ManagedByInfo reported: %s", info.Error.LocalizedMessage)
+		op.Errorf("Setting ManagedByInfo reported: %s", info.Error.LocalizedMessage)
 		return err
 	}
 
 	return nil
 }
 
-func getOvaVMByTag(ctx context.Context, sess *session.Session, u string) (*vm.VirtualMachine, error) {
+func getOvaVMByTag(op trace.Operation, sess *session.Session, u string) (*vm.VirtualMachine, error) {
 	ovaURL, err := url.Parse(u)
 	if err != nil {
 		return nil, err
@@ -92,16 +91,16 @@ func getOvaVMByTag(ctx context.Context, sess *session.Session, u string) (*vm.Vi
 
 	host := ovaURL.Hostname()
 
-	log.Debugf("Looking up host %s", host)
+	op.Debugf("Looking up host %s", host)
 	ips, err := net.LookupIP(host)
 	if err != nil {
 		return nil, errors.Errorf("IP lookup failed: %s", err)
 	}
 
-	log.Debugf("found %d IP(s) from hostname lookup on %s:", len(ips), host)
+	op.Debugf("found %d IP(s) from hostname lookup on %s:", len(ips), host)
 	var ip string
 	for _, i := range ips {
-		log.Debugf(i.String())
+		op.Debugf(i.String())
 		if i.To4() != nil {
 			ip = i.String()
 		}
@@ -112,7 +111,7 @@ func getOvaVMByTag(ctx context.Context, sess *session.Session, u string) (*vm.Vi
 	}
 
 	// Create a vm reference using this appliance ip
-	ref, err := object.NewSearchIndex(sess.Vim25()).FindByIp(ctx, nil, ip, true)
+	ref, err := object.NewSearchIndex(sess.Vim25()).FindByIp(op, nil, ip, true)
 	if err != nil {
 		return nil, errors.Errorf("failed to discover OVA vm(s): %s", err)
 	}
@@ -121,12 +120,12 @@ func getOvaVMByTag(ctx context.Context, sess *session.Session, u string) (*vm.Vi
 	if !ok {
 		return nil, errors.Errorf("failed to find vm with ip: %s", ip)
 	}
-	log.Debugf("Checking IP for %s", v.Reference().Value)
-	vmIP, err := v.WaitForIP(ctx)
+	op.Debugf("Checking IP for %s", v.Reference().Value)
+	vmIP, err := v.WaitForIP(op)
 
 	// verify the tagged vm has the IP we expect
 	if vmIP == ip {
-		log.Debugf("Found OVA with matching IP: %s", ip)
+		op.Debugf("Found OVA with matching IP: %s", ip)
 		return &vm.VirtualMachine{
 			VirtualMachine: v,
 			Session:        sess,

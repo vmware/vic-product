@@ -15,12 +15,13 @@
 package routes
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/vmware/vic-product/installer/fileserver/tasks"
+	"github.com/vmware/vic/pkg/trace"
 )
 
 type registerPayload struct {
@@ -36,7 +37,7 @@ type registerPayload struct {
 func RegisterHandler(resp http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case http.MethodPost:
-
+		op := trace.NewOperation(context.Background(), "RegisterHandler")
 		if req.Body == nil {
 			http.Error(resp, "Please send a request body", http.StatusBadRequest)
 			return
@@ -54,16 +55,16 @@ func RegisterHandler(resp http.ResponseWriter, req *http.Request) {
 		PSCConfig.Admin.Target = r.Target
 		PSCConfig.Admin.User = r.User
 		PSCConfig.Admin.Password = r.Password
-		cancel, err := PSCConfig.Admin.VerifyLogin()
+		cancel, err := PSCConfig.Admin.VerifyLogin(op)
 		defer cancel()
 		if err != nil {
-			log.Infof("Validation failed")
+			op.Infof("Validation failed")
 			http.Error(resp, err.Error(), http.StatusUnauthorized)
 			return
 		}
 
-		log.Infof("Validation succeeded")
-		if err := PSCConfig.RegisterAppliance(); err != nil {
+		op.Infof("Validation succeeded")
+		if err := PSCConfig.RegisterAppliance(op); err != nil {
 			errMsg := fmt.Sprintf("Failed to write to register appliance: %s", err.Error())
 			http.Error(resp, errMsg, http.StatusInternalServerError)
 			return

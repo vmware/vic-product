@@ -15,6 +15,7 @@
 package main
 
 import (
+	"context"
 	"crypto/tls"
 	"flag"
 	"fmt"
@@ -53,10 +54,10 @@ type serverRoute struct {
 	handler http.Handler
 }
 
-func parseServerConfig(conf *serverConfig) {
+func parseServerConfig(op trace.Operation, conf *serverConfig) {
 	ud := syscall.Getuid()
 	gd := syscall.Getgid()
-	log.Info(fmt.Sprintf("Current UID/GID = %d/%d", ud, gd))
+	op.Info(fmt.Sprintf("Current UID/GID = %d/%d", ud, gd))
 	/* TODO FIXME
 	if ud == 0 {
 		log.Error("Error: must not run as root.")
@@ -75,48 +76,47 @@ func parseServerConfig(conf *serverConfig) {
 
 	switch conf.logLevel {
 	case "warning":
-		log.SetLevel(log.WarnLevel)
+		trace.Logger.Level = log.WarnLevel
 	case "info":
-		log.SetLevel(log.InfoLevel)
+		trace.Logger.Level = log.InfoLevel
 	default:
-		log.SetLevel(log.DebugLevel)
 		trace.Logger.Level = log.DebugLevel
 	}
 
 	if (conf.certPath == "" && conf.keyPath != "") || (conf.certPath != "" && conf.keyPath == "") {
-		log.Errorf("Both certificate and key must be specified")
+		op.Errorf("Both certificate and key must be specified")
 	}
 
 	var err error
 	if conf.certPath != "" {
-		log.Infof("Loading certificate %s and key %s", conf.certPath, conf.keyPath)
+		op.Infof("Loading certificate %s and key %s", conf.certPath, conf.keyPath)
 		conf.cert, err = tls.LoadX509KeyPair(conf.certPath, conf.keyPath)
 		if err != nil {
-			log.Fatalf("Failed to load certificate %s and key %s: %s", conf.certPath, conf.keyPath, err)
+			op.Fatalf("Failed to load certificate %s and key %s: %s", conf.certPath, conf.keyPath, err)
 		}
 	} else {
-		log.Info("Generating self signed certificate")
+		op.Info("Generating self signed certificate")
 		c, k, err := certificate.CreateSelfSigned(conf.addr, []string{"VMware, Inc."}, 2048)
 		if err != nil {
-			log.Errorf("Failed to generate a self-signed certificate: %s. Exiting.", err.Error())
+			op.Errorf("Failed to generate a self-signed certificate: %s. Exiting.", err.Error())
 			os.Exit(1)
 		}
 		conf.cert, err = tls.X509KeyPair(c.Bytes(), k.Bytes())
 		if err != nil {
-			log.Errorf("Failed to load generated self-signed certificate: %s. Exiting.", err.Error())
+			op.Errorf("Failed to load generated self-signed certificate: %s. Exiting.", err.Error())
 			os.Exit(1)
 		}
 	}
-	log.Infof("Loaded certificate")
+	op.Infof("Loaded certificate")
 
 	ovf, err := lib.UnmarshaledOvfEnv()
 	if err != nil {
 		switch err.(type) {
 		case lib.EnvFetchError:
-			log.Fatalf("impossible to fetch ovf environment, exiting")
+			op.Fatalf("impossible to fetch ovf environment, exiting")
 			os.Exit(1)
 		case lib.UnmarshalError:
-			log.Errorf("error: %s", err.Error())
+			op.Errorf("error: %s", err.Error())
 		}
 	}
 
@@ -138,8 +138,9 @@ func parseServerConfig(conf *serverConfig) {
 }
 
 func main() {
+	op := trace.NewOperation(context.Background(), "Main")
 	var c serverConfig
-	parseServerConfig(&c)
+	parseServerConfig(op, &c)
 
 	mux := http.NewServeMux()
 
@@ -189,13 +190,13 @@ func main() {
 
 	go func() {
 		// redirect port 80 to 9443 to improve ux on ova
-		log.Infof("Starting redirect server on %s", redirectServer.Addr)
+		op.Infof("Starting redirect server on %s", redirectServer.Addr)
 		if err := redirectServer.ListenAndServe(); err != nil {
 			errors <- err
 		}
 	}()
 	go func() {
-		log.Infof("Starting fileserver server on %s", fileserver.Addr)
+		op.Infof("Starting fileserver server on %s", fileserver.Addr)
 		if err := fileserver.ListenAndServeTLS("", ""); err != nil {
 			errors <- err
 		}
@@ -205,9 +206,9 @@ func main() {
 
 	select {
 	case sig := <-signals:
-		log.Fatalf("signal %s received", sig)
+		op.Fatalf("signal %s received", sig)
 	case err := <-errors:
-		log.Fatalf("error %s received", err)
+		op.Fatalf("error %s received", err)
 	}
 	fileserver.Close()
 	redirectServer.Close()

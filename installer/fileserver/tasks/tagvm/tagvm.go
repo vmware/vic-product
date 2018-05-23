@@ -15,14 +15,12 @@
 package tagvm
 
 import (
-	"context"
 	"net/url"
-
-	log "github.com/Sirupsen/logrus"
 
 	"github.com/vmware/govmomi/object"
 	"github.com/vmware/vic/lib/guest"
 	"github.com/vmware/vic/pkg/errors"
+	"github.com/vmware/vic/pkg/trace"
 	"github.com/vmware/vic/pkg/vsphere/session"
 	"github.com/vmware/vic/pkg/vsphere/tags"
 )
@@ -35,26 +33,26 @@ const (
 	ProductVMDescription  = "Product VM"
 )
 
-func setupClient(ctx context.Context, sess *session.Session) (*tags.RestClient, error) {
+func setupClient(op trace.Operation, sess *session.Session) (*tags.RestClient, error) {
 	endpoint, err := url.Parse(sess.Service)
 	client := tags.NewClient(endpoint, sess.Insecure, sess.Thumbprint)
-	err = client.Login(ctx)
+	err = client.Login(op)
 	if err != nil {
-		log.Errorf("failed to connect rest API for %s", errors.ErrorStack(err))
+		op.Errorf("failed to connect rest API for %s", errors.ErrorStack(err))
 		return client, errors.Errorf("Rest is not accessible")
 	}
 
 	return client, nil
 }
 
-func createProductVMtag(ctx context.Context, client *tags.RestClient) (string, error) {
+func createProductVMtag(op trace.Operation, client *tags.RestClient) (string, error) {
 	// create category first, then create tag
-	categoryID, err := client.CreateCategoryIfNotExist(ctx, VicProductCategory, VicProductDescription, VicProductType, false)
+	categoryID, err := client.CreateCategoryIfNotExist(op, VicProductCategory, VicProductDescription, VicProductType, false)
 	if err != nil {
 		return "", errors.Errorf("failed to create vic product category: %s", errors.ErrorStack(err))
 	}
 
-	tagID, err := client.CreateTagIfNotExist(ctx, ProductVMTag, ProductVMDescription, *categoryID)
+	tagID, err := client.CreateTagIfNotExist(op, ProductVMTag, ProductVMDescription, *categoryID)
 	if err != nil {
 		return "", errors.Errorf("failed to create product vm tag: %s", errors.ErrorStack(err))
 	}
@@ -62,38 +60,38 @@ func createProductVMtag(ctx context.Context, client *tags.RestClient) (string, e
 	return *tagID, nil
 }
 
-func attachTag(ctx context.Context, client *tags.RestClient, sess *session.Session, tagID string, vm *object.VirtualMachine) error {
+func attachTag(op trace.Operation, client *tags.RestClient, sess *session.Session, tagID string, vm *object.VirtualMachine) error {
 	if tagID == "" || sess == nil {
 		return errors.Errorf("failed to attach product vm tag")
 	}
 
-	err := client.AttachTagToObject(ctx, tagID, vm.Reference().Value, vm.Reference().Type)
+	err := client.AttachTagToObject(op, tagID, vm.Reference().Value, vm.Reference().Type)
 	if err != nil {
 		return errors.Errorf("failed to apply the tag on product vm : %s", errors.ErrorStack(err))
 	}
 
-	log.Debugf("successfully attached the product tag")
+	op.Debugf("successfully attached the product tag")
 	return nil
 }
 
 // Run takes in a url and session and tag the ova vm.
-func Run(ctx context.Context, sess *session.Session) error {
-	client, err := setupClient(ctx, sess)
+func Run(op trace.Operation, sess *session.Session) error {
+	client, err := setupClient(op, sess)
 	if err != nil {
 		return err
 	}
 
-	tagID, err := createProductVMtag(ctx, client)
+	tagID, err := createProductVMtag(op, client)
 	if err != nil {
 		return err
 	}
 
-	vm, err := guest.GetSelf(ctx, sess)
+	vm, err := guest.GetSelf(op, sess)
 	if err != nil {
 		return errors.Errorf("failed to get product vm : %s", errors.ErrorStack(err))
 	}
 
-	err = attachTag(ctx, client, sess, tagID, vm)
+	err = attachTag(op, client, sess, tagID, vm)
 	if err != nil {
 		return err
 	}

@@ -19,7 +19,6 @@ import (
 	"html/template"
 	"net/http"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/vmware/vic/pkg/trace"
 )
 
@@ -42,10 +41,10 @@ func SetRenderPath(path string) {
 }
 
 // RenderTemplate writes a golang html template to an http response
-func RenderTemplate(resp http.ResponseWriter, filename string, data interface{}) {
+func RenderTemplate(op trace.Operation, resp http.ResponseWriter, filename string, data interface{}) {
 	defer trace.End(trace.Begin(""))
 
-	log.Infof("render: %s", filename)
+	op.Infof("render: %s", filename)
 	filename = fmt.Sprintf("%s/%s", renderer.rootPath, filename)
 	tmpl, err := template.ParseFiles(filename)
 	if err != nil {
