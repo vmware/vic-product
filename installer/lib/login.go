@@ -29,32 +29,36 @@ import (
 
 const loginTimeout = 15 * time.Second
 
+// LoginInfo represents credentials needed to access vSphere
 type LoginInfo struct {
-	Target    string `json:"target"`
-	User      string `json:"user"`
-	Password  string `json:"password"`
-	Validator *validate.Validator
+	Target     string `json:"target"`
+	User       string `json:"user"`
+	Password   string `json:"password"`
+	Thumbprint string `json:"thumbprint"`
+	URL        *url.URL
+	Validator  *validate.Validator
 }
 
-// Verify login based on info given, return non nil error if validation fails.
+// VerifyLogin based on info given, return non nil error if validation fails.
 func (info *LoginInfo) VerifyLogin() (context.CancelFunc, error) {
 	defer trace.End(trace.Begin(""))
 
-	var u url.URL
-	u.User = url.UserPassword(info.User, info.Password)
-	u.Host = info.Target
-	u.Path = ""
-	log.Infof("server URL: %v\n", u.Host)
+	info.URL = &url.URL{}
+	info.URL.User = url.UserPassword(info.User, info.Password)
+	info.URL.Host = info.Target
+	info.URL.Path = ""
+
+	log.Infof("server URL: %v\n", info.URL.Host)
 
 	input := data.NewData()
 
-	username := u.User.Username()
+	username := info.URL.User.Username()
 	input.OpsCredentials.OpsUser = &username
-	passwd, _ := u.User.Password()
+	passwd, _ := info.URL.User.Password()
 	input.OpsCredentials.OpsPassword = &passwd
-	input.URL = &u
+	input.URL = info.URL
 	input.Force = true
-
+	input.Thumbprint = info.Thumbprint
 	input.User = username
 	input.Password = &passwd
 
