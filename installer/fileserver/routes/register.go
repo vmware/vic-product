@@ -62,6 +62,7 @@ func RegisterHandler(resp http.ResponseWriter, req *http.Request) {
 			http.Error(resp, err.Error(), http.StatusUnauthorized)
 			return
 		}
+		defer PSCConfig.Admin.Session.Logout(op)
 
 		op.Infof("Validation succeeded")
 		if err := PSCConfig.RegisterAppliance(op); err != nil {

@@ -311,7 +311,7 @@ func (p *Plugin) Install(op trace.Operation) error {
 
 	if p.Configure {
 		// Configure the OVA vm to be managed by this plugin
-		if err = ova.ConfigureManagedByInfo(op, p.Target.Session.Config, pInfo.URL); err != nil {
+		if err = ova.ConfigureManagedByInfo(op, p.Target.Session, pInfo.URL); err != nil {
 			op.Error(err.Error())
 			return err
 		}

@@ -88,6 +88,7 @@ func indexFormHandler(op trace.Operation, req *http.Request, html *IndexHTMLOpti
 		html.ValidationError = err.Error()
 		return err
 	}
+	defer PSCConfig.Admin.Session.Logout(op)
 
 	op.Infof("Validation succeeded")
 	html.NeedLogin = false
@@ -97,11 +98,13 @@ func indexFormHandler(op trace.Operation, req *http.Request, html *IndexHTMLOpti
 	}
 
 	h5 := tasks.NewH5UIPlugin(PSCConfig.Admin)
+	h5.Force = true
 	if err := h5.Install(op); err != nil {
 		return err
 	}
 
 	flex := tasks.NewFlexUIPlugin(PSCConfig.Admin)
+	flex.Force = true
 	if err := flex.Install(op); err != nil {
 		return err
 	}

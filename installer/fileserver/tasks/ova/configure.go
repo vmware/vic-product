@@ -36,13 +36,7 @@ const (
 )
 
 // ConfigureManagedByInfo takes sets the ManagedBy field for the VM specified by ovaURL
-func ConfigureManagedByInfo(op trace.Operation, config *session.Config, ovaURL string) error {
-	sess := session.NewSession(config)
-	sess, err := sess.Connect(op)
-	if err != nil {
-		return err
-	}
-
+func ConfigureManagedByInfo(op trace.Operation, sess *session.Session, ovaURL string) error {
 	v, err := getOvaVMByTag(op, sess, ovaURL)
 	if err != nil {
 		return err

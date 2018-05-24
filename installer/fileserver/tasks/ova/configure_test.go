@@ -22,7 +22,6 @@ import (
 	"os"
 	"testing"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/vmware/govmomi/object"
@@ -31,9 +30,8 @@ import (
 )
 
 func TestGetOvaVMByTagBadURL(t *testing.T) {
-	ctx := context.Background()
 	bogusURL := "foo/bar.url://what-is-this"
-	op := trace.NewOperation(ctx, "TestGetOvaVMByTagBadURL")
+	op := trace.NewOperation(context.Background(), "TestGetOvaVMByTagBadURL")
 	vm, err := getOvaVMByTag(op, nil, bogusURL)
 	assert.Nil(t, vm)
 	assert.Error(t, err)
@@ -44,13 +42,12 @@ func TestGetOvaVMByTag(t *testing.T) {
 	password := os.Getenv("TEST_VC_PASSWORD")
 	vcURL := os.Getenv("TEST_VC_URL")
 	ovaURL := os.Getenv("TEST_OVA_URL")
+	op := trace.NewOperation(context.Background(), "TestGetOvaVMByTag")
 
 	if vcURL == "" || ovaURL == "" {
-		log.Infof("Skipping TestGetOvaVMByTag")
+		op.Infof("Skipping TestGetOvaVMByTag")
 		t.Skipf("This test should only run against a VC with a deployed OVA")
 	}
-
-	ctx := context.Background()
 
 	vc, err := url.Parse(vcURL)
 	if err != nil {
@@ -62,17 +59,17 @@ func TestGetOvaVMByTag(t *testing.T) {
 
 	var cert object.HostCertificateInfo
 	if err = cert.FromURL(vc, new(tls.Config)); err != nil {
-		log.Error(err.Error())
+		op.Error(err.Error())
 		t.FailNow()
 	}
 
 	if cert.Err != nil {
-		log.Errorf("Failed to verify certificate for target=%s (thumbprint=%s)", vc.Host, cert.ThumbprintSHA1)
-		log.Error(cert.Err.Error())
+		op.Errorf("Failed to verify certificate for target=%s (thumbprint=%s)", vc.Host, cert.ThumbprintSHA1)
+		op.Error(cert.Err.Error())
 	}
 
 	tp := cert.ThumbprintSHA1
-	log.Infof("Accepting host %q thumbprint %s", vc.Host, tp)
+	op.Infof("Accepting host %q thumbprint %s", vc.Host, tp)
 
 	sessionConfig := &session.Config{
 		Thumbprint:     tp,
@@ -84,25 +81,25 @@ func TestGetOvaVMByTag(t *testing.T) {
 	}
 
 	s := session.NewSession(sessionConfig)
-	sess, err := s.Connect(ctx)
+	sess, err := s.Connect(op)
 	if err != nil {
-		log.Errorf("Error connecting: %s", err.Error())
+		op.Errorf("Error connecting: %s", err.Error())
 	}
-	defer sess.Logout(ctx)
+	defer sess.Logout(op)
 
-	sess, err = sess.Populate(ctx)
+	sess, err = sess.Populate(op)
 	if err != nil {
-		log.Errorf("Error populating: %s", err.Error())
+		op.Errorf("Error populating: %s", err.Error())
 	}
-	op := trace.NewOperation(ctx, "TestGetOvaVMByTag")
+
 	vm, err := getOvaVMByTag(op, sess, ovaURL)
 	if err != nil {
-		log.Errorf("Error getting OVA by tag: %s", err.Error())
+		op.Errorf("Error getting OVA by tag: %s", err.Error())
 	}
 	if vm == nil {
-		log.Errorf("No VM found")
+		op.Errorf("No VM found")
 		t.FailNow()
 	}
 
-	log.Infof("%s", vm.String())
+	op.Infof("%s", vm.String())
 }

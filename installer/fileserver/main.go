@@ -82,6 +82,7 @@ func parseServerConfig(op trace.Operation, conf *serverConfig) {
 	default:
 		trace.Logger.Level = log.DebugLevel
 	}
+	trace.DisableTracing()
 
 	if (conf.certPath == "" && conf.keyPath != "") || (conf.certPath != "" && conf.keyPath == "") {
 		op.Errorf("Both certificate and key must be specified")
