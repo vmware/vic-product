@@ -133,7 +133,7 @@ func (p *Plugin) processInstallParams(op trace.Operation) error {
 		defer cancel()
 
 		if err != nil {
-			op.Error(err.Error())
+			op.Error(err)
 			return err
 		}
 	}
@@ -162,13 +162,13 @@ func (p *Plugin) processInstallParams(op trace.Operation) error {
 		// Obtain the OVA VM's IP
 		vmIP, err := ip.FirstIPv4(ip.Eth0Interface)
 		if err != nil {
-			op.Error(err.Error())
+			op.Error(err)
 			return errors.Errorf("Cannot generate appliance ip: %s", errors.ErrorStack(err))
 		}
 		// Fetch the OVF env to get the fileserver port
 		ovf, err := lib.UnmarshaledOvfEnv()
 		if err != nil {
-			op.Error(err.Error())
+			op.Error(err)
 			return errors.Errorf("Cannot get appliance ovfenv: %s", errors.ErrorStack(err))
 		}
 		p.ApplianceHost = fmt.Sprintf("%s:%s", GetHostname(ovf, vmIP), ovf.Properties["appliance.config_port"])
@@ -183,7 +183,7 @@ func (p *Plugin) processInstallParams(op trace.Operation) error {
 	if p.ApplianceServerThumbprint == "" {
 		var cert object.HostCertificateInfo
 		if err := cert.FromURL(&url.URL{Host: p.ApplianceHost}, &tls.Config{}); err != nil {
-			op.Error(err.Error())
+			op.Error(err)
 			return errors.Errorf("Error getting thumbprint for %s: %s", p.ApplianceHost, errors.ErrorStack(err))
 		}
 		p.ApplianceServerThumbprint = cert.ThumbprintSHA1
@@ -202,7 +202,7 @@ func (p *Plugin) processRemoveParams(op trace.Operation) error {
 		defer cancel()
 
 		if err != nil {
-			op.Error(err.Error())
+			op.Error(err)
 			return err
 		}
 	}
@@ -223,7 +223,7 @@ func (p *Plugin) processInfoParams(op trace.Operation) error {
 		defer cancel()
 
 		if err != nil {
-			op.Error(err.Error())
+			op.Error(err)
 			return err
 		}
 	}
@@ -238,7 +238,7 @@ func (p *Plugin) Install(op trace.Operation) error {
 
 	var err error
 	if err = p.processInstallParams(op); err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		return err
 	}
 
@@ -270,13 +270,13 @@ func (p *Plugin) Install(op trace.Operation) error {
 
 	pl, err := plugin.NewPluginator(op, p.Target.Session, pInfo)
 	if err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		return err
 	}
 
 	reg, err := pl.IsRegistered(pInfo.Key)
 	if err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		return err
 	}
 	if reg {
@@ -284,7 +284,7 @@ func (p *Plugin) Install(op trace.Operation) error {
 			op.Info("Removing existing plugin to force install")
 			err = pl.Unregister(pInfo.Key)
 			if err != nil {
-				op.Error(err.Error())
+				op.Error(err)
 				return err
 			}
 			op.Info("Removed existing plugin")
@@ -298,13 +298,13 @@ func (p *Plugin) Install(op trace.Operation) error {
 	op.Info("Installing plugin")
 	err = pl.Register()
 	if err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		return err
 	}
 
 	reg, err = pl.IsRegistered(pInfo.Key)
 	if err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		return err
 	}
 	if !reg {
@@ -318,7 +318,7 @@ func (p *Plugin) Install(op trace.Operation) error {
 	if p.Configure {
 		// Configure the OVA vm to be managed by this plugin
 		if err = ova.ConfigureManagedByInfo(op, p.Target.Session, pInfo.URL); err != nil {
-			op.Error(err.Error())
+			op.Error(err)
 			return err
 		}
 	}
@@ -329,7 +329,7 @@ func (p *Plugin) Install(op trace.Operation) error {
 func (p *Plugin) Remove(op trace.Operation) error {
 	var err error
 	if err = p.processRemoveParams(op); err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		return err
 	}
 
@@ -345,12 +345,12 @@ func (p *Plugin) Remove(op trace.Operation) error {
 
 	pl, err := plugin.NewPluginator(op, p.Target.Session, pInfo)
 	if err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		return err
 	}
 	reg, err := pl.IsRegistered(pInfo.Key)
 	if err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		return err
 	}
 	if reg {
@@ -364,13 +364,13 @@ func (p *Plugin) Remove(op trace.Operation) error {
 	op.Info("Removing plugin")
 	err = pl.Unregister(pInfo.Key)
 	if err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		return err
 	}
 
 	reg, err = pl.IsRegistered(pInfo.Key)
 	if err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		return err
 	}
 	if reg {
@@ -386,7 +386,7 @@ func (p *Plugin) Remove(op trace.Operation) error {
 func (p *Plugin) Info(op trace.Operation) error {
 	var err error
 	if err = p.processInfoParams(op); err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		return err
 	}
 
@@ -396,13 +396,13 @@ func (p *Plugin) Info(op trace.Operation) error {
 
 	pl, err := plugin.NewPluginator(op, p.Target.Session, pInfo)
 	if err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		return err
 	}
 
 	reg, err := pl.GetPlugin(p.Key)
 	if err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		return err
 	}
 	if reg == nil {

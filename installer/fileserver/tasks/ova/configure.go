@@ -35,9 +35,10 @@ const (
 	ManagedByType = "VicApplianceVM"
 )
 
-// ConfigureManagedByInfo takes sets the ManagedBy field for the VM specified by ovaURL
+// ConfigureManagedByInfo sets the ManagedBy field for the VM specified by ovaURL
 func ConfigureManagedByInfo(op trace.Operation, sess *session.Session, ovaURL string) error {
-	v, err := getOvaVMByTag(op, sess, ovaURL)
+	op.Infof("Attempting to create the appliance vm ref")
+	v, err := getOvaVM(op, sess, ovaURL)
 	if err != nil {
 		return err
 	}
@@ -77,7 +78,7 @@ func configureManagedByInfo(op trace.Operation, sess *session.Session, v *vm.Vir
 	return nil
 }
 
-func getOvaVMByTag(op trace.Operation, sess *session.Session, u string) (*vm.VirtualMachine, error) {
+func getOvaVM(op trace.Operation, sess *session.Session, u string) (*vm.VirtualMachine, error) {
 	ovaURL, err := url.Parse(u)
 	if err != nil {
 		return nil, err
@@ -104,27 +105,31 @@ func getOvaVMByTag(op trace.Operation, sess *session.Session, u string) (*vm.Vir
 		return nil, errors.Errorf("IPV6 support not yet implemented")
 	}
 
-	// Create a vm reference using this appliance ip
+	// Create a vm reference using the appliance ip
 	ref, err := object.NewSearchIndex(sess.Vim25()).FindByIp(op, nil, ip, true)
 	if err != nil {
-		return nil, errors.Errorf("failed to discover OVA vm(s): %s", err)
+		return nil, errors.Errorf("failed to search for vms: %s", err.Error())
 	}
 
 	v, ok := ref.(*object.VirtualMachine)
 	if !ok {
 		return nil, errors.Errorf("failed to find vm with ip: %s", ip)
 	}
+
 	op.Debugf("Checking IP for %s", v.Reference().Value)
 	vmIP, err := v.WaitForIP(op)
-
-	// verify the tagged vm has the IP we expect
-	if vmIP == ip {
-		op.Debugf("Found OVA with matching IP: %s", ip)
-		return &vm.VirtualMachine{
-			VirtualMachine: v,
-			Session:        sess,
-		}, nil
+	if err != nil {
+		return nil, errors.Errorf("Cannot get appliance vm ip: %s", err.Error())
 	}
 
-	return nil, errors.Errorf("no VM(s) found")
+	// verify the tagged vm has the IP we expect
+	if vmIP != ip {
+		return nil, errors.Errorf("vm ip %s does not match guest.ip %s", vmIP, ip)
+	}
+
+	op.Debugf("Found OVA with matching IP: %s", ip)
+	return &vm.VirtualMachine{
+		VirtualMachine: v,
+		Session:        sess,
+	}, nil
 }

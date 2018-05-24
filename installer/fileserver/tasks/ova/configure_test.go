@@ -29,23 +29,23 @@ import (
 	"github.com/vmware/vic/pkg/vsphere/session"
 )
 
-func TestGetOvaVMByTagBadURL(t *testing.T) {
+func TestGetOvaVMWithBadURL(t *testing.T) {
 	bogusURL := "foo/bar.url://what-is-this"
-	op := trace.NewOperation(context.Background(), "TestGetOvaVMByTagBadURL")
-	vm, err := getOvaVMByTag(op, nil, bogusURL)
+	op := trace.NewOperation(context.Background(), "TestGetOvaVMWithBadURL")
+	vm, err := getOvaVM(op, nil, bogusURL)
 	assert.Nil(t, vm)
 	assert.Error(t, err)
 }
 
-func TestGetOvaVMByTag(t *testing.T) {
+func TestGetOvaVM(t *testing.T) {
 	username := os.Getenv("TEST_VC_USERNAME")
 	password := os.Getenv("TEST_VC_PASSWORD")
 	vcURL := os.Getenv("TEST_VC_URL")
 	ovaURL := os.Getenv("TEST_OVA_URL")
-	op := trace.NewOperation(context.Background(), "TestGetOvaVMByTag")
+	op := trace.NewOperation(context.Background(), "TestGetOvaVM")
 
 	if vcURL == "" || ovaURL == "" {
-		op.Infof("Skipping TestGetOvaVMByTag")
+		op.Infof("Skipping TestGetOvaVM")
 		t.Skipf("This test should only run against a VC with a deployed OVA")
 	}
 
@@ -59,7 +59,7 @@ func TestGetOvaVMByTag(t *testing.T) {
 
 	var cert object.HostCertificateInfo
 	if err = cert.FromURL(vc, new(tls.Config)); err != nil {
-		op.Error(err.Error())
+		op.Error(err)
 		t.FailNow()
 	}
 
@@ -92,9 +92,9 @@ func TestGetOvaVMByTag(t *testing.T) {
 		op.Errorf("Error populating: %s", err.Error())
 	}
 
-	vm, err := getOvaVMByTag(op, sess, ovaURL)
+	vm, err := getOvaVM(op, sess, ovaURL)
 	if err != nil {
-		op.Errorf("Error getting OVA by tag: %s", err.Error())
+		op.Errorf("Error getting OVA: %s", err.Error())
 	}
 	if vm == nil {
 		op.Errorf("No VM found")

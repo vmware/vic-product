@@ -28,6 +28,7 @@ type registerPayload struct {
 	Target      string `json:"target"`
 	User        string `json:"user"`
 	Password    string `json:"password"`
+	Thumbprint  string `json:"thumbprint,omitempty"`
 	ExternalPSC string `json:"externalpsc"`
 	PSCDomain   string `json:"pscdomain"`
 }
@@ -55,6 +56,7 @@ func RegisterHandler(resp http.ResponseWriter, req *http.Request) {
 		PSCConfig.Admin.Target = r.Target
 		PSCConfig.Admin.User = r.User
 		PSCConfig.Admin.Password = r.Password
+		PSCConfig.Admin.Thumbprint = r.Thumbprint
 		cancel, err := PSCConfig.Admin.VerifyLogin(op)
 		defer cancel()
 		if err != nil {

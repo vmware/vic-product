@@ -68,7 +68,7 @@ func (info *LoginInfo) VerifyLogin(op trace.Operation) (context.CancelFunc, erro
 			if cert.Err != nil {
 				op.Errorf("Failed to verify certificate for target=%s (thumbprint=%s)",
 					info.URL.Host, cert.ThumbprintSHA1)
-				loginResponse <- err
+				loginResponse <- cert.Err
 				return
 			}
 
