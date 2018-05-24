@@ -45,8 +45,10 @@ type IndexHTMLRenderer struct {
 // IndexHandler is an http.Handler for rendering the fileserver Getting Started Page
 func (i *IndexHTMLRenderer) IndexHandler(resp http.ResponseWriter, req *http.Request) {
 	defer trace.End(trace.Begin(""))
-
 	op := trace.NewOperation(context.Background(), "IndexHandler")
+	if rejectRestrictedRequest(op, resp, req) {
+		return
+	}
 	html := &IndexHTMLOptions{
 		NeedLogin:           needInitializationServices(req),
 		InitErrorFeedback:   "",
@@ -115,4 +117,17 @@ func indexFormHandler(op trace.Operation, req *http.Request, html *IndexHTMLOpti
 func needInitializationServices(req *http.Request) bool {
 	_, err := os.Stat(tasks.InitServicesTimestamp)
 	return os.IsNotExist(err) || req.URL.Query().Get("login") == "true"
+}
+
+func rejectRestrictedRequest(op trace.Operation, resp http.ResponseWriter, req *http.Request) bool {
+	paths := map[string]struct{}{
+		"/":           struct{}{},
+		"/index.html": struct{}{},
+	}
+	if _, ok := paths[req.URL.Path]; !ok {
+		op.Errorf("Request path %s not found in %-v", req.URL.Path, paths)
+		http.NotFound(resp, req)
+		return true
+	}
+	return false
 }

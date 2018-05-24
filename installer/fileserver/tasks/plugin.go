@@ -42,6 +42,7 @@ const (
 	pluginCompany           = "VMware"
 	pluginEntityType        = "VicApplianceVM"
 	fileserverPluginsPath   = "/opt/vmware/fileserver/files/"
+	vSphere67               = "6.7"
 )
 
 var (
@@ -239,6 +240,11 @@ func (p *Plugin) Install(op trace.Operation) error {
 	if err = p.processInstallParams(op); err != nil {
 		op.Error(err.Error())
 		return err
+	}
+
+	// Do not attempt to install the Flex client plugin on vSphere 6.7
+	if p.Key == flexClientPluginKey && p.Target.Session.Vim25().Version == vSphere67 {
+		return errors.Errorf("Refusing to install Flex plugin on vSphere %s", vSphere67)
 	}
 
 	op.Infof("### Installing UI Plugin ####")
