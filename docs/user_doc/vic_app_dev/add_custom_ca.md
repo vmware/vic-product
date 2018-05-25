@@ -41,10 +41,11 @@ e.g. docker-entrypoint.sh
 
 ```sh
 #!/bin/sh
-c_rehash
-echo "Injecting CA"
+echo "Injecting CA certs"
 openssl x509 -in /etc/ssl/certs/root.pem -text >> /etc/pki/tls/certs/ca-bundle.crt
 openssl x509 -in /etc/ssl/certs/root-secondary.pem -text >> /etc/pki/tls/certs/ca-bundle.crt
+echo "Rehashing new certificates"
+c_rehash
 echo "Starting DinV"
 exec /dinv -tls
 ```
