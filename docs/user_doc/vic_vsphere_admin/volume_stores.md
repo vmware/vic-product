@@ -60,8 +60,8 @@ Permissions are determined by the NFS server. If a container runs as non-root an
 
 In this case, you must configure the volume store with a UID/GID for creation and reading. This is because there will be many containers potentially attempting to read or write to the same location. You make this configuration on the NFS server. The configuration of the sharepoint is dependent on your setup:
 
-- If `no_squash_root` is enabled, the `root` user or group needs permissions on the NFS sharepoint. 
-- If `squash_root` is enabled, the `anon` user or group must have permissions on the NFS sharepoint. 
+- If `squash_root` is enabled, the `anon` user or group must have permissions on the NFS sharepoint. This is the preferred option for production environments.
+- If `no_squash_root` is enabled, the `root` user or group needs permissions on the NFS sharepoint. This option is acceptable and works, but  is recommended for proof-of-concept deployments rather than production.
 - The `root` user must also be a member of the GID that you configure the VCH to use.
 
 #### Testing and Debugging NFS Volume Store Configuration
