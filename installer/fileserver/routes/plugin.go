@@ -112,7 +112,7 @@ func InstallPluginHandler(resp http.ResponseWriter, req *http.Request) {
 			op.Errorf("Could not install plugin: %s", err.Error())
 			(&httpError{
 				Title: "Error installing plugin.",
-				code:  http.StatusUnprocessableEntity,
+				code:  http.StatusInternalServerError,
 			}).Error(op, resp)
 			return
 		}
@@ -165,7 +165,7 @@ func RemovePluginHandler(resp http.ResponseWriter, req *http.Request) {
 			op.Errorf("Could not remove plugin: %s", err.Error())
 			(&httpError{
 				Title: "Error removing plugin.",
-				code:  http.StatusUnprocessableEntity,
+				code:  http.StatusInternalServerError,
 			}).Error(op, resp)
 			return
 		}
@@ -220,7 +220,7 @@ func UpgradePluginHandler(resp http.ResponseWriter, req *http.Request) {
 			op.Errorf("Could not upgrade plugin: %s", err.Error())
 			(&httpError{
 				Title: "Error upgrading plugin.",
-				code:  http.StatusUnprocessableEntity,
+				code:  http.StatusInternalServerError,
 			}).Error(op, resp)
 			return
 		}
@@ -247,6 +247,10 @@ func decodePluginPayload(op trace.Operation, req *http.Request) (*tasks.Plugin, 
 
 	if p.Plugin == nil {
 		return nil, errors.New("Please supply a Plugin object")
+	}
+
+	if p.Appliance == nil {
+		p.Appliance = &applianceParameters{}
 	}
 
 	loginInfo := &lib.LoginInfo{
@@ -289,8 +293,8 @@ func (e *httpError) Error(op trace.Operation, resp http.ResponseWriter) {
 	if e.code == 0 {
 		e.code = http.StatusBadRequest
 	}
-	if e.Title == "" {
-		e.Title = "about:blank"
+	if e.ErrorType == "" {
+		e.ErrorType = "about:blank"
 	}
 	resp.WriteHeader(e.code)
 	err := json.NewEncoder(resp).Encode(e)

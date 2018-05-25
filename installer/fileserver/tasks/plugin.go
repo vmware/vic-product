@@ -22,6 +22,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	"github.com/vmware/govmomi/object"
 	"github.com/vmware/vic-product/installer/fileserver/tasks/ova"
@@ -42,7 +43,6 @@ const (
 	pluginCompany           = "VMware"
 	pluginEntityType        = "VicApplianceVM"
 	fileserverPluginsPath   = "/opt/vmware/fileserver/files/"
-	vSphere67               = "6.7.0"
 )
 
 var (
@@ -55,6 +55,9 @@ func init() {
 	re := regexp.MustCompile(`com\.vmware\.vic-v(\d+\.\d+\.\d+\.\d+)\.zip`)
 	filepath.Walk(fileserverPluginsPath, func(path string, f os.FileInfo, err error) error {
 		// First match from FindStringSubmatch is always the full match
+		if f == nil || f.IsDir() {
+			return nil
+		}
 		match := re.FindStringSubmatch(f.Name())
 		if len(match) > 1 {
 			pluginVersion = match[1]
@@ -63,9 +66,6 @@ func init() {
 		}
 		return nil
 	})
-	if pluginVersion == "" {
-		op.Fatal("Cannot find plugin version.")
-	}
 }
 
 // Plugin has all input parameters for vic-ui ui command
@@ -127,113 +127,6 @@ func NewFlexUIPlugin(target *lib.LoginInfo) *Plugin {
 	return p
 }
 
-func (p *Plugin) processInstallParams(op trace.Operation) error {
-	defer trace.End(trace.Begin("", op))
-
-	if p.Target.Session == nil {
-		cancel, err := p.Target.VerifyLogin(op)
-		defer cancel()
-
-		if err != nil {
-			op.Error(err)
-			return err
-		}
-	}
-
-	if p.Company == "" {
-		return errors.New("company must be specified")
-	}
-
-	if p.Key == "" {
-		return errors.New("key must be specified")
-	}
-
-	if p.Name == "" {
-		return errors.New("name must be specified")
-	}
-
-	if p.Summary == "" {
-		return errors.New("summary must be specified")
-	}
-
-	if p.Version == "" {
-		return errors.New("version must be specified")
-	}
-
-	if p.ApplianceHost == "" {
-		// Obtain the OVA VM's IP
-		vmIP, err := ip.FirstIPv4(ip.Eth0Interface)
-		if err != nil {
-			op.Error(err)
-			return errors.Errorf("Cannot generate appliance ip: %s", errors.ErrorStack(err))
-		}
-		// Fetch the OVF env to get the fileserver port
-		ovf, err := lib.UnmarshaledOvfEnv()
-		if err != nil {
-			op.Error(err)
-			return errors.Errorf("Cannot get appliance ovfenv: %s", errors.ErrorStack(err))
-		}
-		p.ApplianceHost = fmt.Sprintf("%s:%s", GetHostname(ovf, vmIP), ovf.Properties["appliance.config_port"])
-		op.Debugf("appliance host not specified. generated host: %s", p.ApplianceHost)
-
-	}
-	if p.ApplianceURL == "" {
-		p.ApplianceURL = fmt.Sprintf("https://%s/files/%s-v%s.zip", p.ApplianceHost, p.Key, p.Version)
-		op.Debugf("https plugin url not specified. generated plugin url: %s", p.ApplianceURL)
-	}
-
-	if p.ApplianceServerThumbprint == "" {
-		var cert object.HostCertificateInfo
-		if err := cert.FromURL(&url.URL{Host: p.ApplianceHost}, &tls.Config{}); err != nil {
-			op.Error(err)
-			return errors.Errorf("Error getting thumbprint for %s: %s", p.ApplianceHost, errors.ErrorStack(err))
-		}
-		p.ApplianceServerThumbprint = cert.ThumbprintSHA1
-		op.Debugf("server-thumbprint not specified with HTTPS plugin URL. generated thumbprint: %s", p.ApplianceServerThumbprint)
-	}
-
-	return nil
-}
-
-func (p *Plugin) processRemoveParams(op trace.Operation) error {
-	defer trace.End(trace.Begin("", op))
-
-	if p.Target.Session == nil {
-		cancel, err := p.Target.VerifyLogin(op)
-		defer cancel()
-
-		if err != nil {
-			op.Error(err)
-			return err
-		}
-	}
-
-	if p.Key == "" {
-		return errors.New("key must be specified")
-	}
-
-	return nil
-}
-
-func (p *Plugin) processInfoParams(op trace.Operation) error {
-	defer trace.End(trace.Begin("", op))
-
-	if p.Target.Session == nil {
-		cancel, err := p.Target.VerifyLogin(op)
-		defer cancel()
-
-		if err != nil {
-			op.Error(err)
-			return err
-		}
-	}
-
-	if p.Key == "" {
-		return errors.New("key must be specified")
-	}
-	return nil
-}
-
 func (p *Plugin) Install(op trace.Operation) error {
 	defer trace.End(trace.Begin("", op))
 
@@ -242,10 +135,8 @@ func (p *Plugin) Install(op trace.Operation) error {
 		op.Error(err)
 		return err
 	}
-
-	// Do not attempt to install the Flex client plugin on vSphere 6.7
 	vCenterVersion := p.Target.Session.Client.ServiceContent.About.Version
-	if p.Key == flexClientPluginKey && vCenterVersion == vSphere67 {
+	if p.denyInstall(op, vCenterVersion) {
 		err := errors.Errorf("Refusing to install Flex plugin on vSphere %s", vCenterVersion)
 		op.Error(err)
 		return err
@@ -425,4 +316,133 @@ func (p *Plugin) Info(op trace.Operation) error {
 	op.Infof("Company: %s", reg.Company)
 	op.Infof("Version: %s", reg.Version)
 	return nil
+}
+
+func (p *Plugin) processInstallParams(op trace.Operation) error {
+	defer trace.End(trace.Begin("", op))
+
+	if p.Target.Session == nil {
+		cancel, err := p.Target.VerifyLogin(op)
+		defer cancel()
+
+		if err != nil {
+			op.Error(err)
+			return err
+		}
+	}
+
+	if p.Company == "" {
+		return errors.New("company must be specified")
+	}
+
+	if p.Key == "" {
+		return errors.New("key must be specified")
+	}
+
+	if p.Name == "" {
+		return errors.New("name must be specified")
+	}
+
+	if p.Summary == "" {
+		return errors.New("summary must be specified")
+	}
+
+	if p.Version == "" {
+		return errors.New("version must be specified")
+	}
+
+	if p.ApplianceHost == "" {
+		// Obtain the OVA VM's IP
+		vmIP, err := ip.FirstIPv4(ip.Eth0Interface)
+		if err != nil {
+			op.Error(err)
+			return errors.Errorf("Cannot generate appliance ip: %s", errors.ErrorStack(err))
+		}
+		// Fetch the OVF env to get the fileserver port
+		ovf, err := lib.UnmarshaledOvfEnv()
+		if err != nil {
+			op.Error(err)
+			return errors.Errorf("Cannot get appliance ovfenv: %s", errors.ErrorStack(err))
+		}
+		p.ApplianceHost = fmt.Sprintf("%s:%s", GetHostname(ovf, vmIP), ovf.Properties["appliance.config_port"])
+		op.Debugf("appliance host not specified. generated host: %s", p.ApplianceHost)
+
+	}
+	if p.ApplianceURL == "" {
+		p.ApplianceURL = fmt.Sprintf("https://%s/files/%s-v%s.zip", p.ApplianceHost, p.Key, p.Version)
+		op.Debugf("https plugin url not specified. generated plugin url: %s", p.ApplianceURL)
+	}
+	if p.ApplianceServerThumbprint == "" {
+		var cert object.HostCertificateInfo
+		if err := cert.FromURL(&url.URL{Host: p.ApplianceHost}, &tls.Config{}); err != nil {
+			op.Error(err)
+			return errors.Errorf("Error getting thumbprint for %s: %s", p.ApplianceHost, errors.ErrorStack(err))
+		}
+		p.ApplianceServerThumbprint = cert.ThumbprintSHA1
+		op.Debugf("server-thumbprint not specified with HTTPS plugin URL. generated thumbprint: %s", p.ApplianceServerThumbprint)
+	}
+
+	return nil
+}
+
+func (p *Plugin) processRemoveParams(op trace.Operation) error {
+	defer trace.End(trace.Begin("", op))
+
+	if p.Target.Session == nil {
+		cancel, err := p.Target.VerifyLogin(op)
+		defer cancel()
+
+		if err != nil {
+			op.Error(err)
+			return err
+		}
+	}
+
+	if p.Key == "" {
+		return errors.New("key must be specified")
+	}
+
+	return nil
+}
+
+func (p *Plugin) processInfoParams(op trace.Operation) error {
+	defer trace.End(trace.Begin("", op))
+
+	if p.Target.Session == nil {
+		cancel, err := p.Target.VerifyLogin(op)
+		defer cancel()
+
+		if err != nil {
+			op.Error(err)
+			return err
+		}
+	}
+
+	if p.Key == "" {
+		return errors.New("key must be specified")
+	}
+	return nil
+}
+
+func (p *Plugin) denyInstall(op trace.Operation, version string) bool {
+	vCenterVersion := strings.Split(version, ".")
+
+	if len(vCenterVersion) < 2 {
+		op.Debugf("Cannot filter vSphere version (%s) because it is not a semantic version", strings.Join(vCenterVersion, "."))
+		return false
+	}
+	semver := map[string]string{
+		"major": vCenterVersion[0],
+		"minor": vCenterVersion[1],
+	}
+	// Deny install if:
+	// Plugin is the flex plugin AND
+	// -- major version us 6 AND
+	// -- -- minor version is greater than Or equal to 7 OR
+	// -- major version is greater than or equal to 7
+	return p.Key == flexClientPluginKey &&
+		((semver["major"] == "6" && semver["minor"] == "7") ||
+			(semver["major"] == "6" && strings.Compare(semver["minor"], "7") == 1) ||
+			(strings.Compare(semver["major"], "6") == 1))
+
 }
