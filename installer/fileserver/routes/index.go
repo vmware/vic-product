@@ -74,7 +74,7 @@ func (i *IndexHTMLRenderer) IndexHandler(resp http.ResponseWriter, req *http.Req
 			log.Infof("Validation succeeded")
 			html.NeedLogin = false
 
-			if err := tasks.RegisterAppliance(PSCConfig); err != nil {
+			if err := PSCConfig.RegisterAppliance(); err != nil {
 				html.InitErrorFeedback = err.Error()
 			} else {
 				html.InitSuccessFeedback = "Installation successful. Refer to the Post-install and Deployment tasks below."
