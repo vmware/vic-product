@@ -58,9 +58,13 @@ vSphere Integrated Containers mounts NFS volumes as `root`. Consequently, if con
 
 Permissions are determined by the NFS server. If a container runs as non-root and it attempts to write into the NFS mount, the permissions on the server side must grant the accessing user the ability to perform the requested actions. To allow this, the `other` (also known as `world`) permissions must be set. Alternatively, the user that is accessing the NFS mount should be part of the same `Group` that owns the share. To facilitate this, you can configure the share point with an anonymous user. You can also use `root_squash`, which is designed to map the root user to the anonymous user. Using `all squash` maps all UIDs/GIDs to the anonymous UID/GID.
 
-In this case, you must configure the volume store with a UID/GID for creation and reading. The configuration of the sharepoint is dependent on your setup, but it will need to map the `root` user to the `anon` user with at least root level squashing enabled. This is because there will be many containers potentially attempting to read or write to the same location. You make this configuration on the NFS server.
+In this case, you must configure the volume store with a UID/GID for creation and reading. This is because there will be many containers potentially attempting to read or write to the same location. You make this configuration on the NFS server. The configuration of the sharepoint is dependent on your setup:
 
-The `root` user must also be a member of the GID that you configure the VCH to use.
+- If `squash_root` is enabled, the `anon` user or group must have permissions on the NFS sharepoint. This is the preferred option for production environments.
+- If `no_squash_root` is enabled, the `root` user or group needs permissions on the NFS sharepoint. This option is acceptable and works, but  is recommended for proof-of-concept deployments rather than production.
+- The `root` user must also be a member of the GID that you configure the VCH to use.
+
+If you encounter connection difficulties, and you are not sure whether the squash is the problem, you can enable `all_squash` on the sharepoint and configure the `anon` user as the owner of the endpoint.
 
 #### Testing and Debugging NFS Volume Store Configuration
 
