@@ -31,6 +31,22 @@
         <main class="content-container">
             <div class="content-area" id="contentArea">
                 <div id="getting-started-items-container" class="mt-0">
+                        {{if .InitErrorFeedback }}
+                        <div id="feedback-alert" class="alert alert-danger">
+                            <div class="alert-item">
+                                <span class="alert-text">{{ .InitErrorFeedback }}</span>
+                                <div class="alert-actions">
+                                    <a href="/?login=true" title="Login" class="alert-action">Re-initialize</a>
+                                </div>
+                            </div>
+                        </div>
+                        {{ end }} {{if .InitSuccessFeedback }}
+                        <div id="feedback-alert" class="alert alert-success">
+                            <div class="alert-item">
+                                <span class="alert-text">{{ .InitSuccessFeedback }}</span>
+                            </div>
+                        </div>
+                        {{ end }}
                     <div id="feedback-alert-error" class="alert alert-danger mt-0" style="display: none">
                         <div class="alert-item">
                             <span class="alert-text">
