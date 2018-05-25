@@ -147,13 +147,49 @@
                         class="btn btn-link px-0 mt-1 mb-0">
                             Re-initialize the vSphere Integrated Container Appliance
                         </a></div>
-                        <div><a href="#" id="feedback-link" class="btn btn-link px-0 mt-0">
-                            Re-install the vSphere Integrated Container Appliance
-                        </a></div>
                     </div>
                 </div>
                 {{if .NeedLogin}}
-                <div class="modal">
+                <div class="modal" id="plugin-modal" style="display: none">
+                            <div class="modal-dialog" 
+                            role="dialog"aria-hidden="false">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">Complete VIC plugin installation</h3>
+                                    </div>
+                                    <div id="plugin-spinner" style="display: none;text-align: center">
+                                        <div class="spinner"></div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="plugin-form" method="post" class="pt-0">
+                                            <div id="plugin-body">
+                                                
+                                                <p class="mt-0 mb-1">
+                                                    Certificate thumbprint for
+                                                    vCenter Server <label id="vcenter"></label>
+                                                </p>
+                                                <input id="thumbprint-show" type="text" style="width: 85%;"></input>
+                                                <p class="mt-1 mb-1">
+                                                        Click Continue to validate
+                                                        this certificate or cancel
+                                                        if the thumbprint is not valid
+                                                </p>
+                                                <a href="https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/obtain_thumbprint.html" class="btn btn-link" >Read more...</a>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-outline"
+                                                type="button" onclick="window.location.href='/?login=true'">Cancel</button>
+                                                <button id="plugin-submit"
+                                                class="btn btn-primary"
+                                                type="submit">Continue</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-backdrop" id="areaBackdrop" aria-hidden="true"></div>
+                <div class="modal" id="login-modal">
                     <div class="modal-dialog" role="dialog" aria-hidden="true">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -174,6 +210,13 @@
                                             </div>
                                         </div>
                                         {{ end }}
+                                        <div class="alert alert-danger mt-0
+                                        mb-2" style="display: none" id="thumbprint-alert-div">
+                                                <div class="alert-item">
+                                                    <span id="thumbprint-alert-span" class="alert-text">
+                                                    </span>
+                                                </div>
+                                            </div>
                                         <p class="mt-0 mb-1">
                                             Please enter your vCenter credentials to complete the vSphere Integrated
                                             Containers Appliance installation and PSC settings if using an external instance.
@@ -187,8 +230,6 @@
                                             <input id="user" type="text" name="user" placeholder="username@domain.local">
                                             <input type="password" name="password" placeholder="Password" />
                                         </div>
-                                        
-                                        
                                         <div class="form-group">
                                             <label for="psc">External PSC Instance</label>
                                             <input id="psc" type="text" name="psc" placeholder="FQDN">
@@ -197,6 +238,7 @@
                                             <label for="pscDomain">External PSC Admin Domain</label>
                                             <input id="pscDomain" type="text" name="pscDomain" placeholder="vsphere.local">
                                         </div>
+                                        <input id="thumbprint" type="hidden" name="thumbprint" placeholder="">
                                     </div>
                                     <div class="text-sm-right">
                                         <button id="login-submit" type="submit" class="btn btn-primary">Continue</button>
@@ -208,125 +250,63 @@
                 </div>
                 <div class="modal-backdrop" aria-hidden="true"></div>
                 {{ end }}
-                                
-                {{if not .NeedLogin }}
-                <div class="modal" id="pluginModal" style="display: none">
-                    <script>if (sessionStorage.getItem("pluginNeedInstall")){
-                        document.getElementById('pluginModal').style.display='';
-                    }
-                    </script>
-                        <div class="modal-dialog" 
-                        role="dialog"aria-hidden="false">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h3 class="modal-title">Complete VIC plugin installation</h3>
-                                </div>
-                                <div id="plugin-spinner" style="display: none;text-align: center">
-                                    <div class="spinner"></div>
-                                </div>
-                                <div class="modal-body">
-                                    <form id="plugin-form" method="post" class="pt-0">
-                                        <div id="plugin-body">
-                                            
-                                            <p class="mt-0 mb-1">
-                                                Certificate thumbprint for
-                                                vCenter Server <label id="vcenter"></label>
-                                            </p>
-                                            <input id="thumbprint" type="text" style="width: 85%;"></input>
-                                            <script> 
-                                                document.getElementById('vcenter').textContent= sessionStorage.getItem("vcsa");
-                                                document.getElementById('thumbprint').value = sessionStorage.getItem("thumbprint");
-                                            </script>
-                                            <p class="mt-1 mb-1">
-                                                    Click Continue to validate
-                                                    this certificate or cancel
-                                                    if the thumbprint is not valid
-                                            </p>
-                                            <a href="https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/obtain_thumbprint.html" class="btn btn-link" >Read more...</a>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button class="btn btn-outline"
-                                            type="button" onclick="window.location.href='/?login=true'">Cancel</button>
-                                            <button id="plugin-submit"
-                                            class="btn btn-primary"
-                                            type="submit">Continue</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-backdrop" id="areaBackdrop" aria-hidden="true"></div>
-                    <script>if (sessionStorage.getItem("pluginNeedInstall")){
-                            document.getElementById('pluginModal').style.display='';
-                        }
-                        else
-                            document.getElementById('areaBackdrop').style.display='none';
-                    </script>        
-                    {{ end }}
             </div>
         </main>
     </div>
 <script>
    
-function getThumbprint(method,target,callback) {
+function getThumbprint(target,callback) {
     var xhr = new XMLHttpRequest();
     var  thumbprint;
-    xhr.open(method, '/thumbprint?target='+target);
+    xhr.open('POST', '/thumbprint?target=' + target);
     xhr.onreadystatechange = function() {
-        if (xhr.status === 200) {
-            
-            callback(xhr.responseText);
-        }
-        else {
-        console.output('Request failed.  Returned status of ' + xhr.status);
-        }
+        callback(xhr.response,xhr.status);
     };
     xhr.send();             
-}
-
-function saveThumbprint(data){
-    sessionStorage.setItem("thumbprint", data);
-}
-
-function callApiInstall(){                
-  // To be implemented with an api call to install the plugin        
-        return true;                                        
-}
-    
-function callApiUpgrade(vicAddr){
- // To be implemented with an api call to install the plugin
 }
     
 (function() {
 //login elements
 
-$form = document.getElementById('login-form');
-$spinner = document.getElementById('login-spinner');
-$body = document.getElementById('login-body');
-$submit = document.getElementById('login-submit');
-
+$loginForm = document.getElementById('login-form');
+$loginSpinner = document.getElementById('login-spinner');
+$loginBody = document.getElementById('login-body');
+$loginSubmit = document.getElementById('login-submit');
+$loginModal = document.getElementById('login-modal');
 //plugin installations elements
 
 $pluginForm = document.getElementById('plugin-form');
 $pluginSpinner = document.getElementById('plugin-spinner');
-$pluginSubmit = document.getElementById('plugin-submit');
 $pluginBody = document.getElementById('plugin-body');
-$pluginModal = document.getElementById('plugin-body');
+$pluginSubmit = document.getElementById('plugin-submit');
+$pluginModal = document.getElementById('plugin-modal');
 
-    if ($form) {
-        $form.addEventListener('submit', function(event) {
+    if ($loginForm) {
+        $loginForm.addEventListener('submit', function(event) {
             event.preventDefault();
-            sessionStorage.setItem("vcsa",document.getElementById('target').value);
-            sessionStorage.setItem("user",document.getElementById('user').value);
-            sessionStorage.setItem("pass",document.getElementsByName('password').value);
-            sessionStorage.setItem("vicAddr",document.getElementById('vicAddr').value);
-            $submit.setAttribute('disabled', 'disabled');
-            $body.style.display = 'none';
-            $spinner.style.display = '';
+            $loginSubmit.setAttribute('disabled', 'disabled');
+            $loginBody.style.display = 'none';
+            $loginSpinner.style.display = '';
             setTimeout(function() {
-                getThumbprint('POST',sessionStorage.getItem("vcsa"),saveThumbprint);
-                $form.submit(sessionStorage.setItem('pluginNeedInstall',true));  
+                $vc = document.getElementById('target').value;
+                getThumbprint($vc,function (thumbprint,status) {
+                            
+                            if (status ===200){
+                            $loginModal.style.display = 'none';
+                            $pluginModal.style.display = '';
+                            document.getElementById('thumbprint').value = thumbprint;
+                            document.getElementById('thumbprint-show').value = thumbprint;
+                            }
+                            else{
+                                $loginBody.style.display = '';
+                                $loginSpinner.style.display = 'none';
+                                $loginSubmit.removeAttribute("disabled");
+                                document.getElementById('thumbprint-alert-span').textContent = 'code: '+status+' '+thumbprint+', '+'check VC IP/FQDN';
+                                document.getElementById('thumbprint-alert-div').style.display='';
+                                
+                                
+                            }
+                        })
             });
         })
     }
@@ -337,18 +317,8 @@ $pluginModal = document.getElementById('plugin-body');
             $pluginSubmit.setAttribute('disabled', 'disabled');
             $pluginBody.style.display = 'none';
             $pluginSpinner.style.display = '';
-            setTimeout(function() {               
-                if(callApiInstall()){
-                sessionStorage.getItem("vicAddr");
-                document.getElementById('pluginModal').parentNode.removeChild(document.getElementById('pluginModal'));
-                document.getElementById('areaBackdrop').parentNode.removeChild(document.getElementById('areaBackdrop'));
-                document.getElementById('feedback-alert-success').style.display='';
-                }                          
-                else {
-                document.getElementById('pluginModal').parentNode.removeChild(document.getElementById('pluginModal'));
-                document.getElementById('areaBackdrop').parentNode.removeChild(document.getElementById('areaBackdrop'));
-                document.getElementById('feedback-alert-error').style.display='';
-                }
+            setTimeout(function() {              
+                $loginForm.submit();
             });
         })
     }
