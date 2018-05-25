@@ -30,6 +30,8 @@ const (
 
 // ThumbprintHandler returns the thumbprint of the ip/fqdn given by the get parameter targetKey
 func ThumbprintHandler(resp http.ResponseWriter, req *http.Request) {
+	defer trace.End(trace.Begin(""))
+
 	switch req.Method {
 	case http.MethodPost:
 		op := trace.NewOperation(context.Background(), "ThumbprintHandler")
@@ -49,7 +51,8 @@ func ThumbprintHandler(resp http.ResponseWriter, req *http.Request) {
 		}
 
 		op.Infof("Thumbprint found")
-		http.Error(resp, cert.ThumbprintSHA1, http.StatusOK)
+		resp.WriteHeader(http.StatusOK)
+		resp.Write([]byte(cert.ThumbprintSHA1))
 	default:
 		http.Error(resp, "only accepts POST", http.StatusMethodNotAllowed)
 	}

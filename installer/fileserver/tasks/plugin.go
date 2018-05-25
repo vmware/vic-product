@@ -34,15 +34,15 @@ import (
 
 const (
 	h5ClientPluginName      = "vSphere Integrated Containers-H5Client"
-	h5ClientPluginSumamry   = "Plugin for vSphere Integrated Containers-H5Client"
+	h5ClientPluginSummary   = "Plugin for vSphere Integrated Containers-H5Client"
 	h5ClientPluginKey       = "com.vmware.vic"
 	flexClientPluginName    = "vSphere Integrated Containers-FlexClient"
-	flexClientPluginSumamry = "Plugin for vSphere Integrated Containers-FlexClient"
+	flexClientPluginSummary = "Plugin for vSphere Integrated Containers-FlexClient"
 	flexClientPluginKey     = "com.vmware.vic.ui"
 	pluginCompany           = "VMware"
 	pluginEntityType        = "VicApplianceVM"
 	fileserverPluginsPath   = "/opt/vmware/fileserver/files/"
-	vSphere67               = "6.7"
+	vSphere67               = "6.7.0"
 )
 
 var (
@@ -72,12 +72,12 @@ func init() {
 type Plugin struct {
 	Target *lib.LoginInfo
 
-	Force     bool
-	Configure bool
-	Insecure  bool
+	Force    bool
+	Insecure bool
 
 	Company               string
 	HideInSolutionManager bool
+	Configure             bool
 	Key                   string
 	Name                  string
 	Summary               string
@@ -105,8 +105,9 @@ func NewH5UIPlugin(target *lib.LoginInfo) *Plugin {
 	p.Company = pluginCompany
 	p.Key = h5ClientPluginKey
 	p.Name = h5ClientPluginName
-	p.Summary = h5ClientPluginSumamry
+	p.Summary = h5ClientPluginSummary
 	p.Configure = true
+	p.Insecure = true
 
 	return p
 }
@@ -119,8 +120,9 @@ func NewFlexUIPlugin(target *lib.LoginInfo) *Plugin {
 	p.Company = pluginCompany
 	p.Key = flexClientPluginKey
 	p.Name = flexClientPluginName
-	p.Summary = flexClientPluginSumamry
+	p.Summary = flexClientPluginSummary
 	p.Configure = true
+	p.Insecure = true
 
 	return p
 }
@@ -190,7 +192,6 @@ func (p *Plugin) processInstallParams(op trace.Operation) error {
 		op.Debugf("server-thumbprint not specified with HTTPS plugin URL. generated thumbprint: %s", p.ApplianceServerThumbprint)
 	}
 
-	p.Insecure = true
 	return nil
 }
 
@@ -211,7 +212,6 @@ func (p *Plugin) processRemoveParams(op trace.Operation) error {
 		return errors.New("key must be specified")
 	}
 
-	p.Insecure = true
 	return nil
 }
 
@@ -235,6 +235,7 @@ func (p *Plugin) processInfoParams(op trace.Operation) error {
 }
 
 func (p *Plugin) Install(op trace.Operation) error {
+	defer trace.End(trace.Begin("", op))
 
 	var err error
 	if err = p.processInstallParams(op); err != nil {
@@ -243,11 +244,14 @@ func (p *Plugin) Install(op trace.Operation) error {
 	}
 
 	// Do not attempt to install the Flex client plugin on vSphere 6.7
-	if p.Key == flexClientPluginKey && p.Target.Session.Vim25().Version == vSphere67 {
-		return errors.Errorf("Refusing to install Flex plugin on vSphere %s", vSphere67)
+	vCenterVersion := p.Target.Session.Client.ServiceContent.About.Version
+	if p.Key == flexClientPluginKey && vCenterVersion == vSphere67 {
+		err := errors.Errorf("Refusing to install Flex plugin on vSphere %s", vCenterVersion)
+		op.Error(err)
+		return err
 	}
 
-	op.Infof("### Installing UI Plugin ####")
+	op.Infof("### Installing UI Plugin against vSphere %s ####", vCenterVersion)
 	op.Infof("%+v", p.Target.URL)
 	pInfo := &plugin.Info{
 		Company:               p.Company,
@@ -327,6 +331,8 @@ func (p *Plugin) Install(op trace.Operation) error {
 }
 
 func (p *Plugin) Remove(op trace.Operation) error {
+	defer trace.End(trace.Begin("", op))
+
 	var err error
 	if err = p.processRemoveParams(op); err != nil {
 		op.Error(err)
@@ -384,6 +390,8 @@ func (p *Plugin) Remove(op trace.Operation) error {
 }
 
 func (p *Plugin) Info(op trace.Operation) error {
+	defer trace.End(trace.Begin("", op))
+
 	var err error
 	if err = p.processInfoParams(op); err != nil {
 		op.Error(err)

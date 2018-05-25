@@ -82,7 +82,6 @@ func parseServerConfig(op trace.Operation, conf *serverConfig) {
 	default:
 		trace.Logger.Level = log.DebugLevel
 	}
-	trace.DisableTracing()
 
 	if (conf.certPath == "" && conf.keyPath != "") || (conf.certPath != "" && conf.keyPath == "") {
 		op.Errorf("Both certificate and key must be specified")
@@ -161,6 +160,9 @@ func main() {
 	}
 	// attach fileserver route
 	routes := []*serverRoute{
+		{"/plugin/install", http.HandlerFunc(routes.InstallPluginHandler)},
+		{"/plugin/remove", http.HandlerFunc(routes.RemovePluginHandler)},
+		{"/plugin/upgrade", http.HandlerFunc(routes.UpgradePluginHandler)},
 		{"/register", http.HandlerFunc(routes.RegisterHandler)},
 		{"/thumbprint", http.HandlerFunc(routes.ThumbprintHandler)},
 		{"/files/", http.StripPrefix("/files/", http.FileServer(http.Dir(filepath.Join(c.serveDir, "files"))))},

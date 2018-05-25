@@ -36,6 +36,8 @@ type registerPayload struct {
 // RegisterHandler unwraps a json body as a PSCRegistrationConfig and preforms
 // the RegisterWithPSC task
 func RegisterHandler(resp http.ResponseWriter, req *http.Request) {
+	defer trace.End(trace.Begin(""))
+
 	switch req.Method {
 	case http.MethodPost:
 		op := trace.NewOperation(context.Background(), "RegisterHandler")
@@ -73,7 +75,8 @@ func RegisterHandler(resp http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		http.Error(resp, "operation complete", http.StatusOK)
+		resp.WriteHeader(http.StatusOK)
+		resp.Write([]byte("operation complete"))
 	default:
 		http.Error(resp, "only accepts POST", http.StatusMethodNotAllowed)
 	}
