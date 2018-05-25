@@ -40,34 +40,14 @@
                                 </div>
                             </div>
                         </div>
-                        {{ end }} {{if .InitSuccessFeedback }}
+                        {{ end }} 
+                        {{if .InitSuccessFeedback }}
                         <div id="feedback-alert" class="alert alert-success">
                             <div class="alert-item">
                                 <span class="alert-text">{{ .InitSuccessFeedback }}</span>
                             </div>
                         </div>
                         {{ end }}
-                    <div id="feedback-alert-error" class="alert alert-danger mt-0" style="display: none">
-                        <div class="alert-item">
-                            <span class="alert-text">
-                                <!-- To be filled with the
-                                message returned by the api -->
-                            The installation of the vic plugin was failed</span>
-                            <div class="alert-actions">
-                                <a href="/?login=true" title="Login" class="alert-action">Re-initialize</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="feedback-alert-success" class="alert alert-success mt-0"
-                    style="display: none">
-                        <div class="alert-item">
-                            <!-- To be filled with the
-                            message returned by the api -->
-                            <span class="alert-text">Installation successful.
-                                    Please restart the vSphere client services.</span>
-                        </div>
-                    </div>
                     <div class="row flex-items-xs-middle my-1 mx-0 pl-3">
                         <div class="col-xs text-left">
                             <h1 class="mx-0 mb-2 pl-0">vSphere Integrated
