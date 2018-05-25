@@ -1,4 +1,4 @@
-# Assign Viewers, Developers, or DevOps Administrators to a Project #
+# Assign Users to a Project #
 
 You can add any user or user group from the Platform Services Controller to the vSphere Integrated Containers Management Portal and assign them a role in a project.  
 
@@ -19,3 +19,7 @@ For more information about users and roles in vSphere Integrated Containers, see
 5. (Optional) Change the role of a user that is assigned to the project.
 	1. From the table with users, select the check box next to a user and click **Edit**.
 	2. In the **Edit member role in project** window, select new role for that user and click **OK**.
+
+**What to Do Next**
+
+[Add Container Hosts to Projects](vchs_and_mgmt_portal.md)

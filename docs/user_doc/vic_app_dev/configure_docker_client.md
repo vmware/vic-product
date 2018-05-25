@@ -10,7 +10,7 @@ vSphere Integrated Containers Engine 1.4 supports Docker client 1.13.0. The supp
   - [Obtain the vSphere Integrated Containers Registry CA Certificate](#getcert)
   - [Configure the Docker Client on Linux](#certlinux)
   - [Configure the Docker Client on Windows](#certwindows)
-- [Using vSphere Integrated Containers Registry with Notary](#notary)
+- [Using vSphere Integrated Containers Registry with Content Trust](#notary)
 
 ## Connecting to the VCH <a id="connectvch"></a>
 
@@ -97,11 +97,14 @@ To pass the registry's CA certificate to a Docker client that is running on Wind
    - Select **Reset** and click **Restart Docker**.
 5. Log in to the registry server.<pre>docker login <i>registry_ip</i></pre>
 
-## Using vSphere Integrated Containers Registry with Notary <a id="notary"></a>
+## Using vSphere Integrated Containers Registry with Content Trust <a id="notary"></a>
 
-vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement content trust by signing and verifying the images in the registry. For information about Docker Notary, see [Content trust in Docker](https://docs.docker.com/engine/security/trust/content_trust/) in the Docker documentation.
+vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement content trust by signing and verifying the images in the registry. Cloud administrators enable or disable content trust at the project level in vSphere Integrated Containers Management Portal.
 
-To use the Docker Notary server from vSphere Integrated Containers Registry, you must pass the registry's CA certificate to your Docker client and set up Docker Content Trust. By default, the vSphere Integrated Containers Registry Notary server runs on port 4443 on the vSphere Integrated Containers appliance.
+- For information about Docker Notary, see [Content trust in Docker](https://docs.docker.com/engine/security/trust/content_trust/) in the Docker documentation.
+- For information about how to enable content trust in projects in vSphere Integrated Containers Management Portal, see [Configure Project Settings](../vic_cloud_admin/manage_projects.md) in *Configure and Manage vSphere Integrated Containers*.
+
+If you the project that you are working on implements content trust, you must pass the registry's CA certificate to your Docker client and set up Docker Content Trust. By default, the vSphere Integrated Containers Registry Notary server runs on port 4443 on the vSphere Integrated Containers appliance.
 
 1. If you are using a self-signed certificate, copy the CA root certificate to the Docker certificates folder.
 
@@ -123,7 +126,7 @@ export DOCKER_CONTENT_TRUST_SERVER=https://<i>registry_ip</i>:4443
 	The root key is generated at: <pre>/root/.docker/trust/private/root_keys</pre>
 	The repository key is generated at: <pre>/root/.docker/trust/private/tuf_keys/[registry_name]/[image_path]</pre>
 
-You can see that the signed image that you pushed is marked with a green tick on the Project Repositories page in the Management Portal.
+You can see that the signed image that you pushed is marked with a green check on the Project Repositories page in the Management Portal.
 
 	
 	
