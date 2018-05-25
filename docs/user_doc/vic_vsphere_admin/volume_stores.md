@@ -64,6 +64,8 @@ In this case, you must configure the volume store with a UID/GID for creation an
 - If `no_squash_root` is enabled, the `root` user or group needs permissions on the NFS sharepoint. This option is acceptable and works, but  is recommended for proof-of-concept deployments rather than production.
 - The `root` user must also be a member of the GID that you configure the VCH to use.
 
+If you encounter connection difficulties, and you are not sure whether the squash is the problem, you can enable `all_squash` on the sharepoint and configure the `anon` user as the owner of the endpoint.
+
 #### Testing and Debugging NFS Volume Store Configuration
 
 When you deploy a VCH, if you configured an NFS volume store and the NFS share point is not accessible by the VCH, the following errors appear in the output of `vic-machine create`:
