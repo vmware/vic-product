@@ -63,7 +63,7 @@ func RegisterHandler(resp http.ResponseWriter, req *http.Request) {
 		}
 
 		log.Infof("Validation succeeded")
-		if err := tasks.RegisterAppliance(PSCConfig); err != nil {
+		if err := PSCConfig.RegisterAppliance(); err != nil {
 			errMsg := fmt.Sprintf("Failed to write to register appliance: %s", err.Error())
 			http.Error(resp, errMsg, http.StatusInternalServerError)
 			return

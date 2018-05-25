@@ -32,6 +32,7 @@ import (
 	"github.com/vmware/vic-product/installer/lib"
 	"github.com/vmware/vic-product/installer/pkg/ip"
 	"github.com/vmware/vic/pkg/certificate"
+	"github.com/vmware/vic/pkg/trace"
 )
 
 type serverConfig struct {
@@ -79,6 +80,7 @@ func parseServerConfig(conf *serverConfig) {
 		log.SetLevel(log.InfoLevel)
 	default:
 		log.SetLevel(log.DebugLevel)
+		trace.Logger.Level = log.DebugLevel
 	}
 
 	if (conf.certPath == "" && conf.keyPath != "") || (conf.certPath != "" && conf.keyPath == "") {

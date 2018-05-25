@@ -25,9 +25,9 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
+	"github.com/vmware/vic-product/installer/fileserver/tasks/tagvm"
 	"github.com/vmware/vic-product/installer/lib"
 	"github.com/vmware/vic-product/installer/pkg/ip"
-	"github.com/vmware/vic-product/installer/tagvm"
 	"github.com/vmware/vic/pkg/errors"
 	"github.com/vmware/vic/pkg/vsphere/optmanager"
 )
@@ -57,7 +57,7 @@ func NewPSCRegistrationConfig() *PSCRegistrationConfig {
 
 // RegisterAppliance runs the three processes required to register the appliance:
 // TagVM, RegisterWithPSC, and SaveInitializationState
-func RegisterAppliance(conf *PSCRegistrationConfig) error {
+func (conf *PSCRegistrationConfig) RegisterAppliance() error {
 	ctx := context.TODO()
 	if conf.Admin.Validator == nil {
 		err := errors.New("No validator session found")
@@ -70,7 +70,7 @@ func RegisterAppliance(conf *PSCRegistrationConfig) error {
 		return errors.New("Failed to locate VIC Appliance. Please check the vCenter Server provided and try again")
 	}
 
-	if err := RegisterWithPSC(ctx, conf); err != nil {
+	if err := conf.RegisterWithPSC(ctx); err != nil {
 		log.Debug(errors.ErrorStack(err))
 		return errors.New("Failed to register with PSC. Please check the PSC settings provided and try again")
 	}
@@ -86,7 +86,7 @@ func RegisterAppliance(conf *PSCRegistrationConfig) error {
 // RegisterWithPSC runs the PSC register command to register VIC services with
 // the platforms services controller. The command generates config files and
 // keystore files to use while getting and renewing tokens.
-func RegisterWithPSC(ctx context.Context, conf *PSCRegistrationConfig) error {
+func (conf *PSCRegistrationConfig) RegisterWithPSC(ctx context.Context) error {
 	var err error
 
 	// Use vSphere as the psc instance if external psc was not supplied
