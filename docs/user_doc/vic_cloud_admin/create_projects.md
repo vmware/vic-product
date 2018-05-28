@@ -21,4 +21,5 @@ The project is added to the list of projects. You can browse existing projects a
 
 **What to Do Next**
 
-You can add users to the project, push images to the project, browse the repositories that the project contains, view the project logs, and set up image replication. 
+- [Assign Users to a Project](add_users.md)
+- [Assign Projects to a User](assign_project_to_user.md)

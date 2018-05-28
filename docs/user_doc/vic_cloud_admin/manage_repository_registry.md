@@ -1,4 +1,4 @@
-# Manage Internal Repositories in vSphere Integrated Containers Registry
+# Manage Internal Repositories in Projects
 
 You can access the list of internal repositories that users have pushed to a project. You can browse repositories to see the different tags applied to images in the repository. You can also delete a repository or a tag in a repository.
 

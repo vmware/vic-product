@@ -24,9 +24,9 @@ For more information about users and roles in vSphere Integrated Containers, see
 
 **Result**
 
-The projects that you assigned to the user are listed in the **Projects** column. 
+The projects that you assigned to the user are listed in the **Projects** column. You can remove a user from a project by selecting the user, clicking **Assign Project Roles**, and clicking the minus (**-**) symbol for a project.
 
 **What to Do Next**
 
-You can remove a user from a project by selecting the user, clicking **Assign Project Roles**, and clicking the minus (**-**) symbol for a project.
+[Add Container Hosts to Projects](vchs_and_mgmt_portal.md)
 
