@@ -11,3 +11,4 @@ The following topics provide instructions about how to fill in the different pag
 - [Operations User](set_up_ops_user.md)
 - [Finish VCH Deployment in the vSphere Client](complete_vch_deployment_client.md)
 - [Advanced Virtual Container Host Deployment Options](vch_advanced_options.md)
+- [Index of `vic-machine create` Options](vicmachine_create_options_ref.md)

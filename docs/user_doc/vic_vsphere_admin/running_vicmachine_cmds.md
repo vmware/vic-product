@@ -141,7 +141,7 @@ The timeout period for uploading the vSphere Integrated Containers Engine files 
 
 The `vic-machine create` command provides many more options that allow you to customize the deployment of VCHs to correspond to your vSphere environment and to meet your development requirements.
 
-For information about other VCH deployment options, see the following topics:
+For information about the other VCH deployment options, see the following topics:
 
 - [General Virtual Container Host Settings](vch_general_settings.md)
 - [Virtual Container Host Compute Capacity](vch_compute.md)
@@ -154,3 +154,5 @@ For information about other VCH deployment options, see the following topics:
 - [Virtual Container Host Boot Options](vch_boot_options.md)
 
 The options that these topics describe apply to both the `vic-machine` CLI utility and to the Create Virtual Container Host wizard in the vSphere Client. 
+
+For the full list of `vic-machine create` options, with links to the relevant sections of the documentation, see [Index of `vic-machine create` Options](vicmachine_create_options_ref.md).
