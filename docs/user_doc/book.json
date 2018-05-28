@@ -2,7 +2,7 @@
 
 	"title": "VMware vSphere Integrated Containers 1.4 Documentation",
         "gitbook": "3.x.x",
-        "plugins": ["insert-logo", "expandable-chapters", "edit-link"],
+        "plugins": ["insert-logo", "expandable-chapters", "edit-link", "noembed"],
         "pluginsConfig": {
             "insert-logo": {
                 "url": "VMW_logo.png",

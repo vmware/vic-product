@@ -2,13 +2,7 @@
 
 vSphere Integrated Containers enables IT teams to seamlessly run traditional workloads and container workloads side-by-side on existing vSphere infrastructure. 
 
-- [vSphere Integrated Containers Components](#components)
-- [Advantages of vSphere Integrated Containers](#advantages)
-- [How vSphere Integrated Containers Helps vSphere Administrators](#helps_admins)
-
-## vSphere Integrated Containers Components <a id="components"></a>
-
-vSphere Integrated Containers is delivered as an appliance, that comprises the following major components:
+The solution is delivered as an appliance, that comprises the following major components:
 
 - **vSphere Integrated Containers Engine**, a container runtime for vSphere that allows you to provision containers as virtual machines, offering the same security and functionality of virtual machines in VMware ESXi&trade; hosts or vCenter Server&reg; instances. 
 - **vSphere Integrated Containers Plug-In for vSphere Client**, that provides information about your vSphere Integrated Containers setup and allows you to deploy virtual container hosts directly from the vSphere Client.
@@ -19,6 +13,9 @@ These components currently support the Docker image format. vSphere Integrated C
 
 - vSphere Enterprise Plus
 - vSphere Remote Office Branch Office (ROBO) Advanced
+
+For a walkthrough of vSphere Integrated Containers deployment, configuration and operation, watch the vSphere Integrated Containers overview video.
+{{ 'https://www.youtube.com/watch?v=phsVFTVK4t4&t=' | noembed }}
 
 ## Advantages of vSphere Integrated Containers <a id="advantages"></a>
 
