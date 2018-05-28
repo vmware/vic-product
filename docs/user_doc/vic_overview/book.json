@@ -1,6 +1,7 @@
 {
 
         "gitbook": "3.x.x",
+        "plugins": ["noembed"],
 	"pdf": {
 		"headerTemplate": "_TITLE_",
 		"footerTemplate": "_PAGENUM_",
