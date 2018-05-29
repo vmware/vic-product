@@ -58,6 +58,9 @@ vSphere administrators prepare, install, and set up vSphere Integrated Container
 - Perform update and upgrade procedures for vSphere Integrated Containers
 
 vSphere Administrators automatically have cloud administrator privileges in vSphere Integrated Containers Management Portal. 
+
+You can also see the roles and personas described in the vSphere Integrated Containers overview video.
+{{ 'https://www.youtube.com/watch?v=phsVFTVK4t4&t=' | noembed }}
  
 ## Example Users #####
 

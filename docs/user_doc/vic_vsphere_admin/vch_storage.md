@@ -6,8 +6,8 @@ Virtual container hosts (VCHs) require a datastore in which to store container i
 - [Specify Volume Datastores](volume_stores.md)
 
 For an overview of vSphere Integrated Containers storage, watch the vSphere Integrated Containers Storage video on the [VMware Cloud-Native YouTube Channel](https://www.youtube.com/channel/UCdkGV51Nu0unDNT58bHt9bg):
+{{ 'https://www.youtube.com/watch?v=WrVHbjTZHrs' | noembed }}
 
-[![vSphere Integrated Containers Storage video](graphics/vic_storage_video_small.jpg)](https://www.youtube.com/watch?v=WrVHbjTZHrs)
 
 ## Storage Requirements and Limitations
 
