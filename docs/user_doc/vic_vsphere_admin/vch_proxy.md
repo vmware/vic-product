@@ -16,7 +16,7 @@ You can add, reconfigure, or remove proxy servers after you have deployed a VCH 
 
 The sections in this topic each correspond to an entry in the Configure Networks page of the Create Virtual Container Host wizard, and to the  corresponding `vic-machine create` options.
 
-### HTTP Proxy
+### HTTP Proxy <a id="http"></a>
 
 The address of the HTTP proxy server through which the VCH accesses image registries when using HTTP.
 
@@ -32,7 +32,7 @@ Specify the address of the proxy server in the `--http-proxy` option, as either 
 
 <pre>--http-proxy http://proxy.example.mycompany.org:80</pre>
 
-### HTTPS Proxy
+### HTTPS Proxy <a id="https"></a>
 
 The address of the HTTPS proxy server through which the VCH accesses image registries when using HTTPS.
 
