@@ -2857,7 +2857,6 @@
                                 
                                 <h1 id="index-of-vic-machine-create-options">Index of <code>vic-machine create</code> Options</h1>
 <p>The table in this topic includes the full list of options for the <code>vic-machine create</code> command, with links to the sections of the documentation that describe them.</p>
-<p>The options are presented in the same order as the output of <code>vic-machine create --extended-help</code>.</p>
 <table>
 <thead>
 <tr>
@@ -2867,64 +2866,24 @@
 </thead>
 <tbody>
 <tr>
-<td><code>--target</code></td>
-<td><a href="running_vicmachine_cmds.html#target">Basic <code>vic-machine create</code> Options</a></td>
-</tr>
-<tr>
-<td><code>--user</code></td>
-<td><a href="running_vicmachine_cmds.html#user">Basic <code>vic-machine create</code> Options</a></td>
-</tr>
-<tr>
-<td><code>--password</code></td>
-<td><a href="running_vicmachine_cmds.html#password">Basic <code>vic-machine create</code> Options</a></td>
-</tr>
-<tr>
-<td><code>--thumbprint</code></td>
-<td><a href="running_vicmachine_cmds.html#thumbprint">Basic <code>vic-machine create</code> Options</a></td>
-</tr>
-<tr>
-<td><code>--name</code></td>
-<td><a href="vch_general_settings.html#name">General Virtual Container Host Settings</a></td>
-</tr>
-<tr>
-<td><code>--compute-resource</code></td>
-<td><a href="vch_compute.html#compute-resource">Virtual Container Host Compute Capacity</a></td>
-</tr>
-<tr>
 <td><code>--affinity-vm-group</code></td>
 <td><a href="vch_affinity_group.html">Add Virtual Container Hosts to a DRS Affinity Group</a></td>
 </tr>
 <tr>
-<td><code>--ops-user</code></td>
-<td><a href="set_up_ops_user.html">Configure the Operations User</a></td>
+<td><code>--appliance-iso</code></td>
+<td><a href="vch_boot_options.html#appliance-iso">Virtual Container Host Boot Options</a></td>
 </tr>
 <tr>
-<td><code>--ops-password</code></td>
-<td><a href="set_up_ops_user.html#credentials">Configure the Operations User</a></td>
-</tr>
-<tr>
-<td><code>--ops-grant-perms</code></td>
-<td><a href="set_up_ops_user.html#perms">Configure the Operations User</a></td>
-</tr>
-<tr>
-<td><code>--image-store</code></td>
-<td><a href="image_store.html">Specify the Image Datastore</a></td>
+<td><code>--asymmetric-routes</code></td>
+<td><a href="mgmt_network.html#asymmetric-routes">Configure the Management Network</a></td>
 </tr>
 <tr>
 <td><code>--base-image-size</code></td>
 <td><a href="image_store.html#baseimagesize">Specify the Image Datastore</a></td>
 </tr>
 <tr>
-<td><code>--container-name-convention</code></td>
-<td><a href="vch_general_settings.html#container-name-convention">General Virtual Container Host Settings</a></td>
-</tr>
-<tr>
-<td><code>--volume-store</code></td>
-<td><a href="volume_stores.html">Specify Volume Datastores</a></td>
-</tr>
-<tr>
-<td><code>--dns-server</code></td>
-<td><a href="public_network.html#dns-server">Configure the Public Network</a></td>
+<td><code>--bootstrap-iso</code></td>
+<td><a href="vch_boot_options.html#bootstrap-iso">Virtual Container Host Boot Options</a></td>
 </tr>
 <tr>
 <td><code>--bridge-network</code></td>
@@ -2933,6 +2892,10 @@
 <tr>
 <td><code>--bridge-network-range</code></td>
 <td><a href="bridge_network.html#bridge-range">Configure Bridge Networks</a></td>
+</tr>
+<tr>
+<td><code>--certificate-key-size</code></td>
+<td><a href="vch_cert_options.html#keysize">Virtual Container Host Certificate Options</a></td>
 </tr>
 <tr>
 <td><code>--client-network</code></td>
@@ -2947,40 +2910,16 @@
 <td><a href="client_network.html#static-ip">Configure the Client Network</a></td>
 </tr>
 <tr>
-<td><code>--public-network</code></td>
-<td><a href="public_network.html">Configure the Public Network</a></td>
+<td><code>--compute-resource</code></td>
+<td><a href="vch_compute.html#compute-resource">Virtual Container Host Compute Capacity</a></td>
 </tr>
 <tr>
-<td><code>--public-network-gateway</code></td>
-<td><a href="public_network.html#gateway">Configure the Public Network</a></td>
-</tr>
-<tr>
-<td><code>--public-network-ip</code></td>
-<td><a href="public_network.html#static-ip">Configure the Public Network</a></td>
-</tr>
-<tr>
-<td><code>--management-network</code></td>
-<td><a href="mgmt_network.html">Configure the Management Network</a></td>
-</tr>
-<tr>
-<td><code>--management-network-gateway</code></td>
-<td><a href="mgmt_network.html#gateway">Configure the Management Network</a></td>
-</tr>
-<tr>
-<td><code>--management-network-ip</code></td>
-<td><a href="mgmt_network.html#static-ip">Configure the Management Network</a></td>
+<td><code>--container-name-convention</code></td>
+<td><a href="vch_general_settings.html#container-name-convention">General Virtual Container Host Settings</a></td>
 </tr>
 <tr>
 <td><code>--container-network</code></td>
 <td><a href="container_networks.html">Configure Container Networks</a></td>
-</tr>
-<tr>
-<td><code>--container-network-gateway</code></td>
-<td><a href="container_networks.html#gateway">Configure Container Networks</a></td>
-</tr>
-<tr>
-<td><code>--container-network-ip-range</code></td>
-<td><a href="container_networks.html#ip-range">Configure Container Networks</a></td>
 </tr>
 <tr>
 <td><code>--container-network-dns</code></td>
@@ -2991,20 +2930,12 @@
 <td><a href="container_networks.html#container-network-firewall">Configure Container Networks</a></td>
 </tr>
 <tr>
-<td><code>--memory</code></td>
-<td><a href="vch_compute.html#memory">Virtual Container Host Compute Capacity</a></td>
+<td><code>--container-network-gateway</code></td>
+<td><a href="container_networks.html#gateway">Configure Container Networks</a></td>
 </tr>
 <tr>
-<td><code>--memory-reservation</code></td>
-<td><a href="vch_compute.html#memoryres">Virtual Container Host Compute Capacity</a></td>
-</tr>
-<tr>
-<td><code>--memory-shares</code></td>
-<td><a href="vch_compute.html#memoryshares">Virtual Container Host Compute Capacity</a></td>
-</tr>
-<tr>
-<td><code>--endpoint-memory</code></td>
-<td><a href="vch_compute.html#endpointmemory">Virtual Container Host Compute Capacity</a></td>
+<td><code>--container-network-ip-range</code></td>
+<td><a href="container_networks.html#ip-range">Configure Container Networks</a></td>
 </tr>
 <tr>
 <td><code>--cpu</code></td>
@@ -3019,92 +2950,160 @@
 <td><a href="vch_compute.html#cpushares">Virtual Container Host Compute Capacity</a></td>
 </tr>
 <tr>
+<td><code>--debug</code></td>
+<td><a href="vch_general_settings.html#debug">General Virtual Container Host Settings</a></td>
+</tr>
+<tr>
+<td><code>--dns-server</code></td>
+<td><a href="public_network.html#dns-server">Configure the Public Network</a></td>
+</tr>
+<tr>
 <td><code>--endpoint-cpu</code></td>
 <td><a href="vch_compute.html#endpointcpu">Virtual Container Host Compute Capacity</a></td>
 </tr>
 <tr>
-<td><code>--tls-server-key</code></td>
-<td><a href="vch_cert_options.html#server-key">Virtual Container Host Certificate Options</a></td>
-</tr>
-<tr>
-<td><code>--tls-server-cert</code></td>
-<td><a href="vch_cert_options.html#server-cert">Virtual Container Host Certificate Options</a></td>
-</tr>
-<tr>
-<td><code>--tls-cname</code></td>
-<td><a href="vch_cert_options.html#tls-cname">Virtual Container Host Certificate Options</a></td>
-</tr>
-<tr>
-<td><code>--tls-cert-path</code></td>
-<td><a href="vch_cert_options.html#cert-path">Virtual Container Host Certificate Options</a></td>
-</tr>
-<tr>
-<td><code>--no-tlsverify</code></td>
-<td><a href="tls_unrestricted.html#no-tlsverify">Disable Client Verification</a></td>
-</tr>
-<tr>
-<td><code>--organization</code></td>
-<td><a href="vch_cert_options.html#org">Virtual Container Host Certificate Options</a></td>
-</tr>
-<tr>
-<td><code>--certificate-key-size</code></td>
-<td><a href="vch_cert_options.html#keysize">Virtual Container Host Certificate Options</a></td>
-</tr>
-<tr>
-<td><code>--tls-ca</code></td>
-<td><a href="vch_cert_options.html#ca-pem">Virtual Container Host Certificate Options</a></td>
-</tr>
-<tr>
-<td><code>--no-tls</code></td>
-<td><a href="tls_unrestricted.html#no-tls">Disable Client Verification</a></td>
-</tr>
-<tr>
-<td><code>--registry-ca</code></td>
-<td><a href="vch_registry.html#registry-ca">Configure Registry Access</a></td>
-</tr>
-<tr>
-<td><code>--insecure-registry</code></td>
-<td><a href="vch_registry.html#insecure-registry">Configure Registry Access</a></td>
-</tr>
-<tr>
-<td><code>--whitelist-registry</code></td>
-<td><a href="vch_registry.html#whitelist-registry">Configure Registry Access</a></td>
-</tr>
-<tr>
-<td><code>--https-proxy</code></td>
-<td><a href="vch_proxy.html#https">Configure VCHs to Use Proxy Servers</a></td>
-</tr>
-<tr>
-<td><code>--http-proxy</code></td>
-<td><a href="vch_proxy.html#http">Configure VCHs to Use Proxy Servers</a></td>
-</tr>
-<tr>
-<td><code>--syslog-address</code></td>
-<td><a href="vch_general_settings.html#syslog">General Virtual Container Host Settings</a></td>
-</tr>
-<tr>
-<td><code>--appliance-iso</code></td>
-<td><a href="vch_boot_options.html#appliance-iso">Virtual Container Host Boot Options</a></td>
-</tr>
-<tr>
-<td><code>--bootstrap-iso</code></td>
-<td><a href="vch_boot_options.html#bootstrap-iso">Virtual Container Host Boot Options</a></td>
+<td><code>--endpoint-memory</code></td>
+<td><a href="vch_compute.html#endpointmemory">Virtual Container Host Compute Capacity</a></td>
 </tr>
 <tr>
 <td><code>--force</code></td>
 <td><a href="running_vicmachine_cmds.html#force">Basic <code>vic-machine create</code> Options</a></td>
 </tr>
 <tr>
+<td><code>--image-store</code></td>
+<td><a href="image_store.html">Specify the Image Datastore</a></td>
+</tr>
+<tr>
+<td><code>--insecure-registry</code></td>
+<td><a href="vch_registry.html#insecure-registry">Configure Registry Access</a></td>
+</tr>
+<tr>
+<td><code>--http-proxy</code></td>
+<td><a href="vch_proxy.html#http">Configure VCHs to Use Proxy Servers</a></td>
+</tr>
+<tr>
+<td><code>--https-proxy</code></td>
+<td><a href="vch_proxy.html#https">Configure VCHs to Use Proxy Servers</a></td>
+</tr>
+<tr>
+<td><code>--management-network</code></td>
+<td><a href="mgmt_network.html">Configure the Management Network</a></td>
+</tr>
+<tr>
+<td><code>--management-network-gateway</code></td>
+<td><a href="mgmt_network.html#gateway">Configure the Management Network</a></td>
+</tr>
+<tr>
+<td><code>--management-network-ip</code></td>
+<td><a href="mgmt_network.html#static-ip">Configure the Management Network</a></td>
+</tr>
+<tr>
+<td><code>--memory</code></td>
+<td><a href="vch_compute.html#memory">Virtual Container Host Compute Capacity</a></td>
+</tr>
+<tr>
+<td><code>--memory-reservation</code></td>
+<td><a href="vch_compute.html#memoryres">Virtual Container Host Compute Capacity</a></td>
+</tr>
+<tr>
+<td><code>--memory-shares</code></td>
+<td><a href="vch_compute.html#memoryshares">Virtual Container Host Compute Capacity</a></td>
+</tr>
+<tr>
+<td><code>--name</code></td>
+<td><a href="vch_general_settings.html#name">General Virtual Container Host Settings</a></td>
+</tr>
+<tr>
+<td><code>--no-tls</code></td>
+<td><a href="tls_unrestricted.html#no-tls">Disable Client Verification</a></td>
+</tr>
+<tr>
+<td><code>--no-tlsverify</code></td>
+<td><a href="tls_unrestricted.html#no-tlsverify">Disable Client Verification</a></td>
+</tr>
+<tr>
+<td><code>--ops-grant-perms</code></td>
+<td><a href="set_up_ops_user.html#perms">Configure the Operations User</a></td>
+</tr>
+<tr>
+<td><code>--ops-password</code></td>
+<td><a href="set_up_ops_user.html#credentials">Configure the Operations User</a></td>
+</tr>
+<tr>
+<td><code>--ops-user</code></td>
+<td><a href="set_up_ops_user.html">Configure the Operations User</a></td>
+</tr>
+<tr>
+<td><code>--organization</code></td>
+<td><a href="vch_cert_options.html#org">Virtual Container Host Certificate Options</a></td>
+</tr>
+<tr>
+<td><code>--password</code></td>
+<td><a href="running_vicmachine_cmds.html#password">Basic <code>vic-machine create</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--public-network</code></td>
+<td><a href="public_network.html">Configure the Public Network</a></td>
+</tr>
+<tr>
+<td><code>--public-network-gateway</code></td>
+<td><a href="public_network.html#gateway">Configure the Public Network</a></td>
+</tr>
+<tr>
+<td><code>--public-network-ip</code></td>
+<td><a href="public_network.html#static-ip">Configure the Public Network</a></td>
+</tr>
+<tr>
+<td><code>--registry-ca</code></td>
+<td><a href="vch_registry.html#registry-ca">Configure Registry Access</a></td>
+</tr>
+<tr>
+<td><code>--syslog-address</code></td>
+<td><a href="vch_general_settings.html#syslog">General Virtual Container Host Settings</a></td>
+</tr>
+<tr>
+<td><code>--target</code></td>
+<td><a href="running_vicmachine_cmds.html#target">Basic <code>vic-machine create</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--thumbprint</code></td>
+<td><a href="running_vicmachine_cmds.html#thumbprint">Basic <code>vic-machine create</code> Options</a></td>
+</tr>
+<tr>
 <td><code>--timeout</code></td>
 <td><a href="running_vicmachine_cmds.html#timeout">Basic <code>vic-machine create</code> Options</a></td>
 </tr>
 <tr>
-<td><code>--asymmetric-routes</code></td>
-<td><a href="mgmt_network.html#asymmetric-routes">Configure the Management Network</a></td>
+<td><code>--tls-ca</code></td>
+<td><a href="vch_cert_options.html#ca-pem">Virtual Container Host Certificate Options</a></td>
 </tr>
 <tr>
-<td><code>--debug</code></td>
-<td><a href="vch_general_settings.html#debug">General Virtual Container Host Settings</a></td>
+<td><code>--tls-cert-path</code></td>
+<td><a href="vch_cert_options.html#cert-path">Virtual Container Host Certificate Options</a></td>
+</tr>
+<tr>
+<td><code>--tls-cname</code></td>
+<td><a href="vch_cert_options.html#tls-cname">Virtual Container Host Certificate Options</a></td>
+</tr>
+<tr>
+<td><code>--tls-server-cert</code></td>
+<td><a href="vch_cert_options.html#server-cert">Virtual Container Host Certificate Options</a></td>
+</tr>
+<tr>
+<td><code>--tls-server-key</code></td>
+<td><a href="vch_cert_options.html#server-key">Virtual Container Host Certificate Options</a></td>
+</tr>
+<tr>
+<td><code>--user</code></td>
+<td><a href="running_vicmachine_cmds.html#user">Basic <code>vic-machine create</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--volume-store</code></td>
+<td><a href="volume_stores.html">Specify Volume Datastores</a></td>
+</tr>
+<tr>
+<td><code>--whitelist-registry</code></td>
+<td><a href="vch_registry.html#whitelist-registry">Configure Registry Access</a></td>
 </tr>
 </tbody>
 </table>
@@ -3151,7 +3150,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Index of Options","level":"3.1.2.4.10","depth":4,"next":{"title":"Deploy a Test VCH","level":"3.1.2.5","depth":3,"path":"vic_vsphere_admin/deploy_test_vch.md","ref":"vic_vsphere_admin/deploy_test_vch.md","articles":[{"title":"Deploy a VCH to an ESXi Host with No vCenter Server","level":"3.1.2.5.1","depth":4,"path":"vic_vsphere_admin/deploy_vch_esxi.md","ref":"vic_vsphere_admin/deploy_vch_esxi.md","articles":[]},{"title":"VCH with Volume Store and Registry","level":"3.1.2.5.2","depth":4,"path":"vic_vsphere_admin/deploy_vch_dchphoton.md","ref":"vic_vsphere_admin/deploy_vch_dchphoton.md","articles":[]}]},"previous":{"title":"VCH Boot Options","level":"3.1.2.4.9.2","depth":5,"path":"vic_vsphere_admin/vch_boot_options.md","ref":"vic_vsphere_admin/vch_boot_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","expandable-chapters","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"url":"VMW_logo.png","style":"background: none"},"expandable-chapters":{}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vicmachine_create_options_ref.md","mtime":"2018-05-29T13:40:40.901Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-29T13:41:02.432Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Index of Options","level":"3.1.2.4.10","depth":4,"next":{"title":"Deploy a Test VCH","level":"3.1.2.5","depth":3,"path":"vic_vsphere_admin/deploy_test_vch.md","ref":"vic_vsphere_admin/deploy_test_vch.md","articles":[{"title":"Deploy a VCH to an ESXi Host with No vCenter Server","level":"3.1.2.5.1","depth":4,"path":"vic_vsphere_admin/deploy_vch_esxi.md","ref":"vic_vsphere_admin/deploy_vch_esxi.md","articles":[]},{"title":"VCH with Volume Store and Registry","level":"3.1.2.5.2","depth":4,"path":"vic_vsphere_admin/deploy_vch_dchphoton.md","ref":"vic_vsphere_admin/deploy_vch_dchphoton.md","articles":[]}]},"previous":{"title":"VCH Boot Options","level":"3.1.2.4.9.2","depth":5,"path":"vic_vsphere_admin/vch_boot_options.md","ref":"vic_vsphere_admin/vch_boot_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","expandable-chapters","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"url":"VMW_logo.png","style":"background: none"},"expandable-chapters":{}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vicmachine_create_options_ref.md","mtime":"2018-05-29T14:45:46.496Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-29T15:07:08.453Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
