@@ -86,19 +86,71 @@ function usage {
     "
 }
 
-function callRegisterEndpoint {
+# A plugin upgrade is a forced plugin install
+function callPluginUpgradeEndpoint {
+  local preset=$1
+  local vc='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
+  local plugin='{"preset":"'"${preset}"'","force":true}'
+  local payload='{"vc":'${vc}',"plugin":'${plugin}'}'
+  echo "register payload - ${payload}" | sed -e 's/'${VCENTER_PASSWORD}'/***/g' >> $upgrade_log_file 2>&1
   /usr/bin/curl \
     -k \
     --write-out '%{http_code}' \
     --header "Content-Type: application/json" \
     -X POST \
-    --data '{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'"}' \
+    --data "${payload}" \
+    https://localhost:9443/plugin/upgrade
+}
+
+function upgradeAppliancePlugin {
+  # Upgrade the flex client...
+  tab_retries=0
+  max_tab_retries=30 # 5 minutes
+
+  ret=$(callPluginUpgradeEndpoint FLEX)
+  while [[ "$ret" != *"204"* && "$ret" != *"5"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
+    log "Waiting for upgrade appliance flex plugin..."
+    sleep 10
+    let "tab_retries+=1"
+    ret=$(callPluginUpgradeEndpoint FLEX)
+  done
+
+  if [[ ${tab_retries} -eq ${max_tab_retries} || "$ret" == *"5"* ]]; then
+    log "WARNING: Plugin upgrade failed for the FLEX client. This is expected on vCenter versions 6.7 or higher."
+    log "WARNING: If you expected this to pass on older versions of vSphere, please check your credentials and try again, or contact VMware Support."
+  fi
+
+  # Upgrade the H5 client...
+  tab_retries=0
+  ret=$(callPluginUpgradeEndpoint H5)
+  while [[ "$ret" != *"204"* && "$ret" != *"5"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
+    log "Waiting for upgrade appliance h5 plugin..."
+    sleep 10
+    let "tab_retries+=1"
+    ret=$(callPluginUpgradeEndpoint H5)
+  done
+
+  if [[ ${tab_retries} -eq ${max_tab_retries} || "$ret" == *"5"* ]]; then
+    log "Failed to upgrade appliance h5 plugin. Check vCenter target settings, or contact VMware support."
+    exit 1
+  fi
+}
+
+function callRegisterEndpoint {
+  local payload='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'"}'
+  echo "register payload - ${payload}" | sed -e 's/'${VCENTER_PASSWORD}'/***/g' >> $upgrade_log_file 2>&1
+  /usr/bin/curl \
+    -k \
+    --write-out '%{http_code}' \
+    --header "Content-Type: application/json" \
+    -X POST \
+    --data "${payload}" \
     https://localhost:9443/register
 }
 
 # Register appliance for content trust
 function registerAppliance {
-
+  log "Registering the appliance in PSC"
   tab_retries=0
   max_tab_retries=30 # 5 minutes
   while [[ "$(callRegisterEndpoint)" != *"200"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
@@ -111,7 +163,6 @@ function registerAppliance {
     log "Failed to register appliance. Check vCenter target and credentials and provided PSC settings."
     exit 1
   fi
-
 }
 
 # Get PSC tokens for SSO integration
@@ -516,6 +567,7 @@ function main {
       echo "TLS connection is not secure, unable to proceed with upgrade. Please contact VMware support. Exiting..."
       exit 1
     fi
+    export VCENTER_FINGERPRINT="$(echo "${fingerprint}" | awk '{print $2}')"
     echo "${fingerprint}" > $GOVC_TLS_KNOWN_HOSTS
   else
     log "Using provided vCenter fingerprint from --fingerprint ${VCENTER_FINGERPRINT}"
@@ -570,6 +622,9 @@ function main {
   ### -------------------- ###
   ###  Component Upgrades  ###
   ### -------------------- ###
+  log "\n-------------------------\nStarting VIC UI Plugin Upgrade ${TIMESTAMP}\n"
+  upgradeAppliancePlugin
+
   log "\n-------------------------\nStarting Admiral Upgrade ${TIMESTAMP}\n"
   upgradeAdmiral
   log "\n-------------------------\nStarting Harbor Upgrade ${TIMESTAMP}\n"
