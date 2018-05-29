@@ -11,15 +11,27 @@ To understand vSphere Integrated Containers, you must first understand the main 
 
 For an introduction to containers, Docker, and container registries before reading further, watch the videos on the [VMware Cloud-Native YouTube Channel](https://www.youtube.com/channel/UCdkGV51Nu0unDNT58bHt9bg):
 
-[![What is a Container](graphics/what_is_a_container.jpg)](https://www.youtube.com/watch?v=EnJ7qX9fkcU)  [![The Benefits of Containers](graphics/benefits_of_containers.jpg)](https://www.youtube.com/watch?v=cCTLjAdIQho)
+<table>
+				<tbody>
+					<tr>
+						<td><!--StartFragment-->{{ 'https://www.youtube.com/watch?v=EnJ7qX9fkcU' | noembed }}<!--EndFragment--></td>
+						<td><!--StartFragment-->{{ 'https://www.youtube.com/watch?v=cCTLjAdIQho' | noembed }}<!--EndFragment--></td>
+					</tr>
+					<tr>
+						<td><!--StartFragment-->{{ 'https://www.youtube.com/watch?v=VqLcWftIaQI' | noembed }}<!--EndFragment--></td>
+						<td><!--StartFragment-->{{ 'https://www.youtube.com/watch?v=IhUvORodQAQ' | noembed }}<!--EndFragment--></td>
+					</tr>
+					<tr>
+						<td><!--StartFragment-->{{ 'https://www.youtube.com/watch?v=L1ie8negCjc' | noembed }}<!--EndFragment--></td>
+						<td><!--StartFragment-->{{ 'https://www.youtube.com/watch?v=PoiXuVnSxfE' | noembed }}<!--EndFragment--></td>
+					</tr>
+					<tr>
+						<td><!--StartFragment-->{{ 'https://www.youtube.com/watch?v=76rX4s73MrM' | noembed }}<!--EndFragment--></td>
+						<td><!--StartFragment-->{{ 'https://www.youtube.com/watch?v=jpC_p3bxXCI' | noembed }}<!--EndFragment--></td>
+					</tr>
+				</tbody>
+			</table>
 
-
-[![Containers 101](graphics/containers101.jpg)](https://www.youtube.com/watch?v=VqLcWftIaQI)  [![What is Docker?](graphics/what_is_docker.jpg)](https://www.youtube.com/watch?v=IhUvORodQAQ) 
-
-[![Containers and VMs - A Practical Comparison](graphics/containers_vs_vms.jpg)](https://www.youtube.com/watch?v=L1ie8negCjc)  [![Truths and Myths of Containers and VMs](graphics/truths_myths_containers_vms.jpg)](https://www.youtube.com/watch?v=PoiXuVnSxfE)
-
-
-[![Container Registry](graphics/container_registry.jpg)](https://www.youtube.com/watch?v=76rX4s73MrM)  [![Container Registries](graphics/container_registries.jpg)](https://www.youtube.com/watch?v=jpC_p3bxXCI)  
 
 The following resources on docker.com and elsewhere are also useful:
 
