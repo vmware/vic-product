@@ -9,7 +9,7 @@ The `vic-machine create` utility provides options that change the location of th
 
 The options in this topic are only available with the `vic-machine create` command. They are not available in the Create Virtual Container Host wizard in the vSphere Client.
 
-### `--appliance-iso` ###
+### `--appliance-iso` <a id="appliance-iso"></a>
 
 **Short name**: `--ai`
 
@@ -21,7 +21,7 @@ The path to the ISO image from which the VCH appliance boots. Set this option if
 
 <pre>--appliance-iso <i>path_to_ISO_file</i>/appliance.iso</pre>
 
-### `--bootstrap-iso` ###
+### `--bootstrap-iso` <a id="bootstrap-iso"></a>
 
 **Short name**: `--bi`
 

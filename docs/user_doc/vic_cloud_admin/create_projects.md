@@ -1,4 +1,4 @@
-# Create a Project in vSphere Integrated Containers #
+# Create a Project in vSphere Integrated Containers Management Portal #
 
 In vSphere Integrated Containers, you create different projects to which you assign users, repositories, and infrastructure. You also set up replication of registries in projects, and configure project-specific settings. When you first deploy vSphere Integrated Containers, a default public project named default-project is created. 
 
