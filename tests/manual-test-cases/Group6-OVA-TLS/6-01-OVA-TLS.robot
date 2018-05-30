@@ -28,6 +28,7 @@ Test Environment Setup
     [Timeout]    110 minutes
     Setup Simple VC And Test Environment
     Set Environment Variable  DOMAIN              eng.vmware.com
+    Set Test VC Variables
 
 *** Test Cases ***
 User Provided Certificate
@@ -50,7 +51,7 @@ User Provided Certificate
     Log  ${tls_cert_key}
     Log  ${ca_cert}
 
-    ${ova-ip}=  Install VIC Product OVA And Initialize Using UI  vic-*.ova  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
+    ${ova-ip}=  Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
 
     Wait Until Keyword Succeeds  10x  15s  Verify VIC Appliance TLS Certificates  ${ova-ip}  issuer=/C=US/ST=California/L=Los Angeles/O=Stark Enterprises/OU=Stark Enterprises Certificate Authority/CN=Stark Enterprises Global CA
     Cleanup Generated Certificate
@@ -76,7 +77,7 @@ User Provided Certificate PKCS8
     Log  ${tls_cert_key}
     Log  ${ca_cert}
 
-    ${ova-ip}=  Install VIC Product OVA And Initialize Using UI  vic-*.ova  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
+    ${ova-ip}=  Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
 
     Wait Until Keyword Succeeds  10x  15s  Verify VIC Appliance TLS Certificates  ${ova-ip}  issuer=/C=US/ST=California/L=Los Angeles/O=Stark Enterprises/OU=Stark Enterprises Certificate Authority/CN=Stark Enterprises Global CA
     Cleanup Generated Certificate
