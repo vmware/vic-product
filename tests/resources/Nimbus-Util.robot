@@ -284,7 +284,6 @@ Create a VSAN Cluster
     Set Environment Variable  PUBLIC_NETWORK  vm-network
     Set Environment Variable  TEST_DATASTORE  vsanDatastore
     Set Environment Variable  TEST_RESOURCE  cls
-    Set Environment Variable  TEST_TIMEOUT  15m
 
     Gather Host IPs
 
@@ -337,7 +336,6 @@ Create a Simple VC Cluster
     Set Environment Variable  TEST_DATASTORE  datastore1
     Set Environment Variable  TEST_DATACENTER  /${datacenter}
     Set Environment Variable  TEST_RESOURCE  ${cluster}
-    Set Environment Variable  TEST_TIMEOUT  30m
     [Return]  @{esx_names}  ${vc}  @{esx_ips}  ${vc_ip}
 
 Create Simple VC Cluster With Static IP

@@ -31,7 +31,6 @@ Multiple VLAN Setup
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
     Set Environment Variable  TEST_RESOURCE  /multi-vlan-1/host/cls
-    Set Environment Variable  TEST_TIMEOUT  30m
     Set Environment Variable  TEST_DATASTORE  datastore1
 
     ${out}=  Run  govc dvs.portgroup.change -vlan 1 bridge
