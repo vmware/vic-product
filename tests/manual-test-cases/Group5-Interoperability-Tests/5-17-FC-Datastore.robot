@@ -68,7 +68,6 @@ FC Datastore Setup
     Remove Environment Variable  TEST_DATACENTER
     Set Environment Variable  TEST_DATASTORE  sharedVmfs-0
     Set Environment Variable  TEST_RESOURCE  /vcqaDC/host/cls
-    Set Environment Variable  TEST_TIMEOUT  30m
 
 *** Test Cases ***
 FC Datastore

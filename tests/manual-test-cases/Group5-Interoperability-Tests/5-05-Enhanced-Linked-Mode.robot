@@ -160,7 +160,6 @@ Enhanced Link Mode Setup
     Remove Environment Variable  TEST_DATACENTER
     Set Environment Variable  TEST_DATASTORE  datastore1
     Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls
-    Set Environment Variable  TEST_TIMEOUT  30m
 
 
 *** Test Cases ***
