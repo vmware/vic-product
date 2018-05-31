@@ -325,7 +325,6 @@ Setup Simple VC And Test Environment
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
     Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls
-    Set Environment Variable  TEST_TIMEOUT  30m
     Set Environment Variable  TEST_DATASTORE  datastore1
     # set VC variables
     Set Test VC Variables

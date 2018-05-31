@@ -30,6 +30,12 @@ DRS Setup
     Should Be Empty  ${out}
     Should Be Equal As Integers  ${rc}  0
 
+    Set Environment Variable  TEST_URL  ${vc-ip}
+    Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
+    Set Environment Variable  TEST_PASSWORD  Admin\!23
+    Set Environment Variable  BRIDGE_NETWORK  bridge
+    Set Environment Variable  PUBLIC_NETWORK  vm-network
+    Set Environment Variable  TEST_DATASTORE  datastore1
     Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls/Resources
 
 *** Test Cases ***
