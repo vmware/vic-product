@@ -19,7 +19,7 @@ Resource  ../../resources/Util.robot
 *** Variables ***
 # css locators
 ${vic-home-iframe}  css=iframe[ng-src*='view=vch-view']
-${vch-name}  css=#nameInput
+${vch-name-input}  css=#nameInput
 ${next-button}  css=.clr-wizard-btn--primary
 ${datastore-dropdown}  css=select#image-store-selector
 ${bridge-network-dropdown}  css=select#bridge-network-selector
@@ -81,8 +81,8 @@ Click New Virtual Container Host Button
 Input VCH Name
     [Arguments]  ${vch-name-text}
     Log To Console  Input VCH name...
-    Wait Until Element Is Visible And Enabled  ${vch-name}
-    Input Text  ${vch-name}  ${vch-name-text}
+    Wait Until Element Is Visible And Enabled  ${vch-name-input}
+    Input Text  ${vch-name-input}  ${vch-name-text}
 
 Click Next Button
     Log To Console  Clicking Next button...

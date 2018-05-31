@@ -70,7 +70,6 @@ Distributed Switch Setup
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
     Set Environment Variable  TEST_RESOURCE  /${datacenter}/host/@{esx_ips}[0]/Resources
-    Set Environment Variable  TEST_TIMEOUT  30m
     Set Environment Variable  TEST_DATASTORE  datastore1
 
 *** Test Cases ***
