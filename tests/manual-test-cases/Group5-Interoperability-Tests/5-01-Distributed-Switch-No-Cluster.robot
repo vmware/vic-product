@@ -72,7 +72,7 @@ Distributed Switch Setup
     Set Environment Variable  TEST_RESOURCE  /${datacenter}/host/@{esx_ips}[0]/Resources
     # Make sure we use correct datastore
     ${datastore}=  Get Name of First Local Storage For Host  @{esx_ips}[0]
-    Set Environment Variable  TEST_DATASTORE  "${datastore}"
+    Set Environment Variable  TEST_DATASTORE  ${datastore}
 
 *** Test Cases ***
 Test
