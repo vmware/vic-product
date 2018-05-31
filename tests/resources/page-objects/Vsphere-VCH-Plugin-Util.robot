@@ -93,19 +93,19 @@ Select Image Datastore
     [Arguments]  ${ds-text}
     Log To Console  Selecting datastore...
     Wait Until Element Is Visible And Enabled  ${datastore-dropdown}
-    Select From List By Value  ${datastore-dropdown}  ${ds-text}
+    Print Values And Select One From List  ${datastore-dropdown}  ${ds-text}
 
 Select Bridge Network
     [Arguments]  ${network-text}
     Log To Console  Selecting bridge network...
     Wait Until Element Is Visible And Enabled  ${bridge-network-dropdown}
-    Select From List By Value  ${bridge-network-dropdown}  ${network-text}
+    Print Values And Select One From List  ${bridge-network-dropdown}  ${network-text}
 
 Select Public Network
     [Arguments]  ${network-text}
     Log To Console  Selecting public network...
     Wait Until Element Is Visible And Enabled  ${public-network-dropdown}
-    Select From List By Value  ${public-network-dropdown}  ${network-text}
+    Print Values And Select One From List  ${public-network-dropdown}  ${network-text}
 
 Toggle Client Certificate Option
     Log To Console  Toggle security...

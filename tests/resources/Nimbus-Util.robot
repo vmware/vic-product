@@ -525,3 +525,9 @@ Get Static IP Address
     ${gateway}=  Run  echo '${out}' | jq -r ".gateway"
     Set To Dictionary  ${static}  gateway  ${gateway}
     [Return]  ${static}
+
+Get Name of First Local Storage For Host
+    [Arguments]  ${host}
+    ${datastores}=  Run  govc host.info -host ${host} -json | jq -r '.HostSystems[].Config.FileSystemVolume.MountInfo[].Volume | select (.Type\=\="VMFS") | select (.Local\=\=true) | .Name'
+    @{datastores}=  Split To Lines  ${datastores}
+    [Return]  @{datastores}[0]
