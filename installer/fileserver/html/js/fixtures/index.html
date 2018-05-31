@@ -1,0 +1,99 @@
+<div id="main-container">
+    <div class="modal" id="login-modal" style="display: ''">
+        <div class="modal-dialog" role="dialog" aria-hidden="true">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Complete VIC appliance installation</h3>
+                </div>
+                <div id="login-spinner" style="display: none">
+                    <div class="spinner"></div>
+                </div>
+                <div class="modal-body">
+                    <form id="login-form" method="post" class="pt-0">
+                        <div id="login-body">
+                            {{if .ValidationError }}
+                            <div class="alert alert-danger mt-0 mb-2">
+                                <div class="alert-item">
+                                    <span class="alert-text">
+                                        Validation failed: {{ .ValidationError }}
+                                    </span>
+                                </div>
+                            </div>
+                            {{ end }}
+                            <div class="alert alert-danger mt-0
+                            mb-2" style="display: none" id="thumbprint-alert-div">
+                                    <div class="alert-item">
+                                        <span id="thumbprint-alert-span" class="alert-text">
+                                        </span>
+                                    </div>
+                                </div>
+                            <p class="mt-0 mb-1">
+                                Please enter your vCenter credentials to complete the vSphere Integrated
+                                Containers Appliance installation and PSC settings if using an external instance.
+                            </p>
+                            <div class="form-group">
+                                <label for="target" class="required">vCenter Server</label>
+                                <input id="target" type="text" name="target" placeholder="FQDN or IP"></input>
+                            </div>
+                            <div class="form-group">
+                                <label for="user" class="required">vCenter Server credentials</label>
+                                <input id="user" type="text" name="user" placeholder="username@domain.local"></input>
+                                <input type="password" name="password" placeholder="Password"></input>
+                            </div>
+                            <div class="form-group">
+                                <label for="psc">External PSC Instance</label>
+                                <input id="psc" type="text" name="psc" placeholder="FQDN"></input>
+                            </div>
+                            <div class="form-group">
+                                <label for="pscDomain">External PSC Admin Domain</label>
+                                <input id="pscDomain" type="text" name="pscDomain" placeholder="vsphere.local"></input>
+                            </div>
+                            <input id="thumbprint" type="hidden" name="thumbprint" placeholder=""></input>
+                        </div>
+                        <div class="text-sm-right">
+                            <button id="login-submit" class="btn btn-primary">Continue</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="plugin-modal" style="display: none">
+        <div class="modal-dialog" role="dialog" aria-hidden="false">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Complete VIC plugin installation</h3>
+                </div>
+                <div id="plugin-spinner" style="display: none;text-align: center">
+                    <div class="spinner"></div>
+                </div>
+                <div class="modal-body">
+                    <form id="plugin-form" method="post" class="pt-0">
+                        <div id="plugin-body">
+                            
+                            <p class="mt-0 mb-1">
+                                Certificate thumbprint for
+                                vCenter Server <label id="vcenter"></label>
+                            </p>
+                            <input id="thumbprint-show" type="text" style="width: 85%;"></input>
+                            <p class="mt-1 mb-1">
+                                    Click Continue to validate
+                                    this certificate or cancel
+                                    if the thumbprint is not valid
+                            </p>
+                            <a href="https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/obtain_thumbprint.html" class="btn btn-link" >Read more...</a>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline"
+                            type="button" onclick="window.location.href='/?login=true'">Cancel</button>
+                            <button id="plugin-submit"
+                            class="btn btn-primary"
+                            type="submit">Continue</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
