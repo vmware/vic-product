@@ -70,7 +70,9 @@ Distributed Switch Setup
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
     Set Environment Variable  TEST_RESOURCE  /${datacenter}/host/@{esx_ips}[0]/Resources
-    Set Environment Variable  TEST_DATASTORE  datastore1
+    # Make sure we use correct datastore
+    ${datastore}=  Get Name of First Local Storage For Host  @{esx_ips}[0]
+    Set Environment Variable  TEST_DATASTORE  "${datastore}"
 
 *** Test Cases ***
 Test
