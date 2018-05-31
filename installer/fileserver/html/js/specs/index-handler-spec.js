@@ -93,3 +93,4 @@ describe("login/registration modal behavior", function() {
       done();
     });
   });
+  
