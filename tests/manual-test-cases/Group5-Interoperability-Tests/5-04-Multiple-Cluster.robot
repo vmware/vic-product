@@ -74,7 +74,9 @@ Multiple Cluster Setup
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
     Set Environment Variable  TEST_RESOURCE  /datacenter1/host/cls1
-    Set Environment Variable  TEST_DATASTORE  datastore1
+    # Make sure we use correct datastore
+    ${datastore}=  Get Name of First Local Storage For Host  ${esx3-ip}
+    Set Environment Variable  TEST_DATASTORE  ${datastore}
 
 *** Test Cases ***
 Test
