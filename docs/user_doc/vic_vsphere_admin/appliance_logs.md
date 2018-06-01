@@ -28,11 +28,11 @@ Make sure that SSH access to the appliance is enabled. To enable SSH access to t
 5. To configure the log retention for the registry services, edit the `/storage/data/harbor/harbor.cfg` file.<pre>$ vi /storage/data/harbor/harbor.cfg</pre>The default configuration allows 50 files, up to 200MB each per service.
 	1. To set the maximum number of files used for storing logs per service, change the `log_rotate_count` property value to the desired number.
 	2. To set the maximum size in MB per file, change the `log_rotate_size` property value to the desired number.
-6. To access logs for the `vic-machine-server` service, navigate to `/storage/log/vic-machine-server`.<pre>$ cd /storage/log/vic-machine-server</pre>The default configuration allows 10 files, up to 1GB each.
+6. To access logs for the `vic-machine-server` service, navigate to `/storage/log/vic-machine-server`.<pre>$ cd /storage/log/vic-machine-server</pre>The `/storage/log/vic-machine-server` folder contains a file named `vic-machine-server.log`, that includes all of the logs for the `vic-machine-server` service. The default configuration allows 10 files, up to 1GB each.
 7. To configure the `vic-machine-server` service log retention, edit the `/etc/logrotate.d/vic-machine-server` file.<pre>$ vi /etc/logrotate.d/vic-machine-server</pre>The default configuration allows 50 files, up to 200MB each per service.
 	1. To set the maximum number of files used for storing logs, change the `rotate` property value to the desired number.
 	2. To set the maximum size in GB per file, change the `size` property value to the desired number.
-8. To access logs for vSphere Integrated Containers Management Portal, navigate to `/storage/log/admiral`.<pre>$ cd /storage/log/admiral</pre>
+8. To access logs for vSphere Integrated Containers Management Portal, navigate to `/storage/log/admiral`.<pre>$ cd /storage/log/admiral</pre>The `/storage/log/admiral` folder contains a file named `xenonHost.0.log`, that includes all of the logs for the management portal service.
 9. To configure the management portal log retention, edit the `/etc/vmware/admiral/logging-vic.properties` file.<pre>$ vi /etc/vmware/admiral/logging-vic.properties</pre>
 The default configuration allows 5 files, up to 1GB each.
 	1. To set the maximum number of files used for storing logs, change the `java.util.logging.FileHandler.count` property value to the desired number.
