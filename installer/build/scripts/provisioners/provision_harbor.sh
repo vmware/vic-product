@@ -36,8 +36,10 @@ f = open(file, "r+")
 dataMap = yaml.safe_load(f)
 for _, s in enumerate(dataMap["services"]):
   if "restart" in dataMap["services"][s]:
-      if "always" in dataMap["services"][s]["restart"] and s != "jobservice":
-        dataMap["services"][s]["restart"] = "on-failure"
+    if "always" in dataMap["services"][s]["restart"]:
+      dataMap["services"][s]["restart"] = "on-failure"
+  if s == "clair":
+    dataMap["services"][s]["cpu_quota"] = 50000
   if "volumes" in dataMap["services"][s]:
     for kvol, vol in enumerate(dataMap["services"][s]["volumes"]):
       # Fixing up volumes in compose file.

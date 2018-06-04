@@ -171,6 +171,8 @@ function getDiagInfo {
   commandToFile "docker images" "docker_images" "appliance"
   commandToFile "cat /run/systemd/resolve/resolv.conf" "resolv.conf" "appliance"
   commandToFile "cat /var/log/vmware/upgrade.log" "upgrade.log" "appliance"
+  commandToCompressed "dmesg" "dmesg" "appliance"
+  commandToCompressed "journalctl --no-pager" "journalctl" "appliance"
 
   commandToFile "systemctl status --no-pager docker.service" "systemctl_status_docker.service" "appliance"
   commandToCompressed "journalctl -u docker.service --no-pager" "journal_docker.service" "appliance"
