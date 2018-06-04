@@ -1,6 +1,6 @@
 # Access and Configure Appliance Logs #
 
-You access the logs for vSphere Integrated Containers by using SSH to connect to the appliance. You can also access logs and configure log retention for each the different vSphere Integrated Containers components.
+You access the logs for vSphere Integrated Containers by using SSH to connect to the appliance. You can also access logs and configure log retention for each of the different vSphere Integrated Containers components.
 
 **Prerequisites**
 
