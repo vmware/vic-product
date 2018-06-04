@@ -1,4 +1,4 @@
-// Copyright 2016-2017 VMware, Inc. All Rights Reserved.
+// Copyright 2016-2018 VMware, Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,11 +15,10 @@
 package routes
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"os"
-
-	log "github.com/Sirupsen/logrus"
 
 	"github.com/vmware/vic-product/installer/fileserver/tasks"
 	"github.com/vmware/vic/pkg/trace"
@@ -46,7 +45,10 @@ type IndexHTMLRenderer struct {
 // IndexHandler is an http.Handler for rendering the fileserver Getting Started Page
 func (i *IndexHTMLRenderer) IndexHandler(resp http.ResponseWriter, req *http.Request) {
 	defer trace.End(trace.Begin(""))
-
+	op := trace.NewOperation(context.Background(), "IndexHandler")
+	if rejectRestrictedRequest(op, resp, req) {
+		return
+	}
 	html := &IndexHTMLOptions{
 		NeedLogin:           needInitializationServices(req),
 		InitErrorFeedback:   "",
@@ -55,40 +57,77 @@ func (i *IndexHTMLRenderer) IndexHandler(resp http.ResponseWriter, req *http.Req
 	}
 
 	if req.Method == http.MethodPost {
-		// verify login
-		PSCConfig := tasks.NewPSCRegistrationConfig()
-		PSCConfig.Admin.Target = req.FormValue("target")
-		PSCConfig.Admin.User = req.FormValue("user")
-		PSCConfig.Admin.Password = req.FormValue("password")
-		PSCConfig.PscInstance = req.FormValue("psc")
-		PSCConfig.PscDomain = req.FormValue("pscDomain")
-
-		// VerifyLogin populates Admin.Validator
-		cancel, err := PSCConfig.Admin.VerifyLogin()
-		defer cancel()
-
-		if err != nil {
-			log.Infof("Validation failed: %s", err.Error())
-			html.ValidationError = err.Error()
+		if err := indexFormHandler(op, req, html); err != nil {
+			op.Errorf("Install failed: %s", err.Error())
+			html.InitErrorFeedback = fmt.Sprintf("Installation failed: %s", err.Error())
 		} else {
-			log.Infof("Validation succeeded")
-			html.NeedLogin = false
-
-			if err := PSCConfig.RegisterAppliance(); err != nil {
-				html.InitErrorFeedback = err.Error()
-			} else {
-				html.InitSuccessFeedback = "Installation successful. Refer to the Post-install and Deployment tasks below."
-			}
+			html.InitSuccessFeedback = "Installation successful. Refer to the Post-install and Deployment tasks below."
 		}
 	}
 
 	html.AdmiralAddr = fmt.Sprintf("https://%s:%s", i.ServerHostname, i.AdmiralPort)
 	html.FileserverAddr = fmt.Sprintf("https://%s%s/files/%s", i.ServerHostname, i.ServerAddress, i.VicTarName)
 
-	RenderTemplate(resp, "html/index.html", html)
+	RenderTemplate(op, resp, "html/index.html", html)
+}
+
+// indexFormHandler registers the appliance using post form values
+func indexFormHandler(op trace.Operation, req *http.Request, html *IndexHTMLOptions) error {
+	// verify login
+	PSCConfig := tasks.NewPSCRegistrationConfig()
+	PSCConfig.Admin.Target = req.FormValue("target")
+	PSCConfig.Admin.User = req.FormValue("user")
+	PSCConfig.Admin.Password = req.FormValue("password")
+	PSCConfig.Admin.Thumbprint = req.FormValue("thumbprint")
+	PSCConfig.PscInstance = req.FormValue("psc")
+	PSCConfig.PscDomain = req.FormValue("pscDomain")
+
+	// VerifyLogin populates Admin.Validator
+	cancel, err := PSCConfig.Admin.VerifyLogin(op)
+	defer cancel()
+	if err != nil {
+		op.Infof("Validation failed: %s", err.Error())
+		html.ValidationError = err.Error()
+		return err
+	}
+	defer PSCConfig.Admin.Session.Logout(op)
+
+	op.Infof("Validation succeeded")
+	html.NeedLogin = false
+
+	if err := PSCConfig.RegisterAppliance(op); err != nil {
+		return err
+	}
+
+	h5 := tasks.NewH5UIPlugin(PSCConfig.Admin)
+	h5.Force = true
+	if err := h5.Install(op); err != nil {
+		return err
+	}
+
+	flex := tasks.NewFlexUIPlugin(PSCConfig.Admin)
+	flex.Force = true
+	if err := flex.Install(op); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func needInitializationServices(req *http.Request) bool {
 	_, err := os.Stat(tasks.InitServicesTimestamp)
 	return os.IsNotExist(err) || req.URL.Query().Get("login") == "true"
+}
+
+func rejectRestrictedRequest(op trace.Operation, resp http.ResponseWriter, req *http.Request) bool {
+	paths := map[string]struct{}{
+		"/":           struct{}{},
+		"/index.html": struct{}{},
+	}
+	if _, ok := paths[req.URL.Path]; !ok {
+		op.Errorf("Request path %s not found in %-v", req.URL.Path, paths)
+		http.NotFound(resp, req)
+		return true
+	}
+	return false
 }

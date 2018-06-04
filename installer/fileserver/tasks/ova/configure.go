@@ -1,4 +1,4 @@
-// Copyright 2016 VMware, Inc. All Rights Reserved.
+// Copyright 2016-2018 VMware, Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,11 +19,10 @@ import (
 	"net"
 	"net/url"
 
-	log "github.com/Sirupsen/logrus"
-
+	"github.com/vmware/govmomi/object"
 	"github.com/vmware/govmomi/vim25/types"
-	"github.com/vmware/vic/lib/config/dynamic/admiral"
 	"github.com/vmware/vic/pkg/errors"
+	"github.com/vmware/vic/pkg/trace"
 	"github.com/vmware/vic/pkg/vsphere/session"
 	"github.com/vmware/vic/pkg/vsphere/tasks"
 	"github.com/vmware/vic/pkg/vsphere/vm"
@@ -36,30 +35,25 @@ const (
 	ManagedByType = "VicApplianceVM"
 )
 
-// ConfigureManagedByInfo takes sets the ManagedBy field for the VM specified by ovaURL
-func ConfigureManagedByInfo(ctx context.Context, config *session.Config, ovaURL string) error {
-	sess := session.NewSession(config)
-	sess, err := sess.Connect(ctx)
+// ConfigureManagedByInfo sets the ManagedBy field for the VM specified by ovaURL
+func ConfigureManagedByInfo(op trace.Operation, sess *session.Session, ovaURL string) error {
+	op.Infof("Attempting to create the appliance vm ref")
+	v, err := getOvaVM(op, sess, ovaURL)
 	if err != nil {
 		return err
 	}
 
-	v, err := getOvaVMByTag(ctx, sess, ovaURL)
+	op.Infof("Attempting to configure ManagedByInfo")
+	err = configureManagedByInfo(op, sess, v)
 	if err != nil {
 		return err
 	}
 
-	log.Infof("Attempting to configure ManagedByInfo")
-	err = configureManagedByInfo(ctx, sess, v)
-	if err != nil {
-		return err
-	}
-
-	log.Infof("Successfully configured ManagedByInfo")
+	op.Infof("Successfully configured ManagedByInfo")
 	return nil
 }
 
-func configureManagedByInfo(ctx context.Context, sess *session.Session, v *vm.VirtualMachine) error {
+func configureManagedByInfo(op trace.Operation, sess *session.Session, v *vm.VirtualMachine) error {
 	spec := types.VirtualMachineConfigSpec{
 		ManagedBy: &types.ManagedByInfo{
 			ExtensionKey: ManagedByKey,
@@ -67,24 +61,24 @@ func configureManagedByInfo(ctx context.Context, sess *session.Session, v *vm.Vi
 		},
 	}
 
-	info, err := v.WaitForResult(ctx, func(ctx context.Context) (tasks.Task, error) {
+	info, err := v.WaitForResult(op, func(ctx context.Context) (tasks.Task, error) {
 		return v.Reconfigure(ctx, spec)
 	})
 
 	if err != nil {
-		log.Errorf("Error while setting ManagedByInfo: %s", err)
+		op.Errorf("Error while setting ManagedByInfo: %s", err)
 		return err
 	}
 
 	if info.State != types.TaskInfoStateSuccess {
-		log.Errorf("Setting ManagedByInfo reported: %s", info.Error.LocalizedMessage)
+		op.Errorf("Setting ManagedByInfo reported: %s", info.Error.LocalizedMessage)
 		return err
 	}
 
 	return nil
 }
 
-func getOvaVMByTag(ctx context.Context, sess *session.Session, u string) (*vm.VirtualMachine, error) {
+func getOvaVM(op trace.Operation, sess *session.Session, u string) (*vm.VirtualMachine, error) {
 	ovaURL, err := url.Parse(u)
 	if err != nil {
 		return nil, err
@@ -92,16 +86,16 @@ func getOvaVMByTag(ctx context.Context, sess *session.Session, u string) (*vm.Vi
 
 	host := ovaURL.Hostname()
 
-	log.Debugf("Looking up host %s", host)
+	op.Debugf("Looking up host %s", host)
 	ips, err := net.LookupIP(host)
 	if err != nil {
 		return nil, errors.Errorf("IP lookup failed: %s", err)
 	}
 
-	log.Debugf("found %d IP(s) from hostname lookup on %s:", len(ips), host)
+	op.Debugf("found %d IP(s) from hostname lookup on %s:", len(ips), host)
 	var ip string
 	for _, i := range ips {
-		log.Debugf(i.String())
+		op.Debugf(i.String())
 		if i.To4() != nil {
 			ip = i.String()
 		}
@@ -111,25 +105,31 @@ func getOvaVMByTag(ctx context.Context, sess *session.Session, u string) (*vm.Vi
 		return nil, errors.Errorf("IPV6 support not yet implemented")
 	}
 
-	vms, err := admiral.DefaultDiscovery.Discover(ctx, sess)
+	// Create a vm reference using the appliance ip
+	ref, err := object.NewSearchIndex(sess.Vim25()).FindByIp(op, nil, ip, true)
 	if err != nil {
-		return nil, errors.Errorf("failed to discover OVA vm(s): %s", err)
+		return nil, errors.Errorf("failed to search for vms: %s", err.Error())
 	}
 
-	log.Infof("Found %d VM(s) tagged as OVA", len(vms))
-	for i, v := range vms {
-		log.Debugf("Checking IP for %s", v.Reference().Value)
-		vmIP, err := v.WaitForIP(ctx)
-		if err != nil && i == len(vms)-1 {
-			return nil, errors.Errorf("failed to get VM IP: %s", err)
-		}
-
-		// verify the tagged vm has the IP we expect
-		if vmIP == ip {
-			log.Debugf("Found OVA with matching IP: %s", ip)
-			return v, nil
-		}
+	v, ok := ref.(*object.VirtualMachine)
+	if !ok {
+		return nil, errors.Errorf("failed to find vm with ip: %s", ip)
 	}
 
-	return nil, errors.Errorf("no VM(s) found with OVA tag")
+	op.Debugf("Checking IP for %s", v.Reference().Value)
+	vmIP, err := v.WaitForIP(op)
+	if err != nil {
+		return nil, errors.Errorf("Cannot get appliance vm ip: %s", err.Error())
+	}
+
+	// verify the tagged vm has the IP we expect
+	if vmIP != ip {
+		return nil, errors.Errorf("vm ip %s does not match guest.ip %s", vmIP, ip)
+	}
+
+	op.Debugf("Found OVA with matching IP: %s", ip)
+	return &vm.VirtualMachine{
+		VirtualMachine: v,
+		Session:        sess,
+	}, nil
 }

@@ -15,13 +15,13 @@
 package routes
 
 import (
+	"context"
 	"crypto/tls"
 	"net/http"
 	"net/url"
 
 	"github.com/vmware/govmomi/object"
-
-	log "github.com/Sirupsen/logrus"
+	"github.com/vmware/vic/pkg/trace"
 )
 
 const (
@@ -30,11 +30,14 @@ const (
 
 // ThumbprintHandler returns the thumbprint of the ip/fqdn given by the get parameter targetKey
 func ThumbprintHandler(resp http.ResponseWriter, req *http.Request) {
+	defer trace.End(trace.Begin(""))
+
 	switch req.Method {
 	case http.MethodPost:
+		op := trace.NewOperation(context.Background(), "ThumbprintHandler")
 		target := req.FormValue(targetKey)
 		if target == "" {
-			log.Infof("Target not supplied")
+			op.Infof("Target not supplied")
 			http.Error(resp, "Please supply a target", http.StatusUnprocessableEntity)
 			return
 		}
@@ -42,13 +45,14 @@ func ThumbprintHandler(resp http.ResponseWriter, req *http.Request) {
 		// see https://github.com/vmware/govmomi/blob/master/govc/flags/host_connect.go#L70-L85
 		var cert object.HostCertificateInfo
 		if err := cert.FromURL(&url.URL{Host: target}, &tls.Config{}); err != nil {
-			log.Errorf("Error getting thumbprint for %s: %s", target, err.Error())
+			op.Errorf("Error getting thumbprint for %s: %s", target, err.Error())
 			http.Error(resp, "Error getting thumbprint", http.StatusInternalServerError)
 			return
 		}
 
-		log.Infof("Thumbprint found")
-		http.Error(resp, cert.ThumbprintSHA1, http.StatusOK)
+		op.Infof("Thumbprint found")
+		resp.WriteHeader(http.StatusOK)
+		resp.Write([]byte(cert.ThumbprintSHA1))
 	default:
 		http.Error(resp, "only accepts POST", http.StatusMethodNotAllowed)
 	}

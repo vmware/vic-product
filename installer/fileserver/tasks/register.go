@@ -1,4 +1,4 @@
-// Copyright 2017 VMware, Inc. All Rights Reserved.
+// Copyright 2017-2018 VMware, Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 package tasks
 
 import (
-	"context"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -29,6 +28,7 @@ import (
 	"github.com/vmware/vic-product/installer/lib"
 	"github.com/vmware/vic-product/installer/pkg/ip"
 	"github.com/vmware/vic/pkg/errors"
+	"github.com/vmware/vic/pkg/trace"
 	"github.com/vmware/vic/pkg/vsphere/optmanager"
 )
 
@@ -57,26 +57,19 @@ func NewPSCRegistrationConfig() *PSCRegistrationConfig {
 
 // RegisterAppliance runs the three processes required to register the appliance:
 // TagVM, RegisterWithPSC, and SaveInitializationState
-func (conf *PSCRegistrationConfig) RegisterAppliance() error {
-	ctx := context.TODO()
-	if conf.Admin.Validator == nil {
-		err := errors.New("No validator session found")
-		log.Debug(err.Error())
-		return err
-	}
-
-	if err := tagvm.Run(ctx, conf.Admin.Validator.Session); err != nil {
-		log.Debug(errors.ErrorStack(err))
+func (conf *PSCRegistrationConfig) RegisterAppliance(op trace.Operation) error {
+	if err := tagvm.Run(op, conf.Admin.Session); err != nil {
+		op.Debug(errors.ErrorStack(err))
 		return errors.New("Failed to locate VIC Appliance. Please check the vCenter Server provided and try again")
 	}
 
-	if err := conf.RegisterWithPSC(ctx); err != nil {
-		log.Debug(errors.ErrorStack(err))
+	if err := conf.RegisterWithPSC(op); err != nil {
+		op.Debug(errors.ErrorStack(err))
 		return errors.New("Failed to register with PSC. Please check the PSC settings provided and try again")
 	}
 
 	if err := ioutil.WriteFile(InitServicesTimestamp, []byte(time.Now().String()), 0644); err != nil {
-		log.Debug(errors.ErrorStack(err))
+		op.Debug(errors.ErrorStack(err))
 		return errors.New("Failed to write to timestamp file")
 	}
 
@@ -86,13 +79,13 @@ func (conf *PSCRegistrationConfig) RegisterAppliance() error {
 // RegisterWithPSC runs the PSC register command to register VIC services with
 // the platforms services controller. The command generates config files and
 // keystore files to use while getting and renewing tokens.
-func (conf *PSCRegistrationConfig) RegisterWithPSC(ctx context.Context) error {
+func (conf *PSCRegistrationConfig) RegisterWithPSC(op trace.Operation) error {
 	var err error
 
 	// Use vSphere as the psc instance if external psc was not supplied
 	if conf.PscInstance == "" {
 		// Obtain the hostname of the vCenter host to use as PSC instance
-		conf.PscInstance, err = optmanager.QueryOptionValue(ctx, conf.Admin.Validator.Session, vcHostnameOption)
+		conf.PscInstance, err = optmanager.QueryOptionValue(op.Context, conf.Admin.Session, vcHostnameOption)
 		if err != nil {
 			return err
 		}
@@ -108,9 +101,9 @@ func (conf *PSCRegistrationConfig) RegisterWithPSC(ctx context.Context) error {
 		}
 	}
 
-	log.Infof("vCenter user: %s", conf.Admin.User)
-	log.Infof("PSC instance: %s", conf.PscInstance)
-	log.Infof("PSC domain: %s", conf.PscDomain)
+	op.Infof("vCenter user: %s", conf.Admin.User)
+	op.Infof("PSC instance: %s", conf.PscInstance)
+	op.Infof("PSC domain: %s", conf.PscDomain)
 
 	// Obtain the OVA VM's IP
 	vmIP, err := ip.FirstIPv4(ip.Eth0Interface)
@@ -130,7 +123,7 @@ func (conf *PSCRegistrationConfig) RegisterWithPSC(ctx context.Context) error {
 	defPrefix, foundPrefix := ovf.Properties["default_users.def_user_prefix"]
 	defPassword, foundPassword := ovf.Properties["default_users.def_user_password"]
 
-	log.Infof("PSC Out of the box users. CreateUsers: %s, FoundCreateUsers: %v, Prefix: %s",
+	op.Infof("PSC Out of the box users. CreateUsers: %s, FoundCreateUsers: %v, Prefix: %s",
 		defCreateUsers, foundCreateUsers, defPrefix)
 
 	// Register all VIC components with PSC
@@ -168,10 +161,10 @@ func (conf *PSCRegistrationConfig) RegisterWithPSC(ctx context.Context) error {
 		// This runs the PSC tool's register command.
 		cmd := exec.Command(cmdName, cmdArgs...)
 		if output, err := cmd.CombinedOutput(); err != nil {
-			log.Infof("Error running PSC register command for %s: %s", client, string(output))
+			op.Infof("Error running PSC register command for %s: %s", client, string(output))
 			return err
 		}
-		log.Infof("Successfully registered %s with PSC", client)
+		op.Infof("Successfully registered %s with PSC", client)
 	}
 
 	return nil
