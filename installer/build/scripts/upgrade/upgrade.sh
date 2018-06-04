@@ -53,6 +53,7 @@ export REDIRECT_ENABLED=0
 VER_1_2_1="v1.2.1"
 VER_1_3_0="v1.3.0"
 VER_1_3_1="v1.3.1"
+VER_1_4_0="v1.4.0"
 
 function usage {
     echo -e "Usage: $0 [args...]
@@ -163,16 +164,17 @@ function enableServicesStart {
   systemctl start harbor.service
 }
 
-### Valid upgrade paths to v1.4.0
+### Valid upgrade paths to v1.4.1
 #   v1.2.1 /data/version has "appliance=v1.2.1"
 #   v1.3.0 /storage/data/version has "appliance=v1.3.0-3033-f8cc7317"
 #   v1.3.1 /storage/data/version has "appliance=v1.3.1-3409-132fb13d"
+#   v1.4.0 /storage/data/version
 ###
 function proceedWithUpgrade {
   checkUpgradeStatus "VIC Appliance" ${appliance_upgrade_status}
   local ver="$1"
 
-  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
+  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" || [ "$ver" == "$VER_1_4_0" ]; then
     log ""
     log "Detected old appliance's version as $ver."
 
