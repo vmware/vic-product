@@ -22,7 +22,8 @@ describe("login/registration modal behavior", function() {
   }
 
   var request;
-
+  
+  //defining fixtures path
     beforeAll(function(){
       var path = '';
       if (typeof window.__karma__ !== 'undefined') {
@@ -37,7 +38,7 @@ describe("login/registration modal behavior", function() {
         loadFixtures( 'index.html');
         jasmine.Ajax.install();
     });
-        
+          
     afterEach(function() {
       jasmine.Ajax.uninstall();
     });
@@ -55,10 +56,40 @@ describe("login/registration modal behavior", function() {
       expect(jQuery('#login-submit')).toBeVisible();
     });    
 
+    it ("Should has disabled the continue button when the fields were empty", function(){
+      
+      jQuery('#target').val(credentials.target);
+      checkRegistryForm();
+      expect(jQuery('#login-submit').prop("disabled")).toBe(true);
+
+      jQuery('#user').val(credentials.user);
+      checkRegistryForm();
+      expect(jQuery('#login-submit').prop("disabled")).toBe(true);
+      
+      jQuery('#password').val(credentials.password);
+      checkRegistryForm();
+      expect(jQuery('#login-submit').prop("disabled")).toBe(false);
+    });
+
+    it ("should has disabled the continue button when thumbprint input is empty", function(done) {
+      
+      jQuery('#login-modal').css('display', 'none');
+      jQuery('#plugin-modal').css('display', '');
+      
+      jQuery('#thumbprint-show').val("");
+      checkThumbrintInput();
+      expect(jQuery('#plugin-submit').prop("disabled")).toBe(true);
+
+      jQuery('#thumbprint-show').val(responses.success.response);
+      checkThumbrintInput();
+      expect(jQuery('#plugin-submit').prop("disabled")).toBe(false);
+      done();
+    });
+
     it ("should retrieve thumbprint when click submit button and hide registration modal", function(done) {
       var spyEvent = spyOnEvent('#login-submit', 'click');
       jQuery('#target').val(credentials.target);
-      jQuery('input[name=password]').val(credentials.password);
+      jQuery('#password').val(credentials.password);
 
       //Sending thumbprint request
       jQuery('#login-submit').click(submitRegistration());
@@ -73,7 +104,6 @@ describe("login/registration modal behavior", function() {
       //Registration modal hide
       expect(jQuery('#login-modal')).toBeHidden();
       done();
-
     });
 
     it ("should remains registration modal when click submit button and thumbrint retrieval fails.", function(done) {
@@ -82,7 +112,7 @@ describe("login/registration modal behavior", function() {
       jQuery('#login-submit').click();
 
       request = jasmine.Ajax.requests.mostRecent();
-      request.respondWith(responses.failure);
+      request.respondWith(responses.failure);  
 
       //Registration modal is still present
       expect(jQuery('#login-modal')).toBeVisible();

@@ -1,5 +1,5 @@
 <div id="main-container">
-    <div class="modal" id="login-modal" style="display: ''">
+    <div class="modal" id="login-modal">
         <div class="modal-dialog" role="dialog" aria-hidden="true">
             <div class="modal-content">
                 <div class="modal-header">
@@ -33,25 +33,25 @@
                             </p>
                             <div class="form-group">
                                 <label for="target" class="required">vCenter Server</label>
-                                <input id="target" type="text" name="target" placeholder="FQDN or IP"></input>
+                                <input id="target" type="text" name="target" placeholder="FQDN or IP" onkeyup="checkRegistryForm()" value="">
                             </div>
                             <div class="form-group">
                                 <label for="user" class="required">vCenter Server credentials</label>
-                                <input id="user" type="text" name="user" placeholder="username@domain.local"></input>
-                                <input type="password" name="password" placeholder="Password"></input>
+                                <input id="user" type="text" name="user" placeholder="username@domain.local" onkeyup="checkRegistryForm()" value="">
+                                <input id="password" type="password" name="password" placeholder="Password" onkeyup="checkRegistryForm()" value="">
                             </div>
                             <div class="form-group">
                                 <label for="psc">External PSC Instance</label>
-                                <input id="psc" type="text" name="psc" placeholder="FQDN"></input>
+                                <input id="psc" type="text" name="psc" placeholder="FQDN">
                             </div>
                             <div class="form-group">
                                 <label for="pscDomain">External PSC Admin Domain</label>
-                                <input id="pscDomain" type="text" name="pscDomain" placeholder="vsphere.local"></input>
+                                <input id="pscDomain" type="text" name="pscDomain" placeholder="vsphere.local">
                             </div>
-                            <input id="thumbprint" type="hidden" name="thumbprint" placeholder=""></input>
+                            <input id="thumbprint" type="hidden" name="thumbprint" placeholder="">
                         </div>
                         <div class="text-sm-right">
-                            <button id="login-submit" class="btn btn-primary">Continue</button>
+                            <button id="login-submit" onclick="submitRegistration()" disabled class="btn btn-primary">Continue</button>
                         </div>
                     </form>
                 </div>
@@ -60,7 +60,7 @@
     </div>
 
     <div class="modal" id="plugin-modal" style="display: none">
-        <div class="modal-dialog" role="dialog" aria-hidden="false">
+        <div class="modal-dialog" role="dialog"aria-hidden="false">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title">Complete VIC plugin installation</h3>
@@ -76,7 +76,7 @@
                                 Certificate thumbprint for
                                 vCenter Server <label id="vcenter"></label>
                             </p>
-                            <input id="thumbprint-show" type="text" style="width: 85%;"></input>
+                            <input id="thumbprint-show" type="text" style="width: 85%;" value="" onkeyup="checkThumbrintInput()"></input>
                             <p class="mt-1 mb-1">
                                     Click Continue to validate
                                     this certificate or cancel
@@ -85,11 +85,8 @@
                             <a href="https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/obtain_thumbprint.html" class="btn btn-link" >Read more...</a>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-outline"
-                            type="button" onclick="window.location.href='/?login=true'">Cancel</button>
-                            <button id="plugin-submit"
-                            class="btn btn-primary"
-                            type="submit">Continue</button>
+                            <button class="btn btn-outline" type="button" onclick="window.location.href='/?login=true'">Cancel</button>
+                            <button id="plugin-submit" class="btn btn-primary" type="submit">Continue</button>
                         </div>
                     </form>
                 </div>

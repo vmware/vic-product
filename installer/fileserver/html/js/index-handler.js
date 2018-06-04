@@ -7,7 +7,26 @@ function getThumbprint(target,callback) {
     };
     xhr.send();             
 }
+
+function checkRegistryForm() {
+    var cansubmit = true;
+
+    if (document.getElementById('target').value.length == 0 || document.getElementById('user').value.length == 0 || document.getElementById('password').value.length == 0){
+        cansubmit = false;
+    }
     
+    document.getElementById('login-submit').disabled = !cansubmit;
+}
+function checkThumbrintInput() {
+    var cansubmit = true;
+
+    if (document.getElementById('thumbprint-show').value.length == 0){
+        cansubmit = false;
+    }
+    
+    document.getElementById('plugin-submit').disabled = !cansubmit;
+}
+  
 function submitRegistration() {
 //login elements
 
@@ -34,6 +53,7 @@ $pluginModal = document.getElementById('plugin-modal');
                 if (status === 200){
                     $loginModal.style.display = 'none';
                     $pluginModal.style.display = '';
+                    checkThumbrintInput();
                     document.getElementById('thumbprint').value = thumbprint;
                     document.getElementById('thumbprint-show').value = thumbprint;    
                 }
