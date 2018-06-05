@@ -86,6 +86,11 @@ function build_app {
                 SOURCE=$(jq '.['$LINE_NUM'] | .source' "${MANIFEST}" | tr -d '"')
                 DESTINATION=$(echo "${ROOT}/$(cat "${MANIFEST}" | jq '.['$LINE_NUM'] | .destination')" | tr -d '"' )
                 mkdir -p "$(dirname "$DESTINATION")" && cp -R $SOURCE "$DESTINATION"
+                if [[ "$DESTINATION" == *"fileserver/html"* ]]; then
+                    pushd $DESTINATION
+                    rm -fr .gitignore karma* package* js/fixtures js/specs
+                    popd
+                fi
             fi
                 LINE_NUM=$((LINE_NUM+1))
         done

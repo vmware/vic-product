@@ -1,0 +1,22 @@
+{
+  "name": "vic-uis-auto-installer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jasmine": "^3.1.0",
+    "jasmine-jquery": "^2.1.1",
+    "jasmine-spec-reporter": "^4.2.1",
+    "jquery": "^3.3.1",
+    "karma": "^2.0.2",
+    "karma-jasmine": "^1.1.2",
+    "karma-jasmine-ajax": "^0.1.13",
+    "karma-jasmine-jquery": "^0.1.1",
+    "karma-phantomjs-launcher": "^1.0.4"
+  }
+}
