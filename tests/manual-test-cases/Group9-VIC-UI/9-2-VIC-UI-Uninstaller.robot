@@ -23,7 +23,7 @@ ${ok}=  204
 
 *** Keywords *** 
 Ununstall OVA Setup
-    Wait Until Keyword Succeeds  10x  30m  VIC UI OVA Setup
+    Wait Until Keyword Succeeds  1x  30m  VIC UI OVA Setup
     ${out}=  Install UI Plugin  %{OVA_IP}
     Should Contain  ${out}  ${ok}
 

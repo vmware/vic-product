@@ -108,6 +108,7 @@ VIC UI OVA Setup
     
     Setup Simple VC And Test Environment
     Global Environment Setup
+    Set Test VC Variables
     
     ${ova-ip}=  Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}
     Set Environment Variable  OVA_IP  ${ova-ip}

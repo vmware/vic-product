@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 9-1 - VIC UI Installation
 Resource  ../../resources/Util.robot
-Suite Setup  Wait Until Keyword Succeeds  10x  30m  VIC UI OVA Setup
+Suite Setup  Wait Until Keyword Succeeds  1x  30m  VIC UI OVA Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Variables ***
