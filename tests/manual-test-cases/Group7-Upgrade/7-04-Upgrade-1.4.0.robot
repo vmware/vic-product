@@ -26,7 +26,7 @@ ${new-ova-cert-path}=  /storage/data/admiral/ca_download
 
 *** Keywords ***
 OVA Upgrade Setup
-    Setup Simple VC And Test Environment For Upgrade Test
+    Setup Simple VC And Test Environment
 
 *** Test Cases ***
 Upgrade OVA 1.4.0
