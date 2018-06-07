@@ -170,7 +170,7 @@ For information about how to access VCH logs, including the deployment log, see 
 1. In the vSphere Client, go to **Storage** and select the datastore that you designated as the image store. 
  
     At the top-level of the datastore, you should see a folder that uses the container ID as its name. The folder contains the files for the container VM that you just created.
-8. In a browser, log in to the vSphere Integrated Containers Management Portal at https://vic_appliance_address:8282 with a vSphere administrator, Cloud Admin, or DevOps admin user account.
+8. In a browser, log in to the vSphere Integrated Containers Management Portal at https://vic_appliance_address with a vSphere administrator, Cloud Admin, or DevOps admin user account.
 9. Select **Home** and make sure that the **Project** drop-down menu is set to `default-project`. 
 10. Under **Infrastructure**, select **Container Hosts** and click **+Container Host** to register the `vch_dch_photon` VCH with the management portal.
 

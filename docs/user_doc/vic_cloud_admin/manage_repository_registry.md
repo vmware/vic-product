@@ -6,18 +6,19 @@ Deleting a repository involves two steps. First, you delete a repository in vSph
 
 **Prerequisites**
 
-You have created a project and pushed at least one repository to the project.
+- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator, Cloud administrator, or DevOps administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
+- You have created a project and pushed at least one repository to the project.
 
 **Procedure**
 
-1. In the management portal, navigate to **Administration** > **Projects** > **Your_project**.
+1. Navigate to **Administration** > **Projects** > **Your_project**.
    
     Use an account with the Cloud Administrator role, or an account that has the DevOps Admin role for this project.
 
 2. Click the **Internal Repositories** tab to see the number of tags that the repository contains and how many times that users have pulled the repository
 3. (Optional) To delete a repository, select the check box next to a repository name and click **Delete**.
 
-   **CAUTION**: If two tags refer to the same image, if you delete one tag, the other tag is also deleted.
+    **CAUTION**: If two tags refer to the same image, if you delete one tag, the other tag is also deleted.
 4. Click a repository name to view its contents.
 
 **What to Do Next**

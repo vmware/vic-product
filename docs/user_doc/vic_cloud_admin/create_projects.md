@@ -2,13 +2,13 @@
 
 In vSphere Integrated Containers, you create different projects to which you assign users, repositories, and infrastructure. You also set up replication of registries in projects, and configure project-specific settings. When you first deploy vSphere Integrated Containers, a default public project named default-project is created. 
 
+**Prerequisites**
+
+Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Cloud administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 
 **Procedure**
 
-1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
-
-   Use an account with Cloud administrator privileges.
-2. Navigate to **Administration** > **Projects** and click **+Project**.
+1. Navigate to **Administration** > **Projects** and click **+Project**.
 3. Provide a name for the project.
 4. (Optional) Check the **Public** check box to make the project public.
 

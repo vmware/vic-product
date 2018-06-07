@@ -3,9 +3,9 @@
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
 * [Configure and Manage](README.md)
-   * [Initial Configuration of the Management Portal](mp_initial_config.md)
-     * [Logging in to the Management Portal](logging_in_mp.md)
-       * [Verify and Trust Certificates](trust_vic_certs.md)
+   * [Logging In to Management Portal](logging_in_mp.md)
+     * [Verify and Trust Certificates](trust_vic_certs.md)
+   * [Initial Configuration](mp_initial_config.md)
      * [Configure System Settings](configure_system.md)
      * [Add Cloud Administrators](add_cloud_admins.md)
    * [Working with Projects](working_with_projects.md)

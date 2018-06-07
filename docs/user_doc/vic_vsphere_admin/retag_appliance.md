@@ -8,7 +8,5 @@ In some cases, you might need to re-tag the appliance VM, for example if the tag
 
 1. In the Hosts and Clusters view of the vSphere Client right-click the OVA VM and select **Tags & Custom Attributes** > **Remove Tag**.
 2. Check that the `ProductVM` tag is present in the list of tags and click **Cancel**.
-3. If the `ProductVM` tag is missing, go to the vSphere Integrated Containers Getting Started page at http://<i>vic_appliance_address</i>.
-4. Scroll to the bottom of the page and click the  **Re-Initialize the  vSphere Integrated Containers Appliance** button. 
-5. Enter the vCenter Server address and credentials and click **Continue**.
+3. If the `ProductVM` tag is missing, in a browser, follow the procedure in [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md) to re-tag the appliance.
 6. After initialization, check in the vSphere Client that the `ProductVM` tag is present.

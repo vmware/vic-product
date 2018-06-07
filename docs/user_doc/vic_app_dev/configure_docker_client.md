@@ -55,10 +55,10 @@ The level of security of the connection between the Docker client and the VCH is
 
 ### Obtain the vSphere Integrated Containers Registry CA Certificate <a id="getcert"></a>
 
-To access the vSphere Integrated Containers Registry CA certificate, you must have a user account in vSphere Integrated Containers Management Portal in that has at least the Cloud administrator role. 
+To access the vSphere Integrated Containers Registry CA certificate, log in to vSphere Integrated Containers Management Portal with an account that has at least the Cloud administrator role. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](../vic_cloud_admin/logging_in_mp.md).
 
-1. Log in to vSphere Integrated Containers Mangagement Portal at http://<i>vic_appliance_address</i> and following the **Go to the vSphere Integrated Containers Management Portal** link.
-2. Go to **Administration** -> **Configuration** and click the download link for **Registry Root Certificate**.
+1. Go to **Administration** -> **Configuration**.
+2. Click the download link for **Registry Root Certificate**.
 
 ### Configure the Docker Client on Linux <a id="certlinux"></a>
 

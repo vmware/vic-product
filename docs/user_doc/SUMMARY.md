@@ -144,9 +144,9 @@
 ----
 
 * [Configure and Manage](vic_cloud_admin/README.md)
-   * [Initial Configuration of the Management Portal](vic_cloud_admin/mp_initial_config.md)
-     * [Logging in to the Management Portal](vic_cloud_admin/logging_in_mp.md)
-       * [Verify and Trust Certificates](vic_cloud_admin/trust_vic_certs.md)
+   * [Logging In to Management Portal](vic_cloud_admin/logging_in_mp.md)
+     * [Verify and Trust Certificates](vic_cloud_admin/trust_vic_certs.md)
+   * [Initial Configuration](vic_cloud_admin/mp_initial_config.md)
      * [Configure System Settings](vic_cloud_admin/configure_system.md)
      * [Add Cloud Administrators](vic_cloud_admin/add_cloud_admins.md)
    * [Working with Projects](vic_cloud_admin/working_with_projects.md)

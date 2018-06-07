@@ -4,12 +4,12 @@ vSphere Integrated Containers keeps a log of all of the operations that users pe
 
 **Prerequisites**
 
-You have a created project.
+- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Cloud administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
+- You have a created project.
 
 **Procedure**
 
-1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
-2. Select the **Administration** tab and click **Logs**.
+1. Select the **Administration** tab and click **Logs**.
 
     In the Logs view you can see system logs as well as logs of the vSphere Integrated Containers Registry.
 3. To see a reduced list of operations, enter text in the **Filter Logs** text box.

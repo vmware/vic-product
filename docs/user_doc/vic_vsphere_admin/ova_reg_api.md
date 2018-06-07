@@ -2,11 +2,11 @@
 
 The vSphere Integrated Containers appliance provides an API that allows you to initialize the appliance after deployment without having to manually enter information in the Getting Started page. This API helps you to automate the deployment of appliances without manual intervention.
 
-The appliance exposes the initialization API endpoint at http://<i>vic_appliance_address</i>:9443/register.
+The appliance exposes the initialization API endpoint at https://<i>vic_appliance_address</i>:9443/register. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, 9443 is replaced with the appropriate port.
 
 **Prerequistes**
 
-You deployed an instance of the vSphere Integrated Containers appliance without completing the Platform Services Controller registration wizard that appears when you first go to http://<i>vic_appliance_address</i>.
+You deployed an instance of the vSphere Integrated Containers appliance without completing the Platform Services Controller registration wizard that appears when you first go to the vSphere Integrated Containers Getting Started page.
 
 **Procedure**
 
@@ -34,7 +34,7 @@ You deployed an instance of the vSphere Integrated Containers appliance without 
 
 **Result**
 
-The appliance initializes and registers with the Platforms Services Controller. After initialization, vSphere Integrated Containers services are available at  http://<i>vic_appliance_address</i>.
+The appliance initializes and registers with the Platforms Services Controller. After initialization, vSphere Integrated Containers services are available at  https://<i>vic_appliance_address</i>:9443.
 
 **Example**
 

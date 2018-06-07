@@ -4,13 +4,14 @@ If a Docker host or a vSphere Integrated Containers virtual container host (VCH)
 
 **IMPORTANT**: If you have deployed multiple instances of the vSphere Integrated Containers appliance, you can only register a virtual container host (VCH) with one instance of the management portal at a time.
 
-**Prerequisite**
+**Prerequisites**
 
-Obtain the client private key, `key.pem`, and client public key, `cert.pem`, for the VCH or Docker host from the vSphere or Docker administrator.
+- Obtain the client private key, `key.pem`, and client public key, `cert.pem`, for the VCH or Docker host from the vSphere or Docker administrator.
+- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Cloud administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 
 **Procedure**
 
-2. In the management portal, navigate to **Administration** > **Identity Management** and click **Credentials** to configure the certificates to be used for authentication against the host.
+1. Navigate to **Administration** > **Identity Management** and click **Credentials** to configure the certificates to be used for authentication against the host.
 	1. Click **+Credential** to add new entry.
 	2. In the **New Credential** dialog box, enter name and click the **Certificate** radio button.
 	3. In the **Public certificate** text box, enter the content of the `cert.pem` file.

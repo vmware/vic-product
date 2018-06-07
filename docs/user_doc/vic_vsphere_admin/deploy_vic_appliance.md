@@ -81,7 +81,15 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
 
     The network status shows whether the network settings that you provided during the deployment match the settings with which the appliance is running. If there are mismatches, power off the appliance and select **Edit Settings** > **vApp Options** to correct the network settings.
     
-11. In a browser, go to http://<i>vic_appliance_address</i>.
+11. In a browser, go to the vSphere Integrated Containers Getting Started page.
+
+    You can specify the address in one of the following formats:
+
+    - <i>vic_appliance_address</i>
+    - http://<i>vic_appliance_address</i>
+    - https://<i>vic_appliance_address</i>:9443
+
+    The first two formats redirect automatically to https://<i>vic_appliance_address</i>:9443. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, the redirect uses the port specified during deployment. If you specify HTTPS, you must include the port number in the address. 
 
     Wait for a few minutes to allow the appliance services to start. During this time, you see the message `The VIC Appliance is initializing`. When the initialization finishes, the Complete VIC appliance installation panel appears automatically. If you see a page not found error during initialization, refresh your browser.
 
@@ -96,7 +104,7 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
 
 **Result**
 
-You see the vSphere Integrated Containers Getting Started page at http://<i>vic_appliance_address</i>. The Getting Started page includes the following links: 
+You see the vSphere Integrated Containers Getting Started page. The Getting Started page includes the following links: 
 
 - vSphere Integrated Containers Management Portal
 - The download for the vSphere Integrated Containers Engine bundle
