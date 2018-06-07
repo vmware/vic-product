@@ -8,18 +8,16 @@ You can list, add, edit and delete replication endpoints and replication rules, 
 
 **Prerequisites**
 
+- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Cloud administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 - You deployed at least two instances of vSphere Integrated Containers Registry. 
 - You created at least one replication endpoint.
 - You created at least one replication rule.
 
 **Procedure**
 
-1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials. 
+1. Select the **Administration** tab, click **Global Registries**, and click **Replication Endpoints**.
 
-   Use an account with Cloud Administrator privileges.
-2. Select the **Administration** tab, click **Global Registries**, and click **Replication Endpoints**.
-
-   Existing endpoints appear in the **Endpoints** view.  
+    Existing endpoints appear in the **Endpoints** view.  
 3. To edit or delete an endpoint, select the check box next to an endpoint name and click **Edit** or **Delete**.
 4. To edit or delete a replication rule, click **Replication Rules**, select the check box next to a rule name and click **Edit** or **Delete**.
 

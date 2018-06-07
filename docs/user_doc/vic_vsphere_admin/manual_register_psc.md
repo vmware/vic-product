@@ -4,7 +4,7 @@ When you deploy the vSphere Integrated Containers appliance, you must register i
 
 If the credentials for the Platform Services Controller change after you deployed the appliance, the appliance can no longer connect to vCenter Server. In this case, you must update the credentials with which the appliance is registered with the Platform Services Controller.
 
-**NOTE**: To update the registration, you must log into the appliance VM and run commands manually. You cannot update the registration by using the Re-Initialize button on the vSphere Integrated Containers Getting Started page at https://<i>vic_appliance_address</i>.
+**NOTE**: To update the registration, you must log into the appliance VM and run commands manually. You cannot update the registration by using the Re-Initialize button on the vSphere Integrated Containers Getting Started page.
 
 **Procedure**
 

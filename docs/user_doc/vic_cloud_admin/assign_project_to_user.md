@@ -6,12 +6,13 @@ For more information about working with local users and identity sources in the 
 
 For more information about users and roles in vSphere Integrated Containers, see [vSphere Integrated Containers Roles and Personas](../vic_overview/roles_and_personas.md).
 
+**Prerequisites**
+
+Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Cloud administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
+
 **Procedure**
 
-1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
-
-    Use an account with Cloud administrator or DevOps administrator privileges.
-2. Select **Administration** > **Identity Management** > **Users & Groups**.
+1. Select **Administration** > **Identity Management** > **Users & Groups**.
 4. In the search box, enter all or part of a user name, email address, or user group name and press Enter.
 5. Select the check box for a user, and click **Assign Project Roles**.
 6. From the left hand drop-down menu, select a project to which to assign the user or group.   

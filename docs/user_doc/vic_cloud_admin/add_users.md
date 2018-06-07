@@ -6,12 +6,13 @@ For more information about working with local users and identity sources in the 
 
 For more information about users and roles in vSphere Integrated Containers, see [vSphere Integrated Containers Roles and Personas](../vic_overview/roles_and_personas.md).
 
+**Prerequisites**
+
+Log in to vSphere Integrated Containers Management Portal with a vSphere administrator, Cloud administrator, or DevOps administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
+
 **Procedure**
 
-1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
-
-    Use an account with Cloud administrator or DevOps administrator privileges.
-2. Select **Administration** > **Projects**, and click a project to add users to.
+1. Select **Administration** > **Projects**, and click a project to add users to.
 3. Click the **Members** tab and click **+ Add** to add a new user or group to that project.
 4. In the Add Users and Groups window configure the user and the access.
 	1. In the **ID or email** text box, enter any detail for a desired user and select it from the populated list.

@@ -10,16 +10,14 @@ You replicate image repositories between vSphere Integrated Containers Registry 
 
 **Prerequisites**
 
+- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Cloud administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 - You have two vSphere Integrated Containers Registry instances, one that contains the images to replicate and one to act as the replication endpoint registry.
 - You created at least one project, and pushed at least one image to that project.
 - You configured the target registry as a replication endpoint.
 
 **Procedure**
 
-1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials. 
-
-   Use an account with Cloud Administrator privileges.
-2. Navigate to **Administration** > **Global Registries**,  and click **New Replication Rule**.
+1. Navigate to **Administration** > **Global Registries**,  and click **New Replication Rule**.
 3. In the New Replication Rule dialog box, configure the new rule.
 	1. Enter a suitable name for the new replication rule and optionally add a description.
 	2. Enter the name of the project that uses the images you want to replicate.
@@ -29,7 +27,7 @@ You replicate image repositories between vSphere Integrated Containers Registry 
 
 	You can manually push, automatically replicate and delete images in the endpoint registry by selecting immeadiate and the respective options, or configure scheduled replication per your preference.
 
-	6. Click **Save**.
+6. Click **Save**.
 
 
 **Result**

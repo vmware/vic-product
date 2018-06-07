@@ -22,7 +22,15 @@ The `vic-machine` utility has been tested and verified on the operating systems 
 
 **Procedure**
 
-1. In a browser, go to http://<i>vic_appliance_address</i>.
+1. In a browser, go to the vSphere Integrated Containers Getting Started page.
+
+    You can specify the address in one of the following formats:
+
+    - <i>vic_appliance_address</i>
+    - http://<i>vic_appliance_address</i>
+    - https://<i>vic_appliance_address</i>:9443
+
+    The first two formats redirect automatically to https://<i>vic_appliance_address</i>:9443. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, the redirect uses the port specified during deployment. If you specify HTTPS, you must include the port number in the address.
 2. Scroll down to **Infrastructure deployment tools** and click the link to **download the vSphere Integrated Containers Engine bundle**.
 3. Unpack the bundle on your working machine.
 

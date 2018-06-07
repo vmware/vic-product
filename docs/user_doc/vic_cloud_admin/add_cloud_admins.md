@@ -6,12 +6,13 @@ For more information about working with local users and identity sources in the 
 
 For more information about users and roles in vSphere Integrated Containers, see [vSphere Integrated Containers Roles and Personas](../vic_overview/roles_and_personas.md).
 
+**Prerequisites**
+
+Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Cloud administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
+
 **Procedure**
 
-1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
-
-    Use an account with Cloud administrator privileges.
-2. Select **Administration** > **Identity Management**, and click **Users & Groups**.
+1. Select **Administration** > **Identity Management**, and click **Users & Groups**.
 3. In the search box, enter a group name, user name, email address, or the user's full name and press Enter.
 
 	Wait for the user or group to appear in the table.

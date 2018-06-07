@@ -8,7 +8,9 @@ To verify and trust the vSphere Integrated Containers appliance certificates, yo
 
 **Procedure**
 
-1. In a browser, go to the Getting Started Page at http://<i>vic_appliance_address</i>.
+1. In a browser, go to the Getting Started Page at https://<i>vic_appliance_address</i>:9443.
+
+    If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, replace 9443 with the appropriate port.
 2. View the certificate details in the browser and locate the SHA-1 thumbprint.
 
     How you view the certificate details depends on the type of browser that you use.

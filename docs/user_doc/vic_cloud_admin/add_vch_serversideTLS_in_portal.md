@@ -4,9 +4,13 @@ If a Docker host or a vSphere Integrated Containers virtual container host (VCH)
 
 **IMPORTANT**: If you have deployed multiple instances of the vSphere Integrated Containers appliance, you can only register a VCH with one instance of the management portal at a time. 
 
+**Prerequisite**
+
+Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Cloud administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
+
 **Procedure**
 
-1. In the **Home** view of the management portal, click the **Project**  drop-down menu and select the project to which to add the host.
+1. In the **Home** view, click the **Project**  drop-down menu and select the project to which to add the host.
 2. Navigate to **Infrastructure** > **Container Hosts** and click **+Host**.
 2. On the New Container Host page, configure the host settings.
 	1. Enter name for the host.

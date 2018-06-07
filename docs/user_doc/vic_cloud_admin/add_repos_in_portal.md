@@ -2,10 +2,14 @@
 
 You can add multiple global registries that are added by the cloud admin and are available to all users of the management portal. Global registries that are allowed by the cloud admin cannot be disabled or removed by other users. 
 
+**Prerequisites**
+
+Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Cloud administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
+
 
 **Procedure**
 
-1. In the management portal, navigate to **Administration** > **Global Registries** > **Source Registries** and click **+Registry**.
+1. Navigate to **Administration** > **Global Registries** > **Source Registries** and click **+Registry**.
 
 2. In the dialog box that opens, configure the registry settings.
 	1. As address, enter the IP or hostname of the registry, the port, and optionally a namespace.

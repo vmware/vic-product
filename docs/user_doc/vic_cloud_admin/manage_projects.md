@@ -9,12 +9,12 @@ After you have created a project, you can modify its configuration. You can perf
 
 **Prerequisites**
 
-You have a created project.
+- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator, Cloud administrator, or DevOps administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
+- You have a created project.
 
 **Procedure**
 
-1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and enter the vCenter Server Single Sign-On credentials.
-2. Navigate to **Administration** > **Projects** > **Your_project**.
+1. Navigate to **Administration** > **Projects** > **Your_project**.
 4. Click the **Configuration** tab to change the project settings.
 	1. If you want to make all repositories of that project public, select the **Public** check box.
 	2. If you want to prevent unsigned images from the project repositories from being run, select the **Enable content trust** check box.

@@ -20,7 +20,17 @@ When you deployed the vSphere Integrated Containers appliance, vSphere Integrate
 
 **Procedure**
 
-1. Go to http://<i>vic_appliance_address</i>, click the link to **Go to the vSphere Integrated Containers Management Portal**, and log in with a vSphere administrator or Cloud administrator user account.
+1. In a browser, go to the vSphere Integrated Containers Getting Started page.
+
+    You can specify the address in one of the following formats:
+
+    - <i>vic_appliance_address</i>
+    - http://<i>vic_appliance_address</i>
+    - https://<i>vic_appliance_address</i>:9443
+
+    The first two formats redirect automatically to https://<i>vic_appliance_address</i>:9443. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, the redirect uses the port specified during deployment. If you specify HTTPS, you must include the port number in the address.
+2. Click the link to **Go to the vSphere Integrated Containers Management Portal**. 
+2. Log in with a vSphere administrator or Cloud administrator user account.
 
     vSphere administrator accounts for the Platform Service Controller with which vSphere Integrated Containers is registered are automatically granted Cloud Admin access in the management portal.
 2. Go to **Administration** > **Configuration**, and click the link to download the **Registry Root Certificate**.
