@@ -135,13 +135,13 @@ as our vendor directory is checked in to git.
 
 VIC Product build is auto-triggered from the successful completion of the following CI builds:
 
-[VIC Engine](https://ci.vcna.io/vmware/vic)
+[VIC Engine](https://ci-vic.vmware.com/vmware/vic)
 
-[Admiral](https://ci.vcna.io/vmware/admiral)
+[Admiral](https://ci-vic.vmware.com/vmware/admiral)
 
-[Harbor](https://ci.vcna.io/vmware/harbor)
+[Harbor](https://ci-vic.vmware.com/vmware/harbor)
 
-There is also a separate build for [VIC UI](https://ci.vcna.io/vmware/vic-ui) which publishes the [artifact](https://console.cloud.google.com/storage/browser/vic-ui-builds) consumed by VIC Engine builds. VIC Engine publishes vic engine artifacts and vic machine server image.
+There is also a separate build for [VIC UI](https://ci-vic.vmware.com/vmware/vic-ui) which publishes the [artifact](https://console.cloud.google.com/storage/browser/vic-ui-builds) consumed by VIC Engine builds. VIC Engine publishes vic engine artifacts and vic machine server image.
 Harbor build publishes harbor installer and Admiral build publishes admiral image. All these artifacts are published to Google cloud except Admiral image which is published to Docker hub.
 
 For every auto-triggered build, by default, VIC Product consumes the latest artifacts from [vic engine](https://storage.googleapis.com/vic-engine-builds) and [harbor](https://storage.googleapis.com/harbor-builds) buckets, recent `dev` tagged images for [admiral](https://hub.docker.com/r/vmware/admiral/) and [vic machine server](https://console.cloud.google.com/gcr/images/eminent-nation-87317/GLOBAL/vic-machine-server?project=eminent-nation-87317&gcrImageListsize=50) and publishes [OVA artifact](https://storage.googleapis.com/vic-product-ova-builds) after successful build and test.
