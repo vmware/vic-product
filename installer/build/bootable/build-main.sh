@@ -135,10 +135,17 @@ function main {
     log1 "packaging OVA..."
     cp "${DIR}"/config/builder.ovf "${PACKAGE}/vic-${BUILD_OVA_REVISION}.ovf"
     cd "${PACKAGE}"
-    sed -i -e s~--version--~${BUILD_OVA_REVISION}~ vic-${BUILD_OVA_REVISION}.ovf
+    log2 "updating version number"
+    sed -i -e "s|--version--|${BUILD_OVA_REVISION}|" vic-${BUILD_OVA_REVISION}.ovf
+    log2 "updating disk sizes"
+    DISKS=("vic-disk1.vmdk" "vic-disk2.vmdk")
+    for disk in "${DISKS[@]}"
+    do
+        sed -i -e "/<File.*${disk}.*/ s|ovf:size=\"[^\"]*\"|ovf:size=\"$(stat --printf="%s" ${disk})\"|" vic-${BUILD_OVA_REVISION}.ovf
+    done
     log2 "rebuilding OVF manifest"
-    sha256sum --tag "vic-${BUILD_OVA_REVISION}.ovf" *.vmdk | sed s/SHA256\ \(/SHA256\(/ > "vic-${BUILD_OVA_REVISION}.mf"
-    tar -cvf "${RESOURCE}/vic-${BUILD_OVA_REVISION}.ova" "vic-${BUILD_OVA_REVISION}.ovf" "vic-${BUILD_OVA_REVISION}.mf" *.vmdk
+    sha256sum --tag "vic-${BUILD_OVA_REVISION}.ovf" "${DISKS[@]}" | sed s/SHA256\ \(/SHA256\(/ > "vic-${BUILD_OVA_REVISION}.mf"
+    tar -cvf "${RESOURCE}/vic-${BUILD_OVA_REVISION}.ova" "vic-${BUILD_OVA_REVISION}.ovf" "vic-${BUILD_OVA_REVISION}.mf" "${DISKS[@]}"
 
     OUTFILE=${RESOURCE}/vic-${BUILD_OVA_REVISION}.ova
 
