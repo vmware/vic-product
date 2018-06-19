@@ -102,6 +102,7 @@ If you intend to create named or anonymous volumes by using `docker create -v` w
 **NOTES**: 
 - vSphere Integrated Containers Engine does not support mounting  vSphere datastore folders as data volumes. A command such as <code>docker create -v /<i>folder_name</i>:/<i>folder_name</i> busybox</code> is not supported if the volume store is a vSphere datastore.
 - If you use `docker create -v` to create containers and mount new volumes on them, vSphere Integrated Containers Engine only supports the `-r` and `-rw` options.
+- Anonymous volumes are only recommended for development rather than production environments. A valid use case for anonymous volumes are ephemeral Docker build hosts for a CI pipeline.
 
 ### Create a Container with a New Anonymous Volume <a id="create_container_anon"></a>
 

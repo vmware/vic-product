@@ -2,7 +2,7 @@
 
 It is possible deploy a very basic virtual container host (VCH) with a minimal configuration for testing purposes. For example, configuring access to an image registry or designating a volume store is not mandatory when you deploy a VCH. For an example of the most minimal possible deployment, without registry access or a volume store, see [Deploy a VCH to an ESXi Host with No vCenter Server](deploy_vch_esxi.md).
 
-However, in real-world deployments, you usually need to access private registries, and commonly used container images very often need to create volumes. Consequently, to create a useful test VCH, you should configure it for private registry access and add at least a `default` volume store. In environments in which DHCP is not available, you must also configure a static IP address for the VCH endpoint VM on at least the public network. 
+However, in real-world deployments, you usually need to access private registries, and commonly used container images very often need to create volumes. Consequently, to create a useful test VCH, you should configure it for private registry access and add at least one volume store. In environments in which DHCP is not available, you must also configure a static IP address for the VCH endpoint VM on at least the public network. 
 
 - [Example](#example)
 - [Test the Deployment of the VCH](#test)
