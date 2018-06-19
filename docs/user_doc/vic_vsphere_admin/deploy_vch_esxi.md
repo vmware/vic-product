@@ -7,7 +7,7 @@ This topic provides instructions for using `vic-machine` to deploy a virtual con
 
 ## Example <a id="example"></a>
 
-The VCH in this example is very basic. For an example of how to deploy a more advanced VCH to a vCenter Server cluster, see [Deploy a Virtual Container Host with a Volume Store and vSphere Integrated Containers Registry Access](deploy_vch_dchphoton.md).
+The VCH in this example is very basic and results in a VCH with extremely limited capabilities. For an example of how to deploy a more advanced VCH to a vCenter Server cluster, see [Deploy a Virtual Container Host with a Volume Store and vSphere Integrated Containers Registry Access](deploy_vch_dchphoton.md).
 
 The ESXi host to which you deploy the VCH must match the specifications listed in the prerequisites. The example `vic-machine create` command deploys a VCH by using the minimum `vic-machine create` options possible, for demonstration purposes. You cannot use the Create Virtual Container Host wizard in the vSphere Client to deploy a VCH directly on an ESXi host.
 
