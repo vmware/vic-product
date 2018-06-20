@@ -16,14 +16,14 @@
 .book .book-summary ul.summary li a,
 .book .book-summary ul.summary li span {
 	padding-left: 30px;
-	cursor: pointer;
 }
 
 .book .book-summary .exc-trigger:before {
-  	content: "\f054";
+  	content: "\f105";
 }
 
 .book .book-summary .expanded > a .exc-trigger:before,
 .book .book-summary .expanded > span .exc-trigger:before {
-	content: "\f078";
+	content: "\f107";
 }
+

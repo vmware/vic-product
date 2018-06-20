@@ -14,8 +14,8 @@ This information is intended for the following audiences:
 |---|---|---|
 |All Users|Understand container technology and vSphere Integrated Containers.|[Overview of vSphere Integrated Containers](vic_overview/README.md)|
 |vSphere administrators|Install vSphere Integrated Containers. Deploy  and maintain the vSphere Integrated Containers infrastructure in the vSphere environment.|[vSphere Integrated Containers for vSphere Administrators](vic_vsphere_admin/README.md)|
-|Cloud administrators|Use vSphere Integrated Containers Management Portal and vSphere Integrated Containers Registry to manage container images, create development projects, and provision and manage containers. |[vSphere Integrated Containers Management Portal Administration](vic_cloud_admin/README.md)|
-|DevOps administrators, developers, viewers|Use vSphere Integrated Containers Management Portal to manage container development projects.|[Using vSphere Integrated Containers as a DevOps Administrator, Developer, or Viewer](vic_users/README.md)|
+|Cloud administrators|Use vSphere Integrated Containers Management Portal to manage container images, create development projects, and manage the lifecycle of virtual container hosts. |[vSphere Integrated Containers Management Portal Administration](vic_cloud_admin/README.md)|
+|DevOps administrators, developers, viewers|Use vSphere Integrated Containers Management Portal to manage container development projects and provision and manage containers.|[Using vSphere Integrated Containers as a DevOps Administrator, Developer, or Viewer](vic_users/README.md)|
 |Container application developers|Use vSphere Integrated Containers as the endpoint for container application development.|[Developing Applications with vSphere Integrated Containers](vic_app_dev/README.md)|
  
 
