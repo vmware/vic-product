@@ -35,7 +35,7 @@ Role assigned per project. For their assigned projects, DevOps administrators ca
 
 ## II. Management Portal Administrator <a id="cloudadmin"></a>
 
-The Management Portal Administrator is the global administrator for all projects in vSphere Integrated Containers Management Portal. The Management Portal Administrator role is assigned to the Administrators group for vCenter Server during the installation of vSphere Integrated Containers. Through the management portal, you can revoke that role for the Administrators group, only after you assign the role to another group. Management Portal administrators can also assign the role to individual users.
+The Management Portal administrator, sometimes referred to as the Cloud administrator, is the global administrator for all projects in vSphere Integrated Containers Management Portal. The Management Portal Administrator role is assigned to the Administrators group for vCenter Server during the installation of vSphere Integrated Containers. Through the management portal, you can revoke that role for the Administrators group, only after you assign the role to another group. Management Portal administrators can also assign the role to individual users.
 
 The following global permissions are unique to the Management Portal Administrator role:
 

@@ -1,6 +1,6 @@
 # Developing Applications with vSphere Integrated Containers
 
-*Developing Container Applications with vSphere Integrated Containers* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; as the endpoint for Docker container application development.
+*Developing Container Applications with vSphere Integrated Containers* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; virtual container hosts (VCHs) as the endpoints for Docker container application development.
 
 **Product version: 1.4**
 
@@ -8,18 +8,9 @@ This documentation applies to all 1.4.x releases.
 
 ## Intended Audience
 
-This information is intended for DevOps administrators and container application developers whose development environment uses vSphere Integrated Containers. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is assumed.
+This information is intended for container application developers whose development environment uses vSphere Integrated Containers. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is assumed.
 
 In particular, these topics explain how developing with vSphere Integrated Containers differs from development in a regular Docker environment, and often enhances it.
-
-* [Obtain a VCH](obtain_vch.md)
-* [Configure the Docker Client](configure_docker_client.md)
-* [Use and Limitations](container_limitations.md)
-* [Building and Pushing Images](build_push_images.md)
-* [Using Volumes](using_volumes_with_vic.md) 
-* [Container Networking](network_use_cases.md)
-* [Creating a Containerized App](creating_containerized_app_with_vic.md)
-
 
 ----------
 

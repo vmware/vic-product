@@ -2,7 +2,7 @@
 
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
-* [Install, Deploy, Maintain Infrastructure](README.md)
+* [vSphere Administrator](README.md)
  * [Installation](installing_vic.md)
      * [Download Installer](download_vic.md) 
      * [Deployment Prerequisites](vic_installation_prereqs.md)
@@ -119,4 +119,4 @@
          * [Uninstall](uninstall_vic.md)
   * [Security Reference](security_reference.md)
      * [Certificate Reference](vic_cert_reference.md)
-     * [Obtain Appliance Certificates](obtain_appliance_certs.md)
+     * [Obtain Appliance Certificates](obtain_appliance_certs.md)  
