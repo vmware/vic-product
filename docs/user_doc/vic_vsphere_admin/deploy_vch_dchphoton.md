@@ -185,7 +185,7 @@ You can also use vSphere Integrated Containers Management Portal and Registry to
 
 The VCH that you deployed in the [Example](#example) above meets these requirements, so you can use the `dch-photon` image to test it.
 
-This example uses the `dch-photon` image for demonstration purposes only. For information about how container developers can actually use `dch-photon`, see [Building and Pushing Images with the dch-photon Docker Engine](../vic_app_dev/build_push_images.md) in *Develop Container Applications with vSphere Integrated Containers*.
+This example uses the `dch-photon` image for demonstration purposes only. For information about how container developers can actually use `dch-photon`, see [Building and Pushing Images with the dch-photon Docker Engine](../vic_app_dev/build_push_images.md) in *Developing Applications with vSphere Integrated Containers*.
 
 ### Procedure
 
@@ -234,7 +234,7 @@ This example uses the `dch-photon` image for demonstration purposes only. For in
 
 ### What to Do Next
 
-The VCH and the `dch-photon` container VM are ready for container developers to use. For information about how developers connect to vSphere Integrated Containers Registry from Docker clients, and how  they can use `dch-photon`, see the following topics in *Develop Container Applications with vSphere Integrated Containers*:
+The VCH and the `dch-photon` container VM are ready for container developers to use. For information about how developers connect to vSphere Integrated Containers Registry from Docker clients, and how  they can use `dch-photon`, see the following topics in *Developing Applications with vSphere Integrated Containers*:
 
  - [Configure the Docker Client for Use with vSphere Integrated Containers](../vic_app_dev/configure_docker_client.md)
  - [Building and Pushing Images with the dch-photon Docker Engine](../vic_app_dev/build_push_images.md)

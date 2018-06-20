@@ -3,12 +3,6 @@
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
 * [Develop Container Apps](README.md)
-  * [Running Development Projects](run_dev_project.md) 
-     * [Create New Networks for Provisioning Containers](create_network.md)
-     * [Provisioning Container VMs in the Management Portal](provision_containers_portal.md)
-         * [Configuring Links for Templates and Images](configuring_links.md)
-         * [Configuring Health Checks for Templates and Images](configuring_health_checks.md)
-         * [Configuring Cluster Size and Scale](configuring_clusters.md)
   * [Supported Docker Commands](container_operations.md)
      * [Supported Docker Compose File Options](docker_compose_file_options.md)
      * [Supported Dockerfile Instructions](dockerfile_support.md)   

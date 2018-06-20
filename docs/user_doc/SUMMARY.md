@@ -2,9 +2,7 @@
 
 ## vSphere Integrated Containers 1.4
 
-
 ----
-
 
 * [Introduction](README.md)
   * [Quick Start Links](vic_quickstart.md)
@@ -21,7 +19,7 @@
 
 ----
 
-* [Install, Deploy, Maintain Infrastructure](vic_vsphere_admin/README.md)
+* [vSphere Administrator](vic_vsphere_admin/README.md)
  * [Installation](vic_vsphere_admin/installing_vic.md)
      * [Download Installer](vic_vsphere_admin/download_vic.md) 
      * [Deployment Prerequisites](vic_vsphere_admin/vic_installation_prereqs.md)
@@ -138,13 +136,12 @@
          * [Uninstall](vic_vsphere_admin/uninstall_vic.md)
   * [Security Reference](vic_vsphere_admin/security_reference.md)
      * [Certificate Reference](vic_vsphere_admin/vic_cert_reference.md)
-     * [Obtain Appliance Certificates](vic_vsphere_admin/obtain_appliance_certs.md)
-     
+     * [Obtain Appliance Certificates](vic_vsphere_admin/obtain_appliance_certs.md)  
 
 ----
 
-* [Configure and Manage](vic_cloud_admin/README.md)
-   * [Logging In to Management Portal](vic_cloud_admin/logging_in_mp.md)
+* [Management Portal Administrator](vic_cloud_admin/README.md) 
+ * [Logging In to Management Portal](vic_cloud_admin/logging_in_mp.md)
      * [Verify and Trust Certificates](vic_cloud_admin/trust_vic_certs.md)
    * [Initial Configuration](vic_cloud_admin/mp_initial_config.md)
      * [Configure System Settings](vic_cloud_admin/configure_system.md)
@@ -174,36 +171,36 @@
 
 ----
 
+* [DevOps, Developers, Viewers](vic_users/README.md)
+  * [Running Development Projects](vic_users/run_dev_project.md) 
+  * [Provisioning Container VMs](vic_users/provision_containers_portal.md)
+     * [Configuring Links for Templates and Images](vic_users/configuring_links.md)
+     * [Configuring Health Checks for Templates and Images](vic_users/configuring_health_checks.md)
+     * [Configuring Cluster Size and Scale](vic_users/configuring_clusters.md)  
+  * [Create New Networks for Provisioning Containers](vic_users/create_network.md)
 
-* [Develop Container Apps](vic_app_dev/README.md)
-  * [Running Development Projects](vic_app_dev/run_dev_project.md) 
-     * [Create New Networks for Provisioning Containers](vic_app_dev/create_network.md)
-     * [Provisioning Container VMs in the Management Portal](vic_app_dev/provision_containers_portal.md)
-         * [Configuring Links for Templates and Images](vic_app_dev/configuring_links.md)
-         * [Configuring Health Checks for Templates and Images](vic_app_dev/configuring_health_checks.md)
-         * [Configuring Cluster Size and Scale](vic_app_dev/configuring_clusters.md)
+----  
+
+* [Application Development](vic_app_dev/README.md)
   * [Supported Docker Commands](vic_app_dev/container_operations.md)
      * [Supported Docker Compose File Options](vic_app_dev/docker_compose_file_options.md)
-     * [Supported Dockerfile Instructions](vic_app_dev/dockerfile_support.md)   
-  * [Developing with vSphere Integrated Containers](vic_app_dev/develop_with_vic.md)
-       * [Obtain a VCH](vic_app_dev/obtain_vch.md)
-       * [Configure the Docker Client](vic_app_dev/configure_docker_client.md)
-       * [Use and Limitations](vic_app_dev/container_limitations.md)
-       * [Building and Pushing Images](vic_app_dev/build_push_images.md)
-          * [Add Certificate to Custom Image](vic_app_dev/photon_cert_custom.md)
-          * [Manually Add Certificate](vic_app_dev/photon_cert_manual.md) 
-          * [Build, Push, and Pull and Image](vic_app_dev/test_photon.md)
-          * [Advanced `dch-photon` Deployment](vic_app_dev/dchphoton_options.md)
-       * [Using Volumes](vic_app_dev/using_volumes_with_vic.md) 
-       * [Container Networking](vic_app_dev/network_use_cases.md)
-       * [Creating a Containerized App](vic_app_dev/creating_containerized_app_with_vic.md)
-          * [Putting Apps into Production](vic_app_dev/putting_apps_into_production.md)
-          * [Deploy a Single Container VM](vic_app_dev/deploy_single_containervm.md)
-          * [Deploy Container VMs with Compose](vic_app_dev/deploy_multiple_docker_compose.md)
-
+     * [Supported Dockerfile Instructions](vic_app_dev/dockerfile_support.md) 
+  * [Obtain a VCH](vic_app_dev/obtain_vch.md)
+  * [Configure the Docker Client](vic_app_dev/configure_docker_client.md)
+  * [Use and Limitations](vic_app_dev/container_limitations.md)
+  * [Building and Pushing Images](vic_app_dev/build_push_images.md)
+     * [Add Certificate to Custom Image](vic_app_dev/photon_cert_custom.md)
+     * [Manually Add Certificate](vic_app_dev/photon_cert_manual.md) 
+     * [Build, Push, and Pull and Image](vic_app_dev/test_photon.md)
+     * [Advanced `dch-photon` Deployment](vic_app_dev/dchphoton_options.md)
+  * [Using Volumes](vic_app_dev/using_volumes_with_vic.md) 
+  * [Container Networking](vic_app_dev/network_use_cases.md)
+  * [Creating a Containerized App](vic_app_dev/creating_containerized_app_with_vic.md)
+     * [Putting Apps into Production](vic_app_dev/putting_apps_into_production.md)
+     * [Deploy a Single Container VM](vic_app_dev/deploy_single_containervm.md)
+     * [Deploy Container VMs with Compose](vic_app_dev/deploy_multiple_docker_compose.md)
 
 ----
-
 
 * [Send Doc Feedback](vic_vsphere_admin/feedback.md)
 * [Download PDF](pdf.md)
