@@ -10,7 +10,7 @@ You replicate image repositories between vSphere Integrated Containers Registry 
 
 **Prerequisites**
 
-- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Cloud administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
+- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Management Portal administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 - You have two vSphere Integrated Containers Registry instances, one that contains the images to replicate and one to act as the replication endpoint registry.
 - You created at least one project, and pushed at least one image to that project.
 - You configured the target registry as a replication endpoint.

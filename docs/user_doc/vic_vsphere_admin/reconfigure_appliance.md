@@ -23,7 +23,7 @@ After you have deployed the vSphere Integrated Containers appliance, you can rec
 
    - In **Appliance Security**, update the password for the appliance root account, enable or disable SSH log in.
    - Reconfigure **Networking Properties** to set a static IP address, update the network configuration, or remove all settings to enable DHCP.
-   - Reconfigure **Registry Configuration** to enable or disable vSphere Integrated Containers Registry, change the ports on which the registry publishes services, update the admin and database passwords, enable or disable garbage collection, or update the certificate and key.
+   - Reconfigure **Registry Configuration** to enable or disable vSphere Integrated Containers Registry, change the ports on which the registry publishes services, update the administrator and database passwords, enable or disable garbage collection, or update the certificate and key.
    - Reconfigure **Management Portal Configuration** to enable or disable vSphere Integrated Containers Management Portal, change the port on which the portal publishes services, or update the certificate and key.
    - Reconfigure **File Server Configuration** to change the port on which the file server publishes the vSphere Integrated Containers Engine download, or update the certificate and key.
 

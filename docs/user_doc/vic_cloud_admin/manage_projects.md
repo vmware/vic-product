@@ -9,7 +9,7 @@ After you have created a project, you can modify its configuration. You can perf
 
 **Prerequisites**
 
-- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator, Cloud administrator, or DevOps administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
+- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator, Management Portal administrator, or DevOps administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 - You have a created project.
 
 **Procedure**

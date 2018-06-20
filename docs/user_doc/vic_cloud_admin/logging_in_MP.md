@@ -1,6 +1,6 @@
 # Logging In to the Management Portal #
 
-The user role that has full permissions for vSphere Integrated Containers is the Cloud administrator role. By default, the Cloud administrator role is assigned to the Administrators group for vCenter Server during the installation of vSphere Integrated Containers. Every user that is a member of the vSphere administrators group in the Platform Services Controller can access the Management Portal as a Cloud administrator. After you log in as a Cloud administrator, you can give other users access to vSphere Integrated Containers by assigning them roles in projects.
+The user role that has full permissions for vSphere Integrated Containers is the Management Portal administrator role. By default, the Management Portal administrator role is assigned to the Administrators group for vCenter Server during the installation of vSphere Integrated Containers. Every user that is a member of the vSphere administrators group in the Platform Services Controller can access the Management Portal as a Management Portal administrator. After you log in as a Management Portal administrator, you can give other users access to vSphere Integrated Containers by assigning them roles in projects.
 
 Optionally, you can log in by using one of the example user accounts that were created during the OVA deployment, if you used that option. The example users allow you to see what each role can do in vSphere Integrated Containers Management Portal.
 
@@ -9,7 +9,7 @@ For more information about users and roles, see [vSphere Integrated Containers R
 **Prerequisites**
 
 - You or the vSphere administrator deployed and initialized the vSphere Integrated Containers appliance.
-- You have a vCenter Server Single Sign-On user account with vSphere administrator privileges, or a user account that has been granted the cloud administrator, DevOps administrator, developer, or viewer role in vSphere Integrated Containers.
+- You have a vCenter Server Single Sign-On user account with vSphere administrator privileges, or a user account that has been granted the Management Portal Administrator, DevOps administrator, developer, or viewer role in vSphere Integrated Containers.
 
 **Procedure**
 

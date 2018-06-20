@@ -23,7 +23,7 @@ The Notary server runs by default. For information about how container developer
 
 ## Vulnerability Scanning <a id="vulnerability"></a>
 
-vSphere Integrated Containers Registry provides the ability to scan all images for known vulnerabilities. DevOps and cloud dministrators can set threshold values that prevent users from running vulnerable images that exceed those thresholds. Once an image is uploaded into the registry, vSphere Integrated Containers Registry checks the various layers of the image against known vulnerability databases and reports issues to the DevOps and cloud administrators. 
+vSphere Integrated Containers Registry provides the ability to scan all images for known vulnerabilities. DevOps and Management Portal administrators can set threshold values that prevent users from running vulnerable images that exceed those thresholds. Once an image is uploaded into the registry, vSphere Integrated Containers Registry checks the various layers of the image against known vulnerability databases and reports issues to the DevOps and Management Portal Administrators. 
 
 ## Garbage Collection <a id="gc"></a>
 

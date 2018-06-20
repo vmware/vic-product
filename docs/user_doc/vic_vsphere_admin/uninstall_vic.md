@@ -27,6 +27,6 @@ The process of uninstalling vSphere Integrated Containers depends on the way tha
 	8. Refresh the ExtensionManager page and verify that the extensionList entry does not include any `com.vmware.vic` related entries.
 5. Clean up any vSphere Integrated Containers related users from your Platform Services Controller.
 	1. Log in to https://<i>Platform_Services_Controller_address</i>/psc with vCenter Server administrator credentials.
-	2. If you created default users for your vSphere Integrated Containers instance, click **Users and Groups**, select the *Cloud Admin* user, the *DevOps Admin* user, and the *Developer* user, and click **Delete** for each of them.
+	2. If you created default users for your vSphere Integrated Containers instance, click **Users and Groups**, select the *Management Portal (cloud) administrator* user, the *DevOps Admin* user, and the *Developer* user, and click **Delete** for each of them.
 	3. Click the **Solution Users** tab, select the users that start with *engine*, *admiral*, and *harbor*, and click **Delete** for each of them.
 6. Verify that no vSphere Integrated Containers VMDK files are left on your datastore.

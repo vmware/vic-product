@@ -1,4 +1,4 @@
-# Cloud Admin
+# Management Portal Admin
 
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
@@ -7,7 +7,7 @@
      * [Verify and Trust Certificates](trust_vic_certs.md)
    * [Initial Configuration](mp_initial_config.md)
      * [Configure System Settings](configure_system.md)
-     * [Add Cloud Administrators](add_cloud_admins.md)
+     * [Add Management Portal Administrators](add_cloud_admins.md)
    * [Working with Projects](working_with_projects.md)
      * [Create a Project](create_projects.md)
      * [Assign Users to a Project](add_users.md)

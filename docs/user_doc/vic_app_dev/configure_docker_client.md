@@ -55,7 +55,7 @@ The level of security of the connection between the Docker client and the VCH is
 
 ### Obtain the vSphere Integrated Containers Registry CA Certificate <a id="getcert"></a>
 
-To access the vSphere Integrated Containers Registry CA certificate, log in to vSphere Integrated Containers Management Portal with an account that has at least the Cloud administrator role. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](../vic_cloud_admin/logging_in_mp.md).
+To access the vSphere Integrated Containers Registry CA certificate, log in to vSphere Integrated Containers Management Portal with an account that has at least the Management Portal administrator role. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](../vic_cloud_admin/logging_in_mp.md).
 
 1. Go to **Administration** -> **Configuration**.
 2. Click the download link for **Registry Root Certificate**.
@@ -99,7 +99,7 @@ To pass the registry's CA certificate to a Docker client that is running on Wind
 
 ## Using vSphere Integrated Containers Registry with Content Trust <a id="notary"></a>
 
-vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement content trust by signing and verifying the images in the registry. Cloud administrators enable or disable content trust at the project level in vSphere Integrated Containers Management Portal.
+vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement content trust by signing and verifying the images in the registry. Management Portal administrators enable or disable content trust at the project level in vSphere Integrated Containers Management Portal.
 
 - For information about Docker Notary, see [Content trust in Docker](https://docs.docker.com/engine/security/trust/content_trust/) in the Docker documentation.
 - For information about how to enable content trust in projects in vSphere Integrated Containers Management Portal, see [Configure Project Settings](../vic_cloud_admin/manage_projects.md) in *vSphere Integrated Containers Management Portal Administration*.

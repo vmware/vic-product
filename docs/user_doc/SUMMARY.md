@@ -145,7 +145,7 @@
      * [Verify and Trust Certificates](vic_cloud_admin/trust_vic_certs.md)
  * [Initial Configuration](vic_cloud_admin/mp_initial_config.md)
      * [Configure System Settings](vic_cloud_admin/configure_system.md)
-     * [Add Cloud Administrators](vic_cloud_admin/add_cloud_admins.md)
+     * [Add Management Portal Administrators](vic_cloud_admin/add_cloud_admins.md)
  * [Working with Projects](vic_cloud_admin/working_with_projects.md)
      * [Create a Project](vic_cloud_admin/create_projects.md)
      * [Assign Users to a Project](vic_cloud_admin/add_users.md)
