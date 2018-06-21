@@ -9,7 +9,7 @@ After you have created a project, you can modify its configuration. You can perf
 
 **Prerequisites**
 
-- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator, Cloud administrator, or DevOps administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
+- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator, Management Portal administrator, or DevOps administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 - You have a created project.
 
 **Procedure**
@@ -26,7 +26,7 @@ After you have created a project, you can modify its configuration. You can perf
 
 5.  To delete a project, on the Projects page, click the three dots next to a project and click **Delete**.
 
-**NOTE**: If you enable content trust on a project, the developers who work on that project must configure their Docker clients so that they can connect to the Notary server running in vSphere Integrated Containers Registry. For information about how to configure Docker clients for content trust, see the section on [Using vSphere Integrated Containers Registry with Content Trust](../vic_app_dev/configure_docker_client.md#notary) in Configure the Docker Client for Use with vSphere Integrated Containers, in *Develop Container Applications with vSphere Integrated Containers*.
+**NOTE**: If you enable content trust on a project, the developers who work on that project must configure their Docker clients so that they can connect to the Notary server running in vSphere Integrated Containers Registry. For information about how to configure Docker clients for content trust, see the section on [Using vSphere Integrated Containers Registry with Content Trust](../vic_app_dev/configure_docker_client.md#notary) in Configure the Docker Client for Use with vSphere Integrated Containers, in *Developing Applications with vSphere Integrated Containers*.
 
 **What to Do Next**
 

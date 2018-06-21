@@ -1,14 +1,14 @@
-# Cloud Admin
+# Management Portal Admin
 
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
-* [Configure and Manage](README.md)
-   * [Logging In to Management Portal](logging_in_mp.md)
+* [Management Portal Administrator](README.md) 
+ * [Logging In to Management Portal](logging_in_mp.md)
      * [Verify and Trust Certificates](trust_vic_certs.md)
-   * [Initial Configuration](mp_initial_config.md)
+ * [Initial Configuration](mp_initial_config.md)
      * [Configure System Settings](configure_system.md)
-     * [Add Cloud Administrators](add_cloud_admins.md)
-   * [Working with Projects](working_with_projects.md)
+     * [Add Management Portal Administrators](add_cloud_admins.md)
+ * [Working with Projects](working_with_projects.md)
      * [Create a Project](create_projects.md)
      * [Assign Users to a Project](add_users.md)
      * [Assign Projects to a User](assign_project_to_user.md)
@@ -19,7 +19,7 @@
      * [Configure Project Settings](manage_projects.md)
      * [Manage Internal Repositories](manage_repository_registry.md)
      * [Access Project Logs](access_project_logs.md)
-   * [Working with Registries](working_with_registries.md)
+ * [Working with Registries](working_with_registries.md)
       * [Add Global Registries](add_repos_in_portal.md)
       * [Add Project Specific Registries](add_project_registry.md)
       * [Replicating Images](replicating_images.md)

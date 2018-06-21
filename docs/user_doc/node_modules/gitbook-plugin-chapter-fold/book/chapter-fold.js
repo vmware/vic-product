@@ -6,31 +6,29 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       LS_NAMESPACE = 'expChapters';
   var init = function () {
     // adding the trigger element to each ARTICLES parent and binding the event
-    $(ARTICLES)
-      .parent(CHAPTER)
-      .children('a,span')
-      .append(TRIGGER_TEMPLATE)
-      .on('click', function(e) {
-        if (!$(e.target).is('a')) {
-          e.preventDefault();
-          e.stopPropagation();
-          toggle($(e.target).closest(CHAPTER));
-        }
-      });
+    var chapterLink = $(ARTICLES).parent(CHAPTER).children('a');
+    chapterLink.append($(TRIGGER_TEMPLATE));
+    chapterLink.on('click', function (e) {
+      e.preventDefault();
+      //e.stopPropagation();
+      toggle($(e.target).closest(CHAPTER));
+    });  
 
     expand(lsItem());
     //expand current selected chapter with it's parents
+    collapse($(CHAPTER));
     var activeChapter = $(CHAPTER + '.active');
     expand(activeChapter);
     expand(activeChapter.parents(CHAPTER));
-
-
   } 
+  //on page.change will happend the function.
+
   var toggle = function ($chapter) {
     if ($chapter.hasClass('expanded')) {
       collapse($chapter);
     } else {
       expand($chapter);
+      //$chapter.addClass('active').siblings().removeClass('active');
     }
   }
   var collapse = function ($chapter) {

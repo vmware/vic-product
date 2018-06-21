@@ -29,7 +29,7 @@ For simplicity, this example deploys a VCH without client certificate verificati
   * At least one cluster with at least two ESXi hosts. You can use nested ESXi hosts for this example. VMware recommends that you enable VMware vSphere Distributed Resource Scheduler (DRS) on clusters whenever possible.
   * At least one shared datastore, that is accessible by both of the ESXi hosts.
   * One VMware vSphere Distributed Switch with two port groups named `vic-bridge` and `vic-public`.
-* Verify that your vCenter Server instance and all of the ESXi hosts in the cluster meet the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md). 
+* Verify that your vCenter Server instance and all of the ESXi hosts in the cluster meet the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md).
 
     **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
 * Make sure that the correct firewall ports are open on the ESXi hosts. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
@@ -185,7 +185,7 @@ You can also use vSphere Integrated Containers Management Portal and Registry to
 
 The VCH that you deployed in the [Example](#example) above meets these requirements, so you can use the `dch-photon` image to test it.
 
-This example uses the `dch-photon` image for demonstration purposes only. For information about how container developers can actually use `dch-photon`, see [Building and Pushing Images with the dch-photon Docker Engine](../vic_app_dev/build_push_images.md) in *Develop Container Applications with vSphere Integrated Containers*.
+This example uses the `dch-photon` image for demonstration purposes only. For information about how container developers can actually use `dch-photon`, see [Building and Pushing Images with the dch-photon Docker Engine](../vic_app_dev/build_push_images.md) in *Developing Applications with vSphere Integrated Containers*.
 
 ### Procedure
 
@@ -209,7 +209,7 @@ This example uses the `dch-photon` image for demonstration purposes only. For in
 1. In the vSphere Client, go to **Storage** and select the datastore that you designated as the image store. 
  
     At the top-level of the datastore, you should see a folder that uses the container ID as its name. The folder contains the files for the container VM that you just created.
-8. In a browser, log in to the vSphere Integrated Containers Management Portal at https://vic_appliance_address with a vSphere administrator, Cloud Admin, or DevOps admin user account.
+8. In a browser, log in to the vSphere Integrated Containers Management Portal at https://vic_appliance_address with a vSphere administrator, Management Portal administrator, or DevOps administrator user account.
 9. Select **Home** and make sure that the **Project** drop-down menu is set to `default-project`. 
 10. Under **Infrastructure**, select **Container Hosts** and click **+Container Host** to register the VCH with the management portal.
 
@@ -234,7 +234,7 @@ This example uses the `dch-photon` image for demonstration purposes only. For in
 
 ### What to Do Next
 
-The VCH and the `dch-photon` container VM are ready for container developers to use. For information about how developers connect to vSphere Integrated Containers Registry from Docker clients, and how  they can use `dch-photon`, see the following topics in *Develop Container Applications with vSphere Integrated Containers*:
+The VCH and the `dch-photon` container VM are ready for container developers to use. For information about how developers connect to vSphere Integrated Containers Registry from Docker clients, and how  they can use `dch-photon`, see the following topics in *Developing Applications with vSphere Integrated Containers*:
 
  - [Configure the Docker Client for Use with vSphere Integrated Containers](../vic_app_dev/configure_docker_client.md)
  - [Building and Pushing Images with the dch-photon Docker Engine](../vic_app_dev/build_push_images.md)

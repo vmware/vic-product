@@ -19,11 +19,11 @@ You can set up multiple registries and replicate images between registry instanc
 
 vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement Docker Content Trust by signing and verifying the images in the registry. For information about Docker Notary, see [Content trust in Docker](https://docs.docker.com/engine/security/trust/content_trust/) in the Docker documentation. 
 
-The Notary server runs by default. For information about how container developers use Docker Content Trust with vSphere Integrated Containers Registry, see [Configure the Docker Client for Use with vSphere Integrated Containers](../vic_app_dev/configure_docker_client.md) in *Develop Container Applications with vSphere Integrated Containers*.
+The Notary server runs by default. For information about how container developers use Docker Content Trust with vSphere Integrated Containers Registry, see [Configure the Docker Client for Use with vSphere Integrated Containers](../vic_app_dev/configure_docker_client.md) in *Developing Applications with vSphere Integrated Containers*.
 
 ## Vulnerability Scanning <a id="vulnerability"></a>
 
-vSphere Integrated Containers Registry provides the ability to scan all images for known vulnerabilities. DevOps and cloud dministrators can set threshold values that prevent users from running vulnerable images that exceed those thresholds. Once an image is uploaded into the registry, vSphere Integrated Containers Registry checks the various layers of the image against known vulnerability databases and reports issues to the DevOps and cloud administrators. 
+vSphere Integrated Containers Registry provides the ability to scan all images for known vulnerabilities. DevOps and Management Portal administrators can set threshold values that prevent users from running vulnerable images that exceed those thresholds. Once an image is uploaded into the registry, vSphere Integrated Containers Registry checks the various layers of the image against known vulnerability databases and reports issues to the DevOps and Management Portal Administrators. 
 
 ## Garbage Collection <a id="gc"></a>
 

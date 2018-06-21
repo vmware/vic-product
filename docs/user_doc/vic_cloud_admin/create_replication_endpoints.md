@@ -6,7 +6,7 @@ You can create replication endpoints independently of projects, or you can creat
 
 **Prerequisites**
 
-- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Cloud administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
+- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Management Portal administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 - You deployed at least two instances of vSphere Integrated Containers Registry. 
 
 **Procedure**

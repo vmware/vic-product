@@ -10,5 +10,5 @@ As a developer, you can perform the following tasks in vSphere Integrated Contai
 As a DevOps administrator, in addition to developer tasks, you can perform the following tasks in vSphere Integrated Containers Management Portal:
 
 - Add developers and viewers projects and assign other DevOps administrators. For more information, see [Add Viewers, Developers, or DevOps Administrators to Projects](../vic_cloud_admin/add_users.html).
-- Change project configurations, such as making the project registry public, changing deployment security settings, and enabling vulnerability scanning. For more information, see [Manage Projects](../vic_cloud_admin/manage_projects.html).
+- Change project configurations, such as making the project registry public, changing deployment security settings, and enabling vulnerability scanning. For more information, see [Configure Project Settings](../vic_cloud_admin/manage_projects.html).
 

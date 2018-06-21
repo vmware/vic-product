@@ -7,7 +7,7 @@ If a Docker host or a vSphere Integrated Containers virtual container host (VCH)
 **Prerequisites**
 
 - Obtain the client private key, `key.pem`, and client public key, `cert.pem`, for the VCH or Docker host from the vSphere or Docker administrator.
-- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Cloud administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
+- Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Management Portal administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 
 **Procedure**
 

@@ -30,9 +30,9 @@ When you deployed the vSphere Integrated Containers appliance, vSphere Integrate
 
     The first two formats redirect automatically to https://<i>vic_appliance_address</i>:9443. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, the redirect uses the port specified during deployment. If you specify HTTPS, you must include the port number in the address.
 2. Click the link to **Go to the vSphere Integrated Containers Management Portal**. 
-2. Log in with a vSphere administrator or Cloud administrator user account.
+2. Log in with a vSphere administrator or Management Portal administrator user account.
 
-    vSphere administrator accounts for the Platform Service Controller with which vSphere Integrated Containers is registered are automatically granted Cloud Admin access in the management portal.
+    vSphere administrator accounts for the Platform Service Controller with which vSphere Integrated Containers is registered are automatically granted the Management Portal administrator role.
 2. Go to **Administration** > **Configuration**, and click the link to download the **Registry Root Certificate**.
 
 ## Options <a id="options"></a>
@@ -53,11 +53,11 @@ You can specify whitelisted registries in the following formats:
 
 #### VCH Whitelists and Registry Lists in vSphere Integrated Containers Management Portal <a id="vch-whitelist-mp"></a>
 
-If you intend to use a VCH with vSphere Integrated Containers Management Portal, the management portal allows you to provision containers from lists of registries that the cloud and DevOps administrators configure. However, if you deploy a VCH with whitelist mode enabled, and if the whitelist on the VCH is more restrictive than the global and project registry lists in management portal, you can only use management portal to provision containers from registries that the VCH permits in its whitelist, even if the VCH is included in a project that permits other registries. 
+If you intend to use a VCH with vSphere Integrated Containers Management Portal, the management portal allows you to provision containers from lists of registries that Management Portal administrators and DevOps administrators configure. However, if you deploy a VCH with whitelist mode enabled, and if the whitelist on the VCH is more restrictive than the global and project registry lists in management portal, you can only use management portal to provision containers from registries that the VCH permits in its whitelist, even if the VCH is included in a project that permits other registries. 
 
 As a consequence of this, when using whitelist mode on VCHs that you intend to register with vSphere Integrated Containers Management Portal, you must consider the following points:
 
-- If you enable whitelist mode on a VCH, the whitelist on the VCH should be broader in scope than the lists that cloud admins and DevOps admins configure in the management portal. For example, you can include a wildcard domain in the VCH whitelist, such as `*.example.com`, and then more finely grained domains in the project lists, such as `registry1.example.com`, `registry2.example.com`, and so on.
+- If you enable whitelist mode on a VCH, the whitelist on the VCH should be broader in scope than the lists that Management Portal Admins and DevOps admins configure in the management portal. For example, you can include a wildcard domain in the VCH whitelist, such as `*.example.com`, and then more finely grained domains in the project lists, such as `registry1.example.com`, `registry2.example.com`, and so on.
 - If the whitelist on the VCH is more restrictive than the registry lists in management portal, users cannot provision containers from the registries that are not whitelisted by the VCH, even if they are present in the management portal lists.
 - If the whitelist on the VCH is less restrictive than the registry lists configured in management portal, if users connect directly to the VCH, they will be able to pull images from registries that management portal would not permit.
 - After you deploy a VCH and add it in a project in management portal, if you encounter a problem because the VCH whitelist is more restrictive than the management portal registry lists, you must redeploy the VCH with either no whitelist, a more permissive whitelist, or a whitelist that exactly matches the lists in management portal. You cannot modify a VCH whitelist after the initial deployment of the VCH.

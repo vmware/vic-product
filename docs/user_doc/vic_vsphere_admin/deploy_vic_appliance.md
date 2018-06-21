@@ -114,7 +114,7 @@ You see the vSphere Integrated Containers Getting Started page. The Getting Star
 
 - [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md).
 - [Install the vSphere Client Plug-ins](install_vic_plugin.md).
-- Log in to vSphere Integrated Containers Management Portal. For information about the management portal, see [Configure and Manage vSphere Integrated Containers](../vic_cloud_admin/).      
+- Log in to vSphere Integrated Containers Management Portal. For information about the management portal, see [vSphere Integrated Containers Management Portal Administration](../vic_cloud_admin/).      
 - If you need to deploy multiple appliances, you can use the initialization API to initialize appliances without manual intervention. For information about the initialization API, see [Initialize the Appliance by Using the Initialization API](ova_reg_api.md).
 
 **Troubleshooting**
