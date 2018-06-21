@@ -8,4 +8,3 @@ This section includes information about how to access vSphere Integrated Contain
 - [Troubleshoot Virtual Container Host Deployment](ts_deploy_vch.md)
 - [Troubleshoot Post-Deployment Operation](ts_post_deployment_op.md)
 - [Install Packages in the VCH](vch_install_packages.md)
-- [Manage the vSphere Integrated Containers Appliance](manage_appliance.md)
