@@ -194,8 +194,8 @@ do
 done
 shift $((OPTIND-1))
 
-# check there were no extra args and the required ones are set
-if [[ -n "$*" || -z "${PACKAGE}" || -z "${ACTION}" || ${#IMAGES[@]} -eq 0  || ${#IMAGESIZES[@]} -eq 0  || ${#IMAGEROOTS[@]} -eq 0 ]]; then
+# check there were no extra args, the required ones are set, and an equal number of each disk argument were supplied
+if [[ -n "$*" || -z "${PACKAGE}" || -z "${ACTION}" || ${#IMAGES[@]} -eq 0 || ${#IMAGES[@]} -ne ${#IMAGESIZES[@]} || ${#IMAGES[@]} -ne ${#IMAGEROOTS[@]} ]]; then
     usage
 fi
 
