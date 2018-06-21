@@ -22,6 +22,21 @@ BASE=""
 CACHE=""
 MANIFEST=""
 
+IMAGES=(
+  "vic-disk1"
+  "vic-disk2"
+)
+IMAGEFILES=("${IMAGES[@]/%/".vmdk"}")
+# These sizes are minimal for install, since partitions are resized to full disk space after firstboot.
+IMAGESIZES=(
+  "6GiB"
+  "2GiB"
+)
+IMAGEROOTS=(
+  "/mnt/root"
+  "/mnt/data"
+)
+
 function cleanup() {
     log1 "--------------------------------------------------"
     log1 "cleaning up..."
@@ -107,9 +122,11 @@ function build_app {
 }
 
 function main {
+    IMAGEARGS=("${IMAGES[@]/#/"-i"}" "${IMAGESIZES[@]/#/"-s"}" "${IMAGEROOTS[@]/#/"-r"}")
+
     PACKAGE=$(mktemp -d)
     # create disks
-    "${DIR}"/build-disks.sh -a "create" -p "${PACKAGE}"
+    "${DIR}"/build-disks.sh -a "create" -p "${PACKAGE}" "${IMAGEARGS[@]}"
 
     # extract or build base install
     log1 "Installing base os"
@@ -129,7 +146,7 @@ function main {
     build_app "${PACKAGE}/mnt/root" "${PACKAGE}/mnt/data"
 
     # package
-    "${DIR}"/build-disks.sh -a "export" -p "${PACKAGE}"
+    "${DIR}"/build-disks.sh -a "export" -p "${PACKAGE}" "${IMAGEARGS[@]}"
 
     log1 "--------------------------------------------------"
     log1 "packaging OVA..."
@@ -137,15 +154,14 @@ function main {
     cd "${PACKAGE}"
     log2 "updating version number"
     sed -i -e "s|--version--|${BUILD_OVA_REVISION}|" vic-${BUILD_OVA_REVISION}.ovf
-    log2 "updating disk sizes"
-    DISKS=("vic-disk1.vmdk" "vic-disk2.vmdk")
-    for disk in "${DISKS[@]}"
+    log2 "updating image sizes"
+    for image in "${IMAGEFILES[@]}"
     do
-        sed -i -e "/<File.*${disk}.*/ s|ovf:size=\"[^\"]*\"|ovf:size=\"$(stat --printf="%s" ${disk})\"|" vic-${BUILD_OVA_REVISION}.ovf
+        sed -i -e "/<File.*${image}.*/ s|ovf:size=\"[^\"]*\"|ovf:size=\"$(stat --printf="%s" ${image})\"|" vic-${BUILD_OVA_REVISION}.ovf
     done
     log2 "rebuilding OVF manifest"
-    sha256sum --tag "vic-${BUILD_OVA_REVISION}.ovf" "${DISKS[@]}" | sed s/SHA256\ \(/SHA256\(/ > "vic-${BUILD_OVA_REVISION}.mf"
-    tar -cvf "${RESOURCE}/vic-${BUILD_OVA_REVISION}.ova" "vic-${BUILD_OVA_REVISION}.ovf" "vic-${BUILD_OVA_REVISION}.mf" "${DISKS[@]}"
+    sha256sum --tag "vic-${BUILD_OVA_REVISION}.ovf" "${IMAGEFILES[@]}" | sed s/SHA256\ \(/SHA256\(/ > "vic-${BUILD_OVA_REVISION}.mf"
+    tar -cvf "${RESOURCE}/vic-${BUILD_OVA_REVISION}.ova" "vic-${BUILD_OVA_REVISION}.ovf" "vic-${BUILD_OVA_REVISION}.mf" "${IMAGEFILES[@]}"
 
     OUTFILE=${RESOURCE}/vic-${BUILD_OVA_REVISION}.ova
 
