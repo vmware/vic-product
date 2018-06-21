@@ -136,7 +136,7 @@ Wait For Online Components
 
     Log To Console  check service...
     Wait Until Keyword Succeeds  20x  10s  Check service running  fileserver
-    Wait Until Keyword Succeeds  20x  10s  Check service running  admiral
+    Wait Until Keyword Succeeds  60x  10s  Check service running  admiral
     Wait Until Keyword Succeeds  20x  10s  Check service running  harbor
 
     Close connection
