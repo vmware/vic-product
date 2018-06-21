@@ -233,7 +233,7 @@ pipeline:
       repo: vmware/vic-product
       event: [push, tag]
       branch: [master, 'releases/*', 'refs/tags/*']
-      status: success
+      status: [success, failure]
 
   bundle-stage-builds:
     group: post-build
@@ -252,7 +252,7 @@ pipeline:
       event: [deployment]
       environment: [staging]
       branch: [master, 'releases/*', 'refs/tags/*']
-      status: success
+      status: [success, failure]
 
   bundle-release-builds:
     group: post-build
@@ -270,7 +270,7 @@ pipeline:
       event: [deployment]
       environment: [release]
       branch: ['releases/*', 'refs/tags/*']
-      status: success
+      status: [success, failure]
 
   publish-gcs-builds:
     image: 'victest/drone-gcs:1'
@@ -321,6 +321,22 @@ pipeline:
       environment: [release]
       branch: ['releases/*', 'refs/tags/*']
       status: success
+
+  publish-gcs-builds-on-fail:
+    image: 'victest/drone-gcs:1'
+    pull: true
+    secrets:
+      - google_key
+    source: bundle
+    target: vic-product-failed-builds
+    acl:
+      - 'allUsers:READER'
+    cache_control: 'public,max-age=3600'
+    when:
+      repo: vmware/vic-product
+      event: [push, tag, deployment]
+      branch: [master, 'releases/*', 'refs/tags/*']
+      status: failure
 
   notify-slack-on-fail:
     image: plugins/slack
