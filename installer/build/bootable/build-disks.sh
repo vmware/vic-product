@@ -147,11 +147,18 @@ function convert() {
 }
 
 function usage() {
-  echo "Usage: $0 -p package-location -a [create|export] 1>&2"
+  echo "Usage: $0 -p package-location -a [create|export] -i NAME -s SIZE -r ROOT [-i NAME -s SIZE -r ROOT]..."
+  echo "  -p package-location   the working directory to use"
+  echo "  -a action             the action to perform (create or export)"
+  echo "  -i name               the name of an image"
+  echo "  -s size               the size of an image"
+  echo "  -r root               the mount point for the root of an image, relative to the package-location"
+  echo "Example: $0 -p /tmp -a create -i vic-disk1.vmdk -s 6GiB -r mnt/root -i vic-disk2.vmdk -s 2GiB -r mnt/data"
+  echo "Example: $0 -p /tmp -a create -i vic-disk1.vmdk -i vic-disk2.vmdk -s 6GiB -s 2GiB -r mnt/root -r mnt/data"
   exit 1
 }
 
-while getopts "p:a:" flag
+while getopts "p:a:i:s:r:" flag
 do
     case $flag in
 
@@ -161,8 +168,23 @@ do
             ;;
 
         a)
-            # Optional. Offline cache of yum packages
+            # Required. Action: create or export
             ACTION="$OPTARG"
+            ;;
+
+        i)
+            # Required, multi. Ordered list of image names
+            IMAGES+=("$OPTARG")
+            ;;
+
+        s)
+            # Required, multi. Ordered list of image sizes
+            IMAGESIZES+=("$OPTARG")
+            ;;
+
+        r)
+            # Required, multi. Ordered list of image roots
+            IMAGEROOTS+=("$OPTARG")
             ;;
 
         *)
@@ -171,26 +193,9 @@ do
     esac
 done
 shift $((OPTIND-1))
-if [[ -n "$*" || -z "${PACKAGE}" || -z "${ACTION}" ]]; then
-    usage
-fi
 
-# These sizes are minimal for install, since partitions are resized to full disk space after firstboot.
-IMAGESIZES=(
-  "6GiB"
-  "2GiB"
-)
-IMAGES=(
-  "vic-disk1"
-  "vic-disk2"
-)
-IMAGEROOTS=(
-  "${PACKAGE}/mnt/root"
-  "${PACKAGE}/mnt/data"
-)
-
-# check there were no extra args and the required ones are set
-if [[ -n "$*" || -z "${PACKAGE}" || -z "${ACTION}" ]]; then
+# check there were no extra args, the required ones are set, and an equal number of each disk argument were supplied
+if [[ -n "$*" || -z "${PACKAGE}" || -z "${ACTION}" || ${#IMAGES[@]} -eq 0 || ${#IMAGES[@]} -ne ${#IMAGESIZES[@]} || ${#IMAGES[@]} -ne ${#IMAGEROOTS[@]} ]]; then
     usage
 fi
 
@@ -200,7 +205,7 @@ if [ "${ACTION}" == "create" ]; then
     BOOT=""
     [ "$i" == "0" ] && BOOT="1"
     log2 "creating ${IMAGES[$i]}.img"
-    create_disk "${IMAGES[$i]}.img" "${IMAGESIZES[$i]}" "${IMAGEROOTS[$i]}" $BOOT
+    create_disk "${IMAGES[$i]}.img" "${IMAGESIZES[$i]}" "${PACKAGE}/${IMAGEROOTS[$i]}" $BOOT
   done
 
 elif [ "${ACTION}" == "export" ]; then
@@ -209,7 +214,7 @@ elif [ "${ACTION}" == "export" ]; then
     log2 "exporting ${IMAGES[$i]}.img to ${IMAGES[$i]}.vmdk"
     echo "export ${PACKAGE}/${IMAGES[$i]}"
     DEV=$(losetup -l -O NAME,BACK-FILE -a | tail -n +2 | grep "${PACKAGE}/${IMAGES[$i]}" | awk '{print $1}')
-    convert "${DEV}" "${IMAGEROOTS[$i]}" "${IMAGES[$i]}.img" "${IMAGES[$i]}.vmdk"
+    convert "${DEV}" "${PACKAGE}/${IMAGEROOTS[$i]}" "${IMAGES[$i]}.img" "${IMAGES[$i]}.vmdk"
   done
 
   log2 "VMDK Sizes"
