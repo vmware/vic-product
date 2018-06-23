@@ -37,7 +37,7 @@ if [ -n "${VIC_MACHINE_SERVER}" ]; then
 fi
 
 # set release options if drone args not present
-if [[ ( "$DRONE_BUILD_EVENT" == "tag" && "$DRONE_TAG" != *"dev"* ) || "$DRONE_BRANCH" == *"releases/"* ]]; then
+if [[ ( "$DRONE_BUILD_EVENT" == "tag" && "$DRONE_TAG" != *"dev"* ) || "$DRONE_BRANCH" == *"releases/"* || "$DRONE_BRANCH" == *"master"* ]]; then
   if [ -z "${ADMIRAL}" ]; then
     admiral_release=$(curl -s https://hub.docker.com/v2/repositories/vmware/admiral/tags/\?page\=1\&page_size\=250 | jq '.results[] | .name'| cut -d "\"" -f2 | grep '^vic_v' | head -n 1 | cut -d'_' -f2)
     OPTIONS="--admiral $admiral_release"
