@@ -27,4 +27,5 @@ Copy OVA Support Bundle
     Copy Support Bundle  %{OVA_IP}
 
 Teardown Common OVA
-    Cleanup VIC Product OVA  %{OVA_NAME}
+    Log Skipping cleanup of %{OVA_IP}
+
