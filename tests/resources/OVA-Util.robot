@@ -45,20 +45,32 @@ Download Latest VIC Appliance OVA
 Set Test OVA IP If Available
     Log To Console  \nCheck VIC appliance and set OVA_IP env variable...
     Set Common Test OVA Name
-    ${rc}  ${output}=  Run And Return Rc And Output  govc vm.ip %{OVA_NAME}
+    ${rc}  ${output}=  Get VM IP By Name  %{OVA_NAME}
     Run Keyword Unless  ${rc} == 0  Should Contain  ${output}  not found
     Run Keyword If  ${rc} == 0  Set Environment Variable  OVA_IP  ${output}
     [Return]  ${rc}
 
-Install VIC Product OVA Only
-    # Deploy OVA but do not initialize
+# This is a secret keyword and does not log information for debugging
+# Prefer "Install VIC Product OVA and Wait For Home Page" or
+# "Install and Initialize VIC Product OVA" keywords
+Install VIC Appliance Secret
+    # Requires OVA_PASSWORD_ROOT set as global variable
     [Tags]  secret
-    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}  ${power}=True
     Log To Console  \nInstalling VIC appliance...
-    ${output}=  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:appliance.tls_cert="${tls_cert}" --prop:appliance.tls_cert_key="${tls_cert_key}" --prop:appliance.ca_cert="${ca_cert}" --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
+    ${output}=  Run Keyword If  ${power}  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:appliance.tls_cert="${tls_cert}" --prop:appliance.tls_cert_key="${tls_cert_key}" --prop:appliance.ca_cert="${ca_cert}" --prop:network.ip0="${static-ip}" --prop:network.netmask0="${netmask}" --prop:network.gateway="${gateway}" --prop:network.DNS="${dns}" --prop:network.searchpath="${searchpath}" --prop:network.fqdn="${fqdn}" --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
+    Return From Keyword If  ${power}  ${output}  # Preserve output and return
+
+    ${output}=  Run Keyword Unless  ${power}  Run  ovftool --datastore=%{TEST_DATASTORE} --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:appliance.tls_cert="${tls_cert}" --prop:appliance.tls_cert_key="${tls_cert_key}" --prop:appliance.ca_cert="${ca_cert}" --prop:network.ip0="${static-ip}" --prop:network.netmask0="${netmask}" --prop:network.gateway="${gateway}" --prop:network.DNS="${dns}" --prop:network.searchpath="${searchpath}" --prop:network.fqdn="${fqdn}" --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}%{TEST_RESOURCE}'
+    [Return]  ${output}
+
+Deploy VIC Appliance
+    # Deploy but do not initialize
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}  ${power}=True
+    ${output}=  Install VIC Appliance Secret  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}  ${power}
     Log  ${output}
     Should Contain  ${output}  Completed successfully
-    Should Contain  ${output}  Received IP address:
+    Run Keyword If  ${power}  Should Contain  ${output}  Received IP address:
 
     ${output}=  Split To Lines  ${output}
     ${ova-ip}=  Set Variable  NULL
@@ -69,39 +81,35 @@ Install VIC Product OVA Only
 
     Log  ${ova-ip}
     Set Environment Variable  OVA_IP  ${ova-ip}
+    [Return]  ${output}
 
 Install VIC Product OVA And Wait For Home Page
     # Deploy OVA but do not initialize and wait for home page to come up
-    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
-    Install VIC Product OVA Only  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}  ${power}=True
+    Deploy VIC Appliance  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}  ${power}
     Wait For OVA Home Page  %{OVA_IP}
 
 Install And Initialize VIC Product OVA
-    # Deploy OVA and initialize it without using browser UI
-    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
-    Log To Console  \nInstalling VIC appliance and validating services...
-    Install VIC Product OVA Only  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
-    # initialize ova
-    Initialize OVA And Wait For Register Page  %{OVA_IP}
+    # Deploy OVA and initialize it using API
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}  ${power}=True
+    Log To Console  \nInstalling VIC appliance
+    Deploy VIC Appliance  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}  ${power}
+    Initialize OVA From API  %{OVA_IP}
 
 Install VIC Product OVA And Initialize Using UI
     # Deploy OVA and initialize it using browser UI
-    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}
-    Log To Console  \nInstalling VIC appliance and validating services...
-    Install VIC Product OVA Only  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
-    # initialize ova
-    Initialize OVA And Wait For Register Page  %{OVA_IP}
-    # set env var for ova ip
-    Wait For Online Components  %{OVA_IP}
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}  ${power}=True
+    Log To Console  \nInstalling VIC appliance
+    Install VIC Product OVA And Wait For Home Page  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}  ${power}
 
-    # validate complete installation on UI
+    # Initialize appliance using UI
     Log To Console  Initializing the OVA using the getting started ui...
     Set Browser Variables
     Open Firefox Browser
     Log In And Complete OVA Installation
     Close All Browsers
 
-    # wait for component services to get started
+    # Wait for components to start
     Wait For Online Components  %{OVA_IP}
     Wait For SSO Redirect  %{OVA_IP}
 
@@ -113,19 +121,19 @@ Install And Initialize Common OVA If Not Already
     ${ova-ip}=  Run Keyword Unless  ${rc} == 0  Install VIC Product OVA And Initialize Using UI  ${ova-file}  %{OVA_NAME}
 
 Setup And Install Specific OVA Version
-    [Arguments]  ${ova-name}  ${ova-file}
+    [Arguments]  ${ova-file}  ${ova-name}
     Log To Console  \nSetting OVA variables...
     Set Environment Variable  OVA_NAME  ${ova-name}
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
     # install OVA appliance
     Log To Console  \nInstall specific version of OVA...
-    Install VIC Product OVA And Initialize Using UI  ${ova-file}  %{OVA_NAME}
+    Install VIC Product OVA And Initialize Using UI  ${ova-file}  ${ova-name}
 
 Download VIC Engine
     [Arguments]  ${ova-ip}  ${target_dir}=bin
     Log To Console  \nDownloading VIC engine...
-    ${download_url}=  Run command and Return output  curl -k https://${ova-ip}:9443 | tac | tac | grep -Po -m 1 '(?<=href=")[^"]*tar.gz'
+    ${download_url}=  Wait Until Keyword Succeeds  5x  5s  Run command and Return output  curl -k https://${ova-ip}:9443 | tac | tac | grep -Po -m 1 '(?<=href=")[^"]*tar.gz'
     Run command and Return output  mkdir -p ${target_dir}
     Run command and Return output  curl -k ${download_url} --output ${target_dir}/vic.tar.gz
     Run command and Return output  tar -xvzf ${target_dir}/vic.tar.gz --strip-components=1 --directory=${target_dir}
@@ -142,11 +150,17 @@ Cleanup VIC Product OVA
     Run Keyword And Ignore Error  Run GOVC  datastore.rm /%{TEST_DATASTORE}/vm/${ova_target_vm_name}
     Run Keyword if  ${rc}==0  Log To Console  \nVIC Product OVA deployment ${ova_target_vm_name} is cleaned up on test server %{TEST_URL}
 
-Initialize OVA And Wait For Register Page
+Initialize OVA From API
     [Arguments]  ${ova-ip}
-    Log To Console  \nInitializing and Waiting for Getting Started Page to Come Up...
+    # check for optional env variables
+    ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  EXTERNAL_PSC
+    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  EXTERNAL_PSC  ''
+    ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  PSC_DOMAIN
+    Run Keyword If  '${status}' == 'FAIL'  Set Environment Variable  PSC_DOMAIN  ''
+
+    Log To Console  \nInitializing VIC appliance by API when API is available
     :FOR  ${i}  IN RANGE  30
-    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}"}' https://${ova-ip}:9443/register
+    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}","externalpsc":"%{EXTERNAL_PSC}","pscdomain":"%{PSC_DOMAIN}"}' https://${ova-ip}:9443/register
     \   Exit For Loop If  '200' in '''${out}'''
     \   Sleep  60s
     Log To Console  ${rc}
@@ -193,11 +207,13 @@ Wait For SSO Redirect
     Should Contain  ${out}  302
 
 Gather Support Bundle
+    # Use "Copy Support Bundle" to copy from appliance to executor
     Log To Console  \nGathering VIC Appliance support bundle
     ${out}=  Execute Command  /etc/vmware/support/appliance-support.sh
     [Return]  ${out}
 
 Get Support Bundle File
+    # Use "Copy Support Bundle" to copy from appliance to executor
     # ${command_output} is return value from Gather Support Bundle
     [Arguments]  ${command_output}
     ${lines}=  Get Lines Matching Pattern  ${command_output}  Created log bundle*
@@ -246,44 +262,60 @@ Verify VIC Appliance TLS Certificates
     ${output}=  Get Remote Certificate  ${ova-ip}:443
     Should Contain  ${output}  ${validate-string}
 
-Execute Upgrade Script
-    # SSH into OVA appliance and execute ./upgrade script
-    # Also, gather and save log bundle
-    [Arguments]  ${ova-ip}  ${ova-ip-old}  ${datacenter-old}  ${version-old}
-    ${fingerprint}=  Get VCenter GOVC Fingerprint
+Get OVA Release File For Nightly
+    # Get release OVA file from cached dir '/vic-cache' on nightly executer VM
+    # OR download it locally if not found
+    [Arguments]  ${release-file-name}
+    Log  Looking for release file ${release-file-name}
+    ${exists}=  Run Keyword And Return Status  OperatingSystem.File Should Exist  /vic-cache/${release-file-name}
+    ${old-ova-save-file}=  Run Keyword If  ${exists}  Set Variable  /vic-cache/${release-file-name}
+    Run Keyword If  ${exists}  Log  Found release file in /vic-cache/${release-file-name}
+    Return From Keyword If  ${exists}  ${old-ova-save-file}
+    # if not exists in cache, then download it after checking locally
+    ${old-ova-save-file}=  Set Variable  old-${release-file-name}
+    ${exists-local}=  Run Keyword And Return Status  OperatingSystem.File Should Exist  ${old-ova-save-file}
+    Run Keyword If  ${exists-local}  Log  Release file already downloaded (${old-ova-save-file})
+    Run Keyword Unless  ${exists-local}  Log  Downloading release file ${release-file-name}
+    ${output}=  Run Keyword Unless  ${exists-local}  Run command and Return output  wget -nc -O ${old-ova-save-file} https://storage.googleapis.com/vic-product-ova-releases/${release-file-name}
+    Run Keyword Unless  ${exists-local}  Log  ${output}
+    [Return]  ${old-ova-save-file}
+
+Verify OVA Network Information
+    [Arguments]  ${ova-ip}  ${ova-root-user}  ${ova-root-pwd}  ${ip}  ${prefix}  ${gateway}  ${dns}  ${searchpath}
     Log To Console  ssh into appliance...
-    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@${ova-ip}
+    ${out}=  Run  sshpass -p ${ova-root-pwd} ssh -o StrictHostKeyChecking\=no ${ova-root-user}@${ova-ip}
     Log To Console  open connection...
     Open Connection  ${ova-ip}
 
     Log To Console  login...
-    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
+    Wait Until Keyword Succeeds  10x  5s  Login  ${ova-root-user}  ${ova-root-pwd}
 
-    # run upgrade script
-    Log To Console  upgrade ova...
-    Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${version-old} --dc ${datacenter-old} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${ova-ip-old}
+    Log To Console  verify network details...
+    ${output}=  Execute Command And Return Output  cat /etc/systemd/network/09-vic.network
+    Should Contain  ${output}  Address=${ip}/${prefix}
+    Should Contain  ${output}  Gateway=${gateway}
+    Should Contain  ${output}  DNS=${dns}
+    Should Contain  ${output}  Domains=${searchpath}
 
-    # get support bundle file
-    ${output}=  Gather Support Bundle
-    Should Contain  ${output}  Created log bundle
-    ${file}=  Get Support Bundle File  ${output}
+    ${output}=  Execute Command And Return Output  ip addr
+    Should Contain  ${output}  inet ${ip}/${prefix}
 
-    Close Connection
+    ${output}=  Execute Command And Return Output  ip route show
+    Should Contain  ${output}  default via ${gateway}
+    Should Contain  ${output}  src ${ip}
 
-    # copy log bundle
-    ${output}=  Run command and Return output  sshpass -p ${OVA_PASSWORD_ROOT} scp -o StrictHostKeyChecking\=no -o UserKnownHostsFile=/dev/null ${OVA_USERNAME_ROOT}@${ova-ip}:${file} .
+    ${output}=  Execute Command And Return Output  cat /etc/resolv.conf
+    Should Contain  ${output}  nameserver ${dns}
+    Should Contain  ${output}  search ${searchpath}
 
-OVA Upgrade Test Setup
-    # This is a test setup keyword for auto upgrade tests,
-    # which will download previous version of OVA and setup test bed in Nimbus
-    [Arguments]  ${old-ova-file-name}  ${old-ova-save-file}  ${datacenter}
+    Close connection
+
+Setup Simple VC And Test Environment
+    # set up nimbus test bed and env variables
     [Timeout]    110 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
-    # start downloading ova file
-    Log To Console  \nStart downloading ${old-ova-file-name}...
-    ${pid1}=  Start Process  wget -nc -o ${old-ova-save-file} https://storage.googleapis.com/vic-product-ova-releases/${old-ova-file-name}  shell=True
     # setup nimbus testbed
-    ${esx1}  ${esx2}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${vc-ip}=  Create a Simple VC Cluster  ${ha-datacenter}  ${cluster}  ${esx_number}
+    ${esx1}  ${esx2}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${vc-ip}=  Create a Simple VC Cluster  ha-datacenter  cls  2
     Log To Console  Finished Creating Cluster ${vc}
     Set Suite Variable  @{list}  ${esx1}  ${esx2}  %{NIMBUS_USER}-${vc}
     # set test variables
@@ -292,21 +324,17 @@ OVA Upgrade Test Setup
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Set Environment Variable  TEST_RESOURCE  /${datacenter}/host/cls
-    Set Environment Variable  TEST_TIMEOUT  30m
+    Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls
     Set Environment Variable  TEST_DATASTORE  datastore1
-    # wait for ova file download
-    ${ret}=  Wait For Process  ${pid1}
     # set VC variables
     Set Test VC Variables
-    # set OVA variables
-    Set Global Variable  ${OVA_CERT_PATH}  ${old-ova-cert-path}
     # set VCH variables
     Set Environment Variable  DRONE_BUILD_NUMBER  0
     Set Environment Variable  VCH_TIMEOUT  20m0s
     # set docker variables
-    Set Global Variable  ${DEFAULT_LOCAL_DOCKER}  DOCKER_API_VERSION=1.23 docker
-    Set Global Variable  ${DEFAULT_LOCAL_DOCKER_ENDPOINT}  unix:///var/run/docker-local.sock
+    # not using dind but host dockerd for these nightly tests
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER}  docker
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER_ENDPOINT}  unix:///var/run/docker.sock
     # set harbor variables
     Set Global Variable  ${DEFAULT_HARBOR_PROJECT}  default-project
     # check VC
@@ -314,34 +342,158 @@ OVA Upgrade Test Setup
 
 Auto Upgrade OVA With Verification
     # This is a complete keyword to run auto upgrade process and verify that upgrade is successful
-    # This assumes that testbed and OVA files are already setup
-    [Arguments]  ${test-name}  ${old-ova-file}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  ${old-ova-datacenter}
+    # This assumes that testbed is already setup
+    [Arguments]  ${test-name}  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  ${old-ova-datacenter}
+    Set Global Variable  ${OVA_CERT_PATH}  ${old-ova-cert-path}
+    # get ova file
+    ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
     # setup and deploy old version of ova
-    Setup And Install Specific OVA Version  ${test-name}  ${old-ova-file}
-    # download and install a vch
-    # create a running busybox container
+    Setup And Install Specific OVA Version  ${old-ova-save-file}  ${test-name}
+    # install VCH, create running container and push image to harbor
     Download VIC Engine If Not Already  %{OVA_IP}
-    Install VCH And Create Running Busybox Container  %{OVA_IP}
-    # tag and push an image to harbor
-    Setup Docker Daemon
-    ${harbor-image-name}=  Set Variable  %{OVA_IP}/${DEFAULT_HARBOR_PROJECT}/${busybox}
-    ${harbor-image-tagged}=  Set Variable  ${harbor-image-name}:${sample-image-tag}
-    Pull And Tag Docker Image  ${busybox}  ${harbor-image-tagged}
-    Push Docker Image To Harbor Registry  %{OVA_IP}  ${harbor-image-tagged}
+    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}
     # save IP of old ova appliance
     Set Environment Variable  OVA_IP_OLD  %{OVA_IP}
+
     # install latest OVA appliance and don't initialize
     Log To Console  \nInstall latest version of OVA and auto upgrade...
     Set Environment Variable  OVA_NAME  ${test-name}-LATEST
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
     Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
-    # run upgrade script
+
     Execute Upgrade Script  %{OVA_IP}  %{OVA_IP_OLD}  ${old-ova-datacenter}  ${old-ova-version}
-    # verify previously created container is migrated and still running
-    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} ps
-    Log  ${output}
-    Should Be Equal As Integers  ${rc}  0
-    Should Contain  ${output}  /bin/top
-    # verify previously tagged and pushed image is still available
-    Pull And Verify Image In Harbor Registry  %{OVA_IP}  ${busybox}  ${sample-image-tag}  ${new-ova-cert-path}
+    Verify Running Busybox Container And Its Pushed Harbor Image  %{OVA_IP}  ${sample-image-tag}  ${new-ova-cert-path}  docker-endpoint=${VCH-PARAMS}
+
+Execute Upgrade Script
+    # SSH into OVA appliance and execute ./upgrade script
+    # Also, gather and save log bundle
+    [Arguments]  ${new-appliance-ip}  ${old-appliance-ip}  ${datacenter}  ${old-appliance-version}  ${manual-disk}=False
+    ${fingerprint}=  Get VCenter GOVC Fingerprint
+    Log To Console  ssh into appliance...
+    ${out}=  Run  sshpass -p ${OVA_PASSWORD_ROOT} ssh -o StrictHostKeyChecking\=no ${OVA_USERNAME_ROOT}@${new-appliance-ip}
+    Log To Console  open connection...
+    Open Connection  ${new-appliance-ip}
+
+    Log To Console  login...
+    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
+
+    # run upgrade script
+    Log To Console  upgrade ova...
+    Run Keyword Unless  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip}
+
+    Run Keyword If  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --manual-disks
+
+    Copy Support Bundle  ${new-appliance-ip}
+
+Deploy OVA And Install UI Plugin And Run Regression Tests
+    # Deploy OVA and then install UI plugin
+    # run regression tests on UI wizard and docker commands on VCH created using UI
+    [Arguments]  ${test-name}  ${ova-file}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}=1
+    Log To Console  \nStarting test ${test-name}...
+    Set Environment Variable  OVA_NAME  OVA-${test-name}
+    Set Global Variable  ${OVA_USERNAME_ROOT}  root
+    Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
+    # install ova
+    Install And Initialize VIC Product OVA  ${ova-file}  %{OVA_NAME}
+    # set browser variables
+    Set Browser Variables
+    # Install VIC Plugin
+    Download VIC And Install UI Plugin  %{OVA_IP}
+    # create vch using UI
+    # retry UI steps if failed
+    Wait Until Keyword Succeeds  3x  1m  Create VCH using UI And Set Docker Parameters  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}
+    # run vch regression tests
+    Run Docker Regression Tests For VCH
+
+# TODO Remove after end of 1.2.1 support
+Copy and Attach Disk v1.2.1
+    # This powers off the old appliance to copy data disk
+    # Blank data disk is detached from the new appliance
+    # Copied disk is attached to the new appliance
+    [Arguments]  ${old-ova-vm-name}  ${new-ova-vm-name}  ${datacenter}
+    ${old-ds}=  Get Datastore  ${old-ova-vm-name}
+    ${new-ds}=  Get Datastore  ${new-ova-vm-name}
+
+    Wait for VM Power Off  ${old-ova-vm-name}
+
+    # Find disk file to copy
+    ${old-data-disk-file}=  Get Disk File By ID  ${old-ova-vm-name}  1
+    ${data-disk-file}=  Get Disk File By ID      ${new-ova-vm-name}  1
+
+    # Detach blank disk from new VM
+    ${data-disk-name}=  Get Disk Name By ID      ${new-ova-vm-name}  1
+    Detach Disk    ${new-ova-vm-name}  ${data-disk-name}
+
+    # Copy old disk to new datastore location
+    Copy Disk  ${old-ds}  ${new-ds}  ${old-data-disk-file}  ${data-disk-file}
+
+    # Attach copied disk
+    Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${data-disk-file}
+
+Copy and Attach Disk
+    # This powers off the old appliance to copy disks
+    # Blank disks are detached from the new appliance
+    # Copied disks are attached to the new appliance
+    [Arguments]  ${old-ova-vm-name}  ${new-ova-vm-name}  ${datacenter}
+    ${old-ds}=  Get Datastore  ${old-ova-vm-name}
+    ${new-ds}=  Get Datastore  ${new-ova-vm-name}
+
+    Wait for VM Power Off  ${old-ova-vm-name}
+
+    # Find disk files to copy
+    ${old-data-disk-file}=  Get Disk File By ID  ${old-ova-vm-name}  1
+    ${old-db-disk-file}=    Get Disk File By ID  ${old-ova-vm-name}  2
+    ${old-log-disk-file}=   Get Disk File By ID  ${old-ova-vm-name}  3
+
+    ${data-disk-file}=  Get Disk File By ID      ${new-ova-vm-name}  1
+    ${db-disk-file}=    Get Disk File By ID      ${new-ova-vm-name}  2
+    ${log-disk-file}=   Get Disk File By ID      ${new-ova-vm-name}  3
+
+    # Detach blank disks from new VM
+    ${data-disk-name}=  Get Disk Name By ID      ${new-ova-vm-name}  1
+    ${db-disk-name}=    Get Disk Name By ID      ${new-ova-vm-name}  2
+    ${log-disk-name}=   Get Disk Name By ID      ${new-ova-vm-name}  3
+    Detach Disk    ${new-ova-vm-name}  ${data-disk-name}
+    Detach Disk    ${new-ova-vm-name}  ${db-disk-name}
+    Detach Disk    ${new-ova-vm-name}  ${log-disk-name}
+
+    # Copy old disk to new datastore location
+    Copy Disk  ${old-ds}  ${new-ds}  ${old-data-disk-file}  ${data-disk-file}
+    Copy Disk  ${old-ds}  ${new-ds}  ${old-db-disk-file}  ${db-disk-file}
+    Copy Disk  ${old-ds}  ${new-ds}  ${old-log-disk-file}  ${log-disk-file}
+
+    # Attach copied disks
+    Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${data-disk-file}
+    Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${db-disk-file}
+    Attach Disk  ${new-ova-vm-name}  ${new-ds}  ${log-disk-file}
+
+Manual Upgrade Environment Setup
+    [Arguments]  ${old-ova-file-name}  ${old-appliance-name}  ${new-appliance-name}
+    ${old-ova-save-file}=  Get OVA Release File For Nightly  ${old-ova-file-name}
+
+    Set Environment Variable  OVA_NAME  ${old-appliance-name}
+    Install And Initialize VIC Product OVA  ${old-ova-save-file}  %{OVA_NAME}
+
+    Download VIC Engine If Not Already  %{OVA_IP}
+    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}
+    Set Environment Variable  OLD_OVA_IP  %{OVA_IP}
+
+    # Deploy new appliance but do not power on
+    Set Environment Variable  OVA_NAME  ${new-appliance-name}
+    ${output}=  Deploy VIC Appliance  vic-*.ova  %{OVA_NAME}  power=False
+
+Power On Appliance
+    [Arguments]  ${new-appliance-name}
+    Power On VM  ${new-appliance-name}
+    ${rc}  ${new-appliance-ip}=  Get VM IP By Name  ${new-appliance-name}
+    Set Environment Variable  OVA_IP  ${new-appliance-ip}
+    Wait For OVA Home Page  ${new-appliance-ip}
+
+    [Return]  ${new-appliance-ip}
+
+Power On Appliance And Run Manual Disk Upgrade
+    [Arguments]  ${new-appliance-name}  ${old-appliance-ip}  ${old-ova-version}  ${datacenter}
+    ${new-appliance-ip}=  Power On Appliance  ${new-appliance-name}
+
+    Execute Upgrade Script  ${new-appliance-ip}  ${old-appliance-ip}  ${datacenter}  ${old-ova-version}  True
