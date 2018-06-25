@@ -13,10 +13,11 @@ The `vic-machine ls` command does not include any options in addition to the com
 
 ## Example ##
 
-This example specifies the vCenter Server credentials in the `--target` option.
 <pre>$ vic-machine-<i>operating_system</i> ls
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---thumbprint <i>certificate_thumbprint</i>
+  --target <i>vcenter_server_address</i>
+  --user Administrator@vsphere.local
+  --password <i>password</i>
+  --thumbprint <i>certificate_thumbprint</i>
 </pre>
 
 

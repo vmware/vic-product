@@ -27,26 +27,32 @@ If you deployed the VCH with the `vic-machine create --affinity-vm-group` option
 
 The following example includes the options required to remove a VCH from a simple vCenter Server environment. 
 
-  <pre>$ vic-machine-<i>operating_system</i> delete
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---thumbprint <i>certificate_thumbprint</i>
---name <i>vch_name</i></pre>
+<pre>$ vic-machine-<i>operating_system</i> delete
+  --target <i>vcenter_server_address</i>
+  --user Administrator@vsphere.local
+  --password <i>password</i>
+  --thumbprint <i>certificate_thumbprint</i>
+  --name <i>vch_name</i></pre>
 
 If the delete operation fails with a message about container VMs that are powered on, run `docker stop` on the containers and run `vic-machine delete` again. Alternatively, run `vic-machine delete` with the `--force` option.
 
 **CAUTION** Running `vic-machine delete` with the `--force` option removes all running container VMs that the VCH manages, as well as any associated volumes and volume stores. It is not recommended to use the `--force` option to remove running containers.
 
 <pre>$ vic-machine-<i>operating_system</i> delete
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---thumbprint <i>certificate_thumbprint</i>
---name <i>vch_name</i>
---force</pre>
+  --target <i>vcenter_server_address</i>
+  --user Administrator@vsphere.local
+  --password <i>password</i>
+  --thumbprint <i>certificate_thumbprint</i>
+  --name <i>vch_name</i>
+  --force</pre>
 
 If your vSphere environment uses untrusted, self-signed certificates, running `vic-machine delete` with the `--force` option allows you to omit the `--thumbprint` option.  
 
 <pre>$ vic-machine-<i>operating_system</i> delete
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---name <i>vch_name</i></i>
---force</pre>
+  --target <i>vcenter_server_address</i>
+  --user Administrator@vsphere.local
+  --password <i>password</i>
+  --name <i>vch_name</i></i>
+  --force</pre>
 
 **CAUTION**: Using `--force` in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` also bypasses other checks, and can result in data loss.

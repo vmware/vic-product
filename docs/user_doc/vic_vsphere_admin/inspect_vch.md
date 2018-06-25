@@ -18,7 +18,9 @@ In addition to the common options described in [Common `vic-machine` Options](co
 The following example includes the options required to obtain information about a named instance of a VCH from a simple vCenter Server environment. 
 
 <pre>$ vic-machine-<i>operating_system</i> inspect
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --name <i>vch_name</i>
 </pre>
@@ -26,7 +28,9 @@ The following example includes the options required to obtain information about 
 The following example includes the `--tls-cert-path` option, for a VCH that stores client certificates in a non-default location.
 
 <pre>$ vic-machine-<i>operating_system</i> inspect
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --name <i>vch_name</i>
     --tls-cert-path <i>path_to_certificates</i>
