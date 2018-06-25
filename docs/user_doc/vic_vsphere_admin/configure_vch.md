@@ -8,6 +8,7 @@ When you run `vic-machine configure`, you use the options described in [Common `
 - [Update vCenter Server Certificates](#vccert)
 - [Add or Update Registry Server Certificates](#registries)
 - [Update Security Configuration](#tlscerts)
+- [Update Affinity Group Settings](#affinity)
 - [Add Volume Stores](#volumes)
 - [Add and Reset DNS Servers](#dns)
 - [Configure Container Network Settings](#containernet)
@@ -41,10 +42,12 @@ This example specifies the `--user` and `--password` options to log into vCenter
     --ops-user Administrator@vsphere.local
     --ops-password <i>new_admin_password</i></pre>
 
-You can also use the `vic-machine configure --ops-user` and `--ops-password` options to configure an operations user on a VCH that was not initially deployed with that option. Similarly, you can use `--ops-user` and `--ops-password` to change the operations user account on a VCH that was deployed with an operations user account, or to update the password for a previously specified operations user account. If you are specifying a new user account for `--ops-user`, you can also specify `--ops-grant-perms`, to automatically grant the required permissions to the operations user account. This example specifies the credentials to log into vCenter Server in the `--target` option, rather than in `--user` and `--password`.
+You can also use the `vic-machine configure --ops-user` and `--ops-password` options to configure an operations user on a VCH that was not initially deployed with that option. Similarly, you can use `--ops-user` and `--ops-password` to change the operations user account on a VCH that was deployed with an operations user account, or to update the password for a previously specified operations user account. If you are specifying a new user account for `--ops-user`, you can also specify `--ops-grant-perms`, to automatically grant the required permissions to the operations user account.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --ops-user <i>new_operations_user_account</i>
@@ -60,7 +63,9 @@ If the vCenter Server certificate changes, you must update any VCHs running on t
 To update the certificate, provide the new certificate thumbprint to the VCH in the `--thumbprint` option. For information about how to obtain the vCenter Server certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --id <i>vch_id</i>
     --thumbprint <i>new_certificate_thumbprint</i></pre>
 
@@ -75,7 +80,9 @@ The `vic-machine configure --registry-ca` option functions in the same way as th
 This example updates the certificate for a registry that this VCH already uses.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --registry-ca <i>path_to_new_ca_cert_for_existing_registry</i></pre>
@@ -83,7 +90,9 @@ This example updates the certificate for a registry that this VCH already uses.
 If you are adding registry certificates to a VCH that already has one or more registry certificates, you must also specify each existing registry certificate in a separate instance of `--registry-ca`. This example passes the CA certificate for a new registry to a VCH and specifies the existing certificate for a registry that this VCH already uses.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --registry-ca <i>path_to_ca_cert_for_existing_registry</i>
@@ -107,7 +116,9 @@ The `vic-machine configure` TLS options function in the same way as the equivale
 This example  sets the `vic-machine configure --tls-cname` option to  implement TLS authentication with automatically generated server and client certificates. Before the configuration, the VCH either has no authentication or uses automatically generated certificates that you want to regenerate. The `--tls-cert-path` option specifies the folder in which to store the generated certificate.
 
 <pre>$ vic-machine-<i>operating_system</i> configure	
--    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>	
+-    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>	
 -    --thumbprint <i>certificate_thumbprint</i>	
 -    --id <i>vch_id</i>	
 -    --tls-cname *.example.com	
@@ -116,7 +127,9 @@ This example  sets the `vic-machine configure --tls-cname` option to  implement 
 This example  uses the `vic-machine configure --tls-server-cert` and `--tls-server-key` options to implement TLS authentication with custom certificates. Before the configuration, the VCH either has no TLS authentication, or it uses automatically generated certificates, or it uses custom certificates that require replacement. 
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --tls-server-cert <i>path_to_cert</i>/<i>certificate_name</i>.pem
@@ -125,10 +138,40 @@ This example  uses the `vic-machine configure --tls-server-cert` and `--tls-serv
 This example sets `--no-tlsverify` to disable the verification of client certificates on a VCH that implements client and server authentication.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --no-tlsverify</pre>
+
+## Update Affinity Group Settings <a id="affinity"></a>
+
+After the deployment of a VCH, you can instruct vSphere Integrated Containers to automatically create a DRS VM group in vSphere for the VCH endpoint VM and its container VMs. If you use this option to reconfigure an existing VCH, you can use the resulting VM group in DRS VM-Host affinity rules, to restrict the set of hosts on which the VCH endpoint VM and its container VMs can run. 
+
+The `vic-machine configure --affinity-vm-group` option functions in the same way as the equivalent `vic-machine create` option. For information about the `vic-machine create --affinity-vm-group` option, see [Add Virtual Container Hosts to a DRS Affinity Group](vch_affinity_group.md).
+
+To create a VM group for an existing VCH that was not deployed with this option, use the `vic-machine create --affinity-vm-group` option with no arguments.
+
+<pre>$ vic-machine-<i>operating_system</i> configure
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
+    --thumbprint <i>certificate_thumbprint</i>
+    --id <i>vch_id</i>
+    --affinity-vm-group</pre>
+
+To remove a VCH that was deployed with the `vic-machine create affinity-vm-group` from its VM group, specify `false` as the argument for the `vic-machine configure affinity-vm-group` option. 
+
+<pre>$ vic-machine-<i>operating_system</i> configure
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
+    --thumbprint <i>certificate_thumbprint</i>
+    --id <i>vch_id</i>
+    --affinity-vm-group=false</pre>
+
+When you specify `--affinity-vm-group=false`, vSphere Integrated Containers deletes the automatically created VM group from vSphere.
 
 ## Add Volume Stores <a id="volumes"></a>
 
@@ -143,7 +186,9 @@ Before you add an NFS volume store to a VCH, you can test that the NFS share poi
 This example adds a new NFS volume store to a VCH. The VCH already has an existing volume store with the label `default`, that is backed by a vSphere datastore.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --volume-store <i>datastore_name</i>/<i>datastore_path</i>:default
@@ -160,7 +205,9 @@ The `vic-machine configure --dns-server` option functions in the same way as the
 If  you are adding DNS servers to a VCH that already includes one or more DNS servers, you must also specify each existing DNS server in a separate instance of `--dns-server`. This example adds a new DNS server, `dns_server_2`, to a VCH that already uses `dns_server_1`.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --dns-server <i>dns_server_1</i>
@@ -169,7 +216,9 @@ If  you are adding DNS servers to a VCH that already includes one or more DNS se
 To reset the DNS servers on a VCH to the default, set the `vic-machine configure --dns-server` option to `""`.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --dns-server ""</pre>
@@ -185,7 +234,9 @@ The `vic-machine configure --container-network` options function in the same way
 This example adds a new container network to a VCH. It designates a port group named `vic-containers` for use by container VMs, gives the container network the name `vic-container-network` for use by Docker, specifies the gateway, two DNS servers, and a range of IP addresses on the container network for container VMs to use.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --container-network vic-containers:vic-container-network
@@ -197,7 +248,9 @@ This example adds a new container network to a VCH. It designates a port group n
 If  you are adding container networks to a VCH that already includes one or more container networks, you must also specify each existing container network in separate instances of the `--container-network` options. This example adds a new DHCP container network named `vic-containers-2` to the VCH from the example above.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --container-network vic-containers:vic-container-network
@@ -210,7 +263,9 @@ If  you are adding container networks to a VCH that already includes one or more
 You can also configure the trust level of the container network firewall by setting the `--container-network-firewall` option. This example opens the firewall for outbound connections on the two container networks from the preceding examples.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --container-network vic-containers:vic-container-network
@@ -235,7 +290,9 @@ The `vic-machine configure --https-proxy` and `--http-proxy` options function in
 This example configures a VCH to use a new HTTPS proxy server.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --https-proxy https://<i>new_proxy_server_address</i>:<i>port</i></pre>
@@ -243,7 +300,9 @@ This example configures a VCH to use a new HTTPS proxy server.
 To remove a proxy server from a VCH, set the `vic-machine configure --https-proxy` or `--http-proxy` options to `""`.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --https-proxy ""</pre>
@@ -257,7 +316,9 @@ The `vic-machine configure --debug` option functions in the same way as the equi
 This example increases the level of debugging to level 3, either on a VCH that is running with a lower level of debugging, or on a VCH that is not running in debug mode.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --debug 3</pre>
@@ -265,7 +326,9 @@ This example increases the level of debugging to level 3, either on a VCH that i
 This example sets the `--debug` option to 0, to disable debug mode on a VCH. 
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --debug 0</pre>
@@ -282,7 +345,9 @@ The `vic-machine configure` options for memory and CPU allocations function in t
 This example configures a VCH to impose memory and CPU reservations, limits, and shares.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --memory 1024
@@ -298,7 +363,9 @@ This example configures a VCH to impose memory and CPU reservations, limits, and
 This example removes all limitations on memory and CPU use from a VCH.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --memory 0
@@ -316,7 +383,9 @@ If an attempt to upgrade or configure a VCH was interrupted before it could comp
 To clear the flag so that you can attempt further `vic-machine upgrade` or `vic-machine configure` operations, run `vic-machine configure` with the `--reset-progress` option.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --reset-progress
