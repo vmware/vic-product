@@ -1,0 +1,23 @@
+sudo: required
+
+branches:
+  only:
+  - master
+
+services:
+  - docker
+
+before_install:
+  - mkdir -p output
+  - docker pull runmyprocess/gitbook
+
+script:
+  - docker run -v $TRAVIS_BUILD_DIR:/ --name md-to-html runmyprocess/gitbook gitbook serve ./docs/user_doc ./output
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GH_TOKEN
+  local_dir: output
+  on:
+branch: master
