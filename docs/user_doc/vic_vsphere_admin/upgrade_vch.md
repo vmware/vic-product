@@ -39,34 +39,42 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
      Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---thumbprint <i>certificate_thumbprint</i>
---id <i>vch_id</i></pre>
+  --target <i>vcenter_server_address</i>
+  --user Administrator@vsphere.local
+  --password <i>password</i>
+  --thumbprint <i>certificate_thumbprint</i>
+  --id <i>vch_id</i></pre>
 
 3. If the upgrade operation fails with error messages, run `vic-machine upgrade` again, specifying a timeout longer than 3 minutes in the `--timeout` option.
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---thumbprint <i>certificate_thumbprint</i>
---id <i>vch_id</i>
---timeout 5m0s</pre>
+  --target <i>vcenter_server_address</i>
+  --user Administrator@vsphere.local
+  --password <i>password</i>
+  --thumbprint <i>certificate_thumbprint</i>
+  --id <i>vch_id</i>
+  --timeout 5m0s</pre>
 
 3. If the upgrade operation continues to fail with error messages, run `vic-machine upgrade` again with the `--force` option.
 
     **CAUTION**: Specifying the `--force` option bypasses safety checks, including certificate thumbprint verification. Using `--force` in this way can expose VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` can result in unexpected deployment topologies that would otherwise fail with an error. Do not use `--force` in production environments.  
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---id <i>vch_id</i>
---timeout 5m0s
---force</pre>
+  --target <i>vcenter_server_address</i>
+  --user Administrator@vsphere.local
+  --password <i>password</i>
+  --id <i>vch_id</i>
+  --timeout 5m0s
+  --force</pre>
 
 4. (Optional) To roll back an upgraded VCH to the previous version, or to revert a VCH that failed to upgrade, run `vic-machine upgrade` again with the `--rollback` option.
 
      <pre>$ vic-machine-<i>operating_system</i> upgrade
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---id <i>vch_id</i>
---rollback</pre>
+  --target <i>vcenter_server_address</i>
+  --user Administrator@vsphere.local
+  --password <i>password</i>
+  --id <i>vch_id</i>
+  --rollback</pre>
 
 
 **Result**
