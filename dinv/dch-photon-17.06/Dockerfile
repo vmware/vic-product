@@ -4,7 +4,7 @@ ADD . /go/src/dinv
 RUN cd /go/src/dinv && go get -v ./... && go build -o dinv && strip dinv
 
 # Build photon base image
-FROM photon:latest as base
+FROM photon:1.0 as base
 
 # Create temporary chroot environment
 ENV TEMP_CHROOT /temp_chroot
@@ -23,7 +23,8 @@ RUN echo "> Installing photon base system in chroot, killing output to avoid off
     photon-release-1.0-6.ph1 \
     photon-repos-1.0-4.ph1 \
     tdnf-1.1.0-1.ph1 \
-    docker-17.06.0-1.ph1 \
+    docker-17.06.0-3.ph1 \
+    openssl-1.0.2o-2.ph1 \
     procps-ng-3.3.11-4.ph1 \
     iptables-1.6.0-6.ph1 > /dev/null 2>&1
 
