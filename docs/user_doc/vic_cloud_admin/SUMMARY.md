@@ -16,6 +16,7 @@
          * [Full TLS Authentication](add_vch_fullTLS_in_portal.md)
          * [Server-Side Authentication](add_vch_serversideTLS_in_portal.md)
          * [No Authentication](add_vch_noTLS_in_portal.md)
+     * [Content Trust](content_trust.md)
      * [Configure Project Settings](manage_projects.md)
      * [Manage Internal Repositories](manage_repository_registry.md)
      * [Access Project Logs](access_project_logs.md)

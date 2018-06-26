@@ -12,22 +12,26 @@ For demo videos of some of the features of vSphere Integrated Containers Registr
 
 ## Rule Based Image Replication <a id="replication"></a>
 
-You can set up multiple registries and replicate images between registry instances. Replicating images between registries helps with load balancing and high availability, and allows you to create multi-datacenter, hybrid, and multi-cloud setups. For information about image replication, see [Replicating Images](../vic_cloud_admin/replicating_images.md).
-
+You can set up multiple registries and replicate images between registry instances. Replicating images between registries helps with load balancing and high availability, and allows you to create multi-datacenter, hybrid, and multi-cloud setups. For information about image replication, see [Replicating Images](../vic_cloud_admin/replicating_images.md) in *vSphere Integrated Containers Management Portal Administration*.
 
 ## Docker Content Trust <a id="notary"></a>
 
-vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement Docker Content Trust by signing and verifying the images in the registry. For information about Docker Notary, see [Content trust in Docker](https://docs.docker.com/engine/security/trust/content_trust/) in the Docker documentation. 
+vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement Docker Content Trust by signing and verifying the images in the registry. For information about content trust, see [Content trust in Docker](https://docs.docker.com/engine/security/trust/content_trust/) in the Docker documentation. 
 
-The Notary server runs by default. For information about how container developers use Docker Content Trust with vSphere Integrated Containers Registry, see [Configure the Docker Client for Use with vSphere Integrated Containers](../vic_app_dev/configure_docker_client.md) in *Developing Applications with vSphere Integrated Containers*.
+The Notary server runs by default, and content trust is enabled or disabled at the project level. When content trust is enabled, users can only push and pull images that have been signed and verified to or from the project.
+
+- For information about content trust in vSphere Integrated Containers, see [Enabling Content Trust in Projects](../vic_cloud_admin/content_trust.md) in *vSphere Integrated Containers Management Portal Administration*.
+- For information about how container developers use content trust with vSphere Integrated Containers Registry, see [Configure the Docker Client for Use with vSphere Integrated Containers](../vic_app_dev/configure_docker_client.md) in *Developing Applications with vSphere Integrated Containers*.
 
 ## Vulnerability Scanning <a id="vulnerability"></a>
 
 vSphere Integrated Containers Registry provides the ability to scan all images for known vulnerabilities. DevOps and Management Portal administrators can set threshold values that prevent users from running vulnerable images that exceed those thresholds. Once an image is uploaded into the registry, vSphere Integrated Containers Registry checks the various layers of the image against known vulnerability databases and reports issues to the DevOps and Management Portal Administrators. 
 
+For information vulnerability scanning, see [Vulnerability Scanning](../vic_cloud_admin/vulnerability_scanning.md) in *vSphere Integrated Containers Management Portal Administration*.
+
 ## Garbage Collection <a id="gc"></a>
 
-You can configure vSphere Integrated Containers Registry to perform garbage collection whenever you restart the registry service. If you implement garbage collection, the registry recycles the storage space that is consumed by images that you have deleted. For more information about garbage collection, see [Manage Repositories](../vic_cloud_admin/manage_repository_registry.md). See also [Garbage Collection](https://docs.docker.com/registry/garbage-collection/) in the Docker documentation.
+You can configure vSphere Integrated Containers Registry to perform garbage collection whenever you restart the registry service. If you implement garbage collection, the registry recycles the storage space that is consumed by images that you have deleted. For more information about garbage collection, see [Manage Internal Repositories in Projects](../vic_cloud_admin/manage_repository_registry.md)  in *vSphere Integrated Containers Management Portal Administration*. See also [Garbage Collection](https://docs.docker.com/registry/garbage-collection/) in the Docker documentation.
 
 ## Logging <a id="logging"></a>
 

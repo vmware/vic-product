@@ -101,10 +101,15 @@ To pass the registry's CA certificate to a Docker client that is running on Wind
 
 vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement content trust by signing and verifying the images in the registry. Management Portal administrators enable or disable content trust at the project level in vSphere Integrated Containers Management Portal.
 
-- For information about Docker Notary, see [Content trust in Docker](https://docs.docker.com/engine/security/trust/content_trust/) in the Docker documentation.
-- For information about how to enable content trust in projects in vSphere Integrated Containers Management Portal, see [Configure Project Settings](../vic_cloud_admin/manage_projects.md) in *vSphere Integrated Containers Management Portal Administration*.
-
 If you the project that you are working on implements content trust, you must pass the registry's CA certificate to your Docker client and set up Docker Content Trust. By default, the vSphere Integrated Containers Registry Notary server runs on port 4443 on the vSphere Integrated Containers appliance.
+
+Enabling content trust on a project automatically modifies the registry whitelist settings of any VCHs that are registered with the project. Consequently, when content trust is enabled, the VCHs in the project can only pull signed and verified images from the registry instance that is running in the vSphere Integrated Containers appliance.
+
+- For general information about Docker Notary and content trust, see [Content trust in Docker](https://docs.docker.com/engine/security/trust/content_trust/) in the Docker documentation.
+- For information about content trust in vSphere Integrated Containers, see [Enabling Content Trust in Projects](../vic_cloud_admin/content_trust.md) in *vSphere Integrated Containers Management Portal Administration*.
+- For information about how enabling content trust affects VCHs, see [VCH Whitelists and Content Trust](../vic_vsphere_admin/vch_registry.md#vch-content-trust) in *vSphere Integrated Containers for vSphere Administrators*.
+
+**Procedure**
 
 1. If you are using a self-signed certificate, copy the CA root certificate to the Docker certificates folder.
 
