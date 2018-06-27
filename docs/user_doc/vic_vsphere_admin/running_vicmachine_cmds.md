@@ -155,4 +155,4 @@ For information about the other VCH deployment options, see the following topics
 
 The options that these topics describe apply to both the `vic-machine` CLI utility and to the Create Virtual Container Host wizard in the vSphere Client. 
 
-For the full list of `vic-machine create` options, with links to the relevant sections of the documentation, see [Index of `vic-machine create` Options](vicmachine_create_options_ref.md).
+For the full list of `vic-machine create` options, with links to the relevant sections of the documentation, see [`vic-machine` Options Reference](vicmachine_options_ref.md).

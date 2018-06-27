@@ -17,11 +17,17 @@ When you run `vic-machine configure`, you use the options described in [Common `
 - [Configure CPU and Memory Allocations](#cpumem)
 - [Reset Upgrade or Configuration Progress](#resetprogress)
 
+## Using `vic-machine configure` <a id="using"></a>
+
 To see the current configuration of a VCH before you configure it, and to check the new configuration,  run `vic-machine inspect config` before and after you run `vic-machine configure`. For information about running `vic-machine inspect config`, see [Obtain VCH Configuration Information](inspect_vch_config.md). 
 
 **IMPORTANT**: Running `vic-machine inspect config` before you run `vic-machine configure` is especially important if you are adding registry certificates, volume stores, DNS servers, or container networks to a VCH that already includes one or more of those elements. When you add registry certificates, volume stores, DNS servers, or container networks to a VCH, you must specify the existing configuration as well as any new configurations in separate instances of the appropriate `vic-machine inspect config` option. 
 
 When you run a `vic-machine configure` operation, `vic-machine` takes a snapshot of the VCH endpoint VM before it makes any modifications to the VCH. However, `vic-machine` does not remove the snapshot when the configuration operation finishes. You must manually remove the snapshot, after verifying that the configuration operation was successful.
+
+The `vic-machine configure` command includes a `--force` option, that forces `vic-machine configure` to ignore warnings and non-fatal errors and continue with the configuration of a VCH. Errors such as an incorrect compute resource still cause the configuration to fail.
+
+**CAUTION**: Specifying the `--force` option bypasses safety checks, including certificate thumbprint verification. Using `--force` in this way can expose VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` can result in unexpected topologies that would otherwise fail with an error. Do not use `--force` in production environments. 
 
 ## Update vCenter Server Credentials <a id="vccreds"></a>
 
@@ -68,8 +74,6 @@ To update the certificate, provide the new certificate thumbprint to the VCH in 
     --password <i>password</i>
     --id <i>vch_id</i>
     --thumbprint <i>new_certificate_thumbprint</i></pre>
-
-**CAUTION**: Specifying the `--force` option bypasses safety checks, including certificate thumbprint verification. Using `--force` in this way can expose VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using `--force` can result in unexpected deployment topologies that would otherwise fail with an error. Do not use `--force` in production environments. 
 
 ## Add or Update Registry Server Certificates <a id="registries"></a>
 
@@ -148,6 +152,8 @@ This example sets `--no-tlsverify` to disable the verification of client certifi
 ## Update Affinity Group Settings <a id="affinity"></a>
 
 After the deployment of a VCH, you can instruct vSphere Integrated Containers to automatically create a DRS VM group in vSphere for the VCH endpoint VM and its container VMs. If you use this option to reconfigure an existing VCH, you can use the resulting VM group in DRS VM-Host affinity rules, to restrict the set of hosts on which the VCH endpoint VM and its container VMs can run. 
+
+**NOTE**: This option is available in vSphere Integrated Containers 1.4.1 and later.
 
 The `vic-machine configure --affinity-vm-group` option functions in the same way as the equivalent `vic-machine create` option. For information about the `vic-machine create --affinity-vm-group` option, see [Add Virtual Container Hosts to a DRS Affinity Group](vch_affinity_group.md).
 

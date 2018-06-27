@@ -2,7 +2,7 @@
 
 You can obtain information about the configuration of a virtual container host (VCH) by using the `vic-machine inspect config` command. The `inspect config` command provides details of the options with which the VCH was deployed with `vic-machine create` or subsequently reconfigured with  `vic-machine configure`. 
 
-The `inspect config` command only includes one option, `--format`, the value of which can be either `verbose` or `raw`. 
+In addition to the options described in [Common `vic-machine` Options](common_vic_options.md), the `inspect config` command only includes one option, `--format`, the value of which can be either `verbose` or `raw`. 
 
 - `verbose`: Provides an easily readable list of the options with which the VCH was deployed. If you do not specify `--format`, `config` provides verbose output by default. 
 - `raw`: Provides the options with which the VCH was deployed in command line option format. You can copy or pipe the output into a `vic-machine create` command, to create an identical VCH.
