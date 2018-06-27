@@ -6,7 +6,7 @@ Wrap any option arguments that include spaces or special characters in quotes. F
 
 You can set environment variables for the `--target`, `--user`, `--password`, and `--thumbprint` options. For information about setting environment variables, see [Set Environment Variables for Common `vic-machine` Options](vic_env_variables.md).
 
-### `--id` ###
+### `--id` <a id="id"></a>
 
 Short name: None
 
@@ -14,31 +14,31 @@ The vSphere Managed Object Reference, or moref, of the VCH, for example `vm-100`
 
 <pre>--id <i>vch_id</i></pre>
 
-### `--target` ###
+### `--target` <a id="target"></a>
 
 Short name: `-t`
 
 The IPv4 address, fully qualified domain name (FQDN), or URL of the ESXi host or vCenter Server instance on which you deployed the VCH. This option is always **mandatory**. You specify this option in the same way as you specify the [`vic-machine create --target`](using_vicmachine.md#target) option.
 
-### `--user` ###
+### `--user` <a id="user"></a>
 
 Short name: `-u`
 
 The ESXi host or vCenter Server user account with which to run the `vic-machine` command. The user account that you specify in `--user` must have vSphere administrator privileges. You specify this option in the same way as you specify [`vic-machine create --user`](using_vicmachine.md#user).
 
-### `--password` ###
+### `--password` <a id="password"></a>
 
 Short name: `-p`
 
 The password for the user account on the vCenter Server on which you  deployed the VCH, or the password for the ESXi host if you deployed directly to an ESXi host. You specify this option in the same way as you specify [`vic-machine create --password`](running_vicmachine_cmds.md#password).
 
-### `--thumbprint` ###
+### `--thumbprint` <a id="thumbprint"></a>
 
 Short name: None
 
 The thumbprint of the vCenter Server or ESXi host certificate. You specify this option in the same way as you specify [`vic-machine create --thumbprint`](running_vicmachine_cmds.md#thumbprint).
 
-### `--compute-resource` ###
+### `--compute-resource` <a id="compute-resource"></a>
 
 Short name: `-r`
 
@@ -46,13 +46,13 @@ The relative path to the host, cluster, or resource pool in which you deployed t
 
 **NOTE**: If you specify the `id` option in `vic-machine` commands, you do not need to specify the `compute-resource` option.
 
-### `--name` ###
+### `--name` <a id="name"></a>
 
 Short name: `-n`
 
 The name of the VCH. This option is mandatory if the VCH has a name other than the default name, `virtual-container-host`, or if you do not use the `id` option. You specify this option in the same way as you specify [`vic-machine create --name`](running_vicmachine_cmds.md#name).
 
-### `--timeout` ###
+### `--timeout` <a id="timeout"></a>
 
 Short name: none
 

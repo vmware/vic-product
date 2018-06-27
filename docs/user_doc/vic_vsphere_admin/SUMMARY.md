@@ -42,7 +42,6 @@
          * [Advanced Options](vch_advanced_options.md)
              * [Add VCHs to Affinity Groups](vch_affinity_group.md)
              * [VCH Boot Options](vch_boot_options.md)
-         * [Index of Options](vicmachine_create_options_ref.md)
      * [Deploy a Test VCH](deploy_test_vch.md)
          * [Deploy a VCH to an ESXi Host with No vCenter Server](deploy_vch_esxi.md)
          * [VCH with Volume Store and Registry](deploy_vch_dchphoton.md)
@@ -120,3 +119,4 @@
   * [Security Reference](security_reference.md)
      * [Certificate Reference](vic_cert_reference.md)
      * [Obtain Appliance Certificates](obtain_appliance_certs.md)  
+  * [`vic-machine` Options Reference](vic_vsphere_admin/vicmachine_options_ref.md)
