@@ -119,4 +119,4 @@
   * [Security Reference](security_reference.md)
      * [Certificate Reference](vic_cert_reference.md)
      * [Obtain Appliance Certificates](obtain_appliance_certs.md)  
-  * [`vic-machine` Options Reference](vic_vsphere_admin/vicmachine_options_ref.md)
+  * [`vic-machine` Options Reference](vicmachine_options_ref.md)
