@@ -71,9 +71,6 @@ iptables -w -A INPUT -j ACCEPT -p tcp --dport "${ADMIRAL_PORT}"
 
 touch $data_dir/custom.conf
 
-# Configure the integration URL
-echo "harbor.tab.url=https://${HOSTNAME}:${REGISTRY_PORT}" > $data_dir/custom.conf
-
 # Copy files needed by Admiral into one directory
 cp $appliance_jks $config_dir
 cp $appliance_tls_key $config_dir
@@ -81,6 +78,9 @@ cp $appliance_tls_cert $config_dir
 cp $data_dir/custom.conf $config_dir/config.properties
 cp $admiral_psc_dir/psc-config.keystore $config_dir
 cp $admiral_psc_dir/psc-config.properties $config_dir
+
+# Configure the integration URL
+echo "harbor.tab.url=https://${HOSTNAME}:${REGISTRY_PORT}" >> $config_dir/config.properties
 
 echo "Copying CA certificate to $ca_download_dir"
 cp $appliance_ca_cert $ca_download_dir/
