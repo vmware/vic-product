@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 5-6-1 - VSAN-Simple
 Resource  ../../resources/Util.robot
-Suite Setup   Wait Until Keyword Succeeds  10x  10m  Simple VSAN Setup
+Suite Setup  Nimbus Suite Setup  Simple VSAN Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Keywords ***
@@ -24,9 +24,10 @@ Simple VSAN Setup
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
     ${name}=  Evaluate  'vic-vsan-' + str(random.randint(1000,9999))  modules=random
     Set Suite Variable  ${user}  %{NIMBUS_USER}
-    ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  --plugin testng --vcfvtBuildPath /dbc/pa-dbc1111/mhagen/ --noSupportBundles --vcvaBuild ${VC_VERSION} --esxPxeDir ${ESX_VERSION} --esxBuild ${ESX_VERSION} --testbedName vic-vsan-simple-pxeBoot-vcva --runName ${name}
-    Should Contain  ${out}  "deployment_result"=>"PASS"
+    ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  spec=vic-vsan.rb  args=--plugin testng --noSupportBundles --vcvaBuild ${VC_VERSION} --esxPxeDir ${ESX_VERSION} --esxBuild ${ESX_VERSION} --testbedName vic-vsan-simple-pxeBoot-vcva --runName ${name}
+
     Log  ${out}
+    Should Contain  ${out}  "deployment_result"=>"PASS"
 
     Log To Console   Get VC IP ...
     Open Connection  %{NIMBUS_GW}
@@ -64,7 +65,6 @@ Simple VSAN Setup
 Simple VSAN
     Log To Console  \nStarting test...
     Wait Until Keyword Succeeds  10x  30s  Check No VSAN DOMs In Datastore  %{TEST_DATASTORE}
-    Custom Testbed Keepalive  /dbc/pa-dbc1111/mhagen
     # install ova and verify
     Deploy OVA And Install UI Plugin And Run Regression Tests  5-06-1-TEST  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
     # clean up OVA and VCH
