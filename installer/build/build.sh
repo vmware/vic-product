@@ -27,7 +27,7 @@ ADMIRAL=""
 VICENGINE=""
 VIC_MACHINE_SERVER=""
 HARBOR=""
-TAG=$(git describe --abbrev=0 --tags) # e.g. `v0.9.0`
+TAG=${DRONE_TAG:-$(git describe --abbrev=0 --tags)} # e.g. `v0.9.0`
 REV=$(git rev-parse --short=8 HEAD)
 DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER:-0}
 BUILD_OVA_REVISION="${TAG}-${DRONE_BUILD_NUMBER}-${REV}"
@@ -57,6 +57,7 @@ if [ "$step" == "ova-dev" ]; then
     -v /var/run/docker.sock:/var/run/docker.sock \
     -e DEBUG=${DEBUG} \
     -e BUILD_OVA_REVISION=${BUILD_OVA_REVISION} \
+    -e TAG=${TAG} \
     -e BUILD_NUMBER=${BUILD_NUMBER} \
     -e DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER} \
     -e TERM -w ${ROOT_INSTALLER_WORK_DIR} \
@@ -65,6 +66,7 @@ elif [ "$step" == "ova-ci" ]; then
   echo "starting ci build..."
   export DEBUG=${DEBUG}
   export BUILD_OVA_REVISION=${BUILD_OVA_REVISION}
+  export TAG=${TAG}
   export BUILD_NUMBER=${BUILD_NUMBER}
   export DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER}
   ./build/build-ova.sh $*
