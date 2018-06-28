@@ -29,11 +29,12 @@ Simple VSAN Setup
     Log  ${out}
     Should Contain  ${out}  "deployment_result"=>"PASS"
 
-    Log To Console   Get VC IP ...
-    Open Connection  %{NIMBUS_GW}
-    Wait Until Keyword Succeeds  10 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
-    ${vc-ip}=  Get IP  ${name}.vcva-${VC_VERSION}
-    Close Connection
+    ${out}=  Split To Lines  ${out}
+    :FOR  ${line}  IN  @{out}
+    \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  .vcva-${VC_VERSION}' is up. IP:
+    \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
+    \   Run Keyword If  ${status}  Set Suite Variable  ${vc-ip}  ${ip}
+    \   Exit For Loop If  ${status}
 
     Set Suite Variable  @{list}  ${user}-${name}.vcva-${VC_VERSION}  ${user}-${name}.esx.0  ${user}-${name}.esx.1  ${user}-${name}.esx.2  ${user}-${name}.esx.3  ${user}-${name}.nfs.0  ${user}-${name}.iscsi.0
     Log To Console   Finished Creating Simple VSAN
@@ -51,6 +52,7 @@ Simple VSAN Setup
     Should Be Empty  ${out}
 
     Log To Console  Deploy VIC to the VC cluster
+    Set Environment Variable  TEST_URL_ARRAY  ${vc-ip}
     Set Environment Variable  TEST_URL  ${vc-ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
     Set Environment Variable  TEST_PASSWORD  Admin\!23

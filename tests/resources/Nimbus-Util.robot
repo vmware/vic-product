@@ -242,7 +242,8 @@ Nimbus Cleanup
 # Cleans up a vm (or space separated string list of vms) but does not delete pxe folder on nimbus gateway
 Nimbus Cleanup Single VM
     [Arguments]  ${vms}  ${collect_log}=True  ${dontDelete}=${false}  ${deletePXE}=${false}
-    Run Keyword If  ${collect_log}  Run Keyword And Continue On Failure  Gather Logs From Test Server
+    # cannot use this part of the common definition from the vmware/vic logic as there's no assured knowledge of the vch name
+    # Run Keyword If  ${collect_log}  Run Keyword And Continue On Failure  Gather Logs From Test Server
     Run Keyword And Ignore Error  Cleanup Nimbus Folders  ${deletePXE}
     Return From Keyword If  ${dontDelete}
     Run Keyword And Ignore Error  Kill Nimbus Server  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  ${vms}
@@ -298,6 +299,7 @@ Create a VSAN Cluster
 
     Log To Console  Deploy VIC to the VC cluster
     Set Environment Variable  TEST_URL_ARRAY  ${vc-ip}
+    Set Environment Variable  TEST_URL  ${vc-ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  BRIDGE_NETWORK  bridge
@@ -523,6 +525,7 @@ Create Simple VC Cluster With Static IP
 
     Log To Console  Deploy VIC to the VC cluster
     Set Environment Variable  TEST_URL_ARRAY  ${vc-ip}
+    Set Environment Variable  TEST_URL  ${vc-ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  BRIDGE_NETWORK  bridge
@@ -531,55 +534,6 @@ Create Simple VC Cluster With Static IP
     Set Environment Variable  TEST_DATASTORE  nfs0-1
     Set Environment Variable  TEST_RESOURCE  cls
     Set Environment Variable  TEST_TIMEOUT  15m
-
-Create Static IP Worker
-    Open Connection  %{NIMBUS_GW}
-    Wait Until Keyword Succeeds  10 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
-    Log To Console  Create a new static ip address worker...
-    ${name}=  Evaluate  'static-worker-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
-    Log To Console  \nDeploying static ip worker: ${name}
-    ${out}=  Execute Command  ${NIMBUS_LOCATION} nimbus-ctl --silentObjectNotFoundError kill '%{NIMBUS_USER}-static-worker' && ${NIMBUS_LOCATION} nimbus-worker-deploy --nimbus ${NIMBUS_POD} --enableStaticIpService ${name}
-    Should Contain  ${out}  "deploy_status": "success"
-
-    ${pod}=  Fetch POD  ${name}
-    Run Keyword If  '${pod}' != '${NIMBUS_POD}'  Kill Nimbus Server  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  %{NIMBUS_USER}-${name}
-    Run Keyword If  '${pod}' != '${NIMBUS_POD}'  Fail  Nimbus pod suggestion failed
-
-    Set Environment Variable  STATIC_WORKER_NAME  %{NIMBUS_USER}-${name}
-    ${ip}=  Get IP  ${name}
-    Set Environment Variable  STATIC_WORKER_IP  ${ip}
-    Close Connection
-
-Get Static IP Address
-    ${status}  ${message}=  Run Keyword And Ignore Error  Environment Variable Should Be Set  STATIC_WORKER_IP
-    Run Keyword If  '${status}' == 'FAIL'  Wait Until Keyword Succeeds  10x  10s  Create Static IP Worker
-    Log To Console  Curl a new static ip address from the created worker...
-    ${out}=  Run  curl -s http://%{STATIC_WORKER_IP}:4827/nsips
-
-    &{static}=  Create Dictionary
-    ${ip}=  Run  echo '${out}' | jq -r ".ip"
-    Set To Dictionary  ${static}  ip  ${ip}
-    ${netmask}=  Run  echo '${out}' | jq -r ".netmask"
-    Set To Dictionary  ${static}  netmask  ${netmask}
-    ${prefix}=  Evaluate  sum([bin(int(x)).count("1") for x in "${netmask}".split(".")])
-    Set To Dictionary  ${static}  prefix  ${prefix}
-    ${gateway}=  Run  echo '${out}' | jq -r ".gateway"
-    Set To Dictionary  ${static}  gateway  ${gateway}
-    [Return]  ${static}
-
-Is Nimbus Location WDC
-    Open Connection  %{NIMBUS_GW}
-    Wait Until Keyword Succeeds  10 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
-    ${out}=  Execute Command  env | grep NIMBUS_LOCATION=wdc
-    ${status}=  Run Keyword And Return Status  Should Not Be Empty  ${out}
-    Close Connection
-    [Return]  ${status}
-
-Get Name of First Local Storage For Host
-    [Arguments]  ${host}
-    ${datastores}=  Run  govc host.info -host ${host} -json | jq -r '.HostSystems[].Config.FileSystemVolume.MountInfo[].Volume | select (.Type\=\="VMFS") | select (.Local\=\=true) | .Name'
-    @{datastores}=  Split To Lines  ${datastores}
-    [Return]  @{datastores}[0]TEST_TIMEOUT  15m
 
 Create Static IP Worker
     Open Connection  %{NIMBUS_GW}
