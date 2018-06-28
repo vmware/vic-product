@@ -8,7 +8,6 @@ After=network-online.target vic-appliance-wait-psc-config.service
 Type=oneshot
 ExecStart=/usr/bin/systemctl restart get_token.service
 ExecStartPost=/usr/bin/systemctl --no-block restart admiral harbor
-RemainAfterExit=yes
 
 [Install]
 WantedBy=psc-ready.target
