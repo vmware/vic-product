@@ -2,7 +2,7 @@
 
 If a Docker host or a vSphere Integrated Containers virtual container host (VCH) implements verification of both server and client certificates, you must provide the details of the client certificate when you add the host to a project in the management portal. Connections to the host use HTTPS.
 
-**IMPORTANT**: You can only register a VCH with one project at a time. Similarly, you cannot add the same VCH to projects in multiple instances of vSphere Integrated Containers.
+**IMPORTANT**: You should only register a VCH with one project at a time. Similarly, you should not add the same VCH to projects in multiple instances of vSphere Integrated Containers.
 
 **Prerequisites**
 

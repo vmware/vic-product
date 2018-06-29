@@ -61,6 +61,7 @@ VCHs include a base set of well-known certificates from public CAs. If a registr
 
 - If you provide a registry certificate but you do not also specify that registry in the whitelist, the VCH does not allow access to that registry. 
 - If you specify a registry in the whitelist, but you do not provide a certificate and the registry's CA is not in the set of well-known certificates in the VCH, the VCH does not allow access to that registry.
+- If you specify a registry as insecure, it is added to the whitelist.
 
 #### Whitelisting Insecure Registries <a id="vch-whitelist-insecure"></a>
 
@@ -99,14 +100,16 @@ The following example demonstrates how enabling content trust on a project affec
 
 - Deploy a VCH with whitelist mode enabled, and with one or more registries in the whitelist.
 - Register the VCH with a project in vSphere Integrated Containers Management Portal.
-- If content trust is enabled on the project, or if you subsequently enable content trust after adding the VCH to the project, vSphere Integrated Containers automatically overrides the whitelist that you configured on the VCH.
+- If content trust is enabled on the project, or if you subsequently enable content trust after adding the VCH to the project, vSphere Integrated Containers automatically restricts the whitelist that you configured on the VCH.
 - The VCH whitelist now includes only the registry instance that is running in the vSphere Integrated Containers appliance. 
 - The VCH can now only pull signed and verified images from the registry instance that is running in the vSphere Integrated Containers appliance that includes the project.
 
 If you subsequently disable content trust on a project, or remove a VCH from a project that implements content trust, the VCH reverts to the whitelist configuration with which it was deployed.
 
 - If the VCH was not deployed with whitelist mode enabled, whitelist mode is disabled.
-- If the VCH was deployed with a whitelist, this whitelist is restored. 
+- If the VCH was deployed with a whitelist, this whitelist is restored.
+
+If you delete the vSphere Integrated Containers appliance without removing the VCH from the project, the VCH remains paired with that non-existent project. You must run `vic-machine configure` on the VCH to restore the whitelist settings.
 
 #### Create VCH Wizard
 
