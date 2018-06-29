@@ -137,14 +137,14 @@ To specify a volume store in a datastore folder, add the path to the appropriate
 
 <pre>--volume-store <i>datastore_name</i>/<i>datastore_path</i>:<i>volume_store_label</i></pre>   
 
-To specify an NFS share point as a volume store, use the `nfs://` prefix and the path to a shared mount point:
+To specify an NFS share point as a volume store, use the `nfs://` prefix and the path to an NFS server and a shared mount point:
 
-<pre>nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
+<pre>nfs://<i>nfs_server</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
 
 <a id="nfsoptions"></a>
 You can also specify the URL, UID, and GID of a shared NFS mount point when you specify an NFS share point. Connections are made over TCP. If you do not specify a UID and GID, vSphere Integrated Containers Engine uses the `anon` UID and GID when creating and interacting with the volume store. The `anon` UID and GID is 1000:1000.
 
-<pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&gid=5678:<i>nfs_volume_store_label</i></pre> 
+<pre>--volume-store nfs://<i>nfs_server</i>/<i>path_to_share_point</i>?uid=1234&gid=5678:<i>nfs_volume_store_label</i></pre> 
 
 **NOTES**: 
 
@@ -155,13 +155,13 @@ You can also specify the URL, UID, and GID of a shared NFS mount point when you 
 Use the label `default` to allow container developers to create anonymous volumes:
 
 <pre>--volume-store ds://<i>datastore_name</i>:default</pre>
-<pre>--volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:default</pre>    
+<pre>--volume-store nfs://<i>nfs_server</i>/<i>path_to_share_point</i>:default</pre>    
 
 You can specify the `--volume-store` option multiple times, and add a mixture of vSphere datastores and NFS share points to a VCH:
 
 <pre>--volume-store <i>datastore_name</i>/path:<i>volume_store_label_1</i>
 --volume-store <i>datastore_name</i>/<i>path</i>:<i>volume_store_label_2</i>
---volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i>
+--volume-store nfs://<i>nfs_server</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i>
 </pre> 
 
 If you specify an invalid vSphere datastore name or an invalid NFS share point URL, `vic-machine create` fails and suggests valid datastores. 
@@ -187,7 +187,7 @@ This example `vic-machine create` command deploys a VCH with 3 volume stores:
 --image-store 'datastore 1'
 --volume-store 'datastore 1'/volumes:default
 --volume-store 'datastore 2'/volumes:volume_store_2
---volume-store nfs://nfs_store/path/to/share/point:shared_volume
+--volume-store nfs://nfs_server/path/to/share/point:shared_volume
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
