@@ -348,7 +348,7 @@ function moveDisks {
       govc device.remove -vm="$NEW_VM_NAME" "$disk"
     fi
     # Only remove log and database disks from 1.3.0 and greater
-    if [[ ( "$disk" =~ -2$ || "$disk" =~ -3$ ) && ( "$ver" == "$VER_1_3_0"  ||  "$ver" == "$VER_1_3_1" ) ]]; then
+    if [[ ( "$disk" =~ -2$ || "$disk" =~ -3$ ) && ( "$ver" != "$VER_1_2_1" ) ]]; then
       echo "Remove disk $disk from $NEW_VM_NAME"
       govc device.remove -vm="$NEW_VM_NAME" "$disk"
     fi
@@ -363,7 +363,7 @@ function moveDisks {
     exit 1
   fi
 
-  if [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
+  if [ "$ver" != "$VER_1_2_1" ]; then
     OLD_DB_DISK=$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[2].DiskFile[0]" | awk '{print $NF}')
     echo "OLD_DB_DISK: $OLD_DB_DISK"
     OLD_LOG_DISK=$(govc vm.info -json "$OLD_VM_NAME" | jq -r ".VirtualMachines[].Layout.Disk[3].DiskFile[0]" | awk '{print $NF}')
@@ -377,7 +377,7 @@ function moveDisks {
 
   log "Copying old data disk. Please wait."
   govc datastore.cp -ds "$OLD_DATASTORE" -ds-target "$NEW_DATASTORE" "$OLD_DATA_DISK" "$NEW_DATA_DISK" || ( log "Failed to copy data disk. Please try again. Exiting..." && exit 1)
-  if [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
+  if [ "$ver" != "$VER_1_2_1" ]; then
     log "Copying old database disk. Please wait."
     govc datastore.cp -ds "$OLD_DATASTORE" -ds-target "$NEW_DATASTORE" "$OLD_DB_DISK" "$NEW_DB_DISK" || ( log "Failed to copy database disk. Please try again. Exiting..." && exit 1)
     log "Copying old log disk. Please wait."
@@ -387,7 +387,7 @@ function moveDisks {
   # TODO rename to new version
   echo "Attaching migrated disks to new VIC appliance"
   govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_DATA_DISK" || (log "Failed to attach data disk" && exit 1)
-  if [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ]; then
+  if [ "$ver" != "$VER_1_2_1" ]; then
     govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_DB_DISK" || (log "Failed to attach database disk"  && exit 1)
     govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_LOG_DISK" || (log "Failed to attach log disk" && exit 1)
   fi
