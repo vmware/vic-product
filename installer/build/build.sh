@@ -32,6 +32,8 @@ REV=$(git rev-parse --short=8 HEAD)
 DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER:-0}
 BUILD_OVA_REVISION="${TAG}-${DRONE_BUILD_NUMBER}-${REV}"
 BUILD_NUMBER=${DRONE_BUILD_NUMBER:-}
+DRONE_BUILD_EVENT=${DRONE_BUILD_EVENT:-}
+DRONE_DEPLOY_TO=${DRONE_DEPLOY_TO:-}
 
 function usage() {
     echo -e "Usage:
@@ -60,6 +62,8 @@ if [ "$step" == "ova-dev" ]; then
     -e TAG=${TAG} \
     -e BUILD_NUMBER=${BUILD_NUMBER} \
     -e DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER} \
+    -e DRONE_BUILD_EVENT=${DRONE_BUILD_EVENT} \
+    -e DRONE_DEPLOY_TO=${DRONE_DEPLOY_TO} \
     -e TERM -w ${ROOT_INSTALLER_WORK_DIR} \
     gcr.io/eminent-nation-87317/vic-product-build:2ea9bdfd ./build/build-ova.sh $*
 elif [ "$step" == "ova-ci" ]; then
@@ -69,6 +73,8 @@ elif [ "$step" == "ova-ci" ]; then
   export TAG=${TAG}
   export BUILD_NUMBER=${BUILD_NUMBER}
   export DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER}
+  export DRONE_BUILD_EVENT=${DRONE_BUILD_EVENT}
+  export DRONE_DEPLOY_TO=${DRONE_DEPLOY_TO}
   ./build/build-ova.sh $*
 else
   usage
