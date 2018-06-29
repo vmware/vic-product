@@ -13,9 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+set -e -o pipefail +h && [ -n "$DEBUG" ] && set -x
 
 echo "-s -w \
-    -X github.com/vmware/vic-product/installer/pkg/version.Version=`${TAG}` \
+    -X github.com/vmware/vic-product/installer/pkg/version.Version=${TAG} \
     -X github.com/vmware/vic-product/installer/pkg/version.BuildNumber=\"${BUILD_NUMBER}\" \
     -X github.com/vmware/vic-product/installer/pkg/version.BuildDate=`date -u +%Y/%m/%d@%H:%M:%S` \
     -X github.com/vmware/vic-product/installer/pkg/version.GitCommit=`git rev-parse --short HEAD` \
