@@ -2,7 +2,7 @@
 
 If a Docker host or a vSphere Integrated Containers virtual container host (VCH) does not implement any level of TLS authentication, you do not provide a certificate when you add the host to a project in the management portal. Connections to the host use HTTP.
 
-**IMPORTANT**: If you have deployed multiple instances of the vSphere Integrated Containers appliance, you can only register a virtual container host (VCH) with one instance of the management portal at a time.
+**IMPORTANT**: You should only register a VCH with one project at a time. Similarly, you should not add the same VCH to projects in multiple instances of vSphere Integrated Containers.
 
 **Prerequisite**
 

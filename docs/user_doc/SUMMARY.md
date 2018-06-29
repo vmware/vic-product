@@ -154,6 +154,7 @@
          * [Full TLS Authentication](vic_cloud_admin/add_vch_fullTLS_in_portal.md)
          * [Server-Side Authentication](vic_cloud_admin/add_vch_serversideTLS_in_portal.md)
          * [No Authentication](vic_cloud_admin/add_vch_noTLS_in_portal.md)
+     * [Content Trust](vic_cloud_admin/content_trust.md)
      * [Configure Project Settings](vic_cloud_admin/manage_projects.md)
      * [Manage Internal Repositories](vic_cloud_admin/manage_repository_registry.md)
      * [Access Project Logs](vic_cloud_admin/access_project_logs.md)
