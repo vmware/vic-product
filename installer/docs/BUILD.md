@@ -158,9 +158,6 @@ Make sure `DRONE_SERVER` and `DRONE_TOKEN` environment variables are set before 
 To promote existing successful CI build to staging (`vic-product-ova-builds` bucket), `drone deploy` to `staging` using the command output at the end of the `unified-ova-build` step of the `tag` build. This output will look like:
 
 ```
-#!/bin/bash
-set -x
-
 drone deploy --param VICENGINE=<vic_engine_version> \
              --param VIC_MACHINE_SERVER=<vic_machine_server> \
              --param ADMIRAL=<admiral_tag> \
@@ -171,9 +168,6 @@ drone deploy --param VICENGINE=<vic_engine_version> \
 To promote existing successful CI build to release (`vic-product-ova-releases` bucket), `drone deploy` to `release` using the command output at the end of the `unified-ova-build` step of the `staging` build. This output will look like:
 
 ```
-#!/bin/bash
-set -x
-
 drone deploy --param VICENGINE=<vic_engine_version> \
              --param VIC_MACHINE_SERVER=<vic_machine_server> \
              --param ADMIRAL=<admiral_tag> \
@@ -184,9 +178,6 @@ drone deploy --param VICENGINE=<vic_engine_version> \
 Example:
 
 ```
-#!/bin/bash
-set -x
-
 drone deploy --param VICENGINE=https://storage.googleapis.com/vic-engine-releases/vic_v1.4.0.tar.gz \
              --param VIC_MACHINE_SERVER=latest \
              --param ADMIRAL=v1.4.0 \

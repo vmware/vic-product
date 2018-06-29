@@ -130,9 +130,6 @@ if [ "tag" == "${DRONE_BUILD_EVENT}" ]; then
     echo "--------------------------------------------------"
     echo "Command to stage this tag build for release:"
     cat <<EOF
-#!/bin/bash
-set -x
-
 drone deploy --param VICENGINE=${BUILD_VICENGINE_URL:-} \\
              --param VIC_MACHINE_SERVER=${BUILD_VIC_MACHINE_SERVER_REVISION:-} \\
              --param ADMIRAL=${BUILD_ADMIRAL_REVISION:-} \\
@@ -143,9 +140,6 @@ elif [ "deploy" == "${DRONE_BUILD_EVENT}" -a "staging" == "${DRONE_DEPLOY_TO}" ]
     echo "--------------------------------------------------"
     echo "Command to release this tag staged build:"
     cat <<EOF
-#!/bin/bash
-set -x
-
 drone deploy --param VICENGINE=${BUILD_VICENGINE_URL:-} \\
              --param VIC_MACHINE_SERVER=${BUILD_VIC_MACHINE_SERVER_REVISION:-} \\
              --param ADMIRAL=${BUILD_ADMIRAL_REVISION:-} \\
