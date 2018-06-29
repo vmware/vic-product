@@ -829,19 +829,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.2.4.10" data-path="vicmachine_create_options_ref.html">
-            
-                <a href="vicmachine_create_options_ref.html">
-            
-                    
-                    Index of Options
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1979,6 +1966,19 @@
             
         </li>
     
+        <li class="chapter " data-level="3.1.9" data-path="vicmachine_options_ref.html">
+            
+                <a href="vicmachine_options_ref.html">
+            
+                    
+                    vic-machine Options Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2193,7 +2193,20 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/manage_projects.html">
+        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/content_trust.html">
+            
+                <a href="../vic_cloud_admin/content_trust.html">
+            
+                    
+                    Content Trust
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_projects.html">
             
                 <a href="../vic_cloud_admin/manage_projects.html">
             
@@ -2206,7 +2219,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_repository_registry.html">
+        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/manage_repository_registry.html">
             
                 <a href="../vic_cloud_admin/manage_repository_registry.html">
             
@@ -2219,7 +2232,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/access_project_logs.html">
+        <li class="chapter " data-level="4.1.3.8" data-path="../vic_cloud_admin/access_project_logs.html">
             
                 <a href="../vic_cloud_admin/access_project_logs.html">
             
@@ -2890,7 +2903,9 @@
 <li><p>If your vSphere environment uses untrusted, self-signed certificates, you must also specify the thumbprint of the vCenter Server instance or ESXi host in the <code>--thumbprint</code> option. </p>
 <p>Use upper-case letters and colon delimitation in the thumbprint. Do not use space delimitation.</p>
 <pre>$ vic-machine-<i>operating_system</i> upgrade
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+--target <i>vcenter_server_address</i>
+--user Administrator@vsphere.local
+--password <i>password</i>
 --thumbprint <i>certificate_thumbprint</i>
 --id <i>vch_id</i></pre>
 </li>
@@ -2898,7 +2913,9 @@
 </li>
 <li><p>If the upgrade operation fails with error messages, run <code>vic-machine upgrade</code> again, specifying a timeout longer than 3 minutes in the <code>--timeout</code> option.</p>
   <pre>$ vic-machine-<i>operating_system</i> upgrade
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+--target <i>vcenter_server_address</i>
+--user Administrator@vsphere.local
+--password <i>password</i>
 --thumbprint <i>certificate_thumbprint</i>
 --id <i>vch_id</i>
 --timeout 5m0s</pre>
@@ -2906,14 +2923,18 @@
 <li><p>If the upgrade operation continues to fail with error messages, run <code>vic-machine upgrade</code> again with the <code>--force</code> option.</p>
 <p> <strong>CAUTION</strong>: Specifying the <code>--force</code> option bypasses safety checks, including certificate thumbprint verification. Using <code>--force</code> in this way can expose VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using <code>--force</code> can result in unexpected deployment topologies that would otherwise fail with an error. Do not use <code>--force</code> in production environments.  </p>
   <pre>$ vic-machine-<i>operating_system</i> upgrade
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+--target <i>vcenter_server_address</i>
+--user Administrator@vsphere.local
+--password <i>password</i>
 --id <i>vch_id</i>
 --timeout 5m0s
 --force</pre>
 </li>
 <li><p>(Optional) To roll back an upgraded VCH to the previous version, or to revert a VCH that failed to upgrade, run <code>vic-machine upgrade</code> again with the <code>--rollback</code> option.</p>
   <pre>$ vic-machine-<i>operating_system</i> upgrade
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+--target <i>vcenter_server_address</i>
+--user Administrator@vsphere.local
+--password <i>password</i>
 --id <i>vch_id</i>
 --rollback</pre>
 
@@ -2981,7 +3002,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Upgrade VCHs","level":"3.1.4.3","depth":3,"next":{"title":"VCH Upgrade Options","level":"3.1.4.3.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]},"previous":{"title":"Move Disks Manually","level":"3.1.4.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_appliance_manual.md","ref":"vic_vsphere_admin/upgrade_appliance_manual.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_vch.md","mtime":"2018-06-07T13:40:13.356Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-21T10:19:58.969Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Upgrade VCHs","level":"3.1.4.3","depth":3,"next":{"title":"VCH Upgrade Options","level":"3.1.4.3.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]},"previous":{"title":"Move Disks Manually","level":"3.1.4.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_appliance_manual.md","ref":"vic_vsphere_admin/upgrade_appliance_manual.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_vch.md","mtime":"2018-06-29T09:29:49.713Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-29T15:38:31.456Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -829,19 +829,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.2.4.10" data-path="vicmachine_create_options_ref.html">
-            
-                <a href="vicmachine_create_options_ref.html">
-            
-                    
-                    Index of Options
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1979,6 +1966,19 @@
             
         </li>
     
+        <li class="chapter " data-level="3.1.9" data-path="vicmachine_options_ref.html">
+            
+                <a href="vicmachine_options_ref.html">
+            
+                    
+                    vic-machine Options Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2193,7 +2193,20 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/manage_projects.html">
+        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/content_trust.html">
+            
+                <a href="../vic_cloud_admin/content_trust.html">
+            
+                    
+                    Content Trust
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_projects.html">
             
                 <a href="../vic_cloud_admin/manage_projects.html">
             
@@ -2206,7 +2219,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_repository_registry.html">
+        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/manage_repository_registry.html">
             
                 <a href="../vic_cloud_admin/manage_repository_registry.html">
             
@@ -2219,7 +2232,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/access_project_logs.html">
+        <li class="chapter " data-level="4.1.3.8" data-path="../vic_cloud_admin/access_project_logs.html">
             
                 <a href="../vic_cloud_admin/access_project_logs.html">
             
@@ -2864,6 +2877,7 @@
 <li><a href="#vccert">Update vCenter Server Certificates</a></li>
 <li><a href="#registries">Add or Update Registry Server Certificates</a></li>
 <li><a href="#tlscerts">Update Security Configuration</a></li>
+<li><a href="#affinity">Update Affinity Group Settings</a></li>
 <li><a href="#volumes">Add Volume Stores</a></li>
 <li><a href="#dns">Add and Reset DNS Servers</a></li>
 <li><a href="#containernet">Configure Container Network Settings</a></li>
@@ -2872,9 +2886,12 @@
 <li><a href="#cpumem">Configure CPU and Memory Allocations</a></li>
 <li><a href="#resetprogress">Reset Upgrade or Configuration Progress</a></li>
 </ul>
+<h2 id="using-vic-machine-configure-">Using <code>vic-machine configure</code> <a id="using"></a></h2>
 <p>To see the current configuration of a VCH before you configure it, and to check the new configuration,  run <code>vic-machine inspect config</code> before and after you run <code>vic-machine configure</code>. For information about running <code>vic-machine inspect config</code>, see <a href="inspect_vch_config.html">Obtain VCH Configuration Information</a>. </p>
 <p><strong>IMPORTANT</strong>: Running <code>vic-machine inspect config</code> before you run <code>vic-machine configure</code> is especially important if you are adding registry certificates, volume stores, DNS servers, or container networks to a VCH that already includes one or more of those elements. When you add registry certificates, volume stores, DNS servers, or container networks to a VCH, you must specify the existing configuration as well as any new configurations in separate instances of the appropriate <code>vic-machine inspect config</code> option. </p>
 <p>When you run a <code>vic-machine configure</code> operation, <code>vic-machine</code> takes a snapshot of the VCH endpoint VM before it makes any modifications to the VCH. However, <code>vic-machine</code> does not remove the snapshot when the configuration operation finishes. You must manually remove the snapshot, after verifying that the configuration operation was successful.</p>
+<p>The <code>vic-machine configure</code> command includes a <code>--force</code> option, that forces <code>vic-machine configure</code> to ignore warnings and non-fatal errors and continue with the configuration of a VCH. Errors such as an incorrect compute resource still cause the configuration to fail.</p>
+<p><strong>CAUTION</strong>: Specifying the <code>--force</code> option bypasses safety checks, including certificate thumbprint verification. Using <code>--force</code> in this way can expose VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using <code>--force</code> can result in unexpected topologies that would otherwise fail with an error. Do not use <code>--force</code> in production environments. </p>
 <h2 id="update-vcenter-server-credentials-">Update vCenter Server Credentials <a id="vccreds"></a></h2>
 <p>If the vCenter Server credentials change after the deployment of a VCH, you must update that VCH with the new credentials. The VCH will not function until you update the credentials. </p>
 <p>You provide the new vCenter Server credentials in the <code>vic-machine configure --ops-user</code> and <code>--ops-password</code> options. You use the <code>vic-machine configure --ops-user</code> and <code>--ops-password</code> options to update the credentials even if you did not specify the <code>vic-machine create --ops-user</code> and <code>--ops-password</code> options during the initial deployment of the VCH. If you did not specify <code>vic-machine create --ops-user</code> and <code>--ops-password</code> during the deployment of the VCH, by default the VCH uses the values from <code>vic-machine create --user</code> and <code>--password</code> for the <code>--ops-user</code> and <code>--ops-password</code> settings, and it uses these credentials for day-to-day, post-deployment operation.  </p>
@@ -2889,9 +2906,11 @@
     --ops-user Administrator@vsphere.local
     --ops-password <i>new_admin_password</i></pre>
 
-<p>You can also use the <code>vic-machine configure --ops-user</code> and <code>--ops-password</code> options to configure an operations user on a VCH that was not initially deployed with that option. Similarly, you can use <code>--ops-user</code> and <code>--ops-password</code> to change the operations user account on a VCH that was deployed with an operations user account, or to update the password for a previously specified operations user account. If you are specifying a new user account for <code>--ops-user</code>, you can also specify <code>--ops-grant-perms</code>, to automatically grant the required permissions to the operations user account. This example specifies the credentials to log into vCenter Server in the <code>--target</code> option, rather than in <code>--user</code> and <code>--password</code>.</p>
+<p>You can also use the <code>vic-machine configure --ops-user</code> and <code>--ops-password</code> options to configure an operations user on a VCH that was not initially deployed with that option. Similarly, you can use <code>--ops-user</code> and <code>--ops-password</code> to change the operations user account on a VCH that was deployed with an operations user account, or to update the password for a previously specified operations user account. If you are specifying a new user account for <code>--ops-user</code>, you can also specify <code>--ops-grant-perms</code>, to automatically grant the required permissions to the operations user account.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --ops-user <i>new_operations_user_account</i>
@@ -2903,24 +2922,29 @@
 <p>If the vCenter Server certificate changes, you must update any VCHs running on that vCenter Server instance, otherwise they will no longer function.</p>
 <p>To update the certificate, provide the new certificate thumbprint to the VCH in the <code>--thumbprint</code> option. For information about how to obtain the vCenter Server certificate thumbprint, see <a href="obtain_thumbprint.html">Obtain vSphere Certificate Thumbprints</a>.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --id <i>vch_id</i>
     --thumbprint <i>new_certificate_thumbprint</i></pre>
 
-<p><strong>CAUTION</strong>: Specifying the <code>--force</code> option bypasses safety checks, including certificate thumbprint verification. Using <code>--force</code> in this way can expose VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using <code>--force</code> can result in unexpected deployment topologies that would otherwise fail with an error. Do not use <code>--force</code> in production environments. </p>
 <h2 id="add-or-update-registry-server-certificates-">Add or Update Registry Server Certificates <a id="registries"></a></h2>
 <p>If a VCH requires access to a new vSphere Integrated Containers Registry instance, or to another private registry, you can add new registry CA certificates by using the <code>vic-machine configure --registry-ca</code> option. You also use the <code>vic-machine configure --registry-ca</code> option if the certificate for an existing registry changes.</p>
 <p>The <code>vic-machine configure --registry-ca</code> option functions in the same way as the equivalent <code>vic-machine create --registry-ca</code> option. For information about the <code>vic-machine create --registry-ca</code> option, see <a href="vch_registry.html">Connect Virtual Container Hosts to Registries</a>.</p>
 <p>This example updates the certificate for a registry that this VCH already uses.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --registry-ca <i>path_to_new_ca_cert_for_existing_registry</i></pre>
 
 <p>If you are adding registry certificates to a VCH that already has one or more registry certificates, you must also specify each existing registry certificate in a separate instance of <code>--registry-ca</code>. This example passes the CA certificate for a new registry to a VCH and specifies the existing certificate for a registry that this VCH already uses.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --registry-ca <i>path_to_ca_cert_for_existing_registry</i>
@@ -2939,7 +2963,9 @@
 <p><strong>NOTE</strong>: The <code>vic-machine configure</code> command does not include an equivalent to <code>vic-machine create --tls-ca</code> option.</p>
 <p>This example  sets the <code>vic-machine configure --tls-cname</code> option to  implement TLS authentication with automatically generated server and client certificates. Before the configuration, the VCH either has no authentication or uses automatically generated certificates that you want to regenerate. The <code>--tls-cert-path</code> option specifies the folder in which to store the generated certificate.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure    
--    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>    
+-    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>    
 -    --thumbprint <i>certificate_thumbprint</i>    
 -    --id <i>vch_id</i>    
 -    --tls-cname *.example.com    
@@ -2947,7 +2973,9 @@
 
 <p>This example  uses the <code>vic-machine configure --tls-server-cert</code> and <code>--tls-server-key</code> options to implement TLS authentication with custom certificates. Before the configuration, the VCH either has no TLS authentication, or it uses automatically generated certificates, or it uses custom certificates that require replacement. </p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --tls-server-cert <i>path_to_cert</i>/<i>certificate_name</i>.pem
@@ -2955,11 +2983,36 @@
 
 <p>This example sets <code>--no-tlsverify</code> to disable the verification of client certificates on a VCH that implements client and server authentication.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --no-tlsverify</pre>
 
+<h2 id="update-affinity-group-settings-">Update Affinity Group Settings <a id="affinity"></a></h2>
+<p>After the deployment of a VCH, you can instruct vSphere Integrated Containers to automatically create a DRS VM group in vSphere for the VCH endpoint VM and its container VMs. If you use this option to reconfigure an existing VCH, you can use the resulting VM group in DRS VM-Host affinity rules, to restrict the set of hosts on which the VCH endpoint VM and its container VMs can run. </p>
+<p><strong>NOTE</strong>: This option is available in vSphere Integrated Containers 1.4.1 and later.</p>
+<p>The <code>vic-machine configure --affinity-vm-group</code> option functions in the same way as the equivalent <code>vic-machine create</code> option. For information about the <code>vic-machine create --affinity-vm-group</code> option, see <a href="vch_affinity_group.html">Add Virtual Container Hosts to a DRS Affinity Group</a>.</p>
+<p>To create a VM group for an existing VCH that was not deployed with this option, use the <code>vic-machine create --affinity-vm-group</code> option with no arguments.</p>
+<pre>$ vic-machine-<i>operating_system</i> configure
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
+    --thumbprint <i>certificate_thumbprint</i>
+    --id <i>vch_id</i>
+    --affinity-vm-group</pre>
+
+<p>To remove a VCH that was deployed with the <code>vic-machine create affinity-vm-group</code> from its VM group, specify <code>false</code> as the argument for the <code>vic-machine configure affinity-vm-group</code> option. </p>
+<pre>$ vic-machine-<i>operating_system</i> configure
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
+    --thumbprint <i>certificate_thumbprint</i>
+    --id <i>vch_id</i>
+    --affinity-vm-group=false</pre>
+
+<p>When you specify <code>--affinity-vm-group=false</code>, vSphere Integrated Containers deletes the automatically created VM group from vSphere.</p>
 <h2 id="add-volume-stores-">Add Volume Stores <a id="volumes"></a></h2>
 <p>You can add volume stores to VCHs by using the <code>vic-machine configure --volume-store</code> option. You can add volume stores backed by vSphere datastores or by NFSv3 shares.</p>
 <p>The <code>vic-machine configure --volume-store</code> option functions in the same way as the equivalent <code>vic-machine create --volume-store</code> option. For information about the <code>vic-machine create --volume-store</code> option, see <a href="volume_stores.html">Specify Volume Stores</a>.</p>
@@ -2967,11 +3020,13 @@
 <p>Before you add an NFS volume store to a VCH, you can test that the NFS share point is configured correctly so that containers can access it by mounting the NFS share point directly in the VCH endpoint VM. For information about how to perform this test, see <a href="vch_install_packages.html">Install Packages in the Virtual Container Host Endpoint VM</a> and <a href="vch_mount_nfsshare.html">Mount an NFS Share Point in the VCH Endpoint VM</a>.</p>
 <p>This example adds a new NFS volume store to a VCH. The VCH already has an existing volume store with the label <code>default</code>, that is backed by a vSphere datastore.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --volume-store <i>datastore_name</i>/<i>datastore_path</i>:default
-    --volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
+    --volume-store nfs://<i>nfs_server</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
 
 <p><strong>NOTE</strong>: The current version of vSphere Integrated Containers does not allow you to remove volume stores from a VCH.</p>
 <h2 id="add-and-reset-dns-servers-">Add and Reset DNS Servers <a id="dns"></a></h2>
@@ -2979,7 +3034,9 @@
 <p>The <code>vic-machine configure --dns-server</code> option functions in the same way as the equivalent <code>vic-machine create --dns-server</code> option. For information about the <code>vic-machine create --dns-server</code> option, see  <a href="public_network.html#dns-server">DNS Server</a> in Configure the Public Network.</p>
 <p>If  you are adding DNS servers to a VCH that already includes one or more DNS servers, you must also specify each existing DNS server in a separate instance of <code>--dns-server</code>. This example adds a new DNS server, <code>dns_server_2</code>, to a VCH that already uses <code>dns_server_1</code>.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --dns-server <i>dns_server_1</i>
@@ -2987,7 +3044,9 @@
 
 <p>To reset the DNS servers on a VCH to the default, set the <code>vic-machine configure --dns-server</code> option to <code>&quot;&quot;</code>.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --dns-server &quot;&quot;</pre>
@@ -2998,7 +3057,9 @@
 <p>The <code>vic-machine configure --container-network</code> options function in the same way as the equivalent <code>vic-machine create</code> options. For information about the <code>vic-machine create</code> container network options,  <a href="container_networks.html">Configure Container Networks</a>.</p>
 <p>This example adds a new container network to a VCH. It designates a port group named <code>vic-containers</code> for use by container VMs, gives the container network the name <code>vic-container-network</code> for use by Docker, specifies the gateway, two DNS servers, and a range of IP addresses on the container network for container VMs to use.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --container-network vic-containers:vic-container-network
@@ -3009,7 +3070,9 @@
 
 <p>If  you are adding container networks to a VCH that already includes one or more container networks, you must also specify each existing container network in separate instances of the <code>--container-network</code> options. This example adds a new DHCP container network named <code>vic-containers-2</code> to the VCH from the example above.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --container-network vic-containers:vic-container-network
@@ -3021,7 +3084,9 @@
 
 <p>You can also configure the trust level of the container network firewall by setting the <code>--container-network-firewall</code> option. This example opens the firewall for outbound connections on the two container networks from the preceding examples.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --container-network vic-containers:vic-container-network
@@ -3040,14 +3105,18 @@
 <p>The <code>vic-machine configure --https-proxy</code> and <code>--http-proxy</code> options function in the same way as the equivalent <code>vic-machine create</code> options. For information about the <code>vic-machine create --https-proxy</code> and <code>--http-proxy</code> options, see <a href="vch_proxy.html">Configure VCHs to Use Proxy Servers</a>.</p>
 <p>This example configures a VCH to use a new HTTPS proxy server.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --https-proxy https://<i>new_proxy_server_address</i>:<i>port</i></pre>
 
 <p>To remove a proxy server from a VCH, set the <code>vic-machine configure --https-proxy</code> or <code>--http-proxy</code> options to <code>&quot;&quot;</code>.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --https-proxy &quot;&quot;</pre>
@@ -3057,14 +3126,18 @@
 <p>The <code>vic-machine configure --debug</code> option functions in the same way as the equivalent <code>vic-machine create --debug</code> option. For information about the <code>vic-machine create --debug</code> option, see <a href="vch_general_settings.html#debug">Debug</a> in the topic on configuring general VCH settings. By default, <code>vic-machine create</code> deploys VCHs with debugging level 0.</p>
 <p>This example increases the level of debugging to level 3, either on a VCH that is running with a lower level of debugging, or on a VCH that is not running in debug mode.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --debug 3</pre>
 
 <p>This example sets the <code>--debug</code> option to 0, to disable debug mode on a VCH. </p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --debug 0</pre>
@@ -3076,7 +3149,9 @@
 <p><strong>NOTE</strong>: Clusters that do not implement DRS do not support resource pools. If you deployed a VCH to a cluster on which DRS is disabled, the VCH is in a VM folder, rather than in a resource pool. Consequently,  if you specify any <code>vic-machine configure</code> options that apply to the memory or CPU configuration of the VCH resource pool, these options are ignored, with a warning in the configuration log.</p>
 <p>This example configures a VCH to impose memory and CPU reservations, limits, and shares.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --memory 1024
@@ -3090,7 +3165,9 @@
 <p><strong>NOTE</strong>: If you set limits on memory and CPU usage that are too low, the <code>vic-machine configure</code> operation might fail because it is unable to restart the VCH.</p>
 <p>This example removes all limitations on memory and CPU use from a VCH.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --memory 0
@@ -3105,7 +3182,9 @@
 <p>If an attempt to upgrade or configure a VCH was interrupted before it could complete successfully, any further attempts to run <code>vic-machine upgrade</code> or <code>vic-machine configure</code> fail with the error <code>another upgrade/configure operation is in progress</code>. This happens because <code>vic-machine upgrade</code> and <code>vic-machine configure</code> set an <code>UpdateInProgress</code> flag on the VCH endpoint VM that prevents other operations on that VCH while the upgrade or configuration operation is ongoing. If an upgrade or configuration operation is interrupted before it completes, this flag persists on the VCH indefinitely.</p>
 <p>To clear the flag so that you can attempt further <code>vic-machine upgrade</code> or <code>vic-machine configure</code> operations, run <code>vic-machine configure</code> with the <code>--reset-progress</code> option.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
-    --target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --reset-progress
@@ -3155,7 +3234,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configure Running VCHs","level":"3.1.3.3.6","depth":4,"next":{"title":"Debug Running VCHs","level":"3.1.3.3.7","depth":4,"path":"vic_vsphere_admin/debug_vch.md","ref":"vic_vsphere_admin/debug_vch.md","articles":[{"title":"Enable Shell Access","level":"3.1.3.3.7.1","depth":5,"path":"vic_vsphere_admin/vch_shell_access.md","ref":"vic_vsphere_admin/vch_shell_access.md","articles":[]},{"title":"Authorize SSH Access","level":"3.1.3.3.7.2","depth":5,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]}]},"previous":{"title":"Obtain VCH Configuration Information","level":"3.1.3.3.5","depth":4,"path":"vic_vsphere_admin/inspect_vch_config.md","ref":"vic_vsphere_admin/inspect_vch_config.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/configure_vch.md","mtime":"2018-06-07T13:40:12.931Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-21T10:19:58.969Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configure Running VCHs","level":"3.1.3.3.6","depth":4,"next":{"title":"Debug Running VCHs","level":"3.1.3.3.7","depth":4,"path":"vic_vsphere_admin/debug_vch.md","ref":"vic_vsphere_admin/debug_vch.md","articles":[{"title":"Enable Shell Access","level":"3.1.3.3.7.1","depth":5,"path":"vic_vsphere_admin/vch_shell_access.md","ref":"vic_vsphere_admin/vch_shell_access.md","articles":[]},{"title":"Authorize SSH Access","level":"3.1.3.3.7.2","depth":5,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]}]},"previous":{"title":"Obtain VCH Configuration Information","level":"3.1.3.3.5","depth":4,"path":"vic_vsphere_admin/inspect_vch_config.md","ref":"vic_vsphere_admin/inspect_vch_config.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/configure_vch.md","mtime":"2018-06-29T09:29:49.520Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-29T15:38:31.456Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

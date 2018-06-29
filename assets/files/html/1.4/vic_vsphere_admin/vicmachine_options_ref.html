@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Index of Options · VMware vSphere Integrated Containers 1.4 Documentation</title>
+        <title>vic-machine Options Reference · VMware vSphere Integrated Containers 1.4 Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -69,10 +69,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="deploy_test_vch.html" />
+    <link rel="next" href="../vic_cloud_admin/" />
     
     
-    <link rel="prev" href="vch_boot_options.html" />
+    <link rel="prev" href="obtain_appliance_certs.html" />
     
 
     </head>
@@ -826,19 +826,6 @@
     
 
             </ul>
-            
-        </li>
-    
-        <li class="chapter active" data-level="3.1.2.4.10" data-path="vicmachine_create_options_ref.html">
-            
-                <a href="vicmachine_create_options_ref.html">
-            
-                    
-                    Index of Options
-            
-                </a>
-            
-
             
         </li>
     
@@ -1979,6 +1966,19 @@
             
         </li>
     
+        <li class="chapter active" data-level="3.1.9" data-path="vicmachine_options_ref.html">
+            
+                <a href="vicmachine_options_ref.html">
+            
+                    
+                    vic-machine Options Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2193,7 +2193,20 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/manage_projects.html">
+        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/content_trust.html">
+            
+                <a href="../vic_cloud_admin/content_trust.html">
+            
+                    
+                    Content Trust
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_projects.html">
             
                 <a href="../vic_cloud_admin/manage_projects.html">
             
@@ -2206,7 +2219,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_repository_registry.html">
+        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/manage_repository_registry.html">
             
                 <a href="../vic_cloud_admin/manage_repository_registry.html">
             
@@ -2219,7 +2232,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/access_project_logs.html">
+        <li class="chapter " data-level="4.1.3.8" data-path="../vic_cloud_admin/access_project_logs.html">
             
                 <a href="../vic_cloud_admin/access_project_logs.html">
             
@@ -2841,7 +2854,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Index of Options</a>
+        <a href=".." >vic-machine Options Reference</a>
     </h1>
 </div>
 
@@ -2856,8 +2869,21 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="index-of-vic-machine-create-options">Index of <code>vic-machine create</code> Options</h1>
-<p>The table in this topic includes the full list of options for the <code>vic-machine create</code> command, with links to the sections of the documentation that describe them.</p>
+                                <h1 id="vic-machine-options-reference"><code>vic-machine</code> Options Reference</h1>
+<p>This topic includes lists of all of the options of the different <code>vic-machine</code> commands, with links to the sections of the documentation that describe them.</p>
+<ul>
+<li><a href="#create"><code>vic-machine create</code> Options</a></li>
+<li><a href="#configure"><code>vic-machine configure</code> Options</a></li>
+<li><a href="#debug"><code>vic-machine debug</code> Options</a></li>
+<li><a href="#delete"><code>vic-machine delete</code> Options</a></li>
+<li><a href="#inspect"><code>vic-machine inspect</code> Options</a></li>
+<li><a href="#inspect-config"><code>vic-machine inspect config</code> Options</a></li>
+<li><a href="#ls"><code>vic-machine ls</code> Options</a></li>
+<li><a href="#update"><code>vic-machine update firewall</code> Options</a></li>
+<li><a href="#upgrade"><code>vic-machine upgrade</code> Options</a></li>
+<li><a href="#version"><code>vic-machine version</code> Options</a></li>
+</ul>
+<h2 id="vic-machine-create-options-"><code>vic-machine create</code> Options <a id="create"></a></h2>
 <table>
 <thead>
 <tr>
@@ -3108,6 +3134,504 @@
 </tr>
 </tbody>
 </table>
+<h2 id="vic-machine-configure-options-"><code>vic-machine configure</code> Options <a id="configure"></a></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Option</strong></th>
+<th><strong>Documentation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--affinity-vm-group</code></td>
+<td><a href="configure_vch.html#affinity">Update Affinity Group Settings</a></td>
+</tr>
+<tr>
+<td><code>--compute-resource</code></td>
+<td><a href="common_vic_options.html#compute-resource">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--container-network</code></td>
+<td><a href="configure_vch.html#containernet">Configure Container Network Settings</a></td>
+</tr>
+<tr>
+<td><code>--container-network-dns</code></td>
+<td><a href="configure_vch.html#containernet">Configure Container Network Settings</a></td>
+</tr>
+<tr>
+<td><code>--container-network-firewall</code></td>
+<td><a href="configure_vch.html#containernet">Configure Container Network Settings</a></td>
+</tr>
+<tr>
+<td><code>--container-network-gateway</code></td>
+<td><a href="configure_vch.html#containernet">Configure Container Network Settings</a></td>
+</tr>
+<tr>
+<td><code>--container-network-ip-range</code></td>
+<td><a href="configure_vch.html#containernet">Configure Container Network Settings</a></td>
+</tr>
+<tr>
+<td><code>--cpu</code></td>
+<td><a href="configure_vch.html#cpumem">Configure CPU and Memory Allocations</a></td>
+</tr>
+<tr>
+<td><code>--cpu-reservation</code></td>
+<td><a href="configure_vch.html#cpumem">Configure CPU and Memory Allocations</a></td>
+</tr>
+<tr>
+<td><code>--cpu-shares</code></td>
+<td><a href="configure_vch.html#cpumem">Configure CPU and Memory Allocations</a></td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td><a href="configure_vch.html#debug">Configure Debug Mode</a></td>
+</tr>
+<tr>
+<td><code>--dns-server</code></td>
+<td><a href="configure_vch.html#dns">Add and Reset DNS Servers</a></td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td><a href="configure_vch.html#using">Using <code>vic-machine configure</code></a></td>
+</tr>
+<tr>
+<td><code>--http-proxy</code></td>
+<td><a href="configure_vch.html#proxies">Add, Configure, or Remove Proxy Servers</a></td>
+</tr>
+<tr>
+<td><code>--https-proxy</code></td>
+<td><a href="configure_vch.html#proxies">Add, Configure, or Remove Proxy Servers</a></td>
+</tr>
+<tr>
+<td><code>--id</code></td>
+<td><a href="common_vic_options.html#id">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--memory</code></td>
+<td><a href="configure_vch.html#cpumem">Configure CPU and Memory Allocations</a></td>
+</tr>
+<tr>
+<td><code>--memory-reservation</code></td>
+<td><a href="configure_vch.html#cpumem">Configure CPU and Memory Allocations</a></td>
+</tr>
+<tr>
+<td><code>--memory-shares</code></td>
+<td><a href="configure_vch.html#cpumem">Configure CPU and Memory Allocations</a></td>
+</tr>
+<tr>
+<td><code>--name</code></td>
+<td><a href="common_vic_options.html#name">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--no-tlsverify</code></td>
+<td><a href="configure_vch.html#tlscerts">Update Security Configuration</a></td>
+</tr>
+<tr>
+<td><code>--ops-grant-perms</code></td>
+<td><a href="configure_vch.html#vccreds">Update vCenter Server Credentials</a></td>
+</tr>
+<tr>
+<td><code>--ops-password</code></td>
+<td><a href="configure_vch.html#vccreds">Update vCenter Server Credentials</a></td>
+</tr>
+<tr>
+<td><code>--ops-user</code></td>
+<td><a href="configure_vch.html#vccreds">Update vCenter Server Credentials</a></td>
+</tr>
+<tr>
+<td><code>--password</code></td>
+<td><a href="common_vic_options.html#password">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--registry-ca value</code></td>
+<td><a href="configure_vch.html#registries">Add or Update Registry Server Certificates</a></td>
+</tr>
+<tr>
+<td><code>--reset-progress</code></td>
+<td><a href="configure_vch.html#resetprogress">Reset Upgrade or Configuration Progress</a></td>
+</tr>
+<tr>
+<td><code>--target</code></td>
+<td><a href="common_vic_options.html#target">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--thumbprint</code></td>
+<td><a href="common_vic_options.html#thumbprint">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--timeout</code></td>
+<td><a href="common_vic_options.html#timeout">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--tls-cert-path</code></td>
+<td><a href="configure_vch.html#tlscerts">Update Security Configuration</a></td>
+</tr>
+<tr>
+<td><code>--tls-cname</code></td>
+<td><a href="configure_vch.html#tlscerts">Update Security Configuration</a></td>
+</tr>
+<tr>
+<td><code>--tls-server-cert</code></td>
+<td><a href="configure_vch.html#tlscerts">Update Security Configuration</a></td>
+</tr>
+<tr>
+<td><code>--tls-server-key</code></td>
+<td><a href="configure_vch.html#tlscerts">Update Security Configuration</a></td>
+</tr>
+<tr>
+<td><code>--user</code></td>
+<td><a href="common_vic_options.html#user">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--volume-store</code></td>
+<td><a href="configure_vch.html#volumes">Add Volume Stores</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="vic-machine-debug-options-"><code>vic-machine debug</code> Options <a id="debug"></a></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Option</strong></th>
+<th><strong>Documentation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--authorized-key</code></td>
+<td><a href="vch_ssh_access.html">Authorize SSH Access to the VCH Endpoint VM</a></td>
+</tr>
+<tr>
+<td><code>--compute-resource</code></td>
+<td><a href="common_vic_options.html#compute-resource">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--enable-ssh</code></td>
+<td><a href="vch_ssh_access.html">Authorize SSH Access to the VCH Endpoint VM</a></td>
+</tr>
+<tr>
+<td><code>--id</code></td>
+<td><a href="common_vic_options.html#id">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--name</code></td>
+<td><a href="common_vic_options.html#name">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--password</code></td>
+<td><a href="common_vic_options.html#password">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--rootpw</code></td>
+<td><a href="vch_shell_access.html">Enable shell access to the VCH Endpoint VM</a></td>
+</tr>
+<tr>
+<td><code>--target</code></td>
+<td><a href="common_vic_options.html#target">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--thumbprint</code></td>
+<td><a href="common_vic_options.html#thumbprint">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--timeout</code></td>
+<td><a href="common_vic_options.html#timeout">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--user</code></td>
+<td><a href="common_vic_options.html#user">Common <code>vic-machine</code> Options</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="vic-machine-delete-options-"><code>vic-machine delete</code> Options <a id="delete"></a></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Option</strong></th>
+<th><strong>Documentation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--compute-resource</code></td>
+<td><a href="common_vic_options.html#compute-resource">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td><a href="remove_vch.html">Delete Virtual Container Hosts</a></td>
+</tr>
+<tr>
+<td><code>--id</code></td>
+<td><a href="common_vic_options.html#id">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--name</code></td>
+<td><a href="common_vic_options.html#name">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--password</code></td>
+<td><a href="common_vic_options.html#password">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--target</code></td>
+<td><a href="common_vic_options.html#target">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--thumbprint</code></td>
+<td><a href="common_vic_options.html#thumbprint">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--timeout</code></td>
+<td><a href="common_vic_options.html#timeout">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--user</code></td>
+<td><a href="common_vic_options.html#user">Common <code>vic-machine</code> Options</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="vic-machine-inspect-options-"><code>vic-machine inspect</code> Options <a id="inspect"></a></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Option</strong></th>
+<th><strong>Documentation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--compute-resource</code></td>
+<td><a href="common_vic_options.html#compute-resource">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--id</code></td>
+<td><a href="common_vic_options.html#id">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--name</code></td>
+<td><a href="common_vic_options.html#name">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--password</code></td>
+<td><a href="common_vic_options.html#password">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--target</code></td>
+<td><a href="common_vic_options.html#target">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--thumbprint</code></td>
+<td><a href="common_vic_options.html#thumbprint">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--timeout</code></td>
+<td><a href="common_vic_options.html#timeout">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--tls-cert-path</code></td>
+<td><a href="inspect_vch.html">Obtain General Virtual Container Host Information and Connection Details</a></td>
+</tr>
+<tr>
+<td><code>--user</code></td>
+<td><a href="common_vic_options.html#user">Common <code>vic-machine</code> Options</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="vic-machine-inspect-config-options-"><code>vic-machine inspect config</code> Options <a id="inspect-config"></a></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Option</strong></th>
+<th><strong>Documentation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--compute-resource</code></td>
+<td><a href="common_vic_options.html#compute-resource">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--id</code></td>
+<td><a href="common_vic_options.html#id">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--format</code></td>
+<td><a href="inspect_vch_config.html">Obtain Virtual Container Host Configuration Information</a></td>
+</tr>
+<tr>
+<td><code>--name</code></td>
+<td><a href="common_vic_options.html#name">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--password</code></td>
+<td><a href="common_vic_options.html#password">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--target</code></td>
+<td><a href="common_vic_options.html#target">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--thumbprint</code></td>
+<td><a href="common_vic_options.html#thumbprint">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--timeout</code></td>
+<td><a href="common_vic_options.html#timeout">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--tls-cert-path</code></td>
+<td><a href="inspect_vch.html">Obtain General Virtual Container Host Information and Connection Details</a></td>
+</tr>
+<tr>
+<td><code>--user</code></td>
+<td><a href="common_vic_options.html#user">Common <code>vic-machine</code> Options</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="vic-machine-ls-options-"><code>vic-machine ls</code> Options <a id="ls"></a></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Option</strong></th>
+<th><strong>Documentation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--password</code></td>
+<td><a href="common_vic_options.html#password">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--target</code></td>
+<td><a href="common_vic_options.html#target">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--timeout</code></td>
+<td><a href="common_vic_options.html#timeout">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--thumbprint</code></td>
+<td><a href="common_vic_options.html#thumbprint">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--user</code></td>
+<td><a href="common_vic_options.html#user">Common <code>vic-machine</code> Options</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="vic-machine-update-firewall-options-"><code>vic-machine update firewall</code> Options <a id="update"></a></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Option</strong></th>
+<th><strong>Documentation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--allow</code></td>
+<td><a href="open_ports_on_hosts.html">Open the Required Ports on ESXi Hosts</a></td>
+</tr>
+<tr>
+<td><code>--compute-resource</code></td>
+<td><a href="common_vic_options.html#compute-resource">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--deny</code></td>
+<td><a href="open_ports_on_hosts.html">Open the Required Ports on ESXi Hosts</a></td>
+</tr>
+<tr>
+<td><code>--password</code></td>
+<td><a href="common_vic_options.html#password">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--target</code></td>
+<td><a href="common_vic_options.html#target">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--thumbprint</code></td>
+<td><a href="common_vic_options.html#thumbprint">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--timeout</code></td>
+<td><a href="common_vic_options.html#timeout">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--user</code></td>
+<td><a href="common_vic_options.html#user">Common <code>vic-machine</code> Options</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="vic-machine-upgrade-options-"><code>vic-machine upgrade</code> Options <a id="upgrade"></a></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Option</strong></th>
+<th><strong>Documentation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--appliance-iso</code></td>
+<td><a href="upgrade_vch_options.html#appliance-iso">VCH Upgrade Options</a></td>
+</tr>
+<tr>
+<td><code>--bootstrap-iso</code></td>
+<td><a href="upgrade_vch_options.html#bootstrap-iso">VCH Upgrade Options</a></td>
+</tr>
+<tr>
+<td><code>--compute-resource</code></td>
+<td><a href="common_vic_options.html#compute-resource">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td><a href="upgrade_vch_options.html#debug">VCH Upgrade Options</a></td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td><a href="upgrade_vch_options.html#force">VCH Upgrade Options</a></td>
+</tr>
+<tr>
+<td><code>--id</code></td>
+<td><a href="common_vic_options.html#id">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--name</code></td>
+<td><a href="common_vic_options.html#name">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--password</code></td>
+<td><a href="common_vic_options.html#password">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--reset-progress</code></td>
+<td><a href="upgrade_vch_options.html#reset-progress">VCH Upgrade Options</a></td>
+</tr>
+<tr>
+<td><code>--rollback</code></td>
+<td><a href="upgrade_vch_options.html#rollback">VCH Upgrade Options</a></td>
+</tr>
+<tr>
+<td><code>--target</code></td>
+<td><a href="common_vic_options.html#target">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--thumbprint</code></td>
+<td><a href="common_vic_options.html#thumbprint">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--timeout</code></td>
+<td><a href="common_vic_options.html#timeout">Common <code>vic-machine</code> Options</a></td>
+</tr>
+<tr>
+<td><code>--user</code></td>
+<td><a href="common_vic_options.html#user">Common <code>vic-machine</code> Options</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="vic-machine-version-options-"><code>vic-machine version</code> Options <a id="version"></a></h2>
+<p>The <code>vic-machine version</code> command has no options.</p>
 
                                 
                                 </section>
@@ -3135,12 +3659,12 @@
 
             
                 
-                <a href="vch_boot_options.html" class="navigation navigation-prev " aria-label="Previous page: VCH Boot Options">
+                <a href="obtain_appliance_certs.html" class="navigation navigation-prev " aria-label="Previous page: Obtain Appliance Certificates">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="deploy_test_vch.html" class="navigation navigation-next " aria-label="Next page: Deploy a Test VCH">
+                <a href="../vic_cloud_admin/" class="navigation navigation-next " aria-label="Next page: Management Portal Administrator">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -3151,7 +3675,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Index of Options","level":"3.1.2.4.10","depth":4,"next":{"title":"Deploy a Test VCH","level":"3.1.2.5","depth":3,"path":"vic_vsphere_admin/deploy_test_vch.md","ref":"vic_vsphere_admin/deploy_test_vch.md","articles":[{"title":"Deploy a VCH to an ESXi Host with No vCenter Server","level":"3.1.2.5.1","depth":4,"path":"vic_vsphere_admin/deploy_vch_esxi.md","ref":"vic_vsphere_admin/deploy_vch_esxi.md","articles":[]},{"title":"VCH with Volume Store and Registry","level":"3.1.2.5.2","depth":4,"path":"vic_vsphere_admin/deploy_vch_dchphoton.md","ref":"vic_vsphere_admin/deploy_vch_dchphoton.md","articles":[]}]},"previous":{"title":"VCH Boot Options","level":"3.1.2.4.9.2","depth":5,"path":"vic_vsphere_admin/vch_boot_options.md","ref":"vic_vsphere_admin/vch_boot_options.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vicmachine_create_options_ref.md","mtime":"2018-06-19T10:07:03.692Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-21T10:19:58.969Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"vic-machine Options Reference","level":"3.1.9","depth":2,"next":{"title":"Management Portal Administrator","level":"4.1","depth":1,"path":"vic_cloud_admin/README.md","ref":"vic_cloud_admin/README.md","articles":[{"title":"Logging In to Management Portal","level":"4.1.1","depth":2,"path":"vic_cloud_admin/logging_in_mp.md","ref":"vic_cloud_admin/logging_in_mp.md","articles":[{"title":"Verify and Trust Certificates","level":"4.1.1.1","depth":3,"path":"vic_cloud_admin/trust_vic_certs.md","ref":"vic_cloud_admin/trust_vic_certs.md","articles":[]}]},{"title":"Initial Configuration","level":"4.1.2","depth":2,"path":"vic_cloud_admin/mp_initial_config.md","ref":"vic_cloud_admin/mp_initial_config.md","articles":[{"title":"Configure System Settings","level":"4.1.2.1","depth":3,"path":"vic_cloud_admin/configure_system.md","ref":"vic_cloud_admin/configure_system.md","articles":[]},{"title":"Add Management Portal Administrators","level":"4.1.2.2","depth":3,"path":"vic_cloud_admin/add_cloud_admins.md","ref":"vic_cloud_admin/add_cloud_admins.md","articles":[]}]},{"title":"Working with Projects","level":"4.1.3","depth":2,"path":"vic_cloud_admin/working_with_projects.md","ref":"vic_cloud_admin/working_with_projects.md","articles":[{"title":"Create a Project","level":"4.1.3.1","depth":3,"path":"vic_cloud_admin/create_projects.md","ref":"vic_cloud_admin/create_projects.md","articles":[]},{"title":"Assign Users to a Project","level":"4.1.3.2","depth":3,"path":"vic_cloud_admin/add_users.md","ref":"vic_cloud_admin/add_users.md","articles":[]},{"title":"Assign Projects to a User","level":"4.1.3.3","depth":3,"path":"vic_cloud_admin/assign_project_to_user.md","ref":"vic_cloud_admin/assign_project_to_user.md","articles":[]},{"title":"Add Hosts to a Project","level":"4.1.3.4","depth":3,"path":"vic_cloud_admin/vchs_and_mgmt_portal.md","ref":"vic_cloud_admin/vchs_and_mgmt_portal.md","articles":[{"title":"Full TLS Authentication","level":"4.1.3.4.1","depth":4,"path":"vic_cloud_admin/add_vch_fullTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_fullTLS_in_portal.md","articles":[]},{"title":"Server-Side Authentication","level":"4.1.3.4.2","depth":4,"path":"vic_cloud_admin/add_vch_serversideTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_serversideTLS_in_portal.md","articles":[]},{"title":"No Authentication","level":"4.1.3.4.3","depth":4,"path":"vic_cloud_admin/add_vch_noTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_noTLS_in_portal.md","articles":[]}]},{"title":"Content Trust","level":"4.1.3.5","depth":3,"path":"vic_cloud_admin/content_trust.md","ref":"vic_cloud_admin/content_trust.md","articles":[]},{"title":"Configure Project Settings","level":"4.1.3.6","depth":3,"path":"vic_cloud_admin/manage_projects.md","ref":"vic_cloud_admin/manage_projects.md","articles":[]},{"title":"Manage Internal Repositories","level":"4.1.3.7","depth":3,"path":"vic_cloud_admin/manage_repository_registry.md","ref":"vic_cloud_admin/manage_repository_registry.md","articles":[]},{"title":"Access Project Logs","level":"4.1.3.8","depth":3,"path":"vic_cloud_admin/access_project_logs.md","ref":"vic_cloud_admin/access_project_logs.md","articles":[]}]},{"title":"Working with Registries","level":"4.1.4","depth":2,"path":"vic_cloud_admin/working_with_registries.md","ref":"vic_cloud_admin/working_with_registries.md","articles":[{"title":"Add Global Registries","level":"4.1.4.1","depth":3,"path":"vic_cloud_admin/add_repos_in_portal.md","ref":"vic_cloud_admin/add_repos_in_portal.md","articles":[]},{"title":"Add Project Specific Registries","level":"4.1.4.2","depth":3,"path":"vic_cloud_admin/add_project_registry.md","ref":"vic_cloud_admin/add_project_registry.md","articles":[]},{"title":"Replicating Images","level":"4.1.4.3","depth":3,"path":"vic_cloud_admin/replicating_images.md","ref":"vic_cloud_admin/replicating_images.md","articles":[{"title":"Create Replication Endpoints","level":"4.1.4.3.1","depth":4,"path":"vic_cloud_admin/create_replication_endpoints.md","ref":"vic_cloud_admin/create_replication_endpoints.md","articles":[]},{"title":"Create Replication Rules","level":"4.1.4.3.2","depth":4,"path":"vic_cloud_admin/create_replication_rules.md","ref":"vic_cloud_admin/create_replication_rules.md","articles":[]},{"title":"Manage Replication Endpoints","level":"4.1.4.3.3","depth":4,"path":"vic_cloud_admin/manage_replication_endpoints.md","ref":"vic_cloud_admin/manage_replication_endpoints.md","articles":[]}]},{"title":"Vulnerability Scanning","level":"4.1.4.4","depth":3,"path":"vic_cloud_admin/vulnerability_scanning.md","ref":"vic_cloud_admin/vulnerability_scanning.md","articles":[{"title":"Configure Scheduled Vulnerability Scan on All Images","level":"4.1.4.4.1","depth":4,"path":"vic_cloud_admin/configure_scheduled_vulnerability.md","ref":"vic_cloud_admin/configure_scheduled_vulnerability.md","articles":[]},{"title":"Configure Vulnerability Scanning on a Per-Project Level","level":"4.1.4.4.2","depth":4,"path":"vic_cloud_admin/configure_vulnerability_scanning_per_project.md","ref":"vic_cloud_admin/configure_vulnerability_scanning_per_project.md","articles":[]},{"title":"Perform a Vulnerability Scan on a Single Image","level":"4.1.4.4.3","depth":4,"path":"vic_cloud_admin/perform_vulnerability_scan_single_image.md","ref":"vic_cloud_admin/perform_vulnerability_scan_single_image.md","articles":[]}]}]}]},"previous":{"title":"Obtain Appliance Certificates","level":"3.1.8.2","depth":3,"path":"vic_vsphere_admin/obtain_appliance_certs.md","ref":"vic_vsphere_admin/obtain_appliance_certs.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vicmachine_options_ref.md","mtime":"2018-06-29T09:29:49.778Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-29T15:38:31.456Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

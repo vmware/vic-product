@@ -72,7 +72,7 @@
     <link rel="next" href="manage_repository_registry.html" />
     
     
-    <link rel="prev" href="add_vch_noTLS_in_portal.html" />
+    <link rel="prev" href="content_trust.html" />
     
 
     </head>
@@ -826,19 +826,6 @@
     
 
             </ul>
-            
-        </li>
-    
-        <li class="chapter " data-level="3.1.2.4.10" data-path="../vic_vsphere_admin/vicmachine_create_options_ref.html">
-            
-                <a href="../vic_vsphere_admin/vicmachine_create_options_ref.html">
-            
-                    
-                    Index of Options
-            
-                </a>
-            
-
             
         </li>
     
@@ -1979,6 +1966,19 @@
             
         </li>
     
+        <li class="chapter " data-level="3.1.9" data-path="../vic_vsphere_admin/vicmachine_options_ref.html">
+            
+                <a href="../vic_vsphere_admin/vicmachine_options_ref.html">
+            
+                    
+                    vic-machine Options Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2193,7 +2193,20 @@
             
         </li>
     
-        <li class="chapter active" data-level="4.1.3.5" data-path="manage_projects.html">
+        <li class="chapter " data-level="4.1.3.5" data-path="content_trust.html">
+            
+                <a href="content_trust.html">
+            
+                    
+                    Content Trust
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="4.1.3.6" data-path="manage_projects.html">
             
                 <a href="manage_projects.html">
             
@@ -2206,7 +2219,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.6" data-path="manage_repository_registry.html">
+        <li class="chapter " data-level="4.1.3.7" data-path="manage_repository_registry.html">
             
                 <a href="manage_repository_registry.html">
             
@@ -2219,7 +2232,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.7" data-path="access_project_logs.html">
+        <li class="chapter " data-level="4.1.3.8" data-path="access_project_logs.html">
             
                 <a href="access_project_logs.html">
             
@@ -2860,8 +2873,8 @@
 <p>After you have created a project, you can modify its configuration. You can perform the following actions on a project: </p>
 <ul>
 <li>Toggle a project between the public and private states at different stages of the development process.</li>
-<li>Enable or disable Docker content trust. vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement content trust by signing and verifying the images in the registry. For information about Docker Notary, see <a href="https://docs.docker.com/engine/security/trust/content_trust/" target="_blank">Content trust in Docker</a> in the Docker documentation.</li>
-<li>Configure vulnerability scanning on the images in the project. For more information about vulnerability scanning, see  <a href="vulnerability_scanning.html">Vulnerability Scanning</a>.</li>
+<li>Enable or disable Docker content trust. For information content trust see <a href="content_trust.html">Enabling Content Trust in Projects</a>.</li>
+<li>Configure vulnerability scanning on the images in the project. For more information about vulnerability scanning, see <a href="vulnerability_scanning.html">Vulnerability Scanning</a>.</li>
 <li>When you no longer require a project, you can delete it.</li>
 </ul>
 <p><strong>Prerequisites</strong></p>
@@ -2886,7 +2899,6 @@
 <li><p>To delete a project, on the Projects page, click the three dots next to a project and click <strong>Delete</strong>.</p>
 </li>
 </ol>
-<p><strong>NOTE</strong>: If you enable content trust on a project, the developers who work on that project must configure their Docker clients so that they can connect to the Notary server running in vSphere Integrated Containers Registry. For information about how to configure Docker clients for content trust, see the section on <a href="../vic_app_dev/configure_docker_client.html#notary">Using vSphere Integrated Containers Registry with Content Trust</a> in Configure the Docker Client for Use with vSphere Integrated Containers, in <em>Developing Applications with vSphere Integrated Containers</em>.</p>
 <p><strong>What to Do Next</strong></p>
 <ul>
 <li><a href="manage_repository_registry.html">Manage Internal Repositories in Projects</a></li>
@@ -2919,7 +2931,7 @@
 
             
                 
-                <a href="add_vch_noTLS_in_portal.html" class="navigation navigation-prev " aria-label="Previous page: No Authentication">
+                <a href="content_trust.html" class="navigation navigation-prev " aria-label="Previous page: Content Trust">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -2935,7 +2947,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configure Project Settings","level":"4.1.3.5","depth":3,"next":{"title":"Manage Internal Repositories","level":"4.1.3.6","depth":3,"path":"vic_cloud_admin/manage_repository_registry.md","ref":"vic_cloud_admin/manage_repository_registry.md","articles":[]},"previous":{"title":"No Authentication","level":"4.1.3.4.3","depth":4,"path":"vic_cloud_admin/add_vch_noTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_noTLS_in_portal.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_cloud_admin/manage_projects.md","mtime":"2018-06-20T10:16:47.380Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-21T10:19:58.969Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configure Project Settings","level":"4.1.3.6","depth":3,"next":{"title":"Manage Internal Repositories","level":"4.1.3.7","depth":3,"path":"vic_cloud_admin/manage_repository_registry.md","ref":"vic_cloud_admin/manage_repository_registry.md","articles":[]},"previous":{"title":"Content Trust","level":"4.1.3.5","depth":3,"path":"vic_cloud_admin/content_trust.md","ref":"vic_cloud_admin/content_trust.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_cloud_admin/manage_projects.md","mtime":"2018-06-29T09:29:49.386Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-29T15:38:31.456Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

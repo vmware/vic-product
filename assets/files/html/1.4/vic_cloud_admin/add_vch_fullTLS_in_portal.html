@@ -829,19 +829,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.2.4.10" data-path="../vic_vsphere_admin/vicmachine_create_options_ref.html">
-            
-                <a href="../vic_vsphere_admin/vicmachine_create_options_ref.html">
-            
-                    
-                    Index of Options
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1979,6 +1966,19 @@
             
         </li>
     
+        <li class="chapter " data-level="3.1.9" data-path="../vic_vsphere_admin/vicmachine_options_ref.html">
+            
+                <a href="../vic_vsphere_admin/vicmachine_options_ref.html">
+            
+                    
+                    vic-machine Options Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2193,7 +2193,20 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.5" data-path="manage_projects.html">
+        <li class="chapter " data-level="4.1.3.5" data-path="content_trust.html">
+            
+                <a href="content_trust.html">
+            
+                    
+                    Content Trust
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.6" data-path="manage_projects.html">
             
                 <a href="manage_projects.html">
             
@@ -2206,7 +2219,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.6" data-path="manage_repository_registry.html">
+        <li class="chapter " data-level="4.1.3.7" data-path="manage_repository_registry.html">
             
                 <a href="manage_repository_registry.html">
             
@@ -2219,7 +2232,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.7" data-path="access_project_logs.html">
+        <li class="chapter " data-level="4.1.3.8" data-path="access_project_logs.html">
             
                 <a href="access_project_logs.html">
             
@@ -2858,7 +2871,7 @@
                                 
                                 <h1 id="add-container-hosts-with-full-tls-authentication">Add Container Hosts with Full TLS Authentication</h1>
 <p>If a Docker host or a vSphere Integrated Containers virtual container host (VCH) implements verification of both server and client certificates, you must provide the details of the client certificate when you add the host to a project in the management portal. Connections to the host use HTTPS.</p>
-<p><strong>IMPORTANT</strong>: If you have deployed multiple instances of the vSphere Integrated Containers appliance, you can only register a virtual container host (VCH) with one instance of the management portal at a time.</p>
+<p><strong>IMPORTANT</strong>: You should only register a VCH with one project at a time. Similarly, you should not add the same VCH to projects in multiple instances of vSphere Integrated Containers.</p>
 <p><strong>Prerequisites</strong></p>
 <ul>
 <li>Obtain the client private key, <code>key.pem</code>, and client public key, <code>cert.pem</code>, for the VCH or Docker host from the vSphere or Docker administrator.</li>
@@ -2935,7 +2948,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Full TLS Authentication","level":"4.1.3.4.1","depth":4,"next":{"title":"Server-Side Authentication","level":"4.1.3.4.2","depth":4,"path":"vic_cloud_admin/add_vch_serversideTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_serversideTLS_in_portal.md","articles":[]},"previous":{"title":"Add Hosts to a Project","level":"4.1.3.4","depth":3,"path":"vic_cloud_admin/vchs_and_mgmt_portal.md","ref":"vic_cloud_admin/vchs_and_mgmt_portal.md","articles":[{"title":"Full TLS Authentication","level":"4.1.3.4.1","depth":4,"path":"vic_cloud_admin/add_vch_fullTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_fullTLS_in_portal.md","articles":[]},{"title":"Server-Side Authentication","level":"4.1.3.4.2","depth":4,"path":"vic_cloud_admin/add_vch_serversideTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_serversideTLS_in_portal.md","articles":[]},{"title":"No Authentication","level":"4.1.3.4.3","depth":4,"path":"vic_cloud_admin/add_vch_noTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_noTLS_in_portal.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_cloud_admin/add_vch_fullTLS_in_portal.md","mtime":"2018-06-20T10:16:47.285Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-21T10:19:58.969Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Full TLS Authentication","level":"4.1.3.4.1","depth":4,"next":{"title":"Server-Side Authentication","level":"4.1.3.4.2","depth":4,"path":"vic_cloud_admin/add_vch_serversideTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_serversideTLS_in_portal.md","articles":[]},"previous":{"title":"Add Hosts to a Project","level":"4.1.3.4","depth":3,"path":"vic_cloud_admin/vchs_and_mgmt_portal.md","ref":"vic_cloud_admin/vchs_and_mgmt_portal.md","articles":[{"title":"Full TLS Authentication","level":"4.1.3.4.1","depth":4,"path":"vic_cloud_admin/add_vch_fullTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_fullTLS_in_portal.md","articles":[]},{"title":"Server-Side Authentication","level":"4.1.3.4.2","depth":4,"path":"vic_cloud_admin/add_vch_serversideTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_serversideTLS_in_portal.md","articles":[]},{"title":"No Authentication","level":"4.1.3.4.3","depth":4,"path":"vic_cloud_admin/add_vch_noTLS_in_portal.md","ref":"vic_cloud_admin/add_vch_noTLS_in_portal.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_cloud_admin/add_vch_fullTLS_in_portal.md","mtime":"2018-06-29T09:29:49.364Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-29T15:38:31.456Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

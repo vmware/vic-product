@@ -829,19 +829,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.2.4.10" data-path="vicmachine_create_options_ref.html">
-            
-                <a href="vicmachine_create_options_ref.html">
-            
-                    
-                    Index of Options
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1979,6 +1966,19 @@
             
         </li>
     
+        <li class="chapter " data-level="3.1.9" data-path="vicmachine_options_ref.html">
+            
+                <a href="vicmachine_options_ref.html">
+            
+                    
+                    vic-machine Options Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2193,7 +2193,20 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/manage_projects.html">
+        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/content_trust.html">
+            
+                <a href="../vic_cloud_admin/content_trust.html">
+            
+                    
+                    Content Trust
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_projects.html">
             
                 <a href="../vic_cloud_admin/manage_projects.html">
             
@@ -2206,7 +2219,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_repository_registry.html">
+        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/manage_repository_registry.html">
             
                 <a href="../vic_cloud_admin/manage_repository_registry.html">
             
@@ -2219,7 +2232,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/access_project_logs.html">
+        <li class="chapter " data-level="4.1.3.8" data-path="../vic_cloud_admin/access_project_logs.html">
             
                 <a href="../vic_cloud_admin/access_project_logs.html">
             
@@ -2861,7 +2874,13 @@
 <ul>
 <li><a href="#regcert">Obtain the vSphere Integrated Containers Registry Certificate</a></li>
 <li><a href="#options">Options</a><ul>
-<li><a href="#whitelist-registry">Whitelist Registry Mode</a></li>
+<li><a href="#whitelist-registry">Whitelist Registry Mode</a><ul>
+<li><a href="#vch-whitelist-secure">Whitelisting Secure Registries</a> </li>
+<li><a href="#vch-whitelist-insecure">Whitelisting Insecure Registries</a></li>
+<li><a href="#vch-whitelist-mp">VCH Whitelists and Registry Lists in vSphere Integrated Containers Management Portal</a></li>
+<li><a href="#vch-content-trust">VCH Whitelists and Content Trust</a></li>
+</ul>
+</li>
 <li><a href="#insecure-registry">Insecure Registry Access</a></li>
 <li><a href="#registry-ca">Additional Registry Certificates</a></li>
 </ul>
@@ -2905,24 +2924,54 @@
 <li>CIDR formatted ranges, for example, 192.168.1.1/24. If you specify a CIDR range, the VCH adds to the whitelist any IP addresses within that subnet. Note that vSphere Integrated Containers Engine does not validate CIDR defined ranges during deployment.</li>
 <li>Wildcard domains, for example, *.example.com. If you specify a wildcard domain, the VCH adds to the whitelist any IP addresses or FQDNs that it can validate against that domain. A numeric IP address causes VCHs to perform a reverse DNS lookup to validate against that wild card domain. Note that vSphere Integrated Containers Engine does not validate wildcard domains during deployment. </li>
 </ul>
-<h4 id="vch-whitelists-and-registry-lists-in-vsphere-integrated-containers-management-portal-">VCH Whitelists and Registry Lists in vSphere Integrated Containers Management Portal <a id="vch-whitelist-mp"></a></h4>
-<p>If you intend to use a VCH with vSphere Integrated Containers Management Portal, the management portal allows you to provision containers from lists of registries that Management Portal administrators and DevOps administrators configure. However, if you deploy a VCH with whitelist mode enabled, and if the whitelist on the VCH is more restrictive than the global and project registry lists in management portal, you can only use management portal to provision containers from registries that the VCH permits in its whitelist, even if the VCH is included in a project that permits other registries. </p>
-<p>As a consequence of this, when using whitelist mode on VCHs that you intend to register with vSphere Integrated Containers Management Portal, you must consider the following points:</p>
-<ul>
-<li>If you enable whitelist mode on a VCH, the whitelist on the VCH should be broader in scope than the lists that Management Portal Admins and DevOps admins configure in the management portal. For example, you can include a wildcard domain in the VCH whitelist, such as <code>*.example.com</code>, and then more finely grained domains in the project lists, such as <code>registry1.example.com</code>, <code>registry2.example.com</code>, and so on.</li>
-<li>If the whitelist on the VCH is more restrictive than the registry lists in management portal, users cannot provision containers from the registries that are not whitelisted by the VCH, even if they are present in the management portal lists.</li>
-<li>If the whitelist on the VCH is less restrictive than the registry lists configured in management portal, if users connect directly to the VCH, they will be able to pull images from registries that management portal would not permit.</li>
-<li>After you deploy a VCH and add it in a project in management portal, if you encounter a problem because the VCH whitelist is more restrictive than the management portal registry lists, you must redeploy the VCH with either no whitelist, a more permissive whitelist, or a whitelist that exactly matches the lists in management portal. You cannot modify a VCH whitelist after the initial deployment of the VCH.</li>
-</ul>
-<h4 id="whitelisting-secure-registries">Whitelisting Secure Registries</h4>
+<h4 id="whitelisting-secure-registries-">Whitelisting Secure Registries <a id="vch-whitelist-secure"></a></h4>
 <p>VCHs include a base set of well-known certificates from public CAs. If a registry requires a certificate to authenticate access, and if that registry does not use one of the CAs that the VCH holds, you must provide the CA certificate for that registry to the VCH. If the VCH is running in whitelist mode, you must also add that registry to the whitelist.</p>
 <ul>
 <li>If you provide a registry certificate but you do not also specify that registry in the whitelist, the VCH does not allow access to that registry. </li>
 <li>If you specify a registry in the whitelist, but you do not provide a certificate and the registry&apos;s CA is not in the set of well-known certificates in the VCH, the VCH does not allow access to that registry.</li>
+<li>If you specify a registry as insecure, it is added to the whitelist.</li>
 </ul>
-<h4 id="whitelisting-insecure-registries">Whitelisting Insecure Registries</h4>
+<h4 id="whitelisting-insecure-registries-">Whitelisting Insecure Registries <a id="vch-whitelist-insecure"></a></h4>
 <p>You can add registries that you designate as insecure registries to the whitelist. If you designate a registry as an insecure registry, VCHs do not verify the certificate of that registry when they pull images. </p>
 <p>If you add a registry to the whitelist, but you do not specify that registry as an insecure registry, the VCH attempts to verify the registry by using certificates. If it does not find a certificate, the VCH does not allow access to that registry.</p>
+<h4 id="vch-whitelists-and-registry-lists-in-vsphere-integrated-containers-management-portal-">VCH Whitelists and Registry Lists in vSphere Integrated Containers Management Portal <a id="vch-whitelist-mp"></a></h4>
+<p>If you intend to use a VCH with vSphere Integrated Containers Management Portal, the management portal allows you to provision containers from lists of registries that Management Portal administrators and DevOps administrators configure. However, if you deploy a VCH with whitelist mode enabled, and if the whitelist on the VCH is more restrictive than the global and project registry lists in management portal, you can only use management portal to provision containers from registries that the VCH permits in its whitelist, even if the VCH is included in a project that permits other registries. </p>
+<p>As a consequence of this, when using whitelist mode on VCHs that you intend to register with vSphere Integrated Containers Management Portal, you must consider the following points:</p>
+<ul>
+<li>If you enable whitelist mode on a VCH, the whitelist on the VCH should be broader in scope than the lists that Management Portal administrators and DevOps administrators configure in the management portal. For example, you can include a wildcard domain in the VCH whitelist, such as <code>*.example.com</code>, and then more finely grained domains in the project lists, such as <code>registry1.example.com</code>, <code>registry2.example.com</code>, and so on.</li>
+<li>If the whitelist on the VCH is more restrictive than the registry lists in management portal, users cannot provision containers from the registries that are not whitelisted by the VCH, even if they are present in the management portal lists.</li>
+<li>If the whitelist on the VCH is less restrictive than the registry lists configured in management portal, if users connect directly to the VCH, they will be able to pull images from registries that management portal would not permit.</li>
+<li>After you deploy a VCH and add it in a project in management portal, if you encounter a problem because the VCH whitelist is more restrictive than the management portal registry lists, you must redeploy the VCH with either no whitelist, a more permissive whitelist, or a whitelist that exactly matches the lists in management portal. You cannot modify a VCH whitelist after the initial deployment of the VCH.</li>
+</ul>
+<h4 id="vch-whitelists-and-content-trust-">VCH Whitelists and Content Trust <a id="vch-content-trust"></a></h4>
+<p>If you register a VCH with a project in vSphere Integrated Containers Management Portal, and if content trust is enabled on that project, vSphere Integrated Containers automatically modifies the whitelist settings on the VCH in order to enforce content trust. </p>
+<ul>
+<li>For general information about content trust, see <a href="https://docs.docker.com/engine/security/trust/content_trust/" target="_blank">Content trust in Docker</a> in the Docker documentation. </li>
+<li>For information about content trust in vSphere Integrated Containers, see <a href="../vic_cloud_admin/content_trust.html">Enabling Content Trust in Projects</a> in <em>vSphere Integrated Containers Management Portal Administration</em>.</li>
+</ul>
+<p>The following example describes how enabling content trust on a project affects a VCH that is not running in whitelist mode:</p>
+<ul>
+<li>Deploy a VCH without enabling whitelist mode.</li>
+<li>Register the VCH with a project in vSphere Integrated Containers Management Portal.</li>
+<li>If content trust is enabled on the project, or if you subsequently enable content trust after adding the VCH to the project, vSphere Integrated Containers automatically enables whitelist mode on the VCH. </li>
+<li>vSphere Integrated Containers adds the project registry to the VCH whitelist.</li>
+<li>If the project includes more than one registry, only the registry instance that is running in the vSphere Integrated Containers appliance is added to the whitelist. </li>
+<li>The VCH can now only pull signed and verified images from the registry instance that is running in the vSphere Integrated Containers appliance that includes the project.</li>
+</ul>
+<p>The following example demonstrates how enabling content trust on a project affects a VCH that is already running in whitelist mode:</p>
+<ul>
+<li>Deploy a VCH with whitelist mode enabled, and with one or more registries in the whitelist.</li>
+<li>Register the VCH with a project in vSphere Integrated Containers Management Portal.</li>
+<li>If content trust is enabled on the project, or if you subsequently enable content trust after adding the VCH to the project, vSphere Integrated Containers automatically restricts the whitelist that you configured on the VCH.</li>
+<li>The VCH whitelist now includes only the registry instance that is running in the vSphere Integrated Containers appliance. </li>
+<li>The VCH can now only pull signed and verified images from the registry instance that is running in the vSphere Integrated Containers appliance that includes the project.</li>
+</ul>
+<p>If you subsequently disable content trust on a project, or remove a VCH from a project that implements content trust, the VCH reverts to the whitelist configuration with which it was deployed.</p>
+<ul>
+<li>If the VCH was not deployed with whitelist mode enabled, whitelist mode is disabled.</li>
+<li>If the VCH was deployed with a whitelist, this whitelist is restored.</li>
+</ul>
+<p>If you delete the vSphere Integrated Containers appliance without removing the VCH from the project, the VCH remains paired with that non-existent project. You must run <code>vic-machine configure</code> on the VCH to restore the whitelist settings.</p>
 <h4 id="create-vch-wizard">Create VCH Wizard</h4>
 <ol>
 <li>Set the <strong>Whitelist registry mode</strong> switch to the green ON position.</li>
@@ -2943,11 +2992,11 @@
 --insecure-registry <i>registry_address</i>
 </pre>
 
-<h3 id="insecure-registry-access-">Insecure Registry Access <a id="insecure-registry"></a></h3>
+<h2 id="insecure-registry-access-">Insecure Registry Access <a id="insecure-registry"></a></h2>
 <p>If you designate a registry server as an insecure registry, the VCH does not verify the certificate of that registry when it pulls images. Insecure registries are not recommended in production environments.</p>
 <p>If you authorize a VCH to connect to an insecure registry server, the VCH first attempts to access the registry server via HTTPS, then attempts to connect with HTTP if access via HTTPS fails. VCHs always use HTTPS when connecting to registry servers for which you have not authorized insecure access.</p>
 <p><strong>NOTE</strong>: You cannot designate vSphere Integrated Containers Registry instances as insecure registries. Connections to vSphere Integrated Containers Registry always require HTTPS and a certificate.</p>
-<h4 id="create-vch-wizard">Create VCH Wizard</h4>
+<h3 id="create-vch-wizard">Create VCH Wizard</h3>
 <ol>
 <li><p>Leave the <strong>Whitelist registry mode</strong> switch in the gray OFF position.</p>
 <p> If you are using the Create Virtual Container Host wizard and you activate whitelist registry mode, you designate registries as insecure when you add them to the whitelist.</p>
@@ -2957,7 +3006,7 @@
 <li>If the registry server listens on a specific port, add the port number in the <strong>Port</strong> text box.</li>
 <li>Optionally click the <strong>+</strong> button to add more registries to the list of insecure registries to which this VCH can connect.</li>
 </ol>
-<h4 id="vic-machine-option">vic-machine Option</h4>
+<h3 id="vic-machine-option">vic-machine Option</h3>
 <p><code>--insecure-registry</code>, <code>--dir</code></p>
 <p>You can specify <code>--insecure-registry</code> multiple times if multiple insecure registries are permitted. If the registry server listens on a specific port, add the port number to the URL.</p>
 <p><strong>Usage</strong>: </p>
@@ -2965,15 +3014,15 @@
 --insecure-registry <i>registry_URL_2</i>:<i>port_number</i>
 </pre>
 
-<h3 id="additional-registry-certificates-">Additional Registry Certificates <a id="registry-ca"></a></h3>
+<h2 id="additional-registry-certificates-">Additional Registry Certificates <a id="registry-ca"></a></h2>
 <p>If the VCH is to connect to secure registries, you must provide a CA certificate that can validate the server certificate of that registry. You can specify multiple CA certificates for different registries to allow a VCH to connect to multiple secure registries. </p>
 <p><strong>IMPORTANT</strong>: You must use this option to allow a VCH to connect to  a vSphere Integrated Containers Registry instance. vSphere Integrated Containers Registry does not permit insecure connections.</p>
-<h4 id="create-vch-wizard">Create VCH Wizard</h4>
+<h3 id="create-vch-wizard">Create VCH Wizard</h3>
 <ol>
 <li>Under <strong>Additional registry certificates</strong>, click <strong>Select</strong> and navigate to an existing certificate file a registry server instance.</li>
 <li>Optionally click <strong>Select</strong> again to upload additional CAs.</li>
 </ol>
-<h4 id="vic-machine-option">vic-machine Option</h4>
+<h3 id="vic-machine-option">vic-machine Option</h3>
 <p><code>--registry-ca</code>, <code>--rc</code></p>
 <p>You can specify <code>--registry-ca</code> multiple times to allow a VCH to connect to multiple secure registries.</p>
 <pre>--registry-ca <i>path_to_ca_cert_1</i>
@@ -3113,7 +3162,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Registry Access","level":"3.1.2.4.6","depth":4,"next":{"title":"Operations User","level":"3.1.2.4.7","depth":4,"path":"vic_vsphere_admin/set_up_ops_user.md","ref":"vic_vsphere_admin/set_up_ops_user.md","articles":[{"title":"Manually Create a User Account for the Operations User","level":"3.1.2.4.7.1","depth":5,"path":"vic_vsphere_admin/ops_user_manual.md","ref":"vic_vsphere_admin/ops_user_manual.md","articles":[]}]},"previous":{"title":"Disable Client Verification","level":"3.1.2.4.5.2","depth":5,"path":"vic_vsphere_admin/tls_unrestricted.md","ref":"vic_vsphere_admin/tls_unrestricted.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_registry.md","mtime":"2018-06-20T13:30:37.390Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-21T10:19:58.969Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Registry Access","level":"3.1.2.4.6","depth":4,"next":{"title":"Operations User","level":"3.1.2.4.7","depth":4,"path":"vic_vsphere_admin/set_up_ops_user.md","ref":"vic_vsphere_admin/set_up_ops_user.md","articles":[{"title":"Manually Create a User Account for the Operations User","level":"3.1.2.4.7.1","depth":5,"path":"vic_vsphere_admin/ops_user_manual.md","ref":"vic_vsphere_admin/ops_user_manual.md","articles":[]}]},"previous":{"title":"Disable Client Verification","level":"3.1.2.4.5.2","depth":5,"path":"vic_vsphere_admin/tls_unrestricted.md","ref":"vic_vsphere_admin/tls_unrestricted.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_registry.md","mtime":"2018-06-29T09:29:49.756Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-29T15:38:31.456Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

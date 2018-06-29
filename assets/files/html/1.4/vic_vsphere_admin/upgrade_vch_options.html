@@ -829,19 +829,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.2.4.10" data-path="vicmachine_create_options_ref.html">
-            
-                <a href="vicmachine_create_options_ref.html">
-            
-                    
-                    Index of Options
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1979,6 +1966,19 @@
             
         </li>
     
+        <li class="chapter " data-level="3.1.9" data-path="vicmachine_options_ref.html">
+            
+                <a href="vicmachine_options_ref.html">
+            
+                    
+                    vic-machine Options Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2193,7 +2193,20 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/manage_projects.html">
+        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/content_trust.html">
+            
+                <a href="../vic_cloud_admin/content_trust.html">
+            
+                    
+                    Content Trust
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_projects.html">
             
                 <a href="../vic_cloud_admin/manage_projects.html">
             
@@ -2206,7 +2219,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_repository_registry.html">
+        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/manage_repository_registry.html">
             
                 <a href="../vic_cloud_admin/manage_repository_registry.html">
             
@@ -2219,7 +2232,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/access_project_logs.html">
+        <li class="chapter " data-level="4.1.3.8" data-path="../vic_cloud_admin/access_project_logs.html">
             
                 <a href="../vic_cloud_admin/access_project_logs.html">
             
@@ -2860,29 +2873,41 @@
 <p>The command line utility for vSphere Integrated Containers Engine, <code>vic-machine</code>, provides an <code>upgrade</code> command that allows you to upgrade virtual container hosts (VCHs) to a newer version. </p>
 <p>The <code>vic-machine upgrade</code> command includes the following options in addition to the common options described in <a href="common_vic_options.html">Common <code>vic-machine</code> Options</a>.</p>
 <p><strong>NOTE</strong>: Wrap any option arguments that include spaces or special characters in quotes. Use single quotes if you are using <code>vic-machine</code> on a Linux or Mac OS system and double quotes on a Windows system. </p>
-<h3 id="-appliance-iso"><code>--appliance-iso</code></h3>
+<h3 id="-appliance-iso-"><code>--appliance-iso</code> <a id="appliance-iso"></a></h3>
 <p>Short name: <code>--ai</code></p>
 <p>The path to the new version of the ISO image from which to upgrade the VCH appliance. Set this option if you have moved the <code>appliance.iso</code> file to a folder that is not the folder that contains the <code>vic-machine</code> binary or is not the folder from which you are running <code>vic-machine</code>. Include the name of the ISO file in the path.</p>
 <p><strong>NOTE</strong>: Do not use the <code>--appliance-iso</code> option to point <code>vic-machine</code> to an <code>--appliance-iso</code> file that is of a different version to the version of <code>vic-machine</code> that you are running.</p>
 <pre>--appliance-iso <i>path_to_ISO_file</i>/<i>ISO_file_name</i>.iso</pre>
 
-<h3 id="-bootstrap-iso"><code>--bootstrap-iso</code></h3>
+<h3 id="-bootstrap-iso-"><code>--bootstrap-iso</code> <a id="bootstrap-iso"></a></h3>
 <p>Short name: <code>--bi</code></p>
 <p>The path to the new version of the ISO image from which to upgrade the container VMs that the VCH manages. Set this option if you have moved the <code>bootstrap.iso</code> file to a folder that is not the folder that contains the <code>vic-machine</code> binary or is not the folder from which you are running <code>vic-machine</code>. Include the name of the ISO file in the path.</p>
 <p><strong>NOTE</strong>: Do not use the <code>--bootstrap-iso</code> option to point <code>vic-machine</code> to a <code>--bootstrap-iso</code> file that is of a different version to the version of <code>vic-machine</code> that you are running.</p>
 <pre>--bootstrap-iso <i>path_to_ISO_file</i>/bootstrap.iso</pre>
 
-<h3 id="-force"><code>--force</code></h3>
+<h3 id="-force-"><code>--force</code> <a id="force"></a></h3>
 <p>Short name: <code>-f</code></p>
 <p>Forces <code>vic-machine upgrade</code> to ignore warnings and continue with the upgrade of a VCH. Errors such as an incorrect compute resource still cause the upgrade to fail. </p>
 <p><strong>CAUTION</strong>: Specifying the <code>--force</code> option bypasses safety checks, including certificate thumbprint verification. Using <code>--force</code> in this way can expose VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using <code>--force</code> can result in unexpected deployment topologies that would otherwise fail with an error. Do not use <code>--force</code> in production environments. </p>
 <pre>--force</pre>
 
-<h3 id="-rollback"><code>--rollback</code></h3>
+<h3 id="-rollback-"><code>--rollback</code> <a id="rollback"></a></h3>
 <p>Short name: None</p>
 <p>Rolls a VCH back to its previous version, for example if upgrade failed. Before starting the upgrade process, <code>vic-machine upgrade</code> takes a snapshot of the existing VCH. The upgrade process deletes older snapshots from any previous upgrades. The <code>--rollback</code> option reverts an upgraded VCH to the snapshot of the previous deployment. Because <code>vic-machine upgrade</code> only retains one snapshot, you can only use <code>--rollback</code> to revert the VCH to the version that immediately precedes the most recent upgrade.  </p>
 <pre>--rollback</pre>
 
+<h3 id="-reset-progress-"><code>--reset-progress</code> <a id="reset-progress"></a></h3>
+<p>If an attempt to upgrade a VCH was interrupted before it could complete successfully, any further attempts to run <code>vic-machine upgrade</code> fail with the error <code>another upgrade/configure operation is in progress</code>. This happens because <code>vic-machine upgrade</code> sets an <code>UpdateInProgress</code> flag on the VCH endpoint VM that prevents other operations on that VCH while the upgrade operation is ongoing. If an upgrade operation is interrupted before it completes, this flag persists on the VCH indefinitely.</p>
+<p>To clear the flag so that you can attempt further <code>vic-machine upgrade</code> operations, run <code>vic-machine upgrade</code> with the <code>--reset-progress</code> option.</p>
+<pre>--reset-progress</pre>
+
+<p><strong>IMPORTANT</strong>: Before you run <code>vic-machine upgrade --reset-progress</code>, check in Recent Tasks in the vSphere Client that there are indeed no update or configuration operations in progress on the VCH endoint VM.</p>
+<h3 id="-debug-"><code>--debug</code> <a id="debug"></a></h3>
+<p>Short name: <code>-v</code></p>
+<p>Upgrade the VCH with more verbose levels of logging. For example, by setting a higher debug level, you increase the verbosity of the logging for VCH upgrade, initialization of VCH services, container VM initialization, and so on. </p>
+<p><strong>NOTE</strong>: Do not confuse the <code>vic-machine upgrade --debug</code> option with the <code>vic-machine debug</code> command, that enables access to the VCH endpoint VM. For information about <code>vic-machine debug</code>, see <a href="debug_vch.html">Debug Running Virtual Container Hosts</a>. </p>
+<p>You can set a debugging level of 1, 2, or 3. Setting level 2 or 3 changes the behavior of <code>vic-machine upgrade</code> as well as increasing the level of verbosity of the logs.</p>
+<pre>--debug 1</pre>
                                 
                                 </section>
                             
@@ -2925,7 +2950,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"VCH Upgrade Options","level":"3.1.4.3.1","depth":4,"next":{"title":"Upgrade Plug-In on Windows","level":"3.1.4.4","depth":3,"path":"vic_vsphere_admin/upgrade_h5_plugin_windows.md","ref":"vic_vsphere_admin/upgrade_h5_plugin_windows.md","articles":[]},"previous":{"title":"Upgrade VCHs","level":"3.1.4.3","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"3.1.4.3.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_vch_options.md","mtime":"2018-06-07T13:40:13.358Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-21T10:19:58.969Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"VCH Upgrade Options","level":"3.1.4.3.1","depth":4,"next":{"title":"Upgrade Plug-In on Windows","level":"3.1.4.4","depth":3,"path":"vic_vsphere_admin/upgrade_h5_plugin_windows.md","ref":"vic_vsphere_admin/upgrade_h5_plugin_windows.md","articles":[]},"previous":{"title":"Upgrade VCHs","level":"3.1.4.3","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"3.1.4.3.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_vch_options.md","mtime":"2018-06-29T09:29:49.715Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-29T15:38:31.456Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
