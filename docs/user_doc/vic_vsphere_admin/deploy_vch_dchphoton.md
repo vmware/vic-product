@@ -148,7 +148,7 @@ The `vic-machine create` command in this example specifies the minimum informati
 - The path to the certificate for vSphere Integrated Containers Registry in the `--registry-ca` option
 - A volume store named `default` in the `--volume-store` option. In this example, the datastore to use as the volume store is `datastore2` that is not the same datastore as is used for the image store. 
 
-You could also specify <code>--volume-store nfs://datastore_name/path_to_share_point:default</code> to designate an NFS share point as the default volume store.
+You could also specify <code>--volume-store nfs://<i>nfs_server</i>/path_to_share_point:default</code> to designate an NFS share point as the default volume store.
 
 **Result**
 

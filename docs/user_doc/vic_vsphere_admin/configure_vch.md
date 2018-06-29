@@ -198,7 +198,7 @@ This example adds a new NFS volume store to a VCH. The VCH already has an existi
     --thumbprint <i>certificate_thumbprint</i>
     --id <i>vch_id</i>
     --volume-store <i>datastore_name</i>/<i>datastore_path</i>:default
-    --volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
+    --volume-store nfs://<i>nfs_server</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
 
 **NOTE**: The current version of vSphere Integrated Containers does not allow you to remove volume stores from a VCH.
 
