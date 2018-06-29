@@ -829,19 +829,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.2.4.10" data-path="vicmachine_create_options_ref.html">
-            
-                <a href="vicmachine_create_options_ref.html">
-            
-                    
-                    Index of Options
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1979,6 +1966,19 @@
             
         </li>
     
+        <li class="chapter " data-level="3.1.9" data-path="vicmachine_options_ref.html">
+            
+                <a href="vicmachine_options_ref.html">
+            
+                    
+                    vic-machine Options Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2193,7 +2193,20 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/manage_projects.html">
+        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/content_trust.html">
+            
+                <a href="../vic_cloud_admin/content_trust.html">
+            
+                    
+                    Content Trust
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_projects.html">
             
                 <a href="../vic_cloud_admin/manage_projects.html">
             
@@ -2206,7 +2219,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_repository_registry.html">
+        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/manage_repository_registry.html">
             
                 <a href="../vic_cloud_admin/manage_repository_registry.html">
             
@@ -2219,7 +2232,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/access_project_logs.html">
+        <li class="chapter " data-level="4.1.3.8" data-path="../vic_cloud_admin/access_project_logs.html">
             
                 <a href="../vic_cloud_admin/access_project_logs.html">
             
@@ -2957,12 +2970,12 @@ docker run -it test:/mnt/test alpine /bin/ash</pre>
 <p>To specify a volume store in a datastore folder, add the path to the appropriate folder:</p>
 <pre>--volume-store <i>datastore_name</i>/<i>datastore_path</i>:<i>volume_store_label</i></pre>   
 
-<p>To specify an NFS share point as a volume store, use the <code>nfs://</code> prefix and the path to a shared mount point:</p>
-<pre>nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
+<p>To specify an NFS share point as a volume store, use the <code>nfs://</code> prefix and the path to an NFS server and a shared mount point:</p>
+<pre>nfs://<i>nfs_server</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i></pre>
 
 <p><a id="nfsoptions"></a>
 You can also specify the URL, UID, and GID of a shared NFS mount point when you specify an NFS share point. Connections are made over TCP. If you do not specify a UID and GID, vSphere Integrated Containers Engine uses the <code>anon</code> UID and GID when creating and interacting with the volume store. The <code>anon</code> UID and GID is 1000:1000.</p>
-<pre>--volume-store nfs://<i>datastore_address</i>/<i>path_to_share_point</i>?uid=1234&amp;gid=5678:<i>nfs_volume_store_label</i></pre> 
+<pre>--volume-store nfs://<i>nfs_server</i>/<i>path_to_share_point</i>?uid=1234&amp;gid=5678:<i>nfs_volume_store_label</i></pre> 
 
 <p><strong>NOTES</strong>: </p>
 <ul>
@@ -2972,12 +2985,12 @@ You can also specify the URL, UID, and GID of a shared NFS mount point when you 
 </ul>
 <p>Use the label <code>default</code> to allow container developers to create anonymous volumes:</p>
 <pre>--volume-store ds://<i>datastore_name</i>:default</pre>
-<pre>--volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:default</pre>    
+<pre>--volume-store nfs://<i>nfs_server</i>/<i>path_to_share_point</i>:default</pre>    
 
 <p>You can specify the <code>--volume-store</code> option multiple times, and add a mixture of vSphere datastores and NFS share points to a VCH:</p>
 <pre>--volume-store <i>datastore_name</i>/path:<i>volume_store_label_1</i>
 --volume-store <i>datastore_name</i>/<i>path</i>:<i>volume_store_label_2</i>
---volume-store nfs://<i>datastore_name</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i>
+--volume-store nfs://<i>nfs_server</i>/<i>path_to_share_point</i>:<i>nfs_volume_store_label</i>
 </pre> 
 
 <p>If you specify an invalid vSphere datastore name or an invalid NFS share point URL, <code>vic-machine create</code> fails and suggests valid datastores. </p>
@@ -2998,7 +3011,7 @@ You can also specify the URL, UID, and GID of a shared NFS mount point when you 
 --image-store &apos;datastore 1&apos;
 --volume-store &apos;datastore 1&apos;/volumes:default
 --volume-store &apos;datastore 2&apos;/volumes:volume_store_2
---volume-store nfs://nfs_store/path/to/share/point:shared_volume
+--volume-store nfs://nfs_server/path/to/share/point:shared_volume
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
@@ -3049,7 +3062,7 @@ You can also specify the URL, UID, and GID of a shared NFS mount point when you 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Volume Datastores","level":"3.1.2.4.3.2","depth":5,"next":{"title":"Networks","level":"3.1.2.4.4","depth":4,"path":"vic_vsphere_admin/vch_networking.md","ref":"vic_vsphere_admin/vch_networking.md","articles":[{"title":"Bridge Networks","level":"3.1.2.4.4.1","depth":5,"path":"vic_vsphere_admin/bridge_network.md","ref":"vic_vsphere_admin/bridge_network.md","articles":[]},{"title":"Public Network","level":"3.1.2.4.4.2","depth":5,"path":"vic_vsphere_admin/public_network.md","ref":"vic_vsphere_admin/public_network.md","articles":[]},{"title":"Client Network","level":"3.1.2.4.4.3","depth":5,"path":"vic_vsphere_admin/client_network.md","ref":"vic_vsphere_admin/client_network.md","articles":[]},{"title":"Management Network","level":"3.1.2.4.4.4","depth":5,"path":"vic_vsphere_admin/mgmt_network.md","ref":"vic_vsphere_admin/mgmt_network.md","articles":[]},{"title":"Proxy Servers","level":"3.1.2.4.4.5","depth":5,"path":"vic_vsphere_admin/vch_proxy.md","ref":"vic_vsphere_admin/vch_proxy.md","articles":[]},{"title":"Container Networks","level":"3.1.2.4.4.6","depth":5,"path":"vic_vsphere_admin/container_networks.md","ref":"vic_vsphere_admin/container_networks.md","articles":[]}]},"previous":{"title":"Image Datastore","level":"3.1.2.4.3.1","depth":5,"path":"vic_vsphere_admin/image_store.md","ref":"vic_vsphere_admin/image_store.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/volume_stores.md","mtime":"2018-06-19T10:07:03.698Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-21T10:19:58.969Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Volume Datastores","level":"3.1.2.4.3.2","depth":5,"next":{"title":"Networks","level":"3.1.2.4.4","depth":4,"path":"vic_vsphere_admin/vch_networking.md","ref":"vic_vsphere_admin/vch_networking.md","articles":[{"title":"Bridge Networks","level":"3.1.2.4.4.1","depth":5,"path":"vic_vsphere_admin/bridge_network.md","ref":"vic_vsphere_admin/bridge_network.md","articles":[]},{"title":"Public Network","level":"3.1.2.4.4.2","depth":5,"path":"vic_vsphere_admin/public_network.md","ref":"vic_vsphere_admin/public_network.md","articles":[]},{"title":"Client Network","level":"3.1.2.4.4.3","depth":5,"path":"vic_vsphere_admin/client_network.md","ref":"vic_vsphere_admin/client_network.md","articles":[]},{"title":"Management Network","level":"3.1.2.4.4.4","depth":5,"path":"vic_vsphere_admin/mgmt_network.md","ref":"vic_vsphere_admin/mgmt_network.md","articles":[]},{"title":"Proxy Servers","level":"3.1.2.4.4.5","depth":5,"path":"vic_vsphere_admin/vch_proxy.md","ref":"vic_vsphere_admin/vch_proxy.md","articles":[]},{"title":"Container Networks","level":"3.1.2.4.4.6","depth":5,"path":"vic_vsphere_admin/container_networks.md","ref":"vic_vsphere_admin/container_networks.md","articles":[]}]},"previous":{"title":"Image Datastore","level":"3.1.2.4.3.1","depth":5,"path":"vic_vsphere_admin/image_store.md","ref":"vic_vsphere_admin/image_store.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/volume_stores.md","mtime":"2018-06-29T09:29:49.780Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-29T15:38:31.456Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

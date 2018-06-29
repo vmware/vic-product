@@ -829,19 +829,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.2.4.10" data-path="vicmachine_create_options_ref.html">
-            
-                <a href="vicmachine_create_options_ref.html">
-            
-                    
-                    Index of Options
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -1979,6 +1966,19 @@
             
         </li>
     
+        <li class="chapter " data-level="3.1.9" data-path="vicmachine_options_ref.html">
+            
+                <a href="vicmachine_options_ref.html">
+            
+                    
+                    vic-machine Options Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2193,7 +2193,20 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/manage_projects.html">
+        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/content_trust.html">
+            
+                <a href="../vic_cloud_admin/content_trust.html">
+            
+                    
+                    Content Trust
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_projects.html">
             
                 <a href="../vic_cloud_admin/manage_projects.html">
             
@@ -2206,7 +2219,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_repository_registry.html">
+        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/manage_repository_registry.html">
             
                 <a href="../vic_cloud_admin/manage_repository_registry.html">
             
@@ -2219,7 +2232,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/access_project_logs.html">
+        <li class="chapter " data-level="4.1.3.8" data-path="../vic_cloud_admin/access_project_logs.html">
             
                 <a href="../vic_cloud_admin/access_project_logs.html">
             
@@ -2878,24 +2891,30 @@
 <p>If you deployed the VCH with the <code>vic-machine create --affinity-vm-group</code> option, <code>vic-machine delete</code> removes the VM affinity group that was created during deployment.</p>
 <h2 id="examples">Examples</h2>
 <p>The following example includes the options required to remove a VCH from a simple vCenter Server environment. </p>
-  <pre>$ vic-machine-<i>operating_system</i> delete
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---thumbprint <i>certificate_thumbprint</i>
---name <i>vch_name</i></pre>
+<pre>$ vic-machine-<i>operating_system</i> delete
+  --target <i>vcenter_server_address</i>
+  --user Administrator@vsphere.local
+  --password <i>password</i>
+  --thumbprint <i>certificate_thumbprint</i>
+  --name <i>vch_name</i></pre>
 
 <p>If the delete operation fails with a message about container VMs that are powered on, run <code>docker stop</code> on the containers and run <code>vic-machine delete</code> again. Alternatively, run <code>vic-machine delete</code> with the <code>--force</code> option.</p>
 <p><strong>CAUTION</strong> Running <code>vic-machine delete</code> with the <code>--force</code> option removes all running container VMs that the VCH manages, as well as any associated volumes and volume stores. It is not recommended to use the <code>--force</code> option to remove running containers.</p>
 <pre>$ vic-machine-<i>operating_system</i> delete
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---thumbprint <i>certificate_thumbprint</i>
---name <i>vch_name</i>
---force</pre>
+  --target <i>vcenter_server_address</i>
+  --user Administrator@vsphere.local
+  --password <i>password</i>
+  --thumbprint <i>certificate_thumbprint</i>
+  --name <i>vch_name</i>
+  --force</pre>
 
 <p>If your vSphere environment uses untrusted, self-signed certificates, running <code>vic-machine delete</code> with the <code>--force</code> option allows you to omit the <code>--thumbprint</code> option.  </p>
 <pre>$ vic-machine-<i>operating_system</i> delete
---target <i>vcenter_server_username</i>:<i>password</i>@<i>vcenter_server_address</i>
---name <i>vch_name</i>
---force</pre>
+  --target <i>vcenter_server_address</i>
+  --user Administrator@vsphere.local
+  --password <i>password</i>
+  --name <i>vch_name</i>
+  --force</pre>
 
 <p><strong>CAUTION</strong>: Using <code>--force</code> in this way exposes VCHs to the risk of man-in-the-middle attacks, in which attackers can learn vSphere credentials. Using <code>--force</code> also bypasses other checks, and can result in data loss.</p>
 
@@ -2941,7 +2960,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Delete VCHs","level":"3.1.3.4","depth":3,"next":{"title":"VCH Admin Portal","level":"3.1.3.5","depth":3,"path":"vic_vsphere_admin/access_vicadmin.md","ref":"vic_vsphere_admin/access_vicadmin.md","articles":[{"title":"Browser-Based Certificate Login","level":"3.1.3.5.1","depth":4,"path":"vic_vsphere_admin/browser_login.md","ref":"vic_vsphere_admin/browser_login.md","articles":[]},{"title":"Command Line Certificate Login","level":"3.1.3.5.2","depth":4,"path":"vic_vsphere_admin/cmdline_login.md","ref":"vic_vsphere_admin/cmdline_login.md","articles":[]},{"title":"VCH Admin Status Reference","level":"3.1.3.5.3","depth":4,"path":"vic_vsphere_admin/vicadmin_status_ref.md","ref":"vic_vsphere_admin/vicadmin_status_ref.md","articles":[]}]},"previous":{"title":"Authorize SSH Access","level":"3.1.3.3.7.2","depth":5,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/remove_vch.md","mtime":"2018-06-07T13:40:13.223Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-21T10:19:58.969Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Delete VCHs","level":"3.1.3.4","depth":3,"next":{"title":"VCH Admin Portal","level":"3.1.3.5","depth":3,"path":"vic_vsphere_admin/access_vicadmin.md","ref":"vic_vsphere_admin/access_vicadmin.md","articles":[{"title":"Browser-Based Certificate Login","level":"3.1.3.5.1","depth":4,"path":"vic_vsphere_admin/browser_login.md","ref":"vic_vsphere_admin/browser_login.md","articles":[]},{"title":"Command Line Certificate Login","level":"3.1.3.5.2","depth":4,"path":"vic_vsphere_admin/cmdline_login.md","ref":"vic_vsphere_admin/cmdline_login.md","articles":[]},{"title":"VCH Admin Status Reference","level":"3.1.3.5.3","depth":4,"path":"vic_vsphere_admin/vicadmin_status_ref.md","ref":"vic_vsphere_admin/vicadmin_status_ref.md","articles":[]}]},"previous":{"title":"Authorize SSH Access","level":"3.1.3.3.7.2","depth":5,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/remove_vch.md","mtime":"2018-06-29T09:29:49.635Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-29T15:38:31.456Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
