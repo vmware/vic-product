@@ -229,7 +229,9 @@ pipeline:
       - 'echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/$TMP"'
       - 'echo "Renaming build artifact to $TMP..."'
       - 'mv vic-*.ova ../../bundle/$TMP'
-      - 'ls -l ../../bundle'
+      - 'cd ../../bundle'
+      - 'ls -l'
+      - 'echo "--------------------------------------------------"; stat --printf="Filesize (%n) = %s\n" $TMP; sha256sum --tag $TMP; sha1sum --tag $TMP; md5sum --tag $TMP'
     when:
       repo: vmware/vic-product
       event: [push, tag]
@@ -247,7 +249,9 @@ pipeline:
       - 'echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/$TMP"'
       - 'echo "Renaming build artifact to $TMP..."'
       - 'mv vic-*.ova ../../bundle/$TMP'
-      - 'ls -l ../../bundle'
+      - 'cd ../../bundle'
+      - 'ls -l'
+      - 'echo "--------------------------------------------------"; stat --printf="Filesize (%n) = %s\n" $TMP; sha256sum --tag $TMP; sha1sum --tag $TMP; md5sum --tag $TMP'
     when:
       repo: vmware/vic-product
       event: [deployment]
@@ -265,7 +269,9 @@ pipeline:
       - 'TMP=$(echo vic-*.ova)'
       - 'echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-releases/$TMP"'
       - 'mv vic-*.ova ../../bundle/'
-      - 'ls -l ../../bundle'
+      - 'cd ../../bundle'
+      - 'ls -l'
+      - 'echo "--------------------------------------------------"; stat --printf="Filesize (%n) = %s\n" $TMP; sha256sum --tag $TMP; sha1sum --tag $TMP; md5sum --tag $TMP'
     when:
       repo: vmware/vic-product
       event: [deployment]
