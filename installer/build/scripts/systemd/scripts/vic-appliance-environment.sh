@@ -14,6 +14,8 @@
 # limitations under the License.
 set -euf -o pipefail
 
+declare -r mask="*******"
+
 umask 077
 
 ENV_FILE="/etc/vmware/environment"
@@ -53,7 +55,13 @@ function detectHostname() {
 
 function firstboot() {
   set +e
-  echo "root:$(ovfenv --key appliance.root_pwd)" | chpasswd
+  local tmp
+  tmp="$(ovfenv --key appliance.root_pwd)"
+  if [[ "$tmp" == "$mask" ]]; then
+    return
+  fi
+
+  echo "root:$tmp" | chpasswd
   # Reset password expiration to 90 days by default
   chage -d $(date +"%Y-%m-%d") -m 0 -M 90 root
   set -e
@@ -62,8 +70,8 @@ function firstboot() {
 function clearPrivate() {
   # We then obscure the root password, if the VM is reconfigured with another
   # password after deployment, we don't act on it and keep obscuring it.
-  if [[ $(ovfenv --key appliance.root_pwd) != '*******' ]]; then
-    ovfenv --key appliance.root_pwd --set '*******'
+  if [[ "$(ovfenv --key appliance.root_pwd)" != "$mask" ]]; then
+    ovfenv --key appliance.root_pwd --set "$mask"
   fi
 }
 
