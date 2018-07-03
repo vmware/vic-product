@@ -125,3 +125,25 @@ ${DIR}/build/build-cache.sh -c "${CACHE}"
 echo "--------------------------------------------------"
 echo "building OVA..."
 ${DIR}/build/bootable/build-main.sh -m "${DIR}/build/ova-manifest.json" -r "${DIR}/bin" -c "${CACHE}" $@
+
+if [ "tag" == "${DRONE_BUILD_EVENT}" ]; then
+    echo "--------------------------------------------------"
+    echo "Command to stage this tag build for release:"
+    cat <<EOF
+drone deploy --param VICENGINE=${BUILD_VICENGINE_URL:-} \\
+             --param VIC_MACHINE_SERVER=${BUILD_VIC_MACHINE_SERVER_REVISION:-} \\
+             --param ADMIRAL=${BUILD_ADMIRAL_REVISION:-} \\
+             --param HARBOR=${BUILD_HARBOR_URL:-} \\
+             vmware/vic-product ${DRONE_BUILD_NUMBER:-} staging
+EOF
+elif [ "deploy" == "${DRONE_BUILD_EVENT}" -a "staging" == "${DRONE_DEPLOY_TO}" ]; then
+    echo "--------------------------------------------------"
+    echo "Command to release this tag staged build:"
+    cat <<EOF
+drone deploy --param VICENGINE=${BUILD_VICENGINE_URL:-} \\
+             --param VIC_MACHINE_SERVER=${BUILD_VIC_MACHINE_SERVER_REVISION:-} \\
+             --param ADMIRAL=${BUILD_ADMIRAL_REVISION:-} \\
+             --param HARBOR=${BUILD_HARBOR_URL:-} \\
+             vmware/vic-product ${DRONE_BUILD_NUMBER:-} release
+EOF
+fi

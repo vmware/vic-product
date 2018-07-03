@@ -155,39 +155,34 @@ Please note that you cannot trigger new CI builds manually, but have to promote 
 
 Make sure `DRONE_SERVER` and `DRONE_TOKEN` environment variables are set before executing these commands.
 
-To promote existing successful CI build to staging (`vic-product-ova-builds` bucket):
+To promote existing successful CI build to staging (`vic-product-ova-builds` bucket), `drone deploy` to `staging` using the command output at the end of the `unified-ova-build` step of the `tag` build. This output will look like:
 
 ```
-$ drone deploy --param VICENGINE=<vic_engine_version> \
-               --param VIC_MACHINE_SERVER=<vic_machine_server> \
-               --param ADMIRAL=<admiral_tag> \
-               --param HARBOR=<harbor_version> \
-               vmware/vic-product <ci_build_number_to_promote> staging
+drone deploy --param VICENGINE=<vic_engine_version> \
+             --param VIC_MACHINE_SERVER=<vic_machine_server> \
+             --param ADMIRAL=<admiral_tag> \
+             --param HARBOR=<harbor_version> \
+             vmware/vic-product <ci_build_number_to_promote> staging
 ```
 
-To promote existing successful CI build to release (`vic-product-ova-releases` bucket):
+To promote existing successful CI build to release (`vic-product-ova-releases` bucket), `drone deploy` to `release` using the command output at the end of the `unified-ova-build` step of the `staging` build. This output will look like:
 
 ```
-$ drone deploy --param VICENGINE=<vic_engine_version> \
-               --param VIC_MACHINE_SERVER=<vic_machine_server> \
-               --param ADMIRAL=<admiral_tag> \
-               --param HARBOR=<harbor_version> \
-               vmware/vic-product <ci_build_number_to_promote> release
+drone deploy --param VICENGINE=<vic_engine_version> \
+             --param VIC_MACHINE_SERVER=<vic_machine_server> \
+             --param ADMIRAL=<admiral_tag> \
+             --param HARBOR=<harbor_version> \
+             vmware/vic-product <ci_build_number_to_promote> release
 ```
 
 Example:
 
 ```
-$ drone deploy --param VICENGINE=https://storage.googleapis.com/vic-engine-releases/vic_v1.4.0.tar.gz \
-               --param VIC_MACHINE_SERVER=latest \
-               --param ADMIRAL=v1.4.0 \
-               --param HARBOR=https://storage.googleapis.com/harbor-releases/harbor-offline-installer-v1.5.0.tgz \
-               vmware/vic-product <ci_build_number_to_promote> release
-
+drone deploy --param VICENGINE=https://storage.googleapis.com/vic-engine-releases/vic_v1.4.0.tar.gz \
+             --param VIC_MACHINE_SERVER=latest \
+             --param ADMIRAL=v1.4.0 \
+             --param HARBOR=https://storage.googleapis.com/harbor-releases/harbor-offline-installer-v1.5.0.tgz \
+             vmware/vic-product <ci_build_number_to_promote> release
 ```
 
-`vic_engine_version` and `harbor_version` can be specified as a URL or a file in `cwd`, eg. 'https://storage.googleapis.com/vic-engine-releases/vic_1.2.1.tar.gz'
-
-`admiral_tag` and `vic_machine_server` should be specified as docker image revision tag, eg. 'latest'
-
-`ci_build_number_to_promote` is the drone build number which will be promoted
+All variables are populated with the values which were used by the build being promoted to the next step of the process. This provides you an opportunity to review the included components and ensures that new versions of components are not inadvertently introduced between steps of this process due to automatic component selection logic.
