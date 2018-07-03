@@ -111,10 +111,10 @@ Description template for release candidates and releases:
 
 ```````
 ### [Download OVA](https://storage.googleapis.com/vic-product-ova-releases/vic-v1.4.0-rc3-4824-d99cbdb4.ova)
-Filesize: 
-SHA256:  
-SHA1: 
-MD5: 
+Filesize (vic-v1.4.0-rc3-4824-d99cbdb4.ova) = ...
+SHA256 (vic-v1.4.0-rc3-4824-d99cbdb4.ova) = ...
+SHA1 (vic-v1.4.0-rc3-4824-d99cbdb4.ova) = ...
+MD5 (vic-v1.4.0-rc3-4824-d99cbdb4.ova) = ...
 
 ### OVA will contain:
 ```
