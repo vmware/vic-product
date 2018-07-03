@@ -39,7 +39,7 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 	2. Restart the Flex-based vSphere Web Client service.<pre>service-control --stop vsphere-client && service-control --start vsphere-client</pre>
 11. Delete the vSphere Integrated Containers Engine binaries from the vCenter Server Appliance and close the SSH connection.
 	1. `cd ../../..`
-	2. `rm *.tar.gz`
+	2. `rm ${VIC_BUNDLE}`
 	3. `rm -R vic`
 	4. `exit`
 
