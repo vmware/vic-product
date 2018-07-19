@@ -38,6 +38,16 @@ After creating a new branch:
    for the `master` branch.
 
 
+### Upgrade
+
+To ensure that future releases will be able to upgrade from the release that is
+being prepared, it is necessary to update the upgrade scripts to list the new
+release. As this process may change over time, this document will not attempt to
+describe the exact steps necessary. Referring to the most recent change that
+added support for upgrade and searching the code for previous version numbers
+may each help identify some of the necessary steps.
+
+
 ### Cherry picking
 
 Commits that need to be pulled into the release should be cherry picked into the
@@ -66,27 +76,16 @@ tag for ongoing development will be `v1.3.0-dev`.
 
 ```
 git remote update
-git checkout upstream/releases/1.2.0
-git tag -a v1.2.0-rc1 aaaaaaa
-git push upstream v1.2.0-rc1
+git checkout upstream/releases/X.Y.Z
+git tag -a vX.Y.Z-rc1
+git push upstream vX.Y.Z-rc1
 ```
 
-If there is not yet a commit after the start of the release branch, create an
-empty commit after the commit for the release branch. This empty commit will be
-tagged for ongoing development on master.
-
 ```
-# Create empty commit on master
 git remote update
 git checkout upstream/master
-git commit --allow-empty -m "v1.3.0-dev"
-git push upstream
-
-# Tag empty commit for ongoing development
-git remote update
-git checkout upstream/master
-git tag -a v1.3.0-dev bbbbbbb
-git pubsh upstream v1.3.0-dev
+git tag -a vA.B.C-dev
+git pubsh upstream vA.B.C-dev
 ```
 
 After the release candidate has passed QA and the team is ready to release, tag
@@ -94,24 +93,10 @@ the commit in the release branch (`v1.2.0`) and push the tag to Github.
 
 ```
 git remote update
-git checkout upstream/releases/1.2.0
-git tag -a v1.2.0 ccccccc
-git push upstream v1.2.0
+git checkout upstream/releases/X.Y.Z
+git tag -a vX.Y.Z
+git push upstream vX.Y.Z
 ```
-
-### Point releases
-
-After a release, tag `dev` on the release branch for ongoing development.
-For example, if `v1.2.0` was tagged on `/releases/1.2.0` and there is work for
-`v1.2.1`, on the following commit, tag `v1.2.1-dev`.
-
-```
-git remote update
-git checkout upstream/releases/1.2.0
-git tag -a v1.2.1-dev ddddddd
-git push upstream v1.2.1-dev
-```
-
 
 ## Github Releases
 
