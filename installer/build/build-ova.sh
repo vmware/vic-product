@@ -82,7 +82,9 @@ url=$(gsutil ls -l "gs://vic-engine-builds" | grep -v TOTAL | grep vic_ | sort -
 setenv VICENGINE "$url"
 
 #set Harbor
+set +o pipefail
 url=$(gsutil ls -l "gs://harbor-builds" | grep -v TOTAL | grep offline-installer | grep -v offline-installer-latest | sort -k2 -r | (trap '' PIPE; head -n1) | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
+set -o pipefail
 setenv HARBOR "$url"
 
 export BUILD_DCHPHOTON_VERSION="1.13"
