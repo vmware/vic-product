@@ -176,7 +176,7 @@ function proceedWithUpgrade {
   checkUpgradeStatus "VIC Appliance" ${appliance_upgrade_status}
   local ver="$1"
 
-  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ] || [ "$ver" == "$VER_1_4_0" || [ "$ver" == "$VER_1_4_1" ]; then
+  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ] || [ "$ver" == "$VER_1_4_0" ] || [ "$ver" == "$VER_1_4_1" ]; then
     log ""
     log "Detected old appliance's version as $ver."
 
