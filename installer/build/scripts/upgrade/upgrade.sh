@@ -388,10 +388,10 @@ function moveDisks {
 
   # TODO rename to new version
   echo "Attaching migrated disks to new VIC appliance"
-  govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_DATA_DISK" || (log "Failed to attach data disk" && exit 1)
+  govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_DATA_DISK" -link=false || (log "Failed to attach data disk" && exit 1)
   if [ "$ver" != "$VER_1_2_1" ]; then
-    govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_DB_DISK" || (log "Failed to attach database disk"  && exit 1)
-    govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_LOG_DISK" || (log "Failed to attach log disk" && exit 1)
+    govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_DB_DISK" -link=false || (log "Failed to attach database disk"  && exit 1)
+    govc vm.disk.attach -vm="$NEW_VM_NAME" -ds "$NEW_DATASTORE" -disk "$NEW_LOG_DISK" -link=false || (log "Failed to attach log disk" && exit 1)
   fi
   log "Finished attaching migrated disks to new VIC appliance"
 
