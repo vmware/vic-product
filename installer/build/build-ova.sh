@@ -136,7 +136,7 @@ drone deploy --param VICENGINE=${BUILD_VICENGINE_URL:-} \\
              --param HARBOR=${BUILD_HARBOR_URL:-} \\
              vmware/vic-product ${DRONE_BUILD_NUMBER:-} staging
 EOF
-elif [ "deploy" == "${DRONE_BUILD_EVENT}" -a "staging" == "${DRONE_DEPLOY_TO}" ]; then
+elif [ "deployment" == "${DRONE_BUILD_EVENT}" -a "staging" == "${DRONE_DEPLOY_TO}" ]; then
     echo "--------------------------------------------------"
     echo "Command to release this tag staged build:"
     cat <<EOF
