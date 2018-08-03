@@ -8,7 +8,7 @@ This documentation applies to all 1.4.x releases.
 
 ## Intended Audience
 
-This information is intended for DevOps administrators and developers whose development environment uses vSphere Integrated Containers Management Portal. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is assumed.
+This information is intended for vSphere Integrated Containers users who have the DevOps Administrator, Developer, or Viewer roles in vSphere Integrated Containers Management Portal. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is assumed.
 
 ----------
 
