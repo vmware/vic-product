@@ -157,6 +157,19 @@ func Init(conf *config) {
 	})
 }
 
+// cspMiddleware sets the Content-Security-Policy header to prevent clickjacking
+// https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet#Preventing_Clickjacking
+func cspMiddleware() func(next http.Handler) http.Handler {
+	header := "Content-Security-Policy"
+	value := "frame-ancestors 'none';"
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Add(header, value)
+			next.ServeHTTP(w, r)
+		})
+	}
+}
+
 func main() {
 
 	Init(&c)
@@ -182,7 +195,7 @@ func main() {
 	mux.Handle("/", http.HandlerFunc(indexHandler))
 
 	// start the web server
-	s := lib.GetTLSServer(c.addr, mux, c.cert)
+	s := lib.GetTLSServer(c.addr, cspMiddleware()(mux), c.cert)
 
 	log.Infof("Starting fileserver server on %s", s.Addr)
 	// redirect port 80 to 9443 to improve ux on ova
