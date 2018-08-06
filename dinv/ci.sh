@@ -1,8 +1,29 @@
 #!/bin/bash
 set -e
 
+function changeset {
+  case "$DRONE_BUILD_EVENT" in
+  'pull_request')
+    base=$(curl -s -H "Authorization: token ${GITHUB_AUTOMATION_API_KEY}" "https://api.github.com/repos/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}/pulls/${DRONE_PULL_REQUEST}" | jq -r .base.sha)
+    ;;
+  'push')
+    base=$(curl -s -H "Authorization: token ${GITHUB_AUTOMATION_API_KEY}" "https://api.github.com/repos/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}/commits/${DRONE_COMMIT_SHA}" | jq -r .parents[0].sha)
+    ;;
+  'tag')
+    # no changeset generated for tagging
+    return
+    ;;
+  *)
+    echo "Unknown build type: ${DRONE_BUILD_EVENT}" >&2
+    exit 1
+    ;;
+  esac
+
+  echo "$base..$DRONE_COMMIT_SHA"
+}
+
 triggers="(.drone.yml|dinv//*)"
-mods=$(git --no-pager diff --name-only HEAD^1)
+mods=$(changeset)
 
 git_rev=$(git rev-parse HEAD)
 
@@ -10,6 +31,8 @@ namespace="vmware"
 
 if [[ ! $mods =~ $triggers ]]; then
   echo "Not testing, build not triggered"
+  echo "Modified file list:"
+  echo "$mods"
   exit 0
 fi
 
@@ -36,7 +59,7 @@ function build {
 
 function push {
   echo "[registry] logging in as ${DOCKER_USER}"
-  docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
+  docker login -u "${DOCKER_USER}" -p "${DOCKER_PASSWORD}"
 
   versions=( "$@" )
   if [ ${#versions[@]} -eq 0 ]; then
@@ -69,10 +92,10 @@ function usage {
 if [ $# -gt 0 ]; then
   case "$1" in
     build)
-      build
+      build "$@"
       ;;
     push)
-      push
+      push "$@"
       ;;         
     *)
       usage
