@@ -1,0 +1,29 @@
+version: '2.2'
+services:
+  master:
+    image: arslanabbasi/spark-master:2.2
+    environment:
+      _JAVA_OPTIONS: "-Djava.net.preferIPv4Stack=true"
+      SPARK_MASTER_HOST: master
+      SPARK_MASTER_PORT: 7077
+      SPARK_MASTER_WEBUI_PORT: 8080
+    ports:
+      - 8080:8080
+      - 7077:7077
+    networks:
+      - spnet
+
+  worker:
+    image: arslanabbasi/spark-slave:2.2
+    environment:
+      _JAVA_OPTIONS: "-Djava.net.preferIPv4Stack=true"
+      MASTER_CTR: master
+      MASTER_PORT: 7077
+      SPARK_WORKER_WEBUI_PORT: 8081
+    networks:
+      - spnet
+    depends_on:
+      - master
+
+networks:
+  spnet:
