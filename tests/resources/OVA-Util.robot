@@ -147,7 +147,7 @@ Initialize OVA From API
 
     Log To Console  \nInitializing VIC appliance by API when API is available
     :FOR  ${i}  IN RANGE  30
-    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}","thumbprint":"${TEST_THUMBPRINT}","externalpsc":"%{EXTERNAL_PSC}","pscdomain":"%{PSC_DOMAIN}"}' https://${ova-ip}:9443/register
+    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}","thumbprint":"%{TEST_THUMBPRINT}","externalpsc":"%{EXTERNAL_PSC}","pscdomain":"%{PSC_DOMAIN}"}' https://${ova-ip}:9443/register
     \   Exit For Loop If  '200' in '''${out}'''
     \   Sleep  60s
     Log To Console  ${rc}
