@@ -23,39 +23,21 @@ ${ok}=  204
 
 *** Test Cases ***
 Attempt To Install To A Non vCenter Server
-    # Install Fails  not-a-vcenter-server  admin  password  ${TRUE}
-    # ${output}=  OperatingSystem.GetFile  install.log
-    # ${passed}=  Run Keyword And Return Status  Should Contain  ${output}  vCenter Server was not found
-    # Run Keyword Unless  ${passed}  Move File  install.log  install-fail-attempt-to-a-non-vcenter-server.log
-    # Should Be True  ${passed}
-
     ${rc}  ${out}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  not-a-vcenter-server
     Should Not Contain  ${out}  ${ok}
 
 Attempt To Install With Wrong Vcenter Credentials
-    # Set Fileserver And Thumbprint In Configs
-    # Append To File  ${UI_INSTALLER_PATH}/configs  BYPASS_PLUGIN_VERIFICATION=1\n
-    # Install Fails  ${TEST_VC_IP}  ${TEST_VC_USERNAME}_nope  ${TEST_VC_PASSWORD}_nope  ${FALSE}  %{VC_FINGERPRINT}
-    # ${output}=  OperatingSystem.GetFile  install.log
-    # ${passed}=  Run Keyword And Return Status  Should Contain  ${output}  Cannot complete login due to an incorrect user name or password
-    # Run Keyword Unless  ${passed}  Move File  install.log  install-fail-attempt-to-install-with-wrong-vcenter-credentials.log
-    # Should Be True  ${passed}
-
     ${rc}  ${out}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  %{TEST_URL}  %{TEST_USERNAME}_nope  %{TEST_PASSWORD}_nope
     Should Not Contain  ${out}  ${ok}
     
-
 Attempt to Install With Unmatching Fingerprint
-    # Append To File  ${UI_INSTALLER_PATH}/configs  BYPASS_PLUGIN_VERIFICATION=1\n
-    # Install Fails  ${TEST_VC_IP}  ${TEST_VC_USERNAME}  ${TEST_VC_PASSWORD}  ${FALSE}  ff:ff:ff
-    # ${output}=  OperatingSystem.GetFile  install.log
-    # ${passed}=  Run Keyword And Return Status  Should Contain  ${output}  does not match
-    # Run Keyword Unless  ${passed}  Move File  install.log  install-fail-attempt-to-install-with-unmatching-fingerprint.log
-    # Should Be True  ${passed}
-
     ${rc}  ${out}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  %{TEST_URL}  %{TEST_USERNAME}  %{TEST_PASSWORD}  ff:ff
     Should Not Contain  ${out}  ${ok}
 
 Install Plugin Successfully
     ${out}=  Install UI Plugin  %{OVA_IP}
+    Should Contain  ${out}  ${ok}
+
+Upgrade Plugin Successfully
+    ${out}=  Upgrade UI Plugin  %{OVA_IP}
     Should Contain  ${out}  ${ok}

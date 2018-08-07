@@ -18,7 +18,7 @@ Resource  ../resources/Util.robot
 
 *** Keywords ***
 Install UI Plugin
-    [Arguments]  ${ova-ip}  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
+    [Arguments]  ${ova-ip}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
     Log To Console  \nInstalling the vic ui plugin...
     ${out}=  Call UI API With Preset  ${ova-ip}  install  H5  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
     Should Contain  ${out}  204
@@ -28,8 +28,8 @@ Install UI Plugin
     [Return]  ${out}
 
 Remove UI Plugin
-    [Arguments]  ${ova-ip}  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
-    Log To Console  \nInstalling the vic ui plugin...
+    [Arguments]  ${ova-ip}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
+    Log To Console  \nUninstalling the vic ui plugin...
     ${out}=  Call UI API With Preset  ${ova-ip}  remove  H5  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
     Should Contain  ${out}  204
     ${out}=  Call UI API With Preset  ${ova-ip}  remove  FLEX  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
@@ -38,8 +38,8 @@ Remove UI Plugin
     [Return]  ${out}
 
 Upgrade UI Plugin
-    [Arguments]  ${ova-ip}  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
-    Log To Console  \nInstalling the vic ui plugin...
+    [Arguments]  ${ova-ip}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
+    Log To Console  \nUpgrading the vic ui plugin...
     ${out}=  Call UI API With Preset  ${ova-ip}  upgrade  H5  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
     Should Contain  ${out}  204
     ${out}=  Call UI API With Preset  ${ova-ip}  upgrade  FLEX  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
@@ -48,19 +48,14 @@ Upgrade UI Plugin
     [Return]  ${out}
 
 Call UI API With Preset
-    [Arguments]  ${ova_ip}  ${action}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=%{TEST_THUMBPRINT}
+    [Arguments]  ${ova_ip}  ${action}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
 
     :FOR  ${i}  IN RANGE  10
-    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"vc":{"target":"%{vc}:443","user":"%{vc_user}","password":"%{vc_pass}","thumbprint":"%{vc_thumbprint}"},"plugin":{"preset":"${plugin_preset}"}}' https://${ova_ip}:9443/plugin/${action}
+    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"vc":{"target":"${vc}:443","user":"${vc_user}","password":"${vc_pass}","thumbprint":"${vc_thumbprint}"},"plugin":{"preset":"${plugin_preset}"}}' https://${ova_ip}:9443/plugin/${action}
     \   Exit For Loop If  '204' in '''${out}'''
     \   Sleep  10s
     Log To Console  ${rc}
     Log To Console  ${out}
-
-    Execute Command And Return Output  service-control --stop vsphere-ui
-    Execute Command And Return Output  service-control --start vsphere-ui
-    Execute Command And Return Output  service-control --stop vsphere-client
-    Execute Command And Return Output  service-control --start vsphere-client
 
     [Return]  ${out}
 
