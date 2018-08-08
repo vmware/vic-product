@@ -19,7 +19,7 @@ To manually add the vSphere Integrated Containers CA certificate to  `dch-photon
 
     This example runs `dch-photon` behind a port mapping.
 
-    <pre>docker -H <i>vch_address</i>:2376 --tls create -it --name build-slave -p 12375:2375 <i>registry_address</i>/default-project/dch-photon:1.13-cert</pre>
+    <pre>docker -H <i>vch_address</i>:2376 --tls create -it --name build-slave -p 12375:2375 <i>registry_address</i>/default-project/dch-photon:1.13</pre>
     
 2. Create the required folder structure on your local machine.
 
