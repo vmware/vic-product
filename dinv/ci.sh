@@ -23,11 +23,14 @@ function changeset {
 }
 
 triggers="(.drone.yml|dinv//*)"
-mods=$(changeset)
+cs=$(changeset)
+mods=$(git --no-pager diff --name-only "$cs")
 
 git_rev=$(git rev-parse HEAD)
 
 namespace="vmware"
+
+ci_registry="harbor.ci.drone.local"
 
 if [[ ! $mods =~ $triggers ]]; then
   echo "Not testing, build not triggered"
@@ -53,6 +56,9 @@ function build {
     docker build -t "${namespace}/${name}:${rev}-${git_rev}" "$version"
     docker tag "${namespace}/${name}:${rev}-${git_rev}" "${namespace}/${name}:${rev}"
     echo "[${name}:${rev}] built"
+    docker tag "${namespace}/${name}:${rev}-${git_rev}" "${ci_registry}/${name}:${rev}"
+    docker push "${ci_registry}/${name}:${rev}"
+    echo "[${ci_registry}/${name}:${rev}] pushed"
   done
 
 }
@@ -92,10 +98,10 @@ function usage {
 if [ $# -gt 0 ]; then
   case "$1" in
     build)
-      build "$@"
+      build
       ;;
     push)
-      push "$@"
+      push
       ;;         
     *)
       usage
