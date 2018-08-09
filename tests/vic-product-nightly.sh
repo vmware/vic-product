@@ -27,6 +27,9 @@ start_node () {
     done
 }
 
+DEFAULT_VIC_PRODUCT_BRANCH=""
+DEFAULT_VIC_PRODUCT_BUILD="*"
+
 echo "Kill any old selenium infrastructure..."
 docker rm -f selenium-hub firefox1 firefox2 firefox3 firefox4
 docker network prune -f
@@ -47,12 +50,18 @@ start_node firefox2 selenium/node-firefox:3.9.1
 start_node firefox3 selenium/node-firefox:3.9.1
 start_node firefox4 selenium/node-firefox:3.9.1
 
-input=$(gsutil ls -l gs://$GCS_BUCKET/vic-* | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | cut -d '/' -f 4)
-echo "Downloading VIC Product OVA build $input..."
+VIC_PRODUCT_BRANCH=${VIC_PRODUCT_BRANCH:-${DEFAULT_VIC_PRODUCT_BRANCH}}
+VIC_PRODUCT_BUILD=${VIC_PRODUCT_BUILD:-${DEFAULT_VIC_PRODUCT_BUILD}}
+input=$(gsutil ls -l gs://${GCS_BUCKET}/${VIC_PRODUCT_BRANCH}${VIC_PRODUCT_BRANCH:+/}/vic-*-${VIC_PRODUCT_BUILD}-* | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | xargs basename)
+constructed_url="https://storage.googleapis.com/${GCS_BUCKET}/${VIC_PRODUCT_BRANCH}/${input}"
+ARTIFACT_URL="${ARTIFACT_URL:-${constructed_url}}"
+input=$(basename ${ARTIFACT_URL})
+
+echo "Downloading VIC Product OVA build $input... from ${ARTIFACT_URL}"
 n=0
 until [[ $n -ge 5 ]]
 do
-    wget -O vic-product/$input https://storage.googleapis.com/$GCS_BUCKET/$input && break;
+    wget -O vic-product/$input ${ARTIFACT_URL} && break;
     n=$(($n+1));
     sleep 10;
 done
