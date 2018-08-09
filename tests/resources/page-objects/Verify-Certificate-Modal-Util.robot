@@ -17,8 +17,8 @@ Documentation  This resource contains any keywords dealing with Verify Certifica
 
 *** Variables ***
 # css locators
-${vc-title}  css=.modal .modal .modal-title
-${vc-button-yes}  css=.modal .modal .btn-primary
+${vc-title}  css=.modal .modal-title
+${vc-button-yes}  css=.modal .btn-primary
 
 # expected text values
 ${vc-title-text}  Verify Certficate
