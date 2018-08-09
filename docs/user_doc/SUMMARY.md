@@ -31,7 +31,6 @@
          * [vCenter Server Appliance](vic_vsphere_admin/plugins_vcsa.md)
   * [VCH Deployment](vic_vsphere_admin/deploy_vch.md)
      * [Using vic-machine](vic_vsphere_admin/using_vicmachine.md)
-         * [Obtain Certificate Thumbprints](vic_vsphere_admin/obtain_thumbprint.md)
          * [Running Commands](vic_vsphere_admin/running_vicmachine_cmds.md)
          * [Set Environment Variables](vic_vsphere_admin/vic_env_variables.md)
      * [Open the Required Ports on ESXi Hosts](vic_vsphere_admin/open_ports_on_hosts.md)
@@ -134,7 +133,9 @@
      * [Install Packages in VCHs](vic_vsphere_admin/vch_install_packages.md)
          * [Mount an NFS Share Point](vic_vsphere_admin/vch_mount_nfsshare.md)
   * [Security Reference](vic_vsphere_admin/security_reference.md)
-     * [Certificate Reference](vic_vsphere_admin/vic_cert_reference.md)
+     * [Appliance Certificate Requirements](vic_vsphere_admin/vic_cert_reqs.md)
+     * [VCH Certificate Requirements](vic_vsphere_admin/vch_cert_reqs.md)
+     * [Obtain vSphere Thumbprints](vic_vsphere_admin/obtain_thumbprint.md)
      * [Obtain Appliance Certificates](vic_vsphere_admin/obtain_appliance_certs.md)  
   * [`vic-machine` Options Reference](vic_vsphere_admin/vicmachine_options_ref.md)
 

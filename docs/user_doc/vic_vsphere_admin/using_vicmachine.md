@@ -4,6 +4,5 @@ After you deploy the vSphere Integrated Containers appliance, you download the v
 
 The vSphere Integrated Containers Engine bundle includes the `vic-machine` CLI utility. You use `vic-machine` to deploy and manage virtual container hosts (VCHs) at the command line. 
 
-- [Obtain Certificate Thumbprints](obtain_thumbprint.md)
 - [Running `vic-machine` Commands](running_vicmachine_cmds.md)
 - [Set Environment Variables](vic_env_variables.md)

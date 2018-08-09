@@ -43,7 +43,7 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
      - Paste the contents of the appropriate certificate in the **Appliance TLS Certificate** text box.
      - Paste the contents of the certificate key in the **Appliance TLS Certificate Key** text box. The appliance supports unencrypted PEM encoded PKCS#1 and unencrypted PEM encoded PKCS#8 formats for TLS private keys. 
      - Paste the contents of the Certificate Authority (CA) file in the **Certificate Authority Certificate** text box. 
-    - To use a certificate that uses an intermediate CA, see [Use a Certificate with an Intermediate CA for the vSphere Integrated Containers Appliance](vic_cert_reference.md#intermediateca).
+    - To use a certificate that uses an intermediate CA, see [Use a Certificate with an Intermediate CA for the vSphere Integrated Containers Appliance](vic_cert_reqs.md#intermediateca).
     - To use auto-generated certificates, leave the **Appliance TLS Certificate**, **Appliance TLS Certificate Key**, and **Certificate Authority Certificate** text boxes blank.
 5. In the **Appliance Configuration Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Getting Started page.
 
