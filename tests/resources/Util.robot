@@ -48,6 +48,9 @@ Resource  page-objects/Project-Repositories-Page-Util.robot
 Resource  page-objects/Vsphere-VCH-Plugin-Util.robot
 Resource  page-objects/Vsphere-UI-Util.robot
 
+*** Variables ***
+${local_ova_file}=  vic-*.ova
+
 *** Keywords ***
 Global Environment Setup
     [Tags]  secret

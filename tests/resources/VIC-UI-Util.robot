@@ -16,48 +16,46 @@
 Documentation  This resource provides any keywords related to VIC Product UI Installer
 Resource  ../resources/Util.robot
 
+*** Variables ***
+${ok}=  204
+
 *** Keywords ***
 Install UI Plugin
-    [Arguments]  ${ova-ip}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
+    [Arguments]  ${ova-ip}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
     Log To Console  \nInstalling the vic ui plugin...
-    ${out}=  Call UI API With Preset  ${ova-ip}  install  H5  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
-    Should Contain  ${out}  204
-    ${out}=  Call UI API With Preset  ${ova-ip}  install  FLEX  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
-    Should Contain  ${out}  204
+    ${status}=  Call UI API With Preset  ${ova-ip}  install  ${plugin_preset}  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
+    Should Be Equal As Integers  ${status}  ${ok}
 
-    [Return]  ${out}
+    [Return]  ${status}
 
 Remove UI Plugin
-    [Arguments]  ${ova-ip}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
+    [Arguments]  ${ova-ip}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
     Log To Console  \nUninstalling the vic ui plugin...
-    ${out}=  Call UI API With Preset  ${ova-ip}  remove  H5  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
-    Should Contain  ${out}  204
-    ${out}=  Call UI API With Preset  ${ova-ip}  remove  FLEX  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
-    Should Contain  ${out}  204
+    ${out}=  Call UI API With Preset  ${ova-ip}  remove  ${plugin_preset}  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
+    Should Be Equal As Integers  ${status}  ${ok}
 
-    [Return]  ${out}
+    [Return]  ${status}
 
 Upgrade UI Plugin
-    [Arguments]  ${ova-ip}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
+    [Arguments]  ${ova-ip}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
     Log To Console  \nUpgrading the vic ui plugin...
-    ${out}=  Call UI API With Preset  ${ova-ip}  upgrade  H5  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
-    Should Contain  ${out}  204
-    ${out}=  Call UI API With Preset  ${ova-ip}  upgrade  FLEX  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
-    Should Contain  ${out}  204
+    ${out}=  Call UI API With Preset  ${ova-ip}  upgrade  ${plugin_preset}  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
+    Should Be Equal As Integers  ${status}  ${ok}
 
-    [Return]  ${out}
+    [Return]  ${status}
 
 Call UI API With Preset
     [Arguments]  ${ova_ip}  ${action}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
 
     :FOR  ${i}  IN RANGE  10
     \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"vc":{"target":"${vc}:443","user":"${vc_user}","password":"${vc_pass}","thumbprint":"${vc_thumbprint}"},"plugin":{"preset":"${plugin_preset}"}}' https://${ova_ip}:9443/plugin/${action}
-    \   Exit For Loop If  '204' in '''${out}'''
+    \   ${out}  ${status}=  Split String From Right  ${out}  \n  1
+    \   Exit For Loop If  '${ok} == '${status}'
     \   Sleep  10s
     Log To Console  ${rc}
     Log To Console  ${out}
 
-    [Return]  ${out}
+    [Return]  ${status}
 
 Deploy OVA And Install UI Plugin And Run Regression Tests
     # Deploy OVA and then install UI plugin
@@ -85,7 +83,7 @@ Download VIC And Install UI Plugin
     Wait Until Keyword Succeeds  10x  5s  Login  root  vmware
 
     # extract vic bundle name
-    ${download_url}=  Run command and Return output  curl -k https://${ova-ip}:9443 | tac | tac | grep -Po -m 1 '(?<=href=")[^"]*tar.gz'
+    ${download_url}=  Run command and Return output  curl -k https://${ova-ip}:9443 | grep -Po -m 1 '(?<=href=")[^"]*tar.gz'
     Log  ${download_url}
     ${first}  ${rest}=  Split String From Right  ${download_url}  /  1
 
@@ -105,5 +103,5 @@ VIC UI OVA Setup
     Global Environment Setup
     Set Test VC Variables
     
-    ${ova-ip}=  Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}
+    ${ova-ip}=  Install And Initialize VIC Product OVA  ${local_ova_file}  %{OVA_NAME}
     Set Environment Variable  OVA_IP  ${ova-ip}

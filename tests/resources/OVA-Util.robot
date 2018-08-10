@@ -347,7 +347,7 @@ Auto Upgrade OVA With Verification
     Set Environment Variable  OVA_NAME  ${test-name}-LATEST
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
-    Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
+    Install VIC Product OVA And Wait For Home Page  ${local_ova_file}  %{OVA_NAME}
 
     Execute Upgrade Script  %{OVA_IP}  %{OVA_IP_OLD}  ${old-ova-datacenter}  ${old-ova-version}
     Verify Running Busybox Container And Its Pushed Harbor Image  %{OVA_IP}  ${sample-image-tag}  ${new-ova-cert-path}  docker-endpoint=${VCH-PARAMS}
@@ -468,7 +468,7 @@ Manual Upgrade Environment Setup
 
     # Deploy new appliance but do not power on
     Set Environment Variable  OVA_NAME  ${new-appliance-name}
-    ${output}=  Deploy VIC Appliance  vic-*.ova  %{OVA_NAME}  power=False
+    ${output}=  Deploy VIC Appliance  ${local_ova_file}  %{OVA_NAME}  power=False
 
 Power On Appliance
     [Arguments]  ${new-appliance-name}

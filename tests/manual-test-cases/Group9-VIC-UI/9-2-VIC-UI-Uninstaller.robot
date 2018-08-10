@@ -20,26 +20,36 @@ Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Variables ***
 ${ok}=  204
+${html5}=  H5
+${flex}=  FLEX
 
 *** Keywords *** 
 Uninstall OVA Setup
-    Wait Until Keyword Succeeds  1x  30m  VIC UI OVA Setup
-    ${out}=  Install UI Plugin  %{OVA_IP}
-    Should Contain  ${out}  ${ok}
+    Run Keyword  VIC UI OVA Setup
+    ${status}=  Install UI Plugin  %{OVA_IP}
+    Should Be Equal As Integers  ${status}  ${ok}
 
 *** Test Cases ***
 Attempt To Uninstall From A Non vCenter Server
-    ${rc}  ${out}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  not-a-vcenter-server
-    Should Not Contain  ${out}  ${ok}
+    ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${html5}  not-a-vcenter-server
+    Should Not Be Equal As Integers  ${status}  ${ok}
+    ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${flex}  not-a-vcenter-server
+    Should Not Be Equal As Integers  ${status}  ${ok}
 
 Attempt To Uninstall With Wrong Vcenter Credentials
-    ${rc}  ${out}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  %{TEST_URL}  %{TEST_USERNAME}_nope  %{TEST_PASSWORD}_nope
-    Should Not Contain  ${out}  ${ok}
+    ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${html5}  %{TEST_URL}  %{TEST_USERNAME}_nope  %{TEST_PASSWORD}_nope
+    Should Not Be Equal As Integers  ${status}  ${ok}
+    ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${flex}  %{TEST_URL}  %{TEST_USERNAME}_nope  %{TEST_PASSWORD}_nope
+    Should Not Be Equal As Integers  ${status}  ${ok}
 
 Uninstall Successfully
-    ${out}=  Remove UI Plugin  %{OVA_IP}
-    Should Contain  ${out}  ${ok}
+    ${status}=  Remove UI Plugin  %{OVA_IP}  ${html5}
+    Should Be Equal As Integers  ${status}  ${ok}
+    ${status}=  Remove UI Plugin  %{OVA_IP}  ${flex}
+    Should Be Equal As Integers  ${status}  ${ok}
 
 Attempt To Uninstall Plugin That Is Already Gone
-    ${rc}  ${out}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}
-    Should Not Contain  ${out}  ${ok}
+    ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${html5}
+    Should Not Be Equal As Integers  ${status}  ${ok}
+    ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${flex}
+    Should Not Be Equal As Integers  ${status}  ${ok}
