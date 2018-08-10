@@ -64,16 +64,23 @@ git cherry-pick -x aaaaaaa
 git push -u origin
 ```
 
-Then, post a pull-request for the cherry-pick targetting the release branch.
+Then, post a pull request for the cherry-pick targetting the release branch.
+
+If mutliple cherry-picks are included in a single pull request, manually add the
+PR number to the summary line of each commit message and use "Rebase & Merge" to
+merge the change. This allows cherry-picked changes to be more easily correlated
+between branches.
 
 
 ### Tagging
 
-On the `master` branch, tag the commit for the first release candidate. On the
-following commit, tag `dev` for ongoing development. For example, if the current
-release is `v1.2.0`, the first release candidate will be `v1.2.0-rc1` and the
-tag for ongoing development will be `v1.3.0-dev`.
+Use annotated tags to mark significant commits: the first commit of a version
+(`vX.Y.Z-dev`), each release candidate (`vX.Y.Z-rcN`), and the final commit of a
+release (`vX.Y.Z`).
 
+These tags are used to determine the version number of a build.
+
+For tagging RC1:
 ```
 git remote update
 git checkout upstream/releases/X.Y.Z
@@ -81,16 +88,15 @@ git tag -a vX.Y.Z-rc1
 git push upstream vX.Y.Z-rc1
 ```
 
+For tagging the beginning of development of the next release:
 ```
 git remote update
 git checkout upstream/master
 git tag -a vA.B.C-dev
-git pubsh upstream vA.B.C-dev
+git push upstream vA.B.C-dev
 ```
 
-After the release candidate has passed QA and the team is ready to release, tag
-the commit in the release branch (`v1.2.0`) and push the tag to Github.
-
+For tagging the final commit of a release:
 ```
 git remote update
 git checkout upstream/releases/X.Y.Z
