@@ -52,7 +52,7 @@ start_node firefox4 selenium/node-firefox:3.9.1
 
 VIC_PRODUCT_BRANCH=${VIC_PRODUCT_BRANCH:-${DEFAULT_VIC_PRODUCT_BRANCH}}
 VIC_PRODUCT_BUILD=${VIC_PRODUCT_BUILD:-${DEFAULT_VIC_PRODUCT_BUILD}}
-input=$(gsutil ls -l gs://${GCS_BUCKET}/${VIC_PRODUCT_BRANCH}${VIC_PRODUCT_BRANCH:+/}/vic-*-${VIC_PRODUCT_BUILD}-* | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | xargs basename)
+input=$(gsutil ls -l gs://${GCS_BUCKET}/${VIC_PRODUCT_BRANCH}${VIC_PRODUCT_BRANCH:+/}vic-*-${VIC_PRODUCT_BUILD}-* | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | xargs basename)
 constructed_url="https://storage.googleapis.com/${GCS_BUCKET}/${VIC_PRODUCT_BRANCH}/${input}"
 ARTIFACT_URL="${ARTIFACT_URL:-${constructed_url}}"
 input=$(basename ${ARTIFACT_URL})
