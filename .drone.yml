@@ -45,10 +45,14 @@ pipeline:
     environment:
       TERM: xterm
     secrets:
-    - github_automation_api_key
+      - github_automation_api_key
+      - harbor_ci_registry
+      - test_username
+      - test_password
     volumes:
       - '/dev:/dev'
       - '/var/run/docker.sock:/var/run/docker.sock'
+      - '/etc/docker:/etc/docker'
     commands:
       - 'docker ps'
       - 'dinv/ci.sh build'
@@ -65,10 +69,9 @@ pipeline:
     environment:
       TERM: xterm
     secrets:
-    - github_automation_api_key
-    secrets:
       - docker_user
       - docker_password
+      - github_automation_api_key
     volumes:
       - '/dev:/dev'
       - '/var/run/docker.sock:/var/run/docker.sock'
@@ -142,6 +145,7 @@ pipeline:
       GOPATH: /go
       SHELL: /bin/bash
     secrets:
+      - harbor_ci_registry
       - bridge_network
       - public_network
       - test_datastore

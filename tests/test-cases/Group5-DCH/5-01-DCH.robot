@@ -19,10 +19,9 @@ Test Timeout  5 minutes
 Test Setup  Run Keyword  Setup Base State
 
 *** Variables ***
-${harbor-ci-registry}  harbor.ci.drone.local
 ${dinv-image-tag}  17.06
 ${dinv-image-name}  dch-photon
-${harbor-image-name}  ${harbor-ci-registry}/${dinv-image-name}
+${harbor-image-name}  ${HARBOR_CI_REGISTRY}/${DEFAULT_HARBOR_PROJECT}/${dinv-image-name}
 ${harbor-image-tagged}  ${harbor-image-name}:${dinv-image-tag}
 
 *** Keywords ***
@@ -67,7 +66,8 @@ Verify tlsverify enabled scenario for dch-photon
     Should Contain  ${output}  -tlsverify
     # verify 12386 could not be accessed with --tls due to missing certs
     ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12386 --tls info
+    Log  ${output}
     Should Be Equal As Integers  ${rc}  1
-    Should Contain  ${output}  'bad certificate'
+    Should Contain  ${output}  --tlsverify
 
     [Teardown]  Cleanup VCH  ${vch-name}

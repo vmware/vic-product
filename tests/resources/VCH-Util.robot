@@ -47,11 +47,11 @@ Run VIC Machine Command
 
     Set Test VCH Variables
 
-    ${output}=  Run Keyword If  ${certs}  Run  ${vic-machine} create --debug ${debug} --name=${vch-name} --target=%{TEST_URL} --thumbprint=${TEST_THUMBPRINT} --user=%{TEST_USERNAME} --password=%{TEST_PASSWORD} --image-store=%{TEST_DATASTORE} --appliance-iso=${appliance-iso} --bootstrap-iso=${bootstrap-iso} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --compute-resource=%{TEST_RESOURCE} --timeout %{VCH_TIMEOUT} --insecure-registry harbor.ci.drone.local --volume-store=%{TEST_DATASTORE}/${vch-name}-VOL:${vol} ${vicmachinetls} ${additional-args}
+    ${output}=  Run Keyword If  ${certs}  Run  ${vic-machine} create --debug ${debug} --name=${vch-name} --target=%{TEST_URL} --thumbprint=${TEST_THUMBPRINT} --user=%{TEST_USERNAME} --password=%{TEST_PASSWORD} --image-store=%{TEST_DATASTORE} --appliance-iso=${appliance-iso} --bootstrap-iso=${bootstrap-iso} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --compute-resource=%{TEST_RESOURCE} --timeout %{VCH_TIMEOUT} --insecure-registry %{HARBOR_CI_REGISTRY} --volume-store=%{TEST_DATASTORE}/${vch-name}-VOL:${vol} ${vicmachinetls} ${additional-args}
     Run Keyword If  ${certs}  Should Contain  ${output}  Installer completed successfully
     Return From Keyword If  ${certs}  ${output}
 
-    ${output}=  Run Keyword Unless  ${certs}  Run  ${vic-machine} create --debug ${debug} --name=${vch-name} --target=%{TEST_URL} --thumbprint=${TEST_THUMBPRINT} --user=%{TEST_USERNAME} --password=%{TEST_PASSWORD} --image-store=%{TEST_DATASTORE} --appliance-iso=${appliance-iso} --bootstrap-iso=${bootstrap-iso} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --compute-resource=%{TEST_RESOURCE} --timeout %{VCH_TIMEOUT} --insecure-registry harbor.ci.drone.local --volume-store=%{TEST_DATASTORE}/${vch-name}-VOL:${vol} --no-tlsverify ${additional-args}
+    ${output}=  Run Keyword Unless  ${certs}  Run  ${vic-machine} create --debug ${debug} --name=${vch-name} --target=%{TEST_URL} --thumbprint=${TEST_THUMBPRINT} --user=%{TEST_USERNAME} --password=%{TEST_PASSWORD} --image-store=%{TEST_DATASTORE} --appliance-iso=${appliance-iso} --bootstrap-iso=${bootstrap-iso} --bridge-network=%{BRIDGE_NETWORK} --public-network=%{PUBLIC_NETWORK} --compute-resource=%{TEST_RESOURCE} --timeout %{VCH_TIMEOUT} --insecure-registry %{HARBOR_CI_REGISTRY} --volume-store=%{TEST_DATASTORE}/${vch-name}-VOL:${vol} --no-tlsverify ${additional-args}
     Run Keyword Unless  ${certs}  Should Contain  ${output}  Installer completed successfully
     [Return]  ${output}
 
