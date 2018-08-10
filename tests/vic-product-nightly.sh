@@ -12,6 +12,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License
+
+: "${GCS_BUCKET:=vic-product-ova-builds}"
+
 start_node () {
     docker run -d --net grid -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm --name $1 $2
 
@@ -23,6 +26,9 @@ start_node () {
         sleep 3;
     done
 }
+
+DEFAULT_VIC_PRODUCT_BRANCH=""
+DEFAULT_VIC_PRODUCT_BUILD="*"
 
 echo "Kill any old selenium infrastructure..."
 docker rm -f selenium-hub firefox1 firefox2 firefox3 firefox4
@@ -44,13 +50,36 @@ start_node firefox2 selenium/node-firefox:3.9.1
 start_node firefox3 selenium/node-firefox:3.9.1
 start_node firefox4 selenium/node-firefox:3.9.1
 
-input=$(gsutil ls -l gs://vic-product-ova-builds/vic-* | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | cut -d '/' -f 4)
-echo "Downloading VIC Product OVA build $input..."
-wget -P vic-product https://storage.googleapis.com/vic-product-ova-builds/$input
+VIC_PRODUCT_BRANCH=${VIC_PRODUCT_BRANCH:-${DEFAULT_VIC_PRODUCT_BRANCH}}
+VIC_PRODUCT_BUILD=${VIC_PRODUCT_BUILD:-${DEFAULT_VIC_PRODUCT_BUILD}}
+input=$(gsutil ls -l gs://${GCS_BUCKET}/${VIC_PRODUCT_BRANCH}${VIC_PRODUCT_BRANCH:+/}/vic-*-${VIC_PRODUCT_BUILD}-* | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | xargs basename)
+constructed_url="https://storage.googleapis.com/${GCS_BUCKET}/${VIC_PRODUCT_BRANCH}/${input}"
+ARTIFACT_URL="${ARTIFACT_URL:-${constructed_url}}"
+input=$(basename ${ARTIFACT_URL})
 
-docker run --net grid --rm --link selenium-hub:selenium-grid-hub -v $PWD/vic-product:/go --env-file vic-internal/vic-product-nightly-secrets.list gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --processes 4 --removekeywords TAG:secret --exclude skip tests/manual-test-cases
+echo "Downloading VIC Product OVA build $input... from ${ARTIFACT_URL}"
+n=0
+until [[ $n -ge 5 ]]
+do
+    wget -O vic-product/$input ${ARTIFACT_URL} && break;
+    n=$(($n+1));
+    sleep 10;
+done
+
+if [[ ! -f vic-product/$input ]]; then
+    echo "VIC Product OVA download failed";
+    exit 1;
+fi
+echo "VIC Product OVA download complete...";
+
+docker run --net grid --privileged --rm --link selenium-hub:selenium-grid-hub -v /var/run/docker.sock:/var/run/docker.sock -v /etc/docker/certs.d:/etc/docker/certs.d -v $PWD/vic-product:/go -v /vic-cache:/vic-cache --env-file vic-internal/vic-product-nightly-secrets.list gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --verbose --processes 4 --removekeywords TAG:secret --exclude skip tests/manual-test-cases
+cat vic-product/pabot_results/*/stdout.txt | grep -E '::|\.\.\.' | grep -E 'PASS|FAIL' > console.log
+
+# Pretty up the email results
+sed -i -e 's/^/<br>/g' console.log
+sed -i -e 's|PASS|<font color="green">PASS</font>|g' console.log
+sed -i -e 's|FAIL|<font color="red">FAIL</font>|g' console.log
 
 DATE=`date +%m-%d-%H-%M`
 outfile="vic-product-ova-results-"$DATE".zip"
 # zip -9 $outfile output.xml log.html report.html
-

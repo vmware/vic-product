@@ -74,10 +74,16 @@ Setup CA Cert for Harbor Registry
     Run command and Return output  mv ca.crt /etc/docker/certs.d/${ova-ip}/ca.crt
     Run command and Return output  ls /etc/docker/certs.d/${ova-ip}
 
-Docker Login To Harbor Registry
+Secret Docker Login To Harbor Registry
     [Tags]  secret
     [Arguments]  ${registry_ip}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker_endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
     ${output}=  Run command and Return output  ${docker} ${docker_endpoint} login ${registry_ip} --username %{TEST_USERNAME} --password %{TEST_PASSWORD}
+    [Return]  ${output}
+
+Docker Login To Harbor Registry
+    [Arguments]  ${registry_ip}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker_endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
+    ${output}=  Secret Docker Login To Harbor Registry  ${registry_ip}  ${docker}  ${docker_endpoint}
+    Log  ${output}
     Should Contain  ${output}  Login Succeeded
     Log To Console  \nDocker login successfully
 
@@ -94,7 +100,7 @@ Pull And Tag Docker Image
 Push Docker Image To Harbor Registry
     [Arguments]  ${registry-ip}  ${image-tag}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker-endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
     Setup CA Cert for Harbor Registry  ${registry-ip}
-    Wait Until Keyword Succeeds  3x  4s  Docker Login To Harbor Registry  ${registry-ip}  ${docker}  ${docker-endpoint}
+    Wait Until Keyword Succeeds  12x  5s  Docker Login To Harbor Registry  ${registry-ip}  ${docker}  ${docker-endpoint}
     ${rc}=  Run And Return Rc  ${docker} ${docker-endpoint} push ${image-tag}
     Should Be Equal As Integers  ${rc}  0
     Log To Console  \n${image-tag} pushed successfully
@@ -105,7 +111,7 @@ Pull And Verify Image In Harbor Registry
     ${harbor-image-tagged}=  Set Variable  ${harbor-image}:${image-tag}
     Set Global Variable  ${OVA_CERT_PATH}  ${ova-cert-path}
     Setup CA Cert for Harbor Registry  ${registry-ip}
-    Wait Until Keyword Succeeds  10x  5s  Docker Login To Harbor Registry  ${registry-ip}
+    Wait Until Keyword Succeeds  10x  10s  Docker Login To Harbor Registry  ${registry-ip}
     Run command and Return output  ${docker} ${docker-endpoint} pull ${harbor-image-tagged}
     ${output}=  Run command and Return output  ${docker} ${docker-endpoint} image ls
     Should Contain  ${output}  ${harbor-image}
@@ -146,3 +152,13 @@ Run Docker Regression Tests For VCH
     ${rc}  ${output}=  Run And Return Rc And Output  docker ${VCH-PARAMS} ps -a
     Should Be Equal As Integers  ${rc}  0
     Should Not Contain  ${output}  /bin/top
+
+Verify Running Busybox Container And Its Pushed Harbor Image
+    [Arguments]  ${registry-ip}  ${image-tag}  ${cert-path}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker-endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
+    # verify previously created container is migrated and still running
+    ${rc}  ${output}=  Run And Return Rc And Output  ${docker} ${docker-endpoint} ps
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    Should Contain  ${output}  /bin/top
+    # verify previously tagged and pushed image is still available
+    Pull And Verify Image In Harbor Registry  ${registry-ip}  ${busybox}  ${image-tag}  ${cert-path}

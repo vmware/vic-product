@@ -14,12 +14,12 @@
 
 *** Settings ***
 Documentation  This resource contains any keywords dealing with web based operations being performed within vSphere on the VCH plugin
-Resource  ../../resources/UI-Util.robot
+Resource  ../../resources/Util.robot
 
 *** Variables ***
 # css locators
 ${vic-home-iframe}  css=iframe[ng-src*='view=vch-view']
-${vch-name}  css=#nameInput
+${vch-name-input}  css=#nameInput
 ${next-button}  css=.clr-wizard-btn--primary
 ${datastore-dropdown}  css=select#image-store-selector
 ${bridge-network-dropdown}  css=select#bridge-network-selector
@@ -81,8 +81,8 @@ Click New Virtual Container Host Button
 Input VCH Name
     [Arguments]  ${vch-name-text}
     Log To Console  Input VCH name...
-    Wait Until Element Is Visible And Enabled  ${vch-name}
-    Input Text  ${vch-name}  ${vch-name-text}
+    Wait Until Element Is Visible And Enabled  ${vch-name-input}
+    Input Text  ${vch-name-input}  ${vch-name-text}
 
 Click Next Button
     Log To Console  Clicking Next button...
@@ -92,22 +92,22 @@ Click Next Button
 Select Image Datastore
     [Arguments]  ${ds-text}
     Log To Console  Selecting datastore...
-    Wait Until Element Is Visible And Enabled  ${datastore-dropdown}  
-    Select From List By Value  ${datastore-dropdown}  ${ds-text}
+    Wait Until Element Is Visible And Enabled  ${datastore-dropdown}
+    Print Values And Select One From List  ${datastore-dropdown}  ${ds-text}
 
 Select Bridge Network
     [Arguments]  ${network-text}
     Log To Console  Selecting bridge network...
-    Wait Until Element Is Visible And Enabled  ${bridge-network-dropdown} 
-    Select From List By Value  ${bridge-network-dropdown}  ${network-text}
+    Wait Until Element Is Visible And Enabled  ${bridge-network-dropdown}
+    Print Values And Select One From List  ${bridge-network-dropdown}  ${network-text}
 
 Select Public Network
     [Arguments]  ${network-text}
     Log To Console  Selecting public network...
-    Wait Until Element Is Visible And Enabled  ${public-network-dropdown} 
-    Select From List By Value  ${public-network-dropdown}  ${network-text}
+    Wait Until Element Is Visible And Enabled  ${public-network-dropdown}
+    Print Values And Select One From List  ${public-network-dropdown}  ${network-text}
 
-Toggle Client Certificate Option 
+Toggle Client Certificate Option
     Log To Console  Toggle security...
     Wait Until Element Is Visible And Enabled  ${toggle-secure}
     Click Element  ${toggle-secure}
@@ -153,3 +153,49 @@ Set Docker Host Parameters
     Set Test Variable  ${VCH-PORT}  ${port}
     Run Keyword If  ${port} == 2376  Set Test Variable  ${VCH-PARAMS}  -H ${docker-host} --tls
     Run Keyword If  ${port} == 2375  Set Test Variable  ${VCH-PARAMS}  -H ${docker-host}
+
+Create VCH using UI And Set Docker Parameters
+    # navigate to the wizard and create a VCH
+    # set docker parameters for created VCH
+    [Arguments]  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}=1
+    Open Firefox Browser
+    Navigate To VC UI Home Page
+    Login On Single Sign-On Page
+    Verify VC Home Page
+    Navigate To VCH Creation Wizard
+    Navigate To VCH Tab
+    Click New Virtual Container Host Button
+
+    #general
+    ${name}=  Evaluate  'VCH-${test-name}-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
+    Input VCH Name  ${name}
+    Click Next Button
+    # compute capacity
+    Log To Console  Selecting compute resource...
+    # if cluster is present
+    Wait Until Element Is Visible And Enabled  css=.clr-treenode-children clr-tree-node:nth-of-type(${tree-node}) .cc-resource
+    Click Button  css=.clr-treenode-children clr-tree-node:nth-of-type(${tree-node}) .cc-resource
+    Click Next Button
+    # storage capacity
+    Select Image Datastore  ${datastore}
+    Click Next Button
+    #networks
+    Select Bridge Network  ${bridge-network}
+    Select Public Network  ${public-network}
+    Click Next Button
+    # security
+    Toggle Client Certificate Option
+    Click Next Button
+    #registry access
+    Click Next Button
+    # ops-user
+    Input Ops User Name  ${ops-user}
+    Input Ops User Password  ${ops-pwd}
+    Click Next Button
+    # summary
+    Click Finish Button
+    Unselect Frame
+    Wait Until Page Does Not Contain  VCH name
+    Set Test Variable   ${VCH-NAME}  ${name}
+    # retrieve docker parameters from UI
+    Set Docker Host Parameters

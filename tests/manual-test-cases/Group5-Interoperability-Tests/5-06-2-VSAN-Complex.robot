@@ -1,0 +1,74 @@
+# Copyright 2018-2019 VMware, Inc. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#	http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License
+
+*** Settings ***
+Documentation  Test 5-06-2 - VSAN-Complex
+Resource  ../../resources/Util.robot
+Suite Setup  Wait Until Keyword Succeeds  10x  10m  VSAN Complex Setup
+Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+
+*** Keywords ***
+VSAN Complex Setup
+    [Timeout]    110 minutes
+    Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
+    Log To Console  Deploying test bed with complex VSAN...
+    ${name}=  Evaluate  'vic-vsan-complex-' + str(random.randint(1000,9999))  modules=random
+    Set Suite Variable  ${user}  %{NIMBUS_USER}
+    ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  --plugin testng --vcfvtBuildPath /dbc/pa-dbc1111/mhagen/ --noSupportBundles --vcvaBuild ${VC_VERSION} --esxPxeDir ${ESX_VERSION} --esxBuild ${ESX_VERSION} --testbedName vic-vsan-complex-pxeBoot-vcva --runName ${name}
+    Log  ${out}
+    Should Contain  ${out}  "deployment_result"=>"PASS"
+    ${out}=  Split To Lines  ${out}
+    :FOR  ${line}  IN  @{out}
+    \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  .vcva-${VC_VERSION}' is up. IP:
+    \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
+    \   Run Keyword If  ${status}  Set Suite Variable  ${vc-ip}  ${ip}
+    \   Exit For Loop If  ${status}
+
+    Set Suite Variable  @{list}  ${user}-${name}.vcva-${VC_VERSION}  ${user}-${name}.esx.0  ${user}-${name}.esx.1  ${user}-${name}.esx.2  ${user}-${name}.esx.3  ${user}-${name}.esx.4  ${user}-${name}.esx.5  ${user}-${name}.esx.6  ${user}-${name}.esx.7  ${user}-${name}.nfs.0  ${user}-${name}.iscsi.0
+
+    Log To Console  Set environment variables up for GOVC
+    Set Environment Variable  GOVC_INSECURE  1
+    Set Environment Variable  GOVC_URL  ${vc-ip}
+    Set Environment Variable  GOVC_USERNAME  Administrator@vsphere.local
+    Set Environment Variable  GOVC_PASSWORD  Admin\!23
+
+    Wait Until Keyword Succeeds  5x  5min  Add Host To Distributed Switch  /vcqaDC/host/cluster-vsan-1
+
+    Log To Console  Enable DRS and VSAN on the cluster
+    ${out}=  Run  govc cluster.change -drs-enabled /vcqaDC/host/cluster-vsan-1
+    Should Be Empty  ${out}
+
+    Set Environment Variable  TEST_URL  ${vc-ip}
+    Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
+    Set Environment Variable  TEST_PASSWORD  Admin\!23
+    Set Environment Variable  BRIDGE_NETWORK  bridge
+    Set Environment Variable  PUBLIC_NETWORK  vm-network
+    ${datastore}=  Run  govc ls -t Datastore host/cluster-vsan-1/* | grep -v local | cut -d '/' -f 6 | sort | uniq | grep vsan
+    Set Environment Variable  TEST_DATASTORE  ${datastore}
+    Remove Environment Variable  TEST_DATACENTER
+    Set Environment Variable  TEST_RESOURCE  /vcqaDC/host/cluster-vsan-1
+    Set Environment Variable  VCH_TIMEOUT  30m0s
+
+*** Test Cases ***
+Complex VSAN
+    Wait Until Keyword Succeeds  10x  30s  Check No VSAN DOMs In Datastore  %{TEST_DATASTORE}
+    Custom Testbed Keepalive  /dbc/pa-dbc1111/mhagen
+    # install ova and verify
+    Deploy OVA And Install UI Plugin And Run Regression Tests  5-06-2-TEST  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}  2
+    # clean up OVA and VCH
+    Download VIC Engine If Not Already  %{OVA_IP}
+    Delete VCH Successfully  ${VCH-NAME}
+    Cleanup VIC Product OVA  %{OVA_NAME}
+    # check vsan doms
+    Wait Until Keyword Succeeds  10x  30s  Check No VSAN DOMs In Datastore  %{TEST_DATASTORE}

@@ -67,6 +67,13 @@ Get VM Host Name
     ${host}=  Fetch From Right  @{out}[-1]  ${SPACE}
     [Return]  ${host}
 
+Get VM Host By IP
+    [Arguments]  ${vm-ip}
+    ${out}=  Run  govc vm.info -vm.ip=${vm-ip}
+    ${out}=  Split To Lines  ${out}
+    ${host}=  Fetch From Right  @{out}[-1]  ${SPACE}
+    [Return]  ${host}
+
 Download VIC And Install UI Plugin
     [Arguments]  ${ova-ip}
     Open Connection  %{TEST_URL}
@@ -87,4 +94,31 @@ Download VIC And Install UI Plugin
     Execute Command And Return Output  service-control --stop vsphere-client
     Execute Command And Return Output  service-control --start vsphere-client
     Close Connection
-    
+
+Get PSC Instance
+    [Arguments]  ${vc-ip}  ${vc-root-user}  ${vc-root-pwd}
+    Open Connection  ${vc-ip}
+    Wait Until Keyword Succeeds  10x  5s  Login  ${vc-root-user}  ${vc-root-pwd}
+
+    ${psc}=  Execute Command And Return Output  /usr/lib/vmware-vmafd/bin/vmafd-cli get-ls-location --server-name localhost | awk -F/ '{print $3}'
+
+    Close Connection
+
+    [Return]  ${psc}
+
+Gather All vSphere Logs
+    ${hostList}=  Run  govc ls -t HostSystem host/cls | xargs
+    Run  govc logs.download ${hostList}
+
+Check No VSAN DOMs In Datastore
+    [Arguments]  ${test_datastore}
+    ${out}=  Run  govc datastore.vsan.dom.ls -ds ${test_datastore} -l -o
+    Should Be Empty  ${out}
+
+    [Return]  ${out}
+
+Copy Disk
+    [Arguments]  ${old-datastore}  ${new-datastore}  ${old-disk}  ${new-disk}
+    ${output}=  Run command and Return output  govc datastore.cp -ds "${old-datastore}" -ds-target "${new-datastore}" "${old-disk}" "${new-disk}"
+    [Return]  ${output}
+
