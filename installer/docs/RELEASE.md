@@ -1,11 +1,35 @@
 # Release Procedures
+This project does not use semantic versioning.
 
 All examples in this document assume `vmware/vic-product` is at `upstream` and
 your fork is at `origin`. If you have used a different remote name (e.g.,
 `origin` for `vmware/vic-product`), adjust accordingly.
 
 
-## Procedures
+## Overview
+
+Git branches and tags are the building blocks of the release process.
+
+A git tag is created for each milestone: a `vX.Y.Z-dev` tag is created when
+development of version X.Y.Z begins, a `vX.Y.Z-rcN` tag is created for each
+release candidate, and a `vX.Y.Z` tag is created when the release is complete).
+
+The version number assigned to a component and its deliverables is determined by
+the first reachable tag in the history of the commit being built. (When a "tie"
+exists, the annotated tag created most recently or the lightweight tag which
+would come first in lexicographical order is used.)
+
+A special "tag build" is triggered in Drone when a tag is created.
+
+Release branches (which must be named `releases/X.Y.Z`) are used to insulate the
+code which is being prepared for release from churn on `master`. When a version
+is developed on `master`, the release branch is created from the commit used for
+the first release candidate. For a patch, the release branch is created from the
+parent release's branch.
+
+All Drone builds on a release branch behave differently from builds on `master`:
+they consume tagged versions of components (instead of the most recent build).
+
 
 ### Branching
 

@@ -1,0 +1,124 @@
+version: '2.2'
+services:
+  elk-cnode1:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.3
+    command: |
+      sh -c 'sysctl -w vm.max_map_count=262144 && /usr/local/bin/docker-entrypoint.sh eswrapper'
+    environment:
+      - cluster.name=elasticsearch
+      - node.name=elk-cnode1
+      - discovery.type=zen
+      - "discovery.zen.ping.unicast.hosts=log,elk-cnode2,elk-cnode3,elk-node1,elk-node2"
+      - discovery.zen.minimum_master_nodes=1
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      #- ELASTIC_PASSWORD=changeme
+      - ALLOW_INSECURE_DEFAULT_TLS_CERT="true"
+
+    volumes:
+      - elastic-node1-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+    
+    networks:
+        vic-elastic:
+          ipv4_address: 192.168.50.208
+    dns:
+      - 192.168.25.99
+      - 192.168.25.199
+    dns_search: domain.local
+    domainname: domain.local
+    hostname: elk-cnode1
+
+  elk-cnode2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.3
+    command: |
+      sh -c 'sysctl -w vm.max_map_count=262144 && /usr/local/bin/docker-entrypoint.sh eswrapper'
+    environment:
+      - cluster.name=elasticsearch
+      - node.name=elk-cnode2
+      - discovery.type=zen
+      - "discovery.zen.ping.unicast.hosts=log,elk-cnode1,elk-cnode3,elk-node1,elk-node2"
+      - discovery.zen.minimum_master_nodes=1
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      #- ELASTIC_PASSWORD=changeme
+      - ALLOW_INSECURE_DEFAULT_TLS_CERT="true"
+
+    volumes:
+      - elastic-node2-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+    networks:
+        vic-elastic:
+          ipv4_address: 192.168.50.209
+
+    dns:
+      - 192.168.25.99
+      - 192.168.25.199
+    dns_search: domain.local
+    domainname: domain.local
+    hostname: elk-cnode2
+
+  elk-cnode3:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.3
+    command: |
+      sh -c 'sysctl -w vm.max_map_count=262144 && /usr/local/bin/docker-entrypoint.sh eswrapper'
+    environment:
+      - cluster.name=elasticsearch
+      - node.name=elk-cnode3
+      - discovery.type=zen
+      - "discovery.zen.ping.unicast.hosts=log,elk-cnode1,elk-cnode2,elk-node1,elk-node2"
+      - discovery.zen.minimum_master_nodes=1
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      #- ELASTIC_PASSWORD=changeme
+      - ALLOW_INSECURE_DEFAULT_TLS_CERT="true"
+
+    volumes:
+      - elastic-node3-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+    networks:
+        vic-elastic:
+          ipv4_address: 192.168.50.210
+
+    dns:
+      - 192.168.25.99
+      - 192.168.25.199
+    dns_search: domain.local
+    domainname: domain.local
+    hostname: elk-cnode3
+
+
+volumes:
+  elastic-node1-data:
+    name: elastic-node1-data
+    driver: vsphere
+    driver_opts:
+      capacity: 30GB
+  elastic-node2-data:
+    name: elastic-node2-data
+    driver: vsphere
+    driver_opts:
+      capacity: 30GB
+  elastic-node3-data:
+    name: elastic-node3-data
+    driver: vsphere
+    driver_opts:
+      capacity: 30GB
+
+networks:
+  vic-elastic:
+    external:
+      name: vic-elastic
+    ipam:
+      driver: default
+      config:
+      - subnet: 192.168.50.208/29
+        gateway: 192.168.50.1
+
+

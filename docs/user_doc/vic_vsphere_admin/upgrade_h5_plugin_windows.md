@@ -7,6 +7,9 @@ If you have previous installations of the vSphere Client plug-ins for vSphere In
 - You are upgrading the plug-ins on a vCenter Server instance that runs on Windows. If you are running a vCenter Server appliance instance, see [Upgrade the HTML5 vSphere Client Plug-In on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md).
 - You deployed the vSphere Integrated Containers plug-ins with vSphere Integrated Containers 1.2.x or 1.3.x. For information about installing the plug-ins for the first time, see [Install the Client Plug-Ins on vCenter Server for Windows](plugins_vc_windows.md).
 - You upgraded an existing vSphere Integrated Containers 1.4.x appliance to a newer 1.4.y version. For information about upgrading the vSphere Integrated Containers appliance, see [Upgrade the vSphere Integrated Containers Appliance](upgrade_appliance.md).
+
+    **IMPORTANT**: vSphere Integrated Containers 1.4.2 includes version 1.4.1 of the vSphere Integrated Containers plug-ins for vSphere Client. If you are upgrading vSphere Integrated Containers from version 1.4.1 to 1.4.2, you must still upgrade the client plug-ins after you upgrade the appliance. This is so that the plug-ins register correctly with the upgraded appliance. If you do not upgrade the plug-ins after upgrading the appliance to 1.4.2, the vSphere Integrated Containers view does not appear in the vSphere Client.
+
 - Log in to the Windows system on which vCenter Server is running. You must perform all of the steps in this procedure on this Windows system.
 
     **IMPORTANT**: The upgrade script does not function if you have set the `VIC_MACHINE_THUMBPRINT` environment variable on the system on which you run the script. Delete the `VIC_MACHINE_THUMBPRINT` environment variable before running the script.

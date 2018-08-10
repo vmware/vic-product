@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License
+set -x
 
 : "${GCS_BUCKET:=vic-product-ova-builds}"
 
@@ -26,6 +27,9 @@ start_node () {
         sleep 3;
     done
 }
+
+DEFAULT_VIC_PRODUCT_BRANCH=""
+DEFAULT_VIC_PRODUCT_BUILD="*"
 
 echo "Kill any old selenium infrastructure..."
 docker rm -f selenium-hub firefox1 firefox2 firefox3 firefox4
@@ -47,12 +51,18 @@ start_node firefox2 selenium/node-firefox:3.9.1
 start_node firefox3 selenium/node-firefox:3.9.1
 start_node firefox4 selenium/node-firefox:3.9.1
 
-input=$(gsutil ls -l gs://$GCS_BUCKET/vic-* | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | cut -d '/' -f 4)
-echo "Downloading VIC Product OVA build $input..."
+VIC_PRODUCT_BRANCH=${VIC_PRODUCT_BRANCH:-${DEFAULT_VIC_PRODUCT_BRANCH}}
+VIC_PRODUCT_BUILD=${VIC_PRODUCT_BUILD:-${DEFAULT_VIC_PRODUCT_BUILD}}
+input=$(gsutil ls -l gs://${GCS_BUCKET}/${VIC_PRODUCT_BRANCH}${VIC_PRODUCT_BRANCH:+/}vic-*-${VIC_PRODUCT_BUILD}-* | grep -v TOTAL | sort -k2 -r | head -n1 | xargs | cut -d ' ' -f 3 | xargs basename)
+constructed_url="https://storage.googleapis.com/${GCS_BUCKET}/${VIC_PRODUCT_BRANCH}/${input}"
+ARTIFACT_URL="${ARTIFACT_URL:-${constructed_url}}"
+input=$(basename ${ARTIFACT_URL})
+
+echo "Downloading VIC Product OVA build $input... from ${ARTIFACT_URL}"
 n=0
 until [[ $n -ge 5 ]]
 do
-    wget -O vic-product/$input https://storage.googleapis.com/$GCS_BUCKET/$input && break;
+    wget -O vic-product/$input ${ARTIFACT_URL} && break;
     n=$(($n+1));
     sleep 10;
 done
@@ -63,7 +73,11 @@ if [[ ! -f vic-product/$input ]]; then
 fi
 echo "VIC Product OVA download complete...";
 
-docker run --net grid --privileged --rm --link selenium-hub:selenium-grid-hub -v /var/run/docker.sock:/var/run/docker.sock -v /etc/docker/certs.d:/etc/docker/certs.d -v $PWD/vic-product:/go -v /vic-cache:/vic-cache --env-file vic-internal/vic-product-nightly-secrets.list gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --verbose --processes 4 --removekeywords TAG:secret --exclude skip tests/manual-test-cases
+ENV_FILE=${ENV_FILE:-'vic-product-nightly-secrets.list'}
+PARLLEL_JOBS=${PARLLEL_JOBS:-'4'}
+ROBOT_REPORT=${ROBOT_REPORT:-'report'}
+TEST_CASES=${TEST_CASES:-'tests/manual-test-cases'}
+docker run --net grid --privileged --rm --link selenium-hub:selenium-grid-hub -v /var/run/docker.sock:/var/run/docker.sock -v /etc/docker/certs.d:/etc/docker/certs.d -v $PWD/vic-product:/go -v /vic-cache:/vic-cache --env-file vic-internal/${ENV_FILE} gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --verbose --processes ${PARLLEL_JOBS} -d ${ROBOT_REPORT} --removekeywords TAG:secret --exclude skip ${TEST_CASES}
 cat vic-product/pabot_results/*/stdout.txt | grep -E '::|\.\.\.' | grep -E 'PASS|FAIL' > console.log
 
 # Pretty up the email results

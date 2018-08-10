@@ -19,6 +19,8 @@ Please refer to the [documentation](https://vmware.github.io/vic-product/#docume
 
 ## Support and Troubleshooting
 
+For general questions, visit the [vSphere Integrated Containers Engine channel](https://vmwarecode.slack.com/messages/vic-engine). If you do not have an @vmware.com or @emc.com email address, sign up at https://code.vmware.com to get an invitation.
+
 View the [VIC Appliance Troubleshooting Guide](installer/docs/SUPPORT.md)
 
 ## Contributing to vSphere Integrated Containers
