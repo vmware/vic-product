@@ -2,8 +2,9 @@
 
 This project does not use semantic versioning.
 
-All examples in this document assume the user's fork is at `origin` and `vmware/vic-product` is at
-`upstream`.
+All examples in this document assume `vmware/vic-product` is at `upstream` and
+your fork is at `origin`. If you have used a different remote name (e.g.,
+`origin` for `vmware/vic-product`), adjust accordingly.
 
 
 ## Overview
@@ -31,96 +32,102 @@ All Drone builds on a release branch behave differently from builds on `master`:
 they consume tagged versions of components (instead of the most recent build).
 
 
-## Branching
+### Branching
 
-When the team is ready to build a release candidate, create a branch off of master based on the
-release version number. 
+It is desirable to ensure that only changes which have already been reviewed and
+pushed are included when creating a release branch. While there are a variety of
+ways to create a new branch, the following process minimizes risk of including
+changes which were not intended. (It is not possible to use a pull request to
+allow for review of the creation of a branch, so you may wish to confirm your
+changes directly with another member of the team.)
 
-A tag for ongoing development should also be created at the commit **after**
-the start of the release branch. The tagging procedure is documented in [Tagging](#Tagging). 
-
+For a release branching from `master`:
 ```
 git remote update
 git checkout upstream/master
-# or
-git checkout aaaaaaa
-git checkout -b releases/1.2.0
-git push upstream
+git push upstream HEAD:releases/X.Y.0
 ```
 
-Configure branch protection on Github to have the same protection as the master branch.
-`Protect this branch` and `Require pull request reviews before merging` should be set.
+For a patch release:
+```
+git remote update
+git checkout upstream/releases/X.Y.0
+git push upstream HEAD:releases/X.Y.1
+```
+
+After creating a new branch:
+
+1. A tag for ongoing development should also be created at the commit **after**
+   the start of the release branch using the [Tagging](#Tagging) procedure.
+2. GitHub branch protection rules should be configured based on the rules used
+   for the `master` branch.
 
 
-## Cherry picking
+### Upgrade
 
-Commits that need to be pulled into the release should be cherry picked into the release branch
-after they are merged into master.
+To ensure that future releases will be able to upgrade from the release that is
+being prepared, it is necessary to update the upgrade scripts to list the new
+release. As this process may change over time, this document will not attempt to
+describe the exact steps necessary. Referring to the most recent change that
+added support for upgrade and searching the code for previous version numbers
+may each help identify some of the necessary steps.
+
+
+### Cherry picking
+
+Commits that need to be pulled into the release should be cherry picked into the
+release branch after they are merged into master. (This eliminates the potential
+for a regression in a future release resulting from a fix committed directly to
+the release branch, and not cherry-picked to `master`.)
 
 ```
 git remote update
-git checkout releases/1.2.0
-git rebase upstream/releases/1.2.0
-git checkout -b cherry-pick-branch-name
-git cherry-pick aaaaaaa
-git push upstream
+git checkout releases/X.Y.Z
+git pull --rebase
+git checkout -b cherry/1234
+git cherry-pick -x aaaaaaa
+git push -u origin
 ```
 
+Then, post a pull request for the cherry-pick targetting the release branch.
 
-## Tagging
+If mutliple cherry-picks are included in a single pull request, manually add the
+PR number to the summary line of each commit message and use "Rebase & Merge" to
+merge the change. This allows cherry-picked changes to be more easily correlated
+between branches.
 
-On the master branch, tag the commit for the first release candidate. On the
-following commit, tag `dev` for ongoing development. For example, if the
-current release is `v1.2.0`, the first release candidate will be `v1.2.0-rc1` and
-the tag for ongoing development will be `v1.3.0-dev`.
 
+### Tagging
+
+Use annotated tags to mark significant commits: the first commit of a version
+(`vX.Y.Z-dev`), each release candidate (`vX.Y.Z-rcN`), and the final commit of a
+release (`vX.Y.Z`).
+
+These tags are used to determine the version number of a build.
+
+For tagging RC1:
 ```
 git remote update
-git checkout upstream/releases/1.2.0
-git tag -a v1.2.0-rc1 aaaaaaa
-git push upstream v1.2.0-rc1
+git checkout upstream/releases/X.Y.Z
+git tag -a vX.Y.Z-rc1
+git push upstream vX.Y.Z-rc1
 ```
 
-If there is not yet a commit after the start of the release branch, create an empty commit after
-the commit for the release branch. This empty commit will be tagged for ongoing development on master.
-
+For tagging the beginning of development of the next release:
 ```
-# Create empty commit on master
 git remote update
 git checkout upstream/master
-git commit --allow-empty -m "v1.3.0-dev"
-git push upstream
-
-# Tag empty commit for ongoing development
-git remote update
-git checkout upstream/master
-git tag -a v1.3.0-dev bbbbbbb
-git pubsh upstream v1.3.0-dev
+git tag -a vA.B.C-dev
+git push upstream vA.B.C-dev
 ```
 
-After the release candidate has passed QA and the team is ready to release, tag the commit in the
-release branch (`v1.2.0`) and push the tag to Github.
-
+For tagging the final commit of a release:
 ```
 git remote update
-git checkout upstream/releases/1.2.0
-git tag -a v1.2.0 ccccccc
-git push upstream v1.2.0
+git checkout upstream/releases/X.Y.Z
+git tag -a vX.Y.Z
+git push upstream vX.Y.Z
 ```
-
-### Point releases
-
-After a release, tag `dev` on the release branch for ongoing development.
-For example, if `v1.2.0` was tagged on `/releases/1.2.0` and there is work for `v1.2.1`, on the
-following commit, tag `v1.2.1-dev`.
-
-```
-git remote update
-git checkout upstream/releases/1.2.0
-git tag -a v1.2.1-dev ddddddd
-git push upstream v1.2.1-dev
-```
-
 
 ## Github Releases
 
