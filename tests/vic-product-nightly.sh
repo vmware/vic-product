@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License
+set -x
 
 : "${GCS_BUCKET:=vic-product-ova-builds}"
 
@@ -72,7 +73,11 @@ if [[ ! -f vic-product/$input ]]; then
 fi
 echo "VIC Product OVA download complete...";
 
-docker run --net grid --privileged --rm --link selenium-hub:selenium-grid-hub -v /var/run/docker.sock:/var/run/docker.sock -v /etc/docker/certs.d:/etc/docker/certs.d -v $PWD/vic-product:/go -v /vic-cache:/vic-cache --env-file vic-internal/vic-product-nightly-secrets.list gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --verbose --processes 4 --removekeywords TAG:secret --exclude skip tests/manual-test-cases
+ENV_FILE=${ENV_FILE:-'vic-product-nightly-secrets.list'}
+PARLLEL_JOBS=${PARLLEL_JOBS:-'4'}
+ROBOT_REPORT=${ROBOT_REPORT:-'report'}
+TEST_CASES=${TEST_CASES:-'tests/manual-test-cases'}
+docker run --net grid --privileged --rm --link selenium-hub:selenium-grid-hub -v /var/run/docker.sock:/var/run/docker.sock -v /etc/docker/certs.d:/etc/docker/certs.d -v $PWD/vic-product:/go -v /vic-cache:/vic-cache --env-file vic-internal/${ENV_FILE} gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --verbose --processes ${PARLLEL_JOBS} -d ${ROBOT_REPORT} --removekeywords TAG:secret --exclude skip ${TEST_CASES}
 cat vic-product/pabot_results/*/stdout.txt | grep -E '::|\.\.\.' | grep -E 'PASS|FAIL' > console.log
 
 # Pretty up the email results
