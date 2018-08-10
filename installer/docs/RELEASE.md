@@ -1,4 +1,5 @@
 # Release Procedures
+
 This project does not use semantic versioning.
 
 All examples in this document assume `vmware/vic-product` is at `upstream` and
