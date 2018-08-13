@@ -9,3 +9,5 @@ VIC Integration Test Suite
 [Group 3 - Admiral](Group3-Admiral/TestCases.md)
 
 [Group 4 - Harbor](Group4-Harbor/TestCases.md)
+
+[Group 5 - DCH](Group5-DCH/TestCases.md)

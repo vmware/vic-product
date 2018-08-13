@@ -120,7 +120,7 @@ func main() {
 				}
 			}
 
-			dockerArgs = append(dockerArgs, "--tls", "--tlscacert=/certs/ca.crt", "--tlscert=/certs/docker.crt", "--tlskey=/certs/docker.key")
+			dockerArgs = append(dockerArgs, "--tlsverify", "--tlscacert=/certs/ca.crt", "--tlscert=/certs/docker.crt", "--tlskey=/certs/docker.key")
 		}
 	}
 
