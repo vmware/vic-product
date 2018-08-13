@@ -1,0 +1,17 @@
+#!/bin/bash
+
+sleep_bin="/tmp/spark-sleep"
+
+cleanup()
+{
+   pid=$(pidof $sleep_bin)
+   echo "stopping spark slave"
+   kill $pid
+}
+
+trap cleanup EXIT
+
+/usr/local/spark-2.2.0-bin-hadoop2.7/sbin/start-master.sh
+ln -s /usr/bin/sleep /tmp/spark-sleep
+$sleep_bin infinity
+
