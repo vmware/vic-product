@@ -47,10 +47,10 @@ start_node () {
 }
 
 echo "Target version: ${VSPHERE_VERSION}"
-excludes=("--exclude skip")
+excludes=(--exclude skip)
 case "$VSPHERE_VERSION" in
     "6.0")
-        excludes+=("--exclude nsx")
+        excludes+=(--exclude nsx)
         ESX_BUILD=${ESX_BUILD:-$ESX_60_VERSION}
         VC_BUILD=${VC_BUILD:-$VC_60_VERSION}
         ;;
@@ -59,7 +59,7 @@ case "$VSPHERE_VERSION" in
         VC_BUILD=${VC_BUILD:-$VC_65_VERSION}
         ;;
     "6.7")
-        excludes+=("--exclude nsx" "--exclude hetero")
+        excludes+=(--exclude nsx --exclude hetero)
         ESX_BUILD=${ESX_BUILD:-$ESX_67_VERSION}
         VC_BUILD=${VC_BUILD:-$VC_67_VERSION}
         ;;
@@ -122,6 +122,7 @@ cat vic-product/pabot_results/*/stdout.txt | grep -E '::|\.\.\.' | grep -E 'PASS
 sed -i -e 's/^/<br>/g' console.log
 sed -i -e 's|PASS|<font color="green">PASS</font>|g' console.log
 sed -i -e 's|FAIL|<font color="red">FAIL</font>|g' console.log
+mv console.log vic-product/
 
 #DATE=$(date +%m-%d-%H-%M)
 #outfile="vic-product-ova-results-$DATE.zip"
