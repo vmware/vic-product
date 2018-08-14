@@ -17,13 +17,13 @@ Documentation  This resource contains any keywords dealing with New Container Ho
 
 *** Variables ***
 # css locators
-${nch-title}  css=.modal-title
+${nch-title}  //div[contains(text(),'New Container Host')]
 ${nch-name}  id=name
 ${nch-url}  id=url
 ${nch-select-creds}  css=.dropdown-select button
 ${nch-dropdown-creds}  css=.dropdown-options li a
 ${nch-default-cert-option}  css=a[data-name=default-ca-cert]
-${nch-button-save}  css=.modal-footer .btn-primary
+${nch-button-save}  css=button.saveCluster-btn
 
 # expected text values
 ${nch-title-text}  New Container Host
@@ -31,7 +31,6 @@ ${nch-title-text}  New Container Host
 *** Keywords ***
 Verify New Container Host Modal
     Wait Until Element Is Visible  ${nch-title}  timeout=${EXPLICIT_WAIT}
-    Element Text Should Be  ${nch-title}  ${nch-title-text}
 
 Add New Container Host
     [Arguments]  ${name}  ${url}  ${creds}=${nch-default-cert-option}

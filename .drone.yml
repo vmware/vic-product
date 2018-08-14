@@ -44,9 +44,15 @@ pipeline:
     privileged: true
     environment:
       TERM: xterm
+    secrets:
+      - github_automation_api_key
+      - harbor_ci_registry
+      - test_username
+      - test_password
     volumes:
       - '/dev:/dev'
       - '/var/run/docker.sock:/var/run/docker.sock'
+      - '/etc/docker:/etc/docker'
     commands:
       - 'docker ps'
       - 'dinv/ci.sh build'
@@ -65,6 +71,7 @@ pipeline:
     secrets:
       - docker_user
       - docker_password
+      - github_automation_api_key
     volumes:
       - '/dev:/dev'
       - '/var/run/docker.sock:/var/run/docker.sock'
@@ -138,6 +145,7 @@ pipeline:
       GOPATH: /go
       SHELL: /bin/bash
     secrets:
+      - harbor_ci_registry
       - bridge_network
       - public_network
       - test_datastore
@@ -226,7 +234,8 @@ pipeline:
       - 'mkdir bundle'
       - 'cd installer/bin'
       - 'TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-dev-/")'
-      - 'echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/$TMP"'
+      - 'if [ "${DRONE_BUILD_EVENT}" == "push" ] && [ "${DRONE_BRANCH}" != "master" ]; then FOLDER=${DRONE_BRANCH} ; fi'
+      - 'echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/${FOLDER}${FOLDER:+/}${TMP}"'
       - 'echo "Renaming build artifact to $TMP..."'
       - 'mv vic-*.ova ../../bundle/$TMP'
       - 'cd ../../bundle'
@@ -279,19 +288,51 @@ pipeline:
       branch: ['releases/*', 'refs/tags/*']
       status: [success, failure]
 
-  publish-gcs-builds:
+  publish-gcs-master-builds-push:
     image: 'victest/drone-gcs:1'
     pull: true
     secrets:
       - google_key
     source: bundle
-    target: vic-product-ova-builds
+    target: vic-product-ova-builds/
     acl:
       - 'allUsers:READER'
     cache_control: 'public,max-age=3600'
     when:
       repo: vmware/vic-product
-      event: [push, tag]
+      event: [push]
+      branch: [master]
+      status: success
+
+  publish-gcs-release-builds-push:
+    image: 'victest/drone-gcs:1'
+    pull: true
+    secrets:
+      - google_key
+    source: bundle
+    target: vic-product-ova-builds/${DRONE_BRANCH}/
+    acl:
+      - 'allUsers:READER'
+    cache_control: 'public,max-age=3600'
+    when:
+      repo: vmware/vic-product
+      event: [push]
+      branch: ['releases/*']
+      status: success
+
+  publish-gcs-builds-tag:
+    image: 'victest/drone-gcs:1'
+    pull: true
+    secrets:
+      - google_key
+    source: bundle
+    target: vic-product-ova-builds/
+    acl:
+      - 'allUsers:READER'
+    cache_control: 'public,max-age=3600'
+    when:
+      repo: vmware/vic-product
+      event: [tag]
       branch: [master, 'releases/*', 'refs/tags/*']
       status: success
 
@@ -301,7 +342,7 @@ pipeline:
     secrets:
       - google_key
     source: bundle
-    target: vic-product-ova-builds
+    target: vic-product-ova-builds/
     acl:
       - 'allUsers:READER'
     cache_control: 'public,max-age=3600'
@@ -318,7 +359,7 @@ pipeline:
     secrets:
       - google_key
     source: bundle
-    target: vic-product-ova-releases
+    target: vic-product-ova-releases/
     acl:
       - 'allUsers:READER'
     cache_control: 'public,max-age=3600'
@@ -335,7 +376,7 @@ pipeline:
     secrets:
       - google_key
     source: bundle
-    target: vic-product-failed-builds
+    target: vic-product-failed-builds/
     acl:
       - 'allUsers:READER'
     cache_control: 'public,max-age=3600'
