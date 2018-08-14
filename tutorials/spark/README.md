@@ -52,4 +52,5 @@ docker-compose stop
 docker-compose rm
 ```
 
+
 Check also the [Apache Spark Blog Article](https://blogs.vmware.com/cloudnative/2018/08/08/fire-up-your-data-processing-with-apache-spark-on-vsphere-integrated-containers/) on the VMware CNA Blog for a more detailed description.
