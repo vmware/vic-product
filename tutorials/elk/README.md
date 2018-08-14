@@ -1,4 +1,4 @@
-# Automating provisioning of Higly Available Elastic Stack cluster
+# Automating provisioning of Highly Available Elastic Stack cluster
 
 This is a simple docker-compose file to provision a higly avaialbe Elastic Stack cluster with 3 Elastic Search Nodes, 2 Logstash Nodes and 2 Kibana Nodes.
 
