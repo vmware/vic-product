@@ -116,7 +116,7 @@ ENV_FILE=${ENV_FILE:-'vic-product-nightly-secrets.list'}
 PARALLEL_JOBS=${PARALLEL_JOBS:-${DEFAULT_PARALLEL_JOBS}}
 ROBOT_REPORT=${ROBOT_REPORT:-'report'}
 docker run --net grid --privileged --rm --link selenium-hub:selenium-grid-hub -v /var/run/docker.sock:/var/run/docker.sock -v /etc/docker/certs.d:/etc/docker/certs.d -v "$PWD/vic-product":/go -v /vic-cache:/vic-cache --env-file "vic-internal/${ENV_FILE}" -e BUILD_TAG=${BUILD_TAG} gcr.io/eminent-nation-87317/vic-integration-test:1.46 pabot --verbose --processes "${PARALLEL_JOBS}" -d "${ROBOT_REPORT}" --removekeywords TAG:secret "${excludes[@]}" --variable ESX_VERSION:"${ESX_BUILD}" --variable VC_VERSION:"${VC_BUILD}" "${testcases[@]}"
-cat vic-product/pabot_results/*/stdout.txt | grep -E '::|\.\.\.' | grep -E 'PASS|FAIL' > console.log
+cat vic-product/${ROBOT_REPORT}/pabot_results/*/stdout.txt | grep -E '::|\.\.\.' | grep -E 'PASS|FAIL' > console.log
 
 # Pretty up the email results
 sed -i -e 's/^/<br>/g' console.log
