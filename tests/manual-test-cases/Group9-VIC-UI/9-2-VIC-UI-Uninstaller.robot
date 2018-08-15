@@ -18,11 +18,6 @@ Resource  ../../resources/Util.robot
 Suite Setup  Uninstall OVA Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
-*** Variables ***
-${ok}=  204
-${html5}=  H5
-${flex}=  FLEX
-
 *** Keywords *** 
 Uninstall OVA Setup
     Run Keyword  VIC UI OVA Setup
@@ -32,15 +27,15 @@ Uninstall OVA Setup
 *** Test Cases ***
 Attempt To Uninstall From A Non vCenter Server
     ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${html5}  not-a-vcenter-server
-    Should Not Be Equal As Integers  ${status}  ${ok}
+    Should Contain  ${status}  ${fail}
     ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${flex}  not-a-vcenter-server
-    Should Not Be Equal As Integers  ${status}  ${ok}
+    Should Contain  ${status}  ${fail}
 
 Attempt To Uninstall With Wrong Vcenter Credentials
     ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${html5}  %{TEST_URL}  %{TEST_USERNAME}_nope  %{TEST_PASSWORD}_nope
-    Should Not Be Equal As Integers  ${status}  ${ok}
+    Should Contain  ${status}  ${fail}
     ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${flex}  %{TEST_URL}  %{TEST_USERNAME}_nope  %{TEST_PASSWORD}_nope
-    Should Not Be Equal As Integers  ${status}  ${ok}
+    Should Contain  ${status}  ${fail}
 
 Uninstall Successfully
     ${status}=  Remove UI Plugin  %{OVA_IP}  ${html5}
@@ -50,6 +45,6 @@ Uninstall Successfully
 
 Attempt To Uninstall Plugin That Is Already Gone
     ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${html5}
-    Should Not Be Equal As Integers  ${status}  ${ok}
+    Should Contain  ${status}  ${fail}
     ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${flex}
-    Should Not Be Equal As Integers  ${status}  ${ok}
+    Should Contain  ${status}  ${fail}

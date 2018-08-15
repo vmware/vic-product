@@ -15,32 +15,27 @@
 *** Settings ***
 Documentation  Test 9-1 - VIC UI Installation
 Resource  ../../resources/Util.robot
-Suite Setup  Run Keyword  VIC UI OVA Setup
+Suite Setup  VIC UI OVA Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
-
-*** Variables ***
-${ok}=  204
-${html5}=  H5
-${flex}=  FLEX
 
 *** Test Cases ***
 Attempt To Install To A Non vCenter Server
     ${status}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  ${html5}  not-a-vcenter-server
-    Should Not Be Equal As Integers  ${status}  ${ok}
+    Should Contain  ${status}  ${fail}
     ${status}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  ${flex}  not-a-vcenter-server
-    Should Not Be Equal As Integers  ${status}  ${ok}
+    Should Contain  ${status}  ${fail}
 
 Attempt To Install With Wrong Vcenter Credentials
     ${status}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  ${html5}  %{TEST_URL}  %{TEST_USERNAME}_nope  %{TEST_PASSWORD}_nope
-    Should Not Be Equal As Integers  ${status}  ${ok}
+    Should Contain  ${status}  ${fail}
     ${status}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  ${flex}  %{TEST_URL}  %{TEST_USERNAME}_nope  %{TEST_PASSWORD}_nope
-    Should Not Be Equal As Integers  ${status}  ${ok}
+    Should Contain  ${status}  ${fail}
     
 Attempt to Install With Unmatching Fingerprint
     ${status}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  ${html5}  %{TEST_URL}  %{TEST_USERNAME}  %{TEST_PASSWORD}  ff:ff
-    Should Not Be Equal As Integers  ${status}  ${ok}
+    Should Contain  ${status}  ${fail}
     ${status}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  ${flex}  %{TEST_URL}  %{TEST_USERNAME}  %{TEST_PASSWORD}  ff:ff
-    Should Not Be Equal As Integers  ${status}  ${ok}
+    Should Contain  ${status}  ${fail}
 
 Install Plugin Successfully
     ${status}=  Install UI Plugin  %{OVA_IP}  ${html5}
