@@ -13,14 +13,14 @@
 # limitations under the License
 
 *** Settings ***
-Documentation  Test 7-02 - Upgrade 1.3.0
+Documentation  Test 7-04 - Upgrade 1.4.0
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  OVA Upgrade Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Variables ***
-${old-ova-file-name}=  vic-v1.3.0-3033-f8cc7317.ova
-${old-ova-version}=    v1.3.0
+${old-ova-file-name}=  vic-v1.4.0-4944-f168720a.ova
+${old-ova-version}=  v1.4.0
 ${old-ova-cert-path}=  /storage/data/admiral/ca_download
 ${new-ova-cert-path}=  /storage/data/admiral/ca_download
 
@@ -29,5 +29,5 @@ OVA Upgrade Setup
     Setup Simple VC And Test Environment
 
 *** Test Cases ***
-Upgrade OVA 1.3.0
-    Auto Upgrade OVA With Verification  7-02-UPGRADE-1-3-0  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  ha-datacenter
+Upgrade OVA 1.4.0
+    Auto Upgrade OVA With Verification  7-04-UPGRADE-1-4-0  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  ha-datacenter

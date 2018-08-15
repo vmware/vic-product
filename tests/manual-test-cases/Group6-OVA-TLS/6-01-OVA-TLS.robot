@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 6-01 - OVA TLS
 Resource  ../../resources/Util.robot
-Suite Setup     Wait Until Keyword Succeeds  10x  10m  Test Environment Setup
+Suite Setup  Nimbus Suite Setup  Test Environment Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 Test Teardown   Cleanup VIC Product OVA  %{OVA_NAME}
 
