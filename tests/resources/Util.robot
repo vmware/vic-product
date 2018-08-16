@@ -28,6 +28,7 @@ Resource  UI-Util.robot
 Resource  Docker-Util.robot
 Resource  Nimbus-Util.robot
 Resource  VM-Util.robot
+Resource  VIC-UI-Util.robot
 Library  Selenium2Library  timeout=30  implicit_wait=15  run_on_failure=Capture Page Screenshot  screenshot_root_directory=test-screenshots
 # UI page object utils
 Resource  page-objects/Getting-Started-Page-Util.robot
@@ -46,6 +47,9 @@ Resource  page-objects/Registries-Page-Util.robot
 Resource  page-objects/Project-Repositories-Page-Util.robot
 Resource  page-objects/Vsphere-VCH-Plugin-Util.robot
 Resource  page-objects/Vsphere-UI-Util.robot
+
+*** Variables ***
+${local_ova_file}=  vic-*.ova
 
 *** Keywords ***
 Global Environment Setup

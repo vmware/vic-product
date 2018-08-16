@@ -121,8 +121,8 @@ func needInitializationServices(req *http.Request) bool {
 
 func rejectRestrictedRequest(op trace.Operation, resp http.ResponseWriter, req *http.Request) bool {
 	paths := map[string]struct{}{
-		"/":           struct{}{},
-		"/index.html": struct{}{},
+		"/":           {},
+		"/index.html": {},
 	}
 	if _, ok := paths[req.URL.Path]; !ok {
 		op.Errorf("Request path %s not found in %-v", req.URL.Path, paths)
