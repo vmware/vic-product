@@ -10,6 +10,8 @@ The HTML5 vSphere Client plug-in for vSphere Integrated Containers allows you to
 
 - [Using the `vic-machine` CLI Utility](using_vicmachine.md)
 - [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md)
+- [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md)
+- [Virtual Container Host Certificate Requirements](vch_cert_reqs.md)
 - [Deploy Virtual Container Hosts in the vSphere Client](deploy_vch_client.md)
 - [Virtual Container Host Deployment Options](vch_deployment_options.md) 
 - [Deploy a Test VCH](deploy_test_vch.md)

@@ -11,11 +11,11 @@ vSphere Integrated Containers authenticates connections between its various comp
   - [Use a Certificate with an Intermediate CA for the vSphere Integrated Containers Appliance](#intermediateca)
 - [vSphere Integrated Containers Registry Root CA](#registry)
 
-## Overview of vSphere Integrated Containers Certificate Use <a id="overview"></a>
+## Overview of vSphere Integrated Containers Appliance Certificate Use <a id="overview"></a>
 
-This diagram shows how vSphere Integrated Containers uses certificates   to authenticate connections between the different components. The diagram shows a deployment in which verification of client certificates is enabled on virtual container hosts (VCHs).
+This diagram shows how the vSphere Integrated Containers appliance uses certificates to authenticate connections between the different components. The diagram shows a deployment in which verification of client certificates is enabled on virtual container hosts (VCHs).
 
-![vSphere Integrated Containers Certificates](graphics/vic-certs.png)
+![vSphere Integrated Containers Appliance Certificates](graphics/appliance_certs.png)
 
 ## About TLS Certificates <a id="about_tls"></a>
 

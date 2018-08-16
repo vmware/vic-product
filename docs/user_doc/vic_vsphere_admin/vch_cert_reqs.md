@@ -51,6 +51,10 @@ Rather than using an automatically generated CA, in a production deployment you 
 
 When you deploy a VCH, you must specify the level of security that applies to connections from Docker clients to the Docker API endpoint in the VCH, and whether to use automatically generated or custom certificates, or a combination of both. 
 
+This diagram shows how VCHs use certificates to authenticate connections between the different components. The diagram shows a deployment in which verification of client certificates is enabled on virtual container hosts (VCHs).
+
+![vSphere Integrated Containers Appliance Certificates](graphics/vch_certs.png)
+
 ### Automatically Generated Certificates <a id="auto"></a>
 
 vSphere Integrated Containers Engine provides the option of automatically generating a server certificate for the Docker API endpoint in the VCH. The generated certificates are functional, but they do not allow for fine control over aspects such as expiration, intermediate certificate authorities, and so on. To use more finely configured certificates, use custom server certificates.
