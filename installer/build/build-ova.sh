@@ -72,7 +72,7 @@ do
 done
 
 # set Admiral
-setenv ADMIRAL "dev"
+setenv ADMIRAL "vic_dev"
 
 # set vic-machine-server
 setenv VIC_MACHINE_SERVER "dev"
