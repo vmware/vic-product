@@ -75,7 +75,7 @@ This example `vic-machine create` command deploys a VCH with the default name `v
 At the end of a successful deployment, `vic-machine` displays information about the new VCH:
    
 <pre>Initialization of appliance successful
-VCH ID <i>vch_id</i>
+VCH ID: <i>vch_id</i>
 VCH Admin Portal:
 https://<i>vch_address</i>:2378
 Published ports can be reached at:
@@ -86,6 +86,8 @@ Environment saved in virtual-container-host/virtual-container-host.env
 Connect to docker:
 docker -H <i>vch_address</i>:2376 --tls info
 Installer completed successfully</pre>
+
+The ID of the VCH is only shown in 1.4.3 and later versions.
 
 #### Troubleshooting
 
