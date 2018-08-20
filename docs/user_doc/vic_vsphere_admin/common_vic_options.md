@@ -10,7 +10,7 @@ You can set environment variables for the `--target`, `--user`, `--password`, an
 
 Short name: None
 
-The vSphere Managed Object Reference, or moref, of the VCH, for example `vm-100`.  You obtain the ID of a VCH by running `vic-machine ls`. If you specify the `id` option in `vic-machine` commands, you do not need to specify the `--name` or `--compute-resource` options. This option is not used by `vic-machine create` or `vic-machine version`.
+The vSphere Managed Object Reference, or moref, of the VCH, for example `vm-100`.  You obtain the ID of a VCH by running `vic-machine ls`, `vic-machine create`, or  `vic-machine inspect`.  If you specify the `id` option in `vic-machine` commands, you do not need to specify the `--name` or `--compute-resource` options. This option is not used by `vic-machine version`.
 
 <pre>--id <i>vch_id</i></pre>
 
