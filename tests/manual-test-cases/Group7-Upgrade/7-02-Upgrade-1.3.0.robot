@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 7-02 - Upgrade 1.3.0
 Resource  ../../resources/Util.robot
-Suite Setup  Nimbus Suite Setup  OVA Upgrade Setup
+Suite Setup  Wait Until Keyword Succeeds  10x  10m  OVA Upgrade Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Variables ***

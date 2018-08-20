@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 8-01 - Manual Upgrade 1.4.0
 Resource  ../../resources/Util.robot
-Suite Setup  Nimbus Suite Setup  Test Environment Setup
+Suite Setup     Wait Until Keyword Succeeds  10x  10m  Test Environment Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Variables ***

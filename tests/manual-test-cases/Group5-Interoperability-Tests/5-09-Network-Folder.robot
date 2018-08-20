@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 5-09 - Network Folder
 Resource  ../../resources/Util.robot
-Suite Setup  Nimbus Suite Setup  DVS Under Network Folder Setup
+Suite Setup  Wait Until Keyword Succeeds  10x  10m  DVS Under Network Folder Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Variables ***
