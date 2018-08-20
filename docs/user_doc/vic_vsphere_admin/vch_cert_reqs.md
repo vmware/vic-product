@@ -7,6 +7,8 @@ Virtual container hosts (VCHs) authenticate connections from Docker API clients 
 - [Certificate Usage in VCHs](#vch_cert_use)
   - [Automatically Generated Certificates](#auto)
   - [Custom Certificates](#custom)
+     - [Server Certificate](#servercert)
+     - [Client Certificate](#clientcert) 
   - [Converting Certificates for Use with VCHs](#convertcerts)
 - [VCH Administration Portal Certificate](#vch_admin)
 
@@ -38,8 +40,6 @@ Docker clients search for certificates in the `DOCKER_CERT_PATH` location on the
 |`server-cert.pem`, `server-key.pem`|Server certificate **(2)**|
 |`ca.pem`|Public portion of the certificate authority that signed the server certificate **(3)**. Allows the server to confirm that a client is authorized.|
 
-For information about how to provide certificates to Docker clients, see [Configure the Docker Client for Use with vSphere Integrated Containers](../vic_app_dev/configure_docker_client.md).
-
 ## Certificate Usage in VCHs <a id="vch_cert_use"></a>
 
 As a convenience, vSphere Integrated Containers Engine can optionally generate client **(1)** and server **(2)** certificates. It can also  automatically generate one CA that serves as both **(3)** and **(4)**. If you use an automatically generated CA, vSphere Integrated Containers Engine uses that CA to sign both of the client and server certificates. This means that you must provide the `cert.pem`, `key.pem`, and `ca.pem` client certificate files to all container developers who need to connect Docker clients to the VCHs. You must also provide the client certificate files to vSphere Integrated Containers Management Portal if you register the VCH in a project.
@@ -59,7 +59,7 @@ This diagram shows how VCHs use certificates to authenticate connections between
 
 vSphere Integrated Containers Engine provides the option of automatically generating a server certificate for the Docker API endpoint in the VCH. The generated certificates are functional, but they do not allow for fine control over aspects such as expiration, intermediate certificate authorities, and so on. To use more finely configured certificates, use custom server certificates.
 
-VCHs accept client certificates if they are signed by a CA that you  can optionally provide to the VCH. Alternatively, you can configure a VCH so that vSphere Integrated Containers Engine creates a Certificate Authority (CA) certificate that it uses to automatically generate and sign a single client certificate.
+VCHs accept client certificates if they are signed by a CA that you  can optionally provide to the VCH. Alternatively, you can configure a VCH so that vSphere Integrated Containers Engine creates a Certificate Authority (CA) certificate that it uses to automatically generate and sign a single client certificate. If you use the options to automatically generate a client certificate, you must distribute the automatically generated certificate to container developers so that they can configure their Docker clients to connect to the VCH. For information about how to provide client certificates to Docker clients, see [Configure the Docker Client for Use with vSphere Integrated Containers](../vic_app_dev/configure_docker_client.md).
 
 **NOTE**: The Create Virtual Container Host wizard in the vSphere Client does not support automatically generated CA or client certificates. To use automatically generated CA and client certificates, you must use the `vic-machine` CLI utility to create the VCH.
 
@@ -67,7 +67,11 @@ VCHs accept client certificates if they are signed by a CA that you  can optiona
 
 To exercise fine control over the certificates that VCHs use, you must obtain or generate custom certificates yourself before you deploy a VCH. You can create a VCH that uses a custom server certificate, for example  a server certificate that has been signed by Verisign or another public root. For information about how to create custom certificates for use with Docker, see [Protect the Docker daemon socket](https://docs.docker.com/engine/security/https/) in the Docker documentation. 
 
-Custom certificates must meet the following requirements:
+You can deploy a VCH to use custom certificates in combination with auto-generated certificates, as demonstrated in the [Examples](vch_cert_options.md#examples). 
+
+Custom certificates must meet the following requirements.
+
+#### Server Certificate <a id="servercert"></a>
 
 - You must use an X.509 server certificate.
 - Server certificates should have the following certificate usages:
@@ -79,7 +83,9 @@ Custom certificates must meet the following requirements:
 
 **IMPORTANT**: PKCS#7 certificates do not work with `vic-machine`. For information about how to convert certificates to the correct format, see [Converting Certificates for Use with VCHs](vic_cert_reqs.md#convertcerts). 
 
-You can deploy a VCH to use custom certificates in combination with auto-generated certificates, as demonstrated in the [Examples](vch_cert_options.md#examples).
+#### Client Certificate <a id="clientcert"></a>
+
+for the VCH to trust the CA that signed the client certificate, the client device FQDN in the subject or subject alternative name and the proper key usage in the v3 extensions that match the key usage chosen for the VCH. Normally key agreement or key encipherment. Both work and and the one used should match with the same key usage the certificate the VCH is currently configured with. I suspect there might be a few more requirements for the client certificate as well.
 
 ### Converting Certificates for Use with VCHs <a id="convertcerts"></a>
 
