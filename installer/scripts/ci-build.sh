@@ -47,7 +47,7 @@ if [[ ( "$DRONE_BUILD_EVENT" == "tag" && "$DRONE_TAG" != *"dev"* ) || "$DRONE_BR
     OPTIONS="$OPTIONS --harbor $harbor_release"
   fi
   if [ -z "${VICENGINE}" ]; then
-    vicengine_release=$(gsutil ls -l "gs://vic-engine-releases" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
+    vicengine_release=$(gsutil ls -l "gs://vic-engine-builds/$DRONE_BRANCH" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
     OPTIONS="$OPTIONS --vicengine $vicengine_release"
   fi
   if [ -z "${VIC_MACHINE_SERVER}" ]; then
@@ -64,7 +64,8 @@ if [[ ( "$DRONE_BUILD_EVENT" == "tag" && "$DRONE_TAG" != *"dev"* ) || "$DRONE_BR
       rm -f ${KEY_FILE}
     fi
 
-    vicmachineserver_release="$(gcloud container images list-tags gcr.io/eminent-nation-87317/vic-machine-server --filter='tags~.' | grep -v DIGEST | awk '{print $2}' | sed -rn 's/^(.*,)?(v([0-9]+\.){2}[0-9]+(-rc[0-9]+)?)(,.*)?$/\2/p' | head -n 1)"
+    version="${DRONE_BRANCH##.*/}"
+    vicmachineserver_release="$(gcloud container images list-tags gcr.io/eminent-nation-87317/vic-machine-server --filter='tags~.' | grep -v DIGEST | awk '{print $2}' | sed -rn 's/^(.*,)?v'"${version}"'-.*(,.*)?$/\2/p' | head -n 1)"
     OPTIONS="$OPTIONS --vicmachineserver $vicmachineserver_release"
   fi
 fi
