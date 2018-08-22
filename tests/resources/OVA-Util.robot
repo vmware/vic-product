@@ -96,29 +96,16 @@ Install And Initialize VIC Product OVA
     Deploy VIC Appliance  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}  ${power}
     Initialize OVA From API  %{OVA_IP}
 
-Install VIC Product OVA And Initialize Using UI
-    # Deploy OVA and initialize it using browser UI
-    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}  ${power}=True
-    Log To Console  \nInstalling VIC appliance
-    Install VIC Product OVA And Wait For Home Page  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}  ${power}
-
-    # Initialize appliance using UI
-    Log To Console  Initializing the OVA using the getting started ui...
-    Set Browser Variables
-    Open Firefox Browser
-    Log In And Complete OVA Installation
-    Close All Browsers
-
-    # Wait for components to start
+    # wait for component services to get started
     Wait For Online Components  %{OVA_IP}
     Wait For SSO Redirect  %{OVA_IP}
-
+    Wait For OVA Home Page  %{OVA_IP}
     [Return]  %{OVA_IP}
 
 Install And Initialize Common OVA If Not Already
     [Arguments]  ${ova-file}
     ${rc}=  Set Test OVA IP If Available
-    ${ova-ip}=  Run Keyword Unless  ${rc} == 0  Install VIC Product OVA And Initialize Using UI  ${ova-file}  %{OVA_NAME}
+    ${ova-ip}=  Run Keyword Unless  ${rc} == 0  Install And Initialize VIC Product OVA  ${ova-file}  %{OVA_NAME}
 
 Setup And Install Specific OVA Version
     [Arguments]  ${ova-file}  ${ova-name}
@@ -128,7 +115,7 @@ Setup And Install Specific OVA Version
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
     # install OVA appliance
     Log To Console  \nInstall specific version of OVA...
-    Install VIC Product OVA And Initialize Using UI  ${ova-file}  ${ova-name}
+    Install And Initialize VIC Product OVA  ${ova-file}  ${ova-name}
 
 Download VIC Engine
     [Arguments]  ${ova-ip}  ${target_dir}=bin
@@ -160,7 +147,7 @@ Initialize OVA From API
 
     Log To Console  \nInitializing VIC appliance by API when API is available
     :FOR  ${i}  IN RANGE  30
-    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}","externalpsc":"%{EXTERNAL_PSC}","pscdomain":"%{PSC_DOMAIN}"}' https://${ova-ip}:9443/register
+    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}","thumbprint":"${TEST_THUMBPRINT}","externalpsc":"%{EXTERNAL_PSC}","pscdomain":"%{PSC_DOMAIN}"}' https://${ova-ip}:9443/register
     \   Exit For Loop If  '200' in '''${out}'''
     \   Sleep  60s
     Log To Console  ${rc}
@@ -360,7 +347,7 @@ Auto Upgrade OVA With Verification
     Set Environment Variable  OVA_NAME  ${test-name}-LATEST
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
-    Install VIC Product OVA And Wait For Home Page  vic-*.ova  %{OVA_NAME}
+    Install VIC Product OVA And Wait For Home Page  ${local_ova_file}  %{OVA_NAME}
 
     Execute Upgrade Script  %{OVA_IP}  %{OVA_IP_OLD}  ${old-ova-datacenter}  ${old-ova-version}
     Verify Running Busybox Container And Its Pushed Harbor Image  %{OVA_IP}  ${sample-image-tag}  ${new-ova-cert-path}  docker-endpoint=${VCH-PARAMS}
@@ -481,7 +468,7 @@ Manual Upgrade Environment Setup
 
     # Deploy new appliance but do not power on
     Set Environment Variable  OVA_NAME  ${new-appliance-name}
-    ${output}=  Deploy VIC Appliance  vic-*.ova  %{OVA_NAME}  power=False
+    ${output}=  Deploy VIC Appliance  ${local_ova_file}  %{OVA_NAME}  power=False
 
 Power On Appliance
     [Arguments]  ${new-appliance-name}

@@ -23,6 +23,7 @@ ${cim-input-target}  id=target
 ${cim-input-user}  id=user
 ${cim-input-password}  css=input[type=password]
 ${cim-button-continue}  id=login-submit
+${cim-plugin-button-continue}  id=plugin-submit
 
 # expected text values
 ${cim-title-text}  Complete VIC appliance installation
@@ -32,6 +33,7 @@ Navigate To Complete Installation Login Modal
     Go To  ${COMPLETE_INSTALL_URL}
 
 Verify Complete Installation Modal
+    Wait Until Element Is Visible  ${cim-title}  timeout=${EXPLICIT_WAIT}
     Element Text Should Be  ${cim-title}  ${cim-title-text}  message=Complete Installation Log In modal is not displayed
 
 Log In And Complete OVA Installation
@@ -42,4 +44,5 @@ Log In And Complete OVA Installation
     Input Text  ${cim-input-user}   %{TEST_USERNAME}
     Input Text  ${cim-input-password}   %{TEST_PASSWORD}
     Click Button  ${cim-button-continue}
+    Click Button ${cim-plugin-button-continue}
     Verify Complete Installation Message
