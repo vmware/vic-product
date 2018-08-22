@@ -33,6 +33,7 @@ Navigate To Complete Installation Login Modal
     Go To  ${COMPLETE_INSTALL_URL}
 
 Verify Complete Installation Modal
+    Wait Until Element Is Visible  ${cim-title}  timeout=${EXPLICIT_WAIT}
     Element Text Should Be  ${cim-title}  ${cim-title-text}  message=Complete Installation Log In modal is not displayed
 
 Log In And Complete OVA Installation
