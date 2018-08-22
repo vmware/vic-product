@@ -46,7 +46,7 @@ start_node () {
     done
 }
 
-echo "Target version: ${VSPHERE_VERSION}"
+echo "Target version: ${VSPHERE_VERSION:=6.7}"
 excludes=(--exclude skip)
 case "$VSPHERE_VERSION" in
     "6.0")
