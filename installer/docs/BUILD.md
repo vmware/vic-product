@@ -148,37 +148,37 @@ Harbor build publishes harbor installer and Admiral build publishes admiral imag
 
 The version of each dependency VIC Product consumes varies based on the type of build being performed.
 
-| Admiral                 | `master`                                                | `releases/*`                                            |
-| -----------------------:| ------------------------------------------------------- | ------------------------------------------------------- |
-|`pull_request`           | [image][a] tagged with `vic_dev`                        | latest [image][a] that has a tag beginning with `vic_v` |
-|`push`                   | [image][a] tagged with `vic_dev`                        | latest [image][a] that has a tag beginning with `vic_v` |
-|`tag` (containing `dev`) | [image][a] tagged with `vic_dev`                        | latest [image][a] that has a tag beginning with `vic_v` |
-|`tag` (other)            | latest [image][a] that has a tag beginning with `vic_v` | latest [image][a] that has a tag beginning with `vic_v` |
-|`deployment`             | manually specified                                      | manually specified                                      |
+| Admiral                 | `master`                                                | `releases/*`                                                   |
+| -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
+|`pull_request`           | [image][a] tagged with `vic_dev`                        | [image][a] tagged with `vic_dev`                               |
+|`push`                   | [image][a] tagged with `vic_dev`                        | [image][a] tagged with `vic_dev`                               |
+|`tag` (containing `dev`) | [image][a] tagged with `vic_dev`                        | [image][a] tagged with `vic_dev`                               |
+|`tag` (other)            | latest [image][a] that has a tag beginning with `vic_v` | latest [image][a] that has a tag beginning with `vic_v`        |
+|`deployment`             | manually specified                                      | manually specified                                             |
 
-| Harbor                  | `master`                                                | `releases/*`                                            |
-| -----------------------:| ------------------------------------------------------- | ------------------------------------------------------- |
-|`pull_request`           | the build from [`harbor-builds/master.stable`][hb]      | latest build published to [`harbor-releases`][hr]       |
-|`push`                   | the build from [`harbor-builds/master.stable`][hb]      | latest build published to [`harbor-releases`][hr]       |
-|`tag` (containing `dev`) | the build from [`harbor-builds/master.stable`][hb]      | latest build published to [`harbor-releases`][hr]       |
-|`tag` (other)            | latest build published to [`harbor-releases`][hr]       | latest build published to [`harbor-releases`][hr]       |
-|`deployment`             | manually specified                                      | manually specified                                      |
+| Harbor                  | `master`                                                | `releases/*`                                                   |
+| -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
+|`pull_request`           | the build from [`harbor-builds/master.stable`][hb]      | latest build published to [`harbor-releases`][hr]              |
+|`push`                   | the build from [`harbor-builds/master.stable`][hb]      | latest build published to [`harbor-releases`][hr]              |
+|`tag` (containing `dev`) | the build from [`harbor-builds/master.stable`][hb]      | latest build published to [`harbor-releases`][hr]              |
+|`tag` (other)            | latest build published to [`harbor-releases`][hr]       | latest build published to [`harbor-releases`][hr]              |
+|`deployment`             | manually specified                                      | manually specified                                             |
 
-| Engine                  | `master`                                                | `releases/*`                                            |
-| -----------------------:| ------------------------------------------------------- | ------------------------------------------------------- |
-|`pull_request`           | latest build published to [`vic-engine-builds`][vb]     | latest build published to [`vic-engine-releases`][vr]   |
-|`push`                   | latest build published to [`vic-engine-builds`][vb]     | latest build published to [`vic-engine-releases`][vr]   |
-|`tag` (containing `dev`) | latest build published to [`vic-engine-builds`][vb]     | latest build published to [`vic-engine-releases`][vr]   |
-|`tag` (other)            | latest build published to [`vic-engine-releases`][vr]   | latest build published to [`vic-engine-releases`][vr]   |
-|`deployment`             | manually specified                                      | manually specified                                      |
+| Engine                  | `master`                                                | `releases/*`                                                   |
+| -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
+|`pull_request`           | latest build published to [`vic-engine-builds`][vb]     | latest build published to [`vic-engine-builds/releases/*`][vb] |
+|`push`                   | latest build published to [`vic-engine-builds`][vb]     | latest build published to [`vic-engine-builds/releases/*`][vb] |
+|`tag` (containing `dev`) | latest build published to [`vic-engine-builds`][vb]     | latest build published to [`vic-engine-builds/releases/*`][vb] |
+|`tag` (other)            | latest build published to [`vic-engine-releases`][vr]   | latest build published to [`vic-engine-releases`][vr]          |
+|`deployment`             | manually specified                                      | manually specified                                             |
 
-| `vic-machine-server`    | `master`                                                | `releases/*`                                            |
-| -----------------------:| ------------------------------------------------------- | ------------------------------------------------------- |
-|`pull_request`           | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with a version number        |
-|`push`                   | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with a version number        |
-|`tag` (containing `dev`) | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with a version number        |
-|`tag` (other)            | latest [image][vms] tagged with a version number        | latest [image][vms] tagged with a version number        |
-|`deployment`             | manually specified                                      | manually specified                                      |
+| `vic-machine-server`    | `master`                                                | `releases/*`                                                   |
+| -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
+|`pull_request`           | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with the release's version number   |
+|`push`                   | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with the release's version number   |
+|`tag` (containing `dev`) | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with the release's version number   |
+|`tag` (other)            | latest [image][vms] tagged with a version number        | latest [image][vms] tagged with a version number               |
+|`deployment`             | manually specified                                      | manually specified                                             |
 
 [a]:https://hub.docker.com/r/vmware/admiral/
 [hb]:https://storage.googleapis.com/harbor-builds
