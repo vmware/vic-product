@@ -55,7 +55,7 @@ if [[ ( "$DRONE_BUILD_EVENT" == "tag" && "$DRONE_TAG" != *"dev"* ) || "$DRONE_BR
       bucket="gs://vic-engine-releases"
     fi
     vicengine_release=$(gsutil ls -l "$bucket" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
-    OPTIONS="$OPTIONS --vicengine $vicengine_release"
+    OPTIONS="$OPTIONS --vicengine ${vicengine_release:?Unable to find an appropriate VIC Engine build. Is '"'$DRONE_BRANCH'"' a valid vmware/vic branch?}"
   fi
   if [ -z "${VIC_MACHINE_SERVER}" ]; then
     # Listing container tags requires permissions
@@ -78,7 +78,7 @@ if [[ ( "$DRONE_BUILD_EVENT" == "tag" && "$DRONE_TAG" != *"dev"* ) || "$DRONE_BR
     fi
 
     vicmachineserver_release="$(gcloud container images list-tags gcr.io/eminent-nation-87317/vic-machine-server --filter='tags~.' | grep -v DIGEST | awk '{print $2}' | sed -rn 's/^(.*,)?('"${version}"')(,.*)?$/\2/p' | head -n 1)"
-    OPTIONS="$OPTIONS --vicmachineserver $vicmachineserver_release"
+    OPTIONS="$OPTIONS --vicmachineserver ${vicmachineserver_release:?Unable to find an appropriate vic-machine-server image. Is '"'$DRONE_BRANCH'"' a valid vmware/vic branch?}"
   fi
 fi
 
