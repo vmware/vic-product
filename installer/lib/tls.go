@@ -19,12 +19,12 @@ import (
 	"net/http"
 )
 
-func GetTLSServer(addr string, mux *http.ServeMux, cert tls.Certificate) *http.Server {
+func GetTLSServer(addr string, handler http.Handler, cert tls.Certificate) *http.Server {
 	// forcing tls 1.1, cipher from https://github.com/denji/golang-tls#perfect-ssl-labs-score-with-go
 	// and https://wiki.mozilla.org/Security/TLS_Configurations#Go
 	return &http.Server{
 		Addr:    addr,
-		Handler: mux,
+		Handler: handler,
 		TLSConfig: &tls.Config{
 			MinVersion:               tls.VersionTLS11,
 			CurvePreferences:         []tls.CurveID{tls.CurveP521, tls.CurveP384, tls.CurveP256},
