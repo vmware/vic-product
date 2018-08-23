@@ -107,7 +107,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: success
 
   integration-test-ova-setup:
@@ -133,7 +133,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: success
 
   integration-test:
@@ -161,7 +161,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: success
 
   integration-test-ova-cleanup:
@@ -186,7 +186,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
   bundle-logs:
@@ -207,7 +207,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
   publish-logs:
@@ -223,7 +223,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
   bundle-dev-builds:
@@ -244,7 +244,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, tag]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
   bundle-stage-builds:
@@ -304,7 +304,7 @@ pipeline:
       branch: [master]
       status: success
 
-  publish-gcs-release-builds-push:
+  publish-gcs-branch-builds-push:
     image: 'victest/drone-gcs:1'
     pull: true
     secrets:
@@ -317,7 +317,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push]
-      branch: ['releases/*']
+      branch: ['releases/*', 'feature/*']
       status: success
 
   publish-gcs-builds-tag:
@@ -383,7 +383,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: failure
 
   notify-slack-on-fail:
@@ -396,7 +396,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [failure]
 
   notify-slack:
@@ -409,7 +409,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
   notify-slack-on-successful-release:
