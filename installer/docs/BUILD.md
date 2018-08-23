@@ -144,9 +144,58 @@ VIC Product build is auto-triggered from the successful completion of the follow
 There is also a separate build for [VIC UI](https://ci.vcna.io/vmware/vic-ui) which publishes the [artifact](https://console.cloud.google.com/storage/browser/vic-ui-builds) consumed by VIC Engine builds. VIC Engine publishes vic engine artifacts and vic machine server image.
 Harbor build publishes harbor installer and Admiral build publishes admiral image. All these artifacts are published to Google cloud except Admiral image which is published to Docker hub.
 
-For every auto-triggered build, by default, VIC Product consumes the latest artifacts from [vic engine](https://storage.googleapis.com/vic-engine-builds) and [harbor](https://storage.googleapis.com/harbor-builds) buckets, recent `dev` tagged images for [admiral](https://hub.docker.com/r/vmware/admiral/) and [vic machine server](https://console.cloud.google.com/gcr/images/eminent-nation-87317/GLOBAL/vic-machine-server?project=eminent-nation-87317&gcrImageListsize=50) and publishes [OVA artifact](https://storage.googleapis.com/vic-product-ova-builds) after successful build and test.
+### Dependency Relationship
 
-Refer to the next section `Staging and Release` on how to build OVA with specific dependent component versions.
+The version of each dependency VIC Product consumes varies based on the type of build being performed.
+
+| Admiral                 | `master`                                                | `releases/*`                                            |
+| -----------------------:| ------------------------------------------------------- | ------------------------------------------------------- |
+|`pull_request`           | [image][a] tagged with `vic_dev`                        | latest [image][a] that has a tag beginning with `vic_v` |
+|`push`                   | [image][a] tagged with `vic_dev`                        | latest [image][a] that has a tag beginning with `vic_v` |
+|`tag` (containing `dev`) | [image][a] tagged with `vic_dev`                        | latest [image][a] that has a tag beginning with `vic_v` |
+|`tag` (other)            | latest [image][a] that has a tag beginning with `vic_v` | latest [image][a] that has a tag beginning with `vic_v` |
+|`deployment`             | manually specified                                      | manually specified                                      |
+
+| Harbor                  | `master`                                                | `releases/*`                                            |
+| -----------------------:| ------------------------------------------------------- | ------------------------------------------------------- |
+|`pull_request`           | the build from [`harbor-builds/master.stable`][hb]      | latest build published to [`harbor-releases`][hr]       |
+|`push`                   | the build from [`harbor-builds/master.stable`][hb]      | latest build published to [`harbor-releases`][hr]       |
+|`tag` (containing `dev`) | the build from [`harbor-builds/master.stable`][hb]      | latest build published to [`harbor-releases`][hr]       |
+|`tag` (other)            | latest build published to [`harbor-releases`][hr]       | latest build published to [`harbor-releases`][hr]       |
+|`deployment`             | manually specified                                      | manually specified                                      |
+
+| Engine                  | `master`                                                | `releases/*`                                            |
+| -----------------------:| ------------------------------------------------------- | ------------------------------------------------------- |
+|`pull_request`           | latest build published to [`vic-engine-builds`][vb]     | latest build published to [`vic-engine-releases`][vr]   |
+|`push`                   | latest build published to [`vic-engine-builds`][vb]     | latest build published to [`vic-engine-releases`][vr]   |
+|`tag` (containing `dev`) | latest build published to [`vic-engine-builds`][vb]     | latest build published to [`vic-engine-releases`][vr]   |
+|`tag` (other)            | latest build published to [`vic-engine-releases`][vr]   | latest build published to [`vic-engine-releases`][vr]   |
+|`deployment`             | manually specified                                      | manually specified                                      |
+
+| `vic-machine-server`    | `master`                                                | `releases/*`                                            |
+| -----------------------:| ------------------------------------------------------- | ------------------------------------------------------- |
+|`pull_request`           | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with a version number        |
+|`push`                   | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with a version number        |
+|`tag` (containing `dev`) | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with a version number        |
+|`tag` (other)            | latest [image][vms] tagged with a version number        | latest [image][vms] tagged with a version number        |
+|`deployment`             | manually specified                                      | manually specified                                      |
+
+[a]:https://hub.docker.com/r/vmware/admiral/
+[hb]:https://storage.googleapis.com/harbor-builds
+[hr]:https://storage.googleapis.com/harbor-releases
+[vb]:https://storage.googleapis.com/vic-engine-builds
+[vr]:https://storage.googleapis.com/vic-engine-releases
+[vms]:https://console.cloud.google.com/gcr/images/eminent-nation-87317/GLOBAL/vic-machine-server?project=eminent-nation-87317&gcrImageListsize=50
+
+The OVA artifact is published to:
+ * [`vic-product-ova-builds`](https://storage.googleapis.com/vic-product-ova-builds) after successful build and test following `push` to `master`
+ * [`vic-product-ova-builds/releases/*`](https://storage.googleapis.com/vic-product-ova-builds) after successful build and test following `push` to `releases/*`
+ * [`vic-product-ova-builds`](https://storage.googleapis.com/vic-product-ova-builds) after successful build and test following creation of a `tag`
+ * [`vic-product-ova-builds`](https://storage.googleapis.com/vic-product-ova-builds) after successful build and test following `deployment` to `staging`
+ * [`vic-product-ova-releases`](https://storage.googleapis.com/vic-product-ova-releases) after successful build and test following `deployment` to `release`
+ * [`vic-product-failed-builds`](https://storage.googleapis.com/vic-product-failed-builds) after a failure building or testing
+
+Refer to the next section `Staging and Release` on how to build OVA with specific dependent component versions ("manually specified").
 
 ## Staging and Release
 
