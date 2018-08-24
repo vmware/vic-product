@@ -52,6 +52,7 @@ function set_base() {
     filesystem bash shadow coreutils findutils
 
   log3 "installing ${brprpl}systemd linux-esx tdnf ca-certificates sed gzip tar glibc${reset}"
+  tdnf install initramfs-1.0-9.113016321.ph1
   tdnf install --installroot "${rt}/" --refresh -y \
     systemd util-linux \
     pkgconfig dbus cpio\
@@ -60,7 +61,7 @@ function set_base() {
     gzip tar xz bzip2 \
     glibc iana-etc \
     ca-certificates \
-    curl which initramfs \
+    curl which \
     krb5 motd procps-ng \
     bc kmod libdb
 
