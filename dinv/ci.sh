@@ -61,7 +61,7 @@ function build {
     name="${version%-*}"
     rev="${version##*-}"
     echo "[${name}:${rev}] Building ${name}:${rev}"
-    docker build -t "${namespace}/${name}:${rev}-${git_rev}" "$version"
+    docker build -t "${namespace}/${name}:${rev}-${git_rev}" -f "$version"/Dockerfile .
     docker tag "${namespace}/${name}:${rev}-${git_rev}" "${namespace}/${name}:${rev}"
     echo "[${name}:${rev}] built"
     docker tag "${namespace}/${name}:${rev}-${git_rev}" "${HARBOR_CI_REGISTRY}/${project}/${name}:${rev}"

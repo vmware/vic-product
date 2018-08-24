@@ -71,3 +71,38 @@ Verify tlsverify enabled scenario for dch-photon
     Should Contain  ${output}  --tlsverify
 
     [Teardown]  Cleanup VCH  ${vch-name}
+
+Verify the certificate is not signed by nil when vic-ip is not specified
+    ${vch-name}=  Install VCH  certs=${false}
+    ${rc}=  Run command and Return output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} run -d -p 12396:2376 --name my-test ${harbor-image-tagged} -tlsverify
+    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} ps
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    # Copy certs to local for test
+    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} cp my-test:/certs .
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    # The IP address for eth0 (172.16.xx.xx) in server cert will be returned when vic-ip is not specified
+    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12396 --tlsverify --tlscacert ./certs/ca.crt --tlskey ./certs/docker-client.key --tlscert ./certs/docker-client.crt info
+    Log  ${output}
+    Should Contain  ${output}  certificate is valid for 172
+
+    [Teardown]  Cleanup VCH  ${vch-name}
+
+Verify the certificate is not signed by nil when vic-ip is specified with FQDN
+    ${vch-name}=  Install VCH  certs=${false}
+    ${rc}=  Run command and Return output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} run -d -p 12376:2376 --name my-test ${harbor-image-tagged} -tlsverify -vic-ip foo.com
+    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} ps
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    # Copy certs to local for test
+    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} cp my-test:/certs .
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    # The IP address for FQDN foo.com will be signed
+    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12376 --tlsverify --tlscacert ./certs/ca.crt --tlskey ./certs/docker-client.key --tlscert ./certs/docker-client.crt info
+    Log  ${output}
+    Should Not Contain  ${output}  certificate is valid for ,
+
+    [Teardown]  Cleanup VCH  ${vch-name}
+
