@@ -85,7 +85,12 @@ Custom certificates must meet the following requirements.
 
 #### Client Certificate <a id="clientcert"></a>
 
-for the VCH to trust the CA that signed the client certificate, the client device FQDN in the subject or subject alternative name and the proper key usage in the v3 extensions that match the key usage chosen for the VCH. Normally key agreement or key encipherment. Both work and and the one used should match with the same key usage the certificate the VCH is currently configured with. I suspect there might be a few more requirements for the client certificate as well.
+For the VCH to trust the CA that you use to sign the client certificate, it must include the following elements:
+
+- The name or address of the system from which the Docker client accesses the server in the subject or subject alternative name. This can be an FQDN or a wildcard domain.
+- Key usage in the v3 extensions that match the key usage chosen for the VCH server certificate:
+  - `KeyEncipherment`
+  - `KeyAgreement`
 
 ### Converting Certificates for Use with VCHs <a id="convertcerts"></a>
 
