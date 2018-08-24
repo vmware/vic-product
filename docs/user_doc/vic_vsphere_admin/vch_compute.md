@@ -13,6 +13,7 @@ When you deploy a virtual container host (VCH), you must select the compute reso
   - [Memory Shares](#memoryshares)
   - [Endpoint VM CPUs](#endpointcpu)
   - [Endpoint VM Memory](#endpointmemory)
+  - [VM-Host Affinity](#hostaffinity)
 - [What to Do Next](#whatnext)
 - [Example `vic-machine` Commands](#examples)
   - [Deploy to a vCenter Server Cluster with Multiple Datacenters and Datastores](#cluster)
@@ -229,6 +230,23 @@ The amount of memory for the VCH endpoint VM. Set this option to increase the am
 Specify a value in MB. If not specified, `vic-machine create` sets memory to 2048 MB.
 
 <pre>--endpoint-memory <i>amount_of_memory</i></pre>
+
+### VM-Host Affinity  <a id="hostaffinity"></a>
+Create a DRS VM group in vSphere for the VCH endpoint VM and its container VMs. Check this option to create a DRS group with the same name as the VCH. You can use the resulting VM group in DRS VM-Host affinity rules to restrict the set of hosts on which the VCH endpoint VM and its container VMs can run. 
+This option is available if you use 1.4.3 and later versions.
+
+#### Create VCH Wizard
+1. Expand **Advanced**.
+2. In  **VM-Host Affinity**, check the **Create a DRS VM Group for this VCH** checkbox to create a DRS group with the same name as the VCH. 
+
+#### vic-machine Option
+`--affinity-vm-group`, no short name
+
+The `--affinity-vm-group` option takes no arguments. You can only use this option when deploying a VCH to a cluster with DRS enabled.
+
+<pre>--affinity-vm-group</pre>
+
+For more information, see [Add Virtual Container Hosts to a DRS Affinity Group](vch_compute.md).
 
 ## What to Do Next <a id="whatnext"></a>
 

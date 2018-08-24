@@ -33,7 +33,7 @@ For more information about DRS affinity rules, see [Using DRS Affinity Rules](ht
                           
 ## vic-machine Option <a id="option"></a>
 
-This option is only available with the `vic-machine create` command. It is not available in the Create Virtual Container Host wizard in the vSphere Client.
+This option is available with the `vic-machine create` command and in the Advanced options of the Create Virtual Container Host wizard in the vSphere Client.
 
 `--affinity-vm-group`, no short name
 
