@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 5-16 - vMotion VCH Appliance
 Resource  ../../resources/Util.robot
-Suite Setup  Nimbus Suite Setup  vMotion Setup
+Suite Setup    Wait Until Keyword Succeeds  10x  10m  vMotion Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 Test Teardown  Run Keyword If Test Failed  Gather All vSphere Logs
 
@@ -25,10 +25,9 @@ vMotion Setup
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
     ${name}=  Evaluate  '5-16-vic-vmotion-' + str(random.randint(1000,9999))  modules=random
     Set Suite Variable  ${user}  %{NIMBUS_USER}
-    ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  spec=vic-vsan.rb  args=--plugin testng --noSupportBundles --vcvaBuild ${VC_VERSION} --esxPxeDir ${ESX_VERSION} --esxBuild ${ESX_VERSION} --testbedName vic-vsan-simple-pxeBoot-vcva --runName ${name}
-
-    Log  ${out}
+    ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  --plugin testng --vcfvtBuildPath /dbc/pa-dbc1111/mhagen/ --noSupportBundles --vcvaBuild ${VC_VERSION} --esxPxeDir ${ESX_VERSION} --esxBuild ${ESX_VERSION} --testbedName vic-vsan-simple-pxeBoot-vcva --runName ${name}
     Should Contain  ${out}  "deployment_result"=>"PASS"
+    Log  ${out}
 
     Log To Console   Get VC IP ...
     Open Connection  %{NIMBUS_GW}

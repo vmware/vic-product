@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 5-08 - DRS
 Resource  ../../resources/Util.robot
-Suite Setup  Nimbus Suite Setup  DRS Setup
+Suite Setup  Wait Until Keyword Succeeds  10x  10m  DRS Setup
 Suite Teardown  Nimbus Cleanup  ${list}
 
 *** Keywords ***
