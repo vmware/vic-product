@@ -33,10 +33,11 @@ vMotion Setup
     Log To Console   Get VC IP ...
     Open Connection  %{NIMBUS_GW}
     Wait Until Keyword Succeeds  10 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
-    ${vc-ip}=  Get IP  ${name}.vcva-${VC_VERSION}
+    ${vc-ip}=  Get IP  ${name}.vc.0
+    
     Close Connection
 
-    Set Suite Variable  @{list}  ${user}-${name}.vcva-${VC_VERSION}  ${user}-${name}.esx.0  ${user}-${name}.esx.1  ${user}-${name}.esx.2  ${user}-${name}.esx.3  ${user}-${name}.nfs.0  ${user}-${name}.iscsi.0
+    Set Suite Variable  @{list}  ${user}-${name}.vc.0  ${user}-${name}.esx.0  ${user}-${name}.esx.1  ${user}-${name}.esx.2  ${user}-${name}.esx.3  ${user}-${name}.nfs.0  ${user}-${name}.iscsi.0
 
     Log To Console  Set environment variables up for GOVC
     Set Environment Variable  GOVC_INSECURE  1
