@@ -40,8 +40,7 @@ If you have previous installations of the vSphere Client plug-ins for vSphere In
 
      **NOTE**: The Flex-based plug-in has no new features in this release. However, the upgrade script updates the metadata for the Flex-based client. Consequently, you must restart both of the HTML5 and Flex-based clients.    
 
-    - HTML5 vSphere Client: <pre>service-control --stop vsphere-ui && service-control --start vsphere-ui</pre>
-    - Flex-based vSphere Web Client:<pre>service-control --stop vsphere-client && service-control --start vsphere-client</pre>
+    <pre>service-control --stop vsphere-ui && service-control --start vsphere-ui && service-control --stop vsphere-client && service-control --start vsphere-client</pre>
 
 **What to Do Next**
 
