@@ -386,26 +386,13 @@ pipeline:
       branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: failure
 
-  notify-slack-on-fail:
-    image: plugins/slack
-    secrets:
-      - source: slack_url
-        target: slack_webhook
-    username: drone
-    template: "Build {{ build.link }} failed from the event {{ build.event }} by {{ lowercase build.author }}.\n"
-    when:
-      repo: vmware/vic-product
-      event: [push, tag, deployment]
-      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
-      status: [failure]
-
   notify-slack:
     image: plugins/slack
     secrets:
       - source: product_slack_url
         target: slack_webhook
     username: drone
-    template: "Build '{{ build.link }}' completed with a '{{ build.status }}' status from the event '{{ build.event }}' by '{{ lowercase build.author }}'\n"
+    template: '{{#equal build.event "push"}}Push to `{{build.branch}}`{{/equal}}{{#equal build.event "pull_request"}}Pull request #{{build.pull}}{{/equal}}{{#equal build.event "tag"}}Tag ({{build.tag}}){{/equal}}{{#equal build.event "deployment"}}{{#equal build.deployTo "staging"}}Staging{{/equal}}{{#equal build.deployTo "release"}}Release{{/equal}}{{/equal}} build <{{build.link}}|{{repo.owner}}/{{repo.name}}#{{build.number}}> {{#success build.status}}succeeded{{else}}{{#failure build.status}}failed{{else}}completed with status {{build.status}}{{/failure}}{{/success}}.{{#failure build.status}} Latest commit <https://github.com/{{repo.owner}}/{{repo.name}}/commit/{{build.commit}}|{{build.commit}}> by <https://github.com/{{lowercase build.author}}|{{lowercase build.author}}>.{{/failure}}'
     when:
       repo: vmware/vic-product
       event: [push, tag, deployment]
@@ -418,11 +405,11 @@ pipeline:
       - source: product_slack_url
         target: slack_webhook
     username: drone
-    template: "The latest version of VIC OVA has been released, find the build here: https://console.cloud.google.com/storage/browser/vic-product-ova-releases\n"
+    template: ':mega: Version {{build.tag}} of the VIC OVA has been {{#equal build.deployTo "staging"}}staged{{/equal}}{{#equal build.deployTo "release"}}released{{/equal}}. {{#equal build.deployTo "staging"}}Proof-read{{/equal}}{{#equal build.deployTo "release"}}Read{{/equal}} the <https://github.com/vmware/vic-product/releases/tag/{{build.tag}}|release notes> or <https://storage.googleapis.com/vic-product-ova-{{#equal build.deployTo "staging"}}builds/vic-stage{{/equal}}{{#equal build.deployTo "release"}}releases/vic{{/equal}}-{{build.tag}}-{{build.number}}-{{truncate build.commit 8}}.ova|download the build>.'
     when:
       repo: vmware/vic-product
       event: [deployment]
-      environment: [release]
+      environment: [staging, release]
       branch: ['releases/*', 'refs/tags/*']
       status: [success]
 
