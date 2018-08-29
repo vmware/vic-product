@@ -60,7 +60,7 @@ You can also use the `vic-machine configure --ops-user` and `--ops-password` opt
     --ops-password <i>password</i>
     --ops-grant-perms</pre>
 
-For more information about the operations user, see [Configure the Operations User](set_up_ops_user.md) in the VCH Deployment Options section.
+For more information about the operations user, see [Create the Operations User Account](create_ops_user.md) and [Configure the Operations User](set_up_ops_user.md).
 
 ## Update vCenter Server Certificates <a id="vccert"></a>
 
