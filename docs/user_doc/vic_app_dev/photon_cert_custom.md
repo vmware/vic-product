@@ -6,7 +6,7 @@ By creating a custom image, you can deploy multiple instances of `dch-photon` th
 
 **Prerequisites**
 
-- You have a known user ID that has at least the Developer role in the `default-project` in vSphere Integrated Containers Management Portal.
+- You have a known user account that has at least the Developer role in the `default-project` in vSphere Integrated Containers Management Portal.
 - You have an instance of Docker Engine running on your local sytem.
 - You installed the CA certificate for vSphere Integrated Containers Registry in your local Docker client. For information about how to install the registry certificate in a Docker client, see [Install the  vSphere Integrated Containers Registry Certificate](configure_docker_client.md#registry).
 - For simplicity, this example uses a VCH that was deployed with the `--no-tlsverify` option. If your VCH implements TLS verification of clients, you must import the VCH certificates into your Docker client and adapt the Docker commands accordingly. For information about how to connect a Docker client to a VCH that uses full TLS authentication, see [Connecting to the VCH](configure_docker_client.md#connectvch).
@@ -28,7 +28,8 @@ By creating a custom image, you can deploy multiple instances of `dch-photon` th
 
 7. In the new folder, create a Dockerfile with the following format:
 
-    <pre>FROM <i>registry_address</i>/default-project/dch-photon:1.13
+    <pre>
+    FROM <i>registry_address</i>/default-project/dch-photon:1.13
     
     COPY ca.crt /etc/docker/certs.d/<i>registry_address</i>/ca.crt</pre>
 

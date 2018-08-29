@@ -6,7 +6,7 @@ To manually add the vSphere Integrated Containers CA certificate to  `dch-photon
 
 **Prerequisites**
 
-- You have a known user ID that has at least the Developer role in the `default-project` in vSphere Integrated Containers Management Portal.
+- You have a known user account that has at least the Developer role in the `default-project` in vSphere Integrated Containers Management Portal.
 - You have an instance of Docker Engine running on your local sytem.
 - You installed the CA certificate for vSphere Integrated Containers Registry in your local Docker client. For information about how to install the registry certificate in a Docker client, see [Install the  vSphere Integrated Containers Registry Certificate](configure_docker_client.md#registry).
 - For simplicity, this example uses a virtual container host (VCH) that was deployed with the `--no-tlsverify` option. If your VCH implements TLS verification of clients, you must import the VCH certificates into your Docker client and adapt the Docker commands accordingly. For information about how to connect a Docker client to a VCH that uses full TLS authentication, see [Connecting to the VCH](configure_docker_client.md#connectvch) in Configure the Docker Client for Use with vSphere Integrated Containers.
@@ -17,7 +17,7 @@ To manually add the vSphere Integrated Containers CA certificate to  `dch-photon
 
     vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
 
-    The container should be stopped because the Docker Engine instance that it runs must restart so that it can recognize the new certificate and you have copied it to the container. If you have already deployed `dch-photon`, use `docker stop` to stop it. 
+    The container should be stopped because the Docker Engine instance that it runs must restart so that it can recognize the new certificate after you have copied it to the container. If you have already deployed `dch-photon`, use `docker stop` to stop it. 
 
     This example runs `dch-photon` behind a port mapping.
 

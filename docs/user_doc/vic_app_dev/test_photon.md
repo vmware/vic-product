@@ -1,10 +1,10 @@
 ## Build, Push, and Pull an Image with `dch-photon`  ##
 
-After you have loaded the vSphere Integrated Containers Registry certificate into a `dch-photon` container VM, test the `dch-photon` Docker container host by building an image and pushing it to vSphere Integrated Containers Registry. Then, pull them image into a VCH to deploy it. 
+After you have loaded the vSphere Integrated Containers Registry certificate into a `dch-photon` container VM, test the `dch-photon` Docker container host by building an image and pushing it to vSphere Integrated Containers Registry. Then, pull the image into a VCH to deploy it. 
 
 **Prerequisites**
 
-- You performed one of the procedures in either [Add the Registry Certificate to a Custom Image](photon_cert_custom.md) or [Manually Add the Registry Certificate to a `dch-photon` VM](photon_cert_manual.md) to create an instance of the `dch-photon` container VM that includes the CA certificate of your vSphere Integrated Containers instance. 
+- You performed one of the procedures in either [Add the Registry Certificate to a Custom Image](photon_cert_custom.md) or [Manually Add the Registry Certificate to a `dch-photon` VM](photon_cert_manual.md) to create an instance of the `dch-photon` container VM that includes the CA certificate of your vSphere Integrated Containers Registry instance. 
 - For simplicity, this example uses a virtual container host (VCH) that was deployed with the `--no-tlsverify` option. If your VCH implements TLS verification of clients, you must import the VCH certificates into your Docker client and adapt the Docker commands accordingly. For information about how to connect a Docker client to a VCH that uses full TLS authentication, see [Connecting to the VCH](configure_docker_client.md#connectvch) in Configure the Docker Client for Use with vSphere Integrated Containers.
 - vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
 
