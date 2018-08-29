@@ -20,6 +20,8 @@ By creating a custom image, you can deploy multiple instances of `dch-photon` th
 
 5. Pull the `dch-photon` image into the image cache in your local Docker client.
 
+    vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
+
     <pre>docker pull <i>registry_address</i>/default-project/dch-photon:1.13</pre> 
 
 6. Make a new folder and copy the vSphere Integrated Containers Registry certificate into it.

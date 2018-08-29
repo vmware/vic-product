@@ -4,6 +4,8 @@ You do not need to specify any options when you use `docker run` to deploy `dch-
 
 You can also specify `dch-photon` options to connect `dch-photon` container VMs to registries other than vSphere Integrated Containers Registry.
 
+vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
+
 - [`dch-photon` Options](#options)
 - [Using `dch-photon` with TLS Authentication](#auth)
   - [With Remote Verification](#auth_tlsverify) 

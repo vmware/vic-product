@@ -15,6 +15,8 @@ To manually add the vSphere Integrated Containers CA certificate to  `dch-photon
 
 1. Create a `dch-photon` container VM named `build-slave` in a VCH, but do not start it. 
 
+    vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
+
     The container should be stopped because the Docker Engine instance that it runs must restart so that it can recognize the new certificate and you have copied it to the container. If you have already deployed `dch-photon`, use `docker stop` to stop it. 
 
     This example runs `dch-photon` behind a port mapping.

@@ -7,6 +7,8 @@ vSphere Integrated Containers Engine is an enterprise container runtime that you
 
 vSphere Integrated Containers Engine can deploy Docker Engine instances for you, in the form of a container image repository named `dch-photon`. This image is pre-loaded in the `default-project` in vSphere Integrated Containers Registry. The `dch-photon` image allows you to deploy a container VM that runs a Docker Engine instance hosted in Photon OS. You can deploy any number of these Docker Engine instances to perform `docker build` and `docker push` operations as part of your CI infrastructure. 
 
+vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
+
 - [Requirements for Using `dch-photon`](#requirements)
   - [Anonymous `dch-photon` Volumes](#vols) 
 - [Using `dch-photon` with vSphere Integrated Containers Registry](#registry)
