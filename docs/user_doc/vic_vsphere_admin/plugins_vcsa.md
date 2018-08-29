@@ -21,9 +21,11 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 5. Set the following environment variables:
 
     - vSphere Integrated Containers appliance address:<pre>export VIC_ADDRESS=<i>vic_appliance_address</i></pre>
-    - vSphere Integrated Containers Engine bundle file:<pre>export VIC_BUNDLE=vic_v1.4.0.tar.gz</pre>
+    - vSphere Integrated Containers Engine bundle file:
+      - vSphere Integrated Containers 1.4.0: <pre>export VIC_BUNDLE=vic_v1.4.0.tar.gz</pre>
+      - vSphere Integrated Containers 1.4.1 and 1.4.2: <pre>export VIC_BUNDLE=vic_v1.4.1.tar.gz</pre>
 
-    If you have installed a different version of the appliance, update `1.4.0` to the appropriate version in the command above. You can see the correct version by going to https://<i>vic_appliance_address</i>:9443/files/ in a browser. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, replace 9443 with the appropriate port.
+    vSphere Integrated Containers 1.4.1 and 1.4.2 both use the `vic_v1.4.1.tar.gz` bundle. You can check which version of the bundle your installation uses by going to https://<i>vic_appliance_address</i>:9443/files/ in a browser. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, replace 9443 with the appropriate port.
 5. Use `curl` to copy the vSphere Integrated Containers Engine binaries from the vSphere Integrated Containers appliance file server to the vCenter Server Appliance.
 
     Copy and paste the following command as shown:<pre>curl -kL https://${VIC_ADDRESS}:9443/files/${VIC_BUNDLE} -o ${VIC_BUNDLE}</pre>If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, replace 9443 with the appropriate port.
@@ -34,9 +36,7 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 	2. Enter the IP address of the vCenter Server instance.
 	1. Enter the user name and password for the vCenter Server administrator account.
 	2. Enter **yes** if the vCenter Server certificate thumbprint is legitimate, and wait for the install process to finish. 
-10. When the installation finishes, stop and restart the services of your management clients.
-	1. Restart the HTML5 vSphere Client service.<pre>service-control --stop vsphere-ui && service-control --start vsphere-ui</pre>
-	2. Restart the Flex-based vSphere Web Client service.<pre>service-control --stop vsphere-client && service-control --start vsphere-client</pre>
+10. When the installation finishes, stop and restart the vSphere Client services.<pre>service-control --stop vsphere-ui && service-control --start vsphere-ui && service-control --stop vsphere-client && service-control --start vsphere-client</pre>
 11. Delete the vSphere Integrated Containers Engine binaries from the vCenter Server Appliance and close the SSH connection.
 	1. `cd ../../..`
 	2. `rm ${VIC_BUNDLE}`
