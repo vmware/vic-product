@@ -115,6 +115,7 @@
          * [Default Volume Store Error](ts_volume_store_error.md)
          * [Deleting or Inspecting a VCH Fails](ts_delete_inspect_error.md)
          * [Docker Login Fails](ts_dockerlogin_error.md)
+         * [Image Store Error](ts_imagestore_error.md)
      * [Install Packages in VCHs](vch_install_packages.md)
          * [Mount an NFS Share Point](vch_mount_nfsshare.md)
   * [Security Reference](security_reference.md)
