@@ -25,7 +25,6 @@ Before you deploy a VCH, you must create a VMware vSphere Distributed Switch and
 - Do not specify the same port group as the bridge network for multiple VCHs. Sharing a port group between VCHs might result in multiple container VMs being assigned the same IP address. 
 - Do not use the bridge network port group as the target for any of the other VCH networking options.
 - Do not use the bridge network for any other VM workloads.
-<!-- If you intend to use the `--ops-user` option to use different user accounts for deployment and operation of the VCH, you must place the bridge network port group in a network folder that has the `Read-Only` role with propagation enabled. For more information about the requirements when using `--ops-user`, see [Configure the Operations User](set_up_ops_user.md).-->
 
 #### Create VCH Wizard
 
