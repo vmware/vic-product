@@ -60,6 +60,8 @@ func (i *IndexHTMLRenderer) IndexHandler(resp http.ResponseWriter, req *http.Req
 		if err := indexFormHandler(op, req, html); err != nil {
 			op.Errorf("Install failed: %s", err.Error())
 			html.InitErrorFeedback = fmt.Sprintf("Installation failed: %s", err.Error())
+		} else if req.FormValue("needuiplugin") == "true" {
+			html.InitSuccessFeedback = "Installation successful. Refer to the Post-install and Deployment tasks below. All vSphere Client users must log out and log back in again twice to see the vSphere Integrated Containers plug-in."
 		} else {
 			html.InitSuccessFeedback = "Installation successful. Refer to the Post-install and Deployment tasks below."
 		}
@@ -99,16 +101,18 @@ func indexFormHandler(op trace.Operation, req *http.Request, html *IndexHTMLOpti
 		return err
 	}
 
-	h5 := tasks.NewH5UIPlugin(PSCConfig.Admin)
-	h5.Force = true
-	if err := h5.Install(op); err != nil {
-		return err
-	}
+	if req.FormValue("needuiplugin") == "true" {
+		h5 := tasks.NewH5UIPlugin(PSCConfig.Admin)
+		h5.Force = true
+		if err := h5.Install(op); err != nil {
+			return err
+		}
 
-	flex := tasks.NewFlexUIPlugin(PSCConfig.Admin)
-	flex.Force = true
-	if err := flex.Install(op); err != nil {
-		return err
+		flex := tasks.NewFlexUIPlugin(PSCConfig.Admin)
+		flex.Force = true
+		if err := flex.Install(op); err != nil {
+			return err
+		}
 	}
 
 	return nil

@@ -46,6 +46,7 @@ DESTROY_ENABLED=""
 MANUAL_DISK_MOVE=""
 EMBEDDED_PSC=""
 INSECURE_SKIP_VERIFY=""
+UPGRADE_UI_PLUGIN=""
 
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S %z %Z")
 export REDIRECT_ENABLED=0
@@ -86,6 +87,7 @@ function usage {
 
       [--embedded-psc]:                Using embedded PSC. Do not prompt for external PSC options.
       [--ssh-insecure-skip-verify]:    Skip host key checking when SSHing to the old appliance.
+      [--upgrade-ui-plugin]:           Upgrade ui plugin.
     "
 }
 
@@ -547,6 +549,9 @@ function main {
       --ssh-insecure-skip-verify)
         INSECURE_SKIP_VERIFY="1"
         ;;
+      --upgrade-ui-plugin)
+        UPGRADE_UI_PLUGIN="y"
+        ;;
       -h|--help|*)
         usage
         exit 0
@@ -591,10 +596,11 @@ function main {
   export GOVC_DATACENTER="$VCENTER_DATACENTER"
   [ -z "${APPLIANCE_TARGET}" ] && read -p "Enter old VIC appliance IP: " APPLIANCE_TARGET
   [ -z "${APPLIANCE_USERNAME}" ] && read -p "Enter old VIC appliance username: " APPLIANCE_USERNAME
+  [ -z "${UPGRADE_UI_PLUGIN}" ] && read -p "Upgrade VIC UI Plugin? (y/n): " UPGRADE_UI_PLUGIN
 
   if [ -n "${DESTROY_ENABLED}" ] ; then
     local resp=""
-    read -p "Destroy option enabled. This will delete the old VIC appliance after upgrade. Are you sure? (y/n):" resp
+    read -p "Destroy option enabled. This will delete the old VIC appliance after upgrade. Are you sure? (y/n): " resp
     if [ "$resp" != "y" ]; then
       echo "Exiting..."
       exit 1
@@ -635,8 +641,10 @@ function main {
   ### -------------------- ###
   ###  Component Upgrades  ###
   ### -------------------- ###
-  log "\n-------------------------\nStarting VIC UI Plugin Upgrade ${TIMESTAMP}\n"
-  upgradeAppliancePlugin
+  if [ "$UPGRADE_UI_PLUGIN" == "y" ]; then
+    log "\n-------------------------\nStarting VIC UI Plugin Upgrade ${TIMESTAMP}\n"
+    upgradeAppliancePlugin
+  fi
 
   log "\n-------------------------\nStarting Admiral Upgrade ${TIMESTAMP}\n"
   upgradeAdmiral
@@ -667,7 +675,11 @@ function finish() {
   if [ "$rc" -eq 0 ]; then
     log ""
     log "-------------------------"
-    log "Upgrade completed successfully. Exiting."
+    if [ "$UPGRADE_UI_PLUGIN" == "y" ]; then
+      log "Upgrade completed successfully. Exiting. All vSphere Client users must log out and log back in again twice to see the vSphere Integrated Containers plug-in."
+    else
+      log "Upgrade completed successfully. Exiting."
+    fi
     log "-------------------------"
     log ""
   else

@@ -137,9 +137,8 @@ func (p *Plugin) Install(op trace.Operation) error {
 	}
 	vCenterVersion := p.Target.Session.Client.ServiceContent.About.Version
 	if p.denyInstall(op, vCenterVersion) {
-		err := errors.Errorf("Refusing to install Flex plugin on vSphere %s", vCenterVersion)
-		op.Error(err)
-		return err
+		op.Warnf("Refusing to install Flex plugin on vSphere %s", vCenterVersion)
+		return nil
 	}
 
 	op.Infof("### Installing UI Plugin against vSphere %s ####", vCenterVersion)
