@@ -60,7 +60,7 @@ function set_base() {
     gzip tar xz bzip2 \
     glibc iana-etc \
     ca-certificates \
-    curl which initramfs-1.0-9.113016321.ph1 \
+    curl which initramfs \
     krb5 motd procps-ng \
     bc kmod libdb
 
