@@ -32,5 +32,5 @@ Verify Getting Started Page Title
     Should Contain  ${result}  ${gsp-page-title}
 
 Verify Complete Installation Message
-    Wait Until Element Is Visible  ${gsp-alert-message}  timeout=${EXPLICIT_WAIT}
+    Wait Until Element Is Visible  ${gsp-alert-message}  timeout=${EXTRA_EXPLICIT_WAIT}
     Element Text Should Be  ${gsp-alert-message}  ${gsp-install-complete-message}

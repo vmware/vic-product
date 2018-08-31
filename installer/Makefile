@@ -54,7 +54,7 @@ vendor: $(DEP)
 
 gas: $(GAS)
 	@echo running go AST tool
-	@$(GAS) -quiet fileserver/... landing_server/... lib/... ovatools/... pkg/... tagvm/... toolbox/... 2> /dev/null
+	@$(GAS) -quiet fileserver/... landing_server/... lib/... ovatools/... pkg/... toolbox/... 2> /dev/null
 
 golint: $(GOLINT)
 	@echo checking go lint...
@@ -97,8 +97,6 @@ golintf = $(GOLINT) $(1) | sh -c "! grep -v 'lib/apiservers/portlayer/restapi/op
 
 $(ovfenv): $(call godeps,ovatools/ovfenv/*.go)
 	@echo building ovfenv linux...
-	@echo build $(dir $<)
-	@echo output $@
 	@GOARCH=amd64 GOOS=linux $(TIME) $(GO) build $(RACE) -ldflags "$(LDFLAGS)" -o ./$@ ./$(dir $<)
 
 $(vic-ova-ui): $(call godeps,ovatools/vic-ova-ui/*.go)
