@@ -305,7 +305,7 @@ Create a VSAN Cluster
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
     Set Environment Variable  TEST_DATASTORE  vsanDatastore
-    Set Environment Variable  TEST_RESOURCE  cls
+    Set Environment Variable  TEST_RESOURCE  /dc1/host/cls
     Set Environment Variable  TEST_TIMEOUT  15m
     Set Test VC Variables
 
@@ -360,7 +360,7 @@ Create a Simple VC Cluster
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  TEST_DATASTORE  datastore1
     Set Environment Variable  TEST_DATACENTER  /${datacenter}
-    Set Environment Variable  TEST_RESOURCE  ${cluster}
+    Set Environment Variable  TEST_RESOURCE  /${datacenter}/host/${cluster}
     Set Environment Variable  TEST_TIMEOUT  30m
     Set Test VC Variables
 
@@ -535,7 +535,7 @@ Create Simple VC Cluster With Static IP
     Set Environment Variable  PUBLIC_NETWORK  vm-network
     Remove Environment Variable  TEST_DATACENTER
     Set Environment Variable  TEST_DATASTORE  nfs0-1
-    Set Environment Variable  TEST_RESOURCE  cls
+    Set Environment Variable  TEST_RESOURCE  /dc1/host/cls
     Set Environment Variable  TEST_TIMEOUT  15m
     Set Test VC Variables
 
