@@ -38,7 +38,7 @@ For simplicity, this example deploys a VCH without client certificate verificati
 * Familiarize yourself with the bridge network, public network, image store, and volume store as described in [Configure Bridge Networks](bridge_network.md), [Configure the Public Network](public_network.md), and [Virtual Container Host Storage Capacity](vch_storage.md).
 * Familiarize yourself with the way in which VCHs use certificates to authenticate connections from clients. For information about certificate use by VCHs and Docker, see the [Virtual Container Host Certificate Requirements](vch_cert_reqs.md).
 * Obtain the root certificate for vSphere Integrated Containers Registry. For information about how to obtain the certificate, see [Obtain the vSphere Integrated Containers Registry Certificate](vch_registry.md#regcert).
-* If you intend to use the Create Virtual Container Host wizard in the vSphere Client, create a vSphere user account for the operations user. For information about creating the operations user account, see [Create a User Account for the Operations User](set_up_ops_user.md#createuser).
+* If you intend to use the Create Virtual Container Host wizard in the vSphere Client, create a vSphere user account for the operations user. For information about creating the operations user account, see [Create the Operations User Account](create_ops_user.md).
 * Install a Docker client so that you can test the deployment.
 
 ### Create VCH Wizard

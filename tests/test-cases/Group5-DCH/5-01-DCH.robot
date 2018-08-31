@@ -21,7 +21,7 @@ Test Setup  Run Keyword  Setup Base State
 *** Variables ***
 ${dinv-image-tag}  17.06
 ${dinv-image-name}  dch-photon
-${harbor-image-name}  ${HARBOR_CI_REGISTRY}/${DEFAULT_HARBOR_PROJECT}/${dinv-image-name}
+${harbor-image-name}  %{HARBOR_CI_REGISTRY}/${DEFAULT_HARBOR_PROJECT}/${dinv-image-name}
 ${harbor-image-tagged}  ${harbor-image-name}:${dinv-image-tag}
 
 *** Keywords ***

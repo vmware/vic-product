@@ -79,7 +79,7 @@ If you are deploying a VCH on vCenter Server, specify a user name for an account
 
 You can also specify the user name in the URL that you pass to `vic-machine create` in the `--target` option, in which case the `--user` option is not required.
 
-You can configure a VCH so that it uses a non-administrator account with reduced privileges for post-deployment operations by specifying the `--ops-user` option. If you do not specify `--ops-user`, VCHs use the vSphere administrator account that you specify in `--user` for general post-deployment operations. For information about using a different account for post-deployment operation, see [Configure the Operations User](set_up_ops_user.md).
+You can configure a VCH so that it uses a non-administrator account with reduced privileges for post-deployment operations by specifying the `--ops-user` option. If you do not specify `--ops-user`, VCHs use the vSphere administrator account that you specify in `--user` for general post-deployment operations. For information about using a different account for post-deployment operation, see [Create the Operations User Account](create_ops_user.md).
 
 **Usage**:
 

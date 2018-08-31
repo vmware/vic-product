@@ -1,6 +1,6 @@
 # Using the developer preview of the VCH Management API
 
-vSphere Integrated Containers 1.3.0 will include a developer preview of an API
+vSphere Integrated Containers 1.3 and 1.4 include a developer preview of an API
 for management of Virtual Container Hosts (VCHs). This is not a stable API;
 future releases will not be backwards-compatible with this version of the API.
 
@@ -21,14 +21,13 @@ is managed by VMware vCenter Server.
 
 ## Getting started
 
-To use the examples from this tutorial, you'll need to download and install a
-`1.3.0-dev` Open Source OVA Build of vSphere Integrated Containers.
+To use the examples from this tutorial, you'll need to download and install
+vSphere Integrated Containers 1.3.0 or later.
 
-1. [Download](https://console.cloud.google.com/storage/browser/vic-product-ova-builds)
-   the most recent `1.3.0` build. (You need a Google account to access these builds.)
-2. [Deploy the appliance](https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/deploy_vic_appliance.html).
-3. Optionally, [install the vSphere Client plug-in](https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/install_vic_plugin.html)
-4. [Open the required ports on ESXi Hosts](https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/open_ports_on_hosts.html)
+1. [Download](http://www.vmware.com/go/download-vic) an OVA.
+2. [Deploy the appliance](https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/deploy_vic_appliance.html).
+3. Optionally, [install the vSphere Client plug-in](https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/install_vic_plugin.html)
+4. [Open the required ports on ESXi Hosts](https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/open_ports_on_hosts.html)
 
 Examples that follow will use "vic.example.com" to represent the network address
 of the deployed appliance. Replace this value with the hostname or IP address of
@@ -36,14 +35,15 @@ your VIC Appliance as necessary.
 
 ## Background
 
-In vSphere Integrated Containers, [Virtual Container Hosts (VCHs)](https://vmware.github.io/vic-product/assets/files/html/1.2/vic_overview/introduction.html#vch)
+In vSphere Integrated Containers, [Virtual Container Hosts (VCHs)](https://vmware.github.io/vic-product/assets/files/html/1.4/vic_overview/intro_to_vic_engine.html#virtual-container-hosts-)
 serve as the functional equivalent of a Linux VM that runs Docker. VCHs can be
-deployed using the [`vic-machine` CLI](https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/deploy_vch.html).
+deployed using the [`vic-machine` CLI](https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/deploy_vch.html)
+or via the [vSphere Client Plugin](https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/deploy_vch_client.html).
 
 The VCH Management API serves as an alternative to the `vic-machine` CLI, and is
 intended to support automation and application development use cases. An OpenAPI
 definition is provided which describes our vision for the API, and a subset of
-its functionality has been implemented for version 1.3.0.
+its functionality has been implemented for version 1.3.0 and later.
 
 This API makes use of standard HTTP verbs and headers and represents most data
 using [JSON](https://tools.ietf.org/html/rfc7159).
@@ -103,7 +103,7 @@ system:
 }
 ```
 
-To bypass this, you can store the [expected thumbprint](https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/obtain_thumbprint.html)
+To bypass this, you can store the [expected thumbprint](https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/obtain_thumbprint.html)
  for the certificate in the `THUMBPRINT` environment variable (e.g.,
 `12:34:56:78:9A:BC:DE:F0:12:34:56:78:9A:BC:DE:F0:11:22:33:44`) and provide it as
 a query parameter to this API call, or any which follow:
@@ -140,7 +140,7 @@ This example represents a VCH named "Test VCH" in a cluster named "MyCluster",
 using "MyPublicNetwork" as its public network, "MyBridgeNetwork" as its bridge
 network, and "MyDatastore" for its image store. You'll need to customize the
 values to match your environment. Guidance about these objects can be found in
-the [`vic-machine` CLI documentation](https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/deploy_vch.html)
+the [VCH documentation](https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/vch_deployment_options.html)
 
 ```json
 {
@@ -243,9 +243,9 @@ of VCHs:
 }
 ```
 
-- The `admin_portal` property provides the address of the [VCH Admin Portal](https://vmware.github.io/vic-product/assets/files/html/1.2/vic_vsphere_admin/access_vicadmin.html).
+- The `admin_portal` property provides the address of the [VCH Admin Portal](https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/access_vicadmin.html).
 - The `docker_host` property provides the value which would be passed to the
-  `--host` (`-H`) option of the `docker` CLI when [connecting to the VCH](https://vmware.github.io/vic-product/assets/files/html/1.2/vic_app_dev/configure_docker_client.html).
+  `--host` (`-H`) option of the `docker` CLI when [connecting to the VCH](https://vmware.github.io/vic-product/assets/files/html/1.4/vic_app_dev/configure_docker_client.html).
 
 #### Authenticating clients
 

@@ -36,6 +36,7 @@ vSphere Integrated Containers Engine includes these limitations:
 	- IPv6
 	- Service discovery
 - Containers can acquire DHCP addresses only if they are on a network that has DHCP.
+- When you use a standard Docker Engine, an image can have a maximum of 120 layers. When you use a vSphere Integrated Containers Engine virtual container host (VCH), an image can have a maximum of 90 layers. For more information, see [Pulling Images into VCHs Fails with Image Store Error](../vic_vsphere_admin/ts_imagestore_error.md) in the Troubleshooting section.
 
 ## Using `docker-compose` with TLS
 
