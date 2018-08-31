@@ -74,27 +74,6 @@ Get VM Host By IP
     ${host}=  Fetch From Right  @{out}[-1]  ${SPACE}
     [Return]  ${host}
 
-Download VIC And Install UI Plugin
-    [Arguments]  ${ova-ip}
-    Open Connection  %{TEST_URL}
-    Wait Until Keyword Succeeds  10x  5s  Login  root  vmware
-
-    # extract vic bundle name
-    ${download_url}=  Run command and Return output  curl -k https://${ova-ip}:9443 | tac | tac | grep -Po -m 1 '(?<=href=")[^"]*tar.gz'
-    Log  ${download_url}
-    ${first}  ${rest}=  Split String From Right  ${download_url}  /  1
-
-    Set Global Variable  ${VIC_BUNDLE}  ${rest}
-    Execute Command And Return Output  curl -kL https://${ova-ip}:9443/files/${VIC_BUNDLE} -o ${VIC_BUNDLE}
-    Execute Command And Return Output  tar -zxf ${VIC_BUNDLE}
-    Execute Command And Return Output  cd vic/ui/VCSA && printf "yes" | ./install.sh -i %{TEST_URL} -u %{TEST_USERNAME} -p %{TEST_PASSWORD}
-    
-    Execute Command And Return Output  service-control --stop vsphere-ui
-    Execute Command And Return Output  service-control --start vsphere-ui
-    Execute Command And Return Output  service-control --stop vsphere-client
-    Execute Command And Return Output  service-control --start vsphere-client
-    Close Connection
-
 Get PSC Instance
     [Arguments]  ${vc-ip}  ${vc-root-user}  ${vc-root-pwd}
     Open Connection  ${vc-ip}
