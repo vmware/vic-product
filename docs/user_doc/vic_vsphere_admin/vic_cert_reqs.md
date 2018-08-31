@@ -42,7 +42,7 @@ Required for installation of the vSphere Client plug-ins and deployment and mana
 ## vSphere Integrated Containers Appliance Certificate <a id="appliance"></a>
 
 - **Type**: Self-signed or custom
-- **Format**: Supports unencrypted PEM encoded PKCS#1 and unencrypted PEM encoded PKCS#8 formats for TLS private keys. If you provide a PKCS#1 format certificate, vSphere Integrated Containers converts it to PKCS8 format.
+- **Format**: Supports unencrypted PEM encoded PKCS#1 and unencrypted PEM encoded PKCS#8 formats for TLS private keys. If you provide a PKCS#1 format certificate, vSphere Integrated Containers converts it to PKCS#8 format.
 - **Used by**: vSphere administrator, Management Portal administrators,  DevOps admininistrators, developers
 
 Authenticates connections from browsers to vSphere Integrated Containers Management Portal, the Getting Started page, downloads of vSphere Integrated Containers Engine binaries, and the installation of vSphere Client plug-ins. Also authenticates the Management Portal, Registry, and file server connections with vCenter Server during initialization of the appliance.
