@@ -9,7 +9,7 @@ Virtual container hosts (VCHs) authenticate connections from Docker API clients 
   - [Custom Certificates](#custom)
      - [Server Certificate](#servercert)
      - [Client Certificate](#clientcert) 
-  - [Converting Certificates for Use with VCHs](#convertcerts)
+  - [Converting PKCS#7 Certificate Keys for Use with VCHs](#convertcerts)
 - [VCH Administration Portal Certificate](#vch_admin)
 
 ## Certificate Usage in Docker <a id="docker_certs"></a>
@@ -28,7 +28,6 @@ When using the Docker client, the client validates the server either by using CA
 - A wildcard domain that matches all of the FQDNs in a specific subdomain. 
 
 If the server certificate includes a wildcard domain, all of the systems in that domain can connect to the server. For an example of a domain wildcard, see [https://en.wikipedia.org/wiki/Wildcard_certificate#Example](https://en.wikipedia.org/wiki/Wildcard_certificate#Example).
-
 
 ### `DOCKER_CERT_PATH` <a id="dockercertpath"></a>
 
@@ -65,34 +64,42 @@ VCHs accept client certificates if they are signed by a CA that you  can optiona
 
 ### Custom Certificates <a id="custom"></a>
 
-To exercise fine control over the certificates that VCHs use, you must obtain or generate custom certificates yourself before you deploy a VCH. You can create a VCH that uses a custom server certificate, for example  a server certificate that has been signed by Verisign or another public root. For information about how to create custom certificates for use with Docker, see [Protect the Docker daemon socket](https://docs.docker.com/engine/security/https/) in the Docker documentation. 
+To exercise fine control over the certificates that VCHs use, you must obtain or generate custom certificates yourself before you deploy a VCH. You can create a VCH that uses a custom server certificate, for example a server certificate that has been signed by Verisign or another public root. For information about how to create custom certificates for use with Docker, see [Protect the Docker daemon socket](https://docs.docker.com/engine/security/https/) in the Docker documentation. 
 
-You can deploy a VCH to use custom certificates in combination with auto-generated certificates, as demonstrated in the [Examples](vch_cert_options.md#examples). 
+You can deploy a VCH to use custom certificates in combination with auto-generated certificates, as demonstrated in the VCH security [Examples](vch_cert_options.md#examples). 
 
-Custom certificates must meet the following requirements.
+The table below shows the certificate formats that VCHs support, and the required components.
+
+|**Certificate Format**|**Required Components**|
+|---|---|
+|pksc#12|End-entity (leaf) certificate, CA chain certificate, private key in PKCS#8 format|
+|PKCS#7|End-entity certificate, private key in PKCS#8 format|
+|RSA/PKCS#1|Private key in PKCS#8 format|
+
+**IMPORTANT**: PKCS#7 certificate keys do not work with `vic-machine`. For information about how to convert certificates to the correct format, see [Converting PKCS#7 Certificates for Use with VCHs](vic_cert_reqs.md#convertcerts).
 
 #### Server Certificate <a id="servercert"></a>
 
 - You must use an X.509 server certificate.
-- Server certificates should have the following certificate usages:
+- Server certificates must have the following certificate usages:
   - `KeyEncipherment`
   - `DigitalSignature`
   - `KeyAgreement`
   - `ServerAuth`
-- Server keys must not be encrypted.
-
-**IMPORTANT**: PKCS#7 certificates do not work with `vic-machine`. For information about how to convert certificates to the correct format, see [Converting Certificates for Use with VCHs](vic_cert_reqs.md#convertcerts). 
+- Server keys must not be encrypted. 
 
 #### Client Certificate <a id="clientcert"></a>
 
-For the VCH to trust the CA that you use to sign the client certificate, it must include the following elements:
+For the VCH to trust the CA that you use to sign the client certificate, the CA must include the following elements:
 
 - The name or address of the system from which the Docker client accesses the server in the subject or subject alternative name. This can be an FQDN or a wildcard domain.
 - Key usage in the v3 extensions that match the key usage chosen for the VCH server certificate:
   - `KeyEncipherment`
   - `KeyAgreement`
 
-### Converting Certificates for Use with VCHs <a id="convertcerts"></a>
+### Converting PKCS#7 Certificate Keys for Use with VCHs <a id="convertcerts"></a>
+
+VCHs do not support PKCS#7 certificate keys. You must convert PCKS#7 keys to PKCS#8 format before you can use them with VCHs.
 
 To unwrap a PKCS#7 key for use with a VCH, run the following command: <pre>$ openssl pkcs7 -print_certs -in <i>cert_name</i>.pem -out chain.pem</pre>
 
