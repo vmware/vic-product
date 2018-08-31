@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 1-01 - Install Test
 Resource  ../../resources/Util.robot
-Test Timeout  2 minutes
+Test Timeout  5 minutes
 
 *** Test Cases ***
 Verify VIC engine download and create VCH

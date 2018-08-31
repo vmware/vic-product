@@ -15,11 +15,13 @@
 *** Settings ***
 Documentation  Test 2-01 Getting Started
 Resource  ../../resources/Util.robot
-Test Timeout  1 minutes
+Test Timeout  5 minutes
 Test Setup  Open Firefox Browser
 Test Teardown  Close All Browsers
 
 *** Test Cases ***
 Verify Getting Started page
+    Log To Console  Initializing the OVA using the getting started ui...
     Navigate To Getting Started Page
     Verify Getting Started Page Title
+    #Log In And Complete OVA Installation

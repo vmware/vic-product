@@ -307,6 +307,7 @@ Create a VSAN Cluster
     Set Environment Variable  TEST_DATASTORE  vsanDatastore
     Set Environment Variable  TEST_RESOURCE  cls
     Set Environment Variable  TEST_TIMEOUT  15m
+    Set Test VC Variables
 
     Gather Host IPs
 
@@ -361,6 +362,8 @@ Create a Simple VC Cluster
     Set Environment Variable  TEST_DATACENTER  /${datacenter}
     Set Environment Variable  TEST_RESOURCE  ${cluster}
     Set Environment Variable  TEST_TIMEOUT  30m
+    Set Test VC Variables
+
     [Return]  @{esx_names}  ${vc}  @{esx_ips}  ${vc_ip}
 
 Setup Network For Simple VC Cluster
@@ -534,6 +537,7 @@ Create Simple VC Cluster With Static IP
     Set Environment Variable  TEST_DATASTORE  nfs0-1
     Set Environment Variable  TEST_RESOURCE  cls
     Set Environment Variable  TEST_TIMEOUT  15m
+    Set Test VC Variables
 
 Create Static IP Worker
     Open Connection  %{NIMBUS_GW}
@@ -597,3 +601,4 @@ Nimbus Suite Setup
     ${useDelay}=     Get Environment Variable  NIMBUS_RETRY_DELAY     1m
 
     Wait Until Keyword Succeeds  ${useAttempts}x  ${useDelay}  ${keyword}  @{varargs}
+
