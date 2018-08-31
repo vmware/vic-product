@@ -46,6 +46,7 @@ DESTROY_ENABLED=""
 MANUAL_DISK_MOVE=""
 EMBEDDED_PSC=""
 INSECURE_SKIP_VERIFY=""
+UPGRADE_UI_PLUGIN=""
 
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S %z %Z")
 export REDIRECT_ENABLED=0
@@ -86,22 +87,82 @@ function usage {
 
       [--embedded-psc]:                Using embedded PSC. Do not prompt for external PSC options.
       [--ssh-insecure-skip-verify]:    Skip host key checking when SSHing to the old appliance.
+      [--upgrade-ui-plugin]:           Upgrade ui plugin.
     "
 }
 
-function callRegisterEndpoint {
+# A plugin upgrade is a forced plugin install
+function callPluginUpgradeEndpoint {
+  local preset=$1
+  local vc='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
+  local vc_info='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
+  local plugin='{"preset":"'"${preset}"'","force":true}'
+  local payload='{"vc":"${vc}","plugin":"${plugin}"}'
+  local payload_info='{"vc":"${vc_info}","plugin":"${plugin}"}'
+  echo "register payload - ${payload_info}" >> $upgrade_log_file 2>&1
   /usr/bin/curl \
     -k \
-    --write-out '%{http_code}' \
+    -s \
+    -o /dev/null \
+    --write-out "%{http_code}\\n" \
     --header "Content-Type: application/json" \
     -X POST \
-    --data '{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'"}' \
+    --data "${payload}" \
+    https://localhost:9443/plugin/upgrade
+}
+
+function upgradeAppliancePlugin {
+  # Upgrade the flex client...
+  tab_retries=0
+  max_tab_retries=30 # 5 minutes
+
+  ret=$(callPluginUpgradeEndpoint FLEX)
+  while [[ "$ret" != *"204"* && "$ret" != *"5"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
+    log "Waiting for upgrade appliance flex plugin..."
+    sleep 10
+    let "tab_retries+=1"
+    ret=$(callPluginUpgradeEndpoint FLEX)
+  done
+
+  if [[ ${tab_retries} -eq ${max_tab_retries} || "$ret" == *"5"* ]]; then
+    log "WARNING: Plugin upgrade failed for the FLEX client. This is expected on vCenter versions 6.7 or higher."
+    log "WARNING: If you expected this to pass on older versions of vSphere, please check your credentials and try again, or contact VMware Support."
+  fi
+
+  # Upgrade the H5 client...
+  tab_retries=0
+  ret=$(callPluginUpgradeEndpoint H5)
+  while [[ "$ret" != *"204"* && "$ret" != *"5"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
+    log "Waiting for upgrade appliance h5 plugin..."
+    sleep 10
+    let "tab_retries+=1"
+    ret=$(callPluginUpgradeEndpoint H5)
+  done
+
+  if [[ ${tab_retries} -eq ${max_tab_retries} || "$ret" == *"5"* ]]; then
+    log "Failed to upgrade appliance h5 plugin. Check vCenter target settings, or contact VMware support."
+    exit 1
+  fi
+}
+
+function callRegisterEndpoint {
+  local payload='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'"}'
+  local payload_info='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'"}'
+  echo "register payload - ${payload_info}" >> $upgrade_log_file 2>&1
+  /usr/bin/curl \
+    -k \
+    -s \
+    -o /dev/null \
+    --write-out "%{http_code}\\n" \
+    --header "Content-Type: application/json" \
+    -X POST \
+    --data "${payload}" \
     https://localhost:9443/register
 }
 
 # Register appliance for content trust
 function registerAppliance {
-
+  log "Registering the appliance in PSC"
   tab_retries=0
   max_tab_retries=30 # 5 minutes
   while [[ "$(callRegisterEndpoint)" != *"200"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
@@ -114,7 +175,6 @@ function registerAppliance {
     log "Failed to register appliance. Check vCenter target and credentials and provided PSC settings."
     exit 1
   fi
-
 }
 
 # Get PSC tokens for SSO integration
@@ -489,6 +549,9 @@ function main {
       --ssh-insecure-skip-verify)
         INSECURE_SKIP_VERIFY="1"
         ;;
+      --upgrade-ui-plugin)
+        UPGRADE_UI_PLUGIN="y"
+        ;;
       -h|--help|*)
         usage
         exit 0
@@ -522,6 +585,7 @@ function main {
       echo "TLS connection is not secure, unable to proceed with upgrade. Please contact VMware support. Exiting..."
       exit 1
     fi
+    export VCENTER_FINGERPRINT="$(echo "${fingerprint}" | awk '{print $2}')"
     echo "${fingerprint}" > $GOVC_TLS_KNOWN_HOSTS
   else
     log "Using provided vCenter fingerprint from --fingerprint ${VCENTER_FINGERPRINT}"
@@ -532,10 +596,11 @@ function main {
   export GOVC_DATACENTER="$VCENTER_DATACENTER"
   [ -z "${APPLIANCE_TARGET}" ] && read -p "Enter old VIC appliance IP: " APPLIANCE_TARGET
   [ -z "${APPLIANCE_USERNAME}" ] && read -p "Enter old VIC appliance username: " APPLIANCE_USERNAME
+  [ -z "${UPGRADE_UI_PLUGIN}" ] && read -p "Upgrade VIC UI Plugin? (y/n): " UPGRADE_UI_PLUGIN
 
   if [ -n "${DESTROY_ENABLED}" ] ; then
     local resp=""
-    read -p "Destroy option enabled. This will delete the old VIC appliance after upgrade. Are you sure? (y/n):" resp
+    read -p "Destroy option enabled. This will delete the old VIC appliance after upgrade. Are you sure? (y/n): " resp
     if [ "$resp" != "y" ]; then
       echo "Exiting..."
       exit 1
@@ -576,6 +641,11 @@ function main {
   ### -------------------- ###
   ###  Component Upgrades  ###
   ### -------------------- ###
+  if [ "$UPGRADE_UI_PLUGIN" == "y" ]; then
+    log "\n-------------------------\nStarting VIC UI Plugin Upgrade ${TIMESTAMP}\n"
+    upgradeAppliancePlugin
+  fi
+
   log "\n-------------------------\nStarting Admiral Upgrade ${TIMESTAMP}\n"
   upgradeAdmiral
   log "\n-------------------------\nStarting Harbor Upgrade ${TIMESTAMP}\n"
@@ -605,7 +675,11 @@ function finish() {
   if [ "$rc" -eq 0 ]; then
     log ""
     log "-------------------------"
-    log "Upgrade completed successfully. Exiting."
+    if [ "$UPGRADE_UI_PLUGIN" == "y" ]; then
+      log "Upgrade completed successfully. Exiting. All vSphere Client users must log out and log back in again twice to see the vSphere Integrated Containers plug-in."
+    else
+      log "Upgrade completed successfully. Exiting."
+    fi
     log "-------------------------"
     log ""
   else

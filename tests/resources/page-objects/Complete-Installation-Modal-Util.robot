@@ -23,6 +23,7 @@ ${cim-input-target}  id=target
 ${cim-input-user}  id=user
 ${cim-input-password}  css=input[type=password]
 ${cim-button-continue}  id=login-submit
+${cim-plugin-button-continue}  id=plugin-submit
 
 # expected text values
 ${cim-title-text}  Complete VIC appliance installation
@@ -42,4 +43,5 @@ Log In And Complete OVA Installation
     Input Text  ${cim-input-user}   %{TEST_USERNAME}
     Input Text  ${cim-input-password}   %{TEST_PASSWORD}
     Click Button  ${cim-button-continue}
+    Click Button ${cim-plugin-button-continue}
     Verify Complete Installation Message

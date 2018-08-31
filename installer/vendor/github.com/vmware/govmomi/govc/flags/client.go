@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2014-2015 VMware, Inc. All Rights Reserved.
+Copyright (c) 2014-2018 VMware, Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -39,19 +39,18 @@ import (
 )
 
 const (
-	envURL                 = "GOVC_URL"
-	envUsername            = "GOVC_USERNAME"
-	envPassword            = "GOVC_PASSWORD"
-	envCertificate         = "GOVC_CERTIFICATE"
-	envPrivateKey          = "GOVC_PRIVATE_KEY"
-	envInsecure            = "GOVC_INSECURE"
-	envPersist             = "GOVC_PERSIST_SESSION"
-	envMinAPIVersion       = "GOVC_MIN_API_VERSION"
-	envVimNamespace        = "GOVC_VIM_NAMESPACE"
-	envVimVersion          = "GOVC_VIM_VERSION"
-	envTLSCaCerts          = "GOVC_TLS_CA_CERTS"
-	envTLSKnownHosts       = "GOVC_TLS_KNOWN_HOSTS"
-	envTLSHandshakeTimeout = "GOVC_TLS_HANDSHAKE_TIMEOUT"
+	envURL           = "GOVC_URL"
+	envUsername      = "GOVC_USERNAME"
+	envPassword      = "GOVC_PASSWORD"
+	envCertificate   = "GOVC_CERTIFICATE"
+	envPrivateKey    = "GOVC_PRIVATE_KEY"
+	envInsecure      = "GOVC_INSECURE"
+	envPersist       = "GOVC_PERSIST_SESSION"
+	envMinAPIVersion = "GOVC_MIN_API_VERSION"
+	envVimNamespace  = "GOVC_VIM_NAMESPACE"
+	envVimVersion    = "GOVC_VIM_VERSION"
+	envTLSCaCerts    = "GOVC_TLS_CA_CERTS"
+	envTLSKnownHosts = "GOVC_TLS_KNOWN_HOSTS"
 )
 
 const cDescr = "ESX or vCenter URL"
@@ -61,21 +60,21 @@ type ClientFlag struct {
 
 	*DebugFlag
 
-	url                 *url.URL
-	username            string
-	password            string
-	cert                string
-	key                 string
-	insecure            bool
-	persist             bool
-	minAPIVersion       string
-	vimNamespace        string
-	vimVersion          string
-	tlsCaCerts          string
-	tlsKnownHosts       string
-	tlsHostHash         string
-	tlsHandshakeTimeout time.Duration
-	client              *vim25.Client
+	url           *url.URL
+	username      string
+	password      string
+	cert          string
+	key           string
+	insecure      bool
+	persist       bool
+	minAPIVersion string
+	vimNamespace  string
+	vimVersion    string
+	tlsCaCerts    string
+	tlsKnownHosts string
+	client        *vim25.Client
+
+	Login func(context.Context, *vim25.Client) error
 }
 
 var (
@@ -95,6 +94,7 @@ func NewClientFlag(ctx context.Context) (*ClientFlag, context.Context) {
 	}
 
 	v := &ClientFlag{}
+	v.Login = v.login
 	v.DebugFlag, ctx = NewDebugFlag(ctx)
 	ctx = context.WithValue(ctx, clientFlagKey, v)
 	return v, ctx
@@ -218,15 +218,6 @@ func (flag *ClientFlag) Register(ctx context.Context, f *flag.FlagSet) {
 			usage := fmt.Sprintf("TLS known hosts file [%s]", envTLSKnownHosts)
 			f.StringVar(&flag.tlsKnownHosts, "tls-known-hosts", value, usage)
 		}
-
-		{
-			value, err := time.ParseDuration(os.Getenv(envTLSHandshakeTimeout))
-			if err != nil {
-				value = 10 * time.Second
-			}
-			usage := fmt.Sprintf("TLS handshake timeout [%s]", envTLSHandshakeTimeout)
-			f.DurationVar(&flag.tlsHandshakeTimeout, "tls-handshake-timeout", value, usage)
-		}
 	})
 }
 
@@ -288,7 +279,15 @@ func (flag *ClientFlag) configure(sc *soap.Client) (soap.RoundTripper, error) {
 	}
 
 	if t, ok := sc.Transport.(*http.Transport); ok {
-		t.TLSHandshakeTimeout = flag.tlsHandshakeTimeout
+		var err error
+
+		value := os.Getenv("GOVC_TLS_HANDSHAKE_TIMEOUT")
+		if value != "" {
+			t.TLSHandshakeTimeout, err = time.ParseDuration(value)
+			if err != nil {
+				return nil, err
+			}
+		}
 	}
 
 	// Retry twice when a temporary I/O error occurs.
@@ -401,13 +400,42 @@ func (flag *ClientFlag) SetRootCAs(c *soap.Client) error {
 	return nil
 }
 
+func (flag *ClientFlag) login(ctx context.Context, c *vim25.Client) error {
+	m := session.NewManager(c)
+	u := flag.url.User
+
+	if u.Username() == "" {
+		if !c.IsVC() {
+			// If no username is provided, try to acquire a local ticket.
+			// When invoked remotely, ESX returns an InvalidRequestFault.
+			// So, rather than return an error here, fallthrough to Login() with the original User to
+			// to avoid what would be a confusing error message.
+			luser, lerr := flag.localTicket(ctx, m)
+			if lerr == nil {
+				// We are running directly on an ESX or Workstation host and can use the ticket with Login()
+				u = luser
+			} else {
+				flag.persist = true // Not persisting, but this avoids the call to Logout()
+				return nil          // Avoid SaveSession for non-authenticated session
+			}
+		}
+	}
+
+	if flag.cert != "" {
+		err := m.LoginExtensionByCertificate(ctx, u.Username(), "")
+		if err != nil {
+			return err
+		}
+	}
+
+	return m.Login(ctx, u)
+}
+
 func (flag *ClientFlag) newClient() (*vim25.Client, error) {
 	ctx := context.TODO()
 	sc := soap.NewClient(flag.url, flag.insecure)
-	isTunnel := false
 
 	if flag.cert != "" {
-		isTunnel = true
 		cert, err := tls.LoadX509KeyPair(flag.cert, flag.key)
 		if err != nil {
 			return nil, err
@@ -429,35 +457,11 @@ func (flag *ClientFlag) newClient() (*vim25.Client, error) {
 	// Set client, since we didn't pass it in the constructor
 	c.Client = sc
 
-	m := session.NewManager(c)
-	u := flag.url.User
-
-	if u.Username() == "" {
-		// Assume we are running on an ESX or Workstation host if no username is provided
-		u, err = flag.localTicket(ctx, m)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	if isTunnel {
-		err = m.LoginExtensionByCertificate(ctx, u.Username(), "")
-		if err != nil {
-			return nil, err
-		}
-	} else {
-		err = m.Login(ctx, u)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	err = flag.saveClient(c)
-	if err != nil {
+	if err := flag.Login(ctx, c); err != nil {
 		return nil, err
 	}
 
-	return c, nil
+	return c, flag.saveClient(c)
 }
 
 func (flag *ClientFlag) localTicket(ctx context.Context, m *session.Manager) (*url.Userinfo, error) {

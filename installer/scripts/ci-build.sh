@@ -32,6 +32,9 @@ fi
 if [ -n "${VICENGINE}" ]; then
   OPTIONS="$OPTIONS --vicengine $VICENGINE"
 fi
+if [ -n "${VICUI}" ]; then
+  OPTIONS="$OPTIONS --vicui $VICUI"
+fi
 if [ -n "${VIC_MACHINE_SERVER}" ]; then
   OPTIONS="$OPTIONS --vicmachineserver $VIC_MACHINE_SERVER"
 fi
@@ -56,6 +59,15 @@ if [[ ( "$DRONE_BUILD_EVENT" == "tag" && "$DRONE_TAG" != *"dev"* ) || "$DRONE_BR
     fi
     vicengine_release=$(gsutil ls -l "$bucket" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d ' ' -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
     OPTIONS="$OPTIONS --vicengine ${vicengine_release:?Unable to find an appropriate VIC Engine build. Is '"'$DRONE_BRANCH'"' a valid vmware/vic branch?}"
+  fi
+  if [ -z "${VICUI}" ]; then
+    if [[ "$DRONE_BUILD_EVENT" != "tag" || "$DRONE_TAG" == *"dev"* ]]; then
+      bucket="gs://vic-ui-builds/$DRONE_BRANCH"
+    else
+      bucket="gs://vic-ui-releases"
+    fi
+    vicui_release=$(gsutil ls -l "$bucket" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d " " -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
+    OPTIONS="$OPTIONS --vicui ${vicui_release:?Unable to find an appropriate VIC UI build. Is '"'$DRONE_BRANCH'"' a valid vmware/vic-ui branch?}"
   fi
   if [ -z "${VIC_MACHINE_SERVER}" ]; then
     # Listing container tags requires permissions

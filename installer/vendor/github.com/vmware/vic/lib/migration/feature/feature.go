@@ -24,6 +24,14 @@ const (
 	VicadminProxyVarRenameVersion
 	InsecureRegistriesTypeChangeVersion
 
+	// ContainerCreateTimestampVersion represents the data version where a container's
+	// create time is stored in nanoseconds (previously seconds) in the portlayer.
+	ContainerCreateTimestampVersion
+
+	// VCHFolderSupportVersion represents the VCH version that first introduced
+	// VM folder support for the VCH.
+	VCHFolderSupportVersion
+
 	// Add new feature flag here
 
 	// MaxPluginVersion must be the last

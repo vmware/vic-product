@@ -23,40 +23,22 @@
 required = ["github.com/golang/dep", "github.com/GoASTScanner/gas", "github.com/go-yaml/yaml", "github.com/golang/lint/golint"]
 
 [[constraint]]
-  name = "github.com/Sirupsen/logrus"
-  version = "0.11.0"
-
-[[constraint]]
-  name = "github.com/coreos/go-systemd"
-
-[[constraint]]
-  name = "github.com/dustin/go-humanize"
-
-[[constraint]]
-  name = "github.com/gizak/termui"
-
-[[constraint]]
-  name = "github.com/gorilla/websocket"
-
-[[constraint]]
-  name = "github.com/spf13/pflag"
-  version = "1.0.0"
+  name = "github.com/vmware/vic"
+  version = "v1.4.0"  
 
 [[constraint]]
   name = "github.com/vmware/govmomi"
-
-[[constraint]]
-  name = "github.com/vmware/vic"
-  branch = "master"  
-
-[[constraint]]
-  name = "github.com/vmware/vmw-guestinfo"
-
-[[constraint]]
-  name = "gopkg.in/urfave/cli.v1"
-  version = "1.19.1"
+  version = "v0.17.1"
 
 [[constraint]]
   name = "github.com/golang/dep"
   version = "0.3.2"
 
+[[constraint]]
+  name = "github.com/GoASTScanner/gas"
+  revision = "6de76c92610b387855cdfdd53c99b149928916f7"
+
+[prune]
+  non-go = true
+  go-tests = true
+  unused-packages = true 
