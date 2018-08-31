@@ -8,7 +8,6 @@ vSphere Integrated Containers authenticates connections between its various comp
 - [About TLS Certificates](#about_tls)
 - [vCenter Server or ESXi Host Certificate](#vcenter)
 - [vSphere Integrated Containers Appliance Certificate](#appliance)
-  - [Use a Certificate with an Intermediate CA for the vSphere Integrated Containers Appliance](#intermediateca)
 - [vSphere Integrated Containers Registry Root CA](#registry)
 
 ## Overview of vSphere Integrated Containers Appliance Certificate Use <a id="overview"></a>
@@ -48,34 +47,10 @@ Required for installation of the vSphere Client plug-ins and deployment and mana
 
 Authenticates connections from browsers to vSphere Integrated Containers Management Portal, the Getting Started page, downloads of vSphere Integrated Containers Engine binaries, and the installation of vSphere Client plug-ins. Also authenticates the Management Portal, Registry, and file server connections with vCenter Server during initialization of the appliance.
 
+To use a certificate that uses a chain of intermediate CAs, create a certificate chain PEM file that includes a chain of the intermediate CAs all the way down to the root CA.
+
 For information about where to obtain auto-generated appliance certificates after deployment, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](obtain_appliance_certs.md) and [Verify and Trust vSphere Integrated Containers Appliance Certificates](../vic_cloud_admin/trust_vic_certs.md).
 
-### Use a Certificate with an Intermediate CA for the vSphere Integrated Containers Appliance <a id="intermediateca"></a>
-
-When you deploy the vSphere Integrated Containers appliance, you can  specify a certificate with an intermediate certificate authority (CA) as the appliance certificate. 
-
-**Procedure**
-
-1. Create a certificate chain PEM file, that goes all the way down to the root CA.
-2. Follow the instructions in [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md) to start the deployment of the appliance.
-3. At the Customize Template page of the deployment wizard, paste the contents of the certificate chain PEM file into the **Appliance TLS Certificate** text box. 
-
-    A certificate with an intermediate CA looks something like this:
-
-    ```
-    -----BEGIN CERTIFICATE-----
-    <VIC appliance server certificate>
-    -----END CERTIFICATE-----
-    -----BEGIN CERTIFICATE-----
-    <intermediate CA certificate>
-    -----END CERTIFICATE-----
-    -----BEGIN CERTIFICATE-----
-    <root certificate>
-    -----END CERTIFICATE-----
-    ```
-4. Paste the contents of the unencrypted PEM encoded PKCS1 or PKCS8 format private key into the **Appliance TLS Certificate Key** text box.
-5. Paste the contents of the root CA certificate into the **Certificate Authority Certificate** text box.
-6. Continue with the procedure in [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md#step4).
 
 ## vSphere Integrated Containers Registry Root CA <a id="registry"></a>
 
