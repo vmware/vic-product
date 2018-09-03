@@ -116,10 +116,11 @@ You see the vSphere Integrated Containers Getting Started page. The Getting Star
 
 **What to Do Next**
 
-- If you installed vSphere Integrated Containers 1.4.3 or later and selected **Install UI Plugin**, you should see a banner in the HTML5 vSphere Client that states `There are plug-ins that were installed or updated`.
-   1. Log out of the HTML5 vSphere Client and log back in again. 
-   2. Click the **vSphere Client** logo in the top left corner. 
-   3. Under Inventories, click **vSphere Integrated Containers** to access the vSphere Integrated Containers plug-in.
+- If you installed vSphere Integrated Containers 1.4.3 or later and selected **Install UI Plugin**, access the  vSphere Integrated Containers plug-in for vSphere Client:
+   1. Log out of the HTML5 vSphere Client and log back in again. You should see a banner that states `There are plug-ins that were installed or updated`.
+   2. Log out of the HTML5 vSphere Client a second time and log back in again.
+   3. Click the **vSphere Client** logo in the top left corner. 
+   4. Under Inventories, click **vSphere Integrated Containers** to access the vSphere Integrated Containers plug-in.
 - If you deselected the **Install UI Plugin** check box, or if you installed a version of vSphere Integrated Containers that pre-dates 1.4.3, [Manually Install the vSphere Client Plug-ins](install_vic_plugin.md).
 - [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md).
 - Log in to vSphere Integrated Containers Management Portal. For information about the management portal, see [vSphere Integrated Containers Management Portal Administration](../vic_cloud_admin/).      
