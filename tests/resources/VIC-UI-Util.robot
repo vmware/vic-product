@@ -60,40 +60,20 @@ Call UI API With Preset
 
     [Return]  ${status}
 
-Deploy OVA And Install UI Plugin And Run Regression Tests
-    # Deploy OVA and then install UI plugin
-    # run regression tests on UI wizard and docker commands on VCH created using UI
-    [Arguments]  ${test-name}  ${ova-file}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${have-nested}=${TRUE}
-    Log To Console  \nStarting test ${test-name}...
-    Set Environment Variable  OVA_NAME  OVA-${test-name}
-    Set Global Variable  ${OVA_USERNAME_ROOT}  root
-    Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
-    # install ova
-    Install And Initialize VIC Product OVA  ${ova-file}  %{OVA_NAME}
-    # set browser variables
-    Set Browser Variables
-    # Install VIC Plugin
-    Download VIC And Install UI Plugin  %{OVA_IP}
-    # create vch using UI
-    # retry UI steps if failed
-    Wait Until Keyword Succeeds  3x  1m  Create VCH using UI And Set Docker Parameters  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${have-nested}
-    # run vch regression tests
-    Run Docker Regression Tests For VCH
-
 Download VIC And Install UI Plugin
     [Arguments]  ${ova-ip}
+    Install UI Plugin  ${ova-ip}  ${html5}
+
     Open Connection  %{TEST_URL}
     Wait Until Keyword Succeeds  10x  5s  Login  root  vmware
-
-    # extract vic bundle name
+    # check vic bundle exists
     ${download_url}=  Run command and Return output  curl -k https://${ova-ip}:9443 | grep -Po -m 1 '(?<=href=")[^"]*tar.gz'
     Log  ${download_url}
-    ${first}  ${rest}=  Split String From Right  ${download_url}  /  1
-
-    Set Global Variable  ${VIC_BUNDLE}  ${rest}
-    Execute Command And Return Output  curl -kL https://${ova-ip}:9443/files/${VIC_BUNDLE} -o ${VIC_BUNDLE}
-    Execute Command And Return Output  tar -zxf ${VIC_BUNDLE}
-    Install UI Plugin  ${ova-ip}
+    #restart service to make registration sucessful for next steps
+    Execute Command And Return Output  service-control --stop vsphere-ui
+    Execute Command And Return Output  service-control --start vsphere-ui
+    Execute Command And Return Output  service-control --stop vsphere-client
+    Execute Command And Return Output  service-control --start vsphere-client
     Close Connection
 
 VIC UI OVA Setup
