@@ -29,6 +29,21 @@ Setup Base State
     Download VIC Engine If Not Already  %{OVA_IP}
 
 *** Test Cases ***
+Verify tlsverify enabled scenario for dch-photon
+    ${vch-name}=  Install VCH  certs=${false}
+    ${rc}=  Run command and Return output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} run -d -p 12386:2376 ${harbor-image-tagged} -tlsverify
+    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} ps
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    Should Contain  ${output}  -tlsverify
+    # verify 12386 could not be accessed with --tls due to missing certs
+    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12386 --tls info
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  1
+    Should Contain  ${output}  --tlsverify
+
+    [Teardown]  Cleanup VCH  ${vch-name}
+
 Verify non-tls is enabled for dch-photon
     ${vch-name}=  Install VCH  certs=${false}
     ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} run -d -p 12375:2375 ${harbor-image-tagged}
@@ -54,20 +69,5 @@ Verify tls enabled scenario for dch-photon
     ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12376 --tls info
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  Containers
-
-    [Teardown]  Cleanup VCH  ${vch-name}
-
-Verify tlsverify enabled scenario for dch-photon
-    ${vch-name}=  Install VCH  certs=${false}
-    ${rc}=  Run command and Return output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} run -d -p 12386:2376 ${harbor-image-tagged} -tlsverify
-    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} ps
-    Log  ${output}
-    Should Be Equal As Integers  ${rc}  0
-    Should Contain  ${output}  -tlsverify
-    # verify 12386 could not be accessed with --tls due to missing certs
-    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12386 --tls info
-    Log  ${output}
-    Should Be Equal As Integers  ${rc}  1
-    Should Contain  ${output}  --tlsverify
 
     [Teardown]  Cleanup VCH  ${vch-name}
