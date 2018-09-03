@@ -26,7 +26,7 @@
      * [Deploy the Appliance](vic_vsphere_admin/deploy_vic_appliance.md)
          * [Appliance Initialization API](vic_vsphere_admin/ova_reg_api.md) 
      * [Download the vSphere Integrated Containers Engine Bundle](vic_vsphere_admin/vic_engine_bundle.md)
-     * [Installing the Plug-ins](vic_vsphere_admin/install_vic_plugin.md)
+     * [Manually Install the Plug-ins](vic_vsphere_admin/install_vic_plugin.md)
          * [vCenter Server for Windows](vic_vsphere_admin/plugins_vc_windows.md)
          * [vCenter Server Appliance](vic_vsphere_admin/plugins_vcsa.md)
   * [VCH Deployment](vic_vsphere_admin/deploy_vch.md)

@@ -23,7 +23,7 @@ For simplicity, this example deploys a VCH without client certificate verificati
 
 * Deploy the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 * Download the vSphere Integrated Containers Engine bundle from the appliance and unpack it on your usual working machine. For information about how to download the bundle, see [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md). 
-* If you intend to use the Create Virtual Container Host wizard in the vSphere Client to deploy the VCH, install the vSphere Client Plug-Ins. For information, see [Installing the vSphere Client Plug-Ins](install_vic_plugin.md).
+* If you have not done so, install the vSphere Client plug-ins. For information, see [Manually Install the vSphere Client Plug-Ins](install_vic_plugin.md). If you are using vSphere Integrated Containers 1.4.3 or later, by default the plug-ins are installed automatically. 
 * Create or obtain a vCenter Server instance with the following configuration:
   * At least one datacenter
   * At least one cluster with at least two ESXi hosts. You can use nested ESXi hosts for this example. VMware recommends that you enable VMware vSphere Distributed Resource Scheduler (DRS) on clusters whenever possible.

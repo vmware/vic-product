@@ -15,6 +15,7 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
 
 - You downloaded an official build or an open-source build of the OVA installer. For information about where to download the installer, see [Download the vSphere Integrated Containers Installer](download_vic.md).
 - Verify that the environment in which you are deploying the appliance meets the prerequisites described in [Deployment Prerequisites for vSphere Integrated Containers](vic_installation_prereqs.md).
+- Obtain the vCenter Server certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 - Use the Flex-based vSphere Web Client to deploy the appliance. You cannot deploy OVA files from the HTML5 vSphere Client or from the legacy Windows client. 
 
     **IMPORTANT**: In vSphere 6.7, the HTML5 client does not prevent you from deploying OVA files and deployment appears to succeed. However, the resulting appliance does not function correctly due to an issue with the vSphere 6.7 HTML5 client. Always use the Flex-based vSphere Web Client to deploy the appliance OVA, even if you are using vSphere 6.7.
@@ -100,7 +101,10 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
 
     **IMPORTANT**: The installation process requires administrator credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller and to tag the appliance VM for use in Docker content trust. Administrator credentials are not stored on the appliance VM after use in the installation process. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
 
-12. Click **Continue** to initialize the appliance.
+12. To automatically install the vSphere Integrated Containers plug-in for vSphere Client, leave the **Install UI Plugin** check box selected.
+
+    **NOTE**: The option to automatically install the  plug-in for the vSphere Client is available in vSphere Integrated Containers 1.4.3 and later. However, if you are already running other instances of the vSphere Integrated Containers appliance that are of a different version, deselect the **Install UI Plugin** check box. You can install or upgrade the plug-in manually later. If you are installing a version of vSphere Integrated Containers that pre-dates 1.4.3, you must install the plug-in manually.
+13. Verify that the certificate thumbprint for vCenter Server is valid, and click **Continue** to initialize the appliance.
 
 **Result**
 
@@ -112,8 +116,12 @@ You see the vSphere Integrated Containers Getting Started page. The Getting Star
 
 **What to Do Next**
 
+- If you installed vSphere Integrated Containers 1.4.3 or later and selected **Install UI Plugin**, you should see a banner in the HTML5 vSphere Client that states `There are plug-ins that were installed or updated`.
+   1. Log out of the HTML5 vSphere Client and log back in again. 
+   2. Click the **vSphere Client** logo in the top left corner. 
+   3. Under Inventories, click **vSphere Integrated Containers** to access the vSphere Integrated Containers plug-in.
+- If you deselected the **Install UI Plugin** check box, or if you installed a version of vSphere Integrated Containers that pre-dates 1.4.3, [Manually Install the vSphere Client Plug-ins](install_vic_plugin.md).
 - [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md).
-- [Install the vSphere Client Plug-ins](install_vic_plugin.md).
 - Log in to vSphere Integrated Containers Management Portal. For information about the management portal, see [vSphere Integrated Containers Management Portal Administration](../vic_cloud_admin/).      
 - If you need to deploy multiple appliances, you can use the initialization API to initialize appliances without manual intervention. For information about the initialization API, see [Initialize the Appliance by Using the Initialization API](ova_reg_api.md).
 
