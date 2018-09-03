@@ -50,12 +50,13 @@ Verify tls enabled scenario for dch-photon
     Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  -tls
+    Sleep  10s
     # verify 12376 could be accessed with --tls to show docker info
     ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12376 --tls info
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  Containers
 
-    [Teardown]  Cleanup VCH  ${vch-name}
+    # [Teardown]  Cleanup VCH  ${vch-name}
 
 Verify tlsverify enabled scenario for dch-photon
     ${vch-name}=  Install VCH  certs=${false}
@@ -64,10 +65,11 @@ Verify tlsverify enabled scenario for dch-photon
     Log  ${output}
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  -tlsverify
+    Sleep  10s
     # verify 12386 could not be accessed with --tls due to missing certs
     ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12386 --tls info
     Log  ${output}
     Should Be Equal As Integers  ${rc}  1
     Should Contain  ${output}  --tlsverify
 
-    [Teardown]  Cleanup VCH  ${vch-name}
+    # [Teardown]  Cleanup VCH  ${vch-name}
