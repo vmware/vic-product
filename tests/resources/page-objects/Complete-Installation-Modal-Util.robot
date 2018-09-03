@@ -18,7 +18,7 @@ Resource  Getting-Started-Page-Util.robot
 
 *** Variables ***
 # css locators
-${cim-title}  css=.modal-header .modal-title
+${cim-title}  css=#login-modal .modal-title
 ${cim-input-target}  id=target
 ${cim-input-user}  id=user
 ${cim-input-password}  css=input[type=password]
