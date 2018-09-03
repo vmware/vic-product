@@ -51,9 +51,8 @@ Call UI API With Preset
     [Arguments]  ${ova_ip}  ${action}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
 
     :FOR  ${i}  IN RANGE  10
-    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"vc":{"target":"${vc}:443","user":"${vc_user}","password":"${vc_pass}","thumbprint":"${vc_thumbprint}"},"plugin":{"preset":"${plugin_preset}"}}' https://${ova_ip}:9443/plugin/${action}
-    \   ${out}  ${status}=  Split String From Right  ${out}  \n  1
-    \   Exit For Loop If  '${ok}' == '${status}'
+    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -s -o /dev/null -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"vc":{"target":"${vc}:443","user":"${vc_user}","password":"${vc_pass}","thumbprint":"${vc_thumbprint}"},"plugin":{"preset":"${plugin_preset}"}}' https://${ova_ip}:9443/plugin/${action}
+    \   Exit For Loop If  '${ok}' == '${out}'
     \   Sleep  10s
     Log To Console  ${rc}
     Log To Console  ${out}
