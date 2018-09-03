@@ -1,19 +1,35 @@
 # Building and Pushing Images with the `dch-photon` Docker Engine 
 
-vSphere Integrated Containers Engine is an enterprise container runtime that you use as a deployment endpoint. As such, it does not have native `docker build` or `docker push` capabilities. The job of building and pushing container images is typically part of a continuous integration (CI) pipeline which does this by using standard Docker Engine instances. 
+vSphere Integrated Containers Engine is an enterprise container runtime that you use as a deployment endpoint for container VMs. As such, it does not have native `docker build` or `docker push` capabilities. The job of building and pushing container images is typically part of a continuous integration (CI) pipeline, that does this by using standard Docker Engine instances. 
 
-- You use standard Docker Engine to build, tag, and push a container image to a registry.
-- You pull the image from the registry to a vSphere Integrated Containers virtual container host (VCH) to deploy it.
+vSphere Integrated Containers can deploy standard Docker Engine instances for you, in the form of a container image repository named `dch-photon`.  The `dch-photon` image allows you to deploy container VMs that run a Docker Engine instance, known as a Docker container host (DCH), that runs on [Photon OS](https://vmware.github.io/photon/). You can deploy any number of these `dch-photon` Docker Engine instances to perform `docker build` and `docker push` operations as part of your CI infrastructure. 
 
-vSphere Integrated Containers can deploy Docker Engine instances for you, in the form of a container image repository named `dch-photon`. This image is pre-loaded in the `default-project` in vSphere Integrated Containers Registry. The `dch-photon` image allows you to deploy a container VM that runs a Docker Engine instance hosted in Photon OS. You can deploy any number of these Docker Engine instances to perform `docker build` and `docker push` operations as part of your CI infrastructure. 
+vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13. The `dch-photon` image is pre-loaded in the `default-project` in vSphere Integrated Containers Registry. 
 
-vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
-
+- [Advantages of Using `dch-photon`](#advantages)
 - [Requirements for Using `dch-photon`](#requirements)
   - [Anonymous `dch-photon` Volumes](#vols) 
 - [Using `dch-photon` with vSphere Integrated Containers Registry](#registry)
 - [Using `dch-photon` with Other Registries](#other)
 - [Instantiating Docker Swarms with `dch-photon`](#swarm)
+
+## Advantages of Using `dch-photon` <a id="advantages"></a> 
+
+Virtual container hosts (VCHs) focus on running pre-existing images in production. An advantage of using VCHs  over standard Docker Engine instances is the opinionated, strongly isolated provisioning model of container VMs as compared to standard containers. VCHs assume that image creation happens elsewhere in the CI process. vSphere Integrated Containers provides the `dch-photon` Docker Engine as a container image so that you can easily deploy Docker Engine instances to act as build slaves in your CI infrastructure.  
+
+By bringing the ephemeral quality of running the container host itself as a container VM, `dch-photon` provides the following advantages:
+
+- Eliminates snowflake deployments of Docker Engine.
+- Promotes efficient use of resources by providing an easy mechanism for provisioning and removing container engine instances that fits well with CI automation.
+
+The workflow for using `dch-photon` Docker Engines is as follows: 
+
+1. Pull the `dch-photon` image from vSphere Integrated Containers Registry and instantiate it.
+2. Use the Docker Engine running in `dch-photon` to build and push an image to vSphere Integrated Containers Registry.
+3. Remove the `dch-photon` container.
+4. Pull the new image from vSphere Integrated Containers Registry into a VCH and run it in production.
+
+Because of the ephemeral quality of the `dch-photon` Docker Engine and because it is itself a container image, this process can be scripted or integrated with an existing CI tool, such as Jenkins.
 
 ## Requirements for Using `dch-photon` <a id="requirements"></a>
 
