@@ -20,7 +20,7 @@ Deleting a repository involves two steps. First, you delete a repository in vSph
 
     **CAUTION**: If two tags refer to the same image, if you delete one tag, the other tag is also deleted.
 4. Click a repository name to view its contents.
-5. (Optional) To add or edit a repository description, click the **Edit** button in the **Info** tab.
+5. (Optional) To add a repository description or edit an existing one, click the **Edit** button in the **Info** tab.
 	
     Use an account with the Management Portal administrator role, or an account that has the DevOps administrator role to add or edit a description.
 
