@@ -62,7 +62,7 @@
      * [Deploy a Test VCH](vic_vsphere_admin/deploy_test_vch.md)
          * [Deploy a VCH to an ESXi Host with No vCenter Server](vic_vsphere_admin/deploy_vch_esxi.md)
          * [VCH with Volume Store and Registry](vic_vsphere_admin/deploy_vch_dchphoton.md)
-		* [Virtual Container Hosts Sizing Guidelines](vch_sizing_guidelines.md)
+        * [Virtual Container Hosts Sizing Guidelines](vic_vsphere_admin/vch_sizing_guidelines.md)
   * [VCH Administration](vic_vsphere_admin/vch_admin.md)
      * [Interoperability](vic_vsphere_admin/interop.md)
      * [VCH Admin in the vSphere Client](vic_vsphere_admin/vch_admin_client.md)
