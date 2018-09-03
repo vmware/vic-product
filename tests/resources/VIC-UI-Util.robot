@@ -78,6 +78,7 @@ Download VIC And Install UI Plugin
 
 VIC UI OVA Setup
     [Timeout]    110 minutes
+    Set Environment Variable  DRONE_BUILD_NUMBER  0
     ${ova-name}=  Get Test OVA Name
     Set Environment Variable  OVA_NAME  ${ova-name}
     Set Environment Variable  DOMAIN              eng.vmware.com
