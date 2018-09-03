@@ -149,7 +149,7 @@ Initialize OVA From API
     :FOR  ${i}  IN RANGE  30
     \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -s -o /dev/null -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}","thumbprint":"${TEST_THUMBPRINT}","externalpsc":"%{EXTERNAL_PSC}","pscdomain":"%{PSC_DOMAIN}"}' https://${ova-ip}:9443/register
     \   Exit For Loop If  '200' in '''${out}'''
-    \   Sleep  60s
+    \   Sleep  180s
     Log To Console  ${rc}
     Log To Console  ${out}
     Should Contain  ${out}  200
@@ -378,6 +378,7 @@ Deploy OVA And Install UI Plugin And Run Regression Tests
     # run regression tests on UI wizard and docker commands on VCH created using UI
     [Arguments]  ${test-name}  ${ova-file}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}=1
     Log To Console  \nStarting test ${test-name}...
+    Set Test VC Variables
     Set Environment Variable  OVA_NAME  OVA-${test-name}
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
