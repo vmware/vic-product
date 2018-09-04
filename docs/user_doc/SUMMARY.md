@@ -194,6 +194,7 @@
      * [Manually Add Certificate](vic_app_dev/photon_cert_manual.md) 
      * [Build, Push, and Pull and Image](vic_app_dev/test_photon.md)
      * [Advanced `dch-photon` Deployment](vic_app_dev/dchphoton_options.md)
+     * [Expand the Root Disk](vic_app_dev/dch_expand_disk.md)
   * [Using Volumes](vic_app_dev/using_volumes_with_vic.md) 
   * [Container Networking](vic_app_dev/network_use_cases.md)
   * [Creating a Containerized App](vic_app_dev/creating_containerized_app_with_vic.md)
