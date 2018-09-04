@@ -263,7 +263,7 @@ Create a VSAN Cluster
     [Timeout]    110 minutes
     Log To Console  \nStarting basic VSAN cluster deploy...
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
-    ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  --plugin testng --lease 0.25 --noStatsDump --noSupportBundles --vcvaBuild ${VC_VERSION} --esxPxeDir ${ESX_VERSION} --esxBuild ${ESX_VERSION} --testbedName vcqa-vsan-simple-pxeBoot-vcva --runName ${name}
+    ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  --plugin testng --lease 0.25 --noStatsDump --noSupportBundles --vcvaBuild "${VC_VERSION}" --esxPxeDir "${ESX_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vcqa-vsan-simple-pxeBoot-vcva --runName ${name}
     Should Contain  ${out}  .vcva-${VC_VERSION}' is up. IP:
     ${out}=  Split To Lines  ${out}
     :FOR  ${line}  IN  @{out}
@@ -317,7 +317,7 @@ Create a Simple VC Cluster
     ${vc}=  Evaluate  'VC-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
     ${pid}=  Deploy Nimbus vCenter Server Async  ${vc}
 
-    &{esxes}=  Deploy Multiple Nimbus ESXi Servers in Parallel  ${esx_number}  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  ${ESX_VERSION}
+    &{esxes}=  Deploy Multiple Nimbus ESXi Servers in Parallel  ${esx_number}  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  "${ESX_VERSION}"
     @{esx_names}=  Get Dictionary Keys  ${esxes}
     @{esx_ips}=  Get Dictionary Values  ${esxes}
 
@@ -505,7 +505,7 @@ Create Simple VC Cluster With Static IP
     Set Suite Variable  ${NIMBUS_LOCATION}  NIMBUS_LOCATION=wdc
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
     Log To Console  Create a new simple vc cluster with static ip support...
-    ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  spec=vic-simple-cluster-with-static.rb  args=--noSupportBundles --plugin testng --vcvaBuild ${VC_VERSION} --esxBuild ${ESX_VERSION} --testbedName vic-simple-cluster-with-static --runName ${name}
+    ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  spec=vic-simple-cluster-with-static.rb  args=--noSupportBundles --plugin testng --vcvaBuild "${VC_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vic-simple-cluster-with-static --runName ${name}
     Log  ${out}
 
     Open Connection  %{NIMBUS_GW}
