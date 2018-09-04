@@ -7,9 +7,11 @@ The following services run in the vSphere Integrated Containers appliance:
 - vSphere Integrated Containers Registry service
 - vSphere Integrated Containers Management Portal service
 - The file server for vSphere Integrated Containers Engine downloads and installation of the vSphere Client plug-ins
-- The `vic-machine-server` service, that powers the virtual container host deployment and management wizards in the HTML5 vSphere Client plug-in
+- The `vic-machine-server` service, that powers vSphere Integrated Containers plug-in for the HTML5 vSphere Client.
 
 You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. Also, if a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller.
+
+If you are deploying vSphere Integrated Containers 1.4.3 or later, the installer can automatically install the vSphere Integrated Containers plug-in for the vSphere Client. The installer installs a basic plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0, 6.5, or 6.7, and a plug-in with more complete functionality for the HTML5 vSphere Client on vCenter Server 6.5 and 6.7. 
 
 **Prerequisites**
 

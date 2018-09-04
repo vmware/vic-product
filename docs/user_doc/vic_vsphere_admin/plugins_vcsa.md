@@ -1,4 +1,4 @@
-# Manually Install the Client Plug-Ins on a vCenter Server Appliance #
+# Manually Install the vSphere Client Plug-Ins on a vCenter Server Appliance #
 
 If you installed vSphere Integrated Containers 1.4.3 or later, by default the plug-ins are installed automatically. If you deselected the option to install the plug-ins when you deployed the vSphere Integrated Containers appliance, or if you installed a version of vSphere Integrated Containers that pre-dates 1.4.3, you must install the plug-ins manually.
 
@@ -9,12 +9,11 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 **Prerequisites**
 
 - The HTML5 plug-in requires vCenter Server 6.7 or vCenter Server 6.5.0d or later. The HTML5 plug-in does not function with earlier versions of vCenter Server 6.5.0.
-- You are installing the plug-ins on a vCenter Server appliance instance. If you are running vCenter Server on Windows, see [Manually Install the Client Plug-Ins on vCenter Server for Windows](plugins_vc_windows.md).
-- You have not installed a previous version of the plug-ins. To upgrade a previous installation, see [Upgrade the vSphere Client Plug-Ins on vCenter Server Appliance](upgrade_h5_plugin_vcsa.md).
+- You are installing the plug-ins on a vCenter Server appliance instance. If you are running vCenter Server on Windows, see [Manually Install the vSphere Client Plug-Ins on vCenter Server for Windows](plugins_vc_windows.md).
+- You have not installed a previous version of the plug-ins. To manually upgrade a previous installation, see [Manually Upgrade the vSphere Client Plug-Ins on vCenter Server Appliance](upgrade_h5_plugin_vcsa.md).
 - You deselected the option to install the plug-ins when you deployed the vSphere Integrated Containers appliance, or you installed a version of vSphere Integrated Containers that pre-dates 1.4.3. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 - Go to the vCenter Server Appliance Management Interface (VAMI) at https://<i>vcsa_address</i>:5480, log in as the appliance `root` user, then click **Access**, and make sure that SSH Login and Bash Shell are enabled.
 - Obtain the vCenter Server certificate thumbprint. For information about how to obtain and verify the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
-- The system on which you run the script is running `awk`.
 
 **Procedure**
 
@@ -51,6 +50,6 @@ To verify the deployment of the plug-ins, see [VCH Administration in the vSphere
 
 **Troubleshooting**
 
-If you see the error message `At least one plugin is already registered with the target VC`, see [Upgrade the vSphere Client Plug-Ins on vCenter Server Appliance](upgrade_h5_plugin_vcsa.md). 
+If you see the error message `At least one plugin is already registered with the target VC`, see [Manually Upgrade the vSphere Client Plug-Ins on vCenter Server Appliance](upgrade_h5_plugin_vcsa.md). 
 
 If you encounter other errors, or if the script runs successfully but the plug-ins do not appear in the vSphere Client, see [Troubleshoot vSphere Client Plug-In Installation](ts_install_plugins.md).

@@ -8,5 +8,5 @@ You can deploy the plug-ins on a vCenter Server instance that runs on Windows, o
 
 For information about the Flex-based vSphere Web Client and the HTML5 vSphere Client for vSphere 6.5 and 6.7, see [Introduction to the vSphere Client](https://pubs.vmware.com/vsphere-65/topic/com.vmware.wcsdk.pg.doc/GUID-3379D310-7802-4B62-8292-D11D928459FC.html) in the vSphere documentation.
 
-* [Manually Install the Client Plug-Ins on vCenter Server for Windows](plugins_vc_windows.md)
-* [Manually Install the Client Plug-Ins on a vCenter Server Appliance](plugins_vcsa.md)
+* [Manually Install the vSphere Client Plug-Ins on vCenter Server for Windows](plugins_vc_windows.md)
+* [Manually Install the vSphere Client Plug-Ins on a vCenter Server Appliance](plugins_vcsa.md)
