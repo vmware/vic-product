@@ -42,6 +42,7 @@ Default values:
 --harbor <latest in harbor-builds bucket>
 --vicengine <latest in vic-engine-builds bucket>
 --vicmachineserver dev <vic-machine-server:dev tag>
+--vicui <latest in vic-ui-builds bucket>
 
 DCH Photon is pinned to 1.13 tag
 ```
@@ -53,10 +54,10 @@ Admiral tag `vic_dev` (since `--admiral` was not specified it defaults to the `v
 ./build/build.sh ova-dev --harbor harbor.tgz --vicengine vic_XXXX.tar.gz
 ```
 
-If called with the values below, `build.sh` will include the Harbor and VIC Engine versions
+If called with the values below, `build.sh` will include the Harbor, VIC Engine and VIC UI versions
 specified by their respective URLs, Admiral tag `vic_v1.1.1`, and VIC Machine Server tag `latest`.
 ```
-./build/build.sh ova-dev --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic_XXXX.tar.gz --vicmachineserver latest
+./build/build.sh ova-dev --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic_XXXX.tar.gz --vicui https://example.com/vic_ui_XXXX.tar.gz --vicmachineserver latest
 ```
 
 Note: the VIC Engine artifact used when building the OVA must be named following the `vic_*.tar.gz` format.
@@ -141,7 +142,7 @@ VIC Product build is auto-triggered from the successful completion of the follow
 
 [Harbor](https://ci-vic.vmware.com/vmware/harbor)
 
-There is also a separate build for [VIC UI](https://ci-vic.vmware.com/vmware/vic-ui) which publishes the [artifact](https://console.cloud.google.com/storage/browser/vic-ui-builds) consumed by VIC Engine builds. VIC Engine publishes vic engine artifacts and vic machine server image.
+There is also a separate build for [VIC UI](https://ci-vic.vmware.com/vmware/vic-ui) which publishes the [artifact](https://console.cloud.google.com/storage/browser/vic-ui-builds) consumed by VIC Product builds. VIC Engine publishes vic engine artifacts and vic machine server image.
 Harbor build publishes harbor installer and Admiral build publishes admiral image. All these artifacts are published to Google cloud except Admiral image which is published to Docker hub.
 
 ### Dependency Relationship
