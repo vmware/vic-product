@@ -33,7 +33,7 @@ Deploy ELM DRS Disabled Testbed
     Set Suite Variable  ${user}  %{NIMBUS_USER}
     Log To Console  \nDeploying Nimbus Testbed: ${name}
 
-    ${pid}=  Run Secret SSHPASS command  %{NIMBUS_USER}  '%{NIMBUS_PASSWORD}'  'nimbus-testbeddeploy --lease 0.25 --noStatsDump --noSupportBundles --plugin test-vpx --testbedName test-vpx-m2n1-vcva-4esx-pxeBoot-8gbmem --vcvaBuild ${VC_VERSION} --esxPxeDir ${ESX_VERSION} --runName ${name}'
+    ${pid}=  Run Secret SSHPASS command  %{NIMBUS_USER}  '%{NIMBUS_PASSWORD}'  'nimbus-testbeddeploy --lease 0.25 --noStatsDump --noSupportBundles --plugin test-vpx --testbedName test-vpx-m2n1-vcva-4esx-pxeBoot-8gbmem --vcvaBuild "${VC_VERSION}" --esxPxeDir "${ESX_VERSION}" --runName ${name}'
 
     &{esxes}=  Create Dictionary
     ${num_of_esxes}=  Evaluate  4
