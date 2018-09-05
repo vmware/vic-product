@@ -16,6 +16,7 @@
      * [Management Portal](vic_overview/intro_to_vic_mp.md)
      * [Registry](vic_overview/intro_to_vic_registry.md)
      * [Roles and Personas](vic_overview/roles_and_personas.md)
+     * [Deployment Topologies](vic_overview/vic_deployment_topos.md)
 
 ----
 

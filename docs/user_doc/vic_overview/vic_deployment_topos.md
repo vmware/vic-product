@@ -1,0 +1,48 @@
+# Deployment Topologies for the vSphere Integrated Containers Appliance #
+
+You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. The main reason why you might deploy multiple vSphere Integrated Containers appliances is to take advantage of the image replication and user management features that vSphere Integrated Containers Registry provides.
+
+For information about image replication between registries, see [Replicating Images](../vic_cloud_admin/replicating_images.md) in *vSphere Integrated Containers Management Portal Administration*.
+
+For information about users and user access, see [vSphere Integrated Containers Roles and Personas](../vic_overview/roles_and_personas.md)  in *Overview of vSphere Integrated Containers* and [Working with Projects](../vic_cloud_admin/working_with_projects.md) in *vSphere Integrated Containers Management Portal Administration*.
+
+The following sections provide some examples of typical deployment topologies. The examples are not exhaustive. 
+
+- [Two-Way Image Replication](#replication) 
+- [User Roles](#roles)
+- [Hub and Spoke Configuration](#hub)
+- [Separate Development from Production](#dev-prod)
+
+## Two-Way Image Replication <a id="replication"></a>
+
+You can deploy two vSphere Integrated Containers appliances to the same vCenter Server instance and use the vSphere Integrated Containers Registry instance in each one as the image replication endpoint for the other. 
+
+## User Roles <a id="roles"></a>
+
+If a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller. This setup provides the following advantages:
+
+- All of the user accounts that are configured in the Platform Services Controller are available to all of the vSphere Integrated Containers appliances. 
+- You can assign diffferent roles to the same user account in different instances of the appliance. For example, a user can be a vSphere Integrated Containers Management Portal administrator for one appliance, but not for another.
+
+## Hub and Spoke Configuration <a id="hub"></a>
+
+In a large vSphere environment, in which not all vCenter Server instances are located in the same place, or are not all in the same vCenter Single Sign On domain, you can create a hub and spoke configuration: 
+
+- You deploy one vSphere Integrated Containers appliance to a vCenter Server instance in a centralized location. This appliance acts as a hub. 
+- You deploy one vSphere Integrated Containers appliance to each of the  remote vCenter Server instances.
+- You configure image replication between the the registry in the central hub the vSphere Integrated Containers Registry instances in each location.
+
+In this way, all of the remote locations have access to all of the images from the registry in the central hub. Remote locations benefit from data proximity when pulling images from their local registry.
+
+## Separate Development from Production <a id="dev-prod"></a>
+
+You can use the registries in different appliances to manage images that are under development, being tested, and are ready for production. For example:
+
+|**Registry**|**Push/Pull**|**Used For**|**Replicates To**|
+|---|---|---|---|
+|`Registry_1`|Push and pull|Image development and builds|`Registry_2`|
+|`Registry_2`|Pull only|Quality testing of newly developed and built images|`Registry_3`|
+|`Registry_3`|Pull only|Staging for images that have passed quality testing|`Registry_4`|
+|`Registry_4`|Pull only|Location from which images are deployed from staging to production|Spokes|
+
+In this example, `Registry_4` could act as the hub in a hub and spoke configuration, for operations with many different physical locations.
