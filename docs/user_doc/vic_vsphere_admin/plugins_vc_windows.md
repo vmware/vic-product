@@ -1,4 +1,4 @@
-# Manually Install the Client Plug-Ins on vCenter Server for Windows #
+# Manually Install the vSphere Client Plug-Ins on vCenter Server for Windows #
 
 If you installed vSphere Integrated Containers 1.4.3 or later, by default the plug-ins are installed automatically. If you deselected the option to install the plug-ins when you deployed the vSphere Integrated Containers appliance, or if you installed a version of vSphere Integrated Containers that pre-dates 1.4.3, you must install the plug-ins manually.
 

@@ -7,9 +7,7 @@ The following services run in the vSphere Integrated Containers appliance:
 - vSphere Integrated Containers Registry service
 - vSphere Integrated Containers Management Portal service
 - The file server for vSphere Integrated Containers Engine downloads and installation of the vSphere Client plug-ins
-- The `vic-machine-server` service, that powers vSphere Integrated Containers plug-in for the HTML5 vSphere Client.
-
-You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. Also, if a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller.
+- The `vic-machine-server` service, that powers the vSphere Integrated Containers plug-in for the HTML5 vSphere Client.
 
 If you are deploying vSphere Integrated Containers 1.4.3 or later, the installer can automatically install the vSphere Integrated Containers plug-in for the vSphere Client. The installer installs a basic plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0, 6.5, or 6.7, and a plug-in with more complete functionality for the HTML5 vSphere Client on vCenter Server 6.5 and 6.7. 
 
@@ -17,6 +15,7 @@ If you are deploying vSphere Integrated Containers 1.4.3 or later, the installer
 
 - You downloaded an official build or an open-source build of the OVA installer. For information about where to download the installer, see [Download the vSphere Integrated Containers Installer](download_vic.md).
 - Verify that the environment in which you are deploying the appliance meets the prerequisites described in [Deployment Prerequisites for vSphere Integrated Containers](vic_installation_prereqs.md).
+- Familiarize yourself with the [Deployment Topologies for the vSphere Integrated Containers Appliance](vic_deployment_topos.md).
 - Obtain the vCenter Server certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 - Use the Flex-based vSphere Web Client to deploy the appliance. You cannot deploy OVA files from the HTML5 vSphere Client or from the legacy Windows client. 
 
