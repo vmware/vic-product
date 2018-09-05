@@ -23,7 +23,6 @@
  * [Installation](vic_vsphere_admin/installing_vic.md)
      * [Download Installer](vic_vsphere_admin/download_vic.md) 
      * [Deployment Prerequisites](vic_vsphere_admin/vic_installation_prereqs.md)
-     * [Deployment Topologies](vic_vsphere_admin/vic_deployment_topos.md)
      * [Deploy the Appliance](vic_vsphere_admin/deploy_vic_appliance.md)
          * [Appliance Initialization API](vic_vsphere_admin/ova_reg_api.md) 
      * [Download the vSphere Integrated Containers Engine Bundle](vic_vsphere_admin/vic_engine_bundle.md)
