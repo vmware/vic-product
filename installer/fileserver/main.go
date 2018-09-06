@@ -129,7 +129,7 @@ func parseServerConfig(op trace.Operation, conf *serverConfig) {
 
 	// get the fileserver vic tar location
 	filepath.Walk("/opt/vmware/fileserver/files/", func(path string, f os.FileInfo, err error) error {
-		if strings.HasSuffix(path, ".tar.gz") {
+		if strings.HasSuffix(path, ".tar.gz") && !strings.Contains(path, "vic_ui") {
 			conf.vicTarName = f.Name()
 			return fmt.Errorf("stop") // returning an error stops the file walk
 		}
