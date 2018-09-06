@@ -16,12 +16,14 @@ You deployed an instance of the vSphere Integrated Containers appliance without 
   "target":"<i>vcenter_server_address</i>",
   "user":"<i>sso_administrator_account</i>",
   "password":"<i>sso_administrator_password</i>"
+  "thumbprint":"<i>vc_thumbprint</i>"
 }</pre>
 
     vCenter Server with an external Platform Services Controller:<pre>{
   "target":"<i>vcenter_server_address</i>",
   "user":"<i>sso_administrator_account</i>",
   "password":"<i>sso_administrator_password</i>",
+  "thumbprint":"<i>vc_thumbprint</i>"
   "externalpsc":"psc_address",
   "pscdomain":"psc_domain"
 }</pre> 
@@ -44,6 +46,7 @@ Here is an example of a completed `payload.json` file:
   "target":"vcenter-server1.mycompany.org",
   "user":"Administrator@vsphere.local",
   "password":"p@ssw0rd!",
+  "thumbprint":"certificate_thumbprint",
   "externalpsc":"psc1.mycompany.org",
   "pscdomain":"vsphere.local"
 }</pre> 
