@@ -31,12 +31,12 @@ Simple VSAN Setup
 
     ${out}=  Split To Lines  ${out}
     :FOR  ${line}  IN  @{out}
-    \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  .vcva-${VC_VERSION}' is up. IP:
+    \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  .vc.0' is up. IP:
     \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
     \   Run Keyword If  ${status}  Set Suite Variable  ${vc-ip}  ${ip}
     \   Exit For Loop If  ${status}
 
-    Set Suite Variable  @{list}  ${user}-${name}.vcva-${VC_VERSION}  ${user}-${name}.esx.0  ${user}-${name}.esx.1  ${user}-${name}.esx.2  ${user}-${name}.esx.3  ${user}-${name}.nfs.0  ${user}-${name}.iscsi.0
+    Set Suite Variable  @{list}  ${user}-${name}.vc.0  ${user}-${name}.esx.0  ${user}-${name}.esx.1  ${user}-${name}.esx.2  ${user}-${name}.esx.3  ${user}-${name}.nfs.0  ${user}-${name}.iscsi.0
     Log To Console   Finished Creating Simple VSAN
 
     Log To Console  Set environment variables up for GOVC
@@ -44,12 +44,6 @@ Simple VSAN Setup
     Set Environment Variable  GOVC_URL  ${vc-ip}
     Set Environment Variable  GOVC_USERNAME  Administrator@vsphere.local
     Set Environment Variable  GOVC_PASSWORD  Admin\!23
-
-    Add Host To Distributed Switch  /vcqaDC/host/cls
-
-    Log To Console  Enable DRS and VSAN on the cluster
-    ${out}=  Run  govc cluster.change -drs-enabled /vcqaDC/host/cls
-    Should Be Empty  ${out}
 
     Log To Console  Deploy VIC to the VC cluster
     Set Environment Variable  TEST_URL_ARRAY  ${vc-ip}
@@ -60,7 +54,7 @@ Simple VSAN Setup
     Set Environment Variable  PUBLIC_NETWORK  vm-network
     Remove Environment Variable  TEST_DATACENTER
     Set Environment Variable  TEST_DATASTORE  vsanDatastore
-    Set Environment Variable  TEST_RESOURCE  /vcqaDC/host/cls
+    Set Environment Variable  TEST_RESOURCE  /dc1/host/cls
     Set Environment Variable  VCH_TIMEOUT  30m0s
 
 *** Test Cases ***
