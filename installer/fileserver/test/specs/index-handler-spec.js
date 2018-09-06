@@ -29,7 +29,7 @@ describe("login/registration modal behavior", function() {
       if (typeof window.__karma__ !== 'undefined') {
         path += 'base/'
       } 
-      jasmine.getFixtures().fixturesPath = path + 'js/fixtures';
+      jasmine.getFixtures().fixturesPath = path + 'fixtures';
       preloadFixtures('index.html');
       
     });
