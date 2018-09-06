@@ -1,35 +1,37 @@
 # Access Virtual Container Host Log Bundles #
 
-Virtual container hosts (VCHs) provide log bundles that you can download from the VCH Admin portal.
+Virtual container hosts (VCHs) provide log bundles that you can download from the VCH Admin portal. To aid in troubleshooting errors, you can access and download different log bundles. 
 
-You access the VCH Admin Portal at https://<i>vch_address</i>:2378. For more information about the VCH Admin portal, see [VCH Administration Portal](access_vicadmin.md).
+**Procedure**
 
-To aid in troubleshooting errors, you can download different log bundles:
+1. Access the VCH Admin Portal at https://<i>vch_address</i>:2378. For more information about the VCH Admin portal, see [VCH Administration Portal](access_vicadmin.md).
+2. Depending on the error you are troubleshooting, you can download the following log bundles:
 
-- **Log Bundle** contains logs that relate specifically to the VCH that you created. 
-- **Log Bundle with container logs** contains the logs for the VCH and also includes the logs regarding the containers that the VCH manages.
+	a. **Log Bundle** contains logs that relate specifically to the VCH that you created. 
 
-    **NOTE**: If the VCH is unable to connect to vSphere, logs that require a vSphere connection are disabled, and you see an error message. For information about accessing logs manually, see [Collecting Logs Manually](#manual) below.
+	b. **Log Bundle with container logs** contains the logs for the VCH and also includes the logs regarding the containers that the VCH manages.
 
-Live logs (tail files) allow you to view the current status of how components are running.
+	**NOTE**: If the VCH is unable to connect to vSphere, logs that require a vSphere connection are disabled, and you see an error message. For information about accessing logs manually, see [Collecting Logs Manually](#manual) below.
 
-- **Docker Personality** is the interface to Docker. When configured with client certificate security, it reports unauthorized access attempts to the Docker server web page.
-- **Port Layer Service** is the interface to vSphere.
-- **Initialization & watchdog** reports:
+3. See the Live logs (tail files) to view the current status of how components are running. Live logs can help you to see information about current commands and changes as you make them. For example, when you are troubleshooting an issue, you can see whether your command worked or failed by looking at the live logs. 
 
-  - Network configuration
-  - Component launch status for the other components
-  - Reports component failures and restart counts
+	You can view the following live logs:
 
-    At higher debug levels, the component output is duplicated in the log files for those components, so `init.log`  includes a superset of the log data.
+	a. **Docker Personality** is the interface to Docker. When configured with client certificate security, it reports unauthorized access attempts to the Docker server web page.
+	
+	b. **Port Layer Service** is the interface to vSphere.
 
-    **NOTE:** This log file is duplicated on the datastore in a file in the endpoint VM folder named `tether.debug`, to allow the debugging of early stage initialization and network configuration issues.
+	c. **Initialization & watchdog** reports:
+	  - Network configuration
+ 	 - Component launch status for the other components
+ 	 - Reports component failures and restart counts
+   		
+		 At higher debug levels, the component output is duplicated in the log files for those components, so `init.log`  includes a superset of the log data.
 
-- **Admin Server** includes logs for the VCH admin server, may contain processes that failed, and network issues. When configured with client certificate security, it reports unauthorized access attempts to the admin server web page.
+  		  **NOTE:** This log file is duplicated on the datastore in a file in the endpoint VM folder named `tether.debug`, to allow the debugging of early stage initialization and network configuration issues.
 
-Live logs can help you to see information about current commands and changes as you make them. For example, when you are troubleshooting an issue, you can see whether your command worked or failed by looking at the live logs.
-
-You can share the non-live version of the logs with administrators or VMware Support to help you to resolve issues.
+	d. **Admin Server** includes logs for the VCH admin server, may contain processes that failed, and network issues. When configured with client certificate security, it reports unauthorized access attempts to the admin server web page.
+4. Optionally, you can share the non-live version of the logs with administrators or VMware Support to help you to resolve issues.
 
 Logs also include the `vic-machine` commands used during VCH deployment to help you resolve issues.
 
