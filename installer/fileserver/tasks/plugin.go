@@ -52,7 +52,7 @@ var (
 func init() {
 	op := trace.NewOperation(context.Background(), "Init")
 	// Match the com.vmware.vic-vX.X.X.X.zip file
-	re := regexp.MustCompile(`com\.vmware\.vic-v(\d+\.\d+\.\d+\.\d+)\.zip`)
+	re := regexp.MustCompile(`com\.vmware\.vic-v(\d+\.\d+\.(\d+|\d+-dev)\.\d+)\.zip`)
 	filepath.Walk(fileserverPluginsPath, func(path string, f os.FileInfo, err error) error {
 		// First match from FindStringSubmatch is always the full match
 		if f == nil || f.IsDir() {
