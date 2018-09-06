@@ -25,3 +25,4 @@ Verify Getting Started page
     Navigate To Getting Started Page
     Verify Getting Started Page Title
     Log In And Complete OVA Installation
+    Run GOVC  extension.info com.vmware.vic
