@@ -60,6 +60,8 @@ specified by their respective URLs, Admiral tag `vic_v1.1.1`, and VIC Machine Se
 ./build/build.sh ova-dev --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic_XXXX.tar.gz --vicui https://example.com/vic_ui_XXXX.tar.gz --vicmachineserver latest
 ```
 
+Note: the VIC Engine artifact used when building the OVA must be named following the `vic_*.tar.gz` format.
+
 ###### Build Script Flow
 
 The VIC Appliance Builder is made up of three bash scripts `installer/build/build.sh`, `installer/build/build-ova.sh`, and `installer/build/build-cache.sh`. These three scripts set up the necessary environment variables needed to build VIC, download and make the component dependencies, and kick off the bootable build in a docker container. 
