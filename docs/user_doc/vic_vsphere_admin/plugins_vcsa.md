@@ -25,8 +25,9 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
     - vSphere Integrated Containers Engine bundle file:
       - vSphere Integrated Containers 1.4.0: <pre>export VIC_BUNDLE=vic_v1.4.0.tar.gz</pre>
       - vSphere Integrated Containers 1.4.1 and 1.4.2: <pre>export VIC_BUNDLE=vic_v1.4.1.tar.gz</pre>
+      - vSphere Integrated Containers 1.4.3: <pre>export VIC_BUNDLE=vic_v1.4.3.tar.gz</pre>
 
-    vSphere Integrated Containers 1.4.1 and 1.4.2 both use the `vic_v1.4.1.tar.gz` bundle. You can check which version of the bundle your installation uses by going to https://<i>vic_appliance_address</i>:9443/files/ in a browser. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, replace 9443 with the appropriate port.
+    **NOTE**: vSphere Integrated Containers 1.4.1 and 1.4.2 both use the `vic_v1.4.1.tar.gz` bundle. You can check which version of the bundle your installation uses by going to https://<i>vic_appliance_address</i>:9443/files/ in a browser. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, replace 9443 with the appropriate port.
 5. Use `curl` to copy the vSphere Integrated Containers Engine binaries from the vSphere Integrated Containers appliance file server to the vCenter Server Appliance.
 
     Copy and paste the following command as shown:<pre>curl -kL https://${VIC_ADDRESS}:9443/files/${VIC_BUNDLE} -o ${VIC_BUNDLE}</pre>If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, replace 9443 with the appropriate port.
