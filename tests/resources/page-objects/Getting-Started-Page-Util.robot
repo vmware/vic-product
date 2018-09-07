@@ -21,7 +21,7 @@ ${gsp-alert-message}  css=.alert-text
 
 # expected text values
 ${gsp-page-title}  VIC Appliance Getting Started
-${gsp-install-complete-message}  Installation successful. Refer to the Post-install and Deployment tasks below.
+${gsp-install-complete-message}  Installation successful. Refer to the Post-install and Deployment tasks below. All vSphere Client users must log out and log back in again twice to see the vSphere Integrated Containers plug-in.
 
 *** Keywords ***
 Navigate To Getting Started Page
