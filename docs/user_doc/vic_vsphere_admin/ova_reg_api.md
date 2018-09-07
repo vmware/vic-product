@@ -46,7 +46,7 @@ Here is an example of a completed `payload.json` file:
   "target":"vcenter-server1.mycompany.org",
   "user":"Administrator@vsphere.local",
   "password":"p@ssw0rd!",
-  "thumbprint":"certificate_thumbprint",
+  "thumbprint":"12:34:F3:B2:85:2F:F7:95:B3:1E:99:F4:FB:28:4E:E7:5E:E0:5B:33",
   "externalpsc":"psc1.mycompany.org",
   "pscdomain":"vsphere.local"
 }</pre> 
