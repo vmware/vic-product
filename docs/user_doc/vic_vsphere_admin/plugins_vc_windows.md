@@ -1,17 +1,14 @@
 # Manually Install the vSphere Client Plug-Ins on vCenter Server for Windows #
 
-If you installed vSphere Integrated Containers 1.4.3 or later, by default the plug-ins are installed automatically. If you deselected the option to install the plug-ins when you deployed the vSphere Integrated Containers appliance, or if you installed a version of vSphere Integrated Containers that pre-dates 1.4.3, you must install the plug-ins manually.
+If you installed a version of vSphere Integrated Containers that pre-dates 1.4.3, you must install the plug-ins manually. You manually install the vSphere Client plug-ins for vSphere Integrated Containers by logging into the vCenter Server appliance and running a script.  The script registers an extension with vCenter Server, and instructs vCenter Server to download the plug-in files from the file server in the vSphere Integrated Containers appliance.
 
-To manually install the vSphere Client plug-ins for vSphere Integrated Containers manually, you log in to the Windows system on which vCenter Server runs and run a script. The script registers an extension with vCenter Server, and instructs vCenter Server to download the plug-in files from the file server in the vSphere Integrated Containers appliance.
-
-The installer installs a basic plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0, 6.5, or 6.7 and a plug-in with more complete functionality for the HTML5 vSphere Client on vCenter Server 6.5 and 6.7.
+**NOTE**: This procedure is not relevant to vSphere Integrated Containers 1.4.3 or later. In vSphere Integrated Containers 1.4.3 or later the plug-ins are installed automatically.
 
 **Prerequisites**
 
 - The HTML5 plug-in requires vCenter Server 6.7 or vCenter Server 6.5.0d or later. The HTML5 plug-in does not function with earlier versions of vCenter Server 6.5.0.
 - The vCenter Server instance on which to install the plug-in runs on Windows. If you are running a vCenter Server appliance instance, see [Manually Install the Client Plug-Ins on a vCenter Server Appliance](plugins_vcsa.md).
 - You have not installed a previous version of the plug-ins. To manually upgrade a previous installation, see [Manually Upgrade the vSphere Client Plug-Ins on vCenter Server for Windows](upgrade_h5_plugin_windows.md).
-- You deselected the option to install the plug-ins when you deployed the vSphere Integrated Containers appliance, or you installed a version of vSphere Integrated Containers that pre-dates 1.4.3. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 - Log in to the Windows system on which vCenter Server is running. You must perform all of the steps in this procedure on this Windows system.
 
     **IMPORTANT**: The upgrade script does not function if you have set the `VIC_MACHINE_THUMBPRINT` environment variable on the system on which you run the script. Delete the `VIC_MACHINE_THUMBPRINT` environment variable before running the script.

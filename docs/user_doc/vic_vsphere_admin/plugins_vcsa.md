@@ -1,17 +1,14 @@
 # Manually Install the vSphere Client Plug-Ins on a vCenter Server Appliance #
 
-If you installed vSphere Integrated Containers 1.4.3 or later, by default the plug-ins are installed automatically. If you deselected the option to install the plug-ins when you deployed the vSphere Integrated Containers appliance, or if you installed a version of vSphere Integrated Containers that pre-dates 1.4.3, you must install the plug-ins manually.
+If you installed a version of vSphere Integrated Containers that pre-dates 1.4.3, you must install the plug-ins manually. You manually install the vSphere Client plug-ins for vSphere Integrated Containers by logging into the vCenter Server appliance and running a script. The script registers an extension with vCenter Server, and instructs vCenter Server to download the plug-in files from the file server in the vSphere Integrated Containers appliance.
 
-You manually install the vSphere Client plug-ins for vSphere Integrated Containers by logging into the vCenter Server appliance and running a script.  The script registers an extension with vCenter Server, and instructs vCenter Server to download the plug-in files from the file server in the vSphere Integrated Containers appliance.
-
-The installer installs a basic plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0, 6.5, or 6.7, and a plug-in with more complete functionality for the HTML5 vSphere Client on vCenter Server 6.5 and 6.7.
+**NOTE**: This procedure is not relevant to vSphere Integrated Containers 1.4.3 or later. In vSphere Integrated Containers 1.4.3 or later the plug-ins are installed automatically.
 
 **Prerequisites**
 
 - The HTML5 plug-in requires vCenter Server 6.7 or vCenter Server 6.5.0d or later. The HTML5 plug-in does not function with earlier versions of vCenter Server 6.5.0.
 - You are installing the plug-ins on a vCenter Server appliance instance. If you are running vCenter Server on Windows, see [Manually Install the vSphere Client Plug-Ins on vCenter Server for Windows](plugins_vc_windows.md).
 - You have not installed a previous version of the plug-ins. To manually upgrade a previous installation, see [Manually Upgrade the vSphere Client Plug-Ins on vCenter Server Appliance](upgrade_h5_plugin_vcsa.md).
-- You deselected the option to install the plug-ins when you deployed the vSphere Integrated Containers appliance, or you installed a version of vSphere Integrated Containers that pre-dates 1.4.3. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 - Go to the vCenter Server Appliance Management Interface (VAMI) at https://<i>vcsa_address</i>:5480, log in as the appliance `root` user, then click **Access**, and make sure that SSH Login and Bash Shell are enabled.
 - Obtain the vCenter Server certificate thumbprint. For information about how to obtain and verify the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 
@@ -22,11 +19,10 @@ The installer installs a basic plug-in for the Flex-based vSphere Web Client on 
 5. Set the following environment variables:
 
     - vSphere Integrated Containers appliance address:<pre>export VIC_ADDRESS=<i>vic_appliance_address</i></pre>
-    - vSphere Integrated Containers Engine bundle file:
+    - vSphere Integrated Containers Engine bundle file, depending on the version that you are installing:
       - vSphere Integrated Containers 1.4.0: <pre>export VIC_BUNDLE=vic_v1.4.0.tar.gz</pre>
       - vSphere Integrated Containers 1.4.1 and 1.4.2: <pre>export VIC_BUNDLE=vic_v1.4.1.tar.gz</pre>
-      - vSphere Integrated Containers 1.4.3: <pre>export VIC_BUNDLE=vic_v1.4.3.tar.gz</pre>
-
+      - 
     **NOTE**: vSphere Integrated Containers 1.4.1 and 1.4.2 both use the `vic_v1.4.1.tar.gz` bundle. You can check which version of the bundle your installation uses by going to https://<i>vic_appliance_address</i>:9443/files/ in a browser. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, replace 9443 with the appropriate port.
 5. Use `curl` to copy the vSphere Integrated Containers Engine binaries from the vSphere Integrated Containers appliance file server to the vCenter Server Appliance.
 

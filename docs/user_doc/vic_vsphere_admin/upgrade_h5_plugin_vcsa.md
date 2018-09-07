@@ -1,9 +1,12 @@
 # Manually Upgrade the vSphere Client Plug-Ins on vCenter Server Appliance #
 
-If you have previous installations of the vSphere Client plug-ins for vSphere Integrated Containers, you must upgrade them. This procedure describes how to upgrade existing plug-ins for a vCenter Server Appliance.
+If you have upgraded to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-ins manually. This procedure describes how to upgrade existing plug-ins for a vCenter Server Appliance.
+
+**NOTE**: This procedure is not relevant to vSphere Integrated Containers 1.4.3 or later. In vSphere Integrated Containers 1.4.3 or later the plug-ins are installed automatically.
 
 **Prerequisites**
 
+- You have upgraded the vSphere Integrated Containers appliance to a  version that pre-dates 1.4.3.
 - You are upgrading the plug-ins on a vCenter Server appliance instance. If you are running vCenter Server on Windows, see [Manually Upgrade the  vSphere Client Plug-Ins on vCenter Server for Windows](upgrade_h5_plugin_windows.md).
 - You deployed the vSphere Integrated Containers plug-ins with vSphere Integrated Containers 1.2.x or 1.3.x. For information about installing the plug-ins for the first time, see [Manually Install the vSphere Client Plug-Ins on a vCenter Server Appliance](plugins_vcsa.md). 
 - You upgraded an existing vSphere Integrated Containers 1.4.x appliance to a newer 1.4.y version. For information about upgrading the vSphere Integrated Containers appliance, see [Upgrade the vSphere Integrated Containers Appliance](upgrade_appliance.md).
@@ -25,7 +28,6 @@ If you have previous installations of the vSphere Client plug-ins for vSphere In
     - vSphere Integrated Containers Engine bundle file, depending on the version that you are installing:
       - vSphere Integrated Containers 1.4.0: <pre>export VIC_BUNDLE=vic_v1.4.0.tar.gz</pre>
       - vSphere Integrated Containers 1.4.1 and 1.4.2: <pre>export VIC_BUNDLE=vic_v1.4.1.tar.gz</pre>
-      - vSphere Integrated Containers 1.4.3: <pre>export VIC_BUNDLE=vic_v1.4.3.tar.gz</pre>
 
     **NOTE**: vSphere Integrated Containers 1.4.1 and 1.4.2 both use the `vic_v1.4.1.tar.gz` bundle. You can check which version of the bundle your installation uses by going to https://<i>vic_appliance_address</i>:9443/files/ in a browser. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, replace 9443 with the appropriate port.
 4. Use `curl` to copy the new vSphere Integrated Containers Engine binaries from the file server in the upgraded vSphere Integrated Containers appliance to the vCenter Server Appliance.

@@ -6,10 +6,12 @@ The following services run in the vSphere Integrated Containers appliance:
 
 - vSphere Integrated Containers Registry service
 - vSphere Integrated Containers Management Portal service
-- The file server for vSphere Integrated Containers Engine downloads and installation of the vSphere Client plug-ins
+- The file server for vSphere Integrated Containers Engine downloads and the installation of the vSphere Client plug-ins
 - The `vic-machine-server` service, that powers the vSphere Integrated Containers plug-in for the HTML5 vSphere Client.
 
-If you are deploying vSphere Integrated Containers 1.4.3 or later, the installer can automatically install the vSphere Integrated Containers plug-in for the vSphere Client. The installer installs a basic plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0, 6.5, or 6.7, and a plug-in with more complete functionality for the HTML5 vSphere Client on vCenter Server 6.5 and 6.7. 
+If you are deploying vSphere Integrated Containers 1.4.3 or later, by default the vSphere Integrated Containers plug-ins for the vSphere Client are installed automatically. The installer installs a basic plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0, 6.5, or 6.7, and a plug-in with more complete functionality for the HTML5 vSphere Client on vCenter Server 6.5 and 6.7. 
+
+If you need to deploy multiple appliances, you can use the initialization API to initialize appliances without manual intervention. For information about the initialization API, see [Initialize the Appliance by Using the Initialization API](ova_reg_api.md).
 
 **Prerequisites**
 
@@ -37,7 +39,7 @@ If you are deploying vSphere Integrated Containers 1.4.3 or later, the installer
     - Set the root password for the appliance VM. Setting the root password for the appliance is mandatory. 
     - Optionally uncheck the **Permit Root Login** checkbox.
   
-        **IMPORTANT**: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Only use SSH to access the appliance when instructed to do so in the documentation, or under the guidance of VMware GSS.
+    **IMPORTANT**: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Only use SSH to access the appliance when instructed to do so in the documentation, or under the guidance of VMware GSS.
 
 4. Configure the appliance certificate, that is used by all of the services that run in the appliance to authenticate connections.<a id="step4"></a>
     - To use a custom certificate:
@@ -103,7 +105,7 @@ If you are deploying vSphere Integrated Containers 1.4.3 or later, the installer
 
 12. To automatically install the vSphere Integrated Containers plug-in for vSphere Client, leave the **Install UI Plugin** check box selected.
 
-    **NOTE**: The option to automatically install the  plug-in for the vSphere Client is available in vSphere Integrated Containers 1.4.3 and later. However, if you are already running other instances of the vSphere Integrated Containers appliance that are of a different version, deselect the **Install UI Plugin** check box. You can install or upgrade the plug-in manually later. If you are installing a version of vSphere Integrated Containers that pre-dates 1.4.3, you must install the plug-in manually.
+    **NOTE**: The option to automatically install the  plug-in for the vSphere Client is available in vSphere Integrated Containers 1.4.3 and later. If you deselect the **Install UI Plugin** check box, you can install or upgrade the plug-in later. If you are installing a version of vSphere Integrated Containers that pre-dates 1.4.3, you must install the plug-in manually.
 13. Verify that the certificate thumbprint for vCenter Server is valid, and click **Continue** to initialize the appliance.
 
 **Result**
@@ -121,10 +123,10 @@ You see the vSphere Integrated Containers Getting Started page. The Getting Star
    2. Log out of the HTML5 vSphere Client a second time and log back in again.
    3. Click the **vSphere Client** logo in the top left corner. 
    4. Under Inventories, click **vSphere Integrated Containers** to access the vSphere Integrated Containers plug-in.
-- If you deselected the **Install UI Plugin** check box, or if you installed a version of vSphere Integrated Containers that pre-dates 1.4.3, [Manually Install the vSphere Client Plug-ins](install_vic_plugin.md).
+- If you deselected the **Install UI Plugin** check box and want to install the plug-ins later, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md). 
+- If you installed a version of vSphere Integrated Containers that pre-dates 1.4.3, [Manually Install the vSphere Client Plug-ins](install_vic_plugin.md).
 - [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md).
 - Log in to vSphere Integrated Containers Management Portal. For information about the management portal, see [vSphere Integrated Containers Management Portal Administration](../vic_cloud_admin/).      
-- If you need to deploy multiple appliances, you can use the initialization API to initialize appliances without manual intervention. For information about the initialization API, see [Initialize the Appliance by Using the Initialization API](ova_reg_api.md).
 
 **Troubleshooting**
 

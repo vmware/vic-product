@@ -1,9 +1,12 @@
 # Upgrade the vSphere Client Plug-Ins on vCenter Server for Windows #
 
-If you have previous installations of the vSphere Client plug-ins for vSphere Integrated Containers, you must upgrade them. This procedure describes how to upgrade existing plug-ins for a vCenter Server running on Windows.
+If you have upgraded to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-ins manually. This procedure describes how to upgrade existing plug-ins for a vCenter Server running on Windows.
+
+**NOTE**: This procedure is not relevant to vSphere Integrated Containers 1.4.3 or later. In vSphere Integrated Containers 1.4.3 or later the plug-ins are installed automatically.
 
 **Prerequisites**
 
+- You have upgraded the vSphere Integrated Containers appliance to a  version that pre-dates 1.4.3.
 - You are upgrading the plug-ins on a vCenter Server instance that runs on Windows. If you are running a vCenter Server appliance instance, see [Manually Upgrade the HTML5 vSphere Client Plug-In on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md).
 - You deployed the vSphere Integrated Containers plug-ins with vSphere Integrated Containers 1.2.x or 1.3.x. For information about installing the plug-ins for the first time, see [Manually Install the Client Plug-Ins on vCenter Server for Windows](plugins_vc_windows.md).
 - You upgraded an existing vSphere Integrated Containers 1.4.x appliance to a newer 1.4.y version. For information about upgrading the vSphere Integrated Containers appliance, see [Upgrade the vSphere Integrated Containers Appliance](upgrade_appliance.md).
