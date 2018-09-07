@@ -4,7 +4,6 @@ You install vSphere Integrated Containers by deploying an OVA appliance. The OVA
 
 - [Download the vSphere Integrated Containers Installer](download_vic.md)
 - [Deployment Prerequisites](vic_installation_prereqs.md)
-- [Deployment Topologies for the vSphere Integrated Containers Appliance](vic_deployment_topos.md)
 - [Deploy the Appliance](deploy_vic_appliance.md)
 - [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md)
 - [Manually Install the vSphere Client Plug-ins](install_vic_plugin.md)

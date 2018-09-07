@@ -75,12 +75,12 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
     <td>Data disk</td>
   </tr>
   <tr>
-    <td>1.3.x</td>
+    <td>1.3.x and 1.4.x</td>
     <td>Hard disk 3</td>
     <td>Database disk</td>
   </tr>
   <tr>
-    <td>1.3.x</td>
+    <td>1.3.x and 1.4.x</td>
     <td>Hard disk 4</td>
     <td>Log disk. Migrating logs is optional.</td>
   </tr>
@@ -103,12 +103,12 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
     <td>Hard disk 2, data disk</td>
   </tr>
   <tr>
-    <td>1.3.x</td>
+    <td>1.3.x and 1.4.x</td>
     <td><code>&lt;appliance_name&gt;_2.vmdk</code></td>
     <td>Hard disk 3, database disk</td>
   </tr>
   <tr>
-    <td>1.3.x</td>
+    <td>1.3.x and 1.4.x</td>
     <td><code>&lt;appliance_name&gt;_3.vmdk</code></td>
     <td>Hard disk 4, log disk. Migrating logs is optional.</td>
   </tr>
@@ -120,7 +120,7 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
    2. Select the option to add a new disk:
      - Flex-based vSphere Web Client: Click the **New device** drop-down menu, select **Existing Hard Disk**, and click **Add**.
      - HTML5 vSphere Client: Click the **Add New Device** button and select **Existing Hard Disk**. 
-   3. Navigate to the datastore folder into which you moved the disk or disks, select <code>&lt;appliance_name&gt;_1.vmdk</code> from the previous appliance, and click **OK**.
+   3. Navigate to the datastore folder into which you moved the disk or disks, select the disk or disks from the previous appliance, and click **OK**.
    4. Expand **New Hard Disk** and make sure that the Virtual Device Node for the disk is set to **SCSI(0:1)**.
    5. Repeat the procedure to attach <code>&lt;appliance_name&gt;_2.vmdk</code> to **SCSI(0:2)** and <code>&lt;appliance_name&gt;_3.vmdk</code> to **SCSI(0:3)**.
 
@@ -138,13 +138,13 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
     <td>Hard disk 2, data disk</td>
   </tr>
   <tr>
-    <td>1.3.x</td>
+    <td>1.3.x and 1.4.x</td>
     <td><code>&lt;appliance_name&gt;_2.vmdk</code></td>
     <td>SCSI(0:2)</td>
     <td>Hard disk 3, database disk</td>
   </tr>
   <tr>
-    <td>1.3.x</td>
+    <td>1.3.x and 1.4.x</td>
     <td><code>&lt;appliance_name&gt;_3.vmdk</code></td>
     <td>SCSI(0:3)</td>
     <td>Hard disk 4, log disk. Migrating logs is optional.</td>
@@ -164,7 +164,7 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
 8. Navigate to the upgrade script and run it with the `--manual-disks` flag. 
 
     <pre>$ cd /etc/vmware/upgrade</pre>
-    <pre>$ ./upgrade.sh --manual-disks</i></pre>
+    <pre>$ ./upgrade.sh --manual-disks</pre>
 
     You can bypass the following steps by specifying additional optional arguments when you run the upgrade script. For information about the arguments that you can specify, see [Specify Command Line Options During Appliance Upgrade](upgrade_appliance.md#upgradeoptions).
     
@@ -192,7 +192,10 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
     1. Enter the name of the datacenter that contains the old version of the appliance.
     2. Enter the IP address of the old version of the appliance. The upgrade script does not accept FQDN addresses for the old appliance.
     3. For the old appliance user name, enter `root`.
-6. Verify that the upgrade script has detected your upgrade path correctly.        
+6. To automatically upgrade the vSphere Integrated Containers plug-in for vSphere Client, enter `y` at the prompt to `Upgrade VIC UI Plugin`.
+
+    **NOTE**: The option to automatically upgrade the  plug-in for the vSphere Client is available in vSphere Integrated Containers 1.4.3 and later. However, if you are already running other instances of the vSphere Integrated Containers appliance that are of a different version, enter `n` to skip the plug-in upgrade. You can upgrade the plug-in manually later. If you are upgrading to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-in manually.
+7. Verify that the upgrade script has detected your upgrade path correctly.        
   - If the script detects your upgrade path correctly, enter `y` to proceed with the upgrade.
   - If the upgrade script detects the upgrade path incorrectly, enter `n` to abort the upgrade and contact VMware support.
 
