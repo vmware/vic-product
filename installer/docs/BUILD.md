@@ -60,9 +60,6 @@ specified by their respective URLs, Admiral tag `vic_v1.1.1`, and VIC Machine Se
 ./build/build.sh ova-dev --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic_XXXX.tar.gz --vicui https://example.com/vic_ui_XXXX.tar.gz --vicmachineserver latest
 ```
 
-Note: the VIC Engine artifact used when building the OVA must be named following the `vic_*.tar.gz` format.
-This is required by the OVA in order to automatically configure the VIC Engine UI plugins correctly for installation.
-
 ###### Build Script Flow
 
 The VIC Appliance Builder is made up of three bash scripts `installer/build/build.sh`, `installer/build/build-ova.sh`, and `installer/build/build-cache.sh`. These three scripts set up the necessary environment variables needed to build VIC, download and make the component dependencies, and kick off the bootable build in a docker container. 
@@ -173,6 +170,14 @@ The version of each dependency VIC Product consumes varies based on the type of 
 |`tag` (other)            | latest build published to [`vic-engine-releases`][vr]   | latest build published to [`vic-engine-releases`][vr]          |
 |`deployment`             | manually specified                                      | manually specified                                             |
 
+| vic-ui                  | `master`                                                | `releases/*`                                                   |
+| -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
+|`pull_request`           | latest build published to [`vic-ui-builds`][vb]         | latest build published to [`vic-ui-builds/releases/*`][vb]     |
+|`push`                   | latest build published to [`vic-ui-builds`][vb]         | latest build published to [`vic-ui-builds/releases/*`][vb]     |
+|`tag` (containing `dev`) | latest build published to [`vic-ui-builds`][vb]         | latest build published to [`vic-ui-builds/releases/*`][vb]     |
+|`tag` (other)            | latest build published to [`vic-ui-releases`][vr]       | latest build published to [`vic-ui-releases`][vr]              |
+|`deployment`             | manually specified                                      | manually specified                                             |
+
 | `vic-machine-server`    | `master`                                                | `releases/*`                                                   |
 | -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
 |`pull_request`           | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with the release's version number   |
@@ -212,6 +217,7 @@ drone deploy --param VICENGINE=<vic_engine_version> \
              --param VIC_MACHINE_SERVER=<vic_machine_server> \
              --param ADMIRAL=<admiral_tag> \
              --param HARBOR=<harbor_version> \
+             --param VICUI=<vic_ui_version> \
              vmware/vic-product <ci_build_number_to_promote> staging
 ```
 
@@ -222,6 +228,7 @@ drone deploy --param VICENGINE=<vic_engine_version> \
              --param VIC_MACHINE_SERVER=<vic_machine_server> \
              --param ADMIRAL=<admiral_tag> \
              --param HARBOR=<harbor_version> \
+             --param VICUI=<vic_ui_version> \
              vmware/vic-product <ci_build_number_to_promote> release
 ```
 
@@ -232,6 +239,7 @@ drone deploy --param VICENGINE=https://storage.googleapis.com/vic-engine-release
              --param VIC_MACHINE_SERVER=latest \
              --param ADMIRAL=v1.4.0 \
              --param HARBOR=https://storage.googleapis.com/harbor-releases/harbor-offline-installer-v1.5.0.tgz \
+             --param VICUI=https://storage.googleapis.com/vic-ui-releases/vic_ui_v1.4.0.tar.gz \
              vmware/vic-product <ci_build_number_to_promote> release
 ```
 
