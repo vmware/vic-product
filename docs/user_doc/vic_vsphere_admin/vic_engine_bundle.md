@@ -46,10 +46,10 @@ When you unpack the vSphere Integrated Containers Engine bundle, you obtain foll
 |`vic-machine-server`| The endpoint for the `vic-machine` API. The `vic-machine` API is currently experimental and unsupported.|
 |`appliance.iso` | The Photon based boot image for the virtual container host (VCH) endpoint VM. |
 |`bootstrap.iso` | The Photon based boot image for the container VMs.|
-|`ui/` | A folder that contains the files and scripts for the installation of the vSphere Client plug-in. | 
-|`vic-ui-darwin` | The OSX executable for the deployment of the vSphere Client plug-in. **NOTE**: Do not run this executable directly.| 
-|`vic-ui-linux` | The Linux executable for the deployment of the vSphere Client plug-in. **NOTE**: Do not run this executable directly. | 
-|`vic-ui-windows.exe` | The Windows executable for the deployment of the vSphere Client plug-in. **NOTE**: Do not run this executable directly. | 
+|`ui/` | A folder that contains the files and scripts for the installation of the vSphere Client plug-in. **NOTE**: This folder is not present in 1.4.3 and later.| 
+|`vic-ui-darwin` | The OSX executable for the deployment of the vSphere Client plug-in. **NOTE**: Do not run this executable directly. This file is not present in 1.4.3 and later.| 
+|`vic-ui-linux` | The Linux executable for the deployment of the vSphere Client plug-in. **NOTE**: Do not run this executable directly. This file is not present in 1.4.3 and later.| 
+|`vic-ui-windows.exe` | The Windows executable for the deployment of the vSphere Client plug-in. **NOTE**: Do not run this executable directly. This file is not present in 1.4.3 and later.| 
 |`README`|Contains a link to the vSphere Integrated Containers Engine repository on GitHub. |
 |`LICENSE`|The license file. |
 
