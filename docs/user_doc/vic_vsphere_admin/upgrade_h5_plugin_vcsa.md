@@ -2,7 +2,7 @@
 
 If you have upgraded to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-ins manually. This procedure describes how to upgrade existing plug-ins for a vCenter Server Appliance.
 
-**NOTE**: This procedure is not relevant to vSphere Integrated Containers 1.4.3 or later. In vSphere Integrated Containers 1.4.3 or later the plug-ins are installed automatically.
+**NOTE**: This procedure is not relevant to vSphere Integrated Containers 1.4.3 or later. When upgrading to vSphere Integrated Containers 1.4.3 or later the plug-ins are upgraded automatically.
 
 **Prerequisites**
 

@@ -10,7 +10,7 @@ You can also perform the upgrade by manually moving disks from the old appliance
 
 For information about the supported upgrade paths for all versions of vSphere Integrated Containers, see Upgrade Paths in the [VMware Product Interoperability Matrices](https://partnerweb.vmware.com/comp_guide2/sim/interop_matrix.php#upgrade&solution=149).
 
-**NOTE**: You cannot upgrade between untagged, open source builds of the same release. For example, you cannot upgrade from an earlier,  open source build of 1.4.1 to the official 1.4.1 release. You can only upgrade from one x.y.z release to another.
+**NOTE**: You cannot upgrade between untagged, open source builds of the same release. For example, you cannot upgrade from an earlier,  open source build of 1.4.1 to the official 1.4.1 release. You can only upgrade from one official release to another. Upgrading from one tagged open source build to another is possible but is not supported.
 
 **Prerequisites**
 
@@ -69,7 +69,7 @@ For information about the supported upgrade paths for all versions of vSphere In
     3. For the old appliance user name, enter `root`.
 8. To automatically upgrade the vSphere Integrated Containers plug-in for vSphere Client, enter `y` at the prompt to `Upgrade VIC UI Plugin`.
 
-    **NOTE**: The option to automatically upgrade the  plug-in for the vSphere Client is available in vSphere Integrated Containers 1.4.3 and later. However, if you are already running other instances of the vSphere Integrated Containers appliance that are of a different version, enter `n` to skip the plug-in upgrade. You can upgrade the plug-in manually later. If you are upgrading to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-in manually.
+    **NOTE**: The option to automatically upgrade the  plug-in for the vSphere Client is available in vSphere Integrated Containers 1.4.3 and later. If you you enter `n` to skip the plug-in upgrade, you can upgrade the plug-in later. If are upgrading to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-in manually.
 10. Enter the root password for the old appliance.
 10. Verify that the upgrade script has detected your upgrade path correctly.        
   - If the script detects your upgrade path correctly, enter `y` to proceed with the upgrade.
@@ -93,9 +93,10 @@ After you see confirmation that the upgrade has completed successfully, the upgr
    3. Click the **vSphere Client** logo in the top left corner. 
    4. Under Inventories, click **vSphere Integrated Containers** to access the vSphere Integrated Containers plug-in.
    5. In the **vSphere Integrated Containers** > **Summary** tab, check that the plug-in is at the correct version.
-- If you upgraded to vSphere Integrated Containers 1.4.3 or later and answered `n` at the prompt to `Upgrade VIC UI Plugin`, or if you upgraded to a version of vSphere Integrated Containers that pre-dates 1.4.3, manually upgrade the vSphere Integrated Containers plug-ins for the vSphere Client. For information about manually upgrading the vSphere Client plug-ins, see [Manually Upgrade the vSphere Client Plug-Ins](upgrade_plugins.md).
+- If you upgraded to vSphere Integrated Containers 1.4.3 or later and answered `n` at the prompt to `Upgrade VIC UI Plugin`, and you want to upgrade the plug-ins later, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md). 
+- If you upgraded to a version of vSphere Integrated Containers that pre-dates 1.4.3, manually upgrade the vSphere Integrated Containers plug-ins for the vSphere Client. For information about manually upgrading the vSphere Client plug-ins, see [Manually Upgrade the vSphere Client Plug-Ins](upgrade_plugins.md).
   
-  **IMPORTANT**: vSphere Integrated Containers 1.4.2 includes version 1.4.1 of the vSphere Integrated Containers plug-ins for vSphere Client. If you are upgrading vSphere Integrated Containers from version 1.4.1 to 1.4.2, you must still upgrade the client plug-ins after you upgrade the appliance. This is so that the plug-ins register correctly with the upgraded appliance. If you do not upgrade the plug-ins after upgrading the appliance to 1.4.2, the vSphere Integrated Containers view does not appear in the vSphere Client. 
+    **IMPORTANT**: vSphere Integrated Containers 1.4.2 includes version 1.4.1 of the vSphere Integrated Containers plug-ins for vSphere Client. If you are upgrading vSphere Integrated Containers from version 1.4.1 to 1.4.2, you must still upgrade the client plug-ins after you upgrade the appliance. This is so that the plug-ins register correctly with the upgraded appliance. If you do not upgrade the plug-ins after upgrading the appliance to 1.4.2, the vSphere Integrated Containers view does not appear in the vSphere Client. 
 
 **Troubleshooting**
 
