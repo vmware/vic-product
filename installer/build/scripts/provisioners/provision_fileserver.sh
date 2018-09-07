@@ -52,13 +52,9 @@ sed -i "s/Flex Client Plugin for vSphere Integrated Containers Engine/vSphere Cl
 zip -9 -r ${VIC_BIN_ROOT}ui/vsphere-client-serenity/com.vmware.vic.ui-${VIC_UI_VER_STRING}.zip ./*
 cd ${TMP_FOLDER}
 
-# update plugin-manifest
-sed -i "s/summary=.*/summary=\"vSphere Client Plugin for vSphere Integrated Containers Engine (v${VIC_ENGINE_VER_STRING})\"/" ${VIC_BIN_ROOT}ui/plugin-manifest 
-
 echo "version from the vic-ui repo is:  ${VIC_UI_VER_STRING}"
 echo "version from vic-engine is:    ${VIC_ENGINE_VER_STRING}"
 
-tar -czf ${FILES_DIR}/${BUILD_VICUI_FILE} -C ${TMP_FOLDER} .
 find . -iname "*.zip" -exec cp {} ${FILES_DIR} \;
 
 # clean up scratch folders
