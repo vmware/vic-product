@@ -27,7 +27,7 @@ function checkThumbrintInput() {
     document.getElementById('plugin-submit').disabled = !cansubmit;
 }
   
-function submitRegistration() {
+function submitRegistration(event) {
 //login elements
 
 $loginForm = document.getElementById('login-form');
