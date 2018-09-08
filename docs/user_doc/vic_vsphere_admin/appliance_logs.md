@@ -9,7 +9,9 @@ Make sure that SSH access to the appliance is enabled. To enable SSH access to t
 **Procedure**
 
 1. Use SSH to connect to the appliance as root user.<pre>$ ssh root@vic_appliance_address</pre>When prompted for the password, enter the appliance password that you specified when you deployed the appliance.
-2. To create a complete log bundle for the appliance, run the `appliance-support.sh` script.<pre>/etc/vmware/support/appliance-support.sh --include-private --outdir <directory> --ignore-disk-space</pre>
+2. To create a complete log bundle for the appliance, run the `appliance-support.sh` script.
+    `/etc/vmware/support/appliance-support.sh --include-private --outdir <directory> --ignore-disk-space`
+
   The script includes the following options:
  
   - `--include-private`: Includes files containing private values in the log bundle
