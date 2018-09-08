@@ -174,10 +174,10 @@ The version of each dependency VIC Product consumes varies based on the type of 
 
 | vic-ui                  | `master`                                                | `releases/*`                                                   |
 | -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
-|`pull_request`           | latest build published to [`vic-ui-builds`][vb]         | latest build published to [`vic-ui-builds/releases/*`][vb]     |
-|`push`                   | latest build published to [`vic-ui-builds`][vb]         | latest build published to [`vic-ui-builds/releases/*`][vb]     |
-|`tag` (containing `dev`) | latest build published to [`vic-ui-builds`][vb]         | latest build published to [`vic-ui-builds/releases/*`][vb]     |
-|`tag` (other)            | latest build published to [`vic-ui-releases`][vr]       | latest build published to [`vic-ui-releases`][vr]              |
+|`pull_request`           | latest build published to [`vic-ui-builds`][ub]         | latest build published to [`vic-ui-builds/releases/*`][ub]     |
+|`push`                   | latest build published to [`vic-ui-builds`][ub]         | latest build published to [`vic-ui-builds/releases/*`][ub]     |
+|`tag` (containing `dev`) | latest build published to [`vic-ui-builds`][ub]         | latest build published to [`vic-ui-builds/releases/*`][ub]     |
+|`tag` (other)            | latest build published to [`vic-ui-releases`][ur]       | latest build published to [`vic-ui-releases`][ur]              |
 |`deployment`             | manually specified                                      | manually specified                                             |
 
 | `vic-machine-server`    | `master`                                                | `releases/*`                                                   |
@@ -193,6 +193,8 @@ The version of each dependency VIC Product consumes varies based on the type of 
 [hr]:https://storage.googleapis.com/harbor-releases
 [vb]:https://storage.googleapis.com/vic-engine-builds
 [vr]:https://storage.googleapis.com/vic-engine-releases
+[ub]:https://storage.googleapis.com/vic-ui-builds
+[ur]:https://storage.googleapis.com/vic-ui-releases
 [vms]:https://console.cloud.google.com/gcr/images/eminent-nation-87317/GLOBAL/vic-machine-server?project=eminent-nation-87317&gcrImageListsize=50
 
 The OVA artifact is published to:
