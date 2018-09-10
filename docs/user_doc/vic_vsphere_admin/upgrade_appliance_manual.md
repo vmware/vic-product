@@ -211,4 +211,11 @@ After you see confirmation that the upgrade has completed successfully, the upgr
   - In the **Administration** tab, check that projects, registries, repositories, and replication configurations have migrated successfully.
 - If, in the previous version, you configured vSphere Integrated Containers Registry instances as replication endpoints, upgrade the appliances that run those registry instances. Replication of images from the new registry instance to the older replication endpoint still functions, but it is recommended that you upgrade the target registry.
 - Download the vSphere Integrated Containers Engine bundle and upgrade  your VCHs. For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).
-- Upgrade the vSphere Integrated Containers plug-in for the vSphere Client. For information about upgrading the vSphere Client plug-in, see [Manually Upgrade the vSphere Client Plug-In](upgrade_plugins.md).
+- If you upgraded to vSphere Integrated Containers 1.4.3 or later and answered `y` at the prompt to `Upgrade VIC UI Plugin`, access the  vSphere Integrated Containers plug-in for vSphere Client:
+   1. Log out of the HTML5 vSphere Client and log back in again. You should see a banner that states `There are plug-ins that were installed or updated`.
+   2. Log out of the HTML5 vSphere Client a second time and log back in again.
+   3. Click the **vSphere Client** logo in the top left corner. 
+   4. Under Inventories, click **vSphere Integrated Containers** to access the vSphere Integrated Containers plug-in.
+   5. In the **vSphere Integrated Containers** > **Summary** tab, check that the plug-in is at the correct version.
+- If you upgraded to vSphere Integrated Containers 1.4.3 or later and answered `n` at the prompt to `Upgrade VIC UI Plugin`, and you want to upgrade the plug-in later, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md). 
+- If you upgraded to a version of vSphere Integrated Containers that pre-dates 1.4.3, manually upgrade the vSphere Integrated Containers plug-in for the vSphere Client. For information about manually upgrading the vSphere Client plug-in, see [Manually Upgrade the vSphere Client Plug-In](upgrade_plugins.md).
