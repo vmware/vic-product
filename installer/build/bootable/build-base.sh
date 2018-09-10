@@ -35,13 +35,11 @@ function set_base() {
   mkdir -p "${rt}/etc/yum.repos.d/"
   rm /etc/yum.repos.d/{photon,photon-updates}.repo
   cp "${DIR}"/repo/*-remote.repo /etc/yum.repos.d/
-  # TODO: Use local yum repo in CI
-  # if [[ $DRONE_BUILD_NUMBER && $DRONE_BUILD_NUMBER > 0 ]]; then
-  #   mkdir -p /etc/yum.repos.d.old/
-  #   mv /etc/yum.repos.d/* /etc/yum.repos.d.old/
-  #   cp repo/*-local.repo /etc/yum.repos.d/
-  # fi
   cp -a /etc/yum.repos.d/ "${rt}/etc/"
+  if [[ $DRONE_BUILD_NUMBER && $DRONE_BUILD_NUMBER > 0 ]]; then
+    rm -f /etc/yum.repos.d/*
+    cp "${DIR}"/repo/*-local.repo /etc/yum.repos.d/
+  fi
   cp /etc/resolv.conf "${rt}/etc/"
 
   log3 "verifying yum and tdnf setup"
