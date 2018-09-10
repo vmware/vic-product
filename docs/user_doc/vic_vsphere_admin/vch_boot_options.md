@@ -1,6 +1,6 @@
 # Virtual Container Host Boot Options #
 
-The `vic-machine create` utility provides options that change the location of the ISO files from which virtual container hosts (VCHs) and container VMs boot.
+The `vic-machine create` utility provides options that change the location of the ISO files from which virtual container hosts (VCHs) and container VMs boot. Optionally use the boot options if you have a centralized store of ISO files.
 
 - [`vic-machine` Options](#options)
 - [Example `vic-machine` Commands](#examples)

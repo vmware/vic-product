@@ -150,7 +150,7 @@ For information about the other VCH deployment options, see the following topics
 - [Virtual Container Host Security](vch_security.md)
 - [Configure Registry Access](vch_registry.md)
 - [Configure the Operations User](set_up_ops_user.md)
-- [Add Virtual Container Hosts to a DRS Affinity Group](vch_affinity_group.md)
+- [Virtual Container Host Compute Capacity](vch_compute.md)
 - [Virtual Container Host Boot Options](vch_boot_options.md)
 
 The options that these topics describe apply to both the `vic-machine` CLI utility and to the Create Virtual Container Host wizard in the vSphere Client. 
