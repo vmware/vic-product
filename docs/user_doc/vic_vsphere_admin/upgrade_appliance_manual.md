@@ -211,4 +211,4 @@ After you see confirmation that the upgrade has completed successfully, the upgr
   - In the **Administration** tab, check that projects, registries, repositories, and replication configurations have migrated successfully.
 - If, in the previous version, you configured vSphere Integrated Containers Registry instances as replication endpoints, upgrade the appliances that run those registry instances. Replication of images from the new registry instance to the older replication endpoint still functions, but it is recommended that you upgrade the target registry.
 - Download the vSphere Integrated Containers Engine bundle and upgrade  your VCHs. For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).
-- Upgrade the vSphere Integrated Containers plug-ins for the vSphere Client. For information about upgrading the vSphere Client plug-ins, see [Manually Upgrade the vSphere Client Plug-Ins](upgrade_plugins.md).
+- Upgrade the vSphere Integrated Containers plug-in for the vSphere Client. For information about upgrading the vSphere Client plug-in, see [Manually Upgrade the vSphere Client Plug-In](upgrade_plugins.md).

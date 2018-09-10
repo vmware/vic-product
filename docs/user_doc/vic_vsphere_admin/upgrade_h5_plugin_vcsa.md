@@ -1,17 +1,17 @@
-# Manually Upgrade the vSphere Client Plug-Ins on vCenter Server Appliance #
+# Manually Upgrade the vSphere Client Plug-In on vCenter Server Appliance #
 
-If you have upgraded to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-ins manually. This procedure describes how to upgrade existing plug-ins for a vCenter Server Appliance.
+If you have upgraded to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-in manually. This procedure describes how to upgrade an existing plug-in for a vCenter Server Appliance.
 
-**NOTE**: This procedure is not relevant to vSphere Integrated Containers 1.4.3 or later. When upgrading to vSphere Integrated Containers 1.4.3 or later the plug-ins are upgraded automatically.
+**NOTE**: This procedure is not relevant to vSphere Integrated Containers 1.4.3 or later. When upgrading to vSphere Integrated Containers 1.4.3 or later the plug-in is upgraded automatically.
 
 **Prerequisites**
 
 - You have upgraded the vSphere Integrated Containers appliance to a  version that pre-dates 1.4.3.
-- You are upgrading the plug-ins on a vCenter Server appliance instance. If you are running vCenter Server on Windows, see [Manually Upgrade the  vSphere Client Plug-Ins on vCenter Server for Windows](upgrade_h5_plugin_windows.md).
-- You deployed the vSphere Integrated Containers plug-ins with vSphere Integrated Containers 1.2.x or 1.3.x. For information about installing the plug-ins for the first time, see [Manually Install the vSphere Client Plug-Ins on a vCenter Server Appliance](plugins_vcsa.md). 
+- You are upgrading the plug-in on a vCenter Server appliance instance. If you are running vCenter Server on Windows, see [Manually Upgrade the  vSphere Client Plug-In on vCenter Server for Windows](upgrade_h5_plugin_windows.md).
+- You deployed the vSphere Integrated Containers plug-in with vSphere Integrated Containers 1.2.x or 1.3.x. For information about installing the plug-in for the first time, see [Manually Install the vSphere Client Plug-In on a vCenter Server Appliance](plugins_vcsa.md). 
 - You upgraded an existing vSphere Integrated Containers 1.4.x appliance to a newer 1.4.y version. For information about upgrading the vSphere Integrated Containers appliance, see [Upgrade the vSphere Integrated Containers Appliance](upgrade_appliance.md).
 
-    **IMPORTANT**: vSphere Integrated Containers 1.4.2 includes version 1.4.1 of the vSphere Integrated Containers plug-ins for vSphere Client. If you are upgrading vSphere Integrated Containers from version 1.4.1 to 1.4.2, you must still upgrade the client plug-ins after you upgrade the appliance. This is so that the plug-ins register correctly with the upgraded appliance. If you do not upgrade the plug-ins after upgrading the appliance to 1.4.2, the vSphere Integrated Containers view does not appear in the vSphere Client.
+    **IMPORTANT**: vSphere Integrated Containers 1.4.2 includes version 1.4.1 of the vSphere Integrated Containers plug-in for vSphere Client. If you are upgrading vSphere Integrated Containers from version 1.4.1 to 1.4.2, you must still upgrade the client plug-in after you upgrade the appliance. This is so that the plug-in registers correctly with the upgraded appliance. If you do not upgrade the plug-in after upgrading the appliance to 1.4.2, the vSphere Integrated Containers view does not appear in the vSphere Client.
 - Go to the vCenter Server Appliance Management Interface (VAMI) at https://<i>vcsa_address</i>:5480, click **Access**, and make sure that Bash Shell is enabled.
 - Obtain the vCenter Server certificate thumbprint. For information about how to obtain and verify the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 - The system on which you run the script is running `awk`.
@@ -39,9 +39,7 @@ If you have upgraded to a version of vSphere Integrated Containers that pre-date
 	1. Enter the user name and password for the vCenter Server administrator account.
 	2. Enter **yes** if the vCenter Server certificate thumbprint is legitimate, and wait for the install process to finish. 
 	3. (Optional) If the version that you try to install is same or older than the one already installed, enter **yes** to force reinstall and wait for the process to finish.  
-10. When the upgrade finishes, stop and restart the vSphere Client services.
-
-     **NOTE**: The Flex-based plug-in has no new features in this release. However, the upgrade script updates the metadata for the Flex-based client. Consequently, you must restart both of the HTML5 and Flex-based clients.    
+10. When the upgrade finishes, stop and restart the vSphere Client services.   
 
     <pre>service-control --stop vsphere-ui && service-control --start vsphere-ui && service-control --stop vsphere-client && service-control --start vsphere-client</pre>
 

@@ -1,6 +1,8 @@
 # Virtual Container Host Administration in the vSphere Client #
 
-vSphere Integrated Containers provides a basic plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0, 6.5, and 6.7. vSphere Integrated Containers provides a plug-in with more complete functionality for the HTML5 vSphere Client. The HTML5 vSphere Client is only available with vSphere 6.5 and 6.7. 
+vSphere Integrated Containers provides a plug-in for the HTML5 vSphere Client on vCenter Server 6.5 and 6.7. The HTML5 plug-in allows you to to deploy and interact with virtual container hosts (VCHs) directly in the vSphere Client.
+
+vSphere Integrated Containers also provides a basic informational plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0.  
 
 * [View All VCH and Container Information](access_h5_ui.md)
 * [View Individual VCH and Container Information](vch_portlet_ui.md)

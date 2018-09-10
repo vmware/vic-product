@@ -55,5 +55,5 @@ When you unpack the vSphere Integrated Containers Engine bundle, you obtain foll
 
 **What to Do Next**
 
-- If you have not done so, install the vSphere Client plug-ins. For information, see [Manually Install the vSphere Client Plug-Ins](install_vic_plugin.md). If you are using vSphere Integrated Containers 1.4.3 or later, by default the plug-ins are installed automatically.   
+- If you have not done so, install the vSphere Client plug-in. For information, see [Manually Install the vSphere Client Plug-In](install_vic_plugin.md). If you are using vSphere Integrated Containers 1.4.3 or later, by default the plug-in is installed automatically.   
 - Use either the `vic-machine` CLU utility or the Create Virtual Container Host wizard in the vSphere Client to [Deploy Virtual Container Hosts](deploy_vch.md).
