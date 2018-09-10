@@ -9,13 +9,12 @@ The following services run in the vSphere Integrated Containers appliance:
 - The file server for vSphere Integrated Containers Engine downloads and installation of the vSphere Client plug-ins
 - The `vic-machine-server` service, that powers the virtual container host deployment and management wizards in the HTML5 vSphere Client plug-in
 
-You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. Also, if a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller.
+You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. Also, if a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller. For information about deploying multiple appliances, see [Deployment Topologies for the vSphere Integrated Containers Appliance](../vic_overview/vic_deployment_topos.md).
 
 **Prerequisites**
 
 - You downloaded an official build or an open-source build of the OVA installer. For information about where to download the installer, see [Download the vSphere Integrated Containers Installer](download_vic.md).
 - Verify that the environment in which you are deploying the appliance meets the prerequisites described in [Deployment Prerequisites for vSphere Integrated Containers](vic_installation_prereqs.md).
-- Familiarize yourself with the [Deployment Topologies for the vSphere Integrated Containers Appliance](../vic_overview/vic_deployment_topos.md).
 - Use the Flex-based vSphere Web Client to deploy the appliance. You cannot deploy OVA files from the HTML5 vSphere Client or from the legacy Windows client. 
 
     **IMPORTANT**: In vSphere 6.7, the HTML5 client does not prevent you from deploying OVA files and deployment appears to succeed. However, the resulting appliance does not function correctly due to an issue with the vSphere 6.7 HTML5 client. Always use the Flex-based vSphere Web Client to deploy the appliance OVA, even if you are using vSphere 6.7.
