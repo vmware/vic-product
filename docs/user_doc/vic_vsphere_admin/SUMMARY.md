@@ -109,6 +109,7 @@
          * [Certificate cname Mismatch](ts_cname_mismatch.md)
          * [Docker API Endpoint Check Failed Error](ts_docker_api_check_error.md)
          * [No Single Host Can Access All Datastores](ts_datastore_access_error.md)
+         * [VCH Does Not Initialize Correctly](ts_vch_incorrect_initialization.md)
      * [Post-Deployment Operation](ts_post_deployment_op.md)
          * [Certificate and PSC Token Errors](ts_clock_skew.md)
          * [Some Users Cannot Access Services](ts_no_access_to_vic_services.md)

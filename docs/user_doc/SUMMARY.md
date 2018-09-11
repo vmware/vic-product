@@ -126,6 +126,7 @@
          * [Certificate cname Mismatch](vic_vsphere_admin/ts_cname_mismatch.md)
          * [Docker API Endpoint Check Failed Error](vic_vsphere_admin/ts_docker_api_check_error.md)
          * [No Single Host Can Access All Datastores](vic_vsphere_admin/ts_datastore_access_error.md)
+         * [VCH Does Not Initialize Correctly](vic_vsphere_admin/ts_vch_incorrect_initialization.md)
      * [Post-Deployment Operation](vic_vsphere_admin/ts_post_deployment_op.md)
          * [Certificate and PSC Token Errors](vic_vsphere_admin/ts_clock_skew.md)
          * [Some Users Cannot Access Services](vic_vsphere_admin/ts_no_access_to_vic_services.md)
