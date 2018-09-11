@@ -1,15 +1,15 @@
-#Appliance Welcome Page Error#
+# Appliance Welcome Page Error #
 
 When you provide a custom certificate while deploying a vSphere Integrated Containers appliance, the Welcome Page does not display.
 
-##Problem##
+## Problem ##
 
 You can use SSH to access the appliance, but the file server fails to start with the `systemctl status fileserver` error. 
 
 ## Cause ##
 The custom certificate that you provided has an encrypted private key.
 
-##Solution##
+## Solution ##
 Provide a custom certificate with an unecrypted private key.
 
 Perform the following steps to modify the custom certificate:
