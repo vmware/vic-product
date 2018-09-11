@@ -20,7 +20,7 @@ vSphere Integrated Containers 1.4.3 and later provides an autocomplete feature f
 To enable autocomplete, download the vSphere Integrated Containers bundle and unpack it on your working machine.
 
 1. Open a `bash` or `zsh` shell and navigate to the `vic` folder of the unpacked vSphere Integrated Containers bundle.
-2. Run the `source` command to identify the autocomplete utility that is appropriate for your shell and OS.
+2. Run the `source` command to configure the autocomplete function of the current shell instance, according to your shell and OS.
 
   - Windows and `bash`:<pre>source autocomplete/bash/vic-machine-windows.exe</pre>
   - Linux and `bash`:<pre>source autocomplete/bash/vic-machine-linux</pre>
@@ -28,6 +28,9 @@ To enable autocomplete, download the vSphere Integrated Containers bundle and un
   - Windows and `zsh`:<pre>source autocomplete/zsh/vic-machine-windows.exe</pre>
   - Linux and `zsh`:<pre>source autocomplete/zsh/vic-machine-linux</pre>
   - MacOS and `zsh`:<pre>source autocomplete/zsh/vic-machine-darwin</pre>
+
+    Using the `source` command enables autocomplete for the current session. For information about how to enable autocomplete persistently, see documentation for your shell and OS combination.
+
 3. Start typing a `vic-machine` command and hit the tab key.
 
     The autocomplete utility lists all of the possible commands that match what you typed. For example if you type `vic-machine-windows c` and hit tab, the autocomplete proposes the following commands:<pre>$ vic-machine-windows c
