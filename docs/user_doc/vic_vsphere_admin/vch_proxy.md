@@ -9,6 +9,7 @@ You can add, reconfigure, or remove proxy servers after you have deployed a VCH 
 - [Options](#options)
   - [HTTP Proxy](#http)
   - [HTTPS Proxy](#https) 
+  - [No Proxy](#noproxy)
 - [What to Do Next](#whatnext)
 - [Example `vic-machine` Command](#example)
 
@@ -48,6 +49,25 @@ Specify the address of the proxy server in the `--https-proxy` option, as either
 
 <pre>--https-proxy https://proxy.example.mycompany.org:443</pre>
 
+### No Proxy <a id="noproxy"></a>
+
+If you configure proxies, you can provide a list of URLs to exclude from proxying. 
+
+
+#### Create VCH Wizard
+
+This option is not available in the Create Virtual Container Host wizard.
+
+#### vic-machine Option 
+
+`--no-proxy`, no short name
+
+Specify any URLs to exclude from proxying in the  `--no-proxy` option, as a comma-separated list of host names, domain names, or a mixture of both. 
+
+This option is available in vSphere Integrated Containers 1.4.3 and later.
+
+<pre>--no-proxy localhost,.example.com</pre>
+
 ## What to Do Next <a id="whatnext"></a>
 
 If you are using the Create Virtual Container Host wizard, the bridge network and the public network are the only networks that it is mandatory to configure.
@@ -60,7 +80,7 @@ If you are using the Create Virtual Container Host wizard, the bridge network an
 
 ## Example `vic-machine` Command <a id="example"></a>
 
-This example `vic-machine create` command deploys a VCH that accesses the network via an HTTPS proxy server.
+This example `vic-machine create` command deploys a VCH that accesses the network via an HTTPS proxy server and excludes the local host from proxying.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
@@ -69,6 +89,7 @@ This example `vic-machine create` command deploys a VCH that accesses the networ
 --bridge-network vch1-bridge
 --public-network vic-public
 --https-proxy https://proxy.example.mycompany.org:443
+--no-proxy localhost
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
