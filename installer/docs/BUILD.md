@@ -42,6 +42,7 @@ Default values:
 --harbor <latest in harbor-builds bucket>
 --vicengine <latest in vic-engine-builds bucket>
 --vicmachineserver dev <vic-machine-server:dev tag>
+--vicui <latest in vic-ui-builds bucket>
 
 DCH Photon is pinned to 1.13 tag
 ```
@@ -53,14 +54,13 @@ Admiral tag `vic_dev` (since `--admiral` was not specified it defaults to the `v
 ./build/build.sh ova-dev --harbor harbor.tgz --vicengine vic_XXXX.tar.gz
 ```
 
-If called with the values below, `build.sh` will include the Harbor and VIC Engine versions
+If called with the values below, `build.sh` will include the Harbor, VIC Engine and VIC UI versions
 specified by their respective URLs, Admiral tag `vic_v1.1.1`, and VIC Machine Server tag `latest`.
 ```
-./build/build.sh ova-dev --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic_XXXX.tar.gz --vicmachineserver latest
+./build/build.sh ova-dev --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic_XXXX.tar.gz --vicui https://example.com/vic_ui_XXXX.tar.gz --vicmachineserver latest
 ```
 
 Note: the VIC Engine artifact used when building the OVA must be named following the `vic_*.tar.gz` format.
-This is required by the OVA in order to automatically configure the VIC Engine UI plugins correctly for installation.
 
 ###### Build Script Flow
 
@@ -135,13 +135,13 @@ as our vendor directory is checked in to git.
 
 VIC Product build is auto-triggered from the successful completion of the following CI builds:
 
-[VIC Engine](https://ci.vcna.io/vmware/vic)
+[VIC Engine](https://ci-vic.vmware.com/vmware/vic)
 
-[Admiral](https://ci.vcna.io/vmware/admiral)
+[Admiral](https://ci-vic.vmware.com/vmware/admiral)
 
-[Harbor](https://ci.vcna.io/vmware/harbor)
+[Harbor](https://ci-vic.vmware.com/vmware/harbor)
 
-There is also a separate build for [VIC UI](https://ci.vcna.io/vmware/vic-ui) which publishes the [artifact](https://console.cloud.google.com/storage/browser/vic-ui-builds) consumed by VIC Engine builds. VIC Engine publishes vic engine artifacts and vic machine server image.
+There is also a separate build for [VIC UI](https://ci-vic.vmware.com/vmware/vic-ui) which publishes the [artifact](https://console.cloud.google.com/storage/browser/vic-ui-builds) consumed by VIC Product builds. VIC Engine publishes vic engine artifacts and vic machine server image.
 Harbor build publishes harbor installer and Admiral build publishes admiral image. All these artifacts are published to Google cloud except Admiral image which is published to Docker hub.
 
 ### Dependency Relationship
@@ -172,6 +172,14 @@ The version of each dependency VIC Product consumes varies based on the type of 
 |`tag` (other)            | latest build published to [`vic-engine-releases`][vr]   | latest build published to [`vic-engine-releases`][vr]          |
 |`deployment`             | manually specified                                      | manually specified                                             |
 
+| vic-ui                  | `master`                                                | `releases/*`                                                   |
+| -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
+|`pull_request`           | latest build published to [`vic-ui-builds`][ub]         | latest build published to [`vic-ui-builds/releases/*`][ub]     |
+|`push`                   | latest build published to [`vic-ui-builds`][ub]         | latest build published to [`vic-ui-builds/releases/*`][ub]     |
+|`tag` (containing `dev`) | latest build published to [`vic-ui-builds`][ub]         | latest build published to [`vic-ui-builds/releases/*`][ub]     |
+|`tag` (other)            | latest build published to [`vic-ui-releases`][ur]       | latest build published to [`vic-ui-releases`][ur]              |
+|`deployment`             | manually specified                                      | manually specified                                             |
+
 | `vic-machine-server`    | `master`                                                | `releases/*`                                                   |
 | -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
 |`pull_request`           | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with the release's version number   |
@@ -185,6 +193,8 @@ The version of each dependency VIC Product consumes varies based on the type of 
 [hr]:https://storage.googleapis.com/harbor-releases
 [vb]:https://storage.googleapis.com/vic-engine-builds
 [vr]:https://storage.googleapis.com/vic-engine-releases
+[ub]:https://storage.googleapis.com/vic-ui-builds
+[ur]:https://storage.googleapis.com/vic-ui-releases
 [vms]:https://console.cloud.google.com/gcr/images/eminent-nation-87317/GLOBAL/vic-machine-server?project=eminent-nation-87317&gcrImageListsize=50
 
 The OVA artifact is published to:
@@ -211,6 +221,7 @@ drone deploy --param VICENGINE=<vic_engine_version> \
              --param VIC_MACHINE_SERVER=<vic_machine_server> \
              --param ADMIRAL=<admiral_tag> \
              --param HARBOR=<harbor_version> \
+             --param VICUI=<vic_ui_version> \
              vmware/vic-product <ci_build_number_to_promote> staging
 ```
 
@@ -221,6 +232,7 @@ drone deploy --param VICENGINE=<vic_engine_version> \
              --param VIC_MACHINE_SERVER=<vic_machine_server> \
              --param ADMIRAL=<admiral_tag> \
              --param HARBOR=<harbor_version> \
+             --param VICUI=<vic_ui_version> \
              vmware/vic-product <ci_build_number_to_promote> release
 ```
 
@@ -231,6 +243,7 @@ drone deploy --param VICENGINE=https://storage.googleapis.com/vic-engine-release
              --param VIC_MACHINE_SERVER=latest \
              --param ADMIRAL=v1.4.0 \
              --param HARBOR=https://storage.googleapis.com/harbor-releases/harbor-offline-installer-v1.5.0.tgz \
+             --param VICUI=https://storage.googleapis.com/vic-ui-releases/vic_ui_v1.4.0.tar.gz \
              vmware/vic-product <ci_build_number_to_promote> release
 ```
 
