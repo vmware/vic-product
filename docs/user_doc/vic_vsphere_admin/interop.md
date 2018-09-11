@@ -59,4 +59,4 @@ vSphere Integrated Containers Engine does not currently support the following vS
 - vSphere Fault Tolerance: vSphere Integrated Containers does not implement vSphere Fault Tolerance. However, VCH processes that stop unexpectedly do restart automatically, independently of vSphere Fault Tolerance.
 - vSphere Virtual Volumes&trade;: You cannot use Virtual Volumes as the target datastores for image stores or volume stores.
 - Snapshots: Creating and reverting to snapshots of the VCH endpoint VM or container VMs can cause vSphere Integrated Containers Engine not to function correctly.
-- vCenter Server High Availabilty: You cannot deploy VCHs on a highly available vCenter Server. 
+- vCenter High Availabilty: You cannot deploy VCHs on a highly available vCenter Server. 
