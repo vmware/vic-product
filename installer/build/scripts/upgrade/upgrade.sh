@@ -87,7 +87,7 @@ function usage {
 
       [--embedded-psc]:                Using embedded PSC. Do not prompt for external PSC options.
       [--ssh-insecure-skip-verify]:    Skip host key checking when SSHing to the old appliance.
-      [--upgrade-ui-plugin]:           Upgrade ui plugin.
+      [--upgrade-ui-plugin]:           Upgrade ui plugin. y/n
     "
 }
 
@@ -550,7 +550,8 @@ function main {
         INSECURE_SKIP_VERIFY="1"
         ;;
       --upgrade-ui-plugin)
-        UPGRADE_UI_PLUGIN="y"
+        UPGRADE_UI_PLUGIN="$2"
+        shift
         ;;
       -h|--help|*)
         usage
