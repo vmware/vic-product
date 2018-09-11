@@ -98,6 +98,7 @@
          *  [Registry Services Do Not Start](ts_reg_doesnt_start.md)
          * [Appliance VM Password Refused](ts_appliance_password_refused.md)
          * [Browser Rejects Certificates](ts_cert_error.md)
+         * [Appliance Welcome Page Error](vicappliance_welcomepage_error.md)
      * [Plug-In Installation](ts_install_plugins.md)     
          * [Plug-In Scripts Fail](ts_plugin_script_fails.md)
          * [Plug-In Does Not Appear](ts_ui_not_appearing.md)

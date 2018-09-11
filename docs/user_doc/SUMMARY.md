@@ -115,6 +115,7 @@
          *  [Registry Services Do Not Start](vic_vsphere_admin/ts_reg_doesnt_start.md)
          * [Appliance VM Password Refused](vic_vsphere_admin/ts_appliance_password_refused.md)
          * [Browser Rejects Certificates](vic_vsphere_admin/ts_cert_error.md)
+         * [Appliance Welcome Page Error](vic_vsphere_admin/vicappliance_welcomepage_error.md)
      * [Plug-In Installation](vic_vsphere_admin/ts_install_plugins.md)     
          * [Plug-In Scripts Fail](vic_vsphere_admin/ts_plugin_script_fails.md)
          * [Plug-In Does Not Appear](vic_vsphere_admin/ts_ui_not_appearing.md)
