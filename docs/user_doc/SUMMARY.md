@@ -175,7 +175,7 @@
 ----
 
 * [DevOps, Developers, Viewers](vic_users/README.md)
-  * [Running Development Projects](vic_users/run_dev_project.md) 
+  * [Running Development Projects](vic_app_dev/run_dev_project.md) 
   * [Provisioning Container VMs](vic_users/provision_containers_portal.md)
      * [Configuring Links for Templates and Images](vic_users/configuring_links.md)
      * [Configuring Health Checks for Templates and Images](vic_users/configuring_health_checks.md)
