@@ -17,7 +17,7 @@ This topic includes lists of all of the options of the different `vic-machine` c
 
 |**Option**|**Documentation**|  
 |---|---|
-|`--affinity-vm-group`|[Add Virtual Container Hosts to a DRS Affinity Group](vch_affinity_group.md)|
+|`--affinity-vm-group`|[Virtual Container Host Compute Capacity](vch_compute.md)|
 |`--appliance-iso`|[Virtual Container Host Boot Options](vch_boot_options.md#appliance-iso)|
 |`--asymmetric-routes`|[Configure the Management Network](mgmt_network.md#asymmetric-routes)|
 |`--base-image-size`|[Specify the Image Datastore](image_store.md#baseimagesize)|
