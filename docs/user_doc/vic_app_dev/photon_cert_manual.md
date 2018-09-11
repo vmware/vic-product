@@ -34,15 +34,15 @@ To manually add the vSphere Integrated Containers CA certificate to  `dch-photon
 4. Use `docker cp` to copy the certificate from your local system into the `dch-photon` container VM that is running in the VCH.<pre>
     docker -H <i>vch_address</i>:2376  --tls cp certs.d build-slave:/etc/docker</pre>
     
-3. Restart the Docker container host to load the certificate.
+3. Restart the Docker host to load the certificate.
 
     <pre>docker -H <i>vch_address</i>:2376 --tls start build-slave</pre>
     
 **Result**
 
-You have a running Docker container host that you configured to push and pull from vSphere Integrated Containers Registry.
+You have a running Docker host that you configured to push and pull from vSphere Integrated Containers Registry.
 
 **What to Do Next**
 
-To test the Docker container host, see [Build, Push, and Pull an Image with `dch-photon`](test_photon.md).
+To test the Docker host, see [Build, Push, and Pull an Image with `dch-photon`](test_photon.md).
     

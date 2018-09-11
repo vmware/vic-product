@@ -61,4 +61,4 @@ By creating a custom image, you can deploy multiple instances of `dch-photon` th
 
 **What to Do Next**
 
-To test the Docker container host, see [Build, Push, and Pull an Image with `dch-photon`](test_photon.md).
+To test the Docker host, see [Build, Push, and Pull an Image with `dch-photon`](test_photon.md).

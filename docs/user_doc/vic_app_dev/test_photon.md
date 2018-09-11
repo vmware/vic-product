@@ -1,6 +1,6 @@
 ## Build, Push, and Pull an Image with `dch-photon`  ##
 
-After you have loaded the vSphere Integrated Containers Registry certificate into a `dch-photon` container VM, test the `dch-photon` Docker container host by building an image and pushing it to vSphere Integrated Containers Registry. Then, pull the image into a VCH to deploy it. 
+After you have loaded the vSphere Integrated Containers Registry certificate into a `dch-photon` container VM, test the `dch-photon` Docker host by building an image and pushing it to vSphere Integrated Containers Registry. Then, pull the image into a VCH to deploy it. 
 
 **Prerequisites**
 
@@ -11,9 +11,9 @@ After you have loaded the vSphere Integrated Containers Registry certificate int
 
 **Procedure**
 
-1. Run `docker info` to test that the Docker container host running in the `dch-photon` container VM has started correctly. 
+1. Run `docker info` to test that the Docker host running in the `dch-photon` container VM has started correctly. 
 
-    By specifying port 12375 you direct the Docker client to the Docker container host that is running in the VCH.
+    By specifying port 12375 you direct the Docker client to the Docker host that is running in the VCH.
 
     <pre>docker -H <i>vch_address</i>:12375 info</pre> 
 
@@ -38,11 +38,11 @@ After you have loaded the vSphere Integrated Containers Registry certificate int
 
     ENTRYPOINT ["/usr/games/fortune", "-s"]</pre>
 
-4. Build an image from the `Dockerfile` in the `dch-photon` Docker container host, and tag it with the path to a project in vSphere Integrated Containers Registry. 
+4. Build an image from the `Dockerfile` in the `dch-photon` Docker host, and tag it with the path to a project in vSphere Integrated Containers Registry. 
 
     <pre>docker -H <i>vch_address</i>:12375 build -t <i>registry_address</i>/default-project/test-container .</pre>
 
-5. Push the image from the `dch-photon` Docker container host to the registry. 
+5. Push the image from the `dch-photon` Docker host to the registry. 
 
     <pre>docker -H <i>vch_address</i>:12375 push <i>registry_address</i>/default-project/test-container</pre>
 

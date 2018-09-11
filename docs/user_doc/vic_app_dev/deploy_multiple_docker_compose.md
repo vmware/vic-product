@@ -176,9 +176,9 @@ To view a list of volume stores that have been pre-configured by the vSphere adm
 
 Assuming you're using TLS authentication to the Docker endpoint, that is either done using environment variables or command-line options. 
 
-With environment variables, it's assumed that you've already set `DOCKER_TLS_VERIFY=1` and `DOCKER_CERT_PATH=<path to client certs>`. This is required in order to use the docker client. For `docker-compose` you have to additionally set `COMPOSE_TLS_VERSION=TLSv1_2`. You can then run `docker-compose up -d` to start the application (assuming you've also set `DOCKER_HOST` to point to the VCH endpoint).
+With environment variables, it's assumed that you've already set `DOCKER_TLS_VERIFY=1` and `DOCKER_CERT_PATH=<path to client certs>`. This is required in order to use the Docker client. For `docker-compose` you have to additionally set `COMPOSE_TLS_VERSION=TLSv1_2`. You can then run `docker-compose up -d` to start the application (assuming you've also set `DOCKER_HOST` to point to the VCH endpoint).
 
-Using command-line arguments with docker client is a little more clumsy as each key has to be specified independently and the same is true of `docker-compose`. Regardless, the only way to specify the TLS version is through the environment variable above `COMPOSE_TLS_VERSION=TLSv1_2`. You can then run `docker-compose -H <endpoint-ip>:2376 --tlsverify --tlscacert="<local-ca-path>/ca.pem" --tlscert="<local-ca-path>/cert.pem" --tlskey="<local-ca-path>/key.pem" compose up -d`
+Using command-line arguments with Docker client is a little more clumsy as each key has to be specified independently and the same is true of `docker-compose`. Regardless, the only way to specify the TLS version is through the environment variable above `COMPOSE_TLS_VERSION=TLSv1_2`. You can then run `docker-compose -H <endpoint-ip>:2376 --tlsverify --tlscacert="<local-ca-path>/ca.pem" --tlscert="<local-ca-path>/cert.pem" --tlskey="<local-ca-path>/key.pem" compose up -d`
 
 ***Lifecycle Commands***
 
@@ -198,7 +198,7 @@ docker-compose down --volumes --rmi    # stop the application and remove all res
 
 ## Building Multi-Container Applications Using Docker Compose ##
 
-Given that vSphere Integrated Containers Engine does not have a native build capability, it does not interpret the `build` keyword in a compose file and `docker-compose build` will not work when `DOCKER_HOST` points to a VIC endpoint. vSphere Integrated Containers Engine relies upon the portability of the docker image format and it is expected that a regular docker engine will be used in a CI pipeline to build container images for test and deployment.
+Given that vSphere Integrated Containers Engine does not have a native build capability, it does not interpret the `build` keyword in a compose file and `docker-compose build` will not work when `DOCKER_HOST` points to a VIC endpoint. vSphere Integrated Containers Engine relies upon the portability of the docker image format and it is expected that a regular Docker Engine will be used in a CI pipeline to build container images for test and deployment.
 
 There are two ways to work around this. You can create separate Compose files for build and run, or you can use the same Compose file but just make sure to add a couple of arguments. We will explore both options here using another example of a Compose file that includes build instructions. In this case, the sample voting application found [here](https://github.com/dockersamples/example-voting-app/blob/master/docker-compose-simple.yml).
 
@@ -319,7 +319,7 @@ $ docker-compose -f docker-compose-simple-vic.yml pull
 $ docker-compose -f docker-compose-simple-vic.yml up --no-build -d
 ```
 
-In the example above, the use of `sudo` creates a child shell that runs a local docker engine and bypasses the environment variables configured to make docker-compose talk to a VIC endpoint. In this way, it's possible to do a build, push, pull and run from the same shell using the same client.
+In the example above, the use of `sudo` creates a child shell that runs a local Docker Engine and bypasses the environment variables configured to make docker-compose talk to a VIC endpoint. In this way, it's possible to do a build, push, pull and run from the same shell using the same client.
 
 ## A Summary on Compatibility ##
 
