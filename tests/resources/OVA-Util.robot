@@ -367,9 +367,9 @@ Execute Upgrade Script
 
     # run upgrade script
     Log To Console  upgrade ova...
-    Run Keyword Unless  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --upgrade-ui-plugin
+    Run Keyword Unless  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint ${fingerprint} --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --upgrade-ui-plugin
 
-    Run Keyword If  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --manual-disks --upgrade-ui-plugin
+    Run Keyword If  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint ${fingerprint} --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --manual-disks --upgrade-ui-plugin
 
     Copy Support Bundle  ${new-appliance-ip}
 

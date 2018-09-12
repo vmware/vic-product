@@ -32,7 +32,7 @@ Get VCenter Thumbprint
 
 Get VCenter GOVC Fingerprint
     [Tags]  secret
-    ${rc}  ${fingerprint}=  Run And Return Rc And Output  govc about.cert -k -thumbprint
+    ${rc}  ${fingerprint}=  Run And Return Rc And Output  govc about.cert -k -thumbprint | cut -d' ' -f2
     Should Be Equal As Integers  ${rc}  0
     [Return]  ${fingerprint}
 
