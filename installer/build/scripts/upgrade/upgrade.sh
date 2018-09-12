@@ -87,7 +87,7 @@ function usage {
 
       [--embedded-psc]:                Using embedded PSC. Do not prompt for external PSC options.
       [--ssh-insecure-skip-verify]:    Skip host key checking when SSHing to the old appliance.
-      [--upgrade-ui-plugin]:           Upgrade ui plugin. y/n
+      [--upgrade-ui-plugin]:           Upgrade ui plugin.
     "
 }
 
@@ -550,8 +550,7 @@ function main {
         INSECURE_SKIP_VERIFY="1"
         ;;
       --upgrade-ui-plugin)
-        UPGRADE_UI_PLUGIN="$2"
-        shift
+        UPGRADE_UI_PLUGIN="y"
         ;;
       -h|--help|*)
         usage
@@ -591,6 +590,7 @@ function main {
   else
     log "Using provided vCenter fingerprint from --fingerprint ${VCENTER_FINGERPRINT}"
     echo "${VCENTER_FINGERPRINT}" > $GOVC_TLS_KNOWN_HOSTS
+    export VCENTER_FINGERPRINT="$(echo "${VCENTER_FINGERPRINT}" | awk '{print $2}')"
   fi
 
   [ -z "${VCENTER_DATACENTER}" ] && read -p "Enter vCenter Datacenter of the old VIC appliance: " VCENTER_DATACENTER
