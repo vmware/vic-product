@@ -24,4 +24,5 @@ Verify Getting Started page
     Log To Console  Initializing the OVA using the getting started ui...
     Navigate To Getting Started Page
     Verify Getting Started Page Title
-    #Log In And Complete OVA Installation
+    Log In And Complete OVA Installation
+    Run GOVC  extension.info com.vmware.vic

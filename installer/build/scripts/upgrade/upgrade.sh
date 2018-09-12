@@ -71,18 +71,18 @@ function usage {
       [--target value]:                VC Target IP Address for PSC registration.
       [--username value]:              VC Username for PSC registration.
       [--password value]:              VC Password for PSC registration.
-      [--dc value]:                    VC Target Datacenter of the old VIC Appliance.
+      [--dc value]:                    VC Target Datacenter of the old VIC Appliance. (Ignored if --manual-disks is specified.)
       [--fingerprint value]:           VC Target fingerprint in GOVC format (govc about.cert -k -thumbprint).
 
       [--external-psc value]:          External PSC IP Address.
       [--external-psc-domain value]:   External PSC Domain Name.
 
-      [--appliance-username value]:    Username of the old appliance.
-      [--appliance-password value]:    Password of the old appliance.
-      [--appliance-target value]:      IP Address of the old appliance.
+      [--appliance-username value]:    Username of the old appliance. (Ignored if --manual-disks is specified.)
+      [--appliance-password value]:    Password of the old appliance. (Ignored if --manual-disks is specified.)
+      [--appliance-target value]:      IP Address of the old appliance. (Ignored if --manual-disks is specified.)
       [--appliance-version value]:     Version of the old appliance. v1.2.1, v1.3.0, v1.3.1, v1.4.0, v1.4.1, or v1.4.2.
 
-      [--destroy]:                     Destroy the old appliance after upgrade is finished.
+      [--destroy]:                     Destroy the old appliance after upgrade is finished. (Ignored if --manual-disks is specified.)
       [--manual-disks]:                Skip the automated govc disk migration.
 
       [--embedded-psc]:                Using embedded PSC. Do not prompt for external PSC options.
@@ -97,8 +97,8 @@ function callPluginUpgradeEndpoint {
   local vc='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
   local vc_info='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
   local plugin='{"preset":"'"${preset}"'","force":true}'
-  local payload='{"vc":"${vc}","plugin":"${plugin}"}'
-  local payload_info='{"vc":"${vc_info}","plugin":"${plugin}"}'
+  local payload='{"vc":'"${vc}"',"plugin":'"${plugin}"'}'
+  local payload_info='{"vc":'"${vc_info}"',"plugin":'"${plugin}"'}'
   echo "register payload - ${payload_info}" >> $upgrade_log_file 2>&1
   /usr/bin/curl \
     -k \
@@ -592,13 +592,14 @@ function main {
     echo "${VCENTER_FINGERPRINT}" > $GOVC_TLS_KNOWN_HOSTS
   fi
 
-  [ -z "${VCENTER_DATACENTER}" ] && read -p "Enter vCenter Datacenter of the old VIC appliance: " VCENTER_DATACENTER
+  [ -z "${MANUAL_DISK_MOVE}" ] && [ -z "${VCENTER_DATACENTER}" ] && read -p "Enter vCenter Datacenter of the old VIC appliance: " VCENTER_DATACENTER
   export GOVC_DATACENTER="$VCENTER_DATACENTER"
-  [ -z "${APPLIANCE_TARGET}" ] && read -p "Enter old VIC appliance IP: " APPLIANCE_TARGET
-  [ -z "${APPLIANCE_USERNAME}" ] && read -p "Enter old VIC appliance username: " APPLIANCE_USERNAME
+  [ -z "${MANUAL_DISK_MOVE}" ] && [ -z "${APPLIANCE_TARGET}" ] && read -p "Enter old VIC appliance IP: " APPLIANCE_TARGET
+  [ -z "${MANUAL_DISK_MOVE}" ] && [ -z "${APPLIANCE_USERNAME}" ] && read -p "Enter old VIC appliance username: " APPLIANCE_USERNAME
+
   [ -z "${UPGRADE_UI_PLUGIN}" ] && read -p "Upgrade VIC UI Plugin? (y/n): " UPGRADE_UI_PLUGIN
 
-  if [ -n "${DESTROY_ENABLED}" ] ; then
+  if [ -z "${MANUAL_DISK_MOVE}" ] && [ -n "${DESTROY_ENABLED}" ] ; then
     local resp=""
     read -p "Destroy option enabled. This will delete the old VIC appliance after upgrade. Are you sure? (y/n): " resp
     if [ "$resp" != "y" ]; then
@@ -655,7 +656,7 @@ function main {
   writeTimestamp ${appliance_upgrade_status}
   enableServicesStart
 
-  if [ -n "${DESTROY_ENABLED}" ] ; then
+  if [ -z "${MANUAL_DISK_MOVE}" ] && [ -n "${DESTROY_ENABLED}" ] ; then
     log "Destroying the old VIC appliance"
     govc vm.destroy "$OLD_VM_NAME"
     log "Old VIC appliance destroyed"

@@ -25,3 +25,5 @@ secrets-e2e.yml
 
 # VIC
 VCH-*
+
+**/node_modules

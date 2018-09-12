@@ -61,7 +61,7 @@ The vSphere Integrated Containers appliance makes the core vSphere Integrated Co
 |4443|HTTPS|Connections to the Docker Content Trust service for vSphere Integrated Containers Registry|
 |8282|HTTPS|Connections to vSphere Integrated Containers Management Portal UI and API|
 |8443|HTTPS|Connections to the `vic-machine-server` service, that powers the Create Virtual Container Host wizard in the HTML5 vSphere Client plug-in|
-|9443|HTTPS|Connections to the appliance intialization and Getting Started page, vSphere Integrated Containers Engine download, and vSphere Client plug-in installer|
+|9443|HTTPS|Connections to the appliance intialization and appliance welcome page, vSphere Integrated Containers Engine download, and vSphere Client plug-in installer|
 
 ### VCH Endpoint VM
 
@@ -112,7 +112,7 @@ If container developers do not explicitly expose ports, container VMs do not exp
 |6060|HTTPS|Exposes `pprof` debug data about a container VM when a VCH is running with `vic-machine create --debug` enabled|
 
 ## Security Updates and Patches <a id="patches"></a>
-Download a new version of vSphere Integrated Containers and upgrade your existing appliances, vSphere Client plug-ins, and VCHs. For information about installing security patches, see [Upgrading vSphere Integrated Containers](upgrading_vic.md).
+Download a new version of vSphere Integrated Containers and upgrade your existing appliances, the vSphere Client plug-in, and your VCHs. For information about installing security patches, see [Upgrading vSphere Integrated Containers](upgrading_vic.md).
 
 ## Security Related Log Messages <a id="logs"></a>
 Security-related information for vSphere Integrated Containers Engine appears in `docker-personality.log` and `vicadmin.log`, that you can access from the VCH Admin portal for a VCH. For information about accessing VCH logs, see [Access Virtual Container Host Log Bundles](log_bundles.md).

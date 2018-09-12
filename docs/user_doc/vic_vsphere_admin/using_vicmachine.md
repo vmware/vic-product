@@ -6,3 +6,4 @@ The vSphere Integrated Containers Engine bundle includes the `vic-machine` CLI u
 
 - [Running `vic-machine` Commands](running_vicmachine_cmds.md)
 - [Set Environment Variables](vic_env_variables.md)
+- [Virtual Container Host Boot Options](vch_boot_options.md)

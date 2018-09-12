@@ -1,4 +1,4 @@
-<!-- THIS TOPIC IS LINKED FROM THE GETTING STARTED PAGE / UI -->
+<!-- THIS TOPIC IS LINKED FROM THE appliance welcome page / UI -->
 
 # Virtual Container Host Deployment #
 

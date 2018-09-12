@@ -85,7 +85,6 @@
                                             <div class="card-text">
                                                 These tasks are usually performed by the vSphere admin.
                                                 <ol>
-                                                	<li><a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/install_vic_plugin.html">Install vSphere Client plug-ins on vCenter Server</a></li>
                                                 	<li><a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/deploy_vch.html">Deploy VCHs</a></li>
                                                 	<li><a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/vch_admin.html">Manage VCHs</a></li>
                                                 </ol>
@@ -169,7 +168,7 @@
                                                         this certificate or cancel
                                                         if the thumbprint is not valid
                                                 </p>
-                                                <a href="https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/obtain_thumbprint.html" class="btn btn-link" >Read more...</a>
+                                                <a href="https://vmware.github.io/vic-product/assets/files/html/1.4/vic_vsphere_admin/obtain_thumbprint.html" target="_blank" class="btn btn-link" >Read more...</a>
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn btn-outline" type="button" onclick="window.location.href='/?login=true'">Cancel</button>
@@ -233,7 +232,7 @@
                                         <input id="thumbprint" type="hidden" name="thumbprint" placeholder="">
                                     </div>
                                     <div class="text-sm-right">
-                                        <button id="login-submit" onclick="submitRegistration()" disabled class="btn btn-primary">Continue</button>
+                                        <button id="login-submit" onclick="submitRegistration(event)" disabled class="btn btn-primary">Continue</button>
                                     </div>
                                 </form>
                             </div>

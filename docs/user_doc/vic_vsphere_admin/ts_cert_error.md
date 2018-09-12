@@ -4,7 +4,7 @@ Attempts to connect to vSphere Integrated Containers web interfaces fail with ce
 
 ## Problem ##
 
-When you attempt to access the vSphere Integrated Containers Getting Started page, vSphere Integrated Containers Management Portal, or the administration portal for a virtual container host (VCH), Google Chrome rejects the connection with an `ERR_CERT_INVALID` error and a warning similar to the following:
+When you attempt to access the vSphere Integrated Containers appliance welcome page, vSphere Integrated Containers Management Portal, or the administration portal for a virtual container host (VCH), Google Chrome rejects the connection with an `ERR_CERT_INVALID` error and a warning similar to the following:
 
 <pre><i>Web_address</i> normally uses encryption to protect your information. When Google Chrome tried to connect to <i>web_address</i> this time, the website sent back unusual and incorrect credentials...
 
@@ -24,6 +24,6 @@ You have already accepted a client certificate or a generated Certificate Author
 
 2. Delete any client certificates or CAs for older instances of vSphere Integrated Containers appliances or VCHs.
 3. Clear the browser history, close, and restart Chrome.
-4. Connect to the vSphere Integrated Containers Getting Started page, vSphere Integrated Containers Management Portal, or VCH Administration portal again, verify the certificate, and trust it if it is valid.
+4. Connect to the vSphere Integrated Containers appliance welcome page, vSphere Integrated Containers Management Portal, or VCH Administration portal again, verify the certificate, and trust it if it is valid.
 
 For information about how to verify certificates for the vSphere Integrated Containers appliance, see [Verify and Trust vSphere Integrated Containers Appliance Certificates](../vic_cloud_admin/trust_vic_certs.md).
