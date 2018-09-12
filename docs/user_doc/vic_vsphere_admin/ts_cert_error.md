@@ -26,4 +26,4 @@ You have already accepted a client certificate or a generated Certificate Author
 3. Clear the browser history, close, and restart Chrome.
 4. Connect to the vSphere Integrated Containers appliance welcome page, vSphere Integrated Containers Management Portal, or VCH Administration portal again, verify the certificate, and trust it if it is valid.
 
-For information about how to verify certificates for the vSphere Integrated Containers appliance, see [Verify and Trust vSphere Integrated Containers Appliance Certificates](../vic_cloud_admin/trust_vic_certs.md).
+For information about how to verify certificates for the vSphere Integrated Containers appliance, see [Verify and Trust the vSphere Integrated Containers Appliance Certificate](../vic_cloud_admin/trust_vic_certs.md).

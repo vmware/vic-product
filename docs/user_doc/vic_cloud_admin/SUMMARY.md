@@ -4,7 +4,7 @@
 
 * [Management Portal Administrator](README.md) 
  * [Logging In to Management Portal](logging_in_mp.md)
-     * [Verify and Trust Certificates](trust_vic_certs.md)
+     * [Verify and Trust Certificate](trust_vic_certs.md)
  * [Initial Configuration](mp_initial_config.md)
      * [Configure System Settings](configure_system.md)
      * [Add Management Portal Administrators](add_cloud_admins.md)

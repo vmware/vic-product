@@ -1,10 +1,10 @@
-# Verify and Trust vSphere Integrated Containers Appliance Certificates 
+# Verify and Trust vSphere Integrated Containers Appliance Certificate 
 
-You can verify the self-signed certificates and trust the certificate authority (CA) for the vSphere Integrated Containers appliance welcome page and the vSphere Integrated Containers Management Portal. Trusting the CA  prevents browsers from giving security warnings and potentially locking you out of vSphere Integrated Containers for security reasons.
+You can verify the self-signed certificate and trust the certificate authority (CA) for the vSphere Integrated Containers appliance welcome page and the vSphere Integrated Containers Management Portal. Trusting the CA prevents browsers from giving security warnings and potentially locking you out of vSphere Integrated Containers for security reasons.
 
 **Prerequisites**
 
-To verify and trust the vSphere Integrated Containers appliance certificates, you must obtain the thumbprints and CA files either directly from the appliance, or from the vSphere administrator. For information about how to obtain certificate information, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](../vic_vsphere_admin/obtain_appliance_certs.md).
+To verify and trust the vSphere Integrated Containers appliance certificate, you must obtain the thumbprint and CA file either directly from the appliance, or from the vSphere administrator. For information about how to obtain certificate information, see [Obtain the Thumbprint and CA File of the vSphere Integrated Containers Appliance Certificate](../vic_vsphere_admin/obtain_appliance_certs.md).
 
 **Procedure**
 
