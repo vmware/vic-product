@@ -8,9 +8,37 @@ You use the `vic-machine create` command to deploy VCHs:
 <pre>vic-machine-linux create --<i>option</i> <i>argument</i> --<i>option</i> <i>argument</i></pre>
 <pre>vic-machine-darwin create --<i>option</i> <i>argument</i> --<i>option</i> <i>argument</i></pre>
 
+- [Enabling Autocomplete](#autocomplete)
 - [Specifying Option Arguments](#args)
 - [Basic `vic-machine` Options](#options)
 - [Other `vic-machine` Options](#otheroptions)
+
+## Enabling Autocomplete <a id="autocomplete"></a>
+
+vSphere Integrated Containers 1.4.3 and later provides an autocomplete feature for `vic-machine` commands and options. The autocomplete feature is available for the `bash` and `zsh` shells, for all of the Windows, Linux, and MacOS versions of `vic-machine`.
+
+To enable autocomplete, download the vSphere Integrated Containers bundle and unpack it on your working machine.
+
+1. Open a `bash` or `zsh` shell and navigate to the `vic` folder of the unpacked vSphere Integrated Containers bundle.
+2. Run the `source` command to configure the autocomplete function of the current shell instance, according to your shell and OS.
+
+  - Windows and `bash`:<pre>source autocomplete/bash/vic-machine-windows.exe</pre>
+  - Linux and `bash`:<pre>source autocomplete/bash/vic-machine-linux</pre>
+  - MacOS and `bash`:<pre>source autocomplete/bash/vic-machine-darwin</pre>
+  - Windows and `zsh`:<pre>source autocomplete/zsh/vic-machine-windows.exe</pre>
+  - Linux and `zsh`:<pre>source autocomplete/zsh/vic-machine-linux</pre>
+  - MacOS and `zsh`:<pre>source autocomplete/zsh/vic-machine-darwin</pre>
+
+    Using the `source` command enables autocomplete for the current session. For information about how to enable autocomplete persistently, see documentation for your shell and OS combination.
+
+3. Start typing a `vic-machine` command and hit the tab key.
+
+    The autocomplete utility lists all of the possible commands that match what you typed. For example if you type `vic-machine-windows c` and hit tab, the autocomplete proposes the following commands:<pre>$ vic-machine-windows c
+configure  create</pre>If you start typing an option and hit tab, the autocomplete utility lists all of the possible options. For example: <pre>$ vic-machine-windows create --t
+--target           --timeout          --tls-cert-path    --tls-server-cert
+--thumbprint       --tls-ca           --tls-cname        --tls-server-key
+</pre>
+ 
 
 ## Specifying Option Arguments <a id="args"></a>
 
