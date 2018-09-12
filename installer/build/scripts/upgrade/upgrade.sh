@@ -97,8 +97,8 @@ function callPluginUpgradeEndpoint {
   local vc='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
   local vc_info='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
   local plugin='{"preset":"'"${preset}"'","force":true}'
-  local payload='{"vc":"${vc}","plugin":"${plugin}"}'
-  local payload_info='{"vc":"${vc_info}","plugin":"${plugin}"}'
+  local payload='{"vc":'"${vc}"',"plugin":'"${plugin}"'}'
+  local payload_info='{"vc":'"${vc_info}"',"plugin":'"${plugin}"'}'
   echo "register payload - ${payload_info}" >> $upgrade_log_file 2>&1
   /usr/bin/curl \
     -k \
