@@ -5,18 +5,18 @@ After you power on the vSphere Integrated Containers appliance for the first tim
 - Tag the appliance VM for content trust
 - Register the appliance with the Platform Services Controller
 
-After initialization, the vSphere Integrated Containers Getting Started page should display a success message at the top of the page. In this case, no action is necessary.
+After initialization, the vSphere Integrated Containers appliance welcome page should display a success message at the top of the page. In this case, no action is necessary.
 
-If you do not see the success message, the Getting Started Page includes a button labeled **Re-Initialize the  vSphere Integrated Containers Appliance**. 
+If you do not see the success message, the appliance welcome page includes a button labeled **Re-Initialize the  vSphere Integrated Containers Appliance**. 
 
 **IMPORTANT**: Only reinitialize the appliance in the following circumstances:
 
-* The initialization of the appliance did not succeed and the Getting Started page includes a red error alert instead of a green success alert. For example, you see the error `Failed to locate VIC Appliance. Please check the vCenter Server provided and try again`.
+* The initialization of the appliance did not succeed and the appliance welcome page includes a red error alert instead of a green success alert. For example, you see the error `Failed to locate VIC Appliance. Please check the vCenter Server provided and try again`.
 * You need to re-tag the appliance for Docker content trust. For more information, see [Re-Tag the vSphere Integrated Containers Appliance](retag_appliance.md).
 
 **Procedure**:
 
-1. In a browser, go to the vSphere Integrated Containers Getting Started page.
+1. In a browser, go to the vSphere Integrated Containers appliance welcome page.
 
     You can specify the address in one of the following formats:
 

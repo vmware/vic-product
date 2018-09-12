@@ -155,7 +155,7 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
 
     Initialization can take a few minutes.
 
-    **IMPORTANT**: After the new appliance has initialized, do not go to the Getting Started page of the appliance. Logging in to the Getting Started page for the first time initializes the appliance. Initialization is only applicable to new installations and causes upgraded appliances not to function correctly.
+    **IMPORTANT**: After the new appliance has initialized, do not go to the appliance welcome page of the appliance. Logging in to the appliance welcome page for the first time initializes the appliance. Initialization is only applicable to new installations and causes upgraded appliances not to function correctly.
 
 7. Use SSH to connect to the new appliance as root user.
     <pre>$ ssh root@<i>new_vic_appliance_address</i></pre>
@@ -201,11 +201,11 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
 
 **Result**
 
-After you see confirmation that the upgrade has completed successfully, the upgraded appliance initializes. When the upgraded appliance has initialized, you can access its Getting Started page at http://<i>new_appliance_address</i>.
+After you see confirmation that the upgrade has completed successfully, the upgraded appliance initializes. When the upgraded appliance has initialized, you can access its appliance welcome page at http://<i>new_appliance_address</i>.
 
 **What to Do Next**
 
-- Click **Go to the vSphere Integrated Containers Management Portal** in the Getting Started page, and use vCenter Server Single Sign-On credentials to log in.
+- Click **Go to the vSphere Integrated Containers Management Portal** in the appliance welcome page, and use vCenter Server Single Sign-On credentials to log in.
 
   - In the **Home** tab of the vSphere Integrated Containers Management Portal, check that all existing applications, containers, networks, volumes, and virtual container hosts have migrated successfully.
   - In the **Administration** tab, check that projects, registries, repositories, and replication configurations have migrated successfully.

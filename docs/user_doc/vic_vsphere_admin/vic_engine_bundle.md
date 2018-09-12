@@ -22,7 +22,7 @@ The `vic-machine` utility has been tested and verified on the operating systems 
 
 **Procedure**
 
-1. In a browser, go to the vSphere Integrated Containers Getting Started page.
+1. In a browser, go to the vSphere Integrated Containers appliance welcome page.
 
     You can specify the address in one of the following formats:
 
