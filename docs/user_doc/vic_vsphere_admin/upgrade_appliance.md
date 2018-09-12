@@ -2,13 +2,15 @@
 
 If you have a 1.2.1 or 1.3.x version of the vSphere Integrated Containers appliance, you can upgrade your existing installation to 1.4.x. You can also upgrade a 1.4.x release to a later 1.4.y update release.
 
-Upgrading the vSphere Integrated Containers appliance requires you to deploy an instance of the new version of the appliance, use SSH to log in to the new appliance, and run an upgrade script. The script copies the relevant disk files from the old appliance to the new appliance. All configurations that you made in vSphere Integrated Containers Management Portal and Registry in the previous installation transfer to the upgraded appliance. You can also configure the new appliance to use the same IP address as the older version of the appliance, if you configured the old appliance with a static IP address.
+Upgrading the vSphere Integrated Containers appliance requires you to deploy an instance of the new version of the appliance, use SSH to log in to the new appliance, and run an upgrade script. The script copies the relevant disk files from the old appliance to the new appliance. All configurations that you made in vSphere Integrated Containers Management Portal and Registry in the previous installation transfer to the upgraded appliance. If you configured the older version of the appliance with a static IP address, you can configure the new appliance to use the same IP address as before.
 
 Because disk files are copied rather than moved, the old appliance is not affected by the upgrade process. You can keep it as a backup. This is the recommended procedure for performing upgrades.
 
 You can also perform the upgrade by manually moving disks from the old appliance to the new appliance rather than by copying them. For information about manual upgrade, see [Upgrade the vSphere Integrated Containers Appliance by Manually Moving Disks](upgrade_appliance_manual.md).
 
 For information about the supported upgrade paths for all versions of vSphere Integrated Containers, see Upgrade Paths in the [VMware Product Interoperability Matrices](https://partnerweb.vmware.com/comp_guide2/sim/interop_matrix.php#upgrade&solution=149).
+
+**NOTE**: You cannot upgrade between untagged, open source builds of the same release. For example, you cannot upgrade from an earlier,  open source build of 1.4.1 to the official 1.4.1 release. You can only upgrade from one official release to another. Upgrading from one tagged open source build to another is possible but is not supported.
 
 **Prerequisites**
 
@@ -39,7 +41,7 @@ For information about the supported upgrade paths for all versions of vSphere In
     <pre>$ cd /etc/vmware/upgrade</pre>
     <pre>$ ./upgrade.sh</i></pre>
 
-	You can bypass some or all of the following steps by specifying additional optional arguments when you run the upgrade script. For information about the arguments that you can specify, see [Specify Command Line Options During Appliance Upgrade](#upgradeoptions) below.	
+	**NOTE**: You can bypass some or all of the following steps by specifying additional optional arguments when you run the upgrade script. For information about the arguments that you can specify, see [Specify Command Line Options During Appliance Upgrade](#upgradeoptions) below.	
 
     If you attempt to run the script while the appliance is still initializing and you see the following message, wait for a few more minutes, then attempt to run the script again.
 
@@ -51,22 +53,25 @@ For information about the supported upgrade paths for all versions of vSphere In
     2. Enter the Single Sign-On user name and password of a vSphere administrator account.
 
     The script requires these credentials to access the disk files of the old appliance, and to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.
-3. Provide information about the Platform Services Controller.
+4. Provide information about the Platform Services Controller.
 
     - If vCenter Server is managed by an external Platform Services Controller, enter the IP address or FQDN of the Platform Services Controller.
     - If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.
-4. If applicable, provide the Platform Services Controller domain.
+5. If applicable, provide the Platform Services Controller domain.
 
     - If vCenter Server is managed by an external Platform Services Controller, enter the administrator domain for the Platform Services Controller.
     - If vCenter Server is managed by an embedded Platform Services Controller, press Enter without entering anything.
-5. Enter **y** if the vCenter Server certificate thumbprint is legitimate.
-6. Provide information about the old version of the appliance.
+6. Enter `y` if the vCenter Server certificate thumbprint is legitimate.
+7. Provide information about the old version of the appliance.
 
     1. Enter the name of the datacenter that contains the old version of the appliance.
-    2. Enter the IP address of the old version of the appliance.  The upgrade script does not accept FQDN addresses for the old appliance.
+    2. Enter the IP address of the old version of the appliance.The upgrade script does not accept FQDN addresses for the old appliance.
     3. For the old appliance user name, enter `root`.
-    4. Enter the root password for the old appliance.
-6. Verify that the upgrade script has detected your upgrade path correctly.        
+8. To automatically upgrade the vSphere Integrated Containers plug-in for vSphere Client, enter `y` at the prompt to `Upgrade VIC UI Plugin`.
+
+    **NOTE**: The option to automatically upgrade the  plug-in for the vSphere Client is available in vSphere Integrated Containers 1.4.3 and later. If you you enter `n` to skip the plug-in upgrade, you can upgrade the plug-in later. If you are upgrading to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-in manually.
+10. Enter the root password for the old appliance.
+10. Verify that the upgrade script has detected your upgrade path correctly.        
   - If the script detects your upgrade path correctly, enter `y` to proceed with the upgrade.
   - If the upgrade script detects the upgrade path incorrectly, enter `n` to abort the upgrade and contact VMware support.
 
@@ -82,11 +87,16 @@ After you see confirmation that the upgrade has completed successfully, the upgr
   - In the **Administration** tab, check that projects, registries, repositories, and replication configurations have migrated successfully.
 - If, in the previous version, you configured vSphere Integrated Containers Registry instances as replication endpoints, upgrade the appliances that run those registry instances. Replication of images from the new registry instance to the older replication endpoint still functions, but it is recommended that you upgrade the target registry.
 - Download the new vSphere Integrated Containers Engine bundle and upgrade  your VCHs. For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).
-- Upgrade the vSphere Integrated Containers plug-ins for the vSphere Client. For information about upgrading the vSphere Client plug-ins, see: 
-  - [Upgrade the vSphere Client Plug-Ins on vCenter Server for Windows](upgrade_h5_plugin_windows.md)
-  - [Upgrade the vSphere Client Plug-Ins on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md)
+- If you upgraded to vSphere Integrated Containers 1.4.3 or later and answered `y` at the prompt to `Upgrade VIC UI Plugin`, access the  vSphere Integrated Containers plug-in for vSphere Client:
+   1. Log out of the HTML5 vSphere Client and log back in again. You should see a banner that states `There are plug-ins that were installed or updated`.
+   2. Log out of the HTML5 vSphere Client a second time and log back in again.
+   3. Click the **vSphere Client** logo in the top left corner. 
+   4. Under Inventories, click **vSphere Integrated Containers** to access the vSphere Integrated Containers plug-in.
+   5. In the **vSphere Integrated Containers** > **Summary** tab, check that the plug-in is at the correct version.
+- If you upgraded to vSphere Integrated Containers 1.4.3 or later and answered `n` at the prompt to `Upgrade VIC UI Plugin`, and you want to upgrade the plug-in later, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md). 
+- If you upgraded to a version of vSphere Integrated Containers that pre-dates 1.4.3, manually upgrade the vSphere Integrated Containers plug-in for the vSphere Client. For information about manually upgrading the vSphere Client plug-in, see [Manually Upgrade the vSphere Client Plug-In](upgrade_plugins.md).
   
-  **IMPORTANT**: vSphere Integrated Containers 1.4.2 includes version 1.4.1 of the vSphere Integrated Containers plug-ins for vSphere Client. If you are upgrading vSphere Integrated Containers from version 1.4.1 to 1.4.2, you must still upgrade the client plug-ins after you upgrade the appliance. This is so that the plug-ins register correctly with the upgraded appliance. If you do not upgrade the plug-ins after upgrading the appliance to 1.4.2, the vSphere Integrated Containers view does not appear in the vSphere Client.
+    **IMPORTANT**: vSphere Integrated Containers 1.4.2 includes version 1.4.1 of the vSphere Integrated Containers plug-in for vSphere Client. If you are upgrading vSphere Integrated Containers from version 1.4.1 to 1.4.2, you must still upgrade the client plug-in after you upgrade the appliance. This is so that the plug-in registers correctly with the upgraded appliance. If you do not upgrade the plug-in after upgrading the appliance to 1.4.2, the vSphere Integrated Containers view does not appear in the vSphere Client. 
 
 **Troubleshooting**
 
