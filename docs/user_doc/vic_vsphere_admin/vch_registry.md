@@ -24,7 +24,7 @@ When you deployed the vSphere Integrated Containers appliance, vSphere Integrate
 
 **Procedure**
 
-1. In a browser, go to the vSphere Integrated Containers Getting Started page.
+1. In a browser, go to the vSphere Integrated Containers appliance welcome page.
 
     You can specify the address in one of the following formats:
 

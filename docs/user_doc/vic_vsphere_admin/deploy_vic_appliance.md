@@ -53,7 +53,7 @@ If you need to deploy multiple appliances, you can use the initialization API to
      - Paste the contents of the Certificate Authority (CA) file in the **Certificate Authority Certificate** text box. 
     - To use a certificate that uses an intermediate CA, see [Use a Certificate with an Intermediate CA for the vSphere Integrated Containers Appliance](vic_cert_reference.md#intermediateca).
     - To use auto-generated certificates, leave the **Appliance TLS Certificate**, **Appliance TLS Certificate Key**, and **Certificate Authority Certificate** text boxes blank.
-5. In the **Appliance Configuration Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Getting Started page.
+5. In the **Appliance Configuration Port** text box, optionally change the port on which to publish the vSphere Integrated Containers appliance welcome page.
 
 5. Expand **Networking Properties** and optionally configure a static IP address and fully qualified domain name (FQDN) for the appliance VM. 
 
@@ -89,7 +89,7 @@ If you need to deploy multiple appliances, you can use the initialization API to
 
     The network status shows whether the network settings that you provided during the deployment match the settings with which the appliance is running. If there are mismatches, power off the appliance and select **Edit Settings** > **vApp Options** to correct the network settings.
     
-11. In a browser, go to the vSphere Integrated Containers Getting Started page.
+11. In a browser, go to the vSphere Integrated Containers appliance welcome page.
 
     You can specify the address in one of the following formats:
 
@@ -119,7 +119,7 @@ If you need to deploy multiple appliances, you can use the initialization API to
 
 **Result**
 
-You see the vSphere Integrated Containers Getting Started page. The Getting Started page includes the following links: 
+You see the vSphere Integrated Containers appliance welcome page. The appliance welcome page includes the following links: 
 
 - vSphere Integrated Containers Management Portal
 - The download for the vSphere Integrated Containers Engine bundle
@@ -140,8 +140,8 @@ You see the vSphere Integrated Containers Getting Started page. The Getting Star
 **Troubleshooting**
 
 - For information about how to access the logs for the appliance, see [Access and Configure Appliance Logs](appliance_logs.md).
-- If you do not see a green success banner at the top of the Getting Started page after initializing the appliance, the appliance has not initialized correctly. For more information, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md).
+- If you do not see a green success banner at the top of the appliance welcome page after initializing the appliance, the appliance has not initialized correctly. For more information, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md).
 - If deployment of the appliance fails, see [Troubleshoot vSphere Integrated Containers Appliance Deployment](ts_deploy_appliance.md).
-- If you see errors when attempting to connect to the Getting Started page or to vSphere Integrated Containers Management Portal, or when downloading the vSphere Integrated Containers Engine bundle, see [Troubleshoot Post-Deployment Operation](ts_post_deployment_op.md).
-- To remove security warnings when you connect to the Getting Started page or management portal, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](obtain_appliance_certs.md) and [Verify and Trust vSphere Integrated Containers Appliance Certificates](../vic_cloud_admin/trust_vic_certs.md).
+- If you see errors when attempting to connect to the appliance welcome page or to vSphere Integrated Containers Management Portal, or when downloading the vSphere Integrated Containers Engine bundle, see [Troubleshoot Post-Deployment Operation](ts_post_deployment_op.md).
+- To remove security warnings when you connect to the appliance welcome page or management portal, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](obtain_appliance_certs.md) and [Verify and Trust vSphere Integrated Containers Appliance Certificates](../vic_cloud_admin/trust_vic_certs.md).
 - If necessary, you can reconfigure the appliance after deployment by editing the settings of the appliance VM. For information about reconfiguring the appliance and other post-installation management tasks, see [Manage the vSphere Integrated Containers Appliance](manage_appliance.md).
