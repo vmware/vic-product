@@ -123,6 +123,8 @@ The following network requirements apply to the deployment of VCHs to vCenter Se
 
 If you intend to use a custom certificate, the vSphere Integrated Containers appliance supports PEM encoded PKCS#1 and PEM encoded PKCS#8 formats for TLS private keys. If you provide a PKCS#1 format certificate, vSphere Integrated Containers converts it to PKCS8 format. The appliance uses a single TLS certificate for all of the services that run in the appliance.
 
+For information about how vSphere Integrated Containers uses certificates, see the [vSphere Integrated Containers Appliance Certificate Requirements](vic_cert_reqs.md).
+
 ## User Accounts for VCH Deployment and Operation <a id="users"></a>
 
 A VCH requires the appropriate permissions in vSphere to perform  tasks during VCH deployment and operation. Deployment of a VCH requires a user account with vSphere administrator privileges. However, day-to-day operation of a VCH requires fewer vSphere permissions than deployment. Consequently, you can configure a VCH to use different user accounts for deployment and for day-to-day operation. If you choose to use different accounts, the user account to use for day-to-day operation must exist before you deploy the VCH. For information about the operations user, see [Create the Operations User Account](create_ops_user.md).
