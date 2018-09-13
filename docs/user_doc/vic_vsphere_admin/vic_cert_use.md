@@ -1,8 +1,9 @@
-# Certificate Usage in vSphere Integrated Containers #
+# Certificate Requirements #
 
-* [Appliance Certificate Requirements](vic_cert_reqs.md) 
+* [About TLS Certificates and Docker](tls_docker_certs.md)
+* [Appliance Certificate Requirements](appliance_cert_reqs.md) 
 * [VCH Certificate Requirements](vch_cert_reqs.md)
-
+* [vSphere Integrated Containers Registry Root CA](registry_cert.md)
 
 This diagram shows how the vSphere Integrated Containers appliance and VCHs use certificates to authenticate connections between the different components. The diagram shows a deployment in which verification of client certificates is enabled on virtual container hosts (VCHs).
 

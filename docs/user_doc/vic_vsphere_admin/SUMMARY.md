@@ -4,8 +4,10 @@
 
 * [vSphere Administrator](README.md)
  * [Certificate Use](vic_cert_use.md)
-     * [Appliance Certificate Requirements](vic_cert_reqs.md) 
+     * [About TLS Certificates and Docker](tls_docker_certs.md)
+     * [Appliance Certificate Requirements](appliance_cert_reqs.md) 
      * [VCH Certificate Requirements](vch_cert_reqs.md)
+     * [vSphere Integrated Containers Registry Root CA](registry_cert.md)
  * [Installation](installing_vic.md)
      * [Download Installer](download_vic.md) 
      * [Deployment Prerequisites](vic_installation_prereqs.md)

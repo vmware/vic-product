@@ -31,7 +31,7 @@ For simplicity, this example deploys a VCH without client certificate verificati
   * One VMware vSphere Distributed Switch with two port groups named `vic-bridge` and `vic-public`.
 * Verify that your vCenter Server instance and all of the ESXi hosts in the cluster meet the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md).
 
-    **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
+    **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](network_reqs.md).
 * Make sure that the correct firewall ports are open on the ESXi hosts. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 * Obtain the vCenter Server certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 * If you intend to use the CLI utility to deploy the VCH, familiarize yourself with the basic options of the `vic-machine create` command described in [Running vic-machine Commands](running_vicmachine_cmds.md).

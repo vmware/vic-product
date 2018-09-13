@@ -10,7 +10,7 @@ The different options that you configure in the Create Virtual Container Host wi
 - You installed the HTML5 plug-in for vSphere Integrated Containers.
 - Make sure that your virtual infrastructure meets the requirements for VCH deployment. For information about virtual infrastructure requirements, see [Deployment Prerequisites for vSphere Integrated Containers](vic_installation_prereqs.md). 
 
-    **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
+    **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
 - Familiarize yourself with the way in which VCHs use certificates to authenticate connections from clients. For information about certificate use by VCHs and Docker, see the [Virtual Container Host Certificate Requirements](vch_cert_reqs.md).
 - Make sure that the correct ports are open on all ESXi hosts. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 

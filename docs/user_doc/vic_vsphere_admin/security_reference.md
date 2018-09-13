@@ -16,7 +16,7 @@ vSphere Integrated Containers does not create service accounts and does not assi
 
 The appliance uses a single TLS certificate for all of the services that run in the appliance.
 
-For information about how vSphere Integrated Containers uses certificates, see the [vSphere Integrated Containers Appliance Certificate Requirements](vic_cert_reqs.md).
+For information about how vSphere Integrated Containers uses certificates, see the [vSphere Integrated Containers Appliance Certificate Requirements](appliance_cert_reqs.md).
 
 ### VCH Authentication with vSphere
 
