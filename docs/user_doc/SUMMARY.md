@@ -138,14 +138,14 @@
          * [Mount an NFS Share Point](vic_vsphere_admin/vch_mount_nfsshare.md)
   * [Security Reference](vic_vsphere_admin/security_reference.md)
      * [Certificate Reference](vic_vsphere_admin/vic_cert_reference.md)
-     * [Obtain Appliance Certificates](vic_vsphere_admin/obtain_appliance_certs.md)  
+     * [Obtain Appliance Certificate](vic_vsphere_admin/obtain_appliance_certs.md)  
   * [`vic-machine` Options Reference](vic_vsphere_admin/vicmachine_options_ref.md)
 
 ----
 
 * [Management Portal Administrator](vic_cloud_admin/README.md) 
  * [Logging In to Management Portal](vic_cloud_admin/logging_in_mp.md)
-     * [Verify and Trust Certificates](vic_cloud_admin/trust_vic_certs.md)
+     * [Verify and Trust Certificate](vic_cloud_admin/trust_vic_certs.md)
  * [Initial Configuration](vic_cloud_admin/mp_initial_config.md)
      * [Configure System Settings](vic_cloud_admin/configure_system.md)
      * [Add Management Portal Administrators](vic_cloud_admin/add_cloud_admins.md)

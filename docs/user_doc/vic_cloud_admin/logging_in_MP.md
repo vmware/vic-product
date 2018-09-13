@@ -24,7 +24,7 @@ For more information about users and roles, see [vSphere Integrated Containers R
 
 ## Troubleshooting ##
 
-To remove security warnings when you connect to the appliance welcome page or management portal, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](../vic_vsphere_admin/obtain_appliance_certs.md) and [Verify and Trust vSphere Integrated Containers Appliance Certificates](trust_vic_certs.md).
+To remove security warnings when you connect to the appliance welcome page or management portal, see [Obtain the Thumbprint and CA File of the vSphere Integrated Containers Appliance Certificate](../vic_vsphere_admin/obtain_appliance_certs.md) and [Verify and Trust the vSphere Integrated Containers Appliance Certificate](trust_vic_certs.md).
 
 If you see a certificate error when you attempt to go to the vSphere Integrated Containers appliance welcome page at https://<i>vic_appliance_address</i>:9443, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](../vic_vsphere_admin/ts_cert_error.md).
 
