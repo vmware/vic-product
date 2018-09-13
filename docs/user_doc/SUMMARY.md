@@ -20,10 +20,12 @@
 ----
 
 * [vSphere Administrator](vic_vsphere_admin/README.md)
+ * [Certificate Use](vic_vsphere_admin/vic_cert_use.md)
+     * [Appliance Certificate Requirements](vic_vsphere_admin/vic_cert_reqs.md) 
+     * [VCH Certificate Requirements](vic_vsphere_admin/vch_cert_reqs.md)
  * [Installation](vic_vsphere_admin/installing_vic.md)
      * [Download Installer](vic_vsphere_admin/download_vic.md) 
      * [Deployment Prerequisites](vic_vsphere_admin/vic_installation_prereqs.md)
-     * [Appliance Certificate Requirements](vic_vsphere_admin/vic_cert_reqs.md)
      * [Deploy the Appliance](vic_vsphere_admin/deploy_vic_appliance.md)
          * [Appliance Initialization API](vic_vsphere_admin/ova_reg_api.md) 
      * [Download the vSphere Integrated Containers Engine Bundle](vic_vsphere_admin/vic_engine_bundle.md)
@@ -37,7 +39,6 @@
          * [Virtual Container Host Boot Options](vic_vsphere_admin/vch_boot_options.md)
      * [Open the Required Ports on ESXi Hosts](vic_vsphere_admin/open_ports_on_hosts.md)
      * [Obtain vSphere Thumbprints](vic_vsphere_admin/obtain_thumbprint.md) 
-     * [VCH Certificate Requirements](vic_vsphere_admin/vch_cert_reqs.md)
      * [Create the Operations User](vic_vsphere_admin/create_ops_user.md)
          * [Manually Create a User Account for the Operations User](vic_vsphere_admin/ops_user_manual.md)
      * [Deploy VCHs in vSphere Client](vic_vsphere_admin/deploy_vch_client.md)

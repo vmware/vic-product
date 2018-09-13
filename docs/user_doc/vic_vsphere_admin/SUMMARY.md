@@ -3,10 +3,12 @@
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
 * [vSphere Administrator](README.md)
+ * [Certificate Use](vic_cert_use.md)
+     * [Appliance Certificate Requirements](vic_cert_reqs.md) 
+     * [VCH Certificate Requirements](vch_cert_reqs.md)
  * [Installation](installing_vic.md)
      * [Download Installer](download_vic.md) 
      * [Deployment Prerequisites](vic_installation_prereqs.md)
-     * [Appliance Certificate Requirements](vic_cert_reqs.md)
      * [Deploy the Appliance](deploy_vic_appliance.md)
          * [Appliance Initialization API](ova_reg_api.md) 
      * [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md)
@@ -19,7 +21,6 @@
          * [Virtual Container Host Boot Options](vch_boot_options.md)
      * [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md)
      * [Obtain vSphere Thumbprints](obtain_thumbprint.md)
-     * [VCH Certificate Requirements](vch_cert_reqs.md)
      * [Create the Operations User](create_ops_user.md)
          * [Manually Create a User Account for the Operations User](ops_user_manual.md)
      * [Deploy VCHs in vSphere Client](deploy_vch_client.md)

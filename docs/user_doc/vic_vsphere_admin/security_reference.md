@@ -18,10 +18,6 @@ The appliance uses a single TLS certificate for all of the services that run in 
 
 For information about how vSphere Integrated Containers uses certificates, see the [vSphere Integrated Containers Appliance Certificate Requirements](vic_cert_reqs.md).
 
-This diagram shows how the vSphere Integrated Containers appliance and VCHs use certificates to authenticate connections between the different components. The diagram shows a deployment in which verification of client certificates is enabled on virtual container hosts (VCHs).
-
-![vSphere Integrated Containers Appliance Certificates](graphics/vic_certs.png)
-
 ### VCH Authentication with vSphere
 
 Using `vic-machine` to deploy and manage virtual container hosts (VCHs) requires a user account with vSphere administrator privileges. The `vic-machine create --ops-user` and `--ops-password` options allow a VCH to operate with less-privileged credentials than those that are required to deploy a new VCH. For information about the `--ops-user` option and the permissions that it requires, see [Create the Operations User Account](create_ops_user.md).
