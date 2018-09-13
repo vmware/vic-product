@@ -1,6 +1,6 @@
 # vSphere Client Plug-In Scripts Fail with No Error Message #
 
-When you run the scripts to install or upgrade the vSphere Integrated Containers plug-ins for the vSphere Client, the operation fails immediately.
+When you run the scripts to install or upgrade the vSphere Integrated Containers plug-in for the vSphere Client, the operation fails immediately.
 
 ## Problem ##
 

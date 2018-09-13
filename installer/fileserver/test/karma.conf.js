@@ -12,11 +12,11 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      {pattern: 'js/fixtures/*.html', watched: true, included: false, served: true},
+      {pattern: 'fixtures/*.html', watched: true, included: false, served: true},
       // code i want to test
-      'js/index-handler.js',
+      '../html/js/index-handler.js',
       // specs
-      'js/specs/index-handler-spec.js'
+      'specs/index-handler-spec.js'
     ],
 
 
