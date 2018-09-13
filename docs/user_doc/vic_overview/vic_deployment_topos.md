@@ -28,17 +28,17 @@ You can deploy two vSphere Integrated Containers appliances and use the vSphere 
 If a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller. This setup provides the following advantages:
 
 - All of the user accounts that are configured in the Platform Services Controller are available to all of the vSphere Integrated Containers appliances. 
-- You can assign diffferent roles to the same user account in different instances of the appliance. For example, a user can be a vSphere Integrated Containers Management Portal administrator for one appliance, but not for another.
+- You can assign different roles to the same user account in different instances of the appliance. For example, a user can be a vSphere Integrated Containers Management Portal administrator for one appliance, but not for another.
 
 ### Hub and Spoke Configuration <a id="hub"></a>
 
 In a large vSphere environment, in which not all vCenter Server instances are located in the same place, or are not all in the same vCenter Single Sign On domain, you can create a hub and spoke configuration: 
 
 - You deploy one vSphere Integrated Containers appliance to a vCenter Server instance in a centralized location. This appliance acts as a hub. 
-- You deploy one vSphere Integrated Containers appliance to each of the  remote vCenter Server instances.
+- You deploy one vSphere Integrated Containers appliance to each of the remote vCenter Server instances.
 - You configure image replication between the registry in the central hub the vSphere Integrated Containers Registry instances in each location.
 
-In this way, all of the remote locations have access to all of the images from the registry in the central hub. Remote locations benefit from data proximity when pulling images from their local registry.
+In this way, all of the remote locations have access to all of the images from the registry in the central hub. Remote locations benefit from data proximity when pulling images from their local registry. You must add the same users to projects on the different vSphere Integrated Containers instances.
 
 ### Separate Development from Production <a id="dev-prod"></a>
 
