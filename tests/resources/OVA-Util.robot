@@ -376,7 +376,7 @@ Execute Upgrade Script
 Deploy OVA And Install UI Plugin And Run Regression Tests
     # Deploy OVA and then install UI plugin
     # run regression tests on UI wizard and docker commands on VCH created using UI
-    [Arguments]  ${test-name}  ${ova-file}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}=1
+    [Arguments]  ${test-name}  ${ova-file}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}=3
     Log To Console  \nStarting test ${test-name}...
     Set Test VC Variables
     Set Environment Variable  OVA_NAME  OVA-${test-name}
