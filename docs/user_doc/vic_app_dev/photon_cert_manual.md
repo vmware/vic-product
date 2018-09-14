@@ -2,7 +2,7 @@
 
 To manually add the vSphere Integrated Containers CA certificate to  `dch-photon`, you can create a `dch-photon` container VM, then use `docker cp` to copy the certificate into it. 
 
-**NOTE**: This method requires you to copy the certificate to every `dch-photon` container VM that you deploy. To avoid having to copy the certificate every time, the recommended method is to create a custom `dch-photon` image. For information about creating a custom image, see [Add the Registry Certificate to a Custom Image](photon_cert_custom.html).
+**NOTE**: This method requires you to copy the certificate to every `dch-photon` container VM that you deploy. To avoid having to copy the certificate every time, the recommended method is to create a custom `dch-photon` image. For information about creating a custom image, see [Add the Registry Certificate to a Custom `dch-photon` Image](photon_cert_custom.html).
 
 **Prerequisites**
 

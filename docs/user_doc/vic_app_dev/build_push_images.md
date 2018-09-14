@@ -12,6 +12,7 @@ vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13. The `dch
 - [Using `dch-photon` with vSphere Integrated Containers Registry](#registry)
 - [Using `dch-photon` with Other Registries](#other)
 - [Instantiating Docker Swarms with `dch-photon`](#swarm)
+- [What to Do Next](#procedure)
 
 ## Advantages of Using `dch-photon` <a id="advantages"></a> 
 
@@ -56,16 +57,6 @@ You can provide the certificate to `dch-photon` in one of two ways:
 
 When you have deployed `dch-photon` with the registry certificate, you can use it to build an image and push that image from `dch-photon` to vSphere Integrated Containers Registry. You can then pull the image from the registry into a VCH for deployment. 
 
-### Procedure
-
-To use `dch-photon` with vSphere Integrated Containers Registry and a VCH, you must perform the following tasks, in order:
-
-1. Provide the vSphere Integrated Containers Registry certificate to a `dch-photon` instance in one of the following ways:
-
-  - [Add the Registry Certificate to a Custom Image](photon_cert_custom.md)
-  - [Manually Add the Registry Certificate to a `dch-photon` VM](photon_cert_manual.md)
-2. Test the dch-photon instance by following the procedure in [Build, Push, and Pull an Image with `dch-photon`](test_photon.md).
-
 ## Using `dch-photon` with TLS Authentication and Other Registries <a id="other"></a>
 
 For information about using `dch-photon` with TLS authentication and with other registries than vSphere Integrated Containers Registry, see [Advanced `dch-photon` Deployment](dchphoton_options.md). 
@@ -73,3 +64,14 @@ For information about using `dch-photon` with TLS authentication and with other 
 ## Instantiating Docker Swarms with `dch-photon` <a id="swarm"></a>
 
 You can use the `dch-photon` Docker Engine to instantiate a Docker swarm. For information about instantiating a Docker swarm, see [Automating Swarm Creation with vSphere Integrated Containers](https://blogs.vmware.com/cloudnative/2017/10/03/automating-swarm-creation-with-vic-1-2/).
+
+## What to Do Next <a id="procedure"></a>
+
+To use `dch-photon` with vSphere Integrated Containers Registry and a VCH, you must perform the following tasks, in order:
+
+1. Obtain an appropriately configured VCH by following the procedure in [Deploy a Virtual Container Host with a Volume Store and vSphere Integrated Containers Registry Access](../vic_vsphere_admin/deploy_vch_dchphoton.md).
+2. Provide the vSphere Integrated Containers Registry certificate to a `dch-photon` instance in one of the following ways:
+
+  - [Add the Registry Certificate to a Custom  `dch-photon`  Image](photon_cert_custom.md)
+  - [Manually Add the Registry Certificate to a `dch-photon` VM](photon_cert_manual.md)
+2. Test the dch-photon instance by following the procedure in [Build, Push, and Pull an Image with `dch-photon`](test_photon.md).
