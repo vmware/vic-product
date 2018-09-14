@@ -157,7 +157,7 @@ Set Docker Host Parameters
 Create VCH using UI And Set Docker Parameters
     # navigate to the wizard and create a VCH
     # set docker parameters for created VCH
-    [Arguments]  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}=1
+    [Arguments]  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}=3
     Open Firefox Browser
     Navigate To VC UI Home Page
     Login On Single Sign-On Page
