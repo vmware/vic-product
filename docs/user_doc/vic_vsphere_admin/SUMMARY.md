@@ -98,6 +98,8 @@
          *  [Registry Services Do Not Start](ts_reg_doesnt_start.md)
          * [Appliance VM Password Refused](ts_appliance_password_refused.md)
          * [Browser Rejects Certificates](ts_cert_error.md)
+         * [Registration with Platform Service Controller Fails](ts_psc_registration_error.md)
+         * [Access to Management Portal Fails](ts_admiral_access_error.md)
      * [Plug-In Installation](ts_install_plugins.md)     
          * [Plug-In Scripts Fail](ts_plugin_script_fails.md)
          * [Plug-In Does Not Appear](ts_ui_not_appearing.md)
