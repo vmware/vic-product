@@ -16,7 +16,7 @@
 Documentation  Test 5-04 - Multiple Clusters
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  Multiple Cluster Setup
-Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+#Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 
 *** Keywords ***
 # Insert elements from dict2 into dict1, overwriting conflicts in dict1 & returning new dict
