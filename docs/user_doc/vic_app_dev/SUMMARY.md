@@ -15,6 +15,7 @@
      * [Build, Push, and Pull and Image](test_photon.md)
      * [Advanced `dch-photon` Deployment](dchphoton_options.md)
      * [Expand the Root Disk](dch_expand_disk.md)
+     * [Use Proxy Servers](dch_photon_proxy.md)
   * [Using Volumes](using_volumes_with_vic.md) 
   * [Container Networking](network_use_cases.md)
   * [Creating a Containerized App](creating_containerized_app_with_vic.md)

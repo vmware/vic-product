@@ -27,7 +27,7 @@ By creating a custom image, you can deploy multiple instances of `dch-photon` th
 
 6. Make a new folder and copy the vSphere Integrated Containers Registry certificate into it.
 
-7. In the new folder, create a Dockerfile with the following format:
+7. In the new folder, create a `Dockerfile` with the following format:
 
     <pre>
     FROM <i>registry_address</i>/default-project/dch-photon:1.13

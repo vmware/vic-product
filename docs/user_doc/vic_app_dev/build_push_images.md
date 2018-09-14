@@ -77,3 +77,5 @@ To use `dch-photon` with vSphere Integrated Containers Registry and a VCH, you m
   - [Add the Registry Certificate to a Custom  `dch-photon`  Image](photon_cert_custom.md)
   - [Manually Add the Registry Certificate to a `dch-photon` VM](photon_cert_manual.md)
 2. Test the dch-photon instance by following the procedure in [Build, Push, and Pull an Image with `dch-photon`](test_photon.md).
+
+For information about configuring `dch-photon` to use proxy servers, see [Configure `dch-photon` to Use Proxy Servers](dch_photon_proxy.md).
