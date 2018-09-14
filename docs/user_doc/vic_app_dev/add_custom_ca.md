@@ -20,9 +20,11 @@ You might need to do this if you have seen errors such as the following when att
 dockerfile
 FROM vmware/dch-photon
 COPY certs/*.crt /etc/ssl/certs/
-RUN tdnf install -y openssl-c_rehash</pre>
+RUN tdnf install -y openssl-c_rehash
 ADD docker-entrypoint.sh /docker-entrypoint.sh
-</pre>This image adds the following to `dch-photon`:
+</pre>
+
+    This image adds the following to `dch-photon`:
 
     * Copies the root and any secondary certificates into `/etc/ssl/certs` in the `dch-photon` container.
     * Installs `openssl-c_rehash`. You need to rehash the CAs so that programs such as OpenSSL can find newly added CAs. 
