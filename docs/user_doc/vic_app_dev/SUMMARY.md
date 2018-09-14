@@ -16,6 +16,7 @@
      * [Advanced `dch-photon` Deployment](dchphoton_options.md)
      * [Expand the Root Disk](dch_expand_disk.md)
      * [Use Proxy Servers](dch_photon_proxy.md)
+     * [Add a Custom Registry CA](add_custom_ca.md)
   * [Using Volumes](using_volumes_with_vic.md) 
   * [Container Networking](network_use_cases.md)
   * [Creating a Containerized App](creating_containerized_app_with_vic.md)

@@ -31,6 +31,7 @@ This command instantiates a `dch-photon` container with the following configurat
 Build a new `dch-photon` image, for example named `dch-photon-proxy` based on the official one. To do this, you create a `Dockerfile` that includes proxy environment variables:
 
 <pre>
+dockerfile
 FROM vmware/dch-photon:1.13
 ENV http_proxy http://proxy.server.com:8080
 ENV https_proxy https://proxy.server.com:8080
