@@ -194,7 +194,7 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
     3. For the old appliance user name, enter `root`.
 6. To automatically upgrade the vSphere Integrated Containers plug-in for vSphere Client, enter `y` at the prompt to `Upgrade VIC UI Plugin`.
 
-    **NOTE**: The option to automatically upgrade the  plug-in for the vSphere Client is available in vSphere Integrated Containers 1.4.3 and later. However, if you are already running other instances of the vSphere Integrated Containers appliance that are of a different version, enter `n` to skip the plug-in upgrade. You can upgrade the plug-in manually later. If you are upgrading to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-in manually.
+    **NOTE**: The option to automatically upgrade the  plug-in for the vSphere Client is available in vSphere Integrated Containers 1.4.3 and later. If you you enter `n` to skip the plug-in upgrade, for example because you have multiple appliances of a different version, you can upgrade the plug-in later. You can see version information about the plug-in and the appliance in the Summary tab of the vSphere Integrated Containers plug-in in versions 1.4.3 and later. If you are upgrading to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-in manually. 
 7. Verify that the upgrade script has detected your upgrade path correctly.        
   - If the script detects your upgrade path correctly, enter `y` to proceed with the upgrade.
   - If the upgrade script detects the upgrade path incorrectly, enter `n` to abort the upgrade and contact VMware support.
