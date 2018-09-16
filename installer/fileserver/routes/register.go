@@ -59,6 +59,8 @@ func RegisterHandler(resp http.ResponseWriter, req *http.Request) {
 		PSCConfig.Admin.User = r.User
 		PSCConfig.Admin.Password = r.Password
 		PSCConfig.Admin.Thumbprint = r.Thumbprint
+		PSCConfig.PscDomain = r.PSCDomain
+		PSCConfig.PscInstance = r.ExternalPSC
 		cancel, err := PSCConfig.Admin.VerifyLogin(op)
 		defer cancel()
 		if err != nil {
