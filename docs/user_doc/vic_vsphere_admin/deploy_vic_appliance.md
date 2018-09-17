@@ -110,7 +110,7 @@ If you need to deploy multiple appliances, you can use the initialization API to
 
     **IMPORTANT**: The installation process requires administrator credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller and to tag the appliance VM for use in Docker content trust. Administrator credentials are not stored on the appliance VM after use in the installation process. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
 
-12. To automatically install the vSphere Integrated Containers plug-in for vSphere Client, leave the **Install UI Plugin** check box selected.
+12. To automatically install the vSphere Integrated Containers plug-in for vSphere Client, leave the **Install UI Plugin** check box selected, and click **Continue**.
 
     **NOTES**: 
     - The option to automatically install the  plug-in for the vSphere Client is available in vSphere Integrated Containers 1.4.3 and later. 
@@ -118,6 +118,8 @@ If you need to deploy multiple appliances, you can use the initialization API to
     - If you deselect the **Install UI Plugin** check box, you can install or upgrade the plug-in later. 
     - If you are installing a version of vSphere Integrated Containers that pre-dates 1.4.3, you must install the plug-in manually.
 13. Verify that the certificate thumbprint for vCenter Server is valid, and click **Continue** to initialize the appliance.
+
+    Thumbprint verification occurs in vSphere Integrated Containers 1.4.3 and later.
 
 **Result**
 
