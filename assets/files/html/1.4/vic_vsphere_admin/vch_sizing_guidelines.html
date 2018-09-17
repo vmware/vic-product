@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>VCH Deployment Options · VMware vSphere Integrated Containers 1.4 Documentation</title>
+        <title>Virtual Container Hosts Sizing Guidelines · VMware vSphere Integrated Containers 1.4 Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -69,10 +69,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="vch_general_settings.html" />
+    <link rel="next" href="vch_admin.html" />
     
     
-    <link rel="prev" href="deploy_vch_client.html" />
+    <link rel="prev" href="deploy_vch_dchphoton.html" />
     
 
     </head>
@@ -557,7 +557,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.1.2.5" data-path="vch_deployment_options.html">
+        <li class="chapter " data-level="3.1.2.5" data-path="vch_deployment_options.html">
             
                 <a href="vch_deployment_options.html">
             
@@ -873,7 +873,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.2.7" data-path="vch_sizing_guidelines.html">
+        <li class="chapter active" data-level="3.1.2.7" data-path="vch_sizing_guidelines.html">
             
                 <a href="vch_sizing_guidelines.html">
             
@@ -2919,7 +2919,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >VCH Deployment Options</a>
+        <a href=".." >Virtual Container Hosts Sizing Guidelines</a>
     </h1>
 </div>
 
@@ -2934,20 +2934,44 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="vch-deployment-options">VCH Deployment Options</h1>
-<p>The following topics provide instructions about how to fill in the different pages of the Create Virtual Container Host wizard. These topics also explain how to use the corresponding <code>vic-machine create</code> options when deploying VCHs by using the CLI.</p>
+                                <h1 id="virtual-container-hosts-sizing-guidelines">Virtual Container Hosts Sizing Guidelines</h1>
+<p>Sizing of virtual container hosts (VCHs) depends on the workload that you need to run. While deploying a VCH, consider the sizing guidelines and resources that are consumed by a VCH during boot.</p>
 <ul>
-<li><a href="vch_general_settings.html">General Settings</a></li>
-<li><a href="vch_compute.html">Compute Capacity</a></li>
-<li><a href="vch_storage.html">Storage Capacity</a></li>
-<li><a href="vch_networking.html">Networks</a></li>
-<li><a href="vch_security.html">Security</a></li>
-<li><a href="vch_registry.html">Registry Access</a></li>
-<li><a href="set_up_ops_user.html">Operations User</a></li>
-<li><a href="complete_vch_deployment_client.html">Finish VCH Deployment in the vSphere Client</a></li>
-<li><a href="vch_advanced_options.md">Advanced Virtual Container Host Deployment Options</a></li>
-<li><a href="vicmachine_options_ref.html"><code>vic-machine</code> Options Reference</a></li>
+<li><a href="#guidelines">Guidelines</a></li>
+<li><a href="#resourceconsumption">Resources Consumed</a></li>
 </ul>
+<h2 id="guidelines-">Guidelines <a id="guidelines"></a></h2>
+<p>Sizing of VCHs can be modifed by configuring resource pool limits. If a VCH requires more resources, or if it consumes too many resources, you can configure CPU and memory allocations on the VCH resource pool by using the different <code>vic-machine configure --memory</code> and <code>--cpu options</code>.</p>
+<p>Remember the following points while configuring the options:</p>
+<ul>
+<li>The image store exists directly on the datastore  and the footprint is directly related to the images that have been downloaded.</li>
+<li>The read/write layers of the container VM  exist directly on the datastore within the VM folders and are based on redo logs and hence relate directly to the amount of data written.</li>
+<li>Volumes exist on whichever datastore or NFS server that the volume store is configured for.  These volumes are thin by default and the footprint relates to the amount of data written. </li>
+<li>You can modify the resource pool live without stopping container VMs or restarting the endpoint VM via the vSphere UI.</li>
+<li><p>Do not use the ESXi host client to edit a running endpointVM directly. Instead, use the the vCenter client or power off the endpointVM before editing. </p>
+<p> For more information, see <a href="ts_vch_incorrect_initialization.html">VCH Does Not Initialize Correctly</a> </p>
+</li>
+</ul>
+<p>vCenter maximums will apply for general scale, maximum configurations, and limitations. A single vCenter Server instance can have 25,000 powered-on VMs and 35,000 registered VMs. Make sure that the number of  VMFS virtual disks (VMDKs) files associated with the VMs does not exceed the maximum permitted per datastore. For more information, see <a href="https://configmax.vmware.com/" target="_blank">vSphere Configurations Maximums Tool</a>.</p>
+<p>For information about modifying resource allocations for the VCH by using the options at deployment, see <a href="vch_compute.html">Virtual Container Host Compute Capacity</a> and for modifying options after deployment, see <a href="configure_vch.html">Configure Running Virtual Container Hosts</a>.</p>
+<h2 id="resources-consumed-">Resources Consumed <a id="resourceconsumption"></a></h2>
+<p>During boot, the minimum memory of the VCH endpoint VM is around 900 MB  and it actively uses around 450MB for basic operations. </p>
+<p>The <strong>scratch image size</strong>, which is the size of the filesystem that that supports the container filesystem for container VMs, defaults to 8GB. Since it is not possible to extend VMDKs that have parent disks, it is important to have a size that is large enough for the expected images for a specific VCH. For example, when a DB2 image is 50GB.</p>
+<p>The endpoint VM CPU and memory can be modified by shutting down the endpointVM and editing the hardware specification. The CPU is primarily utilized for performing checksums of images as they are pulled, <code>docker diff</code> and <code>copy</code> operations, and NAT traffic forwarding to container VMs. The memory is used as a temporary filesystem for spooling images as they are downloaded and hence the endpointVM memory should be sufficient to hold the largest layers in an image. </p>
+<p>The following list describes the resource consumption of container VMs with default memory 2 GB, 20s after boot. The resource consumption follows normal vSphere patterns of high active initially based on conservative assumptions, trending to actual active over time.</p>
+<ul>
+<li>MemTotal: 2052880 kB</li>
+<li>MemFree: 1932036 kB</li>
+<li>MemAvailable: 1906724 kB</li>
+<li>Buffers: 200 kB</li>
+<li>Cached: 71768 kB</li>
+<li>SwapCached: 0 kB</li>
+<li>Active: 11108 kB</li>
+<li>Inactive: 69260 kB</li>
+<li>Active(anon): 10652 kB</li>
+<li>Inactive(anon): 68320 kB</li>
+</ul>
+<p><strong>NOTE</strong>: When you a run a VCH in debug mode, it increases overhead as there is significantly more string-copying occurring.</p>
 
                                 
                                 </section>
@@ -2975,12 +2999,12 @@
 
             
                 
-                <a href="deploy_vch_client.html" class="navigation navigation-prev " aria-label="Previous page: Deploy VCHs in vSphere Client">
+                <a href="deploy_vch_dchphoton.html" class="navigation navigation-prev " aria-label="Previous page: VCH with Volume Store and Registry">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="vch_general_settings.html" class="navigation navigation-next " aria-label="Next page: General Settings">
+                <a href="vch_admin.html" class="navigation navigation-next " aria-label="Next page: VCH Administration">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2991,7 +3015,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"VCH Deployment Options","level":"3.1.2.5","depth":3,"next":{"title":"General Settings","level":"3.1.2.5.1","depth":4,"path":"vic_vsphere_admin/vch_general_settings.md","ref":"vic_vsphere_admin/vch_general_settings.md","articles":[]},"previous":{"title":"Deploy VCHs in vSphere Client","level":"3.1.2.4","depth":3,"path":"vic_vsphere_admin/deploy_vch_client.md","ref":"vic_vsphere_admin/deploy_vch_client.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_deployment_options.md","mtime":"2018-09-12T08:30:02.574Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-17T09:26:38.026Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Virtual Container Hosts Sizing Guidelines","level":"3.1.2.7","depth":3,"next":{"title":"VCH Administration","level":"3.1.3","depth":2,"path":"vic_vsphere_admin/vch_admin.md","ref":"vic_vsphere_admin/vch_admin.md","articles":[{"title":"Interoperability","level":"3.1.3.1","depth":3,"path":"vic_vsphere_admin/interop.md","ref":"vic_vsphere_admin/interop.md","articles":[]},{"title":"VCH Admin in the vSphere Client","level":"3.1.3.2","depth":3,"path":"vic_vsphere_admin/vch_admin_client.md","ref":"vic_vsphere_admin/vch_admin_client.md","articles":[{"title":"View VIC Information","level":"3.1.3.2.1","depth":4,"path":"vic_vsphere_admin/access_h5_ui.md","ref":"vic_vsphere_admin/access_h5_ui.md","articles":[]},{"title":"View VCH and Container Information","level":"3.1.3.2.2","depth":4,"path":"vic_vsphere_admin/vch_portlet_ui.md","ref":"vic_vsphere_admin/vch_portlet_ui.md","articles":[]}]},{"title":"VCH Admin with vic-machine","level":"3.1.3.3","depth":3,"path":"vic_vsphere_admin/vch_admin_vicmachine.md","ref":"vic_vsphere_admin/vch_admin_vicmachine.md","articles":[{"title":"Obtain Version Information","level":"3.1.3.3.1","depth":4,"path":"vic_vsphere_admin/vic_machine_version.md","ref":"vic_vsphere_admin/vic_machine_version.md","articles":[]},{"title":"Common Options","level":"3.1.3.3.2","depth":4,"path":"vic_vsphere_admin/common_vic_options.md","ref":"vic_vsphere_admin/common_vic_options.md","articles":[]},{"title":"List VCHs","level":"3.1.3.3.3","depth":4,"path":"vic_vsphere_admin/list_vch.md","ref":"vic_vsphere_admin/list_vch.md","articles":[]},{"title":"Obtain General VCH Information","level":"3.1.3.3.4","depth":4,"path":"vic_vsphere_admin/inspect_vch.md","ref":"vic_vsphere_admin/inspect_vch.md","articles":[]},{"title":"Obtain VCH Configuration Information","level":"3.1.3.3.5","depth":4,"path":"vic_vsphere_admin/inspect_vch_config.md","ref":"vic_vsphere_admin/inspect_vch_config.md","articles":[]},{"title":"Configure Running VCHs","level":"3.1.3.3.6","depth":4,"path":"vic_vsphere_admin/configure_vch.md","ref":"vic_vsphere_admin/configure_vch.md","articles":[]},{"title":"Debug Running VCHs","level":"3.1.3.3.7","depth":4,"path":"vic_vsphere_admin/debug_vch.md","ref":"vic_vsphere_admin/debug_vch.md","articles":[{"title":"Enable Shell Access","level":"3.1.3.3.7.1","depth":5,"path":"vic_vsphere_admin/vch_shell_access.md","ref":"vic_vsphere_admin/vch_shell_access.md","articles":[]},{"title":"Authorize SSH Access","level":"3.1.3.3.7.2","depth":5,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]}]}]},{"title":"Delete VCHs","level":"3.1.3.4","depth":3,"path":"vic_vsphere_admin/remove_vch.md","ref":"vic_vsphere_admin/remove_vch.md","articles":[]},{"title":"VCH Admin Portal","level":"3.1.3.5","depth":3,"path":"vic_vsphere_admin/access_vicadmin.md","ref":"vic_vsphere_admin/access_vicadmin.md","articles":[{"title":"Browser-Based Certificate Login","level":"3.1.3.5.1","depth":4,"path":"vic_vsphere_admin/browser_login.md","ref":"vic_vsphere_admin/browser_login.md","articles":[]},{"title":"Command Line Certificate Login","level":"3.1.3.5.2","depth":4,"path":"vic_vsphere_admin/cmdline_login.md","ref":"vic_vsphere_admin/cmdline_login.md","articles":[]},{"title":"VCH Admin Status Reference","level":"3.1.3.5.3","depth":4,"path":"vic_vsphere_admin/vicadmin_status_ref.md","ref":"vic_vsphere_admin/vicadmin_status_ref.md","articles":[]}]}]},"previous":{"title":"VCH with Volume Store and Registry","level":"3.1.2.6.2","depth":4,"path":"vic_vsphere_admin/deploy_vch_dchphoton.md","ref":"vic_vsphere_admin/deploy_vch_dchphoton.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_sizing_guidelines.md","mtime":"2018-09-17T08:21:29.588Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-17T09:26:38.026Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
