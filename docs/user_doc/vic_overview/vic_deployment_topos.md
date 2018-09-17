@@ -7,7 +7,7 @@ You can deploy multiple vSphere Integrated Containers appliances to the same vCe
   - [User Roles](#roles)
   - [Hub and Spoke Configuration](#hub)
   - [Separate Development from Production](#dev-prod)
-- [vSphere Integrated Containers Plug-in and Multiple Appliance Deployements](#client) 
+- [vSphere Integrated Containers Plug-in and Multiple Appliance Deployments](#client) 
 
 ## Deployment Examples for vSphere Integrated Containers Registry <a id="examples"></a>
 
@@ -53,10 +53,12 @@ You can use the registries in different appliances to manage images that are und
 
 In this example, `Registry_4` could act as the hub in a hub and spoke configuration, for operations with many different physical locations.
 
-## vSphere Integrated Containers Plug-in and Multi-Appliance Deployements <a id="client"></a>
+## vSphere Integrated Containers Plug-in and Multi-Appliance Deployments <a id="client"></a>
 
 The vSphere Integrated Containers plug-in for the vSphere Client allows you to deploy virtual container hosts (VCHs) from the vSphere Client. The vSphere Integrated Containers plug-in deploys VCHs by calling on the `vic-machine` API server that runs in a vSphere Integrated Containers appliance.
 
-In an environment in which multiple vSphere Integrated Containers appliances are deployed to the same vCenter Server instance, the vSphere Integrated Containers plug-in connects to the API server in one appliance only. The version of the client plug-in must correspond to the version of the appliance. However, the appliance that the client connects to might not be the one that was most recently registered with vCenter Server. Consequently, if you deploy different versions of the appliance to vCenter Server, you might or might not want to install the latest version of the client plug-in. 
+In an environment in which multiple vSphere Integrated Containers appliances are deployed to the same vCenter Server instance, the vSphere Integrated Containers plug-in connects to the API server in one appliance only. The version of the client plug-in must correspond to the version of the appliance. However, the appliance that the client connects to might not be the one that was most recently registered with vCenter Server. Consequently, if you deploy different versions of the appliance to vCenter Server, you might or might not want to install the latest version of the client plug-in.
 
 For information about installing the vSphere Integrated Containers plug-in, see [Deploy the vSphere Integrated Containers Appliance](../vic_vsphere_admin/deploy_vic_appliance.md).
+
+For information about how to find the versions of the client plug-in and the appliance instance to which it is connected, see [View vSphere Integrated Containers Information in the HTML5 vSphere Client](../vic_vsphere_admin/access_h5_ui.md).

@@ -62,7 +62,7 @@ For information about the supported upgrade paths for all versions of vSphere In
     3. For the old appliance user name, enter `root`.
 8. To automatically upgrade the vSphere Integrated Containers plug-in for vSphere Client, enter `y` at the prompt to `Upgrade VIC UI Plugin`.
 
-    **NOTE**: The option to automatically upgrade the  plug-in for the vSphere Client is available in vSphere Integrated Containers 1.4.3 and later. If you you enter `n` to skip the plug-in upgrade, you can upgrade the plug-in later. If you are upgrading to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-in manually.
+    **NOTE**: The option to automatically upgrade the  plug-in for the vSphere Client is available in vSphere Integrated Containers 1.4.3 and later. If you enter `n` to skip the plug-in upgrade, for example because you have multiple appliances of a different version, you can upgrade the plug-in later. You can see version information about the plug-in and the appliance in the Summary tab of the vSphere Integrated Containers plug-in in versions 1.4.3 and later. If you are upgrading to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-in manually. 
 10. Enter the root password for the old appliance.
 10. Verify that the upgrade script has detected your upgrade path correctly.        
   - If the script detects your upgrade path correctly, enter `y` to proceed with the upgrade.
