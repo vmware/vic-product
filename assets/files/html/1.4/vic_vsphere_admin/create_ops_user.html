@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>VCH Deployment Options · VMware vSphere Integrated Containers 1.4 Documentation</title>
+        <title>Create the Operations User · VMware vSphere Integrated Containers 1.4 Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -69,10 +69,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="vch_general_settings.html" />
+    <link rel="next" href="ops_user_manual.html" />
     
     
-    <link rel="prev" href="deploy_vch_client.html" />
+    <link rel="prev" href="open_ports_on_hosts.html" />
     
 
     </head>
@@ -512,7 +512,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.2.3" data-path="create_ops_user.html">
+        <li class="chapter active" data-level="3.1.2.3" data-path="create_ops_user.html">
             
                 <a href="create_ops_user.html">
             
@@ -557,7 +557,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.1.2.5" data-path="vch_deployment_options.html">
+        <li class="chapter " data-level="3.1.2.5" data-path="vch_deployment_options.html">
             
                 <a href="vch_deployment_options.html">
             
@@ -2919,7 +2919,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >VCH Deployment Options</a>
+        <a href=".." >Create the Operations User</a>
     </h1>
 </div>
 
@@ -2934,20 +2934,51 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="vch-deployment-options">VCH Deployment Options</h1>
-<p>The following topics provide instructions about how to fill in the different pages of the Create Virtual Container Host wizard. These topics also explain how to use the corresponding <code>vic-machine create</code> options when deploying VCHs by using the CLI.</p>
+                                <h1 id="create-the-operations-user-account">Create the Operations User Account</h1>
+<p>A virtual container host (VCH) requires the appropriate permissions in vSphere to perform various tasks during VCH operation. Deployment of a VCH requires a user account with vSphere administrator privileges. However, day-to-day operation of a VCH requires fewer vSphere permissions than deployment.</p>
+<p>During deployment of a VCH, vSphere Integrated Containers Engine runs all deployment operations by using the vSphere administrator account that you specify in the <code>vic-machine create --user</code> or <code>--target</code> options. If you are using the Create Virtual Container Host wizard, it uses the vSphere administrator account with which you are logged into the vSphere Client. </p>
+<p>By default, if you deploy a VCH by using <code>vic-machine</code>, it runs with the same user account as you used to deploy it. In this case, the VCH uses the vSphere administrator account for post-deployment operations, meaning that it runs with full vSphere administrator privileges. Running with full vSphere administrator privileges is excessive, and potentially a security risk.</p>
+<p>To avoid this situation, you should configure a VCH so that it uses different user accounts for deployment and for post-deployment operation by specifying an <em>operations user</em> when you deploy the VCH. By specifying an operations user with reduced vSphere privileges, you limit its post-deployment privileges to only those privileges that it needs for day-to-day operation.</p>
 <ul>
-<li><a href="vch_general_settings.html">General Settings</a></li>
-<li><a href="vch_compute.html">Compute Capacity</a></li>
-<li><a href="vch_storage.html">Storage Capacity</a></li>
-<li><a href="vch_networking.html">Networks</a></li>
-<li><a href="vch_security.html">Security</a></li>
-<li><a href="vch_registry.html">Registry Access</a></li>
-<li><a href="set_up_ops_user.html">Operations User</a></li>
-<li><a href="complete_vch_deployment_client.html">Finish VCH Deployment in the vSphere Client</a></li>
-<li><a href="vch_advanced_options.md">Advanced Virtual Container Host Deployment Options</a></li>
-<li><a href="vicmachine_options_ref.html"><code>vic-machine</code> Options Reference</a></li>
+<li><a href="#behavior">How the Operations User Works</a><ul>
+<li><a href="#default">Default Behavior</a></li>
+<li><a href="#ops-behavior">Operations User Behavior</a></li>
 </ul>
+</li>
+<li><a href="#createuser">Create a User Account for the Operations User</a></li>
+</ul>
+<h2 id="how-the-operations-user-works-">How the Operations User Works <a id="behavior"></a></h2>
+<p>If you specify an operations user, <code>vic-machine</code> and the VCH behave differently to how they would behave in a default deployment.</p>
+<h3 id="default-behavior-">Default Behavior <a id="default"></a></h3>
+<ul>
+<li>When you create a VCH by using <code>vic-machine</code>, you provide vSphere administrator credentials to <code>vic-machine create</code>, either in <code>--target</code> or in the <code>--user</code> and <code>--password</code> options. During deployment, <code>vic-machine create</code> uses these credentials to log in to vSphere and create the VCH. The VCH safely and securely stores the vSphere administrator credentials, for use in post-deployment operation.</li>
+<li>When you run other <code>vic-machine</code> commands on the VCH after deployment, for example, <code>vic-machine ls</code>, <code>upgrade</code>, or <code>configure</code>, you again provide the vSphere administrator credentials in the <code>--target</code> or <code>--user</code> and <code>--password</code> options. Again, <code>vic-machine</code> uses these credentials to log in to vSphere to retrieve the necessary information or to perform upgrade or configuration tasks on the VCH.</li>
+<li>When a container developer creates a container in the VCH, they authenticate with the VCH with their client certificate. In other words, the developer interacts with the VCH via the Docker client, and does not need to provide any vSphere credentials. However, the VCH uses the stored vSphere administrator credentials that you provided during deployment to log in to vSphere to create the container VM and to run operations on it.</li>
+</ul>
+<h3 id="operations-user-behavior-">Operations User Behavior <a id="ops-behavior"></a></h3>
+<ul>
+<li>When you create a VCH, the Create Virtual Container Host wizard uses the vSphere administrator credentials with which you logged into vSphere Client to create the VCH. If you use <code>vic-machine</code>, you provide vSphere administrator credentials either in <code>vic-machine create --target</code> or in the <code>--user</code> and <code>--password</code> options. </li>
+<li>You also provide the credentials for another vSphere account in the Operations User page of the Create Virtual Container Host wizard or in the <code>vic-machine create --ops-user</code> and <code>--ops-password</code> options. </li>
+<li>During deployment, vSphere Integrated Containers Engine uses the vSphere administrator credentials to log in to vSphere and create the VCH. The operations user credentials are safely and securely stored in the VCH, for later use in post-deployment operation. In this case, the VCH does not store the vSphere administrator credentials.</li>
+<li>When you perform operations on the VCH after deployment, for example, <code>vic-machine ls</code>, <code>upgrade</code>, or <code>configure</code>, you provide the vSphere administrator credentials in the <code>--target</code> or <code>--user</code> and <code>--password</code> options. This is the same as in the default case. The stored operations user credentials are not used for these operations.</li>
+<li>When a container developer creates a container in the VCH, the VCH uses the stored operations user credentials to log in to vSphere to create the container VM and to run operations on it.</li>
+</ul>
+<h2 id="create-a-user-account-for-the-operations-user-">Create a User Account for the Operations User <a id="createuser"></a></h2>
+<p>The user account that you specify as the operations user must exist before you deploy the VCH. If you are deploying the VCH to a vCenter Server cluster, vSphere Integrated Containers Engine provides an option to automatically assign all of the required roles and permissions to the operations user account. </p>
+<p><strong>IMPORTANT</strong>: If you are deploying the VCH to a standalone host that is managed by vCenter Server, rather than to a cluster, you must assign roles and permissions manually. For information about manually configuring the operations user account, see <a href="ops_user_manual.html">Manually Create a User Account for the Operations User</a>.</p>
+<p>You can use the same user account as the operations user for multiple VCHs.</p>
+<p><strong>Prerequisite</strong></p>
+<p>Log into the Flex-based vSphere Web Client with a vSphere administrator account. You cannot use the HTML5 vSphere Client to create user accounts.</p>
+<p><strong>Procedure</strong></p>
+<ol>
+<li>In Home page of the vSphere Web Client, click <strong>Roles</strong>.</li>
+<li>Click <strong>Users and Groups</strong> in the Navigator menu.</li>
+<li>Select the appropriate domain and click the <strong>+</strong> button to add a new user.</li>
+<li>Enter a user name for the operations user account, for example <code>vic-ops</code>.</li>
+<li>Enter and confirm the password for this account, optionally provide the additional information, and click <strong>OK</strong>. </li>
+</ol>
+<p><strong>Result</strong></p>
+<p>You can use the new user as the operations user account for VCHs. You must use the option to grant any necessary permissions to the user account when you deploy the VCH.</p>
 
                                 
                                 </section>
@@ -2975,12 +3006,12 @@
 
             
                 
-                <a href="deploy_vch_client.html" class="navigation navigation-prev " aria-label="Previous page: Deploy VCHs in vSphere Client">
+                <a href="open_ports_on_hosts.html" class="navigation navigation-prev " aria-label="Previous page: Open the Required Ports on ESXi Hosts">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="vch_general_settings.html" class="navigation navigation-next " aria-label="Next page: General Settings">
+                <a href="ops_user_manual.html" class="navigation navigation-next " aria-label="Next page: Manually Create Operations User">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2991,7 +3022,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"VCH Deployment Options","level":"3.1.2.5","depth":3,"next":{"title":"General Settings","level":"3.1.2.5.1","depth":4,"path":"vic_vsphere_admin/vch_general_settings.md","ref":"vic_vsphere_admin/vch_general_settings.md","articles":[]},"previous":{"title":"Deploy VCHs in vSphere Client","level":"3.1.2.4","depth":3,"path":"vic_vsphere_admin/deploy_vch_client.md","ref":"vic_vsphere_admin/deploy_vch_client.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_deployment_options.md","mtime":"2018-09-12T08:30:02.574Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-17T09:26:38.026Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Create the Operations User","level":"3.1.2.3","depth":3,"next":{"title":"Manually Create Operations User","level":"3.1.2.3.1","depth":4,"path":"vic_vsphere_admin/ops_user_manual.md","ref":"vic_vsphere_admin/ops_user_manual.md","articles":[]},"previous":{"title":"Open the Required Ports on ESXi Hosts","level":"3.1.2.2","depth":3,"path":"vic_vsphere_admin/open_ports_on_hosts.md","ref":"vic_vsphere_admin/open_ports_on_hosts.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/create_ops_user.md","mtime":"2018-09-17T07:38:03.245Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-17T09:26:38.026Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

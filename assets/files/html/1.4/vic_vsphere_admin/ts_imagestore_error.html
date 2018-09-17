@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>VCH Deployment Options · VMware vSphere Integrated Containers 1.4 Documentation</title>
+        <title>Image Store Error · VMware vSphere Integrated Containers 1.4 Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -69,10 +69,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="vch_general_settings.html" />
+    <link rel="next" href="vch_install_packages.html" />
     
     
-    <link rel="prev" href="deploy_vch_client.html" />
+    <link rel="prev" href="ts_dockerlogin_error.html" />
     
 
     </head>
@@ -557,7 +557,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.1.2.5" data-path="vch_deployment_options.html">
+        <li class="chapter " data-level="3.1.2.5" data-path="vch_deployment_options.html">
             
                 <a href="vch_deployment_options.html">
             
@@ -1931,7 +1931,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.5.6" data-path="ts_imagestore_error.html">
+        <li class="chapter active" data-level="3.1.7.5.6" data-path="ts_imagestore_error.html">
             
                 <a href="ts_imagestore_error.html">
             
@@ -2919,7 +2919,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >VCH Deployment Options</a>
+        <a href=".." >Image Store Error</a>
     </h1>
 </div>
 
@@ -2934,20 +2934,18 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="vch-deployment-options">VCH Deployment Options</h1>
-<p>The following topics provide instructions about how to fill in the different pages of the Create Virtual Container Host wizard. These topics also explain how to use the corresponding <code>vic-machine create</code> options when deploying VCHs by using the CLI.</p>
-<ul>
-<li><a href="vch_general_settings.html">General Settings</a></li>
-<li><a href="vch_compute.html">Compute Capacity</a></li>
-<li><a href="vch_storage.html">Storage Capacity</a></li>
-<li><a href="vch_networking.html">Networks</a></li>
-<li><a href="vch_security.html">Security</a></li>
-<li><a href="vch_registry.html">Registry Access</a></li>
-<li><a href="set_up_ops_user.html">Operations User</a></li>
-<li><a href="complete_vch_deployment_client.html">Finish VCH Deployment in the vSphere Client</a></li>
-<li><a href="vch_advanced_options.md">Advanced Virtual Container Host Deployment Options</a></li>
-<li><a href="vicmachine_options_ref.html"><code>vic-machine</code> Options Reference</a></li>
-</ul>
+                                <h1 id="pulling-images-into-vchs-fails-with-image-store-error">Pulling Images into VCHs Fails with Image Store Error</h1>
+<p>When you attempt to pull certain container images from a registry into a vSphere Integrated Containers virtual container host (VCH), the pulls fail with an error. Pulls of other container images do not fail.</p>
+<h2 id="problem">Problem</h2>
+<p>When you attempt to pull an image, you see the following error:</p>
+<pre>Failed to write to image store: [POST /storage/{<i>image_store_name</i>}] [5000] WriteImage default &amp;{Code: 500 Message:Failed to add disk &apos;scsi0:0&apos; .}
+</pre>
+
+
+<h2 id="cause">Cause</h2>
+<p>When you use a standard Docker Engine, an image can have a maximum of 120 layers. When you use a vSphere Integrated Containers Engine virtual container host (VCH), an image can have a maximum of 90 layers. The image that you are pulling exceeds the limit of 90 layers.</p>
+<h2 id="solution">Solution</h2>
+<p>Reduce the number of layers in the image to less than 90.</p>
 
                                 
                                 </section>
@@ -2975,12 +2973,12 @@
 
             
                 
-                <a href="deploy_vch_client.html" class="navigation navigation-prev " aria-label="Previous page: Deploy VCHs in vSphere Client">
+                <a href="ts_dockerlogin_error.html" class="navigation navigation-prev " aria-label="Previous page: Docker Login Fails">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="vch_general_settings.html" class="navigation navigation-next " aria-label="Next page: General Settings">
+                <a href="vch_install_packages.html" class="navigation navigation-next " aria-label="Next page: Install Packages in VCHs">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2991,7 +2989,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"VCH Deployment Options","level":"3.1.2.5","depth":3,"next":{"title":"General Settings","level":"3.1.2.5.1","depth":4,"path":"vic_vsphere_admin/vch_general_settings.md","ref":"vic_vsphere_admin/vch_general_settings.md","articles":[]},"previous":{"title":"Deploy VCHs in vSphere Client","level":"3.1.2.4","depth":3,"path":"vic_vsphere_admin/deploy_vch_client.md","ref":"vic_vsphere_admin/deploy_vch_client.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_deployment_options.md","mtime":"2018-09-12T08:30:02.574Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-17T09:26:38.026Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Image Store Error","level":"3.1.7.5.6","depth":4,"next":{"title":"Install Packages in VCHs","level":"3.1.7.6","depth":3,"path":"vic_vsphere_admin/vch_install_packages.md","ref":"vic_vsphere_admin/vch_install_packages.md","articles":[{"title":"Mount an NFS Share Point","level":"3.1.7.6.1","depth":4,"path":"vic_vsphere_admin/vch_mount_nfsshare.md","ref":"vic_vsphere_admin/vch_mount_nfsshare.md","articles":[]}]},"previous":{"title":"Docker Login Fails","level":"3.1.7.5.5","depth":4,"path":"vic_vsphere_admin/ts_dockerlogin_error.md","ref":"vic_vsphere_admin/ts_dockerlogin_error.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/ts_imagestore_error.md","mtime":"2018-09-17T07:38:03.323Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-17T09:26:38.026Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
