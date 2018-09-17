@@ -24,8 +24,21 @@ If the plug-in does not appear at all:
 ## Solutions ##
 
 - If the vSphere Integrated Containers plug-in appears in the HTML5 client but the tabs are empty, upgrade vCenter Server to version 6.5.0d or later.
-- If the plug-in does not appear at all, see the sections below to restart the vSphere Client services.
+- If the plug-in does not appear at all, see the section below to restart the vSphere Client services.
 - If the plug-in still does not appear after restarting the vSphere Client services, see https://kb.vmware.com/kb/52540. 
+
+## Restart the vSphere Client Services <a id="restart-client"></a>
+
+You restart the Flex-based vSphere Web Client or the HTML5 vSphere Client in different ways.
+
+### Restart the HTML5 Client from the Flex-based vSphere Web Client 
+
+1. Log into the Flex-based vSphere Web Client.
+2. Go to **Administration** > **System Configuration** > **Services**. 
+3. Right-click **VMware vSphere Client** and select **Restart**.
+
+You cannot restart the Flex-based vSphere Web Client from the Flex-based client or from the HTML5 vSphere Client.
+
 
 ### Restart the HTML5 Client on vCenter Server on Windows ###
 
