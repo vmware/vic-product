@@ -45,10 +45,8 @@ vMotion Setup
     Set Environment Variable  GOVC_USERNAME  Administrator@vsphere.local
     Set Environment Variable  GOVC_PASSWORD  Admin\!23
 
-    Add Host To Distributed Switch  /vcqaDC/host/cls
-
     Log To Console  Enable DRS on the cluster
-    ${out}=  Run  govc cluster.change -drs-enabled /vcqaDC/host/cls
+    ${out}=  Run  govc cluster.change -drs-enabled /dc1/host/cls
     Should Be Empty  ${out}
 
     Log To Console  Deploy VIC to the VC cluster
@@ -59,7 +57,7 @@ vMotion Setup
     Set Environment Variable  PUBLIC_NETWORK  vm-network
     Remove Environment Variable  TEST_DATACENTER
     Set Environment Variable  TEST_DATASTORE  vsanDatastore
-    Set Environment Variable  TEST_RESOURCE  /vcqaDC/host/cls
+    Set Environment Variable  TEST_RESOURCE  /dc1/host/cls
 
     Gather Host IPs
     Log To Console   Finished Creating vMotion Setup

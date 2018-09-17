@@ -30,3 +30,7 @@ The process of uninstalling vSphere Integrated Containers depends on the way tha
 	2. If you created default users for your vSphere Integrated Containers instance, click **Users and Groups**, select the *Management Portal (cloud) administrator* user, the *DevOps Admin* user, and the *Developer* user, and click **Delete** for each of them.
 	3. Click the **Solution Users** tab, select the users that start with *engine*, *admiral*, and *harbor*, and click **Delete** for each of them.
 6. Verify that no vSphere Integrated Containers VMDK files are left on your datastore.
+
+**What to Do Next**
+
+Restart the vSphere Client service to finalize the removal of the vSphere Integrated Containers plug-in. For information about restarting the client, see [Restart the vSphere Client](ts_ui_not_appearing.md#restart-client).
