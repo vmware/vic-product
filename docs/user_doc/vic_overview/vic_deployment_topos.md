@@ -61,4 +61,4 @@ In an environment in which multiple vSphere Integrated Containers appliances are
 
 For information about installing the vSphere Integrated Containers plug-in, see [Deploy the vSphere Integrated Containers Appliance](../vic_vsphere_admin/deploy_vic_appliance.md).
 
-For information about how to find the versions of the client plug-in and the appliance instance to which it is connected, see [View vSphere Integrated Containers Information in the HTML5 vSphere Client](../vic_vsphere_admin/access_h5_ui.md). 
+For information about how to find the versions of the client plug-in and the appliance instance to which it is connected, see [View vSphere Integrated Containers Information in the HTML5 vSphere Client](../vic_vsphere_admin/access_h5_ui.md).

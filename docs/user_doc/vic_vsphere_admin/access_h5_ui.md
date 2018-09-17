@@ -4,6 +4,8 @@ If you have installed the HTML5 plug-in for vSphere Integrated Containers, you c
 
 **IMPORTANT**: Do not perform operations on virtual container hosts (VCHs) or container VMs in the vSphere Client inventory views. Specifically, using the vSphere Client inventory views to power off, power on, or delete the VCH endpoint VM, or to modify the VCH resource pool or folder, can cause vSphere Integrated Containers Engine to not function correctly. Always use the vSphere Integrated Containers plug-in for the vSphere Client or `vic-machine` to perform operations on VCHs. The vSphere Client does not allow you to delete container VMs, but do not use the vSphere Client to power container VMs on or off. Always use Docker commands or vSphere Integrated Containers Management Portal to perform operations on containers.
 
+**NOTE**: More functionality will be added to the vSphere Integrated Containers plug-in in future releases.
+
 **Prerequisites**
 
 - You are running vCenter Server 6.7 or vCenter Server 6.5.0d or later. The vSphere Integrated Containers view does not function with earlier versions of vCenter Server 6.5.0.
@@ -25,7 +27,7 @@ If you have installed the HTML5 plug-in for vSphere Integrated Containers, you c
     - The version of the vSphere Integrated Containers appliance to which the client plug-in is connected.
     - The IP address of the vSphere Integrated Containers appliance. 
     
-    The information about the appliance is available in vSphere Integrated Containers 1.4.3 and later. It allows you to know which appliance instance is providing the vSphere Integrated Containers API endpoint. This is useful in environments in which you have deployed multiple appliances.
+    The information about the appliance is available in vSphere Integrated Containers 1.4.3 and later. It allows you to know which appliance instance is providing the vSphere Integrated Containers API endpoint. This is useful in environments in which you have deployed multiple appliances. The appliance that the client connects to might not be the one that was most recently registered with vCenter Server. Consequently, if you have deployed different versions of the appliance to vCenter Server, it is useful to know which one the client is connecting to.
 
 4. Select the **Virtual Container Hosts** tab. 
 
