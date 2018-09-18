@@ -1,0 +1,57 @@
+{"vch":{
+    "vsphere-target": "administrator@vsphere.example.com",
+    "vsphere-certificate-thumbprint": "22:11:33:11:22:21:33:11:22:22:55:66:77:55:88:99:99:00:11:11",
+    "vch-name": "vch01",
+    "vch-dns-server": "192.168.20.1",
+    "command-timeout": "10m",
+    "compute-resource": "example/resource/path",
+    "image-store": "DS01",
+    "tls-cname": "vch01.example.com",
+    "tls-registry-ca": "C:\\certs\\here\\ca.pem",
+    "tls-cert-path": "C:\\certs\\here\\",
+    "tls-organization": "exampleorg",
+    "tls-certificate-keysize": "4096",
+    "volume-stores":{
+        "DS02": {"tag": "default"},
+        "DS03": {"tag": "nfs"}
+    },
+    "bridge-network": {
+        "IPAM-type": "DHCP"
+    },
+    "client-network": {
+        "IPAM-type": "Static",
+        "ip-address": "192.168.0.2",
+        "subnet-cidr": "/24",
+        "gateway": "192.168.0.1"
+    },
+    "public-network": {
+        "IPAM-type": "Static",
+        "ip-address": "192.168.1.2",
+        "subnet-cidr": "/24",
+        "gateway": "192.168.1.1"
+    },
+    "management-network": {
+        "IPAM-type": "DHCP"
+    },
+    "container-networks":{
+        "container01": {
+            "IPAM-type": "Static",
+            "ip-address-range": "192.168.17.2-192.168.17.254",
+            "subnet-cidr": "/24",
+            "dns-servers": {
+                "dns01": "192.168.20.1",
+                "dns02": "192.168.20.2"
+            },
+            "gateway": "192.168.17.1"
+        },
+        "container02": {
+            "IPAM-type": "Static",
+            "ip-address-range": "192.168.18.2-192.168.18.254",
+            "subnet-cidr": "/24",
+            "dns-servers": {
+                "dns01": "192.168.20.1",
+                "dns02": "192.168.20.2"
+            },
+            "gateway": "192.168.18.1"
+    }
+}}
