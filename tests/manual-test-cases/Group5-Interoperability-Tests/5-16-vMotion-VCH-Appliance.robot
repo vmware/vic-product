@@ -16,7 +16,7 @@
 Documentation  Test 5-16 - vMotion VCH Appliance
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  vMotion Setup
-Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+#Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 Test Teardown  Run Keyword If Test Failed  Gather All vSphere Logs
 
 *** Keywords ***
