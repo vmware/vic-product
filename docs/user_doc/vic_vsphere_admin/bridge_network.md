@@ -47,7 +47,7 @@ If you do not specify `--bridge-network` or if you specify an invalid port group
 
 ### Bridge Network Range <a id="bridge-range"></a>
 
-A range of IP addresses that additional bridge networks can use when container application developers use `docker network create` to create new user-defined networks. VCHs create these additional user-defined bridge networks by using IP address segregation within a set address range, so user-defined bridge networks do not require you to assign dedicated port groups. By default, all VCHs use the standard Docker range of 172.16.0.0.0/12 for additional user-defined networks. You can override the default range if that range is already in use in your network. You can reuse the same network address range across all VCHs.  
+A range of IP addresses that additional bridge networks can use when container application developers use `docker network create` to create new user-defined networks. VCHs create these additional user-defined bridge networks by using IP address segregation within a set address range, so user-defined bridge networks do not require you to assign dedicated port groups. By default, all VCHs use the standard Docker range of 172.16.0.0/12 for additional user-defined networks. You can override the default range if that range is already in use in your network. You can reuse the same network address range across all VCHs.  
 
 When you specify a bridge network IP range, you specify the IP range as a CIDR. The smallest subnet that you can specify is /16.
 
