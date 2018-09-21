@@ -20,7 +20,7 @@ To access the logs for vSphere Integrated Containers Management Portal, navigate
 
 ## Causes ##
 
-The errors could occur because for any of the following resons:
+The errors could occur because of any of the following reasons:
 
 - Some of the parameters provided while registering with the PSC might be wrong
 - The parameters that were valid during the PSC registration process or from the OVA are no longer valid now.
@@ -30,4 +30,6 @@ The errors could occur because for any of the following resons:
 
 1. Verify that the PSC registration was successful and that the logs do not have error messages. If the registration was not sucessful, try the process again. For more information see [Registration with Platform Service Controller Fails](ts_psc_registration_error.md).
 2. Make sure that the registered PSC instance is accessible from the deployed OVA and from all the containers running within the OVA.
-3. If the Management Portal was running during the PSC registration, restart the Management Portal and the vSphere Integrated Containers Registry after the registration process is complete.
+3. If the Management Portal was running during the PSC registration, restart the Management Portal and the vSphere Integrated Containers Registry after the registration process is complete. 
+
+    For more information about restarting services, see [Restart the vSphere Integrated Containers Services](restart_services.md).
