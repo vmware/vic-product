@@ -28,7 +28,6 @@ To aid in initialization errors, verify the following:
 	 If the VM Console does not display the correct fingerprint, then verify if you provided correct formatting and values for the fields in the customer certificates.Continue with the [SSH verification](#ssh-verification). 
 	 -  If you have not provided custom TLS certificates, continue with [SSH verification](#ssh-verification).
 
-
 2. Verify if you tried to initialize the vSphere Integrated Containers appliance by entering information in the welcome page?
 
  - If yes, verify if you can see the green success alert.
@@ -36,12 +35,10 @@ To aid in initialization errors, verify the following:
 	 - If you cannot see the message, then the initialization has not been completed. If repeated attempts do not display a green success alert, continue with [SSH verification](#ssh-verification).
   - If you have not entered information in the welcome page, enter the appropriate information when prompted. Make sure that the green success alert appears at the top of the vSphere Integrated Containers welcome page. 
 
-
 3. If you tried to initialize the VIC appliance by using the initialization API, provide the following information to VMware Support:
 
   - The `curl` command that you ran.
   - The response that you received while executing the command.
-
 
 4. <a id="ssh-verification"></a> Verify if you are able to use SSH to access the appliance.
 
@@ -56,6 +53,5 @@ To aid in initialization errors, verify the following:
 			You should be able to see the webserver logs from your client's requests to the welcome page.
 
 			If there are TLS handshake errors, check for clock skew between the client and appliance and verify that you are using a browser that supports modern TLS ciphers.
-
 
 5. If you have PSC registration errors, see [Registration with Platform Service Controller Fails](ts_psc_registration_error.md)

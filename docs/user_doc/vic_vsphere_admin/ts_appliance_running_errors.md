@@ -20,7 +20,6 @@ To aid in initialization errors, provide the following information to VMware Sup
 	- `journalctl -u harbor`
 	- If the version is 1.3.1 or a previous version, run the `journalctl -u admiral_startup` and `journalctl -u harbor_startup` commands.
 
-
 3. If vSphere Integrated Containers Management Portall is not running and `systemctl status get_token` shows that the service failed, run the `journalctl -u get_token` command to see the error logs. 
 
 	If the logs show errors related to Platform Services Controller (PSC) token Errors clock skew, there might be clock skew between the appliance and the PSC. 
@@ -55,7 +54,7 @@ To aid in initialization errors, provide the following information to VMware Sup
 
 		3.  Optionally, customize the NTP servers by editing the `/etc/systemd/timesyncd.conf` file.
 
-4. If the vSphere Integrated Containers Management Portal interface displays the `SsoManager has not been initialized at runtime`, see [Access to Management Portal Fails](ts_admiral_access_error.md)
+4. If the vSphere Integrated Containers Management Portal interface displays the `SsoManager has not been initialized at runtime`, see [Access to Management Portal Fails](ts_admiral_access_error.md).
 5.  If the vSphere Integrated Containers Management Portal is not running, verify if you provided custom TLS certificates during deployment. 
 	- If you have provided custom TLS certificates, verify if the format of the certificate is correct. For more information, see [vSphere Integrated Containers Certificate Reference](vic_cert_reference.md).
 	- Run the `journalctl -u admiraland` command and provide the output to VMware Support.
