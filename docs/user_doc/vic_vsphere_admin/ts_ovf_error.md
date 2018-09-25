@@ -14,7 +14,7 @@ The `ovfenv` data for the appliance is corrupted or missing.
 
 Perform the following steps to rewrite corrupted or missing `ovfenv` data.
 
-1. In the Flex-based vSphere Client, right-click the appliance VM and select **Power** > **Shut Down Guest OS**.
+1. In the vSphere Client, right-click the appliance VM and select **Power** > **Shut Down Guest OS**.
 2. Right-click the appliance again and select **Edit Settings**.
 
   - In the Flex-based vSphere Web Client, select **vApp Options** and click **OK**.

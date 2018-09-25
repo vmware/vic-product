@@ -17,7 +17,7 @@ This topic includes lists of all of the options of the different `vic-machine` c
 
 |**Option**|**Documentation**|  
 |---|---|
-|`--affinity-vm-group`|[Add Virtual Container Hosts to a DRS Affinity Group](vch_affinity_group.md)|
+|`--affinity-vm-group`|[Virtual Container Host Compute Capacity](vch_compute.md)|
 |`--appliance-iso`|[Virtual Container Host Boot Options](vch_boot_options.md#appliance-iso)|
 |`--asymmetric-routes`|[Configure the Management Network](mgmt_network.md#asymmetric-routes)|
 |`--base-image-size`|[Specify the Image Datastore](image_store.md#baseimagesize)|
@@ -54,6 +54,7 @@ This topic includes lists of all of the options of the different `vic-machine` c
 |`--memory-reservation`|[Virtual Container Host Compute Capacity](vch_compute.md#memoryres)|
 |`--memory-shares`|[Virtual Container Host Compute Capacity](vch_compute.md#memoryshares)|
 |`--name`|[General Virtual Container Host Settings](vch_general_settings.md#name)|
+|`--no-proxy`|[Configure VCHs to Use Proxy Servers](vch_proxy.md#noproxy)|
 |`--no-tls`|[Disable Client Verification](tls_unrestricted.md#no-tls)|
 |`--no-tlsverify`|[Disable Client Verification](tls_unrestricted.md#no-tlsverify)|
 |`--ops-grant-perms`|[Configure the Operations User](set_up_ops_user.md#perms)|

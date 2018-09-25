@@ -1,6 +1,6 @@
 # Back Up and Restore the vSphere Integrated Containers Appliance #
 
-The vSphere Integrated Containers appliance runs various services, such as vSphere Integrated Containers Management Portal, vSphere Integrated Containers Registry, and the Web server for the Getting Started page. In this version of vSphere Integrated Containers, the appliance has four virtual disks attached to it:
+The vSphere Integrated Containers appliance runs various services, such as vSphere Integrated Containers Management Portal, vSphere Integrated Containers Registry, and the Web server for the appliance welcome page. In this version of vSphere Integrated Containers, the appliance has four virtual disks attached to it:
 
 |Disk No.|Path|Node|Description|
 |---|---|---|---|

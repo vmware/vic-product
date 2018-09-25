@@ -21,7 +21,7 @@ Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 *** Keywords *** 
 Uninstall OVA Setup
     Run Keyword  VIC UI OVA Setup
-    ${status}=  Install UI Plugin  %{OVA_IP}
+    ${status}=  Install UI Plugin  %{OVA_IP}  ${html5}
     Should Be Equal As Integers  ${status}  ${ok}
 
 *** Test Cases ***
@@ -40,8 +40,8 @@ Attempt To Uninstall With Wrong Vcenter Credentials
 Uninstall Successfully
     ${status}=  Remove UI Plugin  %{OVA_IP}  ${html5}
     Should Be Equal As Integers  ${status}  ${ok}
-    ${status}=  Remove UI Plugin  %{OVA_IP}  ${flex}
-    Should Be Equal As Integers  ${status}  ${ok}
+    #${status}=  Remove UI Plugin  %{OVA_IP}  ${flex}
+    #Should Be Equal As Integers  ${status}  ${ok}
 
 Attempt To Uninstall Plugin That Is Already Gone
     ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${html5}
