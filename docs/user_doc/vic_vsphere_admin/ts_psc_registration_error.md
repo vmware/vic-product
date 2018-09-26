@@ -11,7 +11,7 @@ The PSC registration causes errors during setup and the registration logs contai
 - `Exception in thread "main" com.vmware.admiral.auth.idm.psc.saml.sso.admin.SsoAdminClientException: Provided credentials are not valid.`
 - `Exception in thread "main" com.vmware.xenon.common.LocalizableValidationException: 'xyz' is required`
 
-To access the PSC logs, run the `journalctl -u fileserver` command.
+To access the PSC logs, log into the appliance VM and run the `journalctl -u fileserver` command.
 
 ## Cause ##
 
@@ -19,7 +19,7 @@ Some of the parameters provided during PSC registration might be wrong or missin
 
 ## Solution ##
 
-Perform the following steps to register the VIC appliance with the PSC:
+Perform the following steps to register the appliance with the PSC:
 
 1. Verify that you have provided all required parameters and that they are correct.
 2. Make sure that the registered PSC instance is accessible from the deployed OVA.
@@ -31,6 +31,8 @@ Perform the following steps to register the VIC appliance with the PSC:
   - Solution User for `engine`: `engine-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
 
   - Solution User for `harbor`: `harbor-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
+
+For an external PSC, you can see the users by logging into `https://psc_address/psc`.
 
 **Note**: In case of multiple successful registrations, the solution users that are in use are the newest ones. You can remove the older ones from the PSC instance and from the folliowing configuration files of the three components:
 
