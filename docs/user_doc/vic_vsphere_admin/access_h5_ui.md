@@ -41,6 +41,8 @@ If you have installed the HTML5 plug-in for vSphere Integrated Containers, you c
 
     - Select **Delete** to remove the VCH. 
     - Select **Download VCH certificate** to download the server certificate for the VCH. Container developers might require the server certificate when they run Docker commands in `--tlsverify` client mode, if you use certificates that are not signed by a trusted certificate authority. 
+
+        **NOTE**: You cannot download client certificates for VCHs from the vSphere Client. vSphere administrators distribute client certificates directly.
 5. Select the **Containers** tab.
 
     The **Containers** tab shows information about all of the container VMs that are running in this vCenter Server instance, for all VCHs:
