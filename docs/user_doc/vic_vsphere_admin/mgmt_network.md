@@ -5,8 +5,7 @@ The management network is the network on which the VCH endpoint VM connects to v
 - [Options](#options)
   - [Management Network](#management-network) 
   - [Static IP Address](#static-ip)
-  - [Gateway](#gateway)
-  - [Routing Destination](#routing)
+  - [Routing Destination and Gateway](#gateway)
   - [Asymmetric Routes](#asymmetric-routes)
 - [What to Do Next](#whatnext)
 - [Example `vic-machine` Command](#example)
@@ -90,17 +89,25 @@ You can also specify addresses as resolvable FQDNs.
 
 <pre>--management-network-ip=vch27-team-b.internal.domain.com</pre>
 
-### Gateway <a id="gateway"></a>
+### Routing Destination and Gateway <a id="gateway"></a>
 
-The gateway to use if you specify a static IP address for the VCH endpoint VM on the management network.
+The default route for the VCH endpoint VM is always on the public network. As a consequence, if you specify a static IP address on the management network and that network is not L2 adjacent to its gateway, you must specify the routing destination for that network. You specify a routing destination as a comma-separated list of CIDRs.
 
-You specify gateway addresses as IP addresses without a network mask.
+For example, setting a routing destination of `192.168.3.0/24,192.168.128.0/24` informs the VCH that it can reach all of the vSphere management endoints that are in the ranges 192.168.3.0-255 and 192.168.128.0-192.168.128.255 by sending packets to the specified gateway.
+
+Ensure that the address ranges that you specify include all of the systems that will connect to this VCH instance.
+
+Specify the gateway to use if you specify a static IP address for the VCH endpoint VM on the management network. You specify gateway addresses as IP addresses without a network mask.
+
+When you provide a gateway for the management network, it is mandatory to provide at least one routing destination.
+
+**Note**: The **Routing destination:Gateway** layout of the text box applies to the 1.4.3 and later releases. **Routing Destination** and **Gateway** are separate text boxes in the previous 1.4.x releases. 
 
 #### Create VCH Wizard
 
-Enter the IP address of the gateway in the **Gateway** text box, for example `192.168.3.1`.
+If you set a static IP address and gateway on the management network, enter a comma-separated list of CIDRs and the IP address of the gateway in the **Routing destination:Gateway** text box. 
 
-You must enter a gateway address even if the client network is L2 adjacent to the gateway.
+For example, enter `192.168.3.0/24,192.168.128.0/24` for the **Routing destination** and `192.168.3.1` for **Gateway**.
 
 #### vic-machine Option 
 
@@ -109,22 +116,6 @@ You must enter a gateway address even if the client network is L2 adjacent to th
 Specify a gateway address as an IP address without a network mask. If the client network is L2 adjacent to its gateway, you do not need to specify the gateway.
 
 <pre>--management-network-gateway 192.168.3.1</pre>
-
-### Routing Destination <a id="routing"></a>
-
-The default route for the VCH endpoint VM is always on the public network. As a consequence, if you specify a static IP address on the management network and that network is not L2 adjacent to its gateway, you must specify the routing destination for that network. You specify a routing destination as a comma-separated list of CIDRs.  
-
-For example, setting a routing destination of `192.168.3.0/24,192.168.128.0/24` informs the VCH that it can reach all of the vSphere management endoints that are in the ranges 192.168.3.0-255 and 192.168.128.0-192.168.128.255 by sending packets to the specified gateway.
-
-Ensure that the address ranges that you specify include all of the systems that will connect to this VCH instance. 
-
-#### Create VCH Wizard
-
-If you set a static IP address and gateway on the management network, optionally enter a comma-separated list of CIDRs in the **Routing destination** text box. 
-
-For example, enter `192.168.3.0/24,192.168.128.0/24`.
-
-#### vic-machine Option
 
 You specify the routing destination or destinations in a comma-separated list in the `--management-network-gateway` option, with the address of the gateway separated from the routing destinations by a colon (`:`).
 

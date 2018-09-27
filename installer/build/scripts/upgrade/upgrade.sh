@@ -590,6 +590,7 @@ function main {
   else
     log "Using provided vCenter fingerprint from --fingerprint ${VCENTER_FINGERPRINT}"
     echo "${VCENTER_FINGERPRINT}" > $GOVC_TLS_KNOWN_HOSTS
+    export VCENTER_FINGERPRINT="$(echo "${VCENTER_FINGERPRINT}" | awk '{print $2}')"
   fi
 
   [ -z "${MANUAL_DISK_MOVE}" ] && [ -z "${VCENTER_DATACENTER}" ] && read -p "Enter vCenter Datacenter of the old VIC appliance: " VCENTER_DATACENTER
