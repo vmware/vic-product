@@ -25,7 +25,12 @@ This topic describes how vSphere features and other VMware products interact wit
 ## VMware vRealize Suite <a id="vrealize"></a>
 Your organization could use VMware vRealize Automation to provide a self-provisioning service  for VCHs, by using the vRealize Automation interface or APIs to request VCHs. At the end of the provisioning process, vRealize Automation would communicate the VCH endpoint VM address to the requester. If you deploy VCHs with TLS authentication, `vic-machine create` generates a file named `vch_name.env`. The `env` file contains Docker environment variables that are specific to the VCH. vRealize Automation could potentially provide the `env` file at the end of a provisioning process for VCHs.
 
-**NOTE**: vRealize Automation 7.3 supports vSphere Integrated Containers 1.1.x. vRealize Automation 7.4 supports vSphere Integrated Containers 1.3.x. Support for this release of vSphere Integrated Containers will be added in a future release of vRealize Automation. For the most up-to-date information about compatibility with vRealize Automation, see the [VMware Product Interoperability Matrices](https://partnerweb.vmware.com/comp_guide2/sim/interop_matrix.php#interop&114=&149=).
+
+- vRealize Automation 7.3 supports vSphere Integrated Containers 1.1.x. 
+- vRealize Automation 7.4 supports vSphere Integrated Containers 1.3.x. 
+- vRealize Automation 7.5 supports vSphere Integrated Containers 1.3.x and 1.4.x, up to and including 1.4.2. 
+
+For the most up-to-date information about compatibility with vRealize Automation, see the [VMware Product Interoperability Matrices](https://partnerweb.vmware.com/comp_guide2/sim/interop_matrix.php#interop&114=&149=).
 
 ## VMware vSphere vMotion <a id="vmotion"></a>
 
