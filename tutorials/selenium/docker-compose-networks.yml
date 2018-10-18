@@ -1,0 +1,39 @@
+version: '2.2'
+services:
+  hub:
+    image: "selenium/hub"
+    networks:
+      - hub-net
+      - selenium-net
+    ports:
+      - "4444:4444"
+  chrome:
+    cpu_count: 1
+    image: "selenium/node-chrome"
+    environment:
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+      - NODE_MAX_INSTANCES=5
+      - NODE_X_SESSION=3
+      - GRID_MAX_SESSION=10
+    networks:
+      - selenium-net
+    ports:
+      - "5555"
+  firefox:
+    cpu_count: 1
+    image: "selenium/node-firefox"
+    environment:
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+      - NODE_MAX_INSTANCES=5
+      - NODE_X_SESSION=3
+      - GRID_MAX_SESSION=10
+    networks:
+      - selenium-net
+    ports:
+      - "5555"
+networks:
+  hub-net:
+  selenium-net:
+    internal: true
