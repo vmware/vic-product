@@ -33,11 +33,6 @@
   },
   {
     "type": "file",
-    "source": "../bin/toolbox",
-    "destination": "/usr/bin/toolbox"
-  },
-  {
-    "type": "file",
     "source": "../bin/rpctool",
     "destination": "/usr/bin/rpctool"
   },
