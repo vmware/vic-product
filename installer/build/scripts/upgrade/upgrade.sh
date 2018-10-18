@@ -57,6 +57,7 @@ VER_1_3_1="v1.3.1"
 VER_1_4_0="v1.4.0"
 VER_1_4_1="v1.4.1"
 VER_1_4_2="v1.4.2"
+VER_1_4_3="v1.4.3"
 
 function usage {
     echo -e "Usage: $0 [args...]
@@ -80,7 +81,7 @@ function usage {
       [--appliance-username value]:    Username of the old appliance. (Ignored if --manual-disks is specified.)
       [--appliance-password value]:    Password of the old appliance. (Ignored if --manual-disks is specified.)
       [--appliance-target value]:      IP Address of the old appliance. (Ignored if --manual-disks is specified.)
-      [--appliance-version value]:     Version of the old appliance. v1.2.1, v1.3.0, v1.3.1, v1.4.0, v1.4.1, or v1.4.2.
+      [--appliance-version value]:     Version of the old appliance. v1.2.1, v1.3.0, v1.3.1, v1.4.0, v1.4.1, v1.4.2, or v1.4.3.
 
       [--destroy]:                     Destroy the old appliance after upgrade is finished. (Ignored if --manual-disks is specified.)
       [--manual-disks]:                Skip the automated govc disk migration.
@@ -226,19 +227,20 @@ function enableServicesStart {
   systemctl start harbor.service
 }
 
-### Valid upgrade paths to v1.4.2
+### Valid upgrade paths to v1.4.4
 #   v1.2.1 /data/version has "appliance=v1.2.1"
 #   v1.3.0 /storage/data/version has "appliance=v1.3.0-3033-f8cc7317"
 #   v1.3.1 /storage/data/version has "appliance=v1.3.1-3409-132fb13d"
 #   v1.4.0 /storage/data/version
 #   v1.4.1 /storage/data/version
 #   v1.4.2 /storage/data/version
+#   v1.4.3 /storage/data/version
 ###
 function proceedWithUpgrade {
   checkUpgradeStatus "VIC Appliance" ${appliance_upgrade_status}
   local ver="$1"
 
-  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ] || [ "$ver" == "$VER_1_4_0" ] || [ "$ver" == "$VER_1_4_1" ] || [ "$ver" == "$VER_1_4_2" ]; then
+  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ] || [ "$ver" == "$VER_1_4_0" ] || [ "$ver" == "$VER_1_4_1" ] || [ "$ver" == "$VER_1_4_2" ] || [ "$ver" == "$VER_1_4_3" ]; then
     log ""
     log "Detected old appliance's version as $ver."
 
