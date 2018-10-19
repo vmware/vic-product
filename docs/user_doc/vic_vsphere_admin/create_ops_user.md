@@ -41,13 +41,13 @@ You can use the same user account as the operations user for multiple VCHs.
 
 **Prerequisite**
 
-Log into the Flex-based vSphere Web Client with a vSphere administrator account. You cannot use the HTML5 vSphere Client to create user accounts.
+Log into the vSphere Client with a vSphere administrator account.
 
 **Procedure**
 
-1. In Home page of the vSphere Web Client, click **Roles**.
+1. In Home page of the vSphere Web Client, click **Administration**.
 2. Click **Users and Groups** in the Navigator menu.
-3. Select the appropriate domain and click the **+** button to add a new user.
+3. Select the appropriate domain and click the button to add a new user.
 4. Enter a user name for the operations user account, for example `vic-ops`.
 5. Enter and confirm the password for this account, optionally provide the additional information, and click **OK**. 
 
