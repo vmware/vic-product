@@ -12,3 +12,5 @@ For information about the Flex-based vSphere Web Client and the HTML5 vSphere Cl
 * [Manually Install the vSphere Client Plug-In on a vCenter Server Appliance](plugins_vcsa.md)
 
 If you installed vSphere Integrated Containers 1.4.3 or later, by default the plug-in is installed automatically with no user action required. If you deselected the option to install the plug-in when you deployed the vSphere Integrated Containers appliance, you can subsequently install the plug-in by reinitializing the appliance. For information, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md).
+
+**IMPORTANT**: If you use vSphere 6.7 update 1 or later, you must use vSphere Integrated Containers 1.4.3 or later. Due to significant changes in the HTML5 vSphere Client in version 6.7 update 1, previous versions of the vSphere Integrated Containers plug-in for the vSphere Client do not work with that version.
