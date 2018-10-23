@@ -1614,7 +1614,20 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.7.2.1" data-path="ts_ovf_error.html">
+        <li class="chapter " data-level="3.1.7.2.1" data-path="ts_appliance_boot_errors.html">
+            
+                <a href="ts_appliance_boot_errors.html">
+            
+                    
+                    Appliance Boot Errors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.2.2" data-path="ts_ovf_error.html">
             
                 <a href="ts_ovf_error.html">
             
@@ -1627,7 +1640,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.2.2" data-path="ts_reg_doesnt_start.html">
+        <li class="chapter " data-level="3.1.7.2.3" data-path="ts_reg_doesnt_start.html">
             
                 <a href="ts_reg_doesnt_start.html">
             
@@ -1640,7 +1653,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.2.3" data-path="ts_appliance_password_refused.html">
+        <li class="chapter " data-level="3.1.7.2.4" data-path="ts_appliance_password_refused.html">
             
                 <a href="ts_appliance_password_refused.html">
             
@@ -1653,7 +1666,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.2.4" data-path="ts_cert_error.html">
+        <li class="chapter " data-level="3.1.7.2.5" data-path="ts_cert_error.html">
             
                 <a href="ts_cert_error.html">
             
@@ -1666,7 +1679,59 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.2.5" data-path="vicappliance_welcomepage_error.html">
+        <li class="chapter " data-level="3.1.7.2.6" data-path="ts_psc_registration_error.html">
+            
+                <a href="ts_psc_registration_error.html">
+            
+                    
+                    Registration with PSC Fails
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.2.7" data-path="ts_appliance_initialization_errors.html">
+            
+                <a href="ts_appliance_initialization_errors.html">
+            
+                    
+                    Appliance Initialization Errors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.2.8" data-path="ts_admiral_access_error.html">
+            
+                <a href="ts_admiral_access_error.html">
+            
+                    
+                    Access to Management Portal Fails
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.2.9" data-path="ts_appliance_running_errors.html">
+            
+                <a href="ts_appliance_running_errors.html">
+            
+                    
+                    Appliance Running Errors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.2.10" data-path="vicappliance_welcomepage_error.html">
             
                 <a href="vicappliance_welcomepage_error.html">
             
@@ -2935,8 +3000,16 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="access-virtual-container-host-log-bundles">Access Virtual Container Host Log Bundles</h1>
-<p>Virtual container hosts (VCHs) provide log bundles that you can download from the VCH Admin portal. To aid in troubleshooting errors, you can access and download different log bundles. </p>
-<p><strong>Procedure</strong></p>
+<p>Virtual container hosts (VCHs) provide log bundles that you can download from the VCH Admin portal. To aid in troubleshooting errors, you can access and download different log bundles with container logs. </p>
+<p>It is recommended that you collect the log bundles with container logs and no just the different log bundles unless unable to do so or otherwise instructed.</p>
+<ul>
+<li><a href="#collect-logs">Collecting Log Bundles</a></li>
+<li><a href="#live-logs">Viewing Logs Live</a></li>
+<li><a href="#manual">Collecting Logs Manually</a></li>
+<li><a href="#log-size-cap">Setting the Log Size Cap</a></li>
+<li><a href="#troubleshooting">Troubleshooting VCH Creation Errors</a></li>
+</ul>
+<h2 id="collecting-log-bundles-">Collecting Log Bundles <a id="collect-logs"></a></h2>
 <ol>
 <li>Access the VCH Admin Portal at https://<i>vch_address</i>:2378. For more information about the VCH Admin portal, see <a href="access_vicadmin.html">VCH Administration Portal</a>.</li>
 <li><p>Depending on the error you are troubleshooting, you can download the following log bundles:</p>
@@ -2944,34 +3017,45 @@
 <p> b. <strong>Log Bundle with container logs</strong> contains the logs for the VCH and also includes the logs regarding the containers that the VCH manages.</p>
 <p> <strong>NOTE</strong>: If the VCH is unable to connect to vSphere, logs that require a vSphere connection are disabled, and you see an error message. For information about accessing logs manually, see <a href="#manual">Collecting Logs Manually</a> below.</p>
 </li>
-<li><p>See the Live logs (tail files) to view the current status of how components are running. Live logs can help you to see information about current commands and changes as you make them. For example, when you are troubleshooting an issue, you can see whether your command worked or failed by looking at the live logs. </p>
-<p> You can view the following live logs:</p>
-<p> a. <strong>Docker Personality</strong> is the interface to Docker. When configured with client certificate security, it reports unauthorized access attempts to the Docker server web page.</p>
-<p> b. <strong>Port Layer Service</strong> is the interface to vSphere.</p>
-<p> c. <strong>Initialization &amp; watchdog</strong> reports:</p>
+<li>Leave the browser open for the log bundle to download to the browser once the collection has finished.</li>
+</ol>
+<h2 id="viewing-live-logs-">Viewing Live Logs <a id="live-logs"></a></h2>
+<p>See the Live logs (tail files) to view the current status of how components are running. Live logs can help you to see information about current commands and changes as you make them. For example, when you are troubleshooting an issue, you can see whether your command worked or failed by looking at the live logs. </p>
+<p>You can view the following live logs:</p>
+<ol>
+<li><p><strong>Docker Personality</strong> is the interface to Docker. When configured with client certificate security, it reports unauthorized access attempts to the Docker server web page. </p>
+<p> The live logs are located in the <code>https://vch_address:2378/logs/tail/docker-personality.log</code> file</p>
+</li>
+<li><p><strong>Port Layer Service</strong> is the interface to vSphere. </p>
+<p> The live logs are located in the <code>https://vch_address:2378/logs/tail/port-layer.log</code> file. </p>
+</li>
+<li><p><strong>Initialization &amp; watchdog</strong> reports:</p>
 <ul>
 <li>Network configuration</li>
 <li>Component launch status for the other components</li>
 <li><p>Reports component failures and restart counts</p>
-<p> At higher debug levels, the component output is duplicated in the log files for those components, so <code>init.log</code>  includes a superset of the log data.</p>
-<pre><code>**NOTE:** This log file is duplicated on the datastore in a file in the endpoint VM folder named `tether.debug`, to allow the debugging of early stage initialization and network configuration issues.
-</code></pre><p>d. <strong>Admin Server</strong> includes logs for the VCH admin server, may contain processes that failed, and network issues. When configured with client certificate security, it reports unauthorized access attempts to the admin server web page.</p>
+<p>At higher debug levels, the component output is duplicated in the log files for those components, so <code>init.log</code>  includes a superset of the log data.</p>
+<p>The live logs are located in the <code>https://vch_address:2378/logs/tail/init.log</code> file.</p>
+<p>  <strong>NOTE:</strong> This log file is duplicated on the datastore in a file in the endpoint VM folder named <code>tether.debug</code>, to allow the debugging of early stage initialization and network configuration issues.</p>
 </li>
 </ul>
 </li>
-<li>Optionally, you can share the non-live version of the logs with administrators or VMware Support to help you to resolve issues.</li>
+<li><p><strong>Admin Server</strong> includes logs for the VCH admin server, may contain processes that failed, and network issues. When configured with client certificate security, it reports unauthorized access attempts to the admin server web page. </p>
+<p> The live logs are located in the <code>https://vch_address:2378/logs/tail/vicadmin.log</code> file.</p>
+</li>
 </ol>
+<p>Optionally, you can share the non-live version of the logs with administrators or VMware Support to help you to resolve issues.</p>
 <p>Logs also include the <code>vic-machine</code> commands used during VCH deployment to help you resolve issues.</p>
 <h2 id="collecting-logs-manually-">Collecting Logs Manually <a id="manual"></a></h2>
 <p>If the VCH Admin portal is offline, use <code>vic-machine debug</code> to enable SSH on the VCH and use <code>scp -r</code> to capture the logs from <code>/var/log/vic/</code>.</p>
-<h2 id="setting-the-log-size-cap">Setting the Log Size Cap</h2>
+<h2 id="setting-the-log-size-cap-">Setting the Log Size Cap <a id="log-size-cap"></a></h2>
 <p>The log size cap is set at 20MB. If the size exceeds 20 MB, vSphere Integrated Containers Engine compresses the files and saves a history of the last two rotations. The following files are rotated:</p>
 <p><code>/var/log/vic/port-layer.log</code> <br>
 <code>/var/log/vic/init.log</code> <br>
 <code>/var/log/vic/docker-personality.log</code> <br>
 <code>/var/log/vic/vicadmin.log</code></p>
 <p>vSphere Integrated Containers Engine logs any errors that occur during log rotation.</p>
-<h2 id="troubleshooting-vch-creation-errors">Troubleshooting VCH Creation Errors</h2>
+<h2 id="troubleshooting-vch-creation-errors-">Troubleshooting VCH Creation Errors <a id="troubleshooting"></a></h2>
 <p>During a creation of a VCH, a log file named <code>vic-machine_&lt;timestamp&gt;_create_&lt;id&gt;.log</code> populates. You can find that file on the target datastore in a folder with the same name as the VCH that you specified for the <code>vic-machine create</code> command. </p>
 
                                 
@@ -3016,7 +3100,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Access VCH Logs","level":"3.1.7.1.2","depth":4,"next":{"title":"Appliance Deployment","level":"3.1.7.2","depth":3,"path":"vic_vsphere_admin/ts_deploy_appliance.md","ref":"vic_vsphere_admin/ts_deploy_appliance.md","articles":[{"title":"Appliance OVF Error","level":"3.1.7.2.1","depth":4,"path":"vic_vsphere_admin/ts_ovf_error.md","ref":"vic_vsphere_admin/ts_ovf_error.md","articles":[]},{"title":"Registry Services Do Not Start","level":"3.1.7.2.2","depth":4,"path":"vic_vsphere_admin/ts_reg_doesnt_start.md","ref":"vic_vsphere_admin/ts_reg_doesnt_start.md","articles":[]},{"title":"Appliance VM Password Refused","level":"3.1.7.2.3","depth":4,"path":"vic_vsphere_admin/ts_appliance_password_refused.md","ref":"vic_vsphere_admin/ts_appliance_password_refused.md","articles":[]},{"title":"Browser Rejects Certificates","level":"3.1.7.2.4","depth":4,"path":"vic_vsphere_admin/ts_cert_error.md","ref":"vic_vsphere_admin/ts_cert_error.md","articles":[]},{"title":"Appliance Welcome Page Error","level":"3.1.7.2.5","depth":4,"path":"vic_vsphere_admin/vicappliance_welcomepage_error.md","ref":"vic_vsphere_admin/vicappliance_welcomepage_error.md","articles":[]}]},"previous":{"title":"Access and Configure Appliance Logs","level":"3.1.7.1.1","depth":4,"path":"vic_vsphere_admin/appliance_logs.md","ref":"vic_vsphere_admin/appliance_logs.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/log_bundles.md","mtime":"2018-09-17T09:57:32.669Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-18T09:52:28.247Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Access VCH Logs","level":"3.1.7.1.2","depth":4,"next":{"title":"Appliance Deployment","level":"3.1.7.2","depth":3,"path":"vic_vsphere_admin/ts_deploy_appliance.md","ref":"vic_vsphere_admin/ts_deploy_appliance.md","articles":[{"title":"Appliance Boot Errors","level":"3.1.7.2.1","depth":4,"path":"vic_vsphere_admin/ts_appliance_boot_errors.md","ref":"vic_vsphere_admin/ts_appliance_boot_errors.md","articles":[]},{"title":"Appliance OVF Error","level":"3.1.7.2.2","depth":4,"path":"vic_vsphere_admin/ts_ovf_error.md","ref":"vic_vsphere_admin/ts_ovf_error.md","articles":[]},{"title":"Registry Services Do Not Start","level":"3.1.7.2.3","depth":4,"path":"vic_vsphere_admin/ts_reg_doesnt_start.md","ref":"vic_vsphere_admin/ts_reg_doesnt_start.md","articles":[]},{"title":"Appliance VM Password Refused","level":"3.1.7.2.4","depth":4,"path":"vic_vsphere_admin/ts_appliance_password_refused.md","ref":"vic_vsphere_admin/ts_appliance_password_refused.md","articles":[]},{"title":"Browser Rejects Certificates","level":"3.1.7.2.5","depth":4,"path":"vic_vsphere_admin/ts_cert_error.md","ref":"vic_vsphere_admin/ts_cert_error.md","articles":[]},{"title":"Registration with PSC Fails","level":"3.1.7.2.6","depth":4,"path":"vic_vsphere_admin/ts_psc_registration_error.md","ref":"vic_vsphere_admin/ts_psc_registration_error.md","articles":[]},{"title":"Appliance Initialization Errors","level":"3.1.7.2.7","depth":4,"path":"vic_vsphere_admin/ts_appliance_initialization_errors.md","ref":"vic_vsphere_admin/ts_appliance_initialization_errors.md","articles":[]},{"title":"Access to Management Portal Fails","level":"3.1.7.2.8","depth":4,"path":"vic_vsphere_admin/ts_admiral_access_error.md","ref":"vic_vsphere_admin/ts_admiral_access_error.md","articles":[]},{"title":"Appliance Running Errors","level":"3.1.7.2.9","depth":4,"path":"vic_vsphere_admin/ts_appliance_running_errors.md","ref":"vic_vsphere_admin/ts_appliance_running_errors.md","articles":[]},{"title":"Appliance Welcome Page Error","level":"3.1.7.2.10","depth":4,"path":"vic_vsphere_admin/vicappliance_welcomepage_error.md","ref":"vic_vsphere_admin/vicappliance_welcomepage_error.md","articles":[]}]},"previous":{"title":"Access and Configure Appliance Logs","level":"3.1.7.1.1","depth":4,"path":"vic_vsphere_admin/appliance_logs.md","ref":"vic_vsphere_admin/appliance_logs.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/log_bundles.md","mtime":"2018-09-27T12:07:28.917Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-04T09:50:11.354Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

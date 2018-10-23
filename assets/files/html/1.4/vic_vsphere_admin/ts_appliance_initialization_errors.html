@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>General Settings · VMware vSphere Integrated Containers 1.4 Documentation</title>
+        <title>Appliance Initialization Errors · VMware vSphere Integrated Containers 1.4 Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -69,10 +69,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="vch_compute.html" />
+    <link rel="next" href="ts_admiral_access_error.html" />
     
     
-    <link rel="prev" href="vch_deployment_options.html" />
+    <link rel="prev" href="ts_psc_registration_error.html" />
     
 
     </head>
@@ -571,7 +571,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="3.1.2.5.1" data-path="vch_general_settings.html">
+        <li class="chapter " data-level="3.1.2.5.1" data-path="vch_general_settings.html">
             
                 <a href="vch_general_settings.html">
             
@@ -1692,7 +1692,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.2.7" data-path="ts_appliance_initialization_errors.html">
+        <li class="chapter active" data-level="3.1.7.2.7" data-path="ts_appliance_initialization_errors.html">
             
                 <a href="ts_appliance_initialization_errors.html">
             
@@ -2984,7 +2984,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >General Settings</a>
+        <a href=".." >Appliance Initialization Errors</a>
     </h1>
 </div>
 
@@ -2999,118 +2999,76 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="general-virtual-container-host-settings">General Virtual Container Host Settings</h1>
-<p>When you deploy a virtual container host (VCH), you can configure a name for the VCH, a naming convention for container VMs, and debugging levels. </p>
+                                <h1 id="appliance-initialization-errors">Appliance Initialization Errors</h1>
+<p>If you have reached the appliance initialization stage, it means that you can successfully view the appliance welcome page at <code>https://vic_appliance_address:9443</code>. The appliance is ready to accept initialization information.</p>
+<p>Failures during initialization are most often related to Platform Services Controller (PSC) authentication and networking. It is important to determine whether PSC registration completed successfully.</p>
+<p>This section helps you to troubleshoot initialization problems that you might encounter or to provide information about initialization failures to VMware Support.</p>
+<p>To aid with initialization errors, verify the following:</p>
+<ol>
+<li><p>Verify if you see can the page at <code>https://vic_appliance_address</code>:</p>
 <ul>
-<li><a href="#options">Options</a><ul>
-<li><a href="#name">VCH Name</a></li>
-<li><a href="#container-name-convention">Container VM Name Template</a></li>
-<li><a href="#debug">Debug</a></li>
-<li><a href="#syslog">Syslog</a></li>
+<li><p>If you are able to see the page after providing the initialization information, verify if you can see the green success alert</p>
+<ul>
+<li>If yes, then the appliance has initialized.</li>
+<li><p>If you are able to see the page with a red error alert instead of a green success alert, note the error message.</p>
+<p>   If the error message is <code>Failed to register with PSC. Please check the PSC settings provided and try again</code>, verify the PSC settings and use the <code>Re-initialize</code> button to try again.</p>
+<p>   Check the clock skew between the appliance and the PSC that you have provided. </p>
+<p>   For more information on how to troubleshoot clock skew, see <a href="ts_clock_skew.html">Connections Fail with Certificate or Platform Services Controller Token Errors</a> </p>
+<p>   Provide the error message to VMware Support and continue with the <a href="#ssh-verification">SSH verification</a>.</p>
+</li>
 </ul>
 </li>
-<li><a href="#whatnext">What to Do Next</a></li>
-<li><a href="#examples">Example <code>vic-machine</code> Commands</a><ul>
-<li><a href="#convention">Set a Container Name Convention</a> </li>
-<li><a href="#syslog">Configure Debugging and Sylog on a VCH</a></li>
+<li><p>If you are not able to see the page, verify the following:</p>
+<ul>
+<li>Verify if the vSphere client can connect to the appliance and is not blocked by network policy or architecture.</li>
+<li>If there are TLS handshake errors, check for clock skew between the client and appliance and if you are using a browser that supports modern TLS ciphers</li>
+</ul>
+</li>
+<li><p>If you are using vSphere Integrated Containers appliance version 1.4.0 or later, verify if you provided custom TLS certificates.</p>
+<ul>
+<li>If you have provided custom TLS certificates, check whether the VM console displays the correct SHA1 fingerprint for the certificate. If you have provided the correct values, then continue with the <a href="#ssh-verification">SSH verification</a>.
+If the VM Console does not display the correct fingerprint, then verify if you provided correct formatting and values for the fields in the customer certificates.Continue with the <a href="#ssh-verification">SSH verification</a>. </li>
+<li>If you have not provided custom TLS certificates, continue with <a href="#ssh-verification">SSH verification</a>.</li>
 </ul>
 </li>
 </ul>
-<h2 id="options-">Options <a id="options"></a></h2>
-<p>The sections in this topic each correspond to an entry in the General Settings page of the Create Virtual Container Host wizard and to the  corresponding <code>vic-machine create</code> options.</p>
-<h3 id="vch-name-">VCH Name <a id="name"></a></h3>
-<p>A name for the VCH, that appears the vCenter Server inventory and that you can use in other <code>vic-machine</code> commands. The default VCH name is <code>virtual-container-host</code>. If a VCH of the same name already exists, or if the name you provide contains unsupported characters, the wizard reports an error and you cannot progress to the next page, or <code>vic-machine create</code> fails with an error.</p>
-<h4 id="create-vch-wizard">Create VCH Wizard</h4>
-<p>Enter a name for the VCH. </p>
-<h4 id="vic-machine-option">vic-machine Option</h4>
-<p><code>--name</code>, <code>-n</code></p>
-<p>If a folder of the same name exists in the target datastore, <code>vic-machine create</code> creates a folder named <code>vch_name_1</code>. </p>
-<pre>--name <i>vch_name</i></pre>
-
-<h3 id="container-vm-name-template-">Container VM Name Template <a id="container-name-convention"></a></h3>
-<p>Enforce a naming convention for container VMs, that applies a prefix and/or suffix to the names of all container VMs that run in the VCH. Applying a naming convention to container VMs facilitates organizational requirements such as chargeback. The container naming convention applies to the display name of the container VM that appears in the vSphere Client, not to the container name that Docker uses. </p>
-<p>You specify whether to use the container name or the container ID for the second part of the container VM display name. If you use the container name, the container VM display names use either the name that Docker generates for the container, or a name that the container developer specifies in <code>docker run --name</code> when they run the container.</p>
-<h4 id="create-vch-wizard">Create VCH Wizard</h4>
-<ol>
-<li>Optionally enter a container name prefix.</li>
-<li>Select <strong>Docker name</strong> or <strong>Container ID</strong>.</li>
-<li>Optionally enter a container name suffix.</li>
-</ol>
-<h4 id="vic-machine-option">vic-machine Option</h4>
-<p><code>--container-name-convention</code>, <code>--cnc</code></p>
-<p>Specify a prefix and/or suffix to apply to container names, and add <code>{name}</code> or <code>{id}</code> including the curly brackets, to specify whether to use the container name or the container ID for the second part of the container VM display name. </p>
-<pre>--container-name-convention <i>cVM_name_prefix</i>-{name}</pre>
-<pre>--container-name-convention {id}-<i>cVM_name_suffix</i></pre>
-<pre>--container-name-convention <i>cVM_name_prefix</i>-{name}<i>cVM_name_suffix</i></pre>
-
-<h3 id="debug-">Debug <a id="debug"></a></h3>
-<p>Deploy the VCH with more verbose levels of logging, and optionally modify the behavior of <code>vic-machine</code> for troubleshooting purposes. Specifying a debug level of greater than 0 increases the verbosity of the logging for all aspects of VCH operation, not just deployment. For example, by setting a higher debug level, you increase the verbosity of the logging for VCH initialization, VCH services, container VM initialization, and so on. </p>
-<p><strong>NOTE</strong>: Do not confuse the <code>vic-machine create --debug</code> option with the <code>vic-machine debug</code> command, that enables access to the VCH endpoint VM. For information about <code>vic-machine debug</code>, see <a href="debug_vch.html">Debug Running Virtual Container Hosts</a>. </p>
-<p>You can set a debugging level of 1, 2, or 3. Setting level 2 or 3 changes the behavior of <code>vic-machine create</code> as well as increasing the level of verbosity of the logs:</p>
+</li>
+<li><p>Verify if you tried to initialize the vSphere Integrated Containers appliance by entering information in the welcome page.</p>
 <ul>
-<li><code>1</code> Provides verbosity in the logs, with no other changes to <code>vic-machine</code> behavior. This is the default setting.</li>
-<li><code>2</code> Exposes servers on more interfaces, launches <code>pprof</code> in container VMs.</li>
-<li><code>3</code> Disables recovery logic and logs sensitive data. Disables the restart of failed components and prevents container VMs from shutting down. Logs environment details for user application, and collects application output in the log bundle.</li>
+<li>If yes, verify if you can see the green success alert.<ul>
+<li>If you can see the green success alert, continue with the <a href="#ssh-verification">SSH verification</a>.</li>
+<li>If you cannot see the message, then the initialization has not been completed. If repeated attempts do not display a green success alert, continue with <a href="#ssh-verification">SSH verification</a>.</li>
 </ul>
-<p>Additionally, deploying a VCH with debug level 3 enables SSH access to the VCH endpoint VM console by default, with a root password of <code>password</code>, without requiring you to run the <code>vic-machine debug</code> command. This functionality enables you to perform targeted interactive diagnostics in environments in which a VCH endpoint VM failure occurs consistently and in a fashion that prevents <code>vic-machine debug</code> from functioning.</p>
-<p><strong>IMPORTANT</strong>: There is no provision for persistently changing the default root password. Only use this configuration for debugging in a secured environment.</p>
-<h4 id="create-vch-wizard">Create VCH Wizard</h4>
+</li>
+<li>If you have not entered information in the welcome page, enter the appropriate information when prompted. Make sure that the green success alert appears at the top of the vSphere Integrated Containers welcome page. </li>
+</ul>
+</li>
+<li><p>If you tried to initialize the appliance by using the initialization API, provide the following information to VMware Support:</p>
 <ul>
-<li>Leave the default level of 0 for usual deployments. </li>
-<li>Optionally select level 1, 2, or 3 if you need to debug deployment problems.</li>
+<li>The <code>curl</code> command that you ran.</li>
+<li><p>The response that you received while executing the command.</p>
+<p>For more information, see <a href="ova_reg_api.html">Initialize the Appliance by Using the Initialization API</a>.</p>
+</li>
 </ul>
-<p><strong>NOTE</strong>: When you use the wizard to deploy a VCH, deployment logging is always verbose. The settings that you apply in the wizard apply to post-deployment operation logging.   </p>
-<h4 id="vic-machine-option">vic-machine Option</h4>
-<p><code>--debug</code>, <code>-v</code></p>
-<p>Optionally specify a debugging level of <code>1</code>, <code>2</code>, or <code>3</code>. If not specified, the debug level is set to 0 and verbose logging is disabled.</p>
-<pre>--debug 3</pre>
+</li>
+<li><p><a id="ssh-verification"></a> Verify if you are able to use SSH to access the appliance.</p>
+<ul>
+<li>If you are not able to access the appliance, see <a href="ts_appliance_boot_errors.html#networkerrors">Network Errors</a>.</li>
+<li>If you are able to access the appliance, obtain an appliance support bundle. For more information, see <a href="appliance_logs.html">Access and Configure Appliance Logs</a>.</li>
+<li><p>Run the <code>systemctl status fileserver</code> command. If this operation is running and you are not able to view the webserver in your browser, perform the following checks:</p>
+<pre><code> - Check the network configuration between the appliance and the client. Verify if the client or appliance using a 172.16.0.0/16 IP address. 
+ - Run the `journalctl -u fileserver` command. 
 
-<h3 id="syslog-">Syslog <a id="syslog"></a></h3>
-<p>Configure a VCH so that it sends the logs in the <code>/var/log/vic</code> folder on the VCH endpoint VM to a syslog endpoint that is not located in the VCH. The VCH also sends container logs to the same syslog endpoint.</p>
-<h4 id="create-vch-wizard">Create VCH Wizard</h4>
-<ol>
-<li>Select <strong>tcp</strong> or <strong>udp</strong> for the transport protocol.</li>
-<li>Enter the IP address or FQDN of the syslog endpoint.</li>
-<li>Optionally enter the port on which with syslog endpoint is exposed if it is not the default of 514. </li>
+   You should be able to see the webserver logs from your client&apos;s requests to the welcome page.
+
+   If there are TLS handshake errors, check for clock skew between the client and appliance and verify that you are using a browser that supports modern TLS ciphers.
+</code></pre></li>
+</ul>
+</li>
+<li><p>If you have PSC registration errors, see <a href="ts_psc_registration_error.html">Registration with Platform Service Controller Fails</a></p>
+</li>
 </ol>
-<h4 id="vic-machine-option">vic-machine Option</h4>
-<p><code>--syslog-address</code>, no short name</p>
-<p>Specify the address and port of the syslog endpoint. You must also specify whether the transport protocol is UDP or TCP. If you do not specify a port, the default port is 514. </p>
-<pre>--syslog-address udp://<i>syslog_host_address</i>:<i>port</i></pre>
-<pre>--syslog-address tcp://<i>syslog_host_address</i>:<i>port</i></pre>
 
-<h2 id="what-to-do-next-">What to Do Next <a id="whatnext"></a></h2>
-<p>If you are using the Create Virtual Container Host wizard, click <strong>Next</strong> to go to the <a href="vch_compute.html">Compute Capacity</a> settings.</p>
-<h2 id="example-vic-machine-commands-">Example <code>vic-machine</code> Commands <a id="examples"></a></h2>
-<p>The following examples show <code>vic-machine create</code> commands that use the options described in this topic. For simplicity, the examples all use the <code>--no-tlsverify</code> option to automatically generate server certificates but disable client authentication. The examples use an existing port group named <code>vch1-bridge</code> for the bridge network, a port group named <code>vic-public</code> for the public network, designate <code>datastore1</code> as the image store, and deploy the VCH to <code>cluster1</code> in datacenter <code>dc1</code>. </p>
-<h3 id="set-a-container-name-convention-">Set a Container Name Convention <a id="convention"></a></h3>
-<p>This example <code>vic-machine create</code> command deploys a VCH that specifies <code>--container-name-convention</code> so that the vCenter Server display names of all container VMs include the prefix <code>vch1</code>, followed by the container name, and the suffix <code>project1</code>.</p>
-<pre>vic-machine-<i>operating_system</i> create
---target &apos;Administrator@vsphere.local&apos;:<i>password</i>@<i>vcenter_server_address</i>/dc1
---compute-resource cluster1
---image-store datastore1
---bridge-network vch1-bridge
---public-network vic-public
---name vch1
---thumbprint <i>certificate_thumbprint</i>
---no-tlsverify
---container-name-convention vch1-{name}-project1
-</pre>
-
-<h3 id="configure-debugging-and-sylog-on-a-vch-">Configure Debugging and Sylog on a VCH <a id="syslog"></a></h3>
-<p>This example <code>vic-machine create</code> command deploys a VCH that sets the deployment debugging level to 3 and sends logs to an external syslog endpoint.</p>
-<pre>vic-machine-<i>operating_system</i> create
---target &apos;Administrator@vsphere.local&apos;:<i>password</i>@<i>vcenter_server_address</i>/dc1
---compute-resource cluster1
---image-store datastore1
---bridge-network vch1-bridge
---public-network vic-public
---name vch1
---thumbprint <i>vcenter_server_certificate_thumbprint</i>
---no-tlsverify
---debug 3
---syslog-address tcp://<i>syslog_host_address</i>
-</pre>
                                 
                                 </section>
                             
@@ -3137,12 +3095,12 @@
 
             
                 
-                <a href="vch_deployment_options.html" class="navigation navigation-prev " aria-label="Previous page: VCH Deployment Options">
+                <a href="ts_psc_registration_error.html" class="navigation navigation-prev " aria-label="Previous page: Registration with PSC Fails">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="vch_compute.html" class="navigation navigation-next " aria-label="Next page: Compute Capacity">
+                <a href="ts_admiral_access_error.html" class="navigation navigation-next " aria-label="Next page: Access to Management Portal Fails">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -3153,7 +3111,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"General Settings","level":"3.1.2.5.1","depth":4,"next":{"title":"Compute Capacity","level":"3.1.2.5.2","depth":4,"path":"vic_vsphere_admin/vch_compute.md","ref":"vic_vsphere_admin/vch_compute.md","articles":[]},"previous":{"title":"VCH Deployment Options","level":"3.1.2.5","depth":3,"path":"vic_vsphere_admin/vch_deployment_options.md","ref":"vic_vsphere_admin/vch_deployment_options.md","articles":[{"title":"General Settings","level":"3.1.2.5.1","depth":4,"path":"vic_vsphere_admin/vch_general_settings.md","ref":"vic_vsphere_admin/vch_general_settings.md","articles":[]},{"title":"Compute Capacity","level":"3.1.2.5.2","depth":4,"path":"vic_vsphere_admin/vch_compute.md","ref":"vic_vsphere_admin/vch_compute.md","articles":[]},{"title":"Storage Capacity","level":"3.1.2.5.3","depth":4,"path":"vic_vsphere_admin/vch_storage.md","ref":"vic_vsphere_admin/vch_storage.md","articles":[{"title":"Image Datastore","level":"3.1.2.5.3.1","depth":5,"path":"vic_vsphere_admin/image_store.md","ref":"vic_vsphere_admin/image_store.md","articles":[]},{"title":"Volume Datastores","level":"3.1.2.5.3.2","depth":5,"path":"vic_vsphere_admin/volume_stores.md","ref":"vic_vsphere_admin/volume_stores.md","articles":[]}]},{"title":"Networks","level":"3.1.2.5.4","depth":4,"path":"vic_vsphere_admin/vch_networking.md","ref":"vic_vsphere_admin/vch_networking.md","articles":[{"title":"Bridge Networks","level":"3.1.2.5.4.1","depth":5,"path":"vic_vsphere_admin/bridge_network.md","ref":"vic_vsphere_admin/bridge_network.md","articles":[]},{"title":"Public Network","level":"3.1.2.5.4.2","depth":5,"path":"vic_vsphere_admin/public_network.md","ref":"vic_vsphere_admin/public_network.md","articles":[]},{"title":"Client Network","level":"3.1.2.5.4.3","depth":5,"path":"vic_vsphere_admin/client_network.md","ref":"vic_vsphere_admin/client_network.md","articles":[]},{"title":"Management Network","level":"3.1.2.5.4.4","depth":5,"path":"vic_vsphere_admin/mgmt_network.md","ref":"vic_vsphere_admin/mgmt_network.md","articles":[]},{"title":"Proxy Servers","level":"3.1.2.5.4.5","depth":5,"path":"vic_vsphere_admin/vch_proxy.md","ref":"vic_vsphere_admin/vch_proxy.md","articles":[]},{"title":"Container Networks","level":"3.1.2.5.4.6","depth":5,"path":"vic_vsphere_admin/container_networks.md","ref":"vic_vsphere_admin/container_networks.md","articles":[]}]},{"title":"Security","level":"3.1.2.5.5","depth":4,"path":"vic_vsphere_admin/vch_security.md","ref":"vic_vsphere_admin/vch_security.md","articles":[{"title":"VCH Certificate Options","level":"3.1.2.5.5.1","depth":5,"path":"vic_vsphere_admin/vch_cert_options.md","ref":"vic_vsphere_admin/vch_cert_options.md","articles":[]},{"title":"Disable Client Verification","level":"3.1.2.5.5.2","depth":5,"path":"vic_vsphere_admin/tls_unrestricted.md","ref":"vic_vsphere_admin/tls_unrestricted.md","articles":[]}]},{"title":"Registry Access","level":"3.1.2.5.6","depth":4,"path":"vic_vsphere_admin/vch_registry.md","ref":"vic_vsphere_admin/vch_registry.md","articles":[]},{"title":"Operations User","level":"3.1.2.5.7","depth":4,"path":"vic_vsphere_admin/set_up_ops_user.md","ref":"vic_vsphere_admin/set_up_ops_user.md","articles":[]},{"title":"Finish VCH Deployment","level":"3.1.2.5.8","depth":4,"path":"vic_vsphere_admin/complete_vch_deployment_client.md","ref":"vic_vsphere_admin/complete_vch_deployment_client.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_general_settings.md","mtime":"2018-09-18T15:35:53.758Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-04T09:50:11.354Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Appliance Initialization Errors","level":"3.1.7.2.7","depth":4,"next":{"title":"Access to Management Portal Fails","level":"3.1.7.2.8","depth":4,"path":"vic_vsphere_admin/ts_admiral_access_error.md","ref":"vic_vsphere_admin/ts_admiral_access_error.md","articles":[]},"previous":{"title":"Registration with PSC Fails","level":"3.1.7.2.6","depth":4,"path":"vic_vsphere_admin/ts_psc_registration_error.md","ref":"vic_vsphere_admin/ts_psc_registration_error.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/ts_appliance_initialization_errors.md","mtime":"2018-10-04T09:44:20.439Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-04T09:50:11.354Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -1614,7 +1614,20 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.7.2.1" data-path="ts_ovf_error.html">
+        <li class="chapter " data-level="3.1.7.2.1" data-path="ts_appliance_boot_errors.html">
+            
+                <a href="ts_appliance_boot_errors.html">
+            
+                    
+                    Appliance Boot Errors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.2.2" data-path="ts_ovf_error.html">
             
                 <a href="ts_ovf_error.html">
             
@@ -1627,7 +1640,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.2.2" data-path="ts_reg_doesnt_start.html">
+        <li class="chapter " data-level="3.1.7.2.3" data-path="ts_reg_doesnt_start.html">
             
                 <a href="ts_reg_doesnt_start.html">
             
@@ -1640,7 +1653,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.2.3" data-path="ts_appliance_password_refused.html">
+        <li class="chapter " data-level="3.1.7.2.4" data-path="ts_appliance_password_refused.html">
             
                 <a href="ts_appliance_password_refused.html">
             
@@ -1653,7 +1666,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.2.4" data-path="ts_cert_error.html">
+        <li class="chapter " data-level="3.1.7.2.5" data-path="ts_cert_error.html">
             
                 <a href="ts_cert_error.html">
             
@@ -1666,7 +1679,59 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.2.5" data-path="vicappliance_welcomepage_error.html">
+        <li class="chapter " data-level="3.1.7.2.6" data-path="ts_psc_registration_error.html">
+            
+                <a href="ts_psc_registration_error.html">
+            
+                    
+                    Registration with PSC Fails
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.2.7" data-path="ts_appliance_initialization_errors.html">
+            
+                <a href="ts_appliance_initialization_errors.html">
+            
+                    
+                    Appliance Initialization Errors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.2.8" data-path="ts_admiral_access_error.html">
+            
+                <a href="ts_admiral_access_error.html">
+            
+                    
+                    Access to Management Portal Fails
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.2.9" data-path="ts_appliance_running_errors.html">
+            
+                <a href="ts_appliance_running_errors.html">
+            
+                    
+                    Appliance Running Errors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.2.10" data-path="vicappliance_welcomepage_error.html">
             
                 <a href="vicappliance_welcomepage_error.html">
             
@@ -2968,7 +3033,7 @@
 
 <p>If you do not specify <code>--bridge-network</code> or if you specify an invalid port group name, <code>vic-machine create</code> fails and suggests valid port groups. </p>
 <h3 id="bridge-network-range-">Bridge Network Range <a id="bridge-range"></a></h3>
-<p>A range of IP addresses that additional bridge networks can use when container application developers use <code>docker network create</code> to create new user-defined networks. VCHs create these additional user-defined bridge networks by using IP address segregation within a set address range, so user-defined bridge networks do not require you to assign dedicated port groups. By default, all VCHs use the standard Docker range of 172.16.0.0.0/12 for additional user-defined networks. You can override the default range if that range is already in use in your network. You can reuse the same network address range across all VCHs.  </p>
+<p>A range of IP addresses that additional bridge networks can use when container application developers use <code>docker network create</code> to create new user-defined networks. VCHs create these additional user-defined bridge networks by using IP address segregation within a set address range, so user-defined bridge networks do not require you to assign dedicated port groups. By default, all VCHs use the standard Docker range of 172.16.0.0/12 for additional user-defined networks. You can override the default range if that range is already in use in your network. You can reuse the same network address range across all VCHs.  </p>
 <p>When you specify a bridge network IP range, you specify the IP range as a CIDR. The smallest subnet that you can specify is /16.</p>
 <h4 id="create-vch-wizard">Create VCH Wizard</h4>
 <p>If the default range of 172.16.0.0.0/12 is in use in your network, enter a new range as a CIDR. For example, enter <code>192.168.100.0/16</code>.</p>
@@ -3036,7 +3101,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Bridge Networks","level":"3.1.2.5.4.1","depth":5,"next":{"title":"Public Network","level":"3.1.2.5.4.2","depth":5,"path":"vic_vsphere_admin/public_network.md","ref":"vic_vsphere_admin/public_network.md","articles":[]},"previous":{"title":"Networks","level":"3.1.2.5.4","depth":4,"path":"vic_vsphere_admin/vch_networking.md","ref":"vic_vsphere_admin/vch_networking.md","articles":[{"title":"Bridge Networks","level":"3.1.2.5.4.1","depth":5,"path":"vic_vsphere_admin/bridge_network.md","ref":"vic_vsphere_admin/bridge_network.md","articles":[]},{"title":"Public Network","level":"3.1.2.5.4.2","depth":5,"path":"vic_vsphere_admin/public_network.md","ref":"vic_vsphere_admin/public_network.md","articles":[]},{"title":"Client Network","level":"3.1.2.5.4.3","depth":5,"path":"vic_vsphere_admin/client_network.md","ref":"vic_vsphere_admin/client_network.md","articles":[]},{"title":"Management Network","level":"3.1.2.5.4.4","depth":5,"path":"vic_vsphere_admin/mgmt_network.md","ref":"vic_vsphere_admin/mgmt_network.md","articles":[]},{"title":"Proxy Servers","level":"3.1.2.5.4.5","depth":5,"path":"vic_vsphere_admin/vch_proxy.md","ref":"vic_vsphere_admin/vch_proxy.md","articles":[]},{"title":"Container Networks","level":"3.1.2.5.4.6","depth":5,"path":"vic_vsphere_admin/container_networks.md","ref":"vic_vsphere_admin/container_networks.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/bridge_network.md","mtime":"2018-09-17T09:57:32.606Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-18T09:52:28.247Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Bridge Networks","level":"3.1.2.5.4.1","depth":5,"next":{"title":"Public Network","level":"3.1.2.5.4.2","depth":5,"path":"vic_vsphere_admin/public_network.md","ref":"vic_vsphere_admin/public_network.md","articles":[]},"previous":{"title":"Networks","level":"3.1.2.5.4","depth":4,"path":"vic_vsphere_admin/vch_networking.md","ref":"vic_vsphere_admin/vch_networking.md","articles":[{"title":"Bridge Networks","level":"3.1.2.5.4.1","depth":5,"path":"vic_vsphere_admin/bridge_network.md","ref":"vic_vsphere_admin/bridge_network.md","articles":[]},{"title":"Public Network","level":"3.1.2.5.4.2","depth":5,"path":"vic_vsphere_admin/public_network.md","ref":"vic_vsphere_admin/public_network.md","articles":[]},{"title":"Client Network","level":"3.1.2.5.4.3","depth":5,"path":"vic_vsphere_admin/client_network.md","ref":"vic_vsphere_admin/client_network.md","articles":[]},{"title":"Management Network","level":"3.1.2.5.4.4","depth":5,"path":"vic_vsphere_admin/mgmt_network.md","ref":"vic_vsphere_admin/mgmt_network.md","articles":[]},{"title":"Proxy Servers","level":"3.1.2.5.4.5","depth":5,"path":"vic_vsphere_admin/vch_proxy.md","ref":"vic_vsphere_admin/vch_proxy.md","articles":[]},{"title":"Container Networks","level":"3.1.2.5.4.6","depth":5,"path":"vic_vsphere_admin/container_networks.md","ref":"vic_vsphere_admin/container_networks.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/bridge_network.md","mtime":"2018-10-04T09:43:57.243Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-04T09:50:11.354Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
