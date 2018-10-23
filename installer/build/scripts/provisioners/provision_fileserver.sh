@@ -36,7 +36,7 @@ FULL_VER_STRING=$(echo "${BUILD_OVA_REVISION}" | sed -e 's/\-rc[[:digit:]]//g')
 MAJOR_MINOR_PATCH=$(echo $FULL_VER_STRING | awk -F- '{print $1}' | cut -c 2-)
 BUILD_NUMBER=$(echo $FULL_VER_STRING | awk -F- '{print $2}')
 VIC_ENGINE_VER_STRING=${MAJOR_MINOR_PATCH}.${BUILD_NUMBER}
-VIC_UI_VER_STRING=$(ls -l ${VIC_BIN_ROOT}ui/plugin-packages | grep '^d' | head -1 | awk '{print $9}' | awk -F- '{print $2}')
+VIC_UI_VER_STRING=$(ls -l ${VIC_BIN_ROOT}ui/plugin-packages | grep '^d' | head -1 | awk '{print $9}' | awk -F- '{print substr($0, index($0,$2))}')
 
 # update plugin-package.xml for H5 Client plugin
 echo "Updating description for H5 Client plugin to \"vSphere Client Plugin for vSphere Integrated Containers Engine (v${VIC_ENGINE_VER_STRING})"\"
