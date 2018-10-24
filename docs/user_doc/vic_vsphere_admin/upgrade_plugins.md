@@ -9,4 +9,4 @@ If you upgraded to a version of vSphere Integrated Containers that pre-dates 1.4
 
 If you upgraded to vSphere Integrated Containers 1.4.3 or later and you did not use the option to upgrade the plug-in, you can  upgrade the plug-in later by reinitializing the appliance. For information, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md).
 
-**IMPORTANT**: If you use vSphere 6.7 update 1 or later, you must use vSphere Integrated Containers 1.4.3 or later. Due to significant changes in the HTML5 vSphere Client in version 6.7 update 1, previous versions of the vSphere Integrated Containers plug-in for the vSphere Client do not work with that version.
+**IMPORTANT**: If you use vSphere 6.7 update 1 or later, you must use vSphere Integrated Containers 1.4.3 or later. Due to significant changes in the HTML5 vSphere Client in version 6.7 update 1, previous versions of the vSphere Integrated Containers plug-in for the vSphere Client might not work with that version. Only version 1.4.3 has been verified with vSphere 6.7 update 1.
