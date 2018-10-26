@@ -85,7 +85,7 @@ pipeline:
     environment:
       TERM: xterm
       VICENGINE: https://storage.googleapis.com/vic-engine-releases/vic_v1.4.3.tar.gz
-      HARBOR: https://storage.googleapis.com/harbor-releases/release-1.5.0/harbor-offline-installer-latest.tgz
+      HARBOR: https://storage.googleapis.com/harbor-releases/harbor-offline-installer-v1.5.4.tgz
       ADMIRAL: v1.4.3
       VIC_MACHINE_SERVER: v1.4.3
     secrets:
