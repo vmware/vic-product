@@ -27,3 +27,5 @@ secrets-e2e.yml
 VCH-*
 
 **/node_modules
+**/dist
+
