@@ -1,0 +1,109 @@
+// Copyright (c) 2016 VMware, Inc. All Rights Reserved.
+// This software is released under MIT license.
+// The full license information can be found in LICENSE in the root directory of this project.
+.clr-icon {
+  &.vmware-logo {
+    background: url(/vic-product/images/vmware.svg) no-repeat left 9px;
+    width: 108px;
+  }
+}
+
+.hero {
+  background-color: #ddd;
+  left: -24px;
+  padding: {
+    bottom: 2em;
+    top: 2em;
+  }
+  overflow-x: hidden;
+  position: relative;
+  text-align: center;
+  top: -24px;
+  .btn-custom {
+    display: inline-block;
+    text-align: center;
+    margin: auto;
+  }
+}
+
+.content-area {
+  overflow-x: hidden;
+}
+
+.hero-image img {
+  max-width: 360px;
+}
+
+.icon {
+  display: inline-block;
+  height: 32px;
+  vertical-align: middle;
+  width: 32px;
+  &.icon-github {
+    background: url(/vic-product/images/github_icon.svg) no-repeat left -2px;
+  }
+}
+
+.nav-group {
+  label {
+    display: block;
+    margin-bottom: 1em;
+  }
+}
+
+.sidenav {
+  .nav-link {
+    padding: 3px 6px;
+    &:hover {
+      background: #eee
+    }
+
+    &.active {
+      background: #d9e4ea;
+      color: #000
+    }
+  }
+}
+
+.section {
+  padding: .5em 0;
+}
+
+.contributor {
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  margin-bottom: 1.5em;
+  margin-right: 1em;
+  max-width: 64px;
+  text-decoration: none;
+}
+
+@media (min-width: 320px) {
+  .title {
+    display: none;
+  }
+  .hero {
+    width: 100vw;
+  }
+  #license {
+    padding-bottom: 20vh;
+  }
+}
+
+@media (min-width: 768px) {
+  .title {
+    display: block;
+  }
+  .hero {
+    width: 110%;
+  }
+  #license {
+    padding-bottom: 78vh;
+  }
+}
+
+.row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
