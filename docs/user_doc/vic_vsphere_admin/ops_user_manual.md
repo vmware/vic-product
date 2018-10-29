@@ -14,11 +14,11 @@ When creating roles manually, the privileges are not as granular as when you use
 **Prerequisites**
 
 - Create one or more user accounts to use as the operations user for VCHs.
-- Log into the Flex-based vSphere Web Client with a vSphere administrator account. You cannot use the HTML5 vSphere Client to create user accounts.
+- Log into the vSphere Client with a vSphere administrator account.
 
 **Procedure**
 
-1. In the vSphere Web Client, create a user group, for example `VIC Ops Users`, and add the appropriate user accounts to the user group.
+1. In the vSphere Client, create a user group, for example `VIC Ops Users`, and add the appropriate user accounts to the user group.
 
     The best practice when assigning roles in vSphere is to assign the roles to user groups and then to add users to those groups, rather than assigning roles to the users directly.
 
