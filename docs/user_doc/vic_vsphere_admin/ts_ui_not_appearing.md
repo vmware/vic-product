@@ -2,7 +2,7 @@
 
 After you have installed the plug-in for vSphere Integrated Containers, the HTML5 vSphere Client plug-in appears but is empty, or the plug-in does not appear at all in one or both of the HTML5 vSphere Client or the Flex-based vSphere Web Client.
 
-**IMPORTANT**: If you use vSphere 6.7 update 1 or later, you must use vSphere Integrated Containers 1.4.3 or later. Due to significant changes in the HTML5 vSphere Client in version 6.7 update 1, previous versions of the vSphere Integrated Containers plug-in for the vSphere Client might not work with that version. Only version 1.4.3 has been verified with vSphere 6.7 update 1.
+**IMPORTANT**: If you use vSphere 6.7 update 1 or later, you must use vSphere Integrated Containers 1.4.3 or later. Due to significant changes in the HTML5 vSphere Client in version 6.7 update 1, previous versions of the vSphere Integrated Containers plug-in for the vSphere Client might not work with that version. Only version 1.4.3 and later releases have been verified with vSphere 6.7 update 1.
 
 ## Problem ##
 

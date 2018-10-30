@@ -15,7 +15,7 @@ If you are deploying vSphere Integrated Containers 1.4.3 or later, by default th
 
 - A plug-in for the HTML5 vSphere Client on vCenter Server 6.5 and 6.7. The HTML5 plug-in allows you to to deploy and interact with virtual container hosts (VCHs) directly in the vSphere Client.
 
-  **IMPORTANT**: If you use vSphere 6.7 update 1 or later, you must use vSphere Integrated Containers 1.4.3 or later. Due to significant changes in the HTML5 vSphere Client in version 6.7 update 1, previous versions of the vSphere Integrated Containers plug-in for the vSphere Client might not work with that version. Only version 1.4.3 has been verified with vSphere 6.7 update 1.
+  **IMPORTANT**: If you use vSphere 6.7 update 1 or later, you must use vSphere Integrated Containers 1.4.3 or later. Due to significant changes in the HTML5 vSphere Client in version 6.7 update 1, previous versions of the vSphere Integrated Containers plug-in for the vSphere Client might not work with that version. Only version 1.4.3 and later releases have been verified with vSphere 6.7 update 1.
 - A basic informational plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0. 
 
 If you are installing a version of vSphere Integrated Containers that pre-dates 1.4.3, you must install the plug-in manually. 
