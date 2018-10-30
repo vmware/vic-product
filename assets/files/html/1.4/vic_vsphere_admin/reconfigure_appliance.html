@@ -3002,16 +3002,17 @@
                                 <h1 id="reconfigure-the-vsphere-integrated-containers-appliance">Reconfigure the vSphere Integrated Containers Appliance</h1>
 <p>After you have deployed the vSphere Integrated Containers appliance, you can reconfigure the settings that you provided to the OVA installer during deployment. You can also reconfigure the appliance VM itself, for example to expand the size of the different disks, or to increase memory and processing power.</p>
 <p><strong>Prerequisites</strong></p>
+<p>Log in to the vSphere Client:</p>
 <ul>
-<li>Log in to a vSphere Web Client instance for the vCenter Server instance on which the vSphere Integrated Containers appliance is running.</li>
-<li>If you use vSphere 6.5 or 6.7, log in to the Flex-based vSphere Web Client, not the HTML5 vSphere Client.</li>
+<li>If you use vCenter Server 6.7 update 1 or later, you can use the HTML5 vSphere Client to reconfigure the appliance.</li>
+<li>If you use a version of vCenter Server that pre-dates 6.7 update 1, you must use the Flex-based vSphere Web Client. You cannot reconfigure the appliance in the HTML5 vSphere Client .</li>
 </ul>
 <p><strong>Procedure</strong></p>
 <ol>
 <li><p>Shut down the vSphere Integrated Containers appliance by selecting <strong>Shut Down Guest OS</strong>.</p>
 <p><strong>IMPORTANT</strong>: Do not select <strong>Power Off</strong>.</p>
 </li>
-<li>Right-click the new vSphere Integrated Containers appliance, and select <strong>Edit Settings</strong>.</li>
+<li>Right-click the vSphere Integrated Containers appliance VM, and select <strong>Edit Settings</strong>.</li>
 <li><p>In the <strong>Virtual Hardware</strong> tab, reconfigure the appliance VM as necessary.</p>
 <ul>
 <li>Increase the number of CPUs</li>
@@ -3019,22 +3020,29 @@
 <li>Increase the size of any of the hard disks, as necessary</li>
 </ul>
 </li>
-<li><p>Click <strong>vApp Options</strong> to modify the settings that you provided when you used the OVA installer to deploy the appliance.</p>
+<li><p>Modify the settings that you provided when you deployed the appliance.</p>
+<p>In the Flex-based vSphere Web Client, stay in the Edit Settings window and select <strong>vApp Options</strong>. </p>
+<p>In the HTML5 vSphere Client (vCenter Server 6.7 update 1 and later), you access the vApp Options as follows:</p>
+<ol>
+<li>Exit the Edit Settings window.</li>
+<li>Select the appliance VM and select the <strong>Configure</strong> tab.</li>
+<li>Select <strong>vApp Options</strong> and scroll to the Properties section.</li>
+<li>Click <strong>Category</strong> to sort the settings into the order in which they appear in the OVA installer.</li>
+<li>For each setting that you want to change, select the corresponding row and click <strong>Set Value</strong>.</li>
+</ol>
+<p>You can modify the following settings:</p>
 <ul>
-<li>In <strong>Appliance Security</strong>, update the password for the appliance root account, enable or disable SSH log in.</li>
+<li>In <strong>Appliance Configuration</strong>, update the password for the appliance root account, enable or disable SSH log in, and add or update certificates.</li>
 <li>Reconfigure <strong>Networking Properties</strong> to set a static IP address, update the network configuration, or remove all settings to enable DHCP.</li>
-<li>Reconfigure <strong>Registry Configuration</strong> to enable or disable vSphere Integrated Containers Registry, change the ports on which the registry publishes services, update the administrator and database passwords, enable or disable garbage collection, or update the certificate and key.</li>
-<li>Reconfigure <strong>Management Portal Configuration</strong> to enable or disable vSphere Integrated Containers Management Portal, change the port on which the portal publishes services, or update the certificate and key.</li>
-<li>Reconfigure <strong>File Server Configuration</strong> to change the port on which the file server publishes the vSphere Integrated Containers Engine download, or update the certificate and key.</li>
+<li>Reconfigure <strong>Registry Configuration</strong> to change the ports on which the registry publishes services, or to enable or disable garbage collection.</li>
+<li>Reconfigure <strong>Management Portal Configuration</strong> to change the port on which the portal publishes services.</li>
+<li>Reconfigure <strong>Create Example Users</strong> to enable or disable the creation of example users, update the user name prefix, or change the password.</li>
 </ul>
 <p><strong>NOTE</strong>: It is not recommended to modify the <strong>Deployment</strong> and <strong>Authoring</strong> settings.</p>
 </li>
-<li><p>Click <strong>OK</strong> to close the Edit Settings window.</p>
-</li>
-<li>Power on the vSphere Integrated Containers appliance to complete the reconfiguration.</li>
 </ol>
 <p><strong>Result</strong></p>
-<p>When the appliance powers on, the new settings are automatically applied. If you resized one or more of the hard disks, the appliance automatically handles the partitioning of the disks during the boot process.  </p>
+<p>When you power the appliance back on, the new settings are automatically applied. If you resized one or more of the hard disks, the appliance automatically handles the partitioning of the disks during the boot process.  </p>
 
                                 
                                 </section>
@@ -3078,7 +3086,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Reconfigure the Appliance","level":"3.1.6.1","depth":3,"next":{"title":"Reinitialize the Appliance","level":"3.1.6.2","depth":3,"path":"vic_vsphere_admin/reinitialize_appliance.md","ref":"vic_vsphere_admin/reinitialize_appliance.md","articles":[{"title":"Re-Tag the Appliance","level":"3.1.6.2.1","depth":4,"path":"vic_vsphere_admin/retag_appliance.md","ref":"vic_vsphere_admin/retag_appliance.md","articles":[]}]},"previous":{"title":"Manage the Appliance","level":"3.1.6","depth":2,"path":"vic_vsphere_admin/manage_appliance.md","ref":"vic_vsphere_admin/manage_appliance.md","articles":[{"title":"Reconfigure the Appliance","level":"3.1.6.1","depth":3,"path":"vic_vsphere_admin/reconfigure_appliance.md","ref":"vic_vsphere_admin/reconfigure_appliance.md","articles":[]},{"title":"Reinitialize the Appliance","level":"3.1.6.2","depth":3,"path":"vic_vsphere_admin/reinitialize_appliance.md","ref":"vic_vsphere_admin/reinitialize_appliance.md","articles":[{"title":"Re-Tag the Appliance","level":"3.1.6.2.1","depth":4,"path":"vic_vsphere_admin/retag_appliance.md","ref":"vic_vsphere_admin/retag_appliance.md","articles":[]}]},{"title":"Update PSC Registration","level":"3.1.6.3","depth":3,"path":"vic_vsphere_admin/manual_register_psc.md","ref":"vic_vsphere_admin/manual_register_psc.md","articles":[]},{"title":"Check Service Status","level":"3.1.6.4","depth":3,"path":"vic_vsphere_admin/service_status.md","ref":"vic_vsphere_admin/service_status.md","articles":[]},{"title":"Restart Services","level":"3.1.6.5","depth":3,"path":"vic_vsphere_admin/restart_services.md","ref":"vic_vsphere_admin/restart_services.md","articles":[]},{"title":"Recover Appliance Password","level":"3.1.6.6","depth":3,"path":"vic_vsphere_admin/ts_recover_password.md","ref":"vic_vsphere_admin/ts_recover_password.md","articles":[]},{"title":"Uninstall","level":"3.1.6.7","depth":3,"path":"vic_vsphere_admin/uninstall_vic.md","ref":"vic_vsphere_admin/uninstall_vic.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/reconfigure_appliance.md","mtime":"2018-09-18T15:35:53.641Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-04T09:50:11.354Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Reconfigure the Appliance","level":"3.1.6.1","depth":3,"next":{"title":"Reinitialize the Appliance","level":"3.1.6.2","depth":3,"path":"vic_vsphere_admin/reinitialize_appliance.md","ref":"vic_vsphere_admin/reinitialize_appliance.md","articles":[{"title":"Re-Tag the Appliance","level":"3.1.6.2.1","depth":4,"path":"vic_vsphere_admin/retag_appliance.md","ref":"vic_vsphere_admin/retag_appliance.md","articles":[]}]},"previous":{"title":"Manage the Appliance","level":"3.1.6","depth":2,"path":"vic_vsphere_admin/manage_appliance.md","ref":"vic_vsphere_admin/manage_appliance.md","articles":[{"title":"Reconfigure the Appliance","level":"3.1.6.1","depth":3,"path":"vic_vsphere_admin/reconfigure_appliance.md","ref":"vic_vsphere_admin/reconfigure_appliance.md","articles":[]},{"title":"Reinitialize the Appliance","level":"3.1.6.2","depth":3,"path":"vic_vsphere_admin/reinitialize_appliance.md","ref":"vic_vsphere_admin/reinitialize_appliance.md","articles":[{"title":"Re-Tag the Appliance","level":"3.1.6.2.1","depth":4,"path":"vic_vsphere_admin/retag_appliance.md","ref":"vic_vsphere_admin/retag_appliance.md","articles":[]}]},{"title":"Update PSC Registration","level":"3.1.6.3","depth":3,"path":"vic_vsphere_admin/manual_register_psc.md","ref":"vic_vsphere_admin/manual_register_psc.md","articles":[]},{"title":"Check Service Status","level":"3.1.6.4","depth":3,"path":"vic_vsphere_admin/service_status.md","ref":"vic_vsphere_admin/service_status.md","articles":[]},{"title":"Restart Services","level":"3.1.6.5","depth":3,"path":"vic_vsphere_admin/restart_services.md","ref":"vic_vsphere_admin/restart_services.md","articles":[]},{"title":"Recover Appliance Password","level":"3.1.6.6","depth":3,"path":"vic_vsphere_admin/ts_recover_password.md","ref":"vic_vsphere_admin/ts_recover_password.md","articles":[]},{"title":"Uninstall","level":"3.1.6.7","depth":3,"path":"vic_vsphere_admin/uninstall_vic.md","ref":"vic_vsphere_admin/uninstall_vic.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.4 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/reconfigure_appliance.md","mtime":"2018-10-29T09:18:00.036Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-29T09:40:14.210Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
