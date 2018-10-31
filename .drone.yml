@@ -91,6 +91,8 @@ pipeline:
     privileged: true
     environment:
       TERM: xterm
+      HARBOR: https://storage.googleapis.com/harbor-builds/harbor-offline-installer-latest.tgz
+      ADMIRAL: dev
     secrets:
       - admiral
       - build_admiral_release
@@ -243,7 +245,7 @@ pipeline:
       - 'echo "--------------------------------------------------"; stat --printf="Filesize (%n) = %s\n" $TMP; sha256sum --tag $TMP; sha1sum --tag $TMP; md5sum --tag $TMP'
     when:
       repo: vmware/vic-product
-      event: [push, tag]
+      event: [push, tag, pull_request]
       branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
@@ -303,6 +305,22 @@ pipeline:
       event: [push]
       branch: [master]
       status: success
+
+  publish-gcs-master-builds-pr:
+    image: 'victest/drone-gcs:1'
+    pull: true
+    secrets:
+    - google_key
+    source: bundle
+    target: vic-product-ova-builds/pull/${DRONE_PULL_REQUEST}/
+    acl:
+    - 'allUsers:READER'
+    cache_control: 'public,max-age=3600'
+    when:
+      repo: vmware/vic-product
+      event: [pull_request]
+      branch: [master]
+      status: [failure, success]
 
   publish-gcs-branch-builds-push:
     image: 'victest/drone-gcs:1'
