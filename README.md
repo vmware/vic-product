@@ -1,0 +1,3 @@
+This branch contains the source files for the vic-product landing page that appears at https://vmware.github.io/vic-product/.
+
+Instructions for building and deploying to follow....
