@@ -3,7 +3,7 @@
 // The full license information can be found in LICENSE in the root directory of this project.
 .clr-icon {
   &.vmware-logo {
-    background: url(/images/vmware.svg) no-repeat left 9px;
+    background: url('/images/vmware.svg') no-repeat left 9px;
     width: 108px;
   }
 }
@@ -40,7 +40,7 @@
   vertical-align: middle;
   width: 32px;
   &.icon-github {
-    background: url(/images/github_icon.svg) no-repeat left -2px;
+    background: url('/images/github_icon.svg') no-repeat left -2px;
   }
 }
 
