@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 5-01 DCH
 Resource  ../../resources/Util.robot
-Test Timeout  5 minutes
+Test Timeout  20 minutes
 Test Setup  Run Keyword  Setup Base State
 
 *** Variables ***

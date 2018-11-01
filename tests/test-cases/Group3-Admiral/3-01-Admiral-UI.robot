@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 3-01 Admiral UI
 Resource  ../../resources/Util.robot
-Test Timeout  5 minutes
+Test Timeout  20 minutes
 Test Setup  Run Keyword  Setup Base State
 Test Teardown  Close All Browsers
 
@@ -48,5 +48,5 @@ Add VCH to default project and create a container
     Provision And Verify New Container  ${busybox-docker-image-name}  ${busybox-docker-image-tag}  ${sample-command-exit}  ${cp-card-status-stopped}
     Unselect Containers Page Iframe
 
-    Delete VCH Card Using Dropdown Menu  ${vch-name}
+    Delete VCH Card  ${vch-name}
     [Teardown]  Cleanup VCH And Teardown  ${vch-name}

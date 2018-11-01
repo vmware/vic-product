@@ -111,7 +111,7 @@ pipeline:
       status: success
 
   integration-test-ova-setup:
-    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
     pull: true
     privileged: true
     environment:
@@ -137,7 +137,7 @@ pipeline:
       status: success
 
   integration-test:
-    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
     pull: true
     privileged: true
     environment:
@@ -165,7 +165,7 @@ pipeline:
       status: success
 
   integration-test-ova-cleanup:
-    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
     pull: true
     environment:
       BIN: bin
