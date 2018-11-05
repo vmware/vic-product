@@ -103,6 +103,7 @@ Set Browser Variables
     # UI tests variables
     Set Global Variable  ${FIREFOX_BROWSER}  firefox
     Set Global Variable  ${GRID_URL}  http://selenium-grid-hub:4444/wd/hub
+    Set Global Variable  ${EXPLICIT_WAIT_FOR_VCSSO_PAGE}  600
     Set Global Variable  ${EXPLICIT_WAIT}  30
     Set Global Variable  ${EXTRA_EXPLICIT_WAIT}  60
     Set Global Variable  ${PRIMARY_PORT}  8282
