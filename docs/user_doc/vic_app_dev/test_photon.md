@@ -6,8 +6,9 @@ After you have loaded the vSphere Integrated Containers Registry certificate int
 
 - You performed one of the procedures in either [Add the Registry Certificate to a Custom Image](photon_cert_custom.md) or [Manually Add the Registry Certificate to a `dch-photon` VM](photon_cert_manual.md) to create an instance of the `dch-photon` container VM that includes the CA certificate of your vSphere Integrated Containers Registry instance. 
 - For simplicity, this example uses a virtual container host (VCH) that was deployed with the `--no-tlsverify` option. If your VCH implements TLS verification of clients, you must import the VCH certificates into your Docker client and adapt the Docker commands accordingly. For information about how to connect a Docker client to a VCH that uses full TLS authentication, see [Connecting to the VCH](configure_docker_client.md#connectvch) in Configure the Docker Client for Use with vSphere Integrated Containers.
-- vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
+- This procedure assumes that the VCH uses the same network for the client, management, and public networks. If a VCH is deployed using separate networks, the VCH endpoint is exposed on the client network. When you deploy `dch-photon` on the VCH, it is exposed on the public network and the commands in the procedure fail.
 
+vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
 
 **Procedure**
 
@@ -28,7 +29,7 @@ After you have loaded the vSphere Integrated Containers Registry certificate int
     <pre>docker -H <i>vch_address</i>:12375 pull <i>registry_address</i>/default-project/dch-photon:1.13</pre>
 
 5. Remove the test image that you just pulled. 
-    <pre>docker rmi <i>registry_address</i>/default-project/dch-photon:1.13</pre>
+    <pre>docker -H vch_address:12375 rmi <i>registry_address</i>/default-project/dch-photon:1.13</pre>
     
 3. Create a simple `Dockerfile` and save it in the current directory.
 
