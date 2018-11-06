@@ -50,8 +50,7 @@ Click New Container Button
 Get Container Card Index
     [Arguments]  ${card-name}
     ${card-index}=  Set Variable  None
-    ${visible}=  Run Keyword And Return Status  Element Should Be Visible  ${cp-card-name}
-    @{card-elements}=  Run Keyword If  ${visible} == True  Get Webelements  ${cp-card-name}
+    @{card-elements}=  Get Webelements  ${cp-card-name}
     :FOR  ${element}  IN  @{card-elements}
     \   ${name-text}=  Get Text  ${element}
     \   ${status}=  Run Keyword And Return Status  Should Contain  ${name-text}  ${card-name}

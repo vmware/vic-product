@@ -40,8 +40,7 @@ Click New Host Button
 Get VCH Card Index
     [Arguments]  ${card-name}
     ${card-index}=  Set Variable  None
-    ${visible}=  Run Keyword And Return Status  Element Should Be Visible  ${ch-card-name}
-    @{card-elements}=  Run Keyword If  ${visible} == True  Get Webelements  ${ch-card-name}
+    @{card-elements}=  Get Webelements  ${ch-card-name}
     :FOR  ${element}  IN  @{card-elements}
     \   ${name-text}=  Get Text  ${element}
     \   ${status}=  Run Keyword And Return Status  Should Be Equal As Strings  ${name-text}  ${card-name}
@@ -73,8 +72,8 @@ Delete VCH Card
     [Arguments]  ${card-name}
     Navigate To Container Hosts Page
     ${card-index}=  Get VCH Card Index  ${card-name}
-    @{remove-bottons}=  Get Webelements  ${ch-button-delete}
-    ${remove-button}=  Get From List  ${remove-bottons}  ${card-index}
+    @{remove-buttons}=  Get Webelements  ${ch-button-delete}
+    ${remove-button}=  Get From List  ${remove-buttons}  ${card-index}
     Focus  ${remove-button}
     Click Button  ${remove-button}
     Verify Modal for Remove Container Host
