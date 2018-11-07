@@ -72,9 +72,11 @@ Add New Container Host And Verify Card
 Delete VCH Card
     [Arguments]  ${card-name}
     Navigate To Container Hosts Page
+    Wait Until Element Is Visible  ${ch-card-name}  timeout=${EXPLICIT_WAIT}
+    Sleep  1
     ${card-index}=  Get VCH Card Index  ${card-name}
-    @{remove-bottons}=  Get Webelements  ${ch-button-delete}
-    ${remove-button}=  Get From List  ${remove-bottons}  ${card-index}
+    @{remove-buttons}=  Get Webelements  ${ch-button-delete}
+    ${remove-button}=  Get From List  ${remove-buttons}  ${card-index}
     Focus  ${remove-button}
     Click Button  ${remove-button}
     Verify Modal for Remove Container Host

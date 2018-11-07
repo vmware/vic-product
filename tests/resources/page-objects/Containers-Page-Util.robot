@@ -68,6 +68,7 @@ Verify Container Card Status
 
 Verify Container Card
     [Arguments]  ${card-name}  ${card-status}
+    Wait Until Element Is Visible  ${cp-card-name}  timeout=${EXPLICIT_WAIT}
     ${card-index}=  Get Container Card Index  ${card-name}
     Should Not Be Equal As Strings  ${card-index}  None
     Wait Until Keyword Succeeds  3x  3s  Verify Container Card Status  ${card-index}  ${card-status}
