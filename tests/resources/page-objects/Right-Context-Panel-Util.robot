@@ -50,7 +50,7 @@ Verify Container Provision Status In Right Panel
     Should Not Be Equal As Strings  ${item-index}  None
     @{status-elements}=  Get Webelements  ${rcp-progress-stage}
     ${status-element}=  Get From List  ${status-elements}  ${item-index}
-    ${result}=  Run Keyword And Return Status  Wait Until Element Contains  ${status-element}  ${status}  timeout=300
+    ${result}=  Run Keyword And Return Status  Wait Until Element Contains  ${status-element}  ${status}  timeout=200
     Should Be Equal  ${result}  ${TRUE}  msg=Container Provision Progress Status is not '${status}'
 
 Verify Container Provision Status Is Finished
