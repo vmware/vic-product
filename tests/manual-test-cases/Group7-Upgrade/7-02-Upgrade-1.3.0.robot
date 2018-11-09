@@ -26,8 +26,8 @@ ${new-ova-cert-path}=  /storage/data/admiral/ca_download
 
 *** Keywords ***
 OVA Upgrade Setup
-    Setup Simple VC And Test Environment
+    Setup Simple VC And Test Environment with Shared iSCSI Storage
 
 *** Test Cases ***
 Upgrade OVA 1.3.0
-    Auto Upgrade OVA With Verification  7-02-UPGRADE-1-3-0  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  ha-datacenter
+    Auto Upgrade OVA With Verification  7-02-UPGRADE-1-3-0  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  dc1

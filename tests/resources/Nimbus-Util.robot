@@ -538,6 +538,63 @@ Create Simple VC Cluster With Static IP
     Set Environment Variable  TEST_TIMEOUT  15m
     Set Test VC Variables
 
+Setup Simple VC And Test Environment with Shared iSCSI Storage
+    # set up nimbus test bed and env variables
+    [Timeout]    50 minutes
+    Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
+    # setup nimbus testbed
+    ${esx1}  ${esx2}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${vc-ip}=  Create Simple VC Cluster With Spec File  spec=vic-cluster-2esxi-iscsi.rb
+    # set test variables
+    Set Suite Variable  @{list}  ${esx1}  ${esx2}  ${vc}
+    Set Environment Variable  TEST_URL  ${vc-ip}
+    Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
+    Set Environment Variable  TEST_PASSWORD  Admin\!23
+    Set Environment Variable  BRIDGE_NETWORK  bridge
+    Set Environment Variable  PUBLIC_NETWORK  vm-network
+    Set Environment Variable  TEST_RESOURCE  /dc1/host/cls
+    Set Environment Variable  TEST_DATASTORE  sharedVmfs-0
+    # set VC variables
+    Set Test VC Variables
+    # set VCH variables
+    Set Environment Variable  DRONE_BUILD_NUMBER  0
+    Set Environment Variable  VCH_TIMEOUT  20m0s
+    # set docker variables
+    # not using dind but host dockerd for these nightly tests
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER}  docker
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER_ENDPOINT}  unix:///var/run/docker.sock
+    # set harbor variables
+    Set Global Variable  ${DEFAULT_HARBOR_PROJECT}  default-project
+    # govc env variables
+    Set Environment Variable  GOVC_URL  %{TEST_URL}
+    Set Environment Variable  GOVC_USERNAME  %{TEST_USERNAME}
+    Set Environment Variable  GOVC_PASSWORD  %{TEST_PASSWORD}
+    Set Environment Variable  GOVC_INSECURE  1
+    # check VC
+    Check VCenter
+
+Create Simple VC Cluster With Spec File
+    [Arguments]  ${spec}=vic-cluster-2esxi-iscsi.rb
+    [Timeout]  40 minutes
+
+    ${name}=  Evaluate  'vic-simple-cluster-' + str(random.randint(1000,9999))  modules=random
+    
+    Log To Console  Create a new simple vc cluster with spec ${spec}...
+    ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  spec=${spec}  args=--noSupportBundles --plugin testng --vcvaBuild "${VC_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vic-simple-cluster --runName ${name}
+    Log  ${out}
+
+    Log To Console  Finished creating cluster ${name}
+
+    ${out}=  Execute Command  ${NIMBUS_LOCATION} nimbus-ctl ip %{NIMBUS_USER}-${name}.vc.0 | grep %{NIMBUS_USER}-${name}.vc.0
+    ${vc-ip}=  Fetch From Right  ${out}  ${SPACE}
+
+    ${out}=  Execute Command  ${NIMBUS_LOCATION} nimbus-ctl ip %{NIMBUS_USER}-${name}.esx.0 | grep %{NIMBUS_USER}-${name}.esx.0
+    ${esx0-ip}=  Fetch From Right  ${out}  ${SPACE}
+
+    ${out}=  Execute Command  ${NIMBUS_LOCATION} nimbus-ctl ip %{NIMBUS_USER}-${name}.esx.1 | grep %{NIMBUS_USER}-${name}.esx.1
+    ${esx1-ip}=  Fetch From Right  ${out}  ${SPACE}
+
+    [Return]  %{NIMBUS_USER}-${name}.esx.0  %{NIMBUS_USER}-${name}.esx.1  %{NIMBUS_USER}-${name}.vc.0  ${esx0-ip}  ${esx1-ip}  ${vc-ip}
+
 Create Static IP Worker
     Open Connection  %{NIMBUS_GW}
     Wait Until Keyword Succeeds  10 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
