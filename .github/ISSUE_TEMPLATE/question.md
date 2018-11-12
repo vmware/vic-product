@@ -1,3 +1,9 @@
+---
+name: "Question"
+about: Ask a question about the product
+
+---
+
 <!--
 This repository is for VIC Product. Please use it to report issues related to the VIC Appliance (OVA) and user documentation.
 
@@ -8,13 +14,15 @@ To help use keep things organized, please file issues in the most appropriate re
  * Container Registry (Harbor): https://github.com/goharbor/harbor/issues
 -->
 
-#### Summary
-<!-- Explain the issue briefly. -->
+<!--
+NOTE: Our public Slack channel is often a better way to ask questions and get answers. Consider trying that first, before opening a GitHub issue.
+
+See https://github.com/vmware/vic/blob/master/CONTRIBUTING.md#community for details.
+-->
+
+#### Question
+<!-- Explain the question briefly. -->
 
 
-#### Details
-<!-- Provide additional details. -->
-
-
-#### See Also
+#### See also
 <!-- Provide references to relevant resources, such as documentation or related issues. -->
