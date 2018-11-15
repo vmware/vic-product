@@ -10,23 +10,21 @@ vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13. The `dch
 - [Requirements for Using `dch-photon`](#requirements)
   - [Anonymous `dch-photon` Volumes](#vols) 
 - [Using `dch-photon` with vSphere Integrated Containers Registry](#registry)
-- [Deploy a Test `dch-photon` Instance](#procedure)
-- [Advanced Use of `dch-photon`](#advanced)
 
 ## Advantages of Using `dch-photon` <a id="advantages"></a> 
 
 Virtual container hosts (VCHs) focus on running pre-existing images in production. An advantage of using VCHs  over standard Docker Engine instances is the opinionated, strongly isolated provisioning model of container VMs as compared to standard containers. VCHs assume that image creation happens elsewhere in the CI process. vSphere Integrated Containers provides the `dch-photon` Docker Engine as a container image so that you can easily deploy Docker Engine instances to act as build slaves in your CI infrastructure.  
 
-By bringing the ephemeral quality of running the container host itself as a container VM, `dch-photon` provides the following advantages:
+By bringing the ephemeral quality of running the Docker Engine itself as a container VM, `dch-photon` provides the following advantages:
 
 - Eliminates snowflake deployments of Docker Engine.
-- Promotes efficient use of resources by providing an easy mechanism for provisioning and removing container engine instances that fits well with CI automation.
+- Promotes efficient use of resources by providing an easy mechanism for provisioning and removing Docker Engine instances that fits well with CI automation.
 
 The workflow for using `dch-photon` Docker Engines is as follows: 
 
 1. Pull the `dch-photon` image from vSphere Integrated Containers Registry and instantiate it.
 2. Use the Docker Engine running in `dch-photon` to build and push an image to vSphere Integrated Containers Registry.
-3. Remove the `dch-photon` container.
+3. Remove the `dch-photon` container VM.
 4. Pull the new image from vSphere Integrated Containers Registry into a VCH and run it in production.
 
 Because of the ephemeral quality of the `dch-photon` Docker Engine and because it is itself a container image, this process can be scripted or integrated with an existing CI tool, such as Jenkins.
@@ -56,27 +54,7 @@ You can provide the certificate to `dch-photon` in one of two ways:
 
 When you have deployed `dch-photon` with the registry certificate, you can use it to build an image and push that image from `dch-photon` to vSphere Integrated Containers Registry. You can then pull the image from the registry into a VCH for deployment. 
 
-## Deploy a Test `dch-photon` Instance <a id="procedure"></a>
+For an example of how to deploy a `dch-photon` instance that you can use with vSphere Integrated Containers Registry, see [Deploy a Test `dch-photon` Instance](deploy_test_dch.md).
 
-To use `dch-photon` with vSphere Integrated Containers Registry and a VCH, you must perform the following tasks, in order:
+For more advanced use of `dch-photon`, see [Advanced Use of `dch-photon`](dch_advanced.md).
 
-1. Obtain an appropriately configured VCH by following the procedure in [Deploy a Virtual Container Host with a Volume Store and vSphere Integrated Containers Registry Access](../vic_vsphere_admin/deploy_vch_dchphoton.md).
-2. Provide the vSphere Integrated Containers Registry certificate to a `dch-photon` instance in one of the following ways:
-
-  - [Add the Registry Certificate to a Custom  `dch-photon`  Image](photon_cert_custom.md)
-  - [Manually Add the Registry Certificate to a `dch-photon` VM](photon_cert_manual.md)
-2. Test the dch-photon instance by following the procedure in [Build, Push, and Pull an Image with `dch-photon`](test_photon.md).
-
-## Advanced Use of `dch-photon` <a id="advanced"></a>
-
-For information about how to use `dch-photon` with TLS authentication and with other registries than vSphere Integrated Containers Registry, see [Advanced dch-photon Deployment](dchphoton_options.md).
-
-For information about to use `dch-photon` with large images or with large numbers of images, see [Expand the Root Disk on a dch-photon Docker Engine](dch_expand_disk.md).
-
-For information about configuring `dch-photon` to use proxy servers, see [Configure `dch-photon` to Use Proxy Servers](dch_photon_proxy.md).
-
-For information about configuring `dch-photon` to connect to registries that use a custom CA, see [Add a Custom Registry Certificate Authority to `dch-photon`](add_custom_ca.md).
-
-For information about instantiating a Docker swarm with `dch-photon`, see [Automating Swarm Creation with vSphere Integrated Containers](https://blogs.vmware.com/cloudnative/2017/10/03/automating-swarm-creation-with-vic-1-2/).
-
-**NOTE**: Using `dch-photon` to instantiate Docker swarm is not officially supported.
