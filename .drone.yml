@@ -86,7 +86,7 @@ pipeline:
 
   unified-ova-build:
     group: build
-    image: 'gcr.io/eminent-nation-87317/vic-product-build:33e3b968'
+    image: 'gcr.io/eminent-nation-87317/vic-product-build'
     pull: true
     privileged: true
     environment:
