@@ -77,7 +77,8 @@ function set_base() {
     cdrkit xfsprogs sudo \
     lvm2 parted gptfdisk \
     e2fsprogs docker-17.12.1-1.ph1 gzip \
-    net-tools logrotate sshpass
+    net-tools logrotate sshpass \
+    open-vm-tools
 
   log3 "installing package dependencies"
   tdnf install --installroot "${rt}/" --refresh -y \
