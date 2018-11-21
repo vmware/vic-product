@@ -17,6 +17,7 @@ Documentation  Test 7-01 - Upgrade 1.2.1
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  OVA Upgrade Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
 
 *** Variables ***
 ${old-ova-file-name}=  vic-v1.2.1-4104e5f9.ova

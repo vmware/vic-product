@@ -17,7 +17,7 @@ Documentation  Test 6-01 - OVA TLS
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  Test Environment Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
-Test Teardown   Cleanup VIC Product OVA  %{OVA_NAME}
+Test Teardown  Run Keyword  Test Case Teardown
 
 *** Variables ***
 ${esx_number}=  3
@@ -30,6 +30,10 @@ Test Environment Setup
     Set Environment Variable  DOMAIN              eng.vmware.com
     Set Test VC Variables
 
+Test Case Teardown
+    Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
+    Cleanup VIC Product OVA  %{OVA_NAME}
+    
 *** Test Cases ***
 User Provided Certificate
     Log To Console  \nStarting user provided certificate test...
