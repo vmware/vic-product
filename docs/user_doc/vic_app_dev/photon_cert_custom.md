@@ -50,15 +50,15 @@ By creating a custom image, you can deploy multiple instances of `dch-photon` th
 
 11. Pull the image from vSphere Integrated Containers Registry into the VCH and run it with the name `build-slave`. 
 
-    This example runs `dch-photon` behind a port mapping, but you can also use a container network. 
+    This example runs `dch-photon` behind a port mapping, that exposes the HTTP port (2375) of the `dch-photon` instance on port 12375 of the VCH. You can also deploy `dch-photon` on a container network. 
 
     <pre>docker -H <i>vch_address</i>:2376 --tls run --name build-slave -d -p 12375:2375 <i>registry_address</i>/default-project/dch-photon:1.13-cert</pre> 
 
 **Result**
 
 - You have a custom `dch-photon` image in your vSphere Integrated Containers Registry that contains the correct certificate so that it can build, pull, and push images to and from that registry.
-- You deployed a `dch-photon` container VM from that image, that is running in your VCH. 
+- You deployed a `dch-photon` container VM named `build-slave` from that image, that exposes Docker Engine on port 12375 of your VCH. 
 
 **What to Do Next**
 
-To test the  `dch-photon` Docker host, see [Build, Push, and Pull an Image with `dch-photon`](test_photon.md).
+To test the  `dch-photon` Docker Engine, see [Build, Push, and Pull an Image with `dch-photon`](test_photon.md).
