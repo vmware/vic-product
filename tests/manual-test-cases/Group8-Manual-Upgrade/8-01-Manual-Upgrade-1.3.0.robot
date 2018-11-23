@@ -25,7 +25,7 @@ ${sample-image-tag}=  test
 
 *** Keywords ***
 Test Environment Setup
-    Setup Simple VC And Test Environment
+    Setup Simple VC And Test Environment with Shared iSCSI Storage
     # Used by Install VIC Appliance Secret keyword
     Set Global Variable       ${OVA_USERNAME_ROOT}  root
     Set Global Variable       ${OVA_PASSWORD_ROOT}  e2eFunctionalTest

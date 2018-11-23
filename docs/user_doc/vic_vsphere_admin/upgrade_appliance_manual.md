@@ -16,7 +16,7 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
 - Deploy the latest version of the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 
     **IMPORTANT:**
-    - Use the Flex-based vSphere Web Client to deploy the new version of the appliance. You cannot deploy OVA files from the HTML5 vSphere Client.
+    - If you use vCenter Server 6.7 update 1 or later, you can use the HTML5 vSphere Client to deploy the appliance. If you use an older version of vCenter Server, you must use the Flex-based vSphere Web Client to deploy the appliance. You cannot deploy OVA files from versions of the HTML5 vSphere Client that pre-date vCenter Server 6.7 update 1.  
     - Deploy the appliance to the same vCenter Server instance as the one on which the previous version is running, or to a vCenter Server instance that is managed by the same Platform Services Controller.
     - Do not disable SSH access to the new appliance. You require SSH access to the appliance during the upgrade procedure.
     -  When the OVA deployment finishes, do not power on or initialize the new appliance. Attempting to perform the upgrade procedure on a new appliance that you have already initialized causes vSphere Integrated Containers Management Portal and Registry not to function correctly and might result in data loss. 

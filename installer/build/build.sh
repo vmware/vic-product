@@ -65,7 +65,7 @@ if [ "$step" == "ova-dev" ]; then
     -e DRONE_BUILD_EVENT=${DRONE_BUILD_EVENT} \
     -e DRONE_DEPLOY_TO=${DRONE_DEPLOY_TO} \
     -e TERM -w ${ROOT_INSTALLER_WORK_DIR} \
-    gcr.io/eminent-nation-87317/vic-product-build:2ea9bdfd ./build/build-ova.sh $*
+    gcr.io/eminent-nation-87317/vic-product-build ./build/build-ova.sh $*
 elif [ "$step" == "ova-ci" ]; then
   echo "starting ci build..."
   export DEBUG=${DEBUG}

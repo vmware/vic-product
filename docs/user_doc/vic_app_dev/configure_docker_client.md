@@ -75,8 +75,7 @@ This example configures a Linux Docker client so that you can log into vSphere I
 
 This example configures a Linux Docker client so that you can log into vSphere Integrated Containers Registry by using its IP address.
 
-**NOTE**: The current version of vSphere Integrated Containers uses the registry's IP address as the Subject Alternate Name when auto-generating certificates for vSphere Integrated Containers Registry. Consequently, when you run `docker login`, you must use the IP address of the registry rather than the FQDN. 
- 
+
 1. Copy the certificate file to the Linux machine on which you run the Docker client.
 2. Switch to `sudo` user.<pre>$ sudo su</pre>
 2. Create a subfolder in the Docker certificates folder, using the registry's IP address as the folder name.<pre>$ mkdir -p /etc/docker/certs.d/<i>registry_ip</i></pre>

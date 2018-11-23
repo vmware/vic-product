@@ -13,8 +13,8 @@ If you [check the service status](service_status.md) for vSphere Integrated Cont
 
 ## Cause ##
 
-You used the vSphere 6.7 HTML5 client to deploy the appliance OVA. The vSphere 6.7 HTML5 client does not prevent you from deploying OVA files. Due to an issue in the vSphere 6.7 HTML5 client, the vSphere Integrated Containers Registry service is assigned to the incorrect port during deployment. This prevents the service from running.
+You used a version of the HTML5 vSphere Client that pre-dates vCenter Server 6.7 update 1 to deploy the appliance OVA. Older versions of the HTML5 client do not prevent you from deploying OVA files, but due to an issue in older versions of the client, the vSphere Integrated Containers Registry service is assigned to the incorrect port during deployment. This prevents the service from running.
 
 ## Solution ##
 
-Redeploy the appliance. Always use the Flex-based vSphere Web Client to deploy the appliance OVA, even if you are using vSphere 6.7.
+Use the Flex-based vSphere Web Client to redeploy the appliance OVA. Alternatively, upgrade vCenter Server to version 6.7 update 1 and use the HTML5 vSphere Client to redeploy the appliance OVA. 

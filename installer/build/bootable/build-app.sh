@@ -34,6 +34,7 @@ chage -I -1 -m 0 -M 99999 -E -1 root
 
 log3 "configuring ${brprpl}UTC${reset} timezone"
 ln --force --symbolic /usr/share/zoneinfo/UTC /etc/localtime
+
 log3 "configuring ${brprpl}en_US.UTF-8${reset} locale"
 /usr/bin/touch /etc/locale.conf
 /bin/echo "LANG=en_US.UTF-8" > /etc/locale.conf
@@ -93,9 +94,10 @@ echo -ne '' > /root/.bash_profile
 echo 'shopt -s histappend' >> /root/.bash_profile
 echo 'export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"' >> /root/.bash_profile
 
-# Clear SSH host keys
+# Regenerate SSH host keys, or else sshd can not start successfully
 log3 "resetting ssh host keys"
 rm -f /etc/ssh/{ssh_host_dsa_key,ssh_host_dsa_key.pub,ssh_host_ecdsa_key,ssh_host_ecdsa_key.pub,ssh_host_ed25519_key,ssh_host_ed25519_key.pub,ssh_host_rsa_key,ssh_host_rsa_key.pub}
+/usr/bin/ssh-keygen -A
 
 # Zero out the free space to save space in the final image
 log3 "zero out free space"
