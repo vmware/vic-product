@@ -76,16 +76,35 @@ function checkHarborPSCToken {
 
 # Run the harbor migrator docker image
 function runMigratorCmd {
-  local migrator_image="vmware/harbor-migrator:v1.5.0"
+  local migrator_image="goharbor/harbor-migrator:v1.6.0"
 
-  docker run --rm \
+  docker run -i \
     -e DB_USR=${DB_USER} \
     -e DB_PWD=${DB_PASSWORD} \
     -e SKIP_CONFIRM=y \
     -v ${harbor_database}:/var/lib/mysql \
-    -v ${harbor_data_mount}:/harbor-migration/harbor-cfg \
+    -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg \
     -v ${harbor_backup}:/harbor-migration/backup \
     ${migrator_image} "$@"
+
+  if [ $1 == "up" ]; then 
+    docker run -i \
+      -e DB_USR=${DB_USER} \
+      -e SKIP_CONFIRM=y \
+      -v ${harbor_db_mount}/notary-db/:/var/lib/mysql \
+      -v ${harbor_database}:/var/lib/postgresql/data \
+      -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg \
+      -v ${harbor_backup}:/harbor-migration/backup \
+      ${migrator_image} up
+
+    docker run -i \
+      -e SKIP_CONFIRM=y \
+      -v ${harbor_db_mount}/clair-db/:/clair-db \
+      -v ${harbor_database}:/var/lib/postgresql/data \
+      -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg \
+      -v ${harbor_backup}:/harbor-migration/backup \
+      ${migrator_image} up
+  fi
 }
 
 # https://github.com/vmware/harbor/blob/master/docs/migration_guide.md
