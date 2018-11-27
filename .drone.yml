@@ -235,7 +235,7 @@ pipeline:
       - 'cd installer/bin'
       - 'TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-dev-/")'
       - 'if [ "${DRONE_BUILD_EVENT}" == "push" ] && [ "${DRONE_BRANCH}" != "master" ]; then FOLDER=${DRONE_BRANCH} ; fi'
-      - 'echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/${FOLDER}${FOLDER:+/}${TMP}"'
+      - 'echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/${FOLDER}${FOLDER:+\/}${TMP}"'
       - 'echo "Renaming build artifact to $TMP..."'
       - 'mv vic-*.ova ../../bundle/$TMP'
       - 'cd ../../bundle'
