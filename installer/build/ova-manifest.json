@@ -165,6 +165,11 @@
   },
   {
     "type": "file",
+    "source": "scripts/verify.sh",
+    "destination": "/etc/vmware/verify.sh"
+  },
+  {
+    "type": "file",
     "source": "../fileserver/html",
     "destination": "/opt/vmware/fileserver/html"
   },
