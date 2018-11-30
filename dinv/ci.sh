@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -e && [ -n "$DEBUG" ] && set -x
 
 function changeset {
   case "$DRONE_BUILD_EVENT" in
