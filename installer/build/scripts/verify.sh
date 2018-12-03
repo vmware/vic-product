@@ -13,13 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-salt=`cat /etc/shadow | grep root | cut -d : -f 2 | cut -d $ -f 3`
-salt_param='$6$'$salt'$'
-origin_passwd=`cat /etc/shadow | grep root | cut -d : -f 2 | cut -d $ -f 4`
-first_param='"'$1'"'
-second_param='"'$salt_param'"'
-passwd=`python -c 'import crypt; print crypt.crypt('$first_param', '$second_param')' | cut -d $ -f 4`
-if [  $origin_passwd == $passwd  ]; then
-  exit 0
-fi
-exit 1
+salt=$(sudo getent shadow root | cut -d$ -f3)
+origin_password=$(sudo getent shadow root | cut -d: -f2)
+passwd=$(python -c 'import crypt; print crypt.crypt("'"${1}"'", "$6$'"${salt}"'")')
+[ "${origin_password}" == "${passwd}" ] && exit 0 || exit 1
