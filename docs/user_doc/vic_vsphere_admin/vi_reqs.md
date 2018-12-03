@@ -1,6 +1,6 @@
 # Virtual Infrastructure Requirements <a id="vireqs"></a>
 
-You must ensure that the vCenter Server instance and ESXi hosts on which you are deploying vSphere Integrated Containers appliance and virtual container hosts (VCHs) meet certain requirements.
+You must ensure that the vCenter Server instance and ESXi hosts on which you are deploying the vSphere Integrated Containers appliance and virtual container hosts (VCHs) meet certain requirements.
 
 - [License Requirements](#license)
 - [vSphere Integrated Containers Appliance Requirements](#appliancereqs)
@@ -40,9 +40,9 @@ vSphere Integrated Containers provides an interactive plug-in for the HTML5 vSph
    **IMPORTANT**: If you use vSphere 6.7 update 1 or later, you must use vSphere Integrated Containers 1.4.3 or later. Due to significant changes in the HTML5 vSphere Client in version 6.7 update 1, previous versions of the vSphere Integrated Containers plug-in for the vSphere Client might not work with that version. Only version 1.4.3 and later releases have been verified with vSphere 6.7 update 1.
 - The Flex-based plug-in for vSphere 6.0 has limited functionality and only provides basic information about VCHs and container VMs. 
 
-## Supported Configurations for Virtual Container Host Deployment <a id="configs"></a>
+## Supported Configurations for VCH Deployment <a id="configs"></a>
 
-You can deploy virtual container hosts (VCHs) in the following types of setup:
+You can deploy VCHs in the following types of setup:
 
 * vCenter Server 6.0, 6.5, or 6.7 managing a cluster of ESXi  6.0, 6.5, or 6.7 hosts. VMware recommends that you enable VMware vSphere Distributed Resource Scheduler (DRS) on clusters whenever possible, but this is not a requirement.
 * vCenter Server 6.0, 6.5, or 6.7, managing one or more standalone ESXi 6.0, 6.5, or 6.7 hosts.
