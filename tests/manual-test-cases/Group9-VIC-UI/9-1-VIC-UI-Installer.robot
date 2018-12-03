@@ -17,6 +17,7 @@ Documentation  Test 9-1 - VIC UI Installation
 Resource  ../../resources/Util.robot
 Suite Setup  VIC UI OVA Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
 
 *** Test Cases ***
 Attempt To Install To A Non vCenter Server

@@ -17,6 +17,7 @@ Documentation  Test 8-01 - Manual Upgrade 1.4.0
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  Test Environment Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
 
 *** Variables ***
 ${datacenter}=  ha-datacenter

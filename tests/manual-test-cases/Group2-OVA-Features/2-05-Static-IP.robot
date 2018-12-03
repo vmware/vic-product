@@ -17,6 +17,7 @@ Documentation  Test 2-05 - Static IP
 Resource  ../../resources/Util.robot
 Suite Setup  Setup VC With Static IP
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
 
 *** Variables ***
 ${dns-nimbus}=  10.170.16.48

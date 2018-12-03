@@ -16,7 +16,7 @@
 Documentation  Test 9-2 - VIC UI Uninstallation
 Resource  ../../resources/Util.robot
 Suite Setup  Uninstall OVA Setup
-Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Suite Teardown  Run Keyword And Ignore Error  OVA Cleanup  Nimbus Cleanup  ${list}
 
 *** Keywords *** 
 Uninstall OVA Setup

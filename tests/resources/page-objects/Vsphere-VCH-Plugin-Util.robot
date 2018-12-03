@@ -151,6 +151,7 @@ Set Docker Host Parameters
 
     Set Test Variable  ${VCH-IP}  ${ip}
     Set Test Variable  ${VCH-PORT}  ${port}
+    Set Test Variable  ${VIC-ADMIN}  ${ip}:2378
     Run Keyword If  ${port} == 2376  Set Test Variable  ${VCH-PARAMS}  -H ${docker-host} --tls
     Run Keyword If  ${port} == 2375  Set Test Variable  ${VCH-PARAMS}  -H ${docker-host}
 
