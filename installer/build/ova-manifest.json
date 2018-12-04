@@ -165,8 +165,8 @@
   },
   {
     "type": "file",
-    "source": "scripts/verify.sh",
-    "destination": "/etc/vmware/verify.sh"
+    "source": "scripts/verify.py",
+    "destination": "/etc/vmware/verify.py"
   },
   {
     "type": "file",

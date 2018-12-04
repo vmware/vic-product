@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/python
 # Copyright 2018 VMware, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +13,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-salt=$(sudo getent shadow root | cut -d$ -f3)
-origin_password=$(sudo getent shadow root | cut -d: -f2)
-passwd=$(python -c 'import crypt; print crypt.crypt("'"${1}"'", "$6$'"${salt}"'")')
-[ "${origin_password}" == "${passwd}" ] && exit 0 || exit 1
+
+import crypt
+import subprocess
+import sys
+
+
+def main():
+    if len(sys.argv) != 2:
+        exit(1)
+    salt = subprocess.check_output(
+        "sudo getent shadow root | cut -d$ -f3",
+        shell=True).rstrip()
+    origin_passwd = subprocess.check_output(
+        "sudo getent shadow root | cut -d: -f2",
+        shell=True).rstrip()
+    passwd = crypt.crypt(sys.argv[1], "$6$" + salt)
+    if origin_passwd != passwd:
+        exit(1)
+
+if __name__ == "__main__":
+    main()
+

@@ -79,7 +79,7 @@ func (i *IndexHTMLRenderer) IndexHandler(resp http.ResponseWriter, req *http.Req
 func indexFormHandler(op trace.Operation, req *http.Request, html *IndexHTMLOptions) error {
 	// verify vic appliance root password
 	vicPasswd := req.FormValue("appliancePwd")
-	cmd := exec.Command("/etc/vmware/verify.sh", vicPasswd) // #nosec
+	cmd := exec.Command("/etc/vmware/verify.py", vicPasswd) // #nosec
 	if err := cmd.Run(); err != nil {
 		op.Infof("VIC password validation failed: %s", err.Error())
 		html.ValidationError = "VIC appliance password is incorrect."
