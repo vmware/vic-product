@@ -1,5 +1,6 @@
 {
 
+        "title": "VMware vSphere Integrated Containers 1.5 Overview
         "gitbook": "3.x.x",
         "plugins": ["noembed"],
 	"pdf": {

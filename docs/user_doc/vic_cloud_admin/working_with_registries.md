@@ -6,7 +6,7 @@ Even if you disable the default https://registry.hub.docker.com registry, you ca
 
 To see all repositories configured in the vSphere Integrated Containers Registry, go to **Library** > **All Repositories** > **Built-In Repositories**.
 
-Starting with vSphere Integrated Containers 1.4, you can configure namespaces for the registries that you add. If you add a new registry and configure a namespace for it, users cannot search, browse, or deploy images that are outside of that namespace. You can add a registry multiple times to allow users to reach different namespaces in that registry.  
+You can configure namespaces for the registries that you add. If you add a new registry and configure a namespace for it, users cannot search, browse, or deploy images that are outside of that namespace. You can add a registry multiple times to allow users to reach different namespaces in that registry.  
 
 vSphere Integrated Containers supports JFrog Artifactory and can interact with both Docker Registry HTTP API V1 and V2 in the following manner:
 

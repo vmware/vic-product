@@ -15,7 +15,7 @@ You use the `vic-machine create` command to deploy VCHs:
 
 ## Enabling Autocomplete <a id="autocomplete"></a>
 
-vSphere Integrated Containers 1.4.3 and later provides an autocomplete feature for `vic-machine` commands and options. The autocomplete feature is available for the `bash` and `zsh` shells, for all of the Windows, Linux, and MacOS versions of `vic-machine`.
+vSphere Integrated Containers provides an autocomplete feature for `vic-machine` commands and options. The autocomplete feature is available for the `bash` and `zsh` shells, for all of the Windows, Linux, and MacOS versions of `vic-machine`.
 
 To enable autocomplete, download the vSphere Integrated Containers bundle and unpack it on your working machine.
 

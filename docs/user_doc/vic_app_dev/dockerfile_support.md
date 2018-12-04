@@ -4,7 +4,7 @@ Some Dockerfile instructions are directives to the build process and a subset of
 
 For more information on Dockerfile instructions, see the [Dockerfile reference](https://docs.docker.com/engine/reference/builder) here.
 
-This topic provides information about which of the runtime Dockerfile instructions that vSphere Integrated Containers Engine 1.4 supports.
+This topic provides information about which of the runtime Dockerfile instructions that vSphere Integrated Containers Engine 1.5 supports.
 
 | **Option** | **Dockerfile Reference** | **Supported** |
 | --- | --- | --- |
