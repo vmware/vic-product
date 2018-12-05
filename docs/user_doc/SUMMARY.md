@@ -1,6 +1,6 @@
 # Summary
 
-## vSphere Integrated Containers 1.4
+## vSphere Integrated Containers 1.5
 
 ----
 
@@ -27,9 +27,6 @@
      * [Deploy the Appliance](vic_vsphere_admin/deploy_vic_appliance.md)
          * [Appliance Initialization API](vic_vsphere_admin/ova_reg_api.md) 
      * [Download Engine Bundle](vic_vsphere_admin/vic_engine_bundle.md)
-     * [Manually Install Plug-in](vic_vsphere_admin/install_vic_plugin.md)
-         * [vCenter Server for Windows](vic_vsphere_admin/plugins_vc_windows.md)
-         * [vCenter Server Appliance](vic_vsphere_admin/plugins_vcsa.md)
   * [VCH Deployment](vic_vsphere_admin/deploy_vch.md)
      * [Using vic-machine](vic_vsphere_admin/using_vicmachine.md)
          * [Obtain Certificate Thumbprints](vic_vsphere_admin/obtain_thumbprint.md)
@@ -89,9 +86,6 @@
          * [Copy Disks Manually](vic_vsphere_admin/upgrade_appliance_manual.md)
      * [Upgrade VCHs](vic_vsphere_admin/upgrade_vch.md)
          * [VCH Upgrade Options](vic_vsphere_admin/upgrade_vch_options.md)
-     * [Manually Upgrade Plug-In](vic_vsphere_admin/upgrade_plugins.md)
-         * [vCenter Server for Windows](vic_vsphere_admin/upgrade_h5_plugin_windows.md)
-         * [vCenter Server Appliance](vic_vsphere_admin/upgrade_h5_plugin_vcsa.md)
   * [Backup and Restore](vic_vsphere_admin/backup_vic.md)
      * [Appliance](vic_vsphere_admin/backup_vic_appliance.md)
      * [VCHs](vic_vsphere_admin/backup_vch.md)
@@ -122,9 +116,7 @@
          * [Access to Management Portal Fails](vic_vsphere_admin/ts_admiral_access_error.md)
          * [Appliance Running Errors](vic_vsphere_admin/ts_appliance_running_errors.md)
          * [Appliance Welcome Page Error](vic_vsphere_admin/vicappliance_welcomepage_error.md)
-     * [Plug-In Installation](vic_vsphere_admin/ts_install_plugins.md)     
-         * [Plug-In Scripts Fail](vic_vsphere_admin/ts_plugin_script_fails.md)
-         * [Plug-In Does Not Appear](vic_vsphere_admin/ts_ui_not_appearing.md)
+     * [Plug-In Does Not Appear](vic_vsphere_admin/ts_ui_not_appearing.md)
      * [VCH Deployment](vic_vsphere_admin/ts_deploy_vch.md)
          * [Firewall Validation Error](vic_vsphere_admin/ts_firewall_error.md)
          * [VCH Deployment Times Out](vic_vsphere_admin/ts_vch_deployment_timeout.md)

@@ -87,8 +87,6 @@ Connect to docker:
 docker -H <i>vch_address</i>:2376 --tls info
 Installer completed successfully</pre>
 
-The ID of the VCH is only shown in 1.4.3 and later versions.
-
 #### Troubleshooting
 
 If you see errors during deployment, see [Troubleshoot Virtual Container Host Deployment](ts_deploy_vch.md).

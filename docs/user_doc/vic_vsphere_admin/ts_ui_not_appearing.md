@@ -2,8 +2,6 @@
 
 After you have installed the plug-in for vSphere Integrated Containers, the HTML5 vSphere Client plug-in appears but is empty, or the plug-in does not appear at all in one or both of the HTML5 vSphere Client or the Flex-based vSphere Web Client.
 
-**IMPORTANT**: If you use vSphere 6.7 update 1 or later, you must use vSphere Integrated Containers 1.4.3 or later. Due to significant changes in the HTML5 vSphere Client in version 6.7 update 1, previous versions of the vSphere Integrated Containers plug-in for the vSphere Client might not work with that version. Only version 1.4.3 and later releases have been verified with vSphere 6.7 update 1.
-
 ## Problem ##
 
 The UI plug-in installer reported success, but you experience one of the following problems:
@@ -19,14 +17,12 @@ If the vSphere Integrated Containers plug-in appears in the HTML5 client but the
 
 If the plug-in does not appear at all: 
 
-- You are using vCenter Server 6.7 update 1 with a version of vSphere Integrated Containers that pre-dates 1.4.3. 
 - A previous attempt at installing the vSphere Integrated Containers plug-in failed, and the failed installation state was retained in the client cache.
 - You installed a new version of the vSphere Integrated Containers plug-in that has the same version number as the previous version, for example a hot patch.
 - You might be encountering an SSL certificate mismatch issue. This can occur if the root CA on the vCenter Server Virtual Appliance is updated, either by upgrading to a newer build of vSphere or by running the VMCA Certificate Manager.
 
 ## Solutions ##
 
-- If you are using vCenter Server 6.7 update 1, upgrade vSphere Integrated Containers to version 1.4.3 or later.
 - If the vSphere Integrated Containers plug-in appears in the HTML5 client but the tabs are empty, upgrade vCenter Server to version 6.5.0d or later.
 - If the plug-in does not appear at all, see the section below to restart the vSphere Client services.
 - If the plug-in still does not appear after restarting the vSphere Client services, see https://kb.vmware.com/kb/52540. 

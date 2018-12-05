@@ -25,7 +25,7 @@ To aid with initialization errors, verify the following:
 	 - Verify if the vSphere client can connect to the appliance and is not blocked by network policy or architecture.
 	 - If there are TLS handshake errors, check for clock skew between the client and appliance and if you are using a browser that supports modern TLS ciphers
 
- -  If you are using vSphere Integrated Containers appliance version 1.4.0 or later, verify if you provided custom TLS certificates.
+ -  Verify whether you provided custom TLS certificates.
 	 -  If you have provided custom TLS certificates, check whether the VM console displays the correct SHA1 fingerprint for the certificate. If you have provided the correct values, then continue with the [SSH verification](#ssh-verification).
 	 If the VM Console does not display the correct fingerprint, then verify if you provided correct formatting and values for the fields in the customer certificates.Continue with the [SSH verification](#ssh-verification). 
 	 -  If you have not provided custom TLS certificates, continue with [SSH verification](#ssh-verification).

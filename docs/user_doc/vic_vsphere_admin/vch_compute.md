@@ -260,7 +260,6 @@ To set VM-Host affinity rules on a VCH, you perform the following steps:
 #### Create VCH Wizard
 
 Create a DRS VM group in vSphere for the VCH endpoint VM and its container VMs. Check this option to create a DRS group with the same name as the VCH. You can use the resulting VM group in DRS VM-Host affinity rules to restrict the set of hosts on which the VCH endpoint VM and its container VMs can run. 
-This option is available if you use 1.4.3 and later versions.
 
 1. Expand **Advanced**.
 2. In  **VM-Host Affinity**, check the **Create a DRS VM Group for this VCH** checkbox to create a DRS group with the same name as the VCH. 
