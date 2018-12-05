@@ -133,7 +133,7 @@ At the end of a successful deployment, the Virtual Container Hosts tab displays 
 --volume-store datastore2:default
 </pre>
 
-The `vic-machine create` command in this example specifies the minimum information required to deploy a VCH that can deploy the `dch-photon` image: 
+The `vic-machine create` command in this example specifies the following options: 
 
 - The address of the vCenter Server instance on which to deploy the VCH and datacenter `dc1` in the `--target` option.
 - The vCenter Single Sign-On user and password for a vSphere administrator account in the `--user` and `--password` options. 
@@ -187,6 +187,8 @@ You can also use vSphere Integrated Containers Management Portal and Registry to
 The VCH that you deployed in the [Example](#example) above meets these requirements, so you can use the `dch-photon` image to test it.
 
 This example uses the `dch-photon` image for demonstration purposes only. For information about how container developers can actually use `dch-photon`, see [Building and Pushing Images with the dch-photon Docker Engine](../vic_app_dev/build_push_images.md) in *Developing Applications with vSphere Integrated Containers*.
+
+vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
 
 ### Procedure
 

@@ -136,3 +136,5 @@ For information about Docker Compose file support, see [Supported Docker Compose
 ## Swarm Commands <a id="swarm"></a>
 
 This version of vSphere Integrated Containers Engine does not directly support Docker Swarm. However, you can use the [`dch-photon` Docker Engine](build_push_images.md) to instantiate a Docker swarm for use with vSphere Integrated Containers. 
+
+**NOTE**: Using `dch-photon` to instantiate Docker swarm is not officially supported.

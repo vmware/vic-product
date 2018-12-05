@@ -119,7 +119,7 @@ A "container" network is a vSphere port group that a container can be connected 
 
 **NOTE**: Multiple bridge networks are backed by the same port group as the default bridge, segregated via IP address management. Container networks are strongly isolated from all other networks.
 
-A container network is specified when the VCH is installed using `vic-machine --container-network [existing-port-group]` and should be visible when you run `docker network ls` from a docker client.
+A container network is specified when the VCH is installed using `vic-machine --container-network [existing-port-group]` and should be visible when you run `docker network ls` from a Docker client.
 
 	$ docker network ls
 	NETWORK ID          NAME                DRIVER              SCOPE
