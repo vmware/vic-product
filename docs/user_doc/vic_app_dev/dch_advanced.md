@@ -1,6 +1,6 @@
 # Advanced Use of `dch-photon` <a id="advanced"></a>
 
-For information about how to use `dch-photon` with TLS authentication and with other registries than vSphere Integrated Containers Registry, see [Advanced dch-photon Deployment](dchphoton_options.md).
+For information about how to use `dch-photon` with TLS authentication and with other registries than vSphere Integrated Containers Registry, see [Advanced dch-photon Deployment Options](dchphoton_options.md).
 
 For information about to use `dch-photon` with large images or with large numbers of images, see [Expand the Root Disk on a dch-photon Docker Engine](dch_expand_disk.md).
 

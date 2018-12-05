@@ -21,10 +21,7 @@ dockerfile
 FROM vmware/dch-photon
 COPY certs/*.crt /etc/ssl/certs/
 RUN tdnf install -y openssl-c_rehash
-ADD docker-entrypoint.sh /docker-entrypoint.sh
-</pre>
-
-    This image adds the following to `dch-photon`:
+ADD docker-entrypoint.sh /docker-entrypoint.sh</pre>This image adds the following to `dch-photon`:
 
     * Copies the root and any secondary certificates into `/etc/ssl/certs` in the `dch-photon` container.
     * Installs `openssl-c_rehash`. You need to rehash the CAs so that programs such as OpenSSL can find newly added CAs. 
@@ -38,8 +35,7 @@ openssl x509 -in /etc/ssl/certs/root-secondary.pem -text >> /etc/pki/tls/certs/c
 echo "Rehashing new certificates"
 c_rehash
 echo "Starting DinV"
-exec /dinv -tls
-</pre>
+exec /dinv -tls</pre>
 
 **Result**
 

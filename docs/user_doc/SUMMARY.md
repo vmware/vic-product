@@ -195,7 +195,7 @@
           * [Manually Add Certificate](vic_app_dev/photon_cert_manual.md) 
           * [Build, Push, and Pull and Image](vic_app_dev/test_photon.md)
       * [Advanced Use of `dch-photon`](vic_app_dev/dch_advanced.md)
-          * [Advanced `dch-photon` Deployment](vic_app_dev/dchphoton_options.md)
+          * [Advanced Options](vic_app_dev/dchphoton_options.md)
           * [Expand the Root Disk](vic_app_dev/dch_expand_disk.md)
           * [Use Proxy Servers](vic_app_dev/dch_photon_proxy.md)
           * [Add a Custom Registry CA](vic_app_dev/add_custom_ca.md)

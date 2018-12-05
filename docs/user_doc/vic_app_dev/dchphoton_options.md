@@ -1,4 +1,4 @@
-# Advanced `dch-photon` Deployment 
+# Advanced `dch-photon` Deployment Options
 
 You do not need to specify any options when you use `docker run` to deploy `dch-photon` Docker Engine instances for use with vSphere Integrated Containers Registry. However, you can optionally specify `dch-photon` options in the `docker run` command to run the  `dch-photon` Docker Engine with TLS authentication.
 

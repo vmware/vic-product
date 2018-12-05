@@ -15,7 +15,7 @@
           * [Manually Add Certificate](photon_cert_manual.md) 
           * [Build, Push, and Pull and Image](test_photon.md)
       * [Advanced Use of `dch-photon`](dch_advanced.md)
-          * [Advanced `dch-photon` Deployment](dchphoton_options.md)
+          * [Advanced Options](dchphoton_options.md)
           * [Expand the Root Disk](dch_expand_disk.md)
           * [Use Proxy Servers](dch_photon_proxy.md)
           * [Add a Custom Registry CA](add_custom_ca.md)
