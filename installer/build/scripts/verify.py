@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # Copyright 2018 VMware, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,22 +15,19 @@
 
 
 import crypt
-import subprocess
+import spwd
 import sys
+from hmac import compare_digest
 
 
 def main():
     if len(sys.argv) != 2:
         exit(1)
-    salt = subprocess.check_output(
-        "sudo getent shadow root | cut -d$ -f3",
-        shell=True).rstrip()
-    origin_passwd = subprocess.check_output(
-        "sudo getent shadow root | cut -d: -f2",
-        shell=True).rstrip()
-    passwd = crypt.crypt(sys.argv[1], "$6$" + salt)
-    if origin_passwd != passwd:
+    cryptedpasswd = spwd.getspnam("root")[1]
+    if not compare_digest(crypt.crypt(sys.argv[1], cryptedpasswd),
+                          cryptedpasswd):
         exit(1)
+
 
 if __name__ == "__main__":
     main()
