@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Advanced dch-photon Deployment · VMware vSphere Integrated Containers 1.5 Documentation</title>
+        <title>Advanced Options · VMware vSphere Integrated Containers 1.5 Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -69,10 +69,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="using_volumes_with_vic.html" />
+    <link rel="next" href="dch_expand_disk.html" />
     
     
-    <link rel="prev" href="test_photon.html" />
+    <link rel="prev" href="dch_advanced.html" />
     
 
     </head>
@@ -2653,7 +2653,21 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="6.1.5.1" data-path="photon_cert_custom.html">
+        <li class="chapter " data-level="6.1.5.1" data-path="deploy_test_dch.html">
+            
+                <a href="deploy_test_dch.html">
+            
+                    
+                    Deploy a Test dch-photon
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1.5.1.1" data-path="photon_cert_custom.html">
             
                 <a href="photon_cert_custom.html">
             
@@ -2666,7 +2680,7 @@
             
         </li>
     
-        <li class="chapter " data-level="6.1.5.2" data-path="photon_cert_manual.html">
+        <li class="chapter " data-level="6.1.5.1.2" data-path="photon_cert_manual.html">
             
                 <a href="photon_cert_manual.html">
             
@@ -2679,7 +2693,7 @@
             
         </li>
     
-        <li class="chapter " data-level="6.1.5.3" data-path="test_photon.html">
+        <li class="chapter " data-level="6.1.5.1.3" data-path="test_photon.html">
             
                 <a href="test_photon.html">
             
@@ -2692,16 +2706,79 @@
             
         </li>
     
-        <li class="chapter active" data-level="6.1.5.4" data-path="dchphoton_options.html">
+
+            </ul>
             
-                <a href="dchphoton_options.html">
+        </li>
+    
+        <li class="chapter " data-level="6.1.5.2" data-path="dch_advanced.html">
+            
+                <a href="dch_advanced.html">
             
                     
-                    Advanced dch-photon Deployment
+                    Advanced Use of dch-photon
             
                 </a>
             
 
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="6.1.5.2.1" data-path="dchphoton_options.html">
+            
+                <a href="dchphoton_options.html">
+            
+                    
+                    Advanced Options
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.5.2.2" data-path="dch_expand_disk.html">
+            
+                <a href="dch_expand_disk.html">
+            
+                    
+                    Expand the Root Disk
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.5.2.3" data-path="dch_photon_proxy.html">
+            
+                <a href="dch_photon_proxy.html">
+            
+                    
+                    Use Proxy Servers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.5.2.4" data-path="add_custom_ca.html">
+            
+                <a href="add_custom_ca.html">
+            
+                    
+                    Add a Custom Registry CA
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -2862,7 +2939,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Advanced dch-photon Deployment</a>
+        <a href=".." >Advanced Options</a>
     </h1>
 </div>
 
@@ -2877,9 +2954,10 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="advanced-dch-photon-deployment">Advanced <code>dch-photon</code> Deployment</h1>
-<p>You do not need to specify any options when you use <code>docker run</code> to deploy <code>dch-photon</code> container VMs for use with vSphere Integrated Containers Registry. However, you can optionally specify <code>dch-photon</code> options in the <code>docker run</code> command to run <code>dch-photon</code> with TLS authentication.</p>
-<p>You can also specify <code>dch-photon</code> options to connect <code>dch-photon</code> container VMs to registries other than vSphere Integrated Containers Registry.</p>
+                                <h1 id="advanced-dch-photon-deployment-options">Advanced <code>dch-photon</code> Deployment Options</h1>
+<p>You do not need to specify any options when you use <code>docker run</code> to deploy <code>dch-photon</code> Docker Engine instances for use with vSphere Integrated Containers Registry. However, you can optionally specify <code>dch-photon</code> options in the <code>docker run</code> command to run the  <code>dch-photon</code> Docker Engine with TLS authentication.</p>
+<p>You can also specify <code>dch-photon</code> options to connect <code>dch-photon</code> Docker Engine instances to registries other than vSphere Integrated Containers Registry.</p>
+<p>vSphere Integrated Containers 1.4.x supports <code>dch-photon</code> version 1.13.</p>
 <ul>
 <li><a href="#options"><code>dch-photon</code> Options</a></li>
 <li><a href="#auth">Using <code>dch-photon</code> with TLS Authentication</a><ul>
@@ -2890,12 +2968,12 @@
 </li>
 </ul>
 <h2 id="dch-photon-options-"><code>dch-photon</code> Options <a id="options"></a></h2>
-<p>You can specify the following options when you deploy <code>dch-photon</code> container VMs:</p>
+<p>You can specify the following options when you deploy <code>dch-photon</code> Docker Engine instances:</p>
 <ul>
 <li><code>-insecure-registry</code>: Enable insecure registry communication. Set this option multiple times to create a list of registries to which <code>dch-photon</code> applies no security considerations. You cannot use this option when connecting to vSphere Integrated Containers Registry.</li>
 <li><code>-local</code>: Do not bind the Docker API to external interfaces. Set this option to prevent the Docker API endpoint from binding to the external interface. Docker Engine only listens on <code>/var/run/docker.sock</code>.</li>
 <li><code>-storage</code>: Sets the Docker storage driver that Docker Engine uses. By default, the storage driver is <code>overlay2</code>, which is the recommended driver when running Docker Engine as a container VM.</li>
-<li><p><code>-tls</code>: Use TLS authentication for all connections. Implied by <code>-tlsverify</code>. This option enables secure communication with no verification of the remote end. To use custom certificates, copy them into the <code>/certs</code> folder in the <code>dch-photon</code> container. Certificates are generated automatically in <code>/certs</code> if you do not provide them. </p>
+<li><p><code>-tls</code>: Use TLS authentication for all connections. Implied by <code>-tlsverify</code>. This option enables secure communication with no verification of the remote end. To use custom certificates, copy them into the <code>/certs</code> folder in the <code>dch-photon</code> container VM. Certificates are generated automatically in <code>/certs</code> if you do not provide them. </p>
 <ul>
 <li>Server certificate: <code>/certs/docker.crt</code></li>
 <li>Key for the server certificate: <code>/certs/docker.key</code></li>
@@ -2967,12 +3045,12 @@
 
             
                 
-                <a href="test_photon.html" class="navigation navigation-prev " aria-label="Previous page: Build, Push, and Pull and Image">
+                <a href="dch_advanced.html" class="navigation navigation-prev " aria-label="Previous page: Advanced Use of dch-photon">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="using_volumes_with_vic.html" class="navigation navigation-next " aria-label="Next page: Using Volumes">
+                <a href="dch_expand_disk.html" class="navigation navigation-next " aria-label="Next page: Expand the Root Disk">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2983,7 +3061,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Advanced dch-photon Deployment","level":"6.1.5.4","depth":3,"next":{"title":"Using Volumes","level":"6.1.6","depth":2,"path":"vic_app_dev/using_volumes_with_vic.md","ref":"vic_app_dev/using_volumes_with_vic.md","articles":[]},"previous":{"title":"Build, Push, and Pull and Image","level":"6.1.5.3","depth":3,"path":"vic_app_dev/test_photon.md","ref":"vic_app_dev/test_photon.md","articles":[]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/dchphoton_options.md","mtime":"2018-12-03T14:29:11.716Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-04T15:50:10.200Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Advanced Options","level":"6.1.5.2.1","depth":4,"next":{"title":"Expand the Root Disk","level":"6.1.5.2.2","depth":4,"path":"vic_app_dev/dch_expand_disk.md","ref":"vic_app_dev/dch_expand_disk.md","articles":[]},"previous":{"title":"Advanced Use of dch-photon","level":"6.1.5.2","depth":3,"path":"vic_app_dev/dch_advanced.md","ref":"vic_app_dev/dch_advanced.md","articles":[{"title":"Advanced Options","level":"6.1.5.2.1","depth":4,"path":"vic_app_dev/dchphoton_options.md","ref":"vic_app_dev/dchphoton_options.md","articles":[]},{"title":"Expand the Root Disk","level":"6.1.5.2.2","depth":4,"path":"vic_app_dev/dch_expand_disk.md","ref":"vic_app_dev/dch_expand_disk.md","articles":[]},{"title":"Use Proxy Servers","level":"6.1.5.2.3","depth":4,"path":"vic_app_dev/dch_photon_proxy.md","ref":"vic_app_dev/dch_photon_proxy.md","articles":[]},{"title":"Add a Custom Registry CA","level":"6.1.5.2.4","depth":4,"path":"vic_app_dev/add_custom_ca.md","ref":"vic_app_dev/add_custom_ca.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["insert-logo","chapter-fold","edit-link","noembed"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageBreaksBefore":"/","headerTemplate":"_TITLE_","paperSize":"letter","margin":{"right":62,"left":62,"top":56,"bottom":56},"fontSize":12,"fontFamily":"Arial","footerTemplate":"_PAGENUM_","chapterMark":"pagebreak","pageNumbers":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_app_dev/dchphoton_options.md","mtime":"2018-12-05T09:18:14.833Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-05T09:32:33.627Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
