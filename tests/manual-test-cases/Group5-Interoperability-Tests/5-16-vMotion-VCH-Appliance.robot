@@ -17,9 +17,13 @@ Documentation  Test 5-16 - vMotion VCH Appliance
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  vMotion Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
-Test Teardown  Run Keyword If Test Failed  Gather All vSphere Logs
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Gather Logs
 
 *** Keywords ***
+Gather Logs
+    Gather All vSphere Logs
+    Collect Appliance and VCH Logs  ${VCH-NAME}
+
 vMotion Setup
     [Timeout]    110 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
