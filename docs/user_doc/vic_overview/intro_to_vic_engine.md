@@ -24,7 +24,7 @@ The container VMs that vSphere Integrated Containers Engine creates have all of 
 
 The provisioned container VM does not contain any OS container abstraction. 
 
-- The container VM boots from an ISO that contains the Photon Linux kernel. Note that container VMs do not run the full Photon OS.
+- The container VM boots from an ISO that contains the Photon OS 2.0 Linux kernel. Note that container VMs do not run the full Photon OS.
 - The container VM is configured with a container image that is mounted as a disk. 
 - Container image layers are represented as a read-only VMDK snapshot hierarchy on a vSphere datastore. At the top of this hierarchy is a read-write snapshot that stores ephemeral state. 
 - Container volumes are formatted VMDKs that are attached as disks and indexed on a datastore. 
@@ -57,6 +57,8 @@ A VCH is a multi-functional appliance that you can deploy to the following targe
 
 VCHs are deployed as resource pools. The resource pool provides a useful visual parent-child relationship in the vSphere Client so that you can easily identify the container VMs that are provisioned into a VCH. You can also specify resource limits on the resource pool. You can provision multiple VCHs onto a single ESXi host, into a resource pool, or into a vCenter Server cluster.
 
+VCHs run on Photon OS 2.0.
+
 ## The VCH Endpoint VM <a id="endpoint"></a>
 
 The VCH endoint VM is the VM that runs inside the VCH resource pool. There is a 1:1 relationship between a VCH and a VCH endpoint VM. The VCH endpoint VM provides the following functions:
@@ -67,6 +69,7 @@ The VCH endoint VM is the VM that runs inside the VCH resource pool. There is a 
 - Provides network forwarding so that ports to containers can be opened on the VCH endoint VM and the containers can access a public network.
 - Manages the lifecycle of the containers, the image store, the volume store, and the container state
 - Provides logging and monitoring of its own services and of its containers.
+- VCH endpoint VMs run on Photon OS 2.0.
 
 The lifecycle of the VCH endpoint VM is managed by a utility called `vic-machine`. 
 

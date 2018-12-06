@@ -2,7 +2,7 @@
 
 When creating an NFS client mount, the combination of permissions and settings on the server side and the number of possible combinations of options on the client side can make it very difficult to test. In addition, the question of which ports to open on firewalls can also cause connection problems.
 
-If you deploy VCHs that use NFS share points as volume stores, you can test  the connections to these share points by mounting the NFS server from within the VCH endpoint VM. Confirming that you can mount the NFS share point from within the endpoint VM confirms that the NFS volume store configuration will also work. However, the `mount.nfs` package is not included in the VCH endpoint VM by default. You must use the Photon OS package manager, Tiny DNF, to add it manually.
+If you deploy VCHs that use NFS share points as volume stores, you can test  the connections to these share points by mounting the NFS server from within the VCH endpoint VM. Confirming that you can mount the NFS share point from within the endpoint VM confirms that the NFS volume store configuration will also work. However, the `mount.nfs` package is not included in the VCH endpoint VM by default. You must use the Photon OS package manager, Tiny DNF, to add it manually. VCHs run Photon OS 2.0. 
 
 **Prerequisites**
 

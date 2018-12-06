@@ -44,8 +44,8 @@ When you unpack the vSphere Integrated Containers Engine bundle, you obtain foll
 |`vic-machine-linux` | The Linux command line utility for the deployment and management of VCHs. | 
 |`vic-machine-windows.exe` | The Windows command line utility for the deployment and management of VCHs.| 
 |`vic-machine-server`| The endpoint for the `vic-machine` API. The `vic-machine` API is currently experimental and unsupported.|
-|`appliance.iso` | The Photon based boot image for the virtual container host (VCH) endpoint VM. |
-|`bootstrap.iso` | The Photon based boot image for the container VMs.|
+|`appliance.iso` | The boot image for the virtual container host (VCH) endpoint VM, based on Photon OS 2.0. |
+|`bootstrap.iso` | The boot image for the container VMs, based on Photon OS 2.0.|
 |`README`|Contains a link to the vSphere Integrated Containers Engine repository on GitHub. |
 |`LICENSE`|The license file. |
 
