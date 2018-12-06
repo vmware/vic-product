@@ -26,6 +26,8 @@ import (
 	"github.com/vmware/vic/pkg/trace"
 )
 
+const inValidVICPwd = "VIC appliance password is incorrect." // #nosec
+
 // IndexHTMLOptions contains fields for html templating in index.html
 type IndexHTMLOptions struct {
 	InitErrorFeedback   string
@@ -79,10 +81,16 @@ func (i *IndexHTMLRenderer) IndexHandler(resp http.ResponseWriter, req *http.Req
 func indexFormHandler(op trace.Operation, req *http.Request, html *IndexHTMLOptions) error {
 	// verify vic appliance root password
 	vicPasswd := req.FormValue("appliancePwd")
+	if len(vicPasswd) > 30 {
+		op.Infof("VIC appliance password length is more than 30.")
+		html.ValidationError = inValidVICPwd
+		return fmt.Errorf(inValidVICPwd)
+	}
+
 	cmd := exec.Command("/etc/vmware/verify.py", vicPasswd) // #nosec
 	if err := cmd.Run(); err != nil {
 		op.Infof("VIC password validation failed: %s", err.Error())
-		html.ValidationError = "VIC appliance password is incorrect."
+		html.ValidationError = inValidVICPwd
 		return err
 	}
 
