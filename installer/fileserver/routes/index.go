@@ -20,9 +20,13 @@ import (
 	"net/http"
 	"os"
 
+	"os/exec"
+
 	"github.com/vmware/vic-product/installer/fileserver/tasks"
 	"github.com/vmware/vic/pkg/trace"
 )
+
+const inValidVICPwd = "VIC appliance password is incorrect." // #nosec
 
 // IndexHTMLOptions contains fields for html templating in index.html
 type IndexHTMLOptions struct {
@@ -75,7 +79,22 @@ func (i *IndexHTMLRenderer) IndexHandler(resp http.ResponseWriter, req *http.Req
 
 // indexFormHandler registers the appliance using post form values
 func indexFormHandler(op trace.Operation, req *http.Request, html *IndexHTMLOptions) error {
-	// verify login
+	// verify vic appliance root password
+	vicPasswd := req.FormValue("appliancePwd")
+	if len(vicPasswd) > 30 {
+		op.Infof("VIC appliance password length is more than 30.")
+		html.ValidationError = inValidVICPwd
+		return fmt.Errorf(inValidVICPwd)
+	}
+
+	cmd := exec.Command("/etc/vmware/verify.py", vicPasswd) // #nosec
+	if err := cmd.Run(); err != nil {
+		op.Infof("VIC password validation failed: %s", err.Error())
+		html.ValidationError = inValidVICPwd
+		return err
+	}
+
+	// verify vc login
 	PSCConfig := tasks.NewPSCRegistrationConfig()
 	PSCConfig.Admin.Target = req.FormValue("target")
 	PSCConfig.Admin.User = req.FormValue("user")
