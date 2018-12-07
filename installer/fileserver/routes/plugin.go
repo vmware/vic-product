@@ -62,6 +62,7 @@ type applianceParameters struct {
 	Host             string `json:"host,omitempty"`
 	URL              string `json:"url,omitempty"`
 	ServerThumbprint string `json:"thumbprint,omitempty"`
+	RootPassword     string `json:"vicpassword,omitempty"`
 }
 
 type httpError struct {
@@ -92,6 +93,14 @@ func InstallPluginHandler(resp http.ResponseWriter, req *http.Request) {
 			(&httpError{
 				Title: "Could not decode body.",
 				code:  http.StatusUnprocessableEntity,
+			}).Error(op, resp)
+			return
+		}
+
+		if err := verifyVICApplianceLogin(op, plugin.AppliancePassword); err != nil {
+			(&httpError{
+				Title: inValidVICPwd,
+				code:  http.StatusUnauthorized,
 			}).Error(op, resp)
 			return
 		}
@@ -149,6 +158,14 @@ func RemovePluginHandler(resp http.ResponseWriter, req *http.Request) {
 			return
 		}
 
+		if err := verifyVICApplianceLogin(op, plugin.AppliancePassword); err != nil {
+			(&httpError{
+				Title: inValidVICPwd,
+				code:  http.StatusUnauthorized,
+			}).Error(op, resp)
+			return
+		}
+
 		cancel, err := plugin.Target.VerifyLogin(op)
 		defer cancel()
 		if err != nil {
@@ -198,6 +215,14 @@ func UpgradePluginHandler(resp http.ResponseWriter, req *http.Request) {
 			(&httpError{
 				Title: "Could not decode body.",
 				code:  http.StatusUnprocessableEntity,
+			}).Error(op, resp)
+			return
+		}
+
+		if err := verifyVICApplianceLogin(op, plugin.AppliancePassword); err != nil {
+			(&httpError{
+				Title: inValidVICPwd,
+				code:  http.StatusUnauthorized,
 			}).Error(op, resp)
 			return
 		}
@@ -284,6 +309,7 @@ func decodePluginPayload(op trace.Operation, req *http.Request) (*tasks.Plugin, 
 	plugin.ApplianceHost = p.Appliance.Host
 	plugin.ApplianceServerThumbprint = p.Appliance.ServerThumbprint
 	plugin.ApplianceURL = p.Appliance.URL
+	plugin.AppliancePassword = p.Appliance.RootPassword
 
 	op.Debugf("Decoded plugin: %#v", plugin)
 	return plugin, nil

@@ -24,34 +24,34 @@ ${fail}=  FAIL
 
 *** Keywords ***
 Install UI Plugin
-    [Arguments]  ${ova-ip}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
+    [Arguments]  ${ova-ip}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}  ${vic_password}=${OVA_PASSWORD_ROOT}
     Log To Console  \nInstalling the vic ui plugin...
-    ${status}=  Call UI API With Preset  ${ova-ip}  install  ${plugin_preset}  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
+    ${status}=  Call UI API With Preset  ${ova-ip}  install  ${plugin_preset}  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}  ${vic_password}
     Should Be Equal As Integers  ${status}  ${ok}
 
     [Return]  ${status}
 
 Remove UI Plugin
-    [Arguments]  ${ova-ip}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
+    [Arguments]  ${ova-ip}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}  ${vic_password}=${OVA_PASSWORD_ROOT}
     Log To Console  \nUninstalling the vic ui plugin...
-    ${status}=  Call UI API With Preset  ${ova-ip}  remove  ${plugin_preset}  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
+    ${status}=  Call UI API With Preset  ${ova-ip}  remove  ${plugin_preset}  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}  ${vic_password}
     Should Be Equal As Integers  ${status}  ${ok}
 
     [Return]  ${status}
 
 Upgrade UI Plugin
-    [Arguments]  ${ova-ip}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
+    [Arguments]  ${ova-ip}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}  ${vic_password}=${OVA_PASSWORD_ROOT}
     Log To Console  \nUpgrading the vic ui plugin...
-    ${status}=  Call UI API With Preset  ${ova-ip}  upgrade  ${plugin_preset}  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}
+    ${status}=  Call UI API With Preset  ${ova-ip}  upgrade  ${plugin_preset}  ${vc}  ${vc_user}  ${vc_pass}  ${vc_thumbprint}  ${vic_password}
     Should Be Equal As Integers  ${status}  ${ok}
 
     [Return]  ${status}
 
 Call UI API With Preset
-    [Arguments]  ${ova_ip}  ${action}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}
+    [Arguments]  ${ova_ip}  ${action}  ${plugin_preset}  ${vc}=%{TEST_URL}  ${vc_user}=%{TEST_USERNAME}  ${vc_pass}=%{TEST_PASSWORD}  ${vc_thumbprint}=${TEST_THUMBPRINT}  ${vic_password}=${OVA_PASSWORD_ROOT}
 
     :FOR  ${i}  IN RANGE  10
-    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"vc":{"target":"${vc}:443","user":"${vc_user}","password":"${vc_pass}","thumbprint":"${vc_thumbprint}"},"plugin":{"preset":"${plugin_preset}"}}' https://${ova_ip}:9443/plugin/${action}
+    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"vc":{"target":"${vc}:443","user":"${vc_user}","password":"${vc_pass}","thumbprint":"${vc_thumbprint}","vicpassword":"${vic_password}"},"plugin":{"preset":"${plugin_preset}"}}' https://${ova_ip}:9443/plugin/${action}
     \   ${out}  ${status}=  Split String From Right  ${out}  \n  1
     \   Exit For Loop If  '${ok}' == '${status}'
     \   Sleep  10s

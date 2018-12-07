@@ -87,6 +87,7 @@ type Plugin struct {
 	ApplianceHost             string
 	ApplianceURL              string
 	ApplianceServerThumbprint string
+	AppliancePassword         string
 }
 
 // NewUIPlugin Returns a UI Plugin struct with the given target
