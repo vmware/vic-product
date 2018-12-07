@@ -174,8 +174,12 @@ Create VCH using UI And Set Docker Parameters
     # compute capacity
     Log To Console  Selecting compute resource...
     # if cluster is present
-    Wait Until Element Is Visible And Enabled  css=.clr-treenode-children clr-tree-node:nth-of-type(${tree-node}) .cc-resource
-    Click Button  css=.clr-treenode-children clr-tree-node:nth-of-type(${tree-node}) .cc-resource
+    # There're 2 types of tree-node, if it's a index number, locator will be defined by CSS, if it's a IP address, locator will be defined by xpath 
+    ${tree-node-len}=  Get Length  '${tree-node}'
+    ${host_locator}=  set variable if  ${tree-node-len}<5  css=.clr-treenode-children clr-tree-node:nth-of-type(${tree-node}) .cc-resource  xpath://clr-tree-node//button[contains(., '${tree-node}')]
+    Wait Until Element Is Enabled  ${host_locator}
+    Click Button  ${host_locator}
+
     Click Next Button
     # storage capacity
     Select Image Datastore  ${datastore}
