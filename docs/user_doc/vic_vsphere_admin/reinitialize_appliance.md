@@ -34,6 +34,7 @@ You should reinitialize the appliance in the following circumstances:
 
     - If vCenter Server is managed by an embedded Platform Services Controller, leave the External PSC text boxes empty.
     - If the Platform Services Controller has changed since deployment, provide the new FQDN and administrator domain.
+4. Enter the root password for the vSphere Integrated Containers appliance, that you set when you deployed the OVA.
 4. To install or upgrade the vSphere Client plug-in, leave the **Install UI Plugun** checkbox selected, and click **Continue**.
 6. Verify that the certificate thumbprint for vCenter Server is valid, and click **Continue** to initialize the appliance.
 
