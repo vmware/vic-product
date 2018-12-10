@@ -7,7 +7,7 @@
      * [Download Installer](download_vic.md) 
      * [Deployment Prerequisites](vic_installation_prereqs.md)
      * [Deploy the Appliance](deploy_vic_appliance.md)
-         * [Appliance Initialization API](ova_reg_api.md) 
+         * [Appliance Registration API](ova_reg_api.md) 
      * [Download Engine Bundle](vic_engine_bundle.md)
   * [VCH Deployment](deploy_vch.md)
      * [Using vic-machine](using_vicmachine.md)

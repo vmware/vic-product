@@ -16,11 +16,6 @@ The process of uninstalling vSphere Integrated Containers depends on the way tha
 4. Unregister the vSphere Integrated Containers plug-in from vCenter Server by using the Managed Object Browser.
 	1. Log in to https://<i>vCenter_Server_address</i>/mob/?moid=ExtensionManager with vCenter Server administrator credentials.
 	2. In ExtensionManager, click **unregisterExtension**.
-	3. Enter `com.vmware.vic.ui` for the extension key value, and click **Invoke Method**.
-	4. Verify that the result displays `void` and not an error message.
-
-	An error message might appear if the specified extension is not registered, or if an unexpected runtime error occurs.
-
 	5. Enter `com.vmware.vic` for the extension key value, and click **Invoke Method**.
 	6. Verify that the result displays `void` and not an error message.
 	7. Close the window.
@@ -30,7 +25,6 @@ The process of uninstalling vSphere Integrated Containers depends on the way tha
 	2. If you created default users for your vSphere Integrated Containers instance, click **Users and Groups**, select the *Management Portal (cloud) administrator* user, the *DevOps Admin* user, and the *Developer* user, and click **Delete** for each of them.
 	3. Click the **Solution Users** tab, select the users that start with *engine*, *admiral*, and *harbor*, and click **Delete** for each of them.
 6. Verify that no vSphere Integrated Containers VMDK files are left on your datastore.
+6. Restart the vSphere Client service, to finalize the removal of the vSphere Integrated Containers plug-in. 
 
-**What to Do Next**
-
-Restart the vSphere Client service to finalize the removal of the vSphere Integrated Containers plug-in. For information about restarting the client, see [Restart the vSphere Client](ts_ui_not_appearing.md#restart-client).
+	For information about restarting the client, see [Restart the vSphere Client](ts_ui_not_appearing.md#restart-client).

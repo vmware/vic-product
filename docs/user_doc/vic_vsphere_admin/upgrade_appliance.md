@@ -1,8 +1,8 @@
 # Upgrade the vSphere Integrated Containers Appliance
 
-If you have a 1.2.1 or 1.3.x version of the vSphere Integrated Containers appliance, you can upgrade your existing installation to 1.5.x. You can also upgrade a 1.5.x release to a later 1.5.y update release.
+If you have a 1.3.x or 1.4.x version of the vSphere Integrated Containers appliance, you can upgrade your existing installation to 1.5.x. You can also upgrade a 1.5.x release to a later 1.5.y update release.
 
-Upgrading the vSphere Integrated Containers appliance requires you to deploy an instance of the new version of the appliance, use SSH to log in to the new appliance, and run an upgrade script. The script copies the relevant disk files from the old appliance to the new appliance. All configurations that you made in vSphere Integrated Containers Management Portal and Registry in the previous installation transfer to the upgraded appliance. If you configured the older version of the appliance with a static IP address, you can configure the new appliance to use the same IP address as before.
+Upgrading the vSphere Integrated Containers appliance requires you to deploy an instance of the new version of the appliance, use SSH to log in to the new appliance, and run an upgrade script. The script copies the relevant disk files from the old appliance to the new appliance. All configurations that you made in vSphere Integrated Containers Management Portal in the previous installation transfer to the upgraded appliance. If you configured the older version of the appliance with a static IP address, you can configure the new appliance to use the same IP address as before.
 
 Because disk files are copied rather than moved, the old appliance is not affected by the upgrade process. You can keep it as a backup. This is the recommended procedure for performing upgrades.
 
@@ -15,7 +15,7 @@ For information about the supported upgrade paths for all versions of vSphere In
 **Prerequisites**
 
 - You have completed the pre-upgrade tasks listed in [Tasks to Perform Before Upgrading the vSphere Integrated Containers Appliance](pre_upgrade_tasks.md).
-- If you deployed the old version of the vSphere Integrated Containers appliance with a static IP address, and you want the new appliance to retain the same IP address after the upgrade, reconfigure the old appliance to use a temporary IP address before you start the upgrade procedure.
+- If you deployed the old version of the vSphere Integrated Containers appliance with a static IP address, and you want the new appliance to retain the same IP address after the upgrade, reconfigure the old appliance to use a temporary IP address before you start the upgrade procedure. For information about how to reconfigure the old appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.md).
 - Deploy the latest version of the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).  
   - If you use vCenter Server 6.7 update 1 or later, you can use the HTML5 vSphere Client to deploy the appliance. If you use an older version of vCenter Server, you must use the Flex-based vSphere Web Client to deploy the appliance. You cannot deploy OVA files from versions of the HTML5 vSphere Client that pre-date vCenter Server 6.7 update 1. 
   - When you deploy the new version of the apppliance, you can optionally configure the network settings to use the same static IP address as you used on the old version.
@@ -23,14 +23,16 @@ For information about the supported upgrade paths for all versions of vSphere In
   - **IMPORTANT:** Do not disable SSH access to the new appliance. You require SSH access to the appliance during the upgrade procedure.
   - Deploy the new version of the appliance to the same vCenter Server instance as the one on which the previous version is running, or to a vCenter Server instance that is managed by the same Platform Services Controller.
 - Log in to the vSphere Client for the vCenter Server instance on which the previous version is running and on which you deployed the new version. 
-- Power on the new version of the vSphere Integrated Containers appliance and wait for it to initialize. Initialization can take a few minutes.
-
-    **IMPORTANT**: After the new appliance has initialized, do not go to the appliance welcome page of the appliance. Logging in to the appliance welcome page for the first time initializes the appliance. Initialization is only applicable to new installations and causes upgraded appliances not to function correctly.
 - Do not power off the older version of the appliance.
 
 **Procedure**
 
-1. Use SSH to connect to the new appliance as root user.
+1. Power on the new version of the vSphere Integrated Containers appliance and wait for it to boot up. 
+
+    Booting up can take a few minutes. Go to  https://<i>vic_appliance_address</i>:9443 and wait until the **Complete VIC appliance installation** panel appears.  
+
+    **IMPORTANT**: After the new appliance has booted up, do not fill in the **Complete VIC appliance installation** panel. This step is only applicable to new installations, not to upgrades. 
+2. Use SSH to connect to the new appliance as root user.
 
     <pre>$ ssh root@<i>new_vic_appliance_address</i></pre>
 
@@ -74,18 +76,19 @@ After you see confirmation that the upgrade has completed successfully, the upgr
 
 **What to Do Next**
 
+- If you answered `y` at the prompt to `Upgrade VIC UI Plugin`, access the  vSphere Integrated Containers plug-in for vSphere Client:
+   1. Log out of the HTML5 vSphere Client and log back in again. You should see a banner that states `There are plug-ins that were installed or updated`.
+      2. If you use vSphere 6.7u1 or later, click the button in the banner to refresh the vSphere Client.
+      2. On versions of vSphere that pre-date 6.7u1, log out of the HTML5 vSphere Client a second time and log back in again.
+   3. Click the **vSphere Client** logo in the top left corner. 
+   4. Under Inventories, click **vSphere Integrated Containers** to access the vSphere Integrated Containers plug-in.
+   5. In the **vSphere Integrated Containers** > **Summary** tab, check that the plug-in is at the correct version.
 - Click **Go to the vSphere Integrated Containers Management Portal** in the appliance welcome page, and use vCenter Server Single Sign-On credentials to log in.
 
   - In the **Home** tab of the vSphere Integrated Containers Management Portal, check that all existing applications, containers, networks, volumes, and virtual container hosts have migrated successfully.
   - In the **Administration** tab, check that projects, registries, repositories, and replication configurations have migrated successfully.
 - If, in the previous version, you configured vSphere Integrated Containers Registry instances as replication endpoints, upgrade the appliances that run those registry instances. Replication of images from the new registry instance to the older replication endpoint still functions, but it is recommended that you upgrade the target registry.
 - Download the new vSphere Integrated Containers Engine bundle and upgrade  your VCHs. For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).
-- If you answered `y` at the prompt to `Upgrade VIC UI Plugin`, access the  vSphere Integrated Containers plug-in for vSphere Client:
-   1. Log out of the HTML5 vSphere Client and log back in again. You should see a banner that states `There are plug-ins that were installed or updated`.
-   2. Log out of the HTML5 vSphere Client a second time and log back in again.
-   3. Click the **vSphere Client** logo in the top left corner. 
-   4. Under Inventories, click **vSphere Integrated Containers** to access the vSphere Integrated Containers plug-in.
-   5. In the **vSphere Integrated Containers** > **Summary** tab, check that the plug-in is at the correct version.
 - If you answered `n` at the prompt to `Upgrade VIC UI Plugin`, and you want to upgrade the plug-in later, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md). 
 
 **Troubleshooting**
@@ -176,7 +179,7 @@ To bypass these prompts, you can specify command line arguments when you run the
 
 ### Example: Upgrade Appliance with Embedded Platform Services Controller
 
-The following command upgrades a vSphere Integrated Containers 1.3.1 appliance. The new appliance runs in a vCenter Server instance with an embedded Platform Services Controller. The old appliance is removed when the upgrade finishes.
+The following command upgrades a vSphere Integrated Containers 1.4.4 appliance. The new appliance runs in a vCenter Server instance with an embedded Platform Services Controller. The old appliance is removed when the upgrade finishes.
 
 <pre>./upgrade.sh --target <i>vcenter_server_address</i>
 --username 'Administrator@vsphere.local'
@@ -187,13 +190,13 @@ The following command upgrades a vSphere Integrated Containers 1.3.1 appliance. 
 --appliance-target <i>old_appliance_address</i>
 --appliance-username root
 --appliance-password <i>old_appliance_root_password</i>
---appliance-version v1.3.1
+--appliance-version v1.4.4
 --destroy
 </pre>
 
 ### Example: Upgrade Appliance with External Platform Services Controller
 
-The following command upgrades a vSphere Integrated Containers 1.2.1 appliance. The new appliance runs in a vCenter Server instance with an external Platform Services Controller. The old appliance is not removed when the upgrade finishes.
+The following command upgrades a vSphere Integrated Containers 1.3.1 appliance. The new appliance runs in a vCenter Server instance with an external Platform Services Controller. The old appliance is not removed when the upgrade finishes.
 
 <pre>./upgrade.sh --target <i>vcenter_server_address</i>
 --username 'Administrator@vsphere.local'
@@ -205,5 +208,5 @@ The following command upgrades a vSphere Integrated Containers 1.2.1 appliance. 
 --appliance-target <i>old_appliance_address</i>
 --appliance-username root
 --appliance-password <i>old_appliance_root_password</i>
---appliance-version v1.2.1
+--appliance-version v1.3.1
 </pre>
