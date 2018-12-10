@@ -28,6 +28,8 @@ You deployed an instance of the vSphere Integrated Containers appliance without 
   "pscdomain":"psc_domain"
 }</pre> 
 
+    **NOTE**: The initialization API does not include an option to skip the installation or upgrade of the vSphere Integrated Containers plug-in for the vSphere Client.
+
 2. Run a `curl` command to pass the `payload.json` file to the initialization API endpoint.
 
     Copy the command as shown, replacing <i>vic_appliance_address</i> with the address of the appliance.<pre>curl -k -w '%{http_code}' -d @payload.json https://<i>vic_appliance_address</i>:9443/register
