@@ -41,7 +41,7 @@ If you need to deploy multiple appliances, you can use the initialization API to
 
 3. On the **Customize template** page, expand **Appliance Configuration**.
 
-    - Set the root password for the appliance VM. Setting the root password for the appliance is mandatory. 
+    - Set the root password for the appliance VM. Setting the root password for the appliance is mandatory. The root password cannot exceed 30 characters.
     - Optionally uncheck the **Permit Root Login** checkbox.
   
     **IMPORTANT**: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Only use SSH to access the appliance when instructed to do so in the documentation, or under the guidance of VMware GSS.
