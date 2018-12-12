@@ -27,6 +27,7 @@ import (
 )
 
 const inValidVICPwd = "VIC appliance password is incorrect." // #nosec
+const vicPwdMaxLength = 30
 
 // IndexHTMLOptions contains fields for html templating in index.html
 type IndexHTMLOptions struct {
@@ -147,8 +148,8 @@ func rejectRestrictedRequest(op trace.Operation, resp http.ResponseWriter, req *
 }
 
 func verifyVICApplianceLogin(op trace.Operation, vicPasswd string) error {
-	if len(vicPasswd) > 30 {
-		op.Infof("VIC appliance password length is more than 30.")
+	if len(vicPasswd) > vicPwdMaxLength {
+		op.Infof("VIC appliance password length is more than %d.", vicPwdMaxLength)
 		return fmt.Errorf(inValidVICPwd)
 	}
 
