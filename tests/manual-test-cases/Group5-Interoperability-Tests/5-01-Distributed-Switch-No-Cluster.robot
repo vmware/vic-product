@@ -59,7 +59,7 @@ Distributed Switch Setup
 
     Create Three Distributed Port Groups  ${datacenter}
 
-    Log To Console  Add ESX host to the VC and Distributed Switch
+    Log To Console  Add ESX host to the VC and Distributed Switch... danfeng@2018-12-13 1:55
     :FOR  ${IDX}  IN RANGE  ${esx_number}
     \   ${out}=  Run  govc host.add -hostname=@{esx_ips}[${IDX}] -username=root -dc=${datacenter} -password=${NIMBUS_ESX_PASSWORD} -noverify=true
     \   Should Contain  ${out}  OK
@@ -74,6 +74,7 @@ Distributed Switch Setup
     # Make sure we use correct datastore
     ${datastore}=  Get Name of First Local Storage For Host  @{esx_ips}[0]
     Set Environment Variable  TEST_DATASTORE  ${datastore}
+
 
 *** Test Cases ***
 Test
