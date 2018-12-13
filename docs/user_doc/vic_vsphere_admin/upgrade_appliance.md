@@ -6,7 +6,7 @@ Upgrading the vSphere Integrated Containers appliance requires you to deploy an 
 
 Because disk files are copied rather than moved, the old appliance is not affected by the upgrade process. You can keep it as a backup. This is the recommended procedure for performing upgrades.
 
-You can also perform the upgrade by manually moving disks from the old appliance to the new appliance rather than by copying them. For information about manual upgrade, see [Upgrade the vSphere Integrated Containers Appliance by Manually Copying Disks](upgrade_appliance_manual.md).
+You can also perform the upgrade by manually copying disks from the old appliance to the new appliance rather than by copying them. For information about manual upgrade, see [Upgrade the vSphere Integrated Containers Appliance by Manually Copying Disks](upgrade_appliance_manual.md).
 
 For information about the supported upgrade paths for all versions of vSphere Integrated Containers, see Upgrade Paths in the [VMware Product Interoperability Matrices](https://partnerweb.vmware.com/comp_guide2/sim/interop_matrix.php#upgrade&solution=149).
 
