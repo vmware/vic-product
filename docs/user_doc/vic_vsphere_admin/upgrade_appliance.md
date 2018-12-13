@@ -22,17 +22,14 @@ For information about the supported upgrade paths for all versions of vSphere In
   - The upgrade process copies data, including the certificates, from the old appliance to the new appliance. Consequently, if you deployed the appliances to a cluster, the virtual disks for the two appliances must be located in the same datastore cluster.
   - **IMPORTANT:** Do not disable SSH access to the new appliance. You require SSH access to the appliance during the upgrade procedure.
   - Deploy the new version of the appliance to the same vCenter Server instance as the one on which the previous version is running, or to a vCenter Server instance that is managed by the same Platform Services Controller.
+  - Power on the new version of the vSphere Integrated Containers appliance and wait for it to boot up. Booting up can take a few minutes. Go to  https://<i>vic_appliance_address</i>:9443 and wait until the **Complete VIC appliance installation** panel appears.
+  - **IMPORTANT**: After the new appliance has booted up, do not fill in the **Complete VIC appliance installation** panel. This step is only applicable to new installations, not to upgrades.
 - Log in to the vSphere Client for the vCenter Server instance on which the previous version is running and on which you deployed the new version. 
 - Do not power off the older version of the appliance.
 
 **Procedure**
 
-1. Power on the new version of the vSphere Integrated Containers appliance and wait for it to boot up. 
-
-    Booting up can take a few minutes. Go to  https://<i>vic_appliance_address</i>:9443 and wait until the **Complete VIC appliance installation** panel appears.  
-
-    **IMPORTANT**: After the new appliance has booted up, do not fill in the **Complete VIC appliance installation** panel. This step is only applicable to new installations, not to upgrades. 
-2. Use SSH to connect to the new appliance as root user.
+1. Use SSH to connect to the new appliance as root user.
 
     <pre>$ ssh root@<i>new_vic_appliance_address</i></pre>
 
