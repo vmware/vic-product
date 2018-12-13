@@ -110,85 +110,6 @@ pipeline:
       branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: success
 
-  integration-test-ova-setup:
-    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
-    pull: true
-    privileged: true
-    environment:
-      BIN: bin
-      GOPATH: /go
-      SHELL: /bin/bash
-    secrets:
-      - bridge_network
-      - public_network
-      - test_datastore
-      - test_password
-      - test_resource
-      - test_url
-      - test_username
-    volumes:
-      - /tmp
-    commands:
-      - 'pybot -d robot-logs/ova-setup-logs -s OVA-Setup tests/common-ova'
-    when:
-      repo: vmware/vic-product
-      event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
-      status: success
-
-  integration-test:
-    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
-    pull: true
-    privileged: true
-    environment:
-      BIN: bin
-      GOPATH: /go
-      SHELL: /bin/bash
-    secrets:
-      - harbor_ci_registry
-      - bridge_network
-      - public_network
-      - test_datastore
-      - test_password
-      - test_resource
-      - test_url
-      - test_username
-      - vch_timeout
-    volumes:
-      - /tmp
-    commands:
-      - tests/robot-run.sh
-    when:
-      repo: vmware/vic-product
-      event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
-      status: success
-
-  integration-test-ova-cleanup:
-    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
-    pull: true
-    environment:
-      BIN: bin
-      GOPATH: /go
-      SHELL: /bin/bash
-    secrets:
-      - bridge_network
-      - public_network
-      - test_datastore
-      - test_password
-      - test_resource
-      - test_url
-      - test_username
-    volumes:
-      - /tmp
-    commands:
-      - 'pybot -d robot-logs/ova-cleanup-logs -s OVA-Cleanup tests/common-ova'
-    when:
-      repo: vmware/vic-product
-      event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
-      status: [success, failure]
-
   bundle-logs:
     group: post-build
     image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
@@ -234,7 +155,7 @@ pipeline:
       - tests/bundle_dev_builds.sh
     when:
       repo: vmware/vic-product
-      event: [push, tag]
+      event: [push, tag, pull_request]
       branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
@@ -291,9 +212,9 @@ pipeline:
     cache_control: 'public,max-age=3600'
     when:
       repo: vmware/vic-product
-      event: [push]
+      event: [push, pull_request]
       branch: [master]
-      status: success
+      status: [success, failure]
 
   publish-gcs-branch-builds-push:
     image: 'victest/drone-gcs:1'

@@ -14,6 +14,7 @@
 # limitations under the License.
 
 network_conf_file=/etc/systemd/network/09-vic.network
+time_conf_file=/etc/systemd/timesyncd.conf
 
 mask2cdr () {
   set -- 0^^^128^192^224^240^248^252^254^ ${#1} ${1##*255.}
@@ -31,6 +32,7 @@ netmask="$(ovfenv --key network.netmask0)"
 gateway="$(ovfenv --key network.gateway)"
 dns="$(ovfenv --key network.DNS | sed 's/,/ /g' | tr -s ' ')"
 domains="$(ovfenv --key network.searchpath)"
+ntp="$(ovfenv --key network.ntp | sed 's/,/ /g' | tr -s ' ')"
 
 # static OR DHCP options.
 if [[ -n $network_address || -n $netmask || -n $gateway ]]; then
@@ -68,5 +70,12 @@ $(echo -e "$netConfig")
 [DHCP]
 $(echo -e $dhcpOpts)
 EOF
+
+if [[ -n $ntp ]]; then
+cat <<EOF | tee ${time_conf_file}
+[Time]
+NTP=$ntp
+EOF
+fi
 
 chmod 644 ${network_conf_file}
