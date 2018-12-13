@@ -36,6 +36,7 @@ VCENTER_DATACENTER=""
 EXTERNAL_PSC=""
 PSC_DOMAIN=""
 VCENTER_FINGERPRINT=""
+UPGRADE_APPLIANCE_PASSWORD=""
 
 APPLIANCE_TARGET=""
 APPLIANCE_USERNAME=""
@@ -73,6 +74,7 @@ function usage {
       [--target value]:                VC Target IP Address for PSC registration.
       [--username value]:              VC Username for PSC registration.
       [--password value]:              VC Password for PSC registration.
+      [--upgrade-password value]:      Root Password for this appliance.
       [--dc value]:                    VC Target Datacenter of the old VIC Appliance. (Ignored if --manual-disks is specified.)
       [--fingerprint value]:           VC Target fingerprint in GOVC format (govc about.cert -k -thumbprint).
 
@@ -96,7 +98,7 @@ function usage {
 # A plugin upgrade is a forced plugin install
 function callPluginUpgradeEndpoint {
   local preset=$1
-  local vc='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
+  local vc='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","vicpassword":"'"${UPGRADE_APPLIANCE_PASSWORD}"'"}'
   local vc_info='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
   local plugin='{"preset":"'"${preset}"'","force":true}'
   local payload='{"vc":'"${vc}"',"plugin":'"${plugin}"'}'
@@ -148,7 +150,7 @@ function upgradeAppliancePlugin {
 }
 
 function callRegisterEndpoint {
-  local payload='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'"}'
+  local payload='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'","vicpassword":"'"${UPGRADE_APPLIANCE_PASSWORD}"'"}'
   local payload_info='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'"}'
   echo "register payload - ${payload_info}" >> $upgrade_log_file 2>&1
   /usr/bin/curl \
@@ -511,6 +513,10 @@ function main {
         ;;
       --password)
         VCENTER_PASSWORD="$2"
+        shift # past argument
+        ;;
+      --upgrade-password)
+        UPGRADE_APPLIANCE_PASSWORD="$2"
         shift # past argument
         ;;
       --external-psc)
