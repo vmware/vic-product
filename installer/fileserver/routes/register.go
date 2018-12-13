@@ -31,6 +31,7 @@ type registerPayload struct {
 	Thumbprint  string `json:"thumbprint,omitempty"`
 	ExternalPSC string `json:"externalpsc"`
 	PSCDomain   string `json:"pscdomain"`
+	VICPassword string `json:"vicpassword"`
 }
 
 // RegisterHandler unwraps a json body as a PSCRegistrationConfig and preforms
@@ -53,6 +54,14 @@ func RegisterHandler(resp http.ResponseWriter, req *http.Request) {
 			return
 		}
 		defer req.Body.Close()
+
+		if err := verifyVICApplianceLogin(op, r.VICPassword); err != nil {
+			(&httpError{
+				Title: inValidVICPwd,
+				code:  http.StatusUnauthorized,
+			}).Error(op, resp)
+			return
+		}
 
 		PSCConfig := tasks.NewPSCRegistrationConfig()
 		PSCConfig.Admin.Target = r.Target
