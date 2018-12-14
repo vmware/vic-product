@@ -11,8 +11,8 @@ After=vic-appliance-tls.service
 Requires=network-online.target systemd-resolved.service systemd-timesyncd.service
 After=network-online.target systemd-resolved.service systemd-timesyncd.service
 
-Requires=ovf-network.service ova-firewall.service
-After=ovf-network.service ova-firewall.service
+Requires=ovf-network.service ova-firewall.service ovf-ntp.service
+After=ovf-network.service ova-firewall.service ovf-ntp.service
 
 [Install]
 WantedBy=vic-appliance.target
