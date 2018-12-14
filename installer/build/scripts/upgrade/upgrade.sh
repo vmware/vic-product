@@ -98,10 +98,11 @@ function usage {
 # A plugin upgrade is a forced plugin install
 function callPluginUpgradeEndpoint {
   local preset=$1
-  local vc='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","vicpassword":"'"${UPGRADE_APPLIANCE_PASSWORD}"'"}'
+  local vc='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
   local vc_info='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
   local plugin='{"preset":"'"${preset}"'","force":true}'
-  local payload='{"vc":'"${vc}"',"plugin":'"${plugin}"'}'
+  local app_info='{"vicpassword":"'"${UPGRADE_APPLIANCE_PASSWORD}"'"}'
+  local payload='{"vc":'"${vc}"',"appliance":'"${app_info}"',"plugin":'"${plugin}"'}'
   local payload_info='{"vc":'"${vc_info}"',"plugin":'"${plugin}"'}'
   echo "register payload - ${payload_info}" >> $upgrade_log_file 2>&1
   /usr/bin/curl \
