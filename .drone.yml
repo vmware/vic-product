@@ -91,6 +91,7 @@ pipeline:
     privileged: true
     environment:
       TERM: xterm
+      HARBOR: https://storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.0-rc1.tgz
     secrets:
       - admiral
       - build_admiral_release
