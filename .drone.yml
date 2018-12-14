@@ -37,6 +37,20 @@ pipeline:
     when:
       status: success
 
+  vic-product-unit-test:
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:node-chrome'
+    pull: true
+    environment:
+      BIN: bin
+      GOPATH: /go
+      SHELL: /bin/bash
+    secrets:
+      - github_automation_api_key
+    commands:
+      - cd installer/fileserver/test && npm install && npm test
+    when:
+      status: success
+
   dch-build:
     group: build
     image: 'gcr.io/eminent-nation-87317/vic-product-build:latest'

@@ -1,4 +1,4 @@
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -15,7 +15,7 @@ module.exports = function(config) {
       'node_modules/jquery/dist/jquery.min.js',
       'node_modules/jasmine-jquery/lib/*.js',
       'node_modules/jasmine-ajax/lib/mock-ajax.js',
-      {pattern: 'fixtures/*.html', watched: false, included: false, served: true},
+      { pattern: 'fixtures/*.html', watched: false, included: false, served: true },
       // code i want to test
       '../html/js/index-handler.js',
       // specs
@@ -59,17 +59,23 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadlessNoSandbox'],
     customLaunchers: {
-        ChromeHeadlessNoSandbox: {
-          base: 'ChromeHeadless',
-          flags: ['--no-sandbox']
-        }
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox',
+          '--headless',
+          '--disable-gpu',
+          '--disable-translate',
+          '--disable-extensions'
+        ]
+      }
     },
     plugins: [
-            'karma-chrome-launcher',
-            'karma-jasmine',
-            'karma-jasmine-ajax'
+      'karma-chrome-launcher',
+      'karma-jasmine',
+      'karma-jasmine-ajax'
     ],
     concurrency: Infinity,
 
