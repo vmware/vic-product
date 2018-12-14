@@ -47,7 +47,7 @@ func (nstat *NetworkStatus) GetNTPStatus() string {
 	if len(ntpExpected) == 0 {
 		command = `systemctl status systemd-timesyncd.service | grep Status | awk -F'[()]' '{print $2}'`
 	} else {
-		command = `cat /etc/systemd/timesyncd.conf | grep -v '^#' | grep 'NTP=' | awk -F'=' '{print $2}' | tr ' ' '\n'`
+		command = `grep -v '^#' /etc/systemd/timesyncd.conf | grep 'NTP=' | awk -F'=' '{print $2}' | tr ' ' '\n'`
 	}
 	return nstat.addressPresenceExec(ntpExpected, command)
 }
