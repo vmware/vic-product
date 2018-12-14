@@ -18,7 +18,8 @@ describe("login/registration modal behavior", function() {
     target: "1.2.3.4",
     user: "admin",
     password: "adminuser",
-    thumbprint: ""
+    thumbprint: "",
+    appliancePassword: "12345"
   }
 
   var request;
@@ -68,6 +69,10 @@ describe("login/registration modal behavior", function() {
       
       jQuery('#password').val(credentials.password);
       checkRegistryForm();
+      expect(jQuery('#login-submit').prop("disabled")).toBe(true);
+      
+      jQuery('#appliancePwd').val(credentials.appliancePassword);
+      checkRegistryForm();
       expect(jQuery('#login-submit').prop("disabled")).toBe(false);
     });
 
@@ -92,7 +97,7 @@ describe("login/registration modal behavior", function() {
       jQuery('#password').val(credentials.password);
 
       //Sending thumbprint request
-      jQuery('#login-submit').click(submitRegistration());
+      jQuery('#login-submit').click(submitRegistration(event));
       jQuery('#login-submit').click();
       request = jasmine.Ajax.requests.mostRecent();
       request.respondWith(responses.success);
@@ -108,7 +113,7 @@ describe("login/registration modal behavior", function() {
 
     it ("should remains registration modal when click submit button and thumbrint retrieval fails.", function(done) {
       var spyEvent = spyOnEvent('#login-submit', 'click');
-      jQuery('#login-submit').click(submitRegistration());
+      jQuery('#login-submit').click(submitRegistration(event));
       jQuery('#login-submit').click();
 
       request = jasmine.Ajax.requests.mostRecent();
