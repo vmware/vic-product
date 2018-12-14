@@ -311,7 +311,6 @@ func decodePluginPayload(op trace.Operation, req *http.Request) (*tasks.Plugin, 
 	plugin.ApplianceURL = p.Appliance.URL
 	plugin.AppliancePassword = p.Appliance.RootPassword
 
-	op.Debugf("Decoded plugin: %#v", plugin)
 	return plugin, nil
 }
 
