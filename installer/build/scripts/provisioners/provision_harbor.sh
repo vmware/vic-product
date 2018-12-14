@@ -68,6 +68,15 @@ overrideDataDirectory /etc/vmware/harbor/docker-compose.clair.yml
 chmod 600 /data/harbor/harbor.cfg
 chmod -R 600 /etc/vmware/harbor/common
 
+# Redirect vic_appliance_address:443 to Admiral UI, see vic-product/2216
+LOCATION_REDIRECT='return 302 https://$$host:8282$$request_uri'
+NGINX_CONF='/etc/vmware/harbor/common/templates/nginx/nginx.https.conf'
+sed -i '/location \/ {/,/}/s/proxy_pass http:\/\/portal\//return 302 https:\/\/$$host:8282$$request_uri/' ${NGINX_CONF}
+if ! grep -q "${LOCATION_REDIRECT}"  ${NGINX_CONF} ; then
+  echo "Failed to modify location / in ${NGINX_CONF}"
+  exit 1
+fi
+
 # Write version files
 echo "harbor=${BUILD_HARBOR_FILE}" >> /data/version
 echo "harbor=${BUILD_HARBOR_FILE}" >> /etc/vmware/version
