@@ -107,7 +107,7 @@ function runMigratorCmd {
   fi
 }
 
-# https://github.com/vmware/harbor/blob/master/docs/migration_guide.md
+# https://github.com/goharbor/harbor/blob/master/docs/migration_guide.md
 function migrateHarbor {
   if [ "$HARBOR_VER" == "$VER_1_2_1" ]; then
     harbor_old_database_dir="/storage/data/harbor"
