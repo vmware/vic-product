@@ -27,7 +27,7 @@ If you have installed the HTML5 plug-in for vSphere Integrated Containers, you c
     - The version of the vSphere Integrated Containers appliance to which the client plug-in is connected.
     - The IP address of the vSphere Integrated Containers appliance. 
     
-    The information about the appliance is available in vSphere Integrated Containers 1.4.3 and later. It allows you to know which appliance instance is providing the vSphere Integrated Containers API endpoint. This is useful in environments in which you have deployed multiple appliances. The appliance that the client connects to might not be the one that was most recently registered with vCenter Server. Consequently, if you have deployed different versions of the appliance to vCenter Server, it is useful to know which one the client is connecting to.
+    This information allows you to know which appliance instance is providing the vSphere Integrated Containers API endpoint. This is useful in environments in which you have deployed multiple appliances. The appliance that the client connects to might not be the one that was most recently registered with vCenter Server. Consequently, if you have deployed different versions of the appliance to vCenter Server, it is useful to know which one the client is connecting to.
 
 4. Select the **Virtual Container Hosts** tab. 
 

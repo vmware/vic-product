@@ -1,6 +1,6 @@
 # Building and Deploying Single Containers to a Virtual Container Host #
 
-This section assumes that you already have a Virtual Container Host installed and that you are accessing it using TLS authentication.
+This section assumes that you already have a virtual container host  (VCH) installed and that you are accessing it using TLS authentication.
 
 For simplicity, pre-built Docker images are demonstrated to illustrate principles of operation. It is assumed that in reality you will have your own Docker images built.
 
@@ -84,7 +84,7 @@ Note that running multiple commands on a container can be done using `/bin/bash 
 
 Building a custom image allows you to copy the sample webapp into the container image filesystem and make some other improvements and upgrades while you're there. This then creates a single purpose container that runs the webapp(s) baked into it.
 
-Note that vSphere Integrated Containers Engine does not have a native docker build capability. Containers should be built using docker engine and vSphere Integrated Containers Engine relies on the portability of the Docker image format to run them. In order to do this, the built image needs to be pushed to a registry that the VCH can access. This is one reason why such a registry is built into the vSphere Integrated Containers product.
+Note that vSphere Integrated Containers Engine does not have a native docker build capability. Containers should be built using Docker Engine and vSphere Integrated Containers Engine relies on the portability of the Docker image format to run them. In order to do this, the built image needs to be pushed to a registry that the VCH can access. This is one reason why such a registry is built into the vSphere Integrated Containers product.
 
 Dockerfile:
 ```
@@ -93,13 +93,13 @@ FROM tomcat:9
 ENV JAVA_OPTS "-Dkey=value"
 COPY sample.war /usr/local/bin/webapps
 ```
-In a VM running standard docker engine:
+In a VM running standard Docker Engine:
 ```
 docker build -t <registry-address>/<project>/<image name> .
 docker login <registry-address>
 docker push <registry-address>/<project>/<image name>
 ```
-From a docker client attached to a VCH
+From a Docker client attached to a VCH
 ```
 docker run --name web -d -p 8080 --net ExternalNetwork <registry-address>/<project>/<image name>
 ```

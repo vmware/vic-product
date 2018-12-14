@@ -26,7 +26,7 @@ With this quickstart configuration, the DinV container is not saved and communic
 
 ## Configuration
 
-The DinV container is distributed prevalently through the Docker Hub, as of this writing, two versions of the engine are available: 1.13 and 1.12, versions can be used as a tag for the container (e.g. `vmware/dch-photon:1.12`).
+The DinV container is distributed prevalently through the Docker Hub, as of this writing, three versions of the engine are available: 1.13, 1.12 and 17.06, versions can be used as a tag for the container (e.g. `vmware/dch-photon:1.12`).
 
 When the container is run with the `-h` or `--help` flag, the help is shown and the container will quit without starting docker engine.
 

@@ -25,7 +25,7 @@ cp -p /var/tmp/harbor/harbor.cfg /data/harbor
 cp -pr /var/tmp/harbor/{prepare,common,docker-compose.yml,docker-compose.notary.yml,docker-compose.clair.yml} /etc/vmware/harbor
 
 # Get Harbor to Admiral data migration script
-curl -L"#" -o /etc/vmware/harbor/admiral_import https://raw.githubusercontent.com/vmware/harbor/master/tools/migration/import
+curl -L"#" -o /etc/vmware/harbor/admiral_import https://raw.githubusercontent.com/goharbor/harbor/master/tools/migration/db/tools/import
 chmod +x /etc/vmware/harbor/admiral_import
 
 function overrideDataDirectory {

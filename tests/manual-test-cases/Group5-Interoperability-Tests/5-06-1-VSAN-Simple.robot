@@ -17,6 +17,7 @@ Documentation  Test 5-6-1 - VSAN-Simple
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  Simple VSAN Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
 
 *** Keywords ***
 Simple VSAN Setup

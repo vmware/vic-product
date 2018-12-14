@@ -7,9 +7,10 @@ After you have installed the client plug-in for vSphere Integrated Containers, y
 **Prerequisites**
 
 - You deployed a VCH and at least one container VM.
-- If you deployed a version of vSphere Integrated Containers that pre-dates 1.4.3, you must install the plug-in for vSphere Integrated Containers manually. If you deployed vSphere Integrated Containers 1.4.3 or later, by default the plug-in is installed automatically.
-- The vSphere Integrated Containers plug-in for the HTML5 vSphere Client plug-in is available in vSphere 6.5 and 6.7.
-- The vSphere Integrated Containers plug-in for the Flex-based vSphere  Web Client is available in vSphere 6.0.
+- You installed the plug-in for vSphere Integrated Containers.
+
+  - The vSphere Integrated Containers plug-in for the HTML5 vSphere Client plug-in is available in vSphere 6.5 and 6.7.
+  - The vSphere Integrated Containers plug-in for the Flex-based vSphere  Web Client is available in vSphere 6.0.
 
 **Procedure**
 

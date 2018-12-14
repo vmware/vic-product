@@ -17,6 +17,7 @@ Documentation  Test 5-01 - Distributed Switch
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  Distributed Switch Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
 
 *** Variables ***
 ${esx_number}=  3
@@ -73,7 +74,8 @@ Distributed Switch Setup
     # Make sure we use correct datastore
     ${datastore}=  Get Name of First Local Storage For Host  @{esx_ips}[0]
     Set Environment Variable  TEST_DATASTORE  ${datastore}
+    Set Environment Variable  TEST_ESX  @{esx_ips}[0]
 
 *** Test Cases ***
 Test
-    Deploy OVA And Install UI Plugin And Run Regression Tests  5-01-TEST  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
+    Deploy OVA And Install UI Plugin And Run Regression Tests  5-01-TEST  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}  %{TEST_ESX}

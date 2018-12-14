@@ -11,7 +11,7 @@ function getThumbprint(target,callback) {
 function checkRegistryForm() {
     var cansubmit = true;
 
-    if (document.getElementById('target').value.length == 0 || document.getElementById('user').value.length == 0 || document.getElementById('password').value.length == 0){
+    if (document.getElementById('target').value.length == 0 || document.getElementById('user').value.length == 0 || document.getElementById('password').value.length == 0 || document.getElementById('appliancePwd').value.length == 0){
         cansubmit = false;
     }
     

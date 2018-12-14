@@ -36,6 +36,7 @@ VCENTER_DATACENTER=""
 EXTERNAL_PSC=""
 PSC_DOMAIN=""
 VCENTER_FINGERPRINT=""
+UPGRADE_APPLIANCE_PASSWORD=""
 
 APPLIANCE_TARGET=""
 APPLIANCE_USERNAME=""
@@ -58,6 +59,7 @@ VER_1_4_0="v1.4.0"
 VER_1_4_1="v1.4.1"
 VER_1_4_2="v1.4.2"
 VER_1_4_3="v1.4.3"
+VER_1_4_4="v1.4.4"
 
 function usage {
     echo -e "Usage: $0 [args...]
@@ -72,6 +74,7 @@ function usage {
       [--target value]:                VC Target IP Address for PSC registration.
       [--username value]:              VC Username for PSC registration.
       [--password value]:              VC Password for PSC registration.
+      [--upgrade-password value]:      Root Password for this appliance.
       [--dc value]:                    VC Target Datacenter of the old VIC Appliance. (Ignored if --manual-disks is specified.)
       [--fingerprint value]:           VC Target fingerprint in GOVC format (govc about.cert -k -thumbprint).
 
@@ -81,7 +84,7 @@ function usage {
       [--appliance-username value]:    Username of the old appliance. (Ignored if --manual-disks is specified.)
       [--appliance-password value]:    Password of the old appliance. (Ignored if --manual-disks is specified.)
       [--appliance-target value]:      IP Address of the old appliance. (Ignored if --manual-disks is specified.)
-      [--appliance-version value]:     Version of the old appliance. v1.2.1, v1.3.0, v1.3.1, v1.4.0, v1.4.1, v1.4.2, or v1.4.3.
+      [--appliance-version value]:     Version of the old appliance. v1.2.1, v1.3.0, v1.3.1, v1.4.0, v1.4.1, v1.4.2, v1.4.3, or v1.4.4.
 
       [--destroy]:                     Destroy the old appliance after upgrade is finished. (Ignored if --manual-disks is specified.)
       [--manual-disks]:                Skip the automated govc disk migration.
@@ -95,7 +98,7 @@ function usage {
 # A plugin upgrade is a forced plugin install
 function callPluginUpgradeEndpoint {
   local preset=$1
-  local vc='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
+  local vc='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","vicpassword":"'"${UPGRADE_APPLIANCE_PASSWORD}"'"}'
   local vc_info='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
   local plugin='{"preset":"'"${preset}"'","force":true}'
   local payload='{"vc":'"${vc}"',"plugin":'"${plugin}"'}'
@@ -147,7 +150,7 @@ function upgradeAppliancePlugin {
 }
 
 function callRegisterEndpoint {
-  local payload='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'"}'
+  local payload='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'","vicpassword":"'"${UPGRADE_APPLIANCE_PASSWORD}"'"}'
   local payload_info='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'"}'
   echo "register payload - ${payload_info}" >> $upgrade_log_file 2>&1
   /usr/bin/curl \
@@ -227,7 +230,7 @@ function enableServicesStart {
   systemctl start harbor.service
 }
 
-### Valid upgrade paths to v1.4.4
+### Valid upgrade paths to v1.5.0
 #   v1.2.1 /data/version has "appliance=v1.2.1"
 #   v1.3.0 /storage/data/version has "appliance=v1.3.0-3033-f8cc7317"
 #   v1.3.1 /storage/data/version has "appliance=v1.3.1-3409-132fb13d"
@@ -235,12 +238,13 @@ function enableServicesStart {
 #   v1.4.1 /storage/data/version
 #   v1.4.2 /storage/data/version
 #   v1.4.3 /storage/data/version
+#   v1.4.4 /storage/data/version
 ###
 function proceedWithUpgrade {
   checkUpgradeStatus "VIC Appliance" ${appliance_upgrade_status}
   local ver="$1"
 
-  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ] || [ "$ver" == "$VER_1_4_0" ] || [ "$ver" == "$VER_1_4_1" ] || [ "$ver" == "$VER_1_4_2" ] || [ "$ver" == "$VER_1_4_3" ]; then
+  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ] || [ "$ver" == "$VER_1_4_0" ] || [ "$ver" == "$VER_1_4_1" ] || [ "$ver" == "$VER_1_4_2" ] || [ "$ver" == "$VER_1_4_3" ] || [ "$ver" == "$VER_1_4_4" ]; then
     log ""
     log "Detected old appliance's version as $ver."
 
@@ -509,6 +513,10 @@ function main {
         ;;
       --password)
         VCENTER_PASSWORD="$2"
+        shift # past argument
+        ;;
+      --upgrade-password)
+        UPGRADE_APPLIANCE_PASSWORD="$2"
         shift # past argument
         ;;
       --external-psc)

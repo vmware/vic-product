@@ -101,8 +101,6 @@ Specify the gateway to use if you specify a static IP address for the VCH endpoi
 
 When you provide a gateway for the management network, it is mandatory to provide at least one routing destination.
 
-**Note**: The **Routing destination:Gateway** layout of the text box applies to the 1.4.3 and later releases. **Routing Destination** and **Gateway** are separate text boxes in the previous 1.4.x releases. 
-
 #### Create VCH Wizard
 
 If you set a static IP address and gateway on the management network, enter a comma-separated list of CIDRs and the IP address of the gateway in the **Routing destination:Gateway** text box. 

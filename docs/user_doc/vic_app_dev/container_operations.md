@@ -1,6 +1,6 @@
 # Supported Docker Commands
 
- vSphere Integrated Containers Engine 1.4 supports Docker client 1.13.0. The supported version of the Docker API is 1.25. 
+ vSphere Integrated Containers Engine 1.5 supports Docker client 1.13.0. The supported version of the Docker API is 1.25. 
 
 - [Docker Management Commands](#mgmt)
 - [Image Commands](#image)
@@ -100,7 +100,7 @@ For more information about volume operations with vSphere Integrated Containers 
 
 ## Docker Compose Commands <a id="compose"></a>
 
-vSphere Integrated Containers Engine 1.4 supports Docker Compose version 1.11.2.
+vSphere Integrated Containers Engine 1.5 supports Docker Compose version 1.11.2.
 
 For more information about using Docker Compose with vSphere Integrated Containers Engine, see [Creating a Containerized Application with vSphere Integrated Containers Engine](creating_containerized_app_with_vic.md).
 
@@ -136,3 +136,5 @@ For information about Docker Compose file support, see [Supported Docker Compose
 ## Swarm Commands <a id="swarm"></a>
 
 This version of vSphere Integrated Containers Engine does not directly support Docker Swarm. However, you can use the [`dch-photon` Docker Engine](build_push_images.md) to instantiate a Docker swarm for use with vSphere Integrated Containers. 
+
+**NOTE**: Using `dch-photon` to instantiate Docker swarm is not officially supported.

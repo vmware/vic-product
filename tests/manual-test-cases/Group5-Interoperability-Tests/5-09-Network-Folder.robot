@@ -17,6 +17,7 @@ Documentation  Test 5-09 - Network Folder
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  DVS Under Network Folder Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
 
 *** Variables ***
 ${datacenter}=  ha-datacenter

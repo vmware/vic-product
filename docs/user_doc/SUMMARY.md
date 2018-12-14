@@ -1,6 +1,6 @@
 # Summary
 
-## vSphere Integrated Containers 1.4
+## vSphere Integrated Containers 1.5
 
 ----
 
@@ -34,9 +34,6 @@
      * [Deploy the Appliance](vic_vsphere_admin/deploy_vic_appliance.md)
          * [Appliance Initialization API](vic_vsphere_admin/ova_reg_api.md) 
      * [Download Engine Bundle](vic_vsphere_admin/vic_engine_bundle.md)
-     * [Manually Install Plug-in](vic_vsphere_admin/install_vic_plugin.md)
-         * [vCenter Server for Windows](vic_vsphere_admin/plugins_vc_windows.md)
-         * [vCenter Server Appliance](vic_vsphere_admin/plugins_vcsa.md)
   * [VCH Deployment](vic_vsphere_admin/deploy_vch.md)
      * [Using vic-machine](vic_vsphere_admin/using_vicmachine.md)
          * [Running Commands](vic_vsphere_admin/running_vicmachine_cmds.md)
@@ -97,9 +94,6 @@
          * [Copy Disks Manually](vic_vsphere_admin/upgrade_appliance_manual.md)
      * [Upgrade VCHs](vic_vsphere_admin/upgrade_vch.md)
          * [VCH Upgrade Options](vic_vsphere_admin/upgrade_vch_options.md)
-     * [Manually Upgrade Plug-In](vic_vsphere_admin/upgrade_plugins.md)
-         * [vCenter Server for Windows](vic_vsphere_admin/upgrade_h5_plugin_windows.md)
-         * [vCenter Server Appliance](vic_vsphere_admin/upgrade_h5_plugin_vcsa.md)
   * [Backup and Restore](vic_vsphere_admin/backup_vic.md)
      * [Appliance](vic_vsphere_admin/backup_vic_appliance.md)
      * [VCHs](vic_vsphere_admin/backup_vch.md)
@@ -130,9 +124,7 @@
          * [Access to Management Portal Fails](vic_vsphere_admin/ts_admiral_access_error.md)
          * [Appliance Running Errors](vic_vsphere_admin/ts_appliance_running_errors.md)
          * [Appliance Welcome Page Error](vic_vsphere_admin/vicappliance_welcomepage_error.md)
-     * [Plug-In Installation](vic_vsphere_admin/ts_install_plugins.md)     
-         * [Plug-In Scripts Fail](vic_vsphere_admin/ts_plugin_script_fails.md)
-         * [Plug-In Does Not Appear](vic_vsphere_admin/ts_ui_not_appearing.md)
+     * [Plug-In Does Not Appear](vic_vsphere_admin/ts_ui_not_appearing.md)
      * [VCH Deployment](vic_vsphere_admin/ts_deploy_vch.md)
          * [Firewall Validation Error](vic_vsphere_admin/ts_firewall_error.md)
          * [VCH Deployment Times Out](vic_vsphere_admin/ts_vch_deployment_timeout.md)
@@ -206,10 +198,15 @@
   * [Configure the Docker Client](vic_app_dev/configure_docker_client.md)
   * [Use and Limitations](vic_app_dev/container_limitations.md)
   * [Building and Pushing Images](vic_app_dev/build_push_images.md)
-     * [Add Certificate to Custom Image](vic_app_dev/photon_cert_custom.md)
-     * [Manually Add Certificate](vic_app_dev/photon_cert_manual.md) 
-     * [Build, Push, and Pull and Image](vic_app_dev/test_photon.md)
-     * [Advanced `dch-photon` Deployment](vic_app_dev/dchphoton_options.md)
+      * [Deploy a Test `dch-photon`](vic_app_dev/deploy_test_dch.md)
+          * [Add Certificate to Custom Image](vic_app_dev/photon_cert_custom.md)
+          * [Manually Add Certificate](vic_app_dev/photon_cert_manual.md) 
+          * [Build, Push, and Pull and Image](vic_app_dev/test_photon.md)
+      * [Advanced Use of `dch-photon`](vic_app_dev/dch_advanced.md)
+          * [Advanced Options](vic_app_dev/dchphoton_options.md)
+          * [Expand the Root Disk](vic_app_dev/dch_expand_disk.md)
+          * [Use Proxy Servers](vic_app_dev/dch_photon_proxy.md)
+          * [Add a Custom Registry CA](vic_app_dev/add_custom_ca.md)
   * [Using Volumes](vic_app_dev/using_volumes_with_vic.md) 
   * [Container Networking](vic_app_dev/network_use_cases.md)
   * [Creating a Containerized App](vic_app_dev/creating_containerized_app_with_vic.md)

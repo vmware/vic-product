@@ -19,6 +19,6 @@ For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgr
 
 ## Upgrade the vSphere Client Plug-In
 
-If you upgraded to vSphere Integrated Containers 1.4.3 or later, by default the vSphere Integrated Containers plug-in for the vSphere Client is upgraded automatically. If you choose not to automatically upgrade the plug-in, or if you upgraded to a version of vSphere Integrated Containers that pre-dates 1.4.3, you must upgrade the plug-in manually.
+By default the vSphere Integrated Containers plug-in for the vSphere Client is upgraded automatically when you upgrade the appliance. If you choose not to upgrade the plug-in at the same time as the appliance, you can do so later by reinitializing the appliance. 
 
-For information about manually upgrading the vSphere Client plug-in, see [Manually Upgrade the vSphere Client Plug-In](upgrade_plugins.md).
+For information about upgrading the vSphere Client plug-in, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md).

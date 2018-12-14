@@ -23,7 +23,7 @@ For simplicity, this example deploys a VCH without client certificate verificati
 
 * Deploy the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 * Download the vSphere Integrated Containers Engine bundle from the appliance and unpack it on your usual working machine. For information about how to download the bundle, see [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md). 
-* If you have not done so, install the vSphere Client plug-in. For information, see [Manually Install the vSphere Client Plug-In](install_vic_plugin.md). If you are using vSphere Integrated Containers 1.4.3 or later, by default the plug-in is installed automatically. 
+* If you did not do so when deploying the appliance, install the vSphere Client plug-in. For information, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md). By default, the plug-in is installed automatically. 
 * Create or obtain a vCenter Server instance with the following configuration:
   * At least one datacenter
   * At least one cluster with at least two ESXi hosts. You can use nested ESXi hosts for this example. VMware recommends that you enable VMware vSphere Distributed Resource Scheduler (DRS) on clusters whenever possible.
@@ -134,7 +134,7 @@ At the end of a successful deployment, the Virtual Container Hosts tab displays 
 --volume-store datastore2:default
 </pre>
 
-The `vic-machine create` command in this example specifies the minimum information required to deploy a VCH that can deploy the `dch-photon` image: 
+The `vic-machine create` command in this example specifies the following options: 
 
 - The address of the vCenter Server instance on which to deploy the VCH and datacenter `dc1` in the `--target` option.
 - The vCenter Single Sign-On user and password for a vSphere administrator account in the `--user` and `--password` options. 
@@ -168,8 +168,6 @@ Connect to docker:
 docker -H <i>vch_address</i>:2376 --tls info
 Installer completed successfully</pre>
 
-The ID of the VCH is only shown in 1.4.3 and later versions.
-
 Now you can [Test the Deployment of the VCH](#test).
 
 ### Troubleshooting
@@ -190,6 +188,8 @@ You can also use vSphere Integrated Containers Management Portal and Registry to
 The VCH that you deployed in the [Example](#example) above meets these requirements, so you can use the `dch-photon` image to test it.
 
 This example uses the `dch-photon` image for demonstration purposes only. For information about how container developers can actually use `dch-photon`, see [Building and Pushing Images with the dch-photon Docker Engine](../vic_app_dev/build_push_images.md) in *Developing Applications with vSphere Integrated Containers*.
+
+vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
 
 ### Procedure
 

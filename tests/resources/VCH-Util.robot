@@ -123,7 +123,7 @@ Secret Curl Container Logs
     [Tags]  secret
     [Arguments]  ${vch-name}  ${name-suffix}=${EMPTY}
     ${out1}=  Run  curl -k -D vic-admin-cookies -Fusername=%{TEST_USERNAME} -Fpassword=%{TEST_PASSWORD} ${VIC-ADMIN}/authentication
-    ${out2}=  Run  curl -k -b vic-admin-cookies ${VIC-ADMIN}/container-logs.zip -o ${SUITE NAME}-${vch-name}-container-logs${name-suffix}.zip
+    ${out2}=  Run  curl -k -b vic-admin-cookies ${VIC-ADMIN}/container-logs.zip -o ${OUTPUT DIR}/${SUITE NAME}-${vch-name}-container-logs${name-suffix}.zip
     ${out3}=  Run  curl -k -b vic-admin-cookies ${VIC-ADMIN}/logs/port-layer.log
     Remove File  vic-admin-cookies
     [Return]  ${out1}  ${out2}  ${out3}

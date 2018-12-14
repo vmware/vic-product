@@ -17,6 +17,7 @@ Documentation  Test 5-17 - FC Datastore
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  FC Datastore Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
 
 *** Keywords ***
 FC Datastore Setup

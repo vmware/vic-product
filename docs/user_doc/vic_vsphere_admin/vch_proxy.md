@@ -64,8 +64,6 @@ This option is not available in the Create Virtual Container Host wizard.
 
 Specify any URLs to exclude from proxying in the  `--no-proxy` option, as a comma-separated list of host names, domain names, or a mixture of both. 
 
-This option is available in vSphere Integrated Containers 1.4.3 and later.
-
 <pre>--no-proxy localhost,.example.com</pre>
 
 ## What to Do Next <a id="whatnext"></a>

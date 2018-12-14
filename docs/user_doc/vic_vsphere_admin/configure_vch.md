@@ -153,8 +153,6 @@ This example sets `--no-tlsverify` to disable the verification of client certifi
 
 After the deployment of a VCH, you can instruct vSphere Integrated Containers to automatically create a DRS VM group in vSphere for the VCH endpoint VM and its container VMs. If you use this option to reconfigure an existing VCH, you can use the resulting VM group in DRS VM-Host affinity rules, to restrict the set of hosts on which the VCH endpoint VM and its container VMs can run. 
 
-**NOTE**: This option is available in vSphere Integrated Containers 1.4.1 and later.
-
 The `vic-machine configure --affinity-vm-group` option functions in the same way as the equivalent `vic-machine create` option. For information about the `vic-machine create --affinity-vm-group` option, see [Virtual Container Host Compute Capacity](vch_compute.md).
 
 To create a VM group for an existing VCH that was not deployed with this option, use the `vic-machine create --affinity-vm-group` option with no arguments.

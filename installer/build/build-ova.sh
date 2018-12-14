@@ -97,7 +97,7 @@ setenv VICUI "$url"
 #set Harbor
 url=""
 if [ -z "${HARBOR}" ]; then
-    url=$(curl --silent https://storage.googleapis.com/harbor-builds/master.stable)
+    url=$(curl --silent https://storage.googleapis.com/harbor-builds/latest.build)
     if [[ ! "$url" =~ ^http://|^https:// ]]; then
         echo "Cannot find proper harbor archive for link '$url'"
         exit 1
@@ -105,7 +105,7 @@ if [ -z "${HARBOR}" ]; then
 fi
 setenv HARBOR "$url"
 
-export BUILD_DCHPHOTON_VERSION="1.13"
+export BUILD_DCHPHOTON_VERSION="17.06"
 
 ENV_FILE="${CACHE}/installer.env"
 touch $ENV_FILE
