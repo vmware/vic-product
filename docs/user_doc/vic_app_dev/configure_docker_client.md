@@ -24,8 +24,8 @@ How you connect to your virtual container host (VCH) depends on the security opt
   --tlskey=<i>path_to_client_key</i>/key.pem 
   --tlscacert=<i>path</i>/ca.pem 
   info</pre>
-  - By setting Docker environment variables:<pre>DOCKER_CERT_PATH=<i>client_certificate_path</i>/cert.pem
-  DOCKER_TLS_VERIFY=1</pre>
+  - By setting Docker environment variables:<pre>DOCKER_CERT_PATH=<i>client_certificate_path</i>
+  DOCKER_TLS_VERIFY=1</pre>The <i>client_certificate_path</i> should contain the `cert.pem` and `key.pem` files, as well as the `ca.pem` file for the CA chain that signed the VCH server certificate. If server certificates are not signed by a trusted certificate authority, you might also require the `server-cert.pem` and `server-key.pem` server certificate files in <i>client_certificate_path</i>.
 - If the VCH uses server certificates but does not authenticate the Docker client, no client certificate is required and any client can connect to the VCH. This configuration is commonly referred to as `no-tlsverify` in documentation about containers and Docker. In this configuration, the VCH has a server certificate and connections are encrypted, requiring you to run Docker commands with the `--tls` option. For example:<pre>docker -H <i>vch_address</i>:2376 --tls info</pre>In this case, do not set the `DOCKER_TLS_VERIFY` environment variable. Setting `DOCKER_TLS_VERIFY` to 0 or to `false` has no effect.
 - If TLS is completely disabled on the VCH, you connect to the VCH at *vch_address*:2375. Any Docker client can connect to the VCH and communications are not encrypted. As a consequence, you do not need to specify any additional TLS options in Docker commands or set any environment variables. This configuration is not recommended in production environments. For example:<pre>docker -H <i>vch_address</i>:2375 info</pre>
 

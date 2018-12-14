@@ -18,7 +18,7 @@ The sections in this topic each correspond to an entry in the Configure Networks
 
 A port group that container VMs use to communicate with each other. 
 
-Before you deploy a VCH, you must create a VMware vSphere Distributed Switch and a port group for the bridge network. You must add the target ESXi host or hosts to the switch, and assign a VLAN ID to the port group, to ensure that the bridge network is isolated. For information about how to create a vSphere Distributed Switch and port group, see [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
+Before you deploy a VCH, you must create a VMware vSphere Distributed Switch and a port group for the bridge network. You must add the target ESXi host or hosts to the switch, and assign a VLAN ID to the port group, to ensure that the bridge network is isolated. For information about how to create a vSphere Distributed Switch and port group, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
 
 **IMPORTANT** 
 
