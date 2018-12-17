@@ -15,17 +15,19 @@ You deployed an instance of the vSphere Integrated Containers appliance without 
     vCenter Server with an embedded Platform Services Controller:<pre>{
   "target":"<i>vcenter_server_address</i>",
   "user":"<i>sso_administrator_account</i>",
-  "password":"<i>sso_administrator_password</i>"
-  "thumbprint":"<i>vc_thumbprint</i>"
+  "password":"<i>vcenter_sso_administrator_password</i>",
+  "thumbprint":"<i>vc_thumbprint</i>",
+  "vicpassword":"<i>vic_appliance_root_password</i>"
 }</pre>
 
     vCenter Server with an external Platform Services Controller:<pre>{
   "target":"<i>vcenter_server_address</i>",
   "user":"<i>sso_administrator_account</i>",
-  "password":"<i>sso_administrator_password</i>",
-  "thumbprint":"<i>vc_thumbprint</i>"
+  "password":"<i>vcenter_sso_administrator_password</i>",
+  "thumbprint":"<i>vc_thumbprint</i>",
   "externalpsc":"psc_address",
-  "pscdomain":"psc_domain"
+  "pscdomain":"psc_domain",
+  "vicpassword":"<i>vic_appliance_root_password</i>"
 }</pre> 
 
     **NOTE**: The registration API does not include an option to skip the installation or upgrade of the vSphere Integrated Containers plug-in for the vSphere Client.
@@ -34,7 +36,7 @@ You deployed an instance of the vSphere Integrated Containers appliance without 
 
     Copy the command as shown, replacing <i>vic_appliance_address</i> with the address of the appliance.<pre>curl -k -w '%{http_code}' -d @payload.json https://<i>vic_appliance_address</i>:9443/register
 </pre>If successful, you see the message `operation complete
-200`. 
+200`. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, replace 9443 with the appropriate port.
 
 **Result**
 
@@ -50,5 +52,6 @@ Here is an example of a completed `payload.json` file:
   "password":"p@ssw0rd!",
   "thumbprint":"12:34:F3:B2:85:2F:F7:95:B3:1E:99:F4:FB:28:4E:E7:5E:E0:5B:33",
   "externalpsc":"psc1.mycompany.org",
-  "pscdomain":"vsphere.local"
+  "pscdomain":"vsphere.local",
+  "vicpassword":"<i>vic_appliance_root_password</i>"
 }</pre> 

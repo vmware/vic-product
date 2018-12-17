@@ -1,8 +1,8 @@
 [Unit]
 Description=VIC Appliance Environment
 Documentation=https://github.com/vmware/vic-product
-Requires=ovf-network.service network-online.target
-After=ovf-network.service network-online.target
+Requires=ovf-network.service network-online.target ovf-ntp.service
+After=ovf-network.service network-online.target ovf-ntp.service
 
 [Service]
 Type=oneshot

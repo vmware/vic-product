@@ -23,6 +23,7 @@ If you need to deploy multiple appliances, you can use the initialization API to
 - You downloaded an official build or an open-source build of the OVA installer. For information about where to download the installer, see [Download the vSphere Integrated Containers Installer](download_vic.md).
 - Verify that the environment in which you are deploying the appliance meets the prerequisites described in [Deployment Prerequisites for vSphere Integrated Containers](vic_installation_prereqs.md).
 - Obtain the vCenter Server certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
+- If you intend to use a custom certificate for the vSphere Integrated Containers appliance, verify that the certificate meets the criteria described in [vSphere Integrated Containers Appliance Certificate Requirements](appliance_cert_reqs.md).
 - If you use vCenter Server 6.7 update 1 or later, you can use the HTML5 vSphere Client to deploy the appliance. If you use an older version of vCenter Server, you must use the Flex-based vSphere Web Client to deploy the appliance. You cannot deploy OVA files from versions of the HTML5 vSphere Client that pre-date vCenter Server 6.7 update 1. 
 
     **NOTE**: Versions of the HTML5 client that pre-date 6.7 update 1 do not prevent you from deploying OVA files and deployment appears to succeed. However, the resulting appliance [does not function correctly due to an issue with the HTML5 client](ts_reg_doesnt_start.md). This issue is fixed in version 6.7 update 1 of the vSphere Client. 
@@ -41,20 +42,35 @@ If you need to deploy multiple appliances, you can use the initialization API to
 
 3. On the **Customize template** page, expand **Appliance Configuration**.
 
-    - Set the root password for the appliance VM. Setting the root password for the appliance is mandatory. 
+    - Set the root password for the appliance VM. Setting the root password for the appliance is mandatory. The root password cannot exceed 30 characters.
     - Optionally uncheck the **Permit Root Login** checkbox.
   
     **IMPORTANT**: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Only use SSH to access the appliance when instructed to do so in the documentation, or under the guidance of VMware GSS.
 
-4. Configure the appliance certificate, that is used by all of the services that run in the appliance to authenticate connections.<a id="step4"></a>
-    - To use a custom certificate:
-     - Paste the contents of the appropriate certificate in the **Appliance TLS Certificate** text box.
-     - Paste the contents of the certificate key in the **Appliance TLS Certificate Key** text box. The appliance supports unencrypted PEM encoded PKCS#1 and unencrypted PEM encoded PKCS#8 formats for TLS private keys. 
-     - Paste the contents of the Certificate Authority (CA) file in the **Certificate Authority Certificate** text box. 
-    - To use a certificate that uses an intermediate CA, see [Use a Certificate with an Intermediate CA for the vSphere Integrated Containers Appliance](vic_cert_reference.md#intermediateca).
-    - To use auto-generated certificates, leave the **Appliance TLS Certificate**, **Appliance TLS Certificate Key**, and **Certificate Authority Certificate** text boxes blank.
-5. In the **Appliance Configuration Port** text box, optionally change the port on which to publish the vSphere Integrated Containers appliance welcome page.
+4. Configure the appliance certificate, that is used by all of the services that run in the appliance to authenticate connections.
 
+     To use auto-generated certificates, leave the **Appliance TLS Certificate**, **Appliance TLS Certificate Key**, and **Certificate Authority Certificate** text boxes blank.
+   
+    To use a custom certificate:
+
+    1. Paste the contents of the server certificate PEM file in the **Appliance TLS Certificate** text box.<pre>-----BEGIN CERTIFICATE-----
+    VIC_appliance_server_certificate_contents
+    -----END CERTIFICATE-----</pre>
+    2. Paste the contents of the certificate key in the **Appliance TLS Certificate Key** text box. The appliance supports unencrypted PEM encoded PKCS#1 and unencrypted PEM encoded PKCS#8 formats for TLS private keys.<pre>-----BEGIN PRIVATE KEY-----
+    VIC_appliance_private_key_contents
+    -----END PRIVATE KEY-----</pre>
+    3. Paste the contents of the Certificate Authority (CA) file in the **Certificate Authority Certificate** text box.<pre>-----BEGIN CERTIFICATE-----
+    root_CA_certificate_contents
+    -----END CERTIFICATE-----</pre>To use a certificate that uses a chain of intermediate CAs, paste into the **Certificate Authority Certificate** text box the contents of a certificate chain PEM file. The PEM file must include a chain of the intermediate CAs all the way down to the root CA.<pre>-----BEGIN CERTIFICATE-----
+    intermediate_CA_certificate_contents
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    intermediate_CA_certificate_contents
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    root_CA_certificate_contents
+    -----END CERTIFICATE-----</pre>
+5. In the **Appliance Configuration Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Getting Started page.
 5. Expand **Networking Properties** and optionally configure a static IP address and fully qualified domain name (FQDN) for the appliance VM. 
 
     To use DHCP, leave the networking properties blank. If you specify an FQDN, the appliance uses this FQDN to register with the Platform Services Controller and runs the Registry, Management Portal, and file server services at that FQDN.

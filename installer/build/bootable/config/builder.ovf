@@ -242,6 +242,10 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
         <Label>2.6. FQDN</Label>
         <Description>The fully qualified domain name of this VM. Leave blank if DHCP is desired.</Description>
       </Property>
+      <Property ovf:key="ntp" ovf:type="string" ovf:userConfigurable="true">
+        <Label>2.7. NTP Servers</Label>
+        <Description>The NTP server IP Addresses for this VM (space separated). Leave blank if DHCP is desired.</Description>
+      </Property>
     </ProductSection>
     <ProductSection ovf:class="registry" ovf:required="false">
       <Info>Registry Properties</Info>
