@@ -604,6 +604,12 @@ function main {
     export VCENTER_FINGERPRINT="$(echo "${VCENTER_FINGERPRINT}" | awk '{print $2}')"
   fi
 
+  if [ -z "$UPGRADE_APPLIANCE_PASSWORD" ] ; then
+    echo -n "Enter VIC appliance root password: "
+    read -s UPGRADE_APPLIANCE_PASSWORD
+    echo ""
+  fi
+
   [ -z "${MANUAL_DISK_MOVE}" ] && [ -z "${VCENTER_DATACENTER}" ] && read -p "Enter vCenter Datacenter of the old VIC appliance: " VCENTER_DATACENTER
   export GOVC_DATACENTER="$VCENTER_DATACENTER"
   [ -z "${MANUAL_DISK_MOVE}" ] && [ -z "${APPLIANCE_TARGET}" ] && read -p "Enter old VIC appliance IP: " APPLIANCE_TARGET
