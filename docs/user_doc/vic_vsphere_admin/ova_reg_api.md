@@ -1,12 +1,12 @@
-# Initialize the Appliance by Using the Initialization API #
+# Register the Appliance by Using the Registration API #
 
-The vSphere Integrated Containers appliance provides an API that allows you to initialize the appliance after deployment without having to manually enter information in the appliance welcome page. This API helps you to automate the deployment of appliances without manual intervention.
+The vSphere Integrated Containers appliance provides an API that, after deployment, allows you to register the appliance with vCenter Server without having to manually enter information in the appliance welcome page. This API helps you to automate the deployment of appliances without manual intervention.
 
-The appliance exposes the initialization API endpoint at https://<i>vic_appliance_address</i>:9443/register. 
+The appliance exposes the registration API endpoint at https://<i>vic_appliance_address</i>:9443/register. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, 9443 is replaced with the appropriate port.
 
 **Prerequistes**
 
-You deployed an instance of the vSphere Integrated Containers appliance without completing the Platform Services Controller registration wizard that appears when you first go to the vSphere Integrated Containers appliance welcome page.
+You deployed an instance of the vSphere Integrated Containers appliance without completing the registration wizard that appears in the **Complete VIC appliance installation** panel when you first go to the vSphere Integrated Containers appliance welcome page.
 
 **Procedure**
 
@@ -30,7 +30,7 @@ You deployed an instance of the vSphere Integrated Containers appliance without 
   "vicpassword":"<i>vic_appliance_root_password</i>"
 }</pre> 
 
-    **NOTE**: The initialization API does not include an option to skip the installation or upgrade of the vSphere Integrated Containers plug-in for the vSphere Client.
+    **NOTE**: The registration API does not include an option to skip the installation or upgrade of the vSphere Integrated Containers plug-in for the vSphere Client.
 
 2. Run a `curl` command to pass the `payload.json` file to the initialization API endpoint.
 
@@ -40,7 +40,7 @@ You deployed an instance of the vSphere Integrated Containers appliance without 
 
 **Result**
 
-The appliance initializes and registers with the Platforms Services Controller. After initialization, vSphere Integrated Containers services are available at  https://<i>vic_appliance_address</i>:9443.
+The appliance registers with the Platforms Services Controller. After registration, vSphere Integrated Containers services are available at  https://<i>vic_appliance_address</i>:9443.
 
 **Example**
 

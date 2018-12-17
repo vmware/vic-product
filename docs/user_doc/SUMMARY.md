@@ -32,7 +32,7 @@
  * [Installation](vic_vsphere_admin/installing_vic.md)
      * [Download Installer](vic_vsphere_admin/download_vic.md) 
      * [Deploy the Appliance](vic_vsphere_admin/deploy_vic_appliance.md)
-         * [Appliance Initialization API](vic_vsphere_admin/ova_reg_api.md) 
+         * [Appliance Registration API](vic_vsphere_admin/ova_reg_api.md) 
      * [Download Engine Bundle](vic_vsphere_admin/vic_engine_bundle.md)
   * [VCH Deployment](vic_vsphere_admin/deploy_vch.md)
      * [Using vic-machine](vic_vsphere_admin/using_vicmachine.md)

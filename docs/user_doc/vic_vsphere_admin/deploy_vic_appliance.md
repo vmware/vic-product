@@ -128,7 +128,7 @@ If you need to deploy multiple appliances, you can use the initialization API to
 12. To automatically install the vSphere Integrated Containers plug-in for vSphere Client, leave the **Install UI Plugin** check box selected, and click **Continue**.
 
     **NOTE**: By default, in an environment in which multiple vSphere Integrated Containers are deployed to the same vCenter Server instance, the vSphere Integrated Containers plug-in connects to one appliance only. This appliance instance might not be the one that registered most recently with vCenter Server. Consequently, if there are older instances of the appliance registered with vCenter Server and you do not want the plug-in to automatically upgrade to the latest version, deselect the **Install UI Plugin** check box. You can see version information about the plug-in and the appliance in the Summary tab of the vSphere Integrated Containers plug-in. If you deselect the **Install UI Plugin** check box, you can install or upgrade the plug-in later. 
-13. Verify that the certificate thumbprint for vCenter Server is valid, and click **Continue** to initialize the appliance.
+13. Verify that the certificate thumbprint for vCenter Server is valid, and click **Continue** to complete the installation of the appliance.
 
 **Result**
 
