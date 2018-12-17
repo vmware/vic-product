@@ -4,6 +4,7 @@ Before you deploy the vSphere Integrated Containers appliance and virtual contai
 
 vSphere Integrated Containers has particular networking requirements. In addition, if you intend to use custom certificates with vSphere Integrated Containers, these certificates must be configured in a particular way.
 
+* [Interoperability](interop.md)
 * [Virtual Infrastructure Requirements](vi_reqs.md)
 * [Networking Requirements](network_reqs.md)
 * [Certificate Requirements](vic_cert_use.md)

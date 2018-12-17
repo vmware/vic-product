@@ -22,6 +22,7 @@
 
 * [vSphere Administrator](vic_vsphere_admin/README.md)
  * [Deployment Prerequisites](vic_vsphere_admin/vic_installation_prereqs.md)
+     * [Interoperability](vic_vsphere_admin/interop.md)
      * [Virtual Infrastructure Requirements](vic_vsphere_admin/vi_reqs.md)
      * [Networking Requirements](vic_vsphere_admin/network_reqs.md)
      * [Certificate Requirements](vic_vsphere_admin/vic_cert_use.md)
@@ -68,7 +69,6 @@
          * [VCH with Volume Store and Registry](vic_vsphere_admin/deploy_vch_dchphoton.md)
      * [VCH Sizing Guidelines](vic_vsphere_admin/vch_sizing_guidelines.md)
   * [VCH Administration](vic_vsphere_admin/vch_admin.md)
-     * [Interoperability](vic_vsphere_admin/interop.md)
      * [VCH Admin in the vSphere Client](vic_vsphere_admin/vch_admin_client.md)
          * [View VIC Information](vic_vsphere_admin/access_h5_ui.md)
          * [View VCH and Container Information](vic_vsphere_admin/vch_portlet_ui.md)
