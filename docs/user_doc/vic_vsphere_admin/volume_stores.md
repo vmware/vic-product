@@ -48,9 +48,10 @@ If you use NFS volume stores, concurrently running containers can share the volu
 
 To use shared NFS volume stores, it is recommended that the NFS share points that you designate as the volume stores be directly accessible by the network that you use as the container network. For information about container networks, see the description of the [`--container-network`](#container-network) option.
 
-**IMPORTANT**: When container developers run `docker info` or `docker volume ls` against a VCH, there is currently no indication whether a volume store is backed by vSphere or by an NFS share point. Consequently, you should include an indication that a volume store is an NFS share point in the volume store label. 
-
-You cannot specify the root folder of an NFS server as a volume store. 
+**IMPORTANT**: 
+- NFS volume stores do not support FQDN. When using FQDN to identify NFS shares, it is not possible to set a DNS-Search-List. Container VMs fail to start, with the error `docker: Error response from daemon: Server error from portlayer: unable to wait for process launch status: container VM has unexpectedly powered off.` Always use IP addresses for NFS shares.
+- When container developers run `docker info` or `docker volume ls` against a VCH, there is currently no indication whether a volume store is backed by vSphere or by an NFS share point. Consequently, you should include an indication that a volume store is an NFS share point in the volume store label. 
+- You cannot specify the root folder of an NFS server as a volume store. 
 
 ### About NFS Volume Stores and Permissions <a id="nfs_perms"></a>
 
