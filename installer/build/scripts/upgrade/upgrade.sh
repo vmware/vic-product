@@ -123,7 +123,7 @@ function upgradeAppliancePlugin {
 
   ret=$(callPluginUpgradeEndpoint FLEX)
   while [[ "$ret" != *"204"* && "$ret" != *"5"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
-    log "Waiting for upgrade appliance flex plugin..."
+    log "Waiting for appliance flex plugin upgrade..."
     sleep 10
     let "tab_retries+=1"
     ret=$(callPluginUpgradeEndpoint FLEX)
@@ -138,7 +138,7 @@ function upgradeAppliancePlugin {
   tab_retries=0
   ret=$(callPluginUpgradeEndpoint H5)
   while [[ "$ret" != *"204"* && "$ret" != *"5"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
-    log "Waiting for upgrade appliance h5 plugin..."
+    log "Waiting for appliance h5 plugin upgrade..."
     sleep 10
     let "tab_retries+=1"
     ret=$(callPluginUpgradeEndpoint H5)
@@ -171,7 +171,7 @@ function registerAppliance {
   tab_retries=0
   max_tab_retries=30 # 5 minutes
   while [[ "$(callRegisterEndpoint)" != *"200"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
-    log "Waiting for register appliance..."
+    log "Waiting for appliance registration..."
     sleep 10
     let "tab_retries+=1"
   done
