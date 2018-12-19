@@ -39,6 +39,8 @@ When you deployed the vSphere Integrated Containers appliance, vSphere Integrate
     vSphere administrator accounts for the Platform Service Controller with which vSphere Integrated Containers is registered are automatically granted the Management Portal administrator role.
 2. Go to **Administration** > **Configuration**, and click the link to download the **Registry Root Certificate**.
 
+    **NOTE**: Users with the Developer or DevOps Administrator roles in vSphere Integrated Containers Management Portal can download the certificate from **Home** > **Library** > **Built-in Repositories**.
+
 ## Options <a id="options"></a>
 
 The following sections each correspond to an entry in the **Registry Access** page of the Create Virtual Container Host wizard. Each section also includes a description of the corresponding `vic-machine create` option. 
