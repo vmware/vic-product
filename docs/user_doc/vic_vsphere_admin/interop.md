@@ -5,7 +5,7 @@ For information about the supported versions of VMware software that are compati
 
 This topic describes how vSphere features and other VMware products interact with vSphere Integrated Containers and VCHs. 
 
-- [Performing Operations on VCHs and Container VMs in vSphere](#vms)
+- [Performing Operations on VCHs and Container VMs in the vSphere Client](#vms)
 - [VMware vRealize&reg; Suite](#vrealize)
 - [VMware vSphere vMotion&reg;](#vmotion)
 - [VMware vSphere High Availability](#ha)
@@ -15,12 +15,13 @@ This topic describes how vSphere features and other VMware products interact wit
 - [Enhanced Linked Mode Environments](#elm)
 - [vSphere Features Not Supported in This Release](#notsupported)
 
-## Performing Operations on VCHs and Container VMs in vSphere <a id="vms"></a>
+## Performing Operations on VCHs and Container VMs in the vSphere Client <a id="vms"></a>
 
 - If you restart a VCH endpoint VM, it comes back up in the same state that it was in when it shut down. 
 - If you use DHCP on the client network, the IP address of the VCH endpoint VM might change after a restart. Use `vic-machine inspect` to obtain the new IP address.
 - Do not manually delete a VCH resource pool, the VCH endpoint VM, or container VMs. Always use the vSphere Integrated Containers plug-in for the vSphere Client or `vic-machine delete` to delete VCHs. Always use Docker commands or the vSphere Integrated Containers Management Portal to perform operations on container VMs.
-- Manually restarting container VMs can result in incorrect end-times for container operations. Do not manually restart container VMs. Always use Docker commands or the vSphere Integrated Containers Management Portal to perform operations on container VMs.
+- You can stop container VMs by selecting the **Power** > **Shut Down Guest OS** option. If you use this option to shut down container VMs gracefully, they come back up in the same state that they were in when you shut them down. 
+- Do not restart or power off container VMs by selecting **Power** > **Reset** or **Power** > **Power Off**. Using those options can result in incorrect end-times for container operations.  Always use **Power** > **Shut Down Guest OS**, Docker commands, or the vSphere Integrated Containers Management Portal to perform restart and stop operations on container VMs.
 
 ## VMware vRealize Suite <a id="vrealize"></a>
 Your organization could use VMware vRealize Automation to provide a self-provisioning service  for VCHs, by using the vRealize Automation interface or APIs to request VCHs. At the end of the provisioning process, vRealize Automation would communicate the VCH endpoint VM address to the requester. If you deploy VCHs with TLS authentication, `vic-machine create` generates a file named `vch_name.env`. The `env` file contains Docker environment variables that are specific to the VCH. vRealize Automation could potentially provide the `env` file at the end of a provisioning process for VCHs.
