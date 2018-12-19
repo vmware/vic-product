@@ -2,7 +2,7 @@
 
 In certain circumstances, you might need to install a capability in the virtual container host (VCH) endpoint VM that does not exist by default. For example, you might want to install an NFS client in the endpoint VM, to test or debug connections from the VCH to an NFS server.
 
-The VCH endpoint VM runs Photon OS 2.0. Photon OS provides a package manager named Tiny DNF, or `tdnf`, that is the default means of installing packages. For information about Tiny DNF, see [Tiny DNF for Package Management](https://github.com/vmware/photon/blob/master/docs/photon-admin-guide.md#tiny-dnf-for-package-management) in the *Photon OS Administration Guide*. 
+The VCH endpoint VM runs [Photon OS 2.0](https://vmware.github.io/photon/). Photon OS provides a package manager named Tiny DNF, or `tdnf`, that is the default means of installing packages. For information about Tiny DNF, see [Tiny DNF for Package Management](https://vmware.github.io/photon/assets/files/html/1.0-2.0/tdnf.html) in the *Photon OS Administration Guide*. 
 
 Before you can use Tiny DNF to install packages in the endpoint VM, you must run the `rpm --rebuilddb` command to rebuild the embedded database. To run `rpm --rebuilddb`, you must first modify the Photon OS configuration to satisfy certain dependencies that are not present in the VCH endpoint VM by default. If you do not successfully run `rpm --rebuilddb`, attempts to run certain Tiny DNF commands in the endpoint VM result in the following error:
 

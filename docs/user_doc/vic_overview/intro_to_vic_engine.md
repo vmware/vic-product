@@ -24,7 +24,7 @@ The container VMs that vSphere Integrated Containers Engine creates have all of 
 
 The provisioned container VM does not contain any OS container abstraction. 
 
-- The container VM boots from an ISO that contains the Photon OS 2.0 Linux kernel. Note that container VMs do not run the full Photon OS.
+- The container VM boots from an ISO that contains the [Photon OS 2.0](https://vmware.github.io/photon/) Linux kernel. Note that container VMs do not run the full Photon OS.
 - The container VM is configured with a container image that is mounted as a disk. 
 - Container image layers are represented as a read-only VMDK snapshot hierarchy on a vSphere datastore. At the top of this hierarchy is a read-write snapshot that stores ephemeral state. 
 - Container volumes are formatted VMDKs that are attached as disks and indexed on a datastore. 
