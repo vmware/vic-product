@@ -76,7 +76,7 @@ function checkHarborPSCToken {
 
 # Run the harbor migrator docker image
 function runMigratorCmd {
-  local migrator_image="goharbor/harbor-migrator:v1.6.0"
+  local migrator_image="goharbor/harbor-migrator:v1.7.0"
 
   docker run -i \
     -e DB_USR=${DB_USER} \
@@ -87,7 +87,7 @@ function runMigratorCmd {
     -v ${harbor_backup}:/harbor-migration/backup \
     ${migrator_image} "$@"
 
-  if [ $1 == "up" ]; then 
+  if [ $1 == "up" ]; then
     docker run -i \
       -e DB_USR=${DB_USER} \
       -e SKIP_CONFIRM=y \
