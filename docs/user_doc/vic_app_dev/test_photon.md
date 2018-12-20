@@ -10,7 +10,7 @@ After you have loaded the vSphere Integrated Containers Registry certificate int
 - For simplicity, this example uses a VCH that was deployed with the `--no-tlsverify` option. If your VCH implements TLS verification of clients, you must import the VCH certificates into your Docker client and adapt the Docker commands accordingly. For information about how to connect a Docker client to a VCH that uses full TLS authentication, see [Connecting to the VCH](configure_docker_client.md#connectvch) in Configure the Docker Client for Use with vSphere Integrated Containers.
 - This procedure assumes that the VCH uses the same network for the client and public networks. If a VCH is deployed using separate client and public networks, the VCH endpoint is exposed on the client network. When you deploy a `dch-photon` Docker Engine on the VCH, it is exposed on the public network and the commands in the procedure fail.
 
-vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
+vSphere Integrated Containers 1.5.x supports `dch-photon` version 17.06.
 
 **Procedure**
 
@@ -30,12 +30,12 @@ vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
 
     Specify port 12375 to run the `pull` command on the `dch-photon` Docker Engine.
 
-    <pre>docker -H <i>vch_address</i>:12375 pull <i>registry_address</i>/default-project/dch-photon:1.13</pre>
+    <pre>docker -H <i>vch_address</i>:12375 pull <i>registry_address</i>/default-project/dch-photon:17.06</pre>
 
 5. Remove the test image from the `dch-photon` Docker Engine. 
 
     Specify port 12375 to run the `rmi` command on the `dch-photon` Docker Engine.
-    <pre>docker -H vch_address:12375 rmi <i>registry_address</i>/default-project/dch-photon:1.13</pre>
+    <pre>docker -H vch_address:12375 rmi <i>registry_address</i>/default-project/dch-photon:17.06</pre>
     
 3. Create a simple `Dockerfile` and save it in the current directory.
 
