@@ -2,7 +2,6 @@
 
 If you use vSphere Integrated Containers Registry, or if container developers need to access Docker images that are stored in other private registry servers, you must configure virtual container hosts (VCHs) to allow them to connect to these private registry servers when you deploy the VCHs. VCHs can connect to both secure and insecure private registry servers. You can also configure VCHs so that they can only access images from a whitelist of approved registries.
 
-- [Obtain the vSphere Integrated Containers Registry Certificate](#regcert)
 - [Options](#options)
   - [Whitelist Registry Mode](#whitelist-registry)
      - [Whitelisting Secure Registries](#vch-whitelist-secure) 
@@ -15,31 +14,6 @@ If you use vSphere Integrated Containers Registry, or if container developers ne
   - [Authorize Access to a Whitelist of Secure and Insecure Registries](#whitelist)
   - [Authorize Access to Secure and Insecure Private Registry Servers](#secure-insecure)
 - [What to Do Next](#whatnext)
-
-## Obtain the vSphere Integrated Containers Registry Certificate <a id="regcert"></a>
-
-To configure a VCH so that it can connect to vSphere Integrated Containers Registry, you must obtain the registry certificate and pass it to the VCH when you create that VCH.
-
-When you deployed the vSphere Integrated Containers appliance, vSphere Integrated Containers Registry auto-generated a Certificate Authority (CA) certificate. You can download the registry CA certificate from the vSphere Integrated Containers Management Portal.
-
-**Procedure**
-
-1. In a browser, go to the vSphere Integrated Containers appliance welcome page.
-
-    You can specify the address in one of the following formats:
-
-    - <i>vic_appliance_address</i>
-    - http://<i>vic_appliance_address</i>
-    - https://<i>vic_appliance_address</i>:9443
-
-    The first two formats redirect automatically to https://<i>vic_appliance_address</i>:9443. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, the redirect uses the port specified during deployment. If you specify HTTPS, you must include the port number in the address.
-2. Click the link to **Go to the vSphere Integrated Containers Management Portal**. 
-2. Log in with a vSphere administrator or Management Portal administrator user account.
-
-    vSphere administrator accounts for the Platform Service Controller with which vSphere Integrated Containers is registered are automatically granted the Management Portal administrator role.
-2. Go to **Administration** > **Configuration**, and click the link to download the **Registry Root Certificate**.
-
-    **NOTE**: Users with the Developer or DevOps Administrator roles in vSphere Integrated Containers Management Portal can download the certificate from **Home** > **Library** > **Built-in Repositories**.
 
 ## Options <a id="options"></a>
 
@@ -172,11 +146,11 @@ You can specify `--insecure-registry` multiple times if multiple insecure regist
 
 If the VCH is to connect to secure registries, you must provide a CA certificate that can validate the server certificate of that registry. You can specify multiple CA certificates for different registries to allow a VCH to connect to multiple secure registries. 
 
-**IMPORTANT**: You must use this option to allow a VCH to connect to  a vSphere Integrated Containers Registry instance. vSphere Integrated Containers Registry does not permit insecure connections.
+**IMPORTANT**: You must use this option to allow a VCH to connect to  a vSphere Integrated Containers Registry instance. vSphere Integrated Containers Registry does not permit insecure connections. For information about how to obtain the vSphere Integrated Containers Registry certificate as a vSphere administrator, see [Download the vSphere Integrated Containers Registry Certificate](../vic_cloud_admin/download_reg_cert_admin.md) in *vSphere Integrated Containers Management Portal Administration*.
 
 ### Create VCH Wizard
 
-1. Under **Additional registry certificates**, click **Select** and navigate to an existing certificate file a registry server instance.
+1. Under **Additional registry certificates**, click **Select** and navigate to an existing certificate file for a registry server instance.
 2. Optionally click **Select** again to upload additional CAs.
 
 ### vic-machine Option 
@@ -209,7 +183,7 @@ This example deploys a VCH with the following configuration:
 
 ### Prerequisite
 
-Follow the instructions in [Obtain the vSphere Integrated Containers Registry Certificate](#regcert) to obtain the certificate file for your vSphere Integrated Containers Registry instance.
+Follow the instructions in [Download the vSphere Integrated Containers Registry Certificate](../vic_cloud_admin/download_reg_cert_admin.md) in *vSphere Integrated Containers Management Portal Administration*  to obtain the certificate file for your vSphere Integrated Containers Registry instance.
 
 ### Create VCH Wizard
 
@@ -257,7 +231,7 @@ This example deploys a VCH with the following configuration:
 
 ### Prerequisite
 
-Follow the instructions in [Obtain the vSphere Integrated Containers Registry Certificate](#regcert) to obtain the certificate file for your vSphere Integrated Containers Registry instance.
+Follow the instructions in [Download the vSphere Integrated Containers Registry Certificate](../vic_cloud_admin/download_reg_cert_admin.md) in *vSphere Integrated Containers Management Portal Administration*. to obtain the certificate file for your vSphere Integrated Containers Registry instance.
 
 ### Create VCH Wizard
 

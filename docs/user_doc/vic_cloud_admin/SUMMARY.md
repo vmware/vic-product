@@ -21,6 +21,7 @@
      * [Manage Internal Repositories](manage_repository_registry.md)
      * [Access Project Logs](access_project_logs.md)
  * [Working with Registries](working_with_registries.md)
+      * [Download Registry Certificate](vic_cloud_admin/download_reg_cert_admin.md)
       * [Add Global Registries](add_repos_in_portal.md)
       * [Add Project Specific Registries](add_project_registry.md)
       * [Replicating Images](replicating_images.md)

@@ -6,8 +6,7 @@ vSphere Integrated Containers Engine 1.5 supports Docker client 1.13.0. The supp
 
 - [Connecting to the VCH](#connectvch)
 - [Using Docker Environment Variables](#variables)
-- [Install the  vSphere Integrated Containers Registry Certificate](#registry)
-  - [Obtain the vSphere Integrated Containers Registry CA Certificate](#getcert)
+- [Install the vSphere Integrated Containers Registry Certificate](#registry)
   - [Configure the Docker Client on Linux](#certlinux)
   - [Configure the Docker Client on Windows](#certwindows)
 - [Using vSphere Integrated Containers Registry with Content Trust](#notary)
@@ -47,18 +46,12 @@ For information about how to obtain the `env` file, see [Obtain a VCH](obtain_vc
 
 If your development environment uses vSphere Integrated Containers Registry or another private registry server that uses CA server certificates, you must pass the registry's CA certificate to the Docker client. The vSphere administrator must also have configured the VCH to access the registry.  
 
-For information about how vSphere administrators deploy VCHs so that they can access a private registry, see [Connect Virtual Container Hosts to Registries](../vic_vsphere_admin/vch_registry.md).
+- For information about how to obtain the vSphere Integrated Containers Registry certificate as a Developer or DevOps Administrator, see [Download the vSphere Integrated Containers Registry CA Certificate](../vic_users/download_reg_cert_dev.md) in *Using vSphere Integrated Containers as a DevOps Administrator, Developer, or Viewer*.
+- For information about how vSphere administrators deploy VCHs so that they can access a private registry, see [Configure Registry Access](../vic_vsphere_admin/vch_registry.md) in *vSphere Integrated Containers for vSphere Administrators*.
 
 The level of security of the connection between the Docker client and the VCH is independent from the level of security of the connection between the Docker client and the registry. Connections between the Docker client and the registry can be secure while connections between the Docker client and the VCH are insecure, and the reverse. 
 
 **NOTE**: VCHs cannot to connect to vSphere Integrated Containers Registry instances as insecure registries. Connections to vSphere Integrated Containers Registry always require HTTPS and a certificate.
-
-### Obtain the vSphere Integrated Containers Registry CA Certificate <a id="getcert"></a>
-
-To access the vSphere Integrated Containers Registry CA certificate, log in to vSphere Integrated Containers Management Portal with an account that has the Developer, DevOps Administrator, or Management Portal administrator role. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](../vic_cloud_admin/logging_in_mp.md).
-
-1. Go to **Home** > **Library** > **Built-in Repositories**.
-2. Click the **Registry Certificate** download link.
 
 ### Configure the Docker Client on Linux <a id="certlinux"></a>
 

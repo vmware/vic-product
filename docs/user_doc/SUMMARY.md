@@ -167,6 +167,7 @@
      * [Manage Internal Repositories](vic_cloud_admin/manage_repository_registry.md)
      * [Access Project Logs](vic_cloud_admin/access_project_logs.md)
  * [Working with Registries](vic_cloud_admin/working_with_registries.md)
+      * [Download Registry Certificate](vic_cloud_admin/download_reg_cert_admin.md)
       * [Add Global Registries](vic_cloud_admin/add_repos_in_portal.md)
       * [Add Project Specific Registries](vic_cloud_admin/add_project_registry.md)
       * [Replicating Images](vic_cloud_admin/replicating_images.md)
@@ -181,7 +182,8 @@
 ----
 
 * [DevOps, Developers, Viewers](vic_users/README.md)
-  * [Running Development Projects](vic_app_dev/run_dev_project.md) 
+  * [Running Development Projects](vic_app_dev/run_dev_project.md)
+  * [Download Registry Certificate](vic_users/download_reg_cert_dev.md) 
   * [Provisioning Container VMs](vic_users/provision_containers_portal.md)
      * [Configuring Links for Templates and Images](vic_users/configuring_links.md)
      * [Configuring Health Checks for Templates and Images](vic_users/configuring_health_checks.md)

@@ -4,6 +4,7 @@
 
 * [DevOps, Developers, Viewers](README.md)
   * [Running Development Projects](../vic_app_dev/run_dev_project.md) 
+  * [Download Registry Certificate](download_reg_cert_dev.md)
   * [Provisioning Container VMs](provision_containers_portal.md)
      * [Configuring Links for Templates and Images](configuring_links.md)
      * [Configuring Health Checks for Templates and Images](configuring_health_checks.md)
