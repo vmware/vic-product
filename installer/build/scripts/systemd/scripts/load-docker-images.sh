@@ -43,6 +43,16 @@ if [[ ! -f /etc/vmware/firstboot ]]; then
   echo "admiral=${ADMIRAL_IMAGE} ${ADMIRAL_IMAGE_ID}" >> /storage/data/version
   echo "admiral=${ADMIRAL_IMAGE} ${ADMIRAL_IMAGE_ID}" >> /etc/vmware/version
 
+  echo "Loading file server"
+  # tag fileserver as :ova
+  FILESERVER_IMAGE="vmware/fileserver:${BUILD_OVA_REVISION}"
+  docker tag "$FILESERVER_IMAGE" vmware/fileserver:ova
+  FILESERVER_IMAGE_ID=$(docker images vmware/fileserver:ova -q)
+
+  # Write version files
+  echo "fileserver=${FILESERVER_IMAGE} ${FILESERVER_IMAGE_ID}" >> /storage/data/version
+  echo "fileserver=${FILESERVER_IMAGE} ${FILESERVER_IMAGE_ID}" >> /etc/vmware/version
+
   echo "Loading vic-machine-server"
   # tag vic-machine-server as :ova
   VIC_MACHINE_SERVER_IMAGE="gcr.io/eminent-nation-87317/vic-machine-server:${BUILD_VIC_MACHINE_SERVER_REVISION}"

@@ -11,7 +11,8 @@ RestartSec=15
 EnvironmentFile=/etc/vmware/environment
 ExecStartPre=-/usr/bin/systemctl stop landing_server.service
 ExecStartPre=/usr/bin/bash /etc/vmware/fileserver/configure_fileserver.sh
-ExecStart=/etc/vmware/fileserver/start_fileserver.sh
+ExecStart=/usr/bin/docker run --cap-drop ALL --cap-add NET_BIND_SERVICE --rm --name fileserver -v /opt/vmware/fileserver:/opt/vmware/fileserver -v /storage/data/certs:/certs:ro -p 80:80 -p ${FILESERVER_PORT}:9443 vmware/fileserver:ova
+ExecStop=/usr/bin/docker stop fileserver
 
 [Install]
 WantedBy=vic-appliance.target

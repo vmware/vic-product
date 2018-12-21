@@ -14,6 +14,5 @@
 # limitations under the License.
 set -uf -o pipefail
 
-mkdir -p "/opt/vmware/fileserver/ca_download"
-
 iptables -w -A INPUT -j ACCEPT -p tcp --dport "${FILESERVER_PORT}"
+echo "Finished fileserver config"

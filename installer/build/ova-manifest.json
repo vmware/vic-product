@@ -160,11 +160,6 @@
   },
   {
     "type": "file",
-    "source": "scripts/fileserver/start_fileserver.sh",
-    "destination": "/etc/vmware/fileserver/start_fileserver.sh"
-  },
-  {
-    "type": "file",
     "source": "scripts/verify.py",
     "destination": "/etc/vmware/verify.py"
   },
