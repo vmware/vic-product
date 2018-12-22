@@ -170,9 +170,11 @@ pipeline:
       - test_url
       - test_username
       - vch_timeout
+      - drone_machine
     volumes:
       - /tmp
     commands:
+      - echo ${DRONE_MACHINE}
       - tests/robot-run.sh
     when:
       repo: vmware/vic-product
