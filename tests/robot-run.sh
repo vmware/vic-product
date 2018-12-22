@@ -17,6 +17,8 @@ set -x
 gsutil version -l
 set +x
 
+echo ${DRONE_MACHINE}
+
 dpkg -l > package.list
 
 # check parameters
