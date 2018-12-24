@@ -16,34 +16,33 @@ The sections in this topic each correspond to an entry in the Configure Networks
 
 ### Bridge Network <a id="bridge"></a>
 
-A port group that container VMs use to communicate with each other. 
+A network interface that container VMs use to communicate with each other. 
 
-Before you deploy a VCH, you must create a VMware vSphere Distributed Switch and a port group for the bridge network. You must add the target ESXi host or hosts to the switch, and assign a VLAN ID to the port group, to ensure that the bridge network is isolated. For information about how to create a vSphere Distributed Switch and port group, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
+Before you deploy a VCH, you must create a VMware vSphere Distributed Switch and a port group, an NSX Data Center for vSphere logical switch, or an NSX-T Data Center logical switch for the bridge network. For information about how to create a port group or logical switch, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
 
 **IMPORTANT** 
 
-- Do not specify the same port group as the bridge network for multiple VCHs. Sharing a port group between VCHs might result in multiple container VMs being assigned the same IP address. 
-- Do not use the bridge network port group as the target for any of the other VCH networking options.
+- Do not specify the same interface as the bridge network for multiple VCHs. Sharing an interface between VCHs might result in multiple container VMs being assigned the same IP address. 
+- Do not use the bridge network interface as the target for any of the other VCH networking options.
 - Do not use the bridge network for any other VM workloads.
 
 #### Create VCH Wizard
 
-Select an existing port group from the **Bridge network** drop-down menu. It is **mandatory** to specify a bridge network.
+Select an existing port group or logical switch from the **Bridge network** drop-down menu. It is **mandatory** to specify a bridge network.
 
 #### vic-machine Option 
 
 `--bridge-network`, `-b`
 
-You designate the bridge network by specifying the `vic-machine create --bridge-network` option.  
+You designate the bridge network by specifying an existing port group or logical switch in the `vic-machine create --bridge-network` option.  
 
 The `--bridge-network` option is **mandatory** if you are deploying a VCH to vCenter Server. 
 
-The `--bridge-network` option is **optional** if you are deploying a VCH to an ESXi host that is not managed by vCenter Server. In this case, if you do not specify `--bridge-network`, `vic-machine` creates a vSphere Distributed Switch and a port group that each have the same name as the VCH. You can optionally specify this option to assign an existing port group for use as the bridge network for container VMs. You can also optionally specify this option to create a new switch and port group that have a different name to the VCH.
+The `--bridge-network` option is **optional** if you are deploying a VCH to an ESXi host that is not managed by vCenter Server. In this case, if you do not specify `--bridge-network`, `vic-machine` creates a vSphere Distributed Switch and a port group that each have the same name as the VCH. You can optionally specify this option to assign an existing port group or logical switch for use as the bridge network for container VMs. You can also optionally specify this option to create a new port group that has a different name to the VCH.
 
+<pre>--bridge-network <i>port_group_or_logical_switch_name</i></pre>
 
-<pre>--bridge-network <i>port_group_name</i></pre>
-
-If you do not specify `--bridge-network` or if you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups. 
+If you do not specify `--bridge-network` or if you specify an invalid port group or logical switch name, `vic-machine create` fails and suggests valid port groups or or logical switches. 
 
 ### Bridge Network Range <a id="bridge-range"></a>
 
@@ -71,7 +70,7 @@ If you are using the Create Virtual Container Host wizard, stay on the Configure
 
 ## Example `vic-machine` Command <a id="example"></a>
 
-This example `vic-machine create` command deploys a VCH that designates an existing port group named `vch1-bridge` as the bridge network. It specifies IP addresses in the range 192.168.100.0/16 for use by user-defined bridge networks.
+This example `vic-machine create` command deploys a VCH that designates an existing interface named `vch1-bridge` as the bridge network. It specifies IP addresses in the range 192.168.100.0/16 for use by user-defined bridge networks.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1

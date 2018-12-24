@@ -35,7 +35,7 @@ If you do not specify this option, the VCH uses the public network for client tr
 
 You designate the client network by specifying the `vic-machine create --client-network` option.  
 
-<pre>--client-network <i>port_group_name</i></pre>
+<pre>--client-network <i>port_group_or_logical_switch_name</i></pre>
 
  If you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups.
 

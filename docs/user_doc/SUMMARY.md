@@ -22,7 +22,6 @@
 
 * [vSphere Administrator](vic_vsphere_admin/README.md)
  * [Deployment Prerequisites](vic_vsphere_admin/vic_installation_prereqs.md)
-     * [Interoperability](vic_vsphere_admin/interop.md)
      * [Virtual Infrastructure Requirements](vic_vsphere_admin/vi_reqs.md)
      * [Networking Requirements](vic_vsphere_admin/network_reqs.md)
      * [Certificate Requirements](vic_vsphere_admin/vic_cert_use.md)
@@ -30,6 +29,7 @@
          * [Appliance Certificate Requirements](vic_vsphere_admin/appliance_cert_reqs.md) 
          * [VCH Certificate Requirements](vic_vsphere_admin/vch_cert_reqs.md)
          * [vSphere Integrated Containers Registry Root CA](vic_vsphere_admin/registry_cert.md)
+     * [Interoperability](vic_vsphere_admin/interop.md)
  * [Installation](vic_vsphere_admin/installing_vic.md)
      * [Download Installer](vic_vsphere_admin/download_vic.md) 
      * [Deploy the Appliance](vic_vsphere_admin/deploy_vic_appliance.md)

@@ -4,7 +4,7 @@
 
 * [vSphere Administrator](README.md)
  * [Deployment Prerequisites](vic_installation_prereqs.md)
-     * [Interoperability](interop.md)
+     * 
      * [Virtual Infrastructure Requirements](vi_reqs.md)
      * [Networking Requirements](network_reqs.md)
      * [Certificate Requirements](vic_cert_use.md)
@@ -12,6 +12,7 @@
          * [Appliance Certificate Requirements](appliance_cert_reqs.md) 
          * [VCH Certificate Requirements](vch_cert_reqs.md)
          * [vSphere Integrated Containers Registry Root CA](registry_cert.md)
+     * [Interoperability](interop.md)
  * [Installation](installing_vic.md)
      * [Download Installer](download_vic.md) 
      * [Deploy the Appliance](deploy_vic_appliance.md)

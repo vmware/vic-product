@@ -7,11 +7,11 @@ vSphere administrators can use the vSphere Client to view and manage the vSphere
 
 This topic describes how vSphere features and other VMware products interact with vSphere Integrated Containers, VCHs, and container VMs. 
 
-- [VMware NSX&reg; Data Center](#nsx)
-- [VMware vSAN&trade; and Other Storage](#vsan)
-- [VMware vSphere vMotion&reg;](#vmotion)
-- [VMware vSphere Distributed Resource Scheduler&trade;](#drs)
-- [VMware vRealize&reg; Suite](#vrealize)
+- [VMware NSX Data Center](#nsx)
+- [VMware vSAN and Other Storage](#vsan)
+- [VMware vSphere vMotion](#vmotion)
+- [VMware vSphere Distributed Resource Scheduler](#drs)
+- [VMware vRealize Suite](#vrealize)
 - [General vSphere Operation and Other Features](#vsphere)
   - [VMware vSphere High Availability](#ha)
   - [Maintenance Mode](#maintmode)
@@ -22,7 +22,14 @@ For information about the supported versions of VMware software that are compati
 
 ## VMware NSX&reg; Data Center<a id="nsx"></a>
 
-You can deploy the vSphere Integrated Containers appliance on an NSX Data Center for vSphere network. VCHs require a dedicated distributed port group for the bridge network. It is recommended to use a distributed port group for the public network, and you can also use separate port groups for the other networks. You can deploy VCHs to NSX Data Center for vSphere networks if those networks are configured to provide distributed port groups. You can use NSX Data Center for vSphere networks for all of the management, bridge, public, and container networks. 
+You can deploy the vSphere Integrated Containers appliance on NSX Data Center for vSphere networks and NSX-T&trade; Data Center networks. 
+
+VCHs require a dedicated network interface for the bridge network. It is also recommended to use a dedicated network interface for the public network. You can also optionally use separate network interfaces for the management, client, and container  networks. 
+
+- You can deploy VCHs to NSX Data Center for vSphere networks if those networks are configured to provide distributed port groups.
+- You can deploy VCHs that use NSX-T Data Center logical switches instead of port groups. vSphere Integrated Containers supports NSX-T Data Center version 2.3.
+
+For more information about how to use NSX Data Center and NSX-T Data Center networks with vSphere Integrated Containers, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
 
 ## VMware vSAN&trade; and Other Storage <a id="vsan"></a>
 

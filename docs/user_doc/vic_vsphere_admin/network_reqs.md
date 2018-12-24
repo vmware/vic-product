@@ -1,23 +1,18 @@
 # Networking Requirements #
 
 - [Appliance Networking Requirements](#networkreqs)
-- [Ports and Protocols](#ports)
 - [Understanding Docker and VCH Networking](#understanding)
 - [Networking Requirements for VCH Deployment](#vchnetworkreqs)
+  - [Bridge Networks](#bridge)
+  - [Public Network](#public)
+  - [Client and Management Networks](#client-mgmt)
+  - [Container Networks](#container)
+  - [Network Isolation](#isolation)
+- [Ports and Protocols](#ports)
 
 ## Appliance Networking Requirements <a id="networkreqs"></a>
 
-The vSphere Integrated Containers appliance requires access to the external Internet, the vSphere Infrastructure, and to the network on which developers connect Docker clients. VCHs connect to multiple different networks, as shown in the image below.
-
-![VCH Networking](graphics/vic_networking.png)
-
-**IMPORTANT**: If you configure a VCH to use separate networks for the public, management, and client networks, these networks must all be accessible by the vSphere Integrated Containers appliance.
-
-## Ports and Protocols <a id="ports"></a>
-
-The image below shows detailed information how different entities that are part of a vSphere Integrated Containers environment communicate with each other. 
-
- ![Networking Ports and Protocols](graphics/Network-protocols.png)
+The vSphere Integrated Containers appliance requires access to the external Internet, the vSphere Infrastructure, and to the network on which developers connect Docker clients. You can deploy the vSphere Integrated Containers appliance to a standard network, an NSX Data Center for vSphere network, or to an NSX-T Data Center network.
 
 ## Understanding Docker and VCH Networking <a id="understanding"></a>
 
@@ -39,26 +34,66 @@ See also [Docker container networking](https://docs.docker.com/engine/userguide/
 
 ## Networking Requirements for VCH Deployment <a id="vchnetworkreqs"></a>
 
-The following network requirements apply to deployment of VCHs to standalone ESXi hosts and to vCenter Server:
+VCHs connect to multiple different networks, as shown in the image below.
 
-- Use a trusted network for the deployment and use of vSphere Integrated Containers Engine.
-- Use a trusted network for the management network. For more information about the role and requirements of the management network, see [Configure the Management Network](mgmt_network.md).
-- Connections between Docker clients and the VCH are encrypted via TLS unless you explicitly disable TLS. The client network does not need to be trusted.
-- Each VCH requires an IPv4 address on each of the networks that it is connected to. The bridge network is handled internally, but other interfaces must have a static IP configured on them, or be able to acquire one via DHCP.
-- Each VCH requires access to at least one network, for use as the public network. You can share this network between multiple VCHs. The public network does not need to be trusted.
+![VCH Networking](graphics/vic_networking.png)
 
-The following network requirements apply to the deployment of VCHs to vCenter Server: 
+Each VCH requires an IPv4 address on each of the network interfaces that it is connected to. The bridge network is handled internally, but other interfaces must have a static IP configured on them, or be able to acquire one via DHCP. 
+
+VCH network interfaces can be either standard vSphere port groups, NSX Data Center for vSphere logical switches, or NSX-T Data Center logical switches. If you use NSX Data Center for vSphere or NSX-T Data Center logical switches, these switches must be available in the vCenter Server instance on which you deploy the VCHs.
+
+You must create port groups or logical switches in the vSphere Client, NSX Manager, or NSX-T Manager before you deploy a VCH. 
+
+- For information about how to create a vSphere Distributed Switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere  documentation. 
+- For information about how to add hosts to a vSphere Distributed Switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
+- For information about how to create an NSX Data Center for vSphere logical switch, see [Add a Logical Switch](https://docs.vmware.com/en/VMware-NSX-Data-Center-for-vSphere/6.4/com.vmware.nsx.install.doc/GUID-DD31D6BC-2E56-4E91-B45F-FCA3E80FF786.html) in the NSX Data Center for vSphere documentation.
+- For information about how to create an NSX-T Data Center logical switch, see [Create a Logical Switch
+](https://docs.vmware.com/en/VMware-NSX-T-Data-Center/2.3/com.vmware.nsxt.admin.doc/GUID-23194F9A-416A-40EA-B9F7-346B391C3EF8.html) in the NSX-T Data Center documentation.
+
+**IMPORTANT**: 
+
+- If you configure a VCH to use different interfaces for each of the public, management, and client networks, these networks must all be accessible by the vSphere Integrated Containers appliance. 
+- All hosts in a cluster should be attached to the port groups or logical switches that you create for the VCH networks and for any mapped container networks.
+
+### Bridge Networks <a id="bridge"></a>
+
+Each VCH requires a unique interface for use as the bridge network. You cannot share this interface between multiple VCHs. When deploying VCHs directly to ESXi Server hosts, by default `vic-machine` creates a port group for the bridge network. When deploying VCHs to vCenter Server, you must create an interface for use as the bridge network before you deploy the VCH.
  
-- Create a VMware vSphere Distributed Switch, and create a dedicated port group for use as the bridge network for each VCH. You can create multiple port groups on the same switch, but each VCH requires its own unique port group for the bridge network. 
-  - For information about bridge networks, see [Configure Bridge Networks](bridge_network.md). 
-  - For information about how to create a vSphere Distributed Switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere  documentation. 
-  - For information about how to add hosts to a vSphere Distributed Switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
-- Create a port group for use as the VCH public network. The VCH endpoint VM must be able to obtain an IP address on this port group.  You can use the same port group as the public network for multiple VCHs. You cannot use the same port group for the public network as you use for the bridge network.
-  - If you use the Create Virtual Container Host wizard to create VCHs, it is **mandatory** to use a port group for the public network.
-  - If you use `vic-machine` to deploy VCHs, by default the VCH uses the VM Network, if present, for the public network. If the VM Network is present, it is therefore not mandatory to use a port group for the public network, but it is strongly recommended. Using the default VM Network for the public network instead of a port group prevents vSphere vMotion from moving the VCH endpoint VM between hosts in a cluster. If the VM Network is not present, you must create a port group for the public network.
+If you use standard networks, create a VMware vSphere Distributed Switch, and create a dedicated port group for use as the bridge network for each VCH. You can create multiple port groups on the same switch, but each VCH requires its own unique port group for the bridge network. 
+
+If you use NSX Datacenter for vSphere or NSX-T Data Center networks, create a logical switch for use as the bridge network for each VCH. Each VCH requires its own unique logical switch for the bridge network. 
+
+For information about bridge networks, see [Configure Bridge Networks](bridge_network.md).
+
+### Public Network <a id="public"></a>
+
+Each VCH requires access to at least one network interface for use as the public network. The public network is the network over which VCHs connect to the Internet, so it must have external Internet access. You can share this interface between multiple VCHs. The public network does not need to be trusted.
+
+Create either a standard vSphere port group or an NSX Datacenter for vSphere or NSX-T Data Center logical switch for use as the VCH public network. The VCH endpoint VM must be able to obtain an IP address on this interface. You can use the same interface as the public network for multiple VCHs. You cannot use the same interface for the public network as you use for the bridge network.
+
+- If you use the Create Virtual Container Host wizard to create VCHs, it is **mandatory** to use a dedicated interface for the public network.
+- If you use `vic-machine` to deploy VCHs, by default the VCH uses the VM Network, if present, for the public network. If the VM Network is present, it is therefore not mandatory to use a dedicated interface for the public network, but it is strongly recommended. Using the default VM Network for the public network instead of a dedicated interface prevents vSphere vMotion from moving the VCH endpoint VM between hosts in a cluster. If the VM Network is not present, you must create an interface for the public network.
   
-    You can share the public network port group with the client and management networks. For information about VCH public networks, see [Configure the Public Network](public_network.md).
-- Optionally create port groups for each of the management and client networks. You can use the same port group as the management and client network for multiple VCHs. For information about VCH client and management networks, see [Configure the Client Network](client_network.md) and [Configure the Management Network](mgmt_network.md).
-- Optionally create port groups for use as mapped container networks. For information about container networks, see [Configure Container Networks](container_networks.md). 
-- All hosts in a cluster should be attached to the port groups that you create for the VCH networks and for any mapped container networks.
-- Isolate the bridge network and any mapped container networks. You can isolate networks by using a separate VLAN for each network. For information about how to assign a VLAN ID to a port group, see [VMware KB 1003825](https://kb.vmware.com/kb/1003825). For more information about private VLAN, see [VMware KB 1010691](https://kb.vmware.com/kb/1010691).
+You can share the public network interface with the client and management networks. For information about VCH public networks, see [Configure the Public Network](public_network.md).
+
+### Client and Management Networks <a id="client-mgmt"></a>
+
+Optionally create either a standard vSphere port group or an NSX Datacenter for vSphere or NSX-T Data Center logical switch for each of the management and client networks. You can use the same interface as the management and client network for multiple VCHs. Use a trusted network for the management network. Connections between Docker clients and the VCH are encrypted via TLS unless you explicitly disable TLS. The client network does not need to be trusted.
+
+For information about VCH client and management networks, see [Configure the Client Network](client_network.md) and [Configure the Management Network](mgmt_network.md).
+
+### Container Networks <a id="container"></a>
+
+Optionally create standard vSphere port groups or NSX Datacenter for vSphere or NSX-T Data Center logical switches for use as mapped container networks. For information about container networks, see [Configure Container Networks](container_networks.md). 
+
+### Network Isolation <a id="isolation"></a>
+ 
+Isolate the bridge network and any mapped container networks. If you use standard networks, you can isolate networks by using a separate VLAN for each network. For information about how to assign a VLAN ID to a port group, see [VMware KB 1003825](https://kb.vmware.com/kb/1003825). For more information about private VLAN, see [VMware KB 1010691](https://kb.vmware.com/kb/1010691).
+
+If you use NSX Data Center for vSphere or NSX-T Data Center logical switches for the bridge and container networks, these networks are isolated by default.
+
+## Ports and Protocols <a id="ports"></a>
+
+The image below shows detailed information how different entities that are part of a vSphere Integrated Containers environment communicate with each other. 
+
+ ![Networking Ports and Protocols](graphics/Network-protocols.png)

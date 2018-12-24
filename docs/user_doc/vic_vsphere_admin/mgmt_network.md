@@ -58,7 +58,7 @@ If you do not specify a management network, the VCH uses the public network for 
 
 You designate a specific network for traffic between the VCH and vSphere resources by specifying the `vic-machine create --management-network` option when you deploy the VCH. If you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups.
 
-<pre>--management-network <i>port_group_name</i></pre>
+<pre>--management-network <i>port_group_or_logical_switch_name</i></pre>
 
 ### Static IP Address <a id="static-ip"></a>
 
