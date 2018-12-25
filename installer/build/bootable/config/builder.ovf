@@ -252,7 +252,7 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
       </Property>
       <Property ovf:key="https_proxy" ovf:type="string" ovf:userConfigurable="true">
         <Label>2.9. HTTPS Proxy URL</Label>
-        <Description>The HTTPS Proxy setting: https://PROXY_SERVER:PORT or https://USER:PASSWORD@PROXY_SERVER:PORT. Leave blank if no https proxy is required.</Description>
+        <Description>The HTTPS Proxy setting: http(s)://PROXY_SERVER:PORT or http(s)://USER:PASSWORD@PROXY_SERVER:PORT. Leave blank if no https proxy is required.</Description>
       </Property>
       <Property ovf:key="no_proxy_list" ovf:type="string" ovf:userConfigurable="true">
         <Label>2.10. No Proxy List</Label>
