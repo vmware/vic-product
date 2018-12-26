@@ -123,6 +123,11 @@ configureHarborCfgOnce clair_db_password "$random_pwd"
 
 setPortInYAML $harbor_compose_file "${REGISTRY_PORT}" "${NOTARY_PORT}"
 
+# Configure Clair proxy
+configureHarborCfg http_proxy "${NETWORK_HTTP_PROXY}"
+configureHarborCfg https_proxy "${NETWORK_HTTPS_PROXY}"
+configureHarborCfg no_proxy "127.0.0.1,localhost,core,registry${NETWORK_NO_PROXY_LIST:+,}${NETWORK_NO_PROXY_LIST}"
+
 # Configure the integration URL
 configureHarborCfg admiral_url https://"${HOSTNAME}":"${ADMIRAL_PORT}"
 
