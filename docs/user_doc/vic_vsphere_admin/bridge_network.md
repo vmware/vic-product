@@ -1,6 +1,6 @@
 # Configure Bridge Networks #
 
-Bridge networks are the network or networks that container VMs use to communicate with each other. Every virtual container host (VCH) must have a unique bridge network. 
+Bridge networks are the network or networks that container VMs use to communicate with each other. Every virtual container host (VCH) must have a dedicated bridge network. 
 
 In Docker terminology, the bridge network on a VCH corresponds to the default bridge network, or `docker0` interface, on a Docker host. Container application developers can use `docker network create` to create additional, user-defined bridge networks when they run containers. For information about default bridge networks and user-defined networks, see [Docker container networking](https://docs.docker.com/engine/userguide/networking/) in the Docker documentation.
 
@@ -9,6 +9,11 @@ In Docker terminology, the bridge network on a VCH corresponds to the default br
   - [Bridge Network Range](#bridge-range)
 - [What to Do Next](#whatnext)
 - [Example `vic-machine` Command](#example)
+
+**IMPORTANT**: 
+
+- For information about VCH networking requirements, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
+- If you use NSX-T Data Center logical switches, it is not mandatory for T1 or T0 routers to be present. The bridge network does not use layer 3, so does not require T1 and T0 routers.
 
 ## Options <a id="options"></a>
 
@@ -22,9 +27,9 @@ Before you deploy a VCH, you must create a VMware vSphere Distributed Switch and
 
 **IMPORTANT** 
 
-- Do not specify the same interface as the bridge network for multiple VCHs. Sharing an interface between VCHs might result in multiple container VMs being assigned the same IP address. 
+- You must create a dedicated vSphere port group, or an NSX Datacenter for vSphere logical switch, or an NSX-T Data Center logical switch for the bridge network for every VCH. Do not specify the same interface as the bridge network for multiple VCHs. Sharing an interface between VCHs might result in multiple container VMs being assigned the same IP address. 
 - Do not use the bridge network interface as the target for any of the other VCH networking options.
-- Do not use the bridge network for any other VM workloads.
+- Do not use the bridge network interface for any other VM workloads.
 
 #### Create VCH Wizard
 

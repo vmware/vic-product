@@ -10,6 +10,8 @@ The public network is the network that container VMs and the virtual container h
 - [What to Do Next](#whatnext)
 - [Example `vic-machine` Command](#example)
 
+**IMPORTANT**: For information about VCH networking requirements, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
+
 ## Options <a id="options"></a>
 
 The sections in this topic each correspond to an entry in the Configure Networks page of the Create Virtual Container Host wizard, and to the  corresponding `vic-machine create` options.
@@ -40,6 +42,8 @@ Select an existing port group or logical switch from the **Public network** drop
 An interface that container VMs and VCHs use to connect to the Internet. Ports that containers that are connected to the default bridge network expose with `docker create -p` are made available on the public interface of the VCH endpoint VM via network address translation (NAT), so that containers can publish network services.  
 **NOTE**: vSphere Integrated Containers adds a new capability to Docker that allows you to directly map containers to a network by using the `--container-network` option. This is the recommended way to deploy container services with vSphere Integrated Containers. For more information, see [Configure Container Networks](container_networks.md).
 
+You designate the public network by specifying an existing port group or logical switch in the `vic-machine create --public-network` option.  
+
 <pre>--public-network <i>port_group_or_logical_switch_name</i></pre>
 
 If you do not specify this option, containers use the VM Network for public network traffic. If you do not specify this option and the VM Network is not present, or if you specify an invalid port group or logical switch name, `vic-machine create` fails and suggests valid port group or logical switches.
@@ -53,7 +57,7 @@ By default, vSphere Integrated Containers Engine uses DHCP to obtain an IP addre
 
 #### Create VCH Wizard
 
-1. Select the **Static** radio button.
+1. Select the **Static IP** radio button.
 2. Enter an IP address with a network mask in the **IP Address** text box, for example `192.168.1.10/24`.
 
 The Create Virtual Container Host wizard only accepts an IP address for the public network. You cannot specify an FQDN.

@@ -3,6 +3,10 @@
 - [Appliance Networking Requirements](#networkreqs)
 - [Understanding Docker and VCH Networking](#understanding)
 - [Networking Requirements for VCH Deployment](#vchnetworkreqs)
+  - [vSphere Port Groups](#portgroups)
+  - [NSX Data Center for vSphere Logical Switches](#nsx)
+  - [NSX-T Data Center Logical Switches](#nsxt)
+- [VCH Networks](#vchnetworks)
   - [Bridge Networks](#bridge)
   - [Public Network](#public)
   - [Client and Management Networks](#client-mgmt)
@@ -40,20 +44,48 @@ VCHs connect to multiple different networks, as shown in the image below.
 
 Each VCH requires an IPv4 address on each of the network interfaces that it is connected to. The bridge network is handled internally, but other interfaces must have a static IP configured on them, or be able to acquire one via DHCP. 
 
-VCH network interfaces can be either standard vSphere port groups, NSX Data Center for vSphere logical switches, or NSX-T Data Center logical switches. If you use NSX Data Center for vSphere or NSX-T Data Center logical switches, these switches must be available in the vCenter Server instance on which you deploy the VCHs.
+Network interfaces for VCHs can be of the following types:
 
-You must create port groups or logical switches in the vSphere Client, NSX Manager, or NSX-T Manager before you deploy a VCH. 
+- Standard vSphere port groups that you create on vSphere Distributed Switches
+- NSX Data Center for vSphere logical switches
+- NSX-T Data Center logical switches. 
 
-- For information about how to create a vSphere Distributed Switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere  documentation. 
-- For information about how to add hosts to a vSphere Distributed Switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
-- For information about how to create an NSX Data Center for vSphere logical switch, see [Add a Logical Switch](https://docs.vmware.com/en/VMware-NSX-Data-Center-for-vSphere/6.4/com.vmware.nsx.install.doc/GUID-DD31D6BC-2E56-4E91-B45F-FCA3E80FF786.html) in the NSX Data Center for vSphere documentation.
-- For information about how to create an NSX-T Data Center logical switch, see [Create a Logical Switch
-](https://docs.vmware.com/en/VMware-NSX-T-Data-Center/2.3/com.vmware.nsxt.admin.doc/GUID-23194F9A-416A-40EA-B9F7-346B391C3EF8.html) in the NSX-T Data Center documentation.
+You must create port groups or logical switches in the vSphere Client, NSX Manager, or NSX-T Manager before you deploy a VCH. If you use NSX Data Center for vSphere or NSX-T Data Center logical switches, these logical switches must be available in the vCenter Server instance on which you deploy the VCHs.
+
+You can use a mixture of port groups, NSX Data Center for vSphere logical switches, and NSX-T Data Center logical switches for the different VCH networks.
+
+### vSphere Port Groups <a id="portgroups"></a>
+
+For information about how to create vSphere Distributed Switches and port groups, and how to add hosts to the vSphere Distributed Switches, see the following topics in the vSphere documentation:
+
+- [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) 
+- [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html)
+
+### NSX Data Center for vSphere Logical Switches <a id="nsx"></a>
+
+You make NSX Data Center for vSphere logical switches available to vCenter Server by registering vCenter Server with NSX Manager. For information about how to regster vCenter Server with NSX Manager, prepare hosts and clusters, and how to create logical switches, see the following sections in the NSX Data Center for vSphere documentation: 
+
+- [NSX Data Center for vSphere Installation Guide](https://docs.vmware.com/en/VMware-NSX-Data-Center-for-vSphere/6.4/com.vmware.nsx.install.doc/GUID-D8578F6E-A40C-493A-9B43-877C2B75ED52.html)
+- [Add a Logical Switch](https://docs.vmware.com/en/VMware-NSX-Data-Center-for-vSphere/6.4/com.vmware.nsx.install.doc/GUID-DD31D6BC-2E56-4E91-B45F-FCA3E80FF786.html)
+
+### NSX-T Data Center Logical Switches <a id="nsxt"></a>
+
+You make NSX-T Data Center logical switches available to vCenter Server by adding the hosts or clusters that vCenter Server manages to the management plane in NSX-T Manager. For information about how to add hosts or clusters to the management plane and create NSX-T Data Center logical switches, see the following sections in the NSX-T Data Center documentation: 
+
+- [NSX-T Data Center Installation Guide](https://docs.vmware.com/en/VMware-NSX-T-Data-Center/2.3/com.vmware.nsxt.install.doc/GUID-3E0C4CEC-D593-4395-84C4-150CD6285963.html)
+- [Create a Logical Switch
+](https://docs.vmware.com/en/VMware-NSX-T-Data-Center/2.3/com.vmware.nsxt.admin.doc/GUID-23194F9A-416A-40EA-B9F7-346B391C3EF8.html) 
+
+**NOTE**: If you use NSX-T Data Center logical switches, it is not mandatory for T1 or T0 routers to be present. The bridge network  does not use layer 3, so does not require T1 and T0 routers. For container networks, if you need to access container VMs externally, you might need a T1 router to bridge overlay and underlay networks. If you only want to validate connections to container VMs via the container network, you do not require T1 and T0 routers.
+
+## VCH Networks <a id="vchnetworks"></a>
+
+You can direct traffic between containers, the VCH, the external Internet, and your vSphere environment to different networks. Some networks require a dedicated interface. Other networks can share an interface.
 
 **IMPORTANT**: 
 
 - If you configure a VCH to use different interfaces for each of the public, management, and client networks, these networks must all be accessible by the vSphere Integrated Containers appliance. 
-- All hosts in a cluster should be attached to the port groups or logical switches that you create for the VCH networks and for any mapped container networks.
+- All of the hosts in a cluster should be attached to the port groups or logical switches that you create for the VCH networks and for any mapped container networks.
 
 ### Bridge Networks <a id="bridge"></a>
 

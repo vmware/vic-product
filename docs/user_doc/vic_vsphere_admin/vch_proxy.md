@@ -23,7 +23,7 @@ The address of the HTTP proxy server through which the VCH accesses image regist
 
 #### Create VCH Wizard
 
-Enter the IP address or FQDN of an HTTP proxy in the **HTTP proxy** text box, for example `192.168.3.1`.
+Enter the IP address or FQDN of an HTTP proxy in the **HTTP proxy** text box, for example `192.168.3.1`. Optionally add a port number in the **Port** text box.
 
 #### vic-machine Option 
 
@@ -35,11 +35,11 @@ Specify the address of the proxy server in the `--http-proxy` option, as either 
 
 ### HTTPS Proxy <a id="https"></a>
 
-The address of the HTTPS proxy server through which the VCH accesses image registries when using HTTPS.
+The address of the HTTPS proxy server through which the VCH accesses image registries when using HTTPS. 
 
 #### Create VCH Wizard
 
-Enter the IP address or FQDN of an HTTPS proxy in the **HTTPS proxy** text box, for example `192.168.3.1`.
+Enter the IP address or FQDN of an HTTPS proxy in the **HTTPS proxy** text box, for example `192.168.3.1`. Optionally add a port number in the **Port** text box.
 
 #### vic-machine Option 
 
