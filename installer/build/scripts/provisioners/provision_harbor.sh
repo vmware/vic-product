@@ -69,13 +69,13 @@ chmod 600 /data/harbor/harbor.cfg
 chmod -R 600 /etc/vmware/harbor/common
 
 # Redirect vic_appliance_address:443 to Admiral UI, see vic-product/2216
-LOCATION_REDIRECT='return 302 https://$$host:8282$$request_uri'
-NGINX_CONF='/etc/vmware/harbor/common/templates/nginx/nginx.https.conf'
-sed -i '/location \/ {/,/}/s/proxy_pass http:\/\/portal\//return 302 https:\/\/$$host:8282$$request_uri/' ${NGINX_CONF}
-if ! grep -q "${LOCATION_REDIRECT}"  ${NGINX_CONF} ; then
-  echo "Failed to modify location / in ${NGINX_CONF}"
-  exit 1
-fi
+CONF_DIR='/etc/vmware/harbor/common/templates/nginx/ext'
+mkdir -p ${CONF_DIR}
+cat << EOF > ${CONF_DIR}/harbor.https.vic.conf
+location ~ /$ {
+  return 302 https://\$\$host:8282\$\$request_uri;
+}
+EOF
 
 # Write version files
 echo "harbor=${BUILD_HARBOR_FILE}" >> /data/version
