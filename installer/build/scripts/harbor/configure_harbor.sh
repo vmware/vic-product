@@ -140,4 +140,7 @@ iptables -w -A INPUT -j ACCEPT -p tcp --dport "${NOTARY_PORT}"
 # cleanup common/config directory in preparation for running the harbor "prepare" script
 rm -rf /etc/vmware/harbor/common/config
 
+# Change the default SYNC_REGISTRY to true
+sed -i 's/SYNC_REGISTRY=.*/SYNC_REGISTRY=true/g' ${conf_dir}/common/templates/core/env
+
 echo "Finished Harbor configuration"
