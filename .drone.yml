@@ -121,7 +121,7 @@ pipeline:
     privileged: true
     environment:
       TERM: xterm
-      HARBOR: https://storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.1-build.1025.tgz
+      HARBOR: https://storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.0-build.1018.tgz
     secrets:
       - admiral
       - build_admiral_release
@@ -265,7 +265,7 @@ pipeline:
       - tests/bundle_dev_builds.sh
     when:
       repo: vmware/vic-product
-      event: [push, tag]
+      event: [push, tag, pull_request]
       branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
@@ -322,7 +322,7 @@ pipeline:
     cache_control: 'public,max-age=3600'
     when:
       repo: vmware/vic-product
-      event: [push]
+      event: [push, pull_request]
       branch: [master]
       status: success
 
@@ -404,7 +404,7 @@ pipeline:
     cache_control: 'public,max-age=3600'
     when:
       repo: vmware/vic-product
-      event: [push, tag, deployment]
+      event: [push, tag, deployment, pull_request]
       branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: failure
 
