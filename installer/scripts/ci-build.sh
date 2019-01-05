@@ -44,7 +44,7 @@ if [[ ( "$DRONE_BUILD_EVENT" == "tag" && "$DRONE_TAG" != *"dev"* ) || "$DRONE_BR
   if [ -z "${ADMIRAL}" ]; then
     if [[ "$DRONE_BUILD_EVENT" == "tag" && "$DRONE_TAG" != *"dev"* ]]; then
       admiral_release=$(curl -s https://hub.docker.com/v2/repositories/vmware/admiral/tags/\?page\=1\&page_size\=250 | jq '.results[] | .name'| cut -d "\"" -f2 | grep '^vic_v' | head -n 1 | cut -d'_' -f2)
-      OPTIONS="--admiral $admiral_release"
+      OPTIONS="$OPTIONS --admiral $admiral_release"
     fi
   fi
   if [ -z "${HARBOR}" ]; then
