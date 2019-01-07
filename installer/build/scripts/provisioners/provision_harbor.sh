@@ -72,7 +72,7 @@ chmod -R 600 /etc/vmware/harbor/common
 CONF_DIR='/etc/vmware/harbor/common/templates/nginx/ext'
 mkdir -p ${CONF_DIR}
 cat << EOF > ${CONF_DIR}/harbor.https.vic.conf
-location ~ /$ {
+location ~ ^/$ {
   return 302 https://\$host:8282\$request_uri;
 }
 EOF
