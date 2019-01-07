@@ -9,6 +9,7 @@ When you run `vic-machine configure`, you use the options described in [Common `
 - [Add or Update Registry Server Certificates](#registries)
 - [Update Security Configuration](#tlscerts)
 - [Update Affinity Group Settings](#affinity)
+- [Set or Update Storage Quotas](#quota)
 - [Add Volume Stores](#volumes)
 - [Add and Reset DNS Servers](#dns)
 - [Configure Container Network Settings](#containernet)
@@ -176,6 +177,22 @@ To remove a VCH that was deployed with the `vic-machine create affinity-vm-group
     --affinity-vm-group=false</pre>
 
 When you specify `--affinity-vm-group=false`, vSphere Integrated Containers deletes the automatically created VM group from vSphere.
+
+## Set or Update Storage Quotas <a id="quota"></a>
+
+If you deployed a VCH with a storage quota, that limits the amount of space that a VCH can consume in the image store, you can modify the quota after deployment. You can also set a storage quota if you did not set one when you deployed the VCH. 
+
+The `vic-machine configure --storage-quota` option functions in the same way as the equivalent `vic-machine create` option. For information about the `vic-machine create --storage-quota` option, see [Storage Quota](image_store.md#quota) in Specify the Image Datastore.
+
+<pre>$ vic-machine-<i>operating_system</i> configure
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
+    --thumbprint <i>certificate_thumbprint</i>
+    --id <i>vch_id</i>
+    --storage-quota <i>new_limit</i></pre>
+    
+To remove an existing storage quota from a VCH, so that the VCH can consume an unlimited amount of storage, set `--storage-quota 0`.
 
 ## Add Volume Stores <a id="volumes"></a>
 
