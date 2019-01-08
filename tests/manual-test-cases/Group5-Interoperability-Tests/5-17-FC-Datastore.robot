@@ -19,23 +19,27 @@ Suite Setup  Nimbus Suite Setup  FC Datastore Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
 
+*** Variables ***
+${NIMBUS_LOCATION}  sc
+${NIMBUS_LOCATION_FULL}  NIMBUS_LOCATION=${NIMBUS_LOCATION}
+
 *** Keywords ***
 FC Datastore Setup
     [Timeout]    110 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
     Log To Console  Deploying test bed with FC datastore...
     ${name}=  Evaluate  'vic-fc-' + str(random.randint(1000,9999))  modules=random
-    ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  --plugin testng --customizeTestbed '/esx desiredPassword=e2eFunctionalTest' --noSupportBundles --vcvaBuild "${VC_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vcqa-sdrs-fc-fullInstall-vcva --runName vic-fc
-    Set Suite Variable  @{list}  %{NIMBUS_USER}-vic-fc.vcva-${VC_VERSION}  %{NIMBUS_USER}-vic-fc.esx.0  %{NIMBUS_USER}-vic-fc.esx.1  %{NIMBUS_USER}-vic-fc.fc.0
+    ${out}=  Deploy Nimbus Testbed  args=--plugin testng --customizeTestbed '/esx desiredPassword=e2eFunctionalTest' --noSupportBundles --vcvaBuild "${VC_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vcqa-sdrs-fc-fullInstall-vcva --runName vic-fc
+    Set Suite Variable  @{list}  %{NIMBUS_PERSONAL_USER}-vic-fc.vcva-${VC_VERSION}  %{NIMBUS_PERSONAL_USER}-vic-fc.esx.0  %{NIMBUS_PERSONAL_USER}-vic-fc.esx.1  %{NIMBUS_PERSONAL_USER}-vic-fc.fc.0
     Should Contain  ${out}  "deployment_result"=>"PASS"
 
-    ${out}=  Execute Command  nimbus-ctl ip %{NIMBUS_USER}-vic-fc.vcva-${VC_VERSION} | grep %{NIMBUS_USER}-vic-fc.vcva-${VC_VERSION}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-vic-fc.vcva-${VC_VERSION} | grep %{NIMBUS_PERSONAL_USER}-vic-fc.vcva-${VC_VERSION}
     ${vc-ip}=  Fetch From Right  ${out}  ${SPACE}
     
-    ${out}=  Execute Command  nimbus-ctl ip %{NIMBUS_USER}-vic-fc.esx.0 | grep %{NIMBUS_USER}-vic-fc.esx.0
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-vic-fc.esx.0 | grep %{NIMBUS_PERSONAL_USER}-vic-fc.esx.0
     ${esx0-ip}=  Fetch From Right  ${out}  ${SPACE}
     
-    ${out}=  Execute Command  nimbus-ctl ip %{NIMBUS_USER}-vic-fc.esx.1 | grep %{NIMBUS_USER}-vic-fc.esx.1
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-vic-fc.esx.1 | grep %{NIMBUS_PERSONAL_USER}-vic-fc.esx.1
     ${esx1-ip}=  Fetch From Right  ${out}  ${SPACE}
 
     Set Environment Variable  GOVC_INSECURE  1
