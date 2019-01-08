@@ -128,6 +128,7 @@ func main() {
 		log.Debug("Let docker listen on all ips")
 		dockerArgs = append(dockerArgs, "-H", fmt.Sprintf("tcp://0.0.0.0:%d", port))
 	}
+	dockerArgs = append(dockerArgs, "-H", "unix:///var/run/docker.sock")
 
 	// Append insecure registry configuration if present
 	if insecureRegistry != "" {

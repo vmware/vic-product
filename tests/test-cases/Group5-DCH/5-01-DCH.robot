@@ -106,3 +106,14 @@ Verify the certificate is not signed by nil when vic-ip is specified with FQDN
 
     [Teardown]  Cleanup VCH  ${vch-name}
 
+Verify local enabled scenario for dch-photon
+    ${vch-name}=  Install VCH  certs=${false}
+    ${rc}=  Run command and Return output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} run -d -p 12389:2376 ${harbor-image-tagged} -tls -local
+
+    # Verify 12389 could not be accessed with -local due to dockerd only monitors local unix socket
+    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12389 --tls ps
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  1
+    Should Contain  ${output}  Cannot connect to the Docker daemon at tcp://${VCH-IP}:12389
+
+    [Teardown]  Cleanup VCH  ${vch-name}
