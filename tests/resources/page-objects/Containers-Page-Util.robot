@@ -78,12 +78,16 @@ Provision And Verify New Container
     ${container-name}=  Get Random Container Name
     Click New Container Button
     Submit Provision New Container Details  ${image-name}  ${image-tag}  ${container-name}  ${command}
+    Capture Page Screenshot
     Verify Requests Right Context Panel
     Verify Container Provision Status Is Finished  ${container-name}
+    Capture Page Screenshot
     Reload Page
+    Capture Page Screenshot
     Select Containers Page Iframe
     Verify Containers Page
     Verify Container Card  ${container-name}  ${container-status}
+    Capture Page Screenshot
     [Return]  ${container-name}
 
 Get Random Container Name

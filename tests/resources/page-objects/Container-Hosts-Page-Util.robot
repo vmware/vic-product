@@ -67,7 +67,9 @@ Add New Container Host And Verify Card
     Navigate To Container Hosts Page
     Click New Host Button
     Add New Container Host  ${vch-name}  ${VCH-URL}
+    Capture Page Screenshot
     Verify VCH Card  ${vch-name}
+    Capture Page Screenshot
 
 Delete VCH Card
     [Arguments]  ${card-name}
