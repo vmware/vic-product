@@ -305,7 +305,7 @@ Setup Simple VC And Test Environment
     # setup nimbus testbed
     ${esx1}  ${esx2}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${vc-ip}=  Create a Simple VC Cluster  ha-datacenter  cls  2
     Log To Console  Finished Creating Cluster ${vc}
-    Set Suite Variable  @{list}  ${esx1}  ${esx2}  %{NIMBUS_USER}-${vc}
+    Set Suite Variable  @{list}  ${esx1}  ${esx2}  %{NIMBUS_PERSONAL_USER}-${vc}
     # set test variables
     Set Environment Variable  TEST_URL  ${vc-ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
