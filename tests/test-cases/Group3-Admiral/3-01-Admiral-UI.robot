@@ -39,6 +39,7 @@ Cleanup VCH And Teardown
 
 *** Test Cases ***
 Add VCH to default project and create a container
+    Sleep 3m
     Download VIC Engine If Not Already  %{OVA_IP}
     ${vch-name}=  Install VCH  certs=${false}
     Add New Container Host And Verify Card  ${vch-name}
