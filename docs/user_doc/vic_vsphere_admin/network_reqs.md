@@ -70,7 +70,7 @@ You make NSX Data Center for vSphere logical switches available to vCenter Serve
 
 ### NSX-T Data Center Logical Switches <a id="nsxt"></a>
 
-You make NSX-T Data Center logical switches available to vCenter Server by adding the hosts or clusters that vCenter Server manages to the management plane in NSX-T Manager. For information about how to add hosts or clusters to the management plane and create NSX-T Data Center logical switches, see the following sections in the NSX-T Data Center documentation: 
+You make NSX-T Data Center logical switches available to vCenter Server by adding the hosts or clusters that vCenter Server manages to the management plane in NSX-T Manager. NSX-T administrators can apply security groups and policies to these logical switches. For information about how to add hosts or clusters to the management plane and create NSX-T Data Center logical switches, see the following sections in the NSX-T Data Center documentation: 
 
 - [NSX-T Data Center Installation Guide](https://docs.vmware.com/en/VMware-NSX-T-Data-Center/2.3/com.vmware.nsxt.install.doc/GUID-3E0C4CEC-D593-4395-84C4-150CD6285963.html)
 - [Create a Logical Switch
