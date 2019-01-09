@@ -19,17 +19,17 @@ In Docker terminology, the VCH bridge network corresponds to the default bridge 
 
 ## Public Network <a id="public"></a>
 
-The network that container VMs and VCHs use to access the Internet. The VCH endpoint VM must be able to obtain an IP address on this interface. You can use the same vSphere port group, or NSX Datacenter for vSphere logical switch, or NSX-T Data Center logical switch as the public network for multiple VCHs. You cannot use the same interface for the public network as you use for the bridge network.
+The network that container VMs and VCHs use to access the Internet. The VCH endpoint VM must be able to obtain an IP address on this network. You can use the same vSphere port group, or NSX Datacenter for vSphere logical switch, or NSX-T Data Center logical switch as the public network for multiple VCHs. You cannot use the same network for the public network as you use for the bridge network.
 
-You can share the public network interface with the client and management networks. For information about VCH public networks, see [Configure the Public Network](public_network.md).
+You can share the public network with the client and management networks. For information about VCH public networks, see [Configure the Public Network](public_network.md).
 
 ## Client Network <a id="client"></a>
 
-You can isolate traffic between Docker clients and the VCH from traffic on the public network by specifying a dedicated interface for client connections. You can use the same interface as the client network for multiple VCHs. For information about VCH client networks, see [Configure the Client Network](client_network.md).
+You can isolate traffic between Docker clients and the VCH from traffic on the public network by specifying a dedicated network interface for client connections. You can use the same network as the client network for multiple VCHs. For information about VCH client networks, see [Configure the Client Network](client_network.md).
 
 ## Management Network <a id="mgmt"></a>
 
-You can also isolate the traffic between the VCH and vCenter Server and ESXi hosts from traffic on the public network by specifying a dedicated management network interface. You can use the same interface as the management network for multiple VCHs. For information about VCH management networks, see [Configure the Management Network](mgmt_network.md).
+You can also isolate the traffic between the VCH and vCenter Server and ESXi hosts from traffic on the public network by specifying a dedicated management network interface. You can use the same network as the management network for multiple VCHs. For information about VCH management networks, see [Configure the Management Network](mgmt_network.md).
 
 ## Container Networks <a id="container"></a>
 
@@ -41,7 +41,7 @@ For information about configuring VCHs to use proxy servers, see [Configure VCHs
 
 ## Host Firewall Configuration <a id="firewall"></a>
 
-When you specify different network interfaces for the different types of traffic, `vic-machine create` checks that the firewalls on the ESXi hosts allow connections to port 2377 from those networks. If access to port 2377 on one or more ESXi hosts is subject to IP address restrictions, and if those restrictions block access to the network interfaces that you specify, `vic-machine create` fails with a firewall configuration error:
+When you specify different networks for the different types of traffic, `vic-machine create` checks that the firewalls on the ESXi hosts allow connections to port 2377 from those networks. If access to port 2377 on one or more ESXi hosts is subject to IP address restrictions, and if those restrictions block access to the networks that you specify, `vic-machine create` fails with a firewall configuration error:
 <pre>Firewall configuration incorrect due to allowed IP restrictions on hosts: 
 "/ha-datacenter/host/localhost.localdomain/localhost.localdomain" 
 Firewall must permit dst 2377/tcp outbound to the VCH management interface

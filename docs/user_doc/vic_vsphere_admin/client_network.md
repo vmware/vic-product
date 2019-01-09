@@ -19,8 +19,8 @@ The sections in this topic each correspond to an entry in the Configure Networks
 
 An existing port group or logical switch on which the VCH makes the Docker API available to Docker clients. Docker clients use this network to issue Docker API requests to the VCH.
 
-- If you use a dedicated interface for the client network, the port group or logical switch must exist before you create the VCH. For information about how to create a port group or logical switch, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
-- You can use the same interface as the client network for multiple VCHs.
+- If you use a dedicated network for the client network, the port group or logical switch must exist before you create the VCH. For information about how to create a port group or logical switch, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
+- You can use the same network as the client network for multiple VCHs.
 
 If you do not specify this option, the VCH uses the public network for client traffic.
 
@@ -43,12 +43,12 @@ If you specify an invalid port group or logical switch name, `vic-machine create
 
 By default, vSphere Integrated Containers Engine uses DHCP to obtain an IP address for the VCH endpoint VM on the client network. You can  optionally configure a static IP address for the VCH endpoint VM on the client network.
 
-- You can only specify one static IP address on a given interface. If the client network shares an interface with the public network, you can only specify a static IP address on the public network. All of the networks that share that interface use the IP address that you specify for the public network.
+- You can only specify one static IP address on a given interface. If the client network shares a network with the public network, you can only specify a static IP address on the public network. All of the networks that share that network use the IP address that you specify for the public network.
 - If you set a static IP address for the VCH endpoint VM on the public network, you must specify the gateway address for the public network. If the client network is L2 adjacent to its gateway, you do not need to specify the corresponding gateway for the client network. 
-- If the client network shares an interface with the management network, and the public network does not use that interface, you can set a static IP address for the VCH endpoint VM on either of the client or management networks.
+- If the client network shares a network with the management network, and the public network does not use that network, you can set a static IP address for the VCH endpoint VM on either of the client or management networks.
 - If you assign a static IP address to the VCH endpoint VM on the client network, and you do not specify one of the TLS options, vSphere Integated Containers Engine uses this address as the Common Name with which to auto-generate trusted CA certificates. If you do not specify one of the TLS options, two-way TLS authentication with trusted certificates is implemented by default when you deploy the VCH with a static IP address on the client network. If you assign a static IP address to the VCH endpoint VM on the client network, vSphere Integated Containers Engine creates the same certificate and environment variable files as described in the [`--tls-cname` option](vch_cert_options.md#tls-cname).
  
-    **IMPORTANT**: If the client network shares an interface with the public network you cannot set a static IP address for the endpoint VM on the client network. To assign a static IP address to the VCH endpoint VM you must set a static IP address on the public network. In this case, vSphere Integated Containers Engine uses the public network IP address as the Common Name with which to auto-generate trusted CA certificates, in the same way as it would if you had set a static IP on the client network.
+    **IMPORTANT**: If the client network shares a network with the public network you cannot set a static IP address for the endpoint VM on the client network. To assign a static IP address to the VCH endpoint VM you must set a static IP address on the public network. In this case, vSphere Integated Containers Engine uses the public network IP address as the Common Name with which to auto-generate trusted CA certificates, in the same way as it would if you had set a static IP on the client network.
 
 You specify the address as an IPv4 address with a network mask.
 
@@ -113,7 +113,7 @@ If you are using the Create Virtual Container Host wizard, the bridge network an
 
 This example `vic-machine create` command deploys a VCH with the following networking configuration:
 
-- Directs public traffic to an interface named `vic-public` and Docker API traffic to `vic-client`.
+- Directs public traffic to a network named `vic-public` and Docker API traffic to `vic-client`.
 - Sets two DNS servers for use by the public, management, and client networks.
 - Sets a static IP address for the VCH endpoint VM on each of the public and client networks.
 - Specifies the gateway for the public network.

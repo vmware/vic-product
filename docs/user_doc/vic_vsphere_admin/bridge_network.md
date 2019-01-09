@@ -27,9 +27,9 @@ Before you deploy a VCH, you must create a VMware vSphere Distributed Switch and
 
 **IMPORTANT** 
 
-- You must create a dedicated vSphere port group, or an NSX Datacenter for vSphere logical switch, or an NSX-T Data Center logical switch for the bridge network for every VCH. Do not specify the same interface as the bridge network for multiple VCHs. Sharing an interface between VCHs might result in multiple container VMs being assigned the same IP address. 
-- Do not use the bridge network interface as the target for any of the other VCH networking options.
-- Do not use the bridge network interface for any other VM workloads.
+- You must create a dedicated vSphere port group, or an NSX Datacenter for vSphere logical switch, or an NSX-T Data Center logical switch for the bridge network for every VCH. Do not specify the same port group or logical switch as the bridge network for multiple VCHs. Sharing a bridge network between VCHs might result in multiple container VMs being assigned the same IP address. 
+- Do not use the bridge network for any of the other VCH networking options.
+- Do not use the bridge network for any other VM workloads.
 
 #### Create VCH Wizard
 
@@ -47,7 +47,7 @@ The `--bridge-network` option is **optional** if you are deploying a VCH to an E
 
 <pre>--bridge-network <i>port_group_or_logical_switch_name</i></pre>
 
-If you do not specify `--bridge-network` or if you specify an invalid port group or logical switch name, `vic-machine create` fails and suggests valid port groups or or logical switches. 
+If you do not specify `--bridge-network` or if you specify an invalid port group or logical switch name, `vic-machine create` fails and suggests valid port groups or logical switches. 
 
 ### Bridge Network Range <a id="bridge-range"></a>
 
@@ -75,7 +75,7 @@ If you are using the Create Virtual Container Host wizard, stay on the Configure
 
 ## Example `vic-machine` Command <a id="example"></a>
 
-This example `vic-machine create` command deploys a VCH that designates an existing interface named `vch1-bridge` as the bridge network. It specifies IP addresses in the range 192.168.100.0/16 for use by user-defined bridge networks.
+This example `vic-machine create` command deploys a VCH that designates an existing network named `vch1-bridge` as the bridge network. It specifies IP addresses in the range 192.168.100.0/16 for use by user-defined bridge networks.
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1

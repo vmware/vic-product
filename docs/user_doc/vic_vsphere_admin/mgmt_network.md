@@ -22,14 +22,14 @@ An existing port group or logical switch that the VCH uses to communicate with v
 
 **IMPORTANT**: 
 
-- If you use a dedicated interface for the management network, the port group or logical switch must exist before you create the VCH.
+- If you use a dedicated network for the management network, the port group or logical switch must exist before you create the VCH.
 - Because the management network provides access to your vSphere environment, and because container VMs use this network to communicate with the VCH, always use a secure network for the management network.
 - Container VMs communicate with the VCH endpoint VM over the management network when an interactive shell is required. While the communication is encrypted, the public keys are not validated, which leaves scope for man-in-the-middle attacks. This connection is only used when the interactive console is enabled (`stdin`/`out`/`err`), and not for any other purpose. 
 - Ideally, use separate networks for the management network and container networks. 
-- You can use the same interface as the management network for multiple VCHs.
+- You can use the same network as the management network for multiple VCHs.
 - The most secure setup is to make sure that VCHs can access vCenter Server and ESXi hosts directly over the management network, and that the management network has route entries for the subnets that contain both the target vCenter Server and the corresponding ESXi hosts. If the management network does not have route entries for the vCenter Server and ESXi host subnets, you must configure asymmetric routing. For more information about asymmetric routing, see [Asymmetric Routes](#asymmetric-routes). 
 
-When you create a VCH, `vic-machine create` checks that the firewall on ESXi hosts allows connections to port 2377 from the management network of the VCH. If access to port 2377 on ESXi hosts is subject to IP address restrictions, and if those restrictions block access to the management network interface, `vic-machine create` fails with a firewall configuration error:
+When you create a VCH, `vic-machine create` checks that the firewall on ESXi hosts allows connections to port 2377 from the management network of the VCH. If access to port 2377 on ESXi hosts is subject to IP address restrictions, and if those restrictions block access to the management network, `vic-machine create` fails with a firewall configuration error:
 <pre>Firewall configuration incorrect due to allowed IP restrictions on hosts: 
 "/ha-datacenter/host/localhost.localdomain/localhost.localdomain" 
 Firewall must permit dst 2377/tcp outbound to the VCH management interface
@@ -65,9 +65,9 @@ You designate a specific network for traffic between the VCH and vSphere resourc
 
 By default, vSphere Integrated Containers Engine uses DHCP to obtain an IP address for the VCH endpoint VM on the management network. You can  optionally configure a static IP address for the VCH endpoint VM on the management network.
 
-- You can only specify one static IP address on a given interface. If the management network shares an interface with the public network, you can only specify a static IP address on the public network. All of the networks that share that interface use the IP address that you specify for the public network. 
+- You can only specify one static IP address on a given interface. If the management network shares a network with the public network, you can only specify a static IP address on the public network. All of the networks that share that network use the IP address that you specify for the public network. 
 - If you set a static IP address for the VCH endpoint VM on the public network, you must specify the gateway address for the public network. If the management network is L2 adjacent to its gateway, you do not need to specify the corresponding gateway for the management network.
-- If the client and management networks both use the same interface, and the public network does not use that interface, you can set a static IP address for the endpoint VM on either or both of the client and management networks.
+- If the client and management networks both use the same network, and the public network does not use that network, you can set a static IP address for the endpoint VM on either or both of the client and management networks.
 
 You specify the address as an IPv4 address with a network mask. 
 
@@ -129,7 +129,7 @@ This example informs the VCH that it can reach all of the vSphere management end
 
 You can route incoming connections from ESXi hosts to VCHs over the public network rather than over the management network by configuring asymmetric routes. 
 
-This option allows containers on bridge networks to indirectly access assets on the management or client networks via the public interface, if those assets are routable from the public network. If the management network does not have route entries for the vCenter Server and ESXi host subnets, and you do not set `--asymmetric-routes`, containers that run without specifying `-d` remain in the starting state.
+This option allows containers on bridge networks to indirectly access assets on the management or client networks via the public network, if those assets are routable from the public network. If the management network does not have route entries for the vCenter Server and ESXi host subnets, and you do not set `--asymmetric-routes`, containers that run without specifying `-d` remain in the starting state.
 
 In this scenario, use the `--asymmetric-routes` option to allow management traffic from ESXi hosts to the VCH to pass over the public network. By setting the `--asymmetric-routes` option, you set reverse path forwarding in the VCH endpoint VM to loose mode rather than the default strict mode. For information about reverse path forwarding and loose mode, see https://en.wikipedia.org/wiki/Reverse_path_forwarding.
 
@@ -159,7 +159,7 @@ If you are using the Create Virtual Container Host wizard, the bridge network an
 
 This example `vic-machine create` command deploys a VCH with the following configuration:
 
-- Directs public, client, and management traffic to interfaces `vic-public`, `vic-client`, and `vic-management` respectively.
+- Directs public, client, and management traffic to the networks `vic-public`, `vic-client`, and `vic-management` respectively.
 - Sets two DNS servers for use by the public, management, and client networks.
 - Sets a static IP address and subnet mask for the VCH endpoint VM on the public, client, and management networks. 
 - Specifies the gateway for the public network.

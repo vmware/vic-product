@@ -42,7 +42,7 @@ VCHs connect to multiple different networks, as shown in the image below.
 
 ![VCH Networking](graphics/vic_networking.png)
 
-Each VCH requires an IPv4 address on each of the network interfaces that it is connected to. The bridge network is handled internally, but other interfaces must have a static IP configured on them, or be able to acquire one via DHCP. 
+Each VCH requires an IPv4 address on each of the networks that it is connected to. The bridge network is handled internally, but other networks must have a static IP configured on them, or be able to acquire one via DHCP. 
 
 Network interfaces for VCHs can be of the following types:
 
@@ -76,20 +76,20 @@ You make NSX-T Data Center logical switches available to vCenter Server by addin
 - [Create a Logical Switch
 ](https://docs.vmware.com/en/VMware-NSX-T-Data-Center/2.3/com.vmware.nsxt.admin.doc/GUID-23194F9A-416A-40EA-B9F7-346B391C3EF8.html) 
 
-**NOTE**: If you use NSX-T Data Center logical switches, it is not mandatory for T1 or T0 routers to be present. The bridge network  does not use layer 3, so does not require T1 and T0 routers. For container networks, if you need to access container VMs externally, you might need a T1 router to bridge overlay and underlay networks. If you only want to validate connections to container VMs via the container network, you do not require T1 and T0 routers.
+**NOTE**: If you use NSX-T Data Center logical switches, it is not mandatory for T1 or T0 routers to be present. The bridge network  does not use layer 3, so does not require T1 and T0 routers. For container networks, you might need a T1 router to bridge overlay and underlay networks.
 
 ## VCH Networks <a id="vchnetworks"></a>
 
-You can direct traffic between containers, the VCH, the external Internet, and your vSphere environment to different networks. Some networks require a dedicated interface. Other networks can share an interface.
+You can direct traffic between containers, the VCH, the external Internet, and your vSphere environment to different networks. Some networks require a dedicated network interface. Other networks can share a network interface.
 
 **IMPORTANT**: 
 
-- If you configure a VCH to use different interfaces for each of the public, management, and client networks, these networks must all be accessible by the vSphere Integrated Containers appliance. 
+- If you configure a VCH to use different networks for each of the public, management, and client networks, these networks must all be accessible by the vSphere Integrated Containers appliance. 
 - All of the hosts in a cluster should be attached to the port groups or logical switches that you create for the VCH networks and for any mapped container networks.
 
 ### Bridge Networks <a id="bridge"></a>
 
-Each VCH requires a unique interface for use as the bridge network. You cannot share this interface between multiple VCHs. When deploying VCHs directly to ESXi Server hosts, by default `vic-machine` creates a port group for the bridge network. When deploying VCHs to vCenter Server, you must create an interface for use as the bridge network before you deploy the VCH.
+Each VCH requires a unique network interface for use as the bridge network. You cannot share this network between multiple VCHs. When deploying VCHs directly to ESXi Server hosts, by default `vic-machine` creates a port group for the bridge network. When deploying VCHs to vCenter Server, you must create a network interface for use as the bridge network before you deploy the VCH.
  
 If you use standard networks, create a VMware vSphere Distributed Switch, and create a dedicated port group for use as the bridge network for each VCH. You can create multiple port groups on the same switch, but each VCH requires its own unique port group for the bridge network. 
 
@@ -99,18 +99,18 @@ For information about bridge networks, see [Configure Bridge Networks](bridge_ne
 
 ### Public Network <a id="public"></a>
 
-Each VCH requires access to at least one network interface for use as the public network. The public network is the network over which VCHs connect to the Internet, so it must have external Internet access. You can share this interface between multiple VCHs. The public network does not need to be trusted.
+Each VCH requires access to at least one network interface for use as the public network. The public network is the network over which VCHs connect to the Internet, so it must have external Internet access. You can share this network between multiple VCHs. The public network does not need to be trusted.
 
-Create either a standard vSphere port group or an NSX Datacenter for vSphere or NSX-T Data Center logical switch for use as the VCH public network. The VCH endpoint VM must be able to obtain an IP address on this interface. You can use the same interface as the public network for multiple VCHs. You cannot use the same interface for the public network as you use for the bridge network.
+Create either a standard vSphere port group or an NSX Datacenter for vSphere or NSX-T Data Center logical switch for use as the VCH public network. The VCH endpoint VM must be able to obtain an IP address on this network. You can use the same network as the public network for multiple VCHs. You cannot use the same network for the public network as you use for the bridge network.
 
-- If you use the Create Virtual Container Host wizard to create VCHs, it is **mandatory** to use a dedicated interface for the public network.
-- If you use `vic-machine` to deploy VCHs, by default the VCH uses the VM Network, if present, for the public network. If the VM Network is present, it is therefore not mandatory to use a dedicated interface for the public network, but it is strongly recommended. Using the default VM Network for the public network instead of a dedicated interface prevents vSphere vMotion from moving the VCH endpoint VM between hosts in a cluster. If the VM Network is not present, you must create an interface for the public network.
+- If you use the Create Virtual Container Host wizard to create VCHs, it is **mandatory** to use a dedicated network interface for the public network.
+- If you use `vic-machine` to deploy VCHs, by default the VCH uses the VM Network, if present, for the public network. If the VM Network is present, it is therefore not mandatory to use a dedicated network interface for the public network, but it is strongly recommended. Using the default VM Network for the public network instead of a dedicated network interface prevents vSphere vMotion from moving the VCH endpoint VM between hosts in a cluster. If the VM Network is not present, you must create a network interface for the public network.
   
-You can share the public network interface with the client and management networks. For information about VCH public networks, see [Configure the Public Network](public_network.md).
+You can share the public network with the client and management networks. For information about VCH public networks, see [Configure the Public Network](public_network.md).
 
 ### Client and Management Networks <a id="client-mgmt"></a>
 
-Optionally create either a standard vSphere port group or an NSX Datacenter for vSphere or NSX-T Data Center logical switch for each of the management and client networks. You can use the same interface as the management and client network for multiple VCHs. Use a trusted network for the management network. Connections between Docker clients and the VCH are encrypted via TLS unless you explicitly disable TLS. The client network does not need to be trusted.
+Optionally create either a standard vSphere port group or an NSX Datacenter for vSphere or NSX-T Data Center logical switch for each of the management and client networks. You can use the same network as the management and client network for multiple VCHs. Use a trusted network for the management network. Connections between Docker clients and the VCH are encrypted via TLS unless you explicitly disable TLS. The client network does not need to be trusted.
 
 For information about VCH client and management networks, see [Configure the Client Network](client_network.md) and [Configure the Management Network](mgmt_network.md).
 
