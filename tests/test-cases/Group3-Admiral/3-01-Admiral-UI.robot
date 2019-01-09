@@ -27,6 +27,7 @@ ${cp-card-status-stopped}  STOPPED
 
 *** Keywords ***
 Setup Base State
+    Sleep  3 minutes
     Open Firefox Browser
     Navigate To VIC UI Home Page
     Login On Single Sign-On Page
