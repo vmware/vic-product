@@ -40,7 +40,7 @@ if [ "${DRONE_BUILD_NUMBER}" -eq 0 ]; then
 else
     # run pabot cmd on CI
     echo "Running integration tests on CI..."
-    pabot --verbose --processes 3 -d robot-logs --output original.xml $run_options tests/test-cases
+    pabot --verbose --processes 1 -d robot-logs --output original.xml $run_options tests/test-cases
     # do not try re-run if all the tests were passed
     if [ $? -eq 0 ]; then
         echo "All tests passed on first try, no re-run required"
@@ -48,6 +48,6 @@ else
     fi
 
     # re-run only failed tests and merge results
-    pabot --verbose --processes 3 -d robot-logs --rerunfailed robot-logs/original.xml --output rerun.xml $run_options tests/test-cases
-    rebot -d robot-logs --merge robot-logs/original.xml robot-logs/rerun.xml
+    #pabot --verbose --processes 3 -d robot-logs --rerunfailed robot-logs/original.xml --output rerun.xml $run_options tests/test-cases
+    #rebot -d robot-logs --merge robot-logs/original.xml robot-logs/rerun.xml
 fi
