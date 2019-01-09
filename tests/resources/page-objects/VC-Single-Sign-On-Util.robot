@@ -33,7 +33,9 @@ Navigate To VC UI Home Page
 Login On Single Sign-On Page
     [Tags]  secret
     Log To Console  Login into single sign-on...
+    Capture Page Screenshot
     Wait Until Element Is Visible  ${vcsso-image-title}  timeout=${EXPLICIT_WAIT_FOR_VCSSO_PAGE}
+    Capture Page Screenshot
     Input Text  ${vcsso-username}  %{TEST_USERNAME}
     Input Text  ${vcsso-password}  %{TEST_PASSWORD}
     Click Button  ${vcsso-button-login}
