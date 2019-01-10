@@ -33,7 +33,7 @@ The host, cluster, or resource pool in which to deploy the VCH.
 
 #### Deploying VCHs to Clusters With and Without DRS
 
-When deploying VCHs to a cluster, you cannot deploy a VCH to a specific host in the cluster. You deploy the VCH to the cluster. The placement of the VCH, and its associated container VMs, is determined according to whether a given host is appropriate for powering on container VMs. 
+When deploying VCHs to a cluster, you cannot deploy a VCH to a specific host in the cluster. You deploy the VCH to the cluster. The placement of the VCH, and its associated container VMs, is determined according to whether a given host is appropriate for powering on container VMs. You can also limit the hosts in a cluster on which VCHs are deployed by using [VM-Host affinity rules](#hostaffinity).
 
 - If VMware vSphere Distributed Resource Scheduler (DRS) is enabled on that cluster, DRS manages the placement of the VCH and container VMs on hosts. 
 - If DRS is not enabled, the cluster selects a host and vSphere Integrated Containers checks whether the selected host is appropriate for the powering on of container VMs.  
