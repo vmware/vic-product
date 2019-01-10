@@ -3,6 +3,7 @@
 The following sections present examples of how to perform container networking operations when using vSphere Integrated Containers Engine as your Docker endpoint.
 
 - [Publish a Container Port](#port)
+- [Container VM Port Forwarding](#portforwarding)
 - [Add Containers to a New Bridge Network](#newbridge)
 - [Bridged Containers with an Exposed Port](#bridgeport)
 - [Deploy Containers on Multiple Bridge Networks](#multibridge)
@@ -19,11 +20,19 @@ To perform certain networking operations on containers, your Docker environment 
 
 ## Publish a Container Port <a id="port"></a>
 
-Connect a container to an external mapped port on the public network of the VCH:
+Connect a container VM to an external mapped port on the public network of the VCH:
 
 `$ docker run -p 8080:80 --name test1 my_container my_app`
 
 **Result:**  You can access Port 80 on `test1` from the public network interface on the VCH at port 8080.
+
+## Container VM Port Forwarding <a id="portforwarding"></a>
+
+You can forward a port within a container VM, in the same way you can via NAT on the endpoint VM:
+
+`$ docker run --net=published-container-net -p 80:8080 -d tomcat:alpine`
+
+The above example allows you to access the Tomcat webserver via port 80 on the container VM, via `published-container-net`, instead of being fixed to port 8080 as defined in the Tomcat Dockerfile. This makes it significantly simpler for you to expose services directly via container networks, without having to modify images.
 
 ## Add Containers to a New Bridge Network <a id="newbridge"></a>
 
