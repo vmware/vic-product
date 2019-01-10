@@ -18,7 +18,7 @@ Running `docker network ls` lists the container networks, and container develope
 **IMPORTANT**: 
 
 - For information about VCH networking requirements, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
-- If you use NSX-T Data Center logical switches, you might need a T1 router to bridge overlay and underlay networks.
+- If you use NSX-T Data Center logical switches, you might need a T1 router, for example to bridge overlay and underlay networks.
 
 ## Advantages of Container Networks<a id="advantages"></a>
 

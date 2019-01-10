@@ -76,7 +76,7 @@ You make NSX-T Data Center logical switches available to vCenter Server by addin
 - [Create a Logical Switch
 ](https://docs.vmware.com/en/VMware-NSX-T-Data-Center/2.3/com.vmware.nsxt.admin.doc/GUID-23194F9A-416A-40EA-B9F7-346B391C3EF8.html) 
 
-**NOTE**: If you use NSX-T Data Center logical switches, it is not mandatory for T1 or T0 routers to be present. The bridge network  does not use layer 3, so does not require T1 and T0 routers. For container networks, you might need a T1 router to bridge overlay and underlay networks.
+**NOTE**: If you use NSX-T Data Center logical switches, it is not mandatory for T1 or T0 routers to be present. The bridge network  does not use layer 3, so does not require T1 and T0 routers. For container networks, you might need a T1 router, for example to bridge overlay and underlay networks.
 
 ## VCH Networks <a id="vchnetworks"></a>
 
