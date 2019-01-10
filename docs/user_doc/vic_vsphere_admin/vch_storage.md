@@ -22,4 +22,4 @@ The storage that you select for use as image and volume stores for VCHs must mee
     - If you specify different datastores in the different datastore options, and if only one host in a cluster can access all of them, VCH deployment succeeds with a warning.<pre>Only one host can access all of the image/container/volume datastores. This may be a point of contention/performance degradation and HA/DRS may not work as intended.</pre>
   
 - VCHs do not support datastore name changes. If a datastore changes name after you have deployed a VCH that uses that datastore, that VCH will no longer function.
-- It is not possible to reconfigure a VCH to use a different image store after deployment. To change an image store, you must create a new VCH with that uses the new image store, pull any required images into that store, and re-deploy containers on the new VCH.
+- It is not possible to reconfigure a VCH to use a different image store after deployment. To change an image store, you must create a new VCH that uses the new image store, pull any required images into that store, and redeploy containers on the new VCH.
