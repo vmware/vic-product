@@ -53,7 +53,7 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
     **IMPORTANT**: Do not select **Power Off**.
 3. Go to the **Storage** view of the vSphere Client and navigate to the datastore and datastore folder that contain the VM files for the old version of the appliance.
 2. Use ctrl-click to select the following VMDK disk files from the old version of the appliance.
-2. 
+
     <table>
     <tr>
     <td><b>File to Select</b></td>
@@ -132,6 +132,7 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
     If vCenter Server is managed by an embedded Platform Services Controller, press Enter at each prompt without entering anything.
 
 5. Enter **y** if the vCenter Server certificate thumbprint is legitimate.
+5. Enter the root password of the new version of the appliance.
 6. To automatically upgrade the vSphere Integrated Containers plug-in for vSphere Client, enter `y` at the prompt to `Upgrade VIC UI Plugin`.
 
     **NOTE**: If you enter `n` to skip the plug-in upgrade, for example because you have multiple appliances of a different version, you can upgrade the plug-in later. You can see version information about the plug-in and the appliance in the Summary tab of the vSphere Integrated Containers plug-in.
