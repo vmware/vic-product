@@ -27,10 +27,8 @@ When you deploy a VCH `vic-machine` creates the following set of folders in the 
 - A key-value store folder for the VCH:<pre><i>datastore_name</i>/<i>vch_name</i>/kvstores</pre>
 - A folder in which to store all of the container images that you pull into the VCH.
 
-    - If you designate the whole datastore as the image store, images are stored in the following location:<pre><i>datastore_name</i>/VIC/<i>vch_uuid</i>/images</pre>
-    - If you designate a datastore folder as the image store, images are stored in the following location:<pre><i>datastore_name</i>/<i>path_to_folder</i>/VIC/<i>vcu_uuid</i>/images</pre>
-
-By specifying a datastore folder, you can designate the same datastore folder as the image store for multiple VCHs. Only one `VIC` folder is created in the datastore, but it contains one <code><i>vch_uuid</i>/images</code> folder for each VCH that you deploy. By creating one <code><i>vch_uuid</i>/images</code> folder for each VCH, vSphere Integrated Containers Engine limits the potential for conflicts of image use between VCHs, even if you share the same image store folder between multiple hosts.
+    - If you designate the whole datastore as the image store, images are stored in the following location:<pre><i>datastore_name</i>/<i>vch_name</i>/VIC/<i>vch_uuid</i>/images</pre>
+    - If you designate a datastore folder as the image store, images are stored in the following location:<pre><i>datastore_name</i>/<i>path_to_folder</i>/<i>vch_name</i>/VIC/<i>vcu_uuid</i>/images</pre>
 
 When container developers create and run containers, vSphere Integrated Containers Engine stores the files for container VMs at the top level of the image store, in folders that have the same names as the container VMs.
 
