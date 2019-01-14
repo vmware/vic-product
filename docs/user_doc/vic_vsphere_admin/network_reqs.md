@@ -63,16 +63,16 @@ For information about how to create vSphere Distributed Switches and port groups
 
 ### NSX Data Center for vSphere Logical Switches <a id="nsx"></a>
 
-You make NSX Data Center for vSphere logical switches available to vCenter Server by registering vCenter Server with NSX Manager. You can only use NSX Data Center for vSphere logical switches when deploying VCHs to vCenter Server. You cannot use logical switches when deploying VCHs directly to ESXi hosts.
+You make NSX Data Center for vSphere logical switches available to vCenter Server by registering vCenter Server with NSX Manager.
 
-For information about how to regster vCenter Server with NSX Manager, prepare hosts and clusters, and how to create logical switches, see the following sections in the NSX Data Center for vSphere documentation: 
+For information about how to regster vCenter Server or ESXi hosts with NSX Manager, prepare hosts and clusters, and how to create logical switches, see the following sections in the NSX Data Center for vSphere documentation: 
 
 - [NSX Data Center for vSphere Installation Guide](https://docs.vmware.com/en/VMware-NSX-Data-Center-for-vSphere/6.4/com.vmware.nsx.install.doc/GUID-D8578F6E-A40C-493A-9B43-877C2B75ED52.html)
 - [Add a Logical Switch](https://docs.vmware.com/en/VMware-NSX-Data-Center-for-vSphere/6.4/com.vmware.nsx.install.doc/GUID-DD31D6BC-2E56-4E91-B45F-FCA3E80FF786.html)
 
 ### NSX-T Data Center Logical Switches <a id="nsxt"></a>
 
-You make NSX-T Data Center logical switches available to vCenter Server by adding the hosts or clusters that vCenter Server manages to the management plane in NSX-T Manager. NSX-T administrators can apply security groups and policies to these logical switches. You can only use NSX-T Data Center logical switches when deploying VCHs to vCenter Server. You cannot use logical switches when deploying VCHs directly to ESXi hosts.
+You make NSX-T Data Center logical switches available to vCenter Server by adding the hosts or clusters that vCenter Server manages to the management plane in NSX-T Manager. NSX-T administrators can apply security groups and policies to these logical switches.
 
 For information about how to add hosts or clusters to the management plane and create NSX-T Data Center logical switches, see the following sections in the NSX-T Data Center documentation: 
 

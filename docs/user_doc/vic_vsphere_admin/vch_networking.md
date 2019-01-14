@@ -9,7 +9,7 @@ You must configure networks on a virtual container host (VCH) that tie your Dock
 - [Container Networks](#container) 
 - [Host Firewall Configuration](#firewall)
 
-You can direct traffic between containers, the VCH, the external Internet, and your vSphere environment to different networks. VCH network interfaces can be either standard vSphere port groups, NSX Data Center for vSphere logical switches, or NSX-T Data Center logical switches. You can only use NSX Data Center for vSphere and NSX-T Data Center logical switches when deploying VCHs to vCenter Server. You cannot use logical switches when deploying VCHs directly to ESXi hosts. 
+You can direct traffic between containers, the VCH, the external Internet, and your vSphere environment to different networks. VCH network interfaces can be either standard vSphere port groups, NSX Data Center for vSphere logical switches, or NSX-T Data Center logical switches. 
 
 **IMPORTANT**: For information about VCH networking requirements, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
 
