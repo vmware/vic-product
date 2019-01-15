@@ -28,11 +28,13 @@ Connect a container VM to an external mapped port on the public network of the V
 
 ## Container VM Port Forwarding <a id="portforwarding"></a>
 
-You can forward a port within a container VM, in the same way you can via NAT on the endpoint VM:
+When a container VM is connected to a container-network as the primary network, you can forward a port on the container VM, in the same way you can via NAT on the endpoint VM:
 
 `$ docker run --net=published-container-net -p 80:8080 -d tomcat:alpine`
 
 The above example allows you to access the Tomcat webserver via port 80 on the container VM, via `published-container-net`, instead of being fixed to port 8080 as defined in the Tomcat Dockerfile. This makes it significantly simpler for you to expose services directly via container networks, without having to modify images.
+
+For an example of port forwarding when a container VM is connected to both the bridge network and a container network, see [Deploy Containers That Combine Bridge Networks with a Container Network](#containerbridge).
 
 ## Add Containers to a New Bridge Network <a id="newbridge"></a>
 
@@ -163,7 +165,21 @@ Create and run the web container(s) and make sure one is on both networks. In th
 - `db` and `web-model` cannot communicate externally
 - `web-view` has its own external IP address and its service is available on port 80 of that IP address
 
-**Note**: Given that a container network manifests as a vNIC on the container VM, it has its own distinct network interface in the container.
+**NOTE**: Given that a container network manifests as a vNIC on the container VM, it has its own distinct network interface in the container.
+
+If you implement port forwarding when a container VM is connected to both the bridge network and a container network, the port mapping applies to the network that you use on the `create` command. It does not apply to networks that are connected after creation.
+
+The following example example shows mapping in the container VM and serving to the container network:
+```
+$ docker create -p 80:8080 --net=public tomcat:alpine
+50ca681655326775da27462ee062f3a74c4157ff04470fcfda9b176470270d6a
+$ docker network connect bridge 50
+$ docker start 50
+50
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                         NAMES
+50ca68165532        tomcat:alpine       "catalina.sh run"   7 minutes ago       Up 5 minutes        192.168.78.159:80->8080/tcp   priceless_tesla
+```
 
 ## Deploy a Container with a Static IP Address <a id="staticip"></a>
 
