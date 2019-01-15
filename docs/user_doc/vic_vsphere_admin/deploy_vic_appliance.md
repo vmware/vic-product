@@ -71,11 +71,15 @@ If you need to deploy multiple appliances, you can use the initialization API to
     root_CA_certificate_contents
     -----END CERTIFICATE-----</pre>
 5. In the **Appliance Configuration Port** text box, optionally change the port on which to publish the vSphere Integrated Containers Getting Started page.
-5. Expand **Networking Properties** and optionally configure a static IP address and fully qualified domain name (FQDN) for the appliance VM. 
-
-    To use DHCP, leave the networking properties blank. If you specify an FQDN, the appliance uses this FQDN to register with the Platform Services Controller and runs the Registry, Management Portal, and file server services at that FQDN.
-
-    **IMPORTANT**: If you set a static IP address for the appliance, use spaces to separate DNS servers. Do not use comma separation for DNS servers. 
+5. Expand **Networking Properties** and optionally configure the networking for the appliance VM.  
+    
+    - To set a static IP address on the appliance, set the **Network IP Address**, **Network Netmask**, and **Default Gateway** settings. To use DHCP, leave these properties blank.
+    - To configure DNS servers, set the **Domain Name Servers**, and **Domain Search Path** settings. To use DHCP, leave these properties blank.
+    
+      **IMPORTANT**: Use spaces to separate DNS servers. Do not use comma separation for DNS servers.
+    - To specify a fully qualified domain name (FQDN) for the appliance, set the **FQDN** setting. The appliance uses the FQDN to register with the Platform Services Controller and runs the Registry, Management Portal, and file server services at that FQDN. To use DHCP, leave this property blank. 
+    - To specify one or more network time protocol (NTP) servers, set the **NTP Servers** setting. To use an NTP server provided by DHCP, leave this property blank. 
+    - To configure the appliance to use proxies, and to identify hosts or domains that do not use proxies, set the **HTTP Proxy URL**, **HTTPS Proxy URL**, and **No Proxy List** settings.
 
 6. Expand **Registry Configuration** to configure the deployment of vSphere Integrated Containers Registry. 
 

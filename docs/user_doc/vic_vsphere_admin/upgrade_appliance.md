@@ -52,8 +52,9 @@ For information about the supported upgrade paths for all versions of vSphere In
     The script requires these credentials to access the disk files of the old appliance, and to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.
 4. If vCenter Server is managed by an external Platform Services Controller, enter the IP address or FQDN and the administrator domain of the Platform Services Controller.
 
-    If vCenter Server is managed by an embedded Platform Services Controller, press Enter at each prompt without entering anything.
+    If vCenter Server is managed by an embedded Platform Services Controller, press Enter at both prompts without entering anything.
 6. Enter `y` if the vCenter Server certificate thumbprint is legitimate.
+6. Enter the root password of the new version of the appliance.
 7. Provide information about the old version of the appliance.
 
     1. Enter the name of the datacenter that contains the old version of the appliance.

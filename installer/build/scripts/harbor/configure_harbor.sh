@@ -123,6 +123,11 @@ configureHarborCfgOnce clair_db_password "$random_pwd"
 
 setPortInYAML $harbor_compose_file "${REGISTRY_PORT}" "${NOTARY_PORT}"
 
+# Configure Clair proxy
+configureHarborCfg http_proxy "${NETWORK_HTTP_PROXY}"
+configureHarborCfg https_proxy "${NETWORK_HTTPS_PROXY}"
+configureHarborCfg no_proxy "127.0.0.1,localhost,core,registry${NETWORK_NO_PROXY_LIST:+,}${NETWORK_NO_PROXY_LIST}"
+
 # Configure the integration URL
 configureHarborCfg admiral_url https://"${HOSTNAME}":"${ADMIRAL_PORT}"
 
@@ -134,5 +139,8 @@ iptables -w -A INPUT -j ACCEPT -p tcp --dport "${NOTARY_PORT}"
 
 # cleanup common/config directory in preparation for running the harbor "prepare" script
 rm -rf /etc/vmware/harbor/common/config
+
+# Change the default SYNC_REGISTRY to true
+sed -i 's/SYNC_REGISTRY=.*/SYNC_REGISTRY=true/g' ${conf_dir}/common/templates/core/env
 
 echo "Finished Harbor configuration"

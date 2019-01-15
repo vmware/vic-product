@@ -176,7 +176,7 @@ To view a list of volume stores that have been pre-configured by the vSphere adm
 
 Assuming you're using TLS authentication to the Docker endpoint, that is either done using environment variables or command-line options. 
 
-With environment variables, it's assumed that you've already set `DOCKER_TLS_VERIFY=1` and `DOCKER_CERT_PATH=<path to client certs>`. This is required in order to use the Docker client. For `docker-compose` you have to additionally set `COMPOSE_TLS_VERSION=TLSv1_2`. You can then run `docker-compose up -d` to start the application (assuming you've also set `DOCKER_HOST` to point to the VCH endpoint).
+With environment variables, it's assumed that you've already set `DOCKER_TLS_VERIFY=1` and `DOCKER_CERT_PATH=<path to client certs>`. This is required in order to use the Docker client. For `docker-compose` you have to additionally set `COMPOSE_TLS_VERSION=TLSv1_2`. You can find the exact variables to set in the <code><i>vch_name</i>.env<code> file that is generated during VCH deployment. You can then run `docker-compose up -d` to start the application (assuming you've also set `DOCKER_HOST` to point to the VCH endpoint).
 
 Using command-line arguments with Docker client is a little more clumsy as each key has to be specified independently and the same is true of `docker-compose`. Regardless, the only way to specify the TLS version is through the environment variable above `COMPOSE_TLS_VERSION=TLSv1_2`. You can then run `docker-compose -H <endpoint-ip>:2376 --tlsverify --tlscacert="<local-ca-path>/ca.pem" --tlscert="<local-ca-path>/cert.pem" --tlskey="<local-ca-path>/key.pem" compose up -d`
 

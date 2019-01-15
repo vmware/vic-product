@@ -39,9 +39,10 @@ You upload an existing Certificate Authority (CA) for vSphere Integrated Contain
 
 If you do not use an automatically generated CA, you must provide the public portion of a CA for the VCH to use to validate client certificates. The client certificates are used as credentials for access to the Docker API running in the VCH. This does not need to be the same CA as you use to sign the server certificate, if you use a custom CA to sign server certificates. You can specify multiple CAs if you use more than one CA to sign client certificates. 
 
-You must provide `cert.pem` and `key.pem` client certificate files that are signed by this CA to container developers, so that they can connect Docker clients to the VCH. 
+You must provide `cert.pem` and `key.pem` client certificate files that are signed by this CA to container developers, so that they can connect Docker clients to the VCH. vSphere Integrated Containers Management Portal administrators require these files when they add VCHs to projects in management portal.
 
 - For information about how to connect Docker clients to VCHs, see [Configure the Docker Client for Use with vSphere Integrated Containers](../vic_app_dev/configure_docker_client.md).
+- For information about how to add VCHs to management portal, see [Add Container Hosts with Full TLS Authentication](add_vch_fullTLS_in_portal.md) in *vSphere Integrated Containers Management Portal Administration*. 
 - For information about the requirements for client certificates, see the section on custom certificates in [Virtual Container Host Certificate Requirements](vch_cert_reqs.md#custom).
 
 #### Create VCH Wizard

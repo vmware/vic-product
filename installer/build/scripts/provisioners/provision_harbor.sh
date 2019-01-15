@@ -68,6 +68,15 @@ overrideDataDirectory /etc/vmware/harbor/docker-compose.clair.yml
 chmod 600 /data/harbor/harbor.cfg
 chmod -R 600 /etc/vmware/harbor/common
 
+# Redirect vic_appliance_address:443 to Admiral UI, see vic-product/2216
+CONF_DIR='/etc/vmware/harbor/common/templates/nginx/ext'
+mkdir -p ${CONF_DIR}
+cat << EOF > ${CONF_DIR}/harbor.https.vic.conf
+location ~ ^/$ {
+  return 302 https://\$host:8282\$request_uri;
+}
+EOF
+
 # Write version files
 echo "harbor=${BUILD_HARBOR_FILE}" >> /data/version
 echo "harbor=${BUILD_HARBOR_FILE}" >> /etc/vmware/version

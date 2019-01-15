@@ -189,7 +189,7 @@ The VCH that you deployed in the [Example](#example) above meets these requireme
 
 This example uses the `dch-photon` image for demonstration purposes only. For information about how container developers can actually use `dch-photon`, see [Building and Pushing Images with the dch-photon Docker Engine](../vic_app_dev/build_push_images.md) in *Developing Applications with vSphere Integrated Containers*.
 
-vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
+vSphere Integrated Containers 1.5.x supports `dch-photon` version 17.06.
 
 ### Procedure
 
@@ -222,7 +222,7 @@ vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
    3. For **URL**, enter the address of the VCH in the format https://<i>vch_ip_address</i>:2376, click **Save**, and click **Yes** to accept the VCH certificate. 
 11. Under **Deployments**, select **Containers** and click **+Container**.  
    1. Type `dch` in the **Image** search box and select the `dch-photon` image that is pre-loaded in vSphere Integrated Containers Registry:<pre><i>vic_appliance_address</i>:443/default-project/dch-photon</pre>
-   2. Click in the **Search for tags** box and select **1.13**.
+   2. Click in the **Search for tags** box and select **17.06**.
    3. Enter a name for the container VM, for example `dch-photon-test`, and click **Provision**.
 
     If the `dch-photon-test` container deploys correctly, it shows up as running in the **Containers** view, alongside the stopped `test` container that you ran in the VCH from the Docker client.

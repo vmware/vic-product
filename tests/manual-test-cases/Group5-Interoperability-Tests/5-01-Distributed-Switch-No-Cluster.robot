@@ -31,11 +31,11 @@ Distributed Switch Setup
     ${pid}=  Deploy Nimbus vCenter Server Async  ${vc}
     Set Suite Variable  ${VC}  ${vc}
 
-    &{esxes}=  Deploy Multiple Nimbus ESXi Servers in Parallel  3  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
+    &{esxes}=  Deploy Multiple Nimbus ESXi Servers in Parallel  3
     @{esx_names}=  Get Dictionary Keys  ${esxes}
     @{esx_ips}=  Get Dictionary Values  ${esxes}
 
-    Set Suite Variable  @{list}  @{esx_names}[0]  @{esx_names}[1]  @{esx_names}[2]  %{NIMBUS_USER}-${vc}
+    Set Suite Variable  @{list}  @{esx_names}[0]  @{esx_names}[1]  @{esx_names}[2]  %{NIMBUS_PERSONAL_USER}-${vc}
 
     # Finish vCenter deploy
     ${output}=  Wait For Process  ${pid}

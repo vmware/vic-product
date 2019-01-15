@@ -246,6 +246,18 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
         <Label>2.7. NTP Servers</Label>
         <Description>The NTP server IP Addresses for this VM (space separated). Leave blank if DHCP is desired.</Description>
       </Property>
+      <Property ovf:key="http_proxy" ovf:type="string" ovf:userConfigurable="true">
+        <Label>2.8. HTTP Proxy URL</Label>
+        <Description>The HTTP Proxy setting: http://PROXY_SERVER:PORT or http://USER:PASSWORD@PROXY_SERVER:PORT. Leave blank if no http proxy is required.</Description>
+      </Property>
+      <Property ovf:key="https_proxy" ovf:type="string" ovf:userConfigurable="true">
+        <Label>2.9. HTTPS Proxy URL</Label>
+        <Description>The HTTPS Proxy setting: http(s)://PROXY_SERVER:PORT or http(s)://USER:PASSWORD@PROXY_SERVER:PORT. Leave blank if no https proxy is required.</Description>
+      </Property>
+      <Property ovf:key="no_proxy_list" ovf:type="string" ovf:userConfigurable="true">
+        <Label>2.10. No Proxy List</Label>
+        <Description>Bypass proxy settings for these hosts and domains (comma separated). Leave blank if no proxy is required.</Description>
+      </Property>
     </ProductSection>
     <ProductSection ovf:class="registry" ovf:required="false">
       <Info>Registry Properties</Info>
