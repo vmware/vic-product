@@ -74,6 +74,16 @@ touch $data_dir/custom.conf
 # Configure the integration URL
 echo "harbor.tab.url=https://${HOSTNAME}:${REGISTRY_PORT}" > $data_dir/custom.conf
 
+# Configure the proxy
+if [ -n "${NETWORK_HTTPS_PROXY}" ]; then
+  echo "registry.proxy=${NETWORK_HTTPS_PROXY}" >> $data_dir/custom.conf
+elif [ -n "${NETWORK_HTTP_PROXY}" ]; then
+  echo "registry.proxy=${NETWORK_HTTP_PROXY}" >> $data_dir/custom.conf
+fi
+if [ -n "${NETWORK_NO_PROXY_LIST}" ]; then
+  echo "registry.no.proxy.list=${NETWORK_NO_PROXY_LIST}" >> $data_dir/custom.conf
+fi
+
 # Copy files needed by Admiral into one directory
 cp $appliance_jks $config_dir
 cp $appliance_tls_key $config_dir

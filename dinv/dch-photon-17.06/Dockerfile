@@ -43,6 +43,8 @@ FROM scratch
 
 LABEL maintainer "fabio@vmware.com"
 
+ENV TERM linux
+
 COPY --from=base /temp_chroot /
 
 EXPOSE 2375 2376

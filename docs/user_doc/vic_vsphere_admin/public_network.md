@@ -10,27 +10,28 @@ The public network is the network that container VMs and the virtual container h
 - [What to Do Next](#whatnext)
 - [Example `vic-machine` Command](#example)
 
+**IMPORTANT**: For information about VCH networking requirements, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
+
 ## Options <a id="options"></a>
 
 The sections in this topic each correspond to an entry in the Configure Networks page of the Create Virtual Container Host wizard, and to the  corresponding `vic-machine create` options.
 
 ### Public Network <a id="public-network"></a>
 
-You designate a specific port group for traffic from container VMs and the VCH to the Internet by specifying a public network when you deploy the VCH.
+You designate a specific network for traffic from container VMs and the VCH to the Internet by specifying a public network when you deploy the VCH.
 
 **IMPORTANT**: 
 
-- If you use the Create Virtual Container Host wizard to create VCHs, it is **mandatory** to use a port group for the public network.
-- If you use `vic-machine` to deploy VCHs, by default the VCH uses the VM Network, if present, for the public network. If the VM Network is present, it is therefore not mandatory to use a port group for the public network, but it is strongly recommended. Using the default VM Network for the public network instead of a port group prevents vSphere vMotion from moving the VCH endpoint VM between hosts in a cluster. If the VM Network is not present, you must create a port group for the public network. 
-- You can use the same port group as the public network for multiple VCHs. You cannot use the same port group for the public network as you use for the bridge network.
-- You can share the public network port group with the client and management networks. If you do not configure the client and management networks to use specific port groups, those networks use the settings that you specify for the public network.
-- The port group must exist before you create the VCH. For information about how to create a VMware vSphere Distributed Switch and a port group, see [Create a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-D21B3241-0AC9-437C-80B1-0C8043CC1D7D.html) in the vSphere documentation.
-- All hosts in a cluster should be attached to the port group. For information about how to add hosts to a vSphere Distributed Switch, see [Add Hosts to a vSphere Distributed Switch](https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.networking.doc/GUID-E90C1B0D-82CB-4A3D-BE1B-0FDCD6575725.html) in the vSphere  documentation.
+- If you use the Create Virtual Container Host wizard to create VCHs, it is **mandatory** to use an existing port group or logical switch for the public network.
+- If you use `vic-machine` to deploy VCHs, by default the VCH uses the VM Network, if present, for the public network. If the VM Network is present, it is therefore not mandatory to use a dedicated network interface for the public network, but it is strongly recommended. Using the default VM Network for the public network instead of a dedicated network interface prevents vSphere vMotion from moving the VCH endpoint VM between hosts in a cluster. If the VM Network is not present, you must create a dedicated port group or logical switch for the public network. 
+- You can use the same network as the public network for multiple VCHs. You cannot use the same network for the public network as you use for the bridge network.
+- You can share the public network network with the client and management networks. If you do not configure the client and management networks to use specific networks, those networks use the settings that you specify for the public network.
+- The port group or logical switch must exist before you create the VCH. For information about how to create a port group or logical switch, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
 - You cannot use `vic-machine configure` to change the public network setting after you deploy the VCH.
 
 #### Create VCH Wizard
 
-Select an existing port group from the **Public network** drop-down menu.
+Select an existing port group or logical switch from the **Public network** drop-down menu.
 
 **NOTE**: If you use the Create Virtual Container Host wizard, specifying a public network is **mandatory**. 
 
@@ -38,24 +39,25 @@ Select an existing port group from the **Public network** drop-down menu.
 
 `--public-network`, `--pn`
 
-A port group that container VMs and VCHs use to connect to the Internet. Ports that containers that are connected to the default bridge network expose with `docker create -p` are made available on the public interface of the VCH endpoint VM via network address translation (NAT), so that containers can publish network services.  
-
+A network interface that container VMs and VCHs use to connect to the Internet. Ports that containers that are connected to the default bridge network expose with `docker create -p` are made available on the public network of the VCH endpoint VM via network address translation (NAT), so that containers can publish network services.  
 **NOTE**: vSphere Integrated Containers adds a new capability to Docker that allows you to directly map containers to a network by using the `--container-network` option. This is the recommended way to deploy container services with vSphere Integrated Containers. For more information, see [Configure Container Networks](container_networks.md).
 
-<pre>--public-network <i>port_group_name</i></pre>
+You designate the public network by specifying an existing port group or logical switch in the `vic-machine create --public-network` option.  
 
-If you do not specify this option, containers use the VM Network for public network traffic. If you do not specify this option and the VM Network is not present, or if you specify an invalid port group name, `vic-machine create` fails and suggests valid port groups.
+<pre>--public-network <i>port_group_or_logical_switch_name</i></pre>
+
+If you do not specify this option, containers use the VM Network for public network traffic. If you do not specify this option and the VM Network is not present, or if you specify an invalid port group or logical switch name, `vic-machine create` fails and suggests valid port group or logical switches.
 
 ### Static IP Address <a id="static-ip"></a>
 
 By default, vSphere Integrated Containers Engine uses DHCP to obtain an IP address for the VCH endpoint VM on the public network. You can  optionally configure a static IP address for the VCH endpoint VM on the public network.
 
-- You can only specify one static IP address on a given port group. If either of the client or management networks shares a port group with the public network, you can only specify a static IP address on the public network. All of the networks that share that port group use the IP address that you specify. 
+- You can only specify one static IP address on a given interface. If either of the client or management networks shares a network with the public network, you can only specify a static IP address on the public network. All of the networks that share that network use the IP address that you specify. 
 - If you set a static IP address for the VCH endpoint VM on the public network, you must specify a corresponding gateway address.
 
 #### Create VCH Wizard
 
-1. Select the **Static** radio button.
+1. Select the **Static IP** radio button.
 2. Enter an IP address with a network mask in the **IP Address** text box, for example `192.168.1.10/24`.
 
 The Create Virtual Container Host wizard only accepts an IP address for the public network. You cannot specify an FQDN.
@@ -128,7 +130,7 @@ If you are using the Create Virtual Container Host wizard, the bridge network an
 
 This example `vic-machine create` command deploys a VCH that 
 
-- Directs public network traffic to an existing port group named `vic-public`.
+- Directs public network traffic to an existing network named `vic-public`.
 - Sets two DNS servers.
 - Sets a static IP address and gateway for the VCH endpoint VM on the public network.
 - Does not specify either of the `--management-network` or `--client-network` options. Consequently, management and client traffic also routes over `vic-public` because those networks default to the public network setting if they are not set.

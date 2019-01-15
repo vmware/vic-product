@@ -21,26 +21,26 @@ By creating a custom image, you can deploy multiple instances of `dch-photon` th
 
 5. Pull the `dch-photon` image into the image cache in your local Docker client.
 
-    vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
+    vSphere Integrated Containers 1.5.x supports `dch-photon` version 17.06.
 
-    <pre>docker pull <i>registry_address</i>/default-project/dch-photon:1.13</pre> 
+    <pre>docker pull <i>registry_address</i>/default-project/dch-photon:17.06</pre> 
 
 6. Make a new folder and copy the vSphere Integrated Containers Registry certificate into it.
 
 7. In the new folder, create a `Dockerfile` with the following format:
 
     <pre>
-    FROM <i>registry_address</i>/default-project/dch-photon:1.13
+    FROM <i>registry_address</i>/default-project/dch-photon:17.06
     
     COPY ca.crt /etc/docker/certs.d/<i>registry_address</i>/ca.crt</pre>
 
 8. In the same folder, build the Dockerfile as a new image and give it a meaningful new tag.
 
-    <pre>docker build -t <i>registry_address</i>/default-project/dch-photon:1.13-cert .</pre> 
+    <pre>docker build -t <i>registry_address</i>/default-project/dch-photon:17.06-cert .</pre> 
 
 9. Push the new image into vSphere Integrated Containers Registry.
 
-    <pre>docker push <i>registry_address</i>/default-project/dch-photon:1.13-cert</pre> 
+    <pre>docker push <i>registry_address</i>/default-project/dch-photon:17.06-cert</pre> 
 
 10. (Optional) Log in to vSphere Integrated Containers Registry from the VCH.
 
@@ -52,7 +52,7 @@ By creating a custom image, you can deploy multiple instances of `dch-photon` th
 
     This example runs `dch-photon` behind a port mapping, that exposes the HTTP port (2375) of the `dch-photon` instance on port 12375 of the VCH. You can also deploy `dch-photon` on a container network. 
 
-    <pre>docker -H <i>vch_address</i>:2376 --tls run --name build-slave -d -p 12375:2375 <i>registry_address</i>/default-project/dch-photon:1.13-cert</pre> 
+    <pre>docker -H <i>vch_address</i>:2376 --tls run --name build-slave -d -p 12375:2375 <i>registry_address</i>/default-project/dch-photon:17.06-cert</pre> 
 
 **Result**
 

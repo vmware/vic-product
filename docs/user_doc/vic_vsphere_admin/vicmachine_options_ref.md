@@ -66,6 +66,7 @@ This topic includes lists of all of the options of the different `vic-machine` c
 |`--public-network-gateway`|[Configure the Public Network](public_network.md#gateway)|
 |`--public-network-ip`|[Configure the Public Network](public_network.md#static-ip)|
 |`--registry-ca`|[Configure Registry Access](vch_registry.md#registry-ca)|
+|`--storage-quota`|[Specify the Image Datastore](image_store.md#quota)|
 |`--syslog-address`|[General Virtual Container Host Settings](vch_general_settings.md#syslog)|
 |`--target`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#target)|
 |`--thumbprint`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#thumbprint)|
@@ -110,6 +111,7 @@ This topic includes lists of all of the options of the different `vic-machine` c
 |`--password`|[Common `vic-machine` Options](common_vic_options.md#password)|
 |`--registry-ca value`|[Add or Update Registry Server Certificates](configure_vch.md#registries)|
 |`--reset-progress`|[Reset Upgrade or Configuration Progress](configure_vch.md#resetprogress)|
+|`--storage-quota`|[Set or Update Storage Quotas](configure_vch.md#quota)|
 |`--target`|[Common `vic-machine` Options](common_vic_options.md#target)|
 |`--thumbprint`|[Common `vic-machine` Options](common_vic_options.md#thumbprint)|
 |`--timeout`|[Common `vic-machine` Options](common_vic_options.md#timeout)|

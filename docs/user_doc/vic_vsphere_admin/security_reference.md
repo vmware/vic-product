@@ -64,21 +64,21 @@ The vSphere Integrated Containers appliance makes the core vSphere Integrated Co
 The different network interfaces on a VCH expose different services on different ports. For an overview of the different network interfaces on a VCH, see [Virtual Container Host Networks](vch_networking.md).
 
 
-#### Public Interface
+#### Public Network
 
-Container developers can forward any VCH port that is not used elsewhere to a container VM. For more information about the VCH public interface, see [Configure the Public Network](public_network.md).
+Container developers can forward any VCH port that is not used elsewhere to a container VM. For more information about the VCH public network, see [Configure the Public Network](public_network.md).
 
-#### Bridge Interface
+#### Bridge Network
 
-For information about the VCH bridge interface, see [Configure Bridge Networks](bridge_network.md).
+For information about the VCH bridge network, see [Configure Bridge Networks](bridge_network.md).
 
 |Port|Protocol|Description|
 |---|---|---|
 |53|TCP|Connections from the VCH to DNS servers for container name resolution|
 
-#### Client Interface
+#### Client Network
 
-For information about the VCH client interface, see [Configure the Client Network](client_network.md). 
+For information about the VCH client network, see [Configure the Client Network](client_network.md). 
 
 |Port|Protocol|Description|
 |---|---|---|
@@ -90,9 +90,9 @@ For information about the VCH client interface, see [Configure the Client Networ
 
 For information about VCH TLS options, see [Virtual Container Host Security](vch_security.md). For information about how debugging VCHs affects VCH behavior, see , see [Debug](vch_general_settings.md#debug) in the topic on configuring general VCH settings and [Debug Running Virtual Container Hosts](debug_vch.md).
 
-#### Management Interface
+#### Management Network
 
-For information about the VCH management interface, see [Configure the Management Network](mgmt_network.md).
+For information about the VCH management network, see [Configure the Management Network](mgmt_network.md).
 
 |Port|Protocol|Description|
 |---|---|---|
