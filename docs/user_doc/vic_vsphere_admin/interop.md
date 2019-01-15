@@ -58,7 +58,8 @@ For the most up-to-date information about compatibility with vRealize Automation
 - If you restart a VCH endpoint VM, it comes back up in the same state that it was in when it shut down. 
 - If you use DHCP on the client network, the IP address of the VCH endpoint VM might change after a restart. Use `vic-machine inspect` to obtain the new IP address.
 - Do not manually delete a VCH resource pool, the VCH endpoint VM, or container VMs. Always use the vSphere Integrated Containers plug-in for the vSphere Client or `vic-machine delete` to delete VCHs. Always use Docker commands or the vSphere Integrated Containers Management Portal to perform operations on container VMs.
-- Manually restarting container VMs can result in incorrect end-times for container operations. Do not manually restart container VMs. Always use Docker commands or the vSphere Integrated Containers Management Portal to perform operations on container VMs.
+- You can stop container VMs by selecting the **Power** > **Shut Down Guest OS** option. If you use this option the application will be stopped using the same escalating approach as running `docker stop`. The application first receives the `STOPSIGNAL` defined in the container image, then `SIGTERM`, `SIGKILL`, and finally the VM will power off. There is a 10 second delay between each step, to allow the application to exit gracefully.
+- Do not restart or power off container VMs by selecting **Power** > **Reset** or **Power** > **Power Off**. Using those options can result in incorrect end-times for container operations.  Always use **Power** > **Shut Down Guest OS**, Docker commands, or the vSphere Integrated Containers Management Portal to perform restart and stop operations on container VMs.
 
 ### VMware vSphere High Availability <a id="ha"></a>
 
