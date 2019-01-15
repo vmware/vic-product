@@ -7,3 +7,4 @@ vSphere Integrated Containers has particular infrastructure and networking requi
 * [Virtual Infrastructure Requirements](vi_reqs.md)
 * [Networking Requirements](network_reqs.md)
 * [vSphere Integrated Containers Certificate Requirements](vic_cert_use.md)
+* [Interoperability with Other VMware Software](interop.md)

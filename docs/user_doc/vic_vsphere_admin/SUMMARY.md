@@ -4,12 +4,14 @@
 
 * [vSphere Administrator](README.md)
  * [Deployment Prerequisites](vic_installation_prereqs.md)
+     * 
      * [Virtual Infrastructure Requirements](vi_reqs.md)
      * [Networking Requirements](network_reqs.md)
      * [Certificate Requirements](vic_cert_use.md)
          * [Appliance Certificate Requirements](appliance_cert_reqs.md) 
          * [VCH Certificate Requirements](vch_cert_reqs.md)
          * [Obtain vSphere Thumbprints](obtain_thumbprint.md) 
+     * [Interoperability](interop.md)
  * [Installation](installing_vic.md)
      * [Download Installer](download_vic.md) 
      * [Deploy the Appliance](deploy_vic_appliance.md)
@@ -48,7 +50,6 @@
          * [VCH with Volume Store and Registry](deploy_vch_dchphoton.md)
      * [VCH Sizing Guidelines](vch_sizing_guidelines.md)
   * [VCH Administration](vch_admin.md)
-     * [Interoperability](interop.md)
      * [VCH Admin in the vSphere Client](vch_admin_client.md)
          * [View VIC Information](access_h5_ui.md)
          * [View VCH and Container Information](vch_portlet_ui.md)
