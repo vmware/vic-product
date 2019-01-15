@@ -2,8 +2,8 @@
 
 As a developer, you can perform the following tasks in vSphere Integrated Containers Management Portal:
 
-- Provision containers. For more information, see [Provisioning Container VMs in the Management Portal](provision_containers_portal.html).
-- Add networks and volumes to virtual container hosts. For more information, see [Create New Networks for Provisioning Containers](create_network.html).
+- Provision containers. For more information, see [Provisioning Container VMs in the Management Portal](../vic_users/provision_containers_portal.html).
+- Add networks and volumes to virtual container hosts. For more information, see [Create New Networks for Provisioning Containers](../vic_users/create_network.html).
 - View the repositories and virtual container hosts for your project.
 - Create applications.
 
