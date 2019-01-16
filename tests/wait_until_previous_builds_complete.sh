@@ -16,6 +16,7 @@
 unit_test_array=($TEST_URL_ARRAY)
 numServers=${#unit_test_array[@]}
 DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER:=0}
+numServers=$(( numServers+3 ))
 prevBuildNumber=$(( $DRONE_BUILD_NUMBER-$numServers ))
 prevBuildStatus=`drone build info --format='{{.Status}}' vmware/vic-product $prevBuildNumber`
 echo prevBuildStatus $prevBuildStatus
