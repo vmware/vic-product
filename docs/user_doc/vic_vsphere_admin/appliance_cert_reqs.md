@@ -14,7 +14,7 @@ vSphere Integrated Containers authenticates connections between its various comp
 
 This diagram shows how the vSphere Integrated Containers appliance uses certificates to authenticate connections between the different components. The diagram shows a deployment in which verification of client certificates is enabled on virtual container hosts (VCHs).
 
-![vSphere Integrated Containers Appliance Certificates](graphics/appliance_certs.png)
+![vSphere Integrated Containers Appliance Certificates](graphics/appliance_certs.jpg)
 
 The sections below describe the purpose and requirements of each of the certificates shown in the diagram.
 

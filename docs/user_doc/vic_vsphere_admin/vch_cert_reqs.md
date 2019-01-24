@@ -63,7 +63,7 @@ Rather than using an automatically generated CA, in a production deployment you 
 
 This diagram shows how VCHs use certificates to authenticate connections between the different components in a vSphere Integrated Containers environment. The diagram shows a deployment in which verification of client certificates is enabled on virtual container hosts (VCHs).
 
-![Virtual Container Host Certificates](graphics/vch_certs.png)
+![Virtual Container Host Certificates](graphics/vch_certs.jpg)
 
 If you implement client authentication, you must distribute client certificates to container developers or DevOps administrators so that they can configure their Docker clients and vSphere Integrated Containers Management Portal to connect to the VCH. 
 
