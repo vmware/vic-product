@@ -6,7 +6,7 @@ The different components have different certificate requirements. You can opt fo
 
 This diagram shows a simplified view of the certificates that are required and used by the different vSphere Integrated Containers components and their respective users.
 
-![vSphere Integrated Containers Certificate Use by Role](graphics/roles-certs.png)
+![vSphere Integrated Containers Certificate Use by Role](graphics/roles-certs.jpg)
 
 For more information about appliance certificates, see [vSphere Integrated Containers Appliance Certificate Requirements](appliance_cert_reqs.md). For more information about VCH certificates, see [Virtual Container Host Certificate Requirements](vch_cert_reqs.md).
 
