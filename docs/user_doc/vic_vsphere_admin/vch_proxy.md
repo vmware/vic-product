@@ -1,6 +1,6 @@
 # Configure VCHs to Use Proxy Servers #
 
-If access to the Internet or to your private image registries requires the use of a proxy server, you must configure a virtual container host (VCH) to connect to the proxy server when you deploy it. The proxy is used only when pulling images, and not for any other purpose.
+If access to the Internet or to your private image registries requires the use of a proxy server, you must configure a virtual container host (VCH) to connect to the proxy server when you deploy it. The proxy is used only when using `docker login` to log in to secure registries and when using `docker pull` to pull images, and not for any other purpose.
 
 **IMPORTANT**: Configuring a VCH to use a proxy server does not configure proxy support on the containers that this VCH runs. Container developers must configure proxy servers on containers when they create them. 
 
