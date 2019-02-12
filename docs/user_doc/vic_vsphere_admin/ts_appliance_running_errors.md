@@ -55,5 +55,5 @@ To aid in initialization errors, provide the following information to VMware Sup
 
 4. If the vSphere Integrated Containers Management Portal interface displays the `SsoManager has not been initialized at runtime`, see [Access to Management Portal Fails](ts_admiral_access_error.md).
 5.  If the vSphere Integrated Containers Management Portal is not running, verify if you provided custom TLS certificates during deployment. 
-	- If you have provided custom TLS certificates, verify if the format of the certificate is correct. For more information, see [vSphere Integrated Containers Certificate Reference](vic_cert_reference.md).
+	- If you have provided custom TLS certificates, verify if the format of the certificate is correct. For more information, see [vSphere Integrated Containers Appliance Certificate Requirements](appliance_cert_reqs.md).
 	- Run the `journalctl -u admiral` command and provide the output to VMware Support.

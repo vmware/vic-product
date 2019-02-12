@@ -31,11 +31,11 @@ Distributed Switch Setup
     ${pid}=  Deploy Nimbus vCenter Server Async  ${vc}
     Set Suite Variable  ${VC}  ${vc}
 
-    &{esxes}=  Deploy Multiple Nimbus ESXi Servers in Parallel  3  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
+    &{esxes}=  Deploy Multiple Nimbus ESXi Servers in Parallel  3
     @{esx_names}=  Get Dictionary Keys  ${esxes}
     @{esx_ips}=  Get Dictionary Values  ${esxes}
 
-    Set Suite Variable  @{list}  @{esx_names}[0]  @{esx_names}[1]  @{esx_names}[2]  %{NIMBUS_USER}-${vc}
+    Set Suite Variable  @{list}  @{esx_names}[0]  @{esx_names}[1]  @{esx_names}[2]  %{NIMBUS_PERSONAL_USER}-${vc}
 
     # Finish vCenter deploy
     ${output}=  Wait For Process  ${pid}
@@ -74,7 +74,8 @@ Distributed Switch Setup
     # Make sure we use correct datastore
     ${datastore}=  Get Name of First Local Storage For Host  @{esx_ips}[0]
     Set Environment Variable  TEST_DATASTORE  ${datastore}
+    Set Environment Variable  TEST_ESX  @{esx_ips}[0]
 
 *** Test Cases ***
 Test
-    Deploy OVA And Install UI Plugin And Run Regression Tests  5-01-TEST  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
+    Deploy OVA And Install UI Plugin And Run Regression Tests  5-01-TEST  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}  %{TEST_ESX}

@@ -18,10 +18,11 @@ The ESXi host to which you deploy the VCH must match the specifications listed i
 * Create or obtain an ESXi host with one datastore. You can use a nested ESXi host for this example.
 * Verify that the ESXi host meets the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md). 
 
-    **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
+    **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](network_reqs.md).
 * Make sure that the correct firewall port is open on the ESXi host. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 * Obtain the ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 * Familiarize yourself with the basic options of the `vic-machine create` command described in [Running vic-machine Commands](running_vicmachine_cmds.md).
+* Familiarize yourself with the way in which VCHs use certificates to authenticate connections from clients. For information about certificate use by VCHs and Docker, see the [Virtual Container Host Certificate Requirements](vch_cert_reqs.md).
 * Install a Docker client so that you can test the deployment.
 
 ### Procedure

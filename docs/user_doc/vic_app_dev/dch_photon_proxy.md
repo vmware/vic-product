@@ -13,7 +13,7 @@ When you run the `dch-photon` container, use the `--env` option to add the proxy
 --env https_proxy=https://proxy.server.com:3128 
 --env http_proxy=http://proxy.server.com:3128 
 --publish 12376:2376 
-vmware/dch-photon:1.13 
+vmware/dch-photon:17.06 
 -tls 
 -vic-ip <i>vch_adress</i>
 </pre>
@@ -32,7 +32,7 @@ Build a new `dch-photon` image, for example named `dch-photon-proxy` based on th
 
 <pre>
 dockerfile
-FROM vmware/dch-photon:1.13
+FROM vmware/dch-photon:17.06
 ENV http_proxy http://proxy.server.com:8080
 ENV https_proxy https://proxy.server.com:8080
 </pre>

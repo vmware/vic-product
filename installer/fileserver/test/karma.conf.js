@@ -1,4 +1,4 @@
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -7,12 +7,15 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine-ajax','jasmine-jquery','jasmine'],
+    frameworks: ['jasmine'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      {pattern: 'fixtures/*.html', watched: true, included: false, served: true},
+      'node_modules/jquery/dist/jquery.min.js',
+      'node_modules/jasmine-jquery/lib/*.js',
+      'node_modules/jasmine-ajax/lib/mock-ajax.js',
+      { pattern: 'fixtures/*.html', watched: false, included: false, served: true },
       // code i want to test
       '../html/js/index-handler.js',
       // specs
@@ -56,22 +59,29 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
-
+    browsers: ['ChromeHeadlessNoSandbox'],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox',
+          '--headless',
+          '--disable-gpu',
+          '--disable-translate',
+          '--disable-extensions'
+        ]
+      }
+    },
     plugins: [
-            'karma-phantomjs-launcher',
-            'karma-jasmine',
-            'karma-jasmine-jquery',
-            'karma-jasmine-ajax'
-            ],
+      'karma-chrome-launcher',
+      'karma-jasmine',
+      'karma-jasmine-ajax'
+    ],
+    concurrency: Infinity,
 
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true,
-
-    // Concurrency level
-    // how many browser should be started simultaneous
-    concurrency: Infinity
+    singleRun: true
   })
 }

@@ -6,16 +6,20 @@ If a Docker host or a vSphere Integrated Containers virtual container host (VCH)
 
 **Prerequisites**
 
-- Obtain the client private key, `key.pem`, and client public key, `cert.pem`, for the VCH or Docker host from the vSphere or Docker administrator.
+- Obtain the client private key, `key.pem`, and client public key, `cert.pem`, for the VCH or Docker host from the vSphere or Docker administrator. For information about VCH certificates, see [Virtual Container Host Certificate Requirements](../vic_vsphere_admin/vch_cert_reqs.md) in *vSphere Integrated Containers for vSphere Administrators*.
 - Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Management Portal administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 
 **Procedure**
 
-1. Navigate to **Administration** > **Identity Management** and click **Credentials** to configure the certificates to be used for authentication against the host.
+1. Navigate to **Administration** > **Identity Management** and click **Credentials** to configure the certificates to be used for authentication with the host.
 	1. Click **+Credential** to add new entry.
 	2. In the **New Credential** dialog box, enter name and click the **Certificate** radio button.
-	3. In the **Public certificate** text box, enter the content of the `cert.pem` file.
-	4. In the **Private certificate** text box, enter the content of the `key.pem` file.
+	3. In the **Public certificate** text box, enter the content of the client certificate `cert.pem` file for the VCH or Docker host.<pre>-----BEGIN CERTIFICATE-----
+    host_certificate_contents
+    -----END CERTIFICATE-----</pre>
+	4. In the **Private certificate** text box, enter the content of the client certificate `key.pem` file for the VCH or Docker host.<pre>-----BEGIN PRIVATE KEY-----
+    host_private_key_contents
+    -----END PRIVATE KEY-----</pre>
 	5. Click **Save**.
 1. Go to the **Home** view, click the **Project**  drop-down menu, and select the project to which to add the host.
 2. Navigate to **Infrastructure** > **Container Hosts** and click **+Host**.

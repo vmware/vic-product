@@ -4,7 +4,7 @@ This section includes information about how to access vSphere Integrated Contain
 
 - [Access vSphere Integrated Containers Logs](access_logs.md)
 - [Troubleshoot vSphere Integrated Containers Appliance Deployment](ts_deploy_appliance.md)
-- [Troubleshoot vSphere Client Plug-In Installation](ts_install_plugins.md)
+- [vSphere Integrated Containers Plug-In Not Deploying Correctly](ts_ui_not_appearing.md)
 - [Troubleshoot Virtual Container Host Deployment](ts_deploy_vch.md)
 - [Troubleshoot Post-Deployment Operation](ts_post_deployment_op.md)
 - [Install Packages in the VCH](vch_install_packages.md)

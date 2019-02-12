@@ -147,7 +147,7 @@ Initialize OVA From API
 
     Log To Console  \nInitializing VIC appliance by API when API is available
     :FOR  ${i}  IN RANGE  30
-    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -s -o /dev/null -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}","thumbprint":"${TEST_THUMBPRINT}","externalpsc":"%{EXTERNAL_PSC}","pscdomain":"%{PSC_DOMAIN}"}' https://${ova-ip}:9443/register
+    \   ${rc}  ${out}=  Run And Return Rc And Output  curl -k -s -o /dev/null -w "\%{http_code}\\n" --header "Content-Type: application/json" -X POST --data '{"target":"%{TEST_URL}:443","user":"%{TEST_USERNAME}","password":"%{TEST_PASSWORD}","vicpassword":"${OVA_PASSWORD_ROOT}","thumbprint":"${TEST_THUMBPRINT}","externalpsc":"%{EXTERNAL_PSC}","pscdomain":"%{PSC_DOMAIN}"}' https://${ova-ip}:9443/register
     \   Exit For Loop If  '200' in '''${out}'''
     \   Sleep  180s
     Log To Console  ${rc}
@@ -305,7 +305,7 @@ Setup Simple VC And Test Environment
     # setup nimbus testbed
     ${esx1}  ${esx2}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${vc-ip}=  Create a Simple VC Cluster  ha-datacenter  cls  2
     Log To Console  Finished Creating Cluster ${vc}
-    Set Suite Variable  @{list}  ${esx1}  ${esx2}  %{NIMBUS_USER}-${vc}
+    Set Suite Variable  @{list}  ${esx1}  ${esx2}  %{NIMBUS_PERSONAL_USER}-${vc}
     # set test variables
     Set Environment Variable  TEST_URL  ${vc-ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
@@ -368,9 +368,9 @@ Execute Upgrade Script
 
     # run upgrade script
     Log To Console  upgrade ova...
-    Run Keyword Unless  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --upgrade-ui-plugin
+    Run Keyword Unless  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --upgrade-password ${OVA_PASSWORD_ROOT} --upgrade-ui-plugin
 
-    Run Keyword If  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --manual-disks --upgrade-ui-plugin
+    Run Keyword If  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --upgrade-password ${OVA_PASSWORD_ROOT} --manual-disks --upgrade-ui-plugin
 
     Copy Support Bundle  ${new-appliance-ip}
 

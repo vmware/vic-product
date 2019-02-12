@@ -17,7 +17,7 @@ If you forget the root password for the vSphere Integrated Containers appliance,
 5. Press the `F10` key.
 6. At the bash command prompt, enter `passwd` then enter and reenter a new root password for the appliance.
 
-    The password must meet the minimum requirements that Photon OS imposes.
+    The password must meet the minimum requirements that Photon OS 2.0 imposes.
 ```
 passwd
 New password:

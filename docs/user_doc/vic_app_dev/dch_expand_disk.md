@@ -13,7 +13,7 @@ To create a larger root disk, use the `docker volume create` command to create a
 **Procedure**
 
 1. Log in to vSphere Integrated Containers Registry from your VCH.<pre>docker -H <i>vch_address</i>:2376 --tls login <i>registry_address</i></pre> 
-5. Pull the `dch-photon` image into the image cache in your local Docker client.<pre>docker  -H <i>vch_address</i>:2376 --tls pull <i>registry_address</i>/default-project/dch-photon:1.13</pre> 
+5. Pull the `dch-photon` image into the image cache in your local Docker client.<pre>docker  -H <i>vch_address</i>:2376 --tls pull <i>registry_address</i>/default-project/dch-photon:17.06</pre> 
 1. Create a volume of the desired size in your VCH. <pre>docker -H <i>vch_address</i>:2376 --tls volume create --opt Capacity=30GB --name mydchdisk</pre>
-3. Run the `dch-photon` container VM in the VCH, behind a port mapping. <pre>docker -H <i>vch_address</i>:2376 --tls run --name DCH -d -v mydchdisk:/var/lib/docker -p 12375:2376 <i>registry_address</i>/default-project/dch-photon:1.13</pre>
+3. Run the `dch-photon` container VM in the VCH, behind a port mapping. <pre>docker -H <i>vch_address</i>:2376 --tls run --name DCH -d -v mydchdisk:/var/lib/docker -p 12375:2376 <i>registry_address</i>/default-project/dch-photon:17.06</pre>
 4. Run `docker info` on the newly deployed docker host. <pre>docker -H <i>vch_address</i>:12375 info</pre>

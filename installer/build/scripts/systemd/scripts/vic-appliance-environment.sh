@@ -44,6 +44,10 @@ NETWORK_NETMASK0="$(ovfenv --key network.netmask0)"
 NETWORK_GATEWAY="$(ovfenv --key network.gateway)"
 NETWORK_DNS="$(ovfenv --key network.DNS | sed 's/,/ /g' | tr -s ' ')"
 NETWORK_SEARCHPATH="$(ovfenv --key network.searchpath)"
+NETWORK_NTP="$(ovfenv --key network.ntp | sed 's/,/ /g' | tr -s ' ')"
+NETWORK_HTTP_PROXY="$(ovfenv --key network.http_proxy)"
+NETWORK_HTTPS_PROXY="$(ovfenv --key network.https_proxy)"
+NETWORK_NO_PROXY_LIST="$(ovfenv --key network.no_proxy_list)"
 
 function detectHostname() {
   HOSTNAME=$(hostnamectl status --static) || true
@@ -119,7 +123,11 @@ echo "Using hostname: ${HOSTNAME}"
   echo "NETWORK_NETMASK0=${NETWORK_NETMASK0}";
   echo "NETWORK_GATEWAY=${NETWORK_GATEWAY}";
   echo "NETWORK_DNS=${NETWORK_DNS}";
+  echo "NETWORK_NTP=${NETWORK_NTP}";
   echo "NETWORK_SEARCHPATH=${NETWORK_SEARCHPATH}";
+  echo "NETWORK_HTTP_PROXY=${NETWORK_HTTP_PROXY}";
+  echo "NETWORK_HTTPS_PROXY=${NETWORK_HTTPS_PROXY}";
+  echo "NETWORK_NO_PROXY_LIST=${NETWORK_NO_PROXY_LIST}";
 } > ${ENV_FILE}
 
 # Only run on first boot

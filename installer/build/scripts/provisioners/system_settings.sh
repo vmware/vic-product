@@ -23,7 +23,7 @@ systemctl enable vic-appliance-load-docker-images.service
 systemctl enable vic-appliance-tls.service
 systemctl enable sshd_permitrootlogin.service
 systemctl enable getty@tty2.service
-systemctl enable ovf-network.service ova-firewall.service
+systemctl enable ovf-network.service ova-firewall.service ovf-ntp.service
 
 # Enable systemd component services
 systemctl enable get_token.timer reconfigure_token.path psc-ready.target

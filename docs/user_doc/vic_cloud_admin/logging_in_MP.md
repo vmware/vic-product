@@ -8,7 +8,7 @@ For more information about users and roles, see [vSphere Integrated Containers R
 
 **Prerequisites**
 
-- You or the vSphere administrator deployed and initialized the vSphere Integrated Containers appliance.
+- You or the vSphere administrator deployed the vSphere Integrated Containers appliance and registered it with vCenter Server.
 - You have a vCenter Server Single Sign-On user account with vSphere administrator privileges, or a user account that has been granted the Management Portal Administrator, DevOps administrator, developer, or viewer role in vSphere Integrated Containers.
 
 **Procedure**

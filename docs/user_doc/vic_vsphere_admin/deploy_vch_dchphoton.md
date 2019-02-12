@@ -31,11 +31,12 @@ For simplicity, this example deploys a VCH without client certificate verificati
   * One VMware vSphere Distributed Switch with two port groups named `vic-bridge` and `vic-public`.
 * Verify that your vCenter Server instance and all of the ESXi hosts in the cluster meet the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md).
 
-    **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
+    **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](network_reqs.md).
 * Make sure that the correct firewall ports are open on the ESXi hosts. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 * Obtain the vCenter Server certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 * If you intend to use the CLI utility to deploy the VCH, familiarize yourself with the basic options of the `vic-machine create` command described in [Running vic-machine Commands](running_vicmachine_cmds.md).
 * Familiarize yourself with the bridge network, public network, image store, and volume store as described in [Configure Bridge Networks](bridge_network.md), [Configure the Public Network](public_network.md), and [Virtual Container Host Storage Capacity](vch_storage.md).
+* Familiarize yourself with the way in which VCHs use certificates to authenticate connections from clients. For information about certificate use by VCHs and Docker, see the [Virtual Container Host Certificate Requirements](vch_cert_reqs.md).
 * Obtain the root certificate for vSphere Integrated Containers Registry. For information about how to obtain the certificate, see [Obtain the vSphere Integrated Containers Registry Certificate](vch_registry.md#regcert).
 * If you intend to use the Create Virtual Container Host wizard in the vSphere Client, create a vSphere user account for the operations user. For information about creating the operations user account, see [Create the Operations User Account](create_ops_user.md).
 * Install a Docker client so that you can test the deployment.
@@ -188,7 +189,7 @@ The VCH that you deployed in the [Example](#example) above meets these requireme
 
 This example uses the `dch-photon` image for demonstration purposes only. For information about how container developers can actually use `dch-photon`, see [Building and Pushing Images with the dch-photon Docker Engine](../vic_app_dev/build_push_images.md) in *Developing Applications with vSphere Integrated Containers*.
 
-vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
+vSphere Integrated Containers 1.5.x supports `dch-photon` version 17.06.
 
 ### Procedure
 
@@ -221,7 +222,7 @@ vSphere Integrated Containers 1.4.x supports `dch-photon` version 1.13.
    3. For **URL**, enter the address of the VCH in the format https://<i>vch_ip_address</i>:2376, click **Save**, and click **Yes** to accept the VCH certificate. 
 11. Under **Deployments**, select **Containers** and click **+Container**.  
    1. Type `dch` in the **Image** search box and select the `dch-photon` image that is pre-loaded in vSphere Integrated Containers Registry:<pre><i>vic_appliance_address</i>:443/default-project/dch-photon</pre>
-   2. Click in the **Search for tags** box and select **1.13**.
+   2. Click in the **Search for tags** box and select **17.06**.
    3. Enter a name for the container VM, for example `dch-photon-test`, and click **Provision**.
 
     If the `dch-photon-test` container deploys correctly, it shows up as running in the **Containers** view, alongside the stopped `test` container that you ran in the VCH from the Docker client.

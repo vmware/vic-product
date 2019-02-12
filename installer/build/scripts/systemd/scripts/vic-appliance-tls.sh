@@ -67,7 +67,7 @@ function genCert {
   if [ ! -e $ca_cert ] || [ ! -e $ca_key ]
   then
     openssl req -newkey rsa:4096 -nodes -sha256 -keyout $ca_key \
-      -x509 -days 1095 -out $ca_cert -subj \
+      -x509 -days 825 -out $ca_cert -subj \
       "/C=US/ST=California/L=Palo Alto/O=VMware, Inc./OU=Containers on vSphere/CN=Self-signed by VMware, Inc."
   fi
   openssl req -newkey rsa:4096 -nodes -sha256 -keyout $key \
@@ -82,7 +82,7 @@ function genCert {
   echo "Add subjectAltName $san to certificate"
   echo "$san" > $ext
 
-  openssl x509 -req -days 1095 -in $csr -CA $ca_cert -CAkey $ca_key -CAcreateserial -extfile $ext -out $cert
+  openssl x509 -req -days 825 -in $csr -CA $ca_cert -CAkey $ca_key -CAcreateserial -extfile $ext -out $cert
 
   echo "Creating certificate chain for $cert"
   cat $ca_cert >> $cert

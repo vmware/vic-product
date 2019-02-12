@@ -7,6 +7,7 @@ You can also optionally change the base image size for container images.
 - [Options](#options)
   - [Datastore](#imagestore)
   - [Base Image Size](#baseimagesize)
+  - [Storage Quota](#quota)
 - [What to Do Next](#whatnext)
 - [Example `vic-machine` Command](#example)
 
@@ -26,10 +27,10 @@ When you deploy a VCH `vic-machine` creates the following set of folders in the 
 - A key-value store folder for the VCH:<pre><i>datastore_name</i>/<i>vch_name</i>/kvstores</pre>
 - A folder in which to store all of the container images that you pull into the VCH.
 
-    - If you designate the whole datastore as the image store, images are stored in the following location:<pre><i>datastore_name</i>/VIC/<i>vch_uuid</i>/images</pre>
+    - If you designate the whole datastore as the image store, images are stored in the following location:<pre><i>datastore_name</i>/<i>vch_name</i>/VIC/<i>vch_uuid</i>/images</pre>
     - If you designate a datastore folder as the image store, images are stored in the following location:<pre><i>datastore_name</i>/<i>path_to_folder</i>/VIC/<i>vcu_uuid</i>/images</pre>
 
-By specifying a datastore folder, you can designate the same datastore folder as the image store for multiple VCHs. Only one `VIC` folder is created in the datastore, but it contains one <code><i>vch_uuid</i>/images</code> folder for each VCH that you deploy. By creating one <code><i>vch_uuid</i>/images</code> folder for each VCH, vSphere Integrated Containers Engine limits the potential for conflicts of image use between VCHs, even if you share the same image store folder between multiple hosts.
+By specifying a datastore folder, you can designate the same datastore folder as the image store for multiple VCHs. Only one `VIC` folder is created in the datastore, but it contains one <code><i>vch_uuid</i>/images</code> folder for each VCH that you deploy. By creating one <code><i>vch_uuid</i>/images</code> folder for each VCH, vSphere Integrated Containers Engine limits the potential for conflicts of image use between VCHs, even if you share the same image store folder between multiple hosts.    
 
 When container developers create and run containers, vSphere Integrated Containers Engine stores the files for container VMs at the top level of the image store, in folders that have the same names as the container VMs.
 
@@ -73,13 +74,29 @@ Specify a value in GB or MB. If not specified, `vic-machine create` sets the ima
 
 <pre>--base-image-size 4GB</pre>
 
+### Storage Quota <a id="quota"></a>
+
+To prevent a VCH from using too much storage capacity, for example when pulling large images into the VCH or running large numbers of container VMs from large images, you can set a limit on the amount of space in the image store that a VCH can consume. The storage quota is displayed in the output when you run `docker info` against a VCH.
+
+#### Create VCH Wizard
+
+This option is not available in the Create VCH wizard
+
+#### vic-machine Option 
+
+`--storage-quota`, `--sq`
+
+Specify a value in GB. If not specified, `vic-machine create` does not set a maximum limit on the amount of storage that the VCH can consume.
+
+<pre>--storage-quota 500</pre>
+
 ## What to Do Next <a id="whatnext"></a>
 
 If you are using the Create Virtual Container Host wizard, scroll down the page to specify [Volume Datastores](volume_stores.md).
 
 ## Example `vic-machine` Commmand <a id="example"></a>
 
-This example `vic-machine create` command deploys a VCH that uses the folder `vch1_images` in `datastore1` as the image store. 
+This example `vic-machine create` command deploys a VCH that uses the folder `vch1_images` in `datastore1` as the image store, and limits the amount of space that the VCH can use to 500GB. 
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
@@ -89,5 +106,6 @@ This example `vic-machine create` command deploys a VCH that uses the folder `vc
 --public-network vic-public
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
+--storage-quota 500
 --no-tlsverify
 </pre>

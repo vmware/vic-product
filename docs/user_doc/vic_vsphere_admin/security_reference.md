@@ -7,9 +7,16 @@ The Security Reference provides information to allow you to secure your vSphere 
 - [Apply Security Updates and Patches](#patches)
 - [Security Related Log Messages](#logs)
 - [Sensitive Data](#data)
+- [Certificates](#certs)
 
 ## Service Accounts, Privileges, and User Authentication <a id="accounts"></a>
 vSphere Integrated Containers does not create service accounts and does not assign any vSphere privileges. The vSphere Integrated Containers appliance uses vCenter Single Sign-On user accounts to manage user authentication. You can optionally create example Single Sign-On user accounts for vSphere Integrated Containers Management Portal when you deploy the appliance. For information about the example user accounts, see [User Authentication](../vic_overview/intro_to_vic_mp.md#authentication) and [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
+
+### Appliance Authentication with vSphere
+
+The appliance uses a single TLS certificate for all of the services that run in the appliance.
+
+For information about how vSphere Integrated Containers uses certificates, see the [vSphere Integrated Containers Appliance Certificate Requirements](appliance_cert_reqs.md).
 
 ### VCH Authentication with vSphere
 
@@ -17,9 +24,9 @@ Using `vic-machine` to deploy and manage virtual container hosts (VCHs) requires
 
 When deploying VCHs, you must provide the certificate thumbprint of the vCenter Server or ESXi host on which you are deploying the VCH. For information about how to obtain and verify vSphere certificate thumbprints, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). Be aware that it is possible to use the `--force` option to run `vic-machine` commands that bypass vSphere certificate verification. For information about the `--force` option, see [`--force`](running_vicmachine_cmds.md#force) in the topic on running `vic-machine` commands.
 
-### Docker Client Authentication with VCHs
+### Docker Client and Management Portal Authentication with VCHs
 
-VCHs authenticate Docker API clients by using client certificates. For information about VCHs and client authentication, see [Virtual Container Host Security](vch_security.md). Be aware that it is possible to use the `--no-tlsverify` and `--no-tls` options to deploy VCHs that do not authenticate client connections. For information about the `--no-tlsverify` and `--no-tls` options, see [Disable Certificate Authentication](tls_unrestricted.md).
+VCHs authenticate Docker API clients and vSphere Integrated Containers Management Portal by using client certificates. For information about VCHs and client authentication, see the [Virtual Container Host Certificate Requirements](vch_cert_reqs.md). Be aware that it is possible to use the `--no-tlsverify` and `--no-tls` options to deploy VCHs that do not authenticate client connections. For information about the `--no-tlsverify` and `--no-tls` options, see [Disable Certificate Authentication](tls_unrestricted.md).
 
 ## Network Security <a id="network"></a>
 
@@ -57,21 +64,21 @@ The vSphere Integrated Containers appliance makes the core vSphere Integrated Co
 The different network interfaces on a VCH expose different services on different ports. For an overview of the different network interfaces on a VCH, see [Virtual Container Host Networks](vch_networking.md).
 
 
-#### Public Interface
+#### Public Network
 
-Container developers can forward any VCH port that is not used elsewhere to a container VM. For more information about the VCH public interface, see [Configure the Public Network](public_network.md).
+Container developers can forward any VCH port that is not used elsewhere to a container VM. For more information about the VCH public network, see [Configure the Public Network](public_network.md).
 
-#### Bridge Interface
+#### Bridge Network
 
-For information about the VCH bridge interface, see [Configure Bridge Networks](bridge_network.md).
+For information about the VCH bridge network, see [Configure Bridge Networks](bridge_network.md).
 
 |Port|Protocol|Description|
 |---|---|---|
 |53|TCP|Connections from the VCH to DNS servers for container name resolution|
 
-#### Client Interface
+#### Client Network
 
-For information about the VCH client interface, see [Configure the Client Network](client_network.md). 
+For information about the VCH client network, see [Configure the Client Network](client_network.md). 
 
 |Port|Protocol|Description|
 |---|---|---|
@@ -83,9 +90,9 @@ For information about the VCH client interface, see [Configure the Client Networ
 
 For information about VCH TLS options, see [Virtual Container Host Security](vch_security.md). For information about how debugging VCHs affects VCH behavior, see , see [Debug](vch_general_settings.md#debug) in the topic on configuring general VCH settings and [Debug Running Virtual Container Hosts](debug_vch.md).
 
-#### Management Interface
+#### Management Network
 
-For information about the VCH management interface, see [Configure the Management Network](mgmt_network.md).
+For information about the VCH management network, see [Configure the Management Network](mgmt_network.md).
 
 |Port|Protocol|Description|
 |---|---|---|

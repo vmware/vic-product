@@ -6,6 +6,7 @@ vSphere Integrated Containers Engine 1.5 supports Docker client 1.13.0. The supp
 
 - [Connecting to the VCH](#connectvch)
 - [Using Docker Environment Variables](#variables)
+- [Using `docker-compose` with TLS](#compose)
 - [Install the  vSphere Integrated Containers Registry Certificate](#registry)
   - [Obtain the vSphere Integrated Containers Registry CA Certificate](#getcert)
   - [Configure the Docker Client on Linux](#certlinux)
@@ -24,8 +25,8 @@ How you connect to your virtual container host (VCH) depends on the security opt
   --tlskey=<i>path_to_client_key</i>/key.pem 
   --tlscacert=<i>path</i>/ca.pem 
   info</pre>
-  - By setting Docker environment variables:<pre>DOCKER_CERT_PATH=<i>client_certificate_path</i>/cert.pem
-  DOCKER_TLS_VERIFY=1</pre>
+  - By setting Docker environment variables:<pre>DOCKER_CERT_PATH=<i>client_certificate_path</i>
+  DOCKER_TLS_VERIFY=1</pre>The <i>client_certificate_path</i> should contain the `cert.pem` and `key.pem` files, as well as the `ca.pem` file for the CA chain that signed the VCH server certificate. If server certificates are not signed by a trusted certificate authority, you might also require the `server-cert.pem` and `server-key.pem` server certificate files in <i>client_certificate_path</i>.
 - If the VCH uses server certificates but does not authenticate the Docker client, no client certificate is required and any client can connect to the VCH. This configuration is commonly referred to as `no-tlsverify` in documentation about containers and Docker. In this configuration, the VCH has a server certificate and connections are encrypted, requiring you to run Docker commands with the `--tls` option. For example:<pre>docker -H <i>vch_address</i>:2376 --tls info</pre>In this case, do not set the `DOCKER_TLS_VERIFY` environment variable. Setting `DOCKER_TLS_VERIFY` to 0 or to `false` has no effect.
 - If TLS is completely disabled on the VCH, you connect to the VCH at *vch_address*:2375. Any Docker client can connect to the VCH and communications are not encrypted. As a consequence, you do not need to specify any additional TLS options in Docker commands or set any environment variables. This configuration is not recommended in production environments. For example:<pre>docker -H <i>vch_address</i>:2375 info</pre>
 
@@ -37,11 +38,23 @@ The contents of the `env` files are different depending on the level of authenti
 
 - Mutual TLS authentication with client and server certificates:  <pre>DOCKER_TLS_VERIFY=1 
 DOCKER_CERT_PATH=<i>client_certificate_path</i>\<i>vch_name</i> 
-DOCKER_HOST=<i>vch_address</i>:2376</pre>
-- TLS authentication with server certificates without client authentication:<pre>DOCKER_HOST=<i>vch_address</i>:2376</pre>
+DOCKER_HOST=<i>vch_address</i>:2376
+COMPOSE_TLS_VERSION=TLSv1_2</pre>
+- TLS authentication with server certificates without client authentication:<pre>DOCKER_HOST=<i>vch_address</i>:2376
+COMPOSE_TLS_VERSION=TLSv1_2</pre>
 - No `env` file is generated if the VCH does not implement TLS authentication.
 
 For information about how to obtain the `env` file, see [Obtain a VCH](obtain_vch.md). For information about the `env` files in Docker, see [`docker-machine env`](https://docs.docker.com/machine/reference/env/) in the Docker documentation.
+
+## Using `docker-compose` with TLS <a id="compose"></a>
+
+vSphere Integrated Containers supports TLS v1.2, so you must configure `docker-compose` to use TLS 1.2. However, `docker-compose` does not allow you to specify the TLS version on the command line. You must use environment variables to set the TLS version for `docker-compose`. For more information, see [`docker-compose` issue 4651](https://github.com/docker/compose/issues/4651). Furthermore, `docker-compose` has a limitation that requires you to set TLS options either by using command line options or by using environment variables. You cannot use a mixture of both command line options and environment variables. 
+
+To use `docker-compose` with vSphere Integrated Containers and TLS, set the following environment variables:<pre>COMPOSE_TLS_VERSION=TLSv1_2
+DOCKER_TLS_VERIFY=1
+DOCKER_CERT_PATH="<i>path to your certificate files</i>"</pre>
+
+You can find the exact variables to set in the <code><i>vch_name</i>.env</code> file that is generated during VCH deployment. The certificate file path must lead to `CA.pem`, `key.pem`, and `cert.pem`. You can run `docker-compose` with the following command:<pre>docker-compose -H <i>vch_address</i> up</pre>
 
 ## Install the  vSphere Integrated Containers Registry Certificate <a id="registry"></a>
 
