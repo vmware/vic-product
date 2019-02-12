@@ -66,3 +66,7 @@ ls -l ${FILES_DIR}
 # Write version files
 echo "engine=${BUILD_VICENGINE_FILE}" >> /data/version
 echo "engine=${BUILD_VICENGINE_FILE}" >> /etc/vmware/version
+
+# Clean up cache
+rm -f /etc/cache/${BUILD_VICENGINE_FILE}
+rm -f /etc/cache/${BUILD_VICUI_FILE}
