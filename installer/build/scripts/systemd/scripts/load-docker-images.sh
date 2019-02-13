@@ -25,12 +25,9 @@ if [[ ! -f /etc/vmware/firstboot ]]; then
 
   # Load harbor
   echo "Loading Harbor"
-  mkdir -p /tmp/harbor
-  harbor_file=$(ls /etc/cache | grep harbor)
-  cat /etc/cache/${BUILD_HARBOR_FILE} | tar xz -C /tmp/harbor
-  harbor_containers_bundle=$(find /tmp/harbor -size +20M -type f -regextype sed -regex ".*/harbor\..*\.t.*z$")
+  harbor_containers_bundle=$(find /var/tmp/harbor -size +20M -type f -regextype sed -regex ".*/harbor\..*\.t.*z$")
   docker load -i "$harbor_containers_bundle"
-  rm -r /tmp/harbor
+  rm -r /var/tmp/harbor
   rm -r /etc/cache
 
   echo "Loading Admiral"

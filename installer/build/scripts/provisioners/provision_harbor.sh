@@ -80,3 +80,6 @@ EOF
 # Write version files
 echo "harbor=${BUILD_HARBOR_FILE}" >> /data/version
 echo "harbor=${BUILD_HARBOR_FILE}" >> /etc/vmware/version
+
+# Clean up cache
+rm -f /etc/cache/${BUILD_HARBOR_FILE}
