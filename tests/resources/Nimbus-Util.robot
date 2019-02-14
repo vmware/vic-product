@@ -230,8 +230,8 @@ Cleanup Nimbus Folders
     Wait Until Keyword Succeeds  2 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
     # TODO: this may need pabot shared resource locking around it for multiple jobs. We're likely making use of the
     # retry paths currently but it's not good practice.
-    Run Keyword If  ${deletePXE}  Execute Command  ${NIMBUS_LOCATION} rm -rf public_html/pxe/* public_html/pxeinstall/*
-    Execute Command  ${NIMBUS_LOCATION} rm -rf %{BUILD_TAG}
+    Run Keyword If  ${deletePXE}  Execute Command  ${NIMBUS_LOCATION_FULL} rm -rf public_html/pxe/* public_html/pxeinstall/*
+    Execute Command  ${NIMBUS_LOCATION_FULL} rm -rf %{BUILD_TAG}
     Close connection
 
 # Cleans up a list of VMs and deletes the pxe folder on nimbus gateway
