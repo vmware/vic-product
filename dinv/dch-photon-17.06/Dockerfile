@@ -24,7 +24,7 @@ RUN echo "> Installing photon base system in chroot, killing output to avoid off
     photon-release-2.0-2.ph2 \
     photon-repos-2.0-2.ph2 \
     tdnf-1.2.3-4.ph2 \
-    docker-17.06.0-8.ph2 \
+    docker-17.06.0-9.ph2 \
     procps-ng-3.3.15-2.ph2 \
     iptables-1.6.1-4.ph2 > /dev/null 2>&1
 
