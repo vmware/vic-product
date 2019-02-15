@@ -217,7 +217,7 @@ Specify a value of greater than 1. If not specified, `vic-machine create` sets t
 
 The amount of memory for the VCH endpoint VM. Set this option to increase the amount of memory in the VCH endpoint VM if the VCH will pull large container images.
 
-Image layers are stored in memory during `docker pull`. If you have enabled or inherited memory usage alerts on the VCH endpoint and you download a large VMFS virtual disk (VMDK), you might trigger a memory usage alert. You might want to reconfigure the alerts to avoid receiving warnings related to size.
+Image layers are stored in memory during `docker pull`. If you have enabled or inherited memory usage alerts on the VCH endpoint VM and you download an image with a large VMFS virtual disk (VMDK), you might trigger a memory usage alert. You might want to reconfigure the alerts to avoid receiving warnings related to size.
 
 **NOTE**: With the exception of VCHs that pull large container images, increase the overall amount of memory for the VCH resource pool, rather than the amount of memory of the VCH endpoint VM. Use `docker create -m` to set the memory on container VMs. This option is mainly intended for use by VMware Support.
 
