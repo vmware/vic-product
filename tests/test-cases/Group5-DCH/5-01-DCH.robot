@@ -37,7 +37,11 @@ Verify non-tls is enabled for dch-photon
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  /dinv
     # verify 12375 could be accessed without any certs to show docker info
-    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12375 info
+    :FOR  ${IDX}  IN RANGE  5
+    \   ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12375 info 
+    \   Log  ${output}
+    \   Exit For Loop If  Should Not Contain  ${output}  'Is the docker daemon running'
+    \   Sleep  3s 
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  Containers
 
@@ -51,7 +55,11 @@ Verify tls enabled scenario for dch-photon
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  -tls
     # verify 12376 could be accessed with --tls to show docker info
-    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12376 --tls info
+    :FOR  ${IDX}  IN RANGE  5
+    \   ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12376 --tls info   
+    \   Log  ${output}
+    \   Exit For Loop If  Should Not Contain  ${output}  'Is the docker daemon running'
+    \   Sleep  3s 
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  Containers
 
@@ -65,8 +73,11 @@ Verify tlsverify enabled scenario for dch-photon
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  -tlsverify
     # verify 12386 could not be accessed with --tls due to missing certs
-    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12386 --tls info
-    Log  ${output}
+    :FOR  ${IDX}  IN RANGE  5
+    \   ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12386 --tls info 
+    \   Log  ${output}
+    \   Exit For Loop If  Should Not Contain  ${output}  'Is the docker daemon running'
+    \   Sleep  3s 
     Should Be Equal As Integers  ${rc}  1
     Should Contain  ${output}  --tlsverify
 
