@@ -86,7 +86,7 @@ function set_base() {
     iproute2 iptables iputils \
     cdrkit xfsprogs sudo \
     lvm2 parted gptfdisk \
-    e2fsprogs docker-17.06.0-8.ph2 gzip \
+    e2fsprogs docker-17.06.0-9.ph2 gzip \
     net-tools logrotate sshpass
 
   log3 "installing package dependencies"

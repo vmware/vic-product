@@ -10,5 +10,5 @@ The following topics provide instructions about how to fill in the different pag
 - [Registry Access](vch_registry.md)
 - [Operations User](set_up_ops_user.md)
 - [Finish VCH Deployment in the vSphere Client](complete_vch_deployment_client.md)
-- [Advanced Virtual Container Host Deployment Options](vch_advanced_options.md)
-- [`vic-machine` Options Reference](vicmachine_options_ref.md)
+
+For the full list of `vic-machine create` options, see the [`vic-machine` Options Reference](vicmachine_options_ref.md).

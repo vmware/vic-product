@@ -3,7 +3,7 @@ FROM golang:1.8 AS build-env
 # copy the non-version specific files first so version specific can overwrite
 ADD . /go/src/dinv
 ADD ./dch-photon-17.06/* /go/src/dinv/
-RUN rm /go/src/dinv/dch-photon-1.12/main.go && cd /go/src/dinv && go get -v ./... && go build -o dinv && strip dinv
+RUN cd /go/src/dinv && go get -v ./... && go build -o dinv && strip dinv
 
 # Build photon base image
 FROM photon:2.0 as base
@@ -24,7 +24,7 @@ RUN echo "> Installing photon base system in chroot, killing output to avoid off
     photon-release-2.0-2.ph2 \
     photon-repos-2.0-2.ph2 \
     tdnf-1.2.3-4.ph2 \
-    docker-17.06.0-8.ph2 \
+    docker-17.06.0-9.ph2 \
     procps-ng-3.3.15-2.ph2 \
     iptables-1.6.1-4.ph2 > /dev/null 2>&1
 

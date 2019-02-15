@@ -59,7 +59,7 @@ Provide the following information to VMware Support if you encounter problems du
 - Specify if you made any changes to the disk configuration of the appliance and what those changes are.
 - Verify if you see the page at `https://vic_appliance_address:9443`.
 	- If you are not able to see the page, verify if you provided custom TLS certificates during deployment. 
-	- If you are able to see the page, verify if the format of the certificate is correct. For more information, see [vSphere Integrated Containers Certificate Reference](vic_cert_reference.md).
+	- If you are able to see the page, verify if the format of the certificate is correct. For more information, see [vSphere Integrated Containers Appliance Certificate Requirements](appliance_cert_reqs.md).
 	
         Run the `journalctl -u fileserver` and provide the output to VMware Support.
 - Verify if you are able to use SSH to access the appliance. 
