@@ -15,3 +15,5 @@ vSphere Integrated Containers appliance use the  172.17.0.0-172.22.0.0/16 networ
 ## Solution ##
 
 Access the appliance welcome page, file server, and vSphere Integrated Containers Management Portal from client systems with IP addresses that are not in the 172.17.0.0-172.22.0.0/16 subnets.
+
+For information about how to modify the network range, see [VMware KB 56445](https://ikb.vmware.com/s/article/56445).
