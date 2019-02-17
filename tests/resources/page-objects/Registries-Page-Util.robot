@@ -26,7 +26,7 @@ ${rp-registries-table}  css=.table
 
 *** Keywords ***
 Select Registries Page Iframe
-    Select Frame  ${cp-iframe}
+    Select Frame  ${rp-iframe}
 
 Unselect Registries Page Iframe
     Unselect Frame
