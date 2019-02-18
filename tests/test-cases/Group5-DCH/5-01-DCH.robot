@@ -37,7 +37,12 @@ Verify non-tls is enabled for dch-photon
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  /dinv
     # verify 12375 could be accessed without any certs to show docker info
-    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12375 info
+    :FOR  ${IDX}  IN RANGE  5
+    \   ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12375 info 
+    \   Log  ${output}
+    \   ${status}=  Run Keyword and Return Status  Should Not Contain  ${output}  'Is the docker daemon running'
+    \   Exit For Loop If  ${status} == True
+    \   Sleep  3s 
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  Containers
 
@@ -51,7 +56,12 @@ Verify tls enabled scenario for dch-photon
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  -tls
     # verify 12376 could be accessed with --tls to show docker info
-    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12376 --tls info
+    :FOR  ${IDX}  IN RANGE  5
+    \   ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12376 --tls info
+    \   Log  ${output}
+    \   ${status}=  Run Keyword and Return Status  Should Not Contain  ${output}  'Is the docker daemon running'
+    \   Exit For Loop If  ${status} == True
+    \   Sleep  3s 
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  Containers
 
@@ -65,8 +75,12 @@ Verify tlsverify enabled scenario for dch-photon
     Should Be Equal As Integers  ${rc}  0
     Should Contain  ${output}  -tlsverify
     # verify 12386 could not be accessed with --tls due to missing certs
-    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12386 --tls info
-    Log  ${output}
+    :FOR  ${IDX}  IN RANGE  5
+    \   ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12386 --tls info
+    \   Log  ${output}
+    \   ${status}=  Run Keyword and Return Status  Should Not Contain  ${output}  'Is the docker daemon running'
+    \   Exit For Loop If  ${status} == True
+    \   Sleep  3s 
     Should Be Equal As Integers  ${rc}  1
     Should Contain  ${output}  --tlsverify
 
@@ -111,8 +125,12 @@ Verify local enabled scenario for dch-photon
     ${rc}=  Run command and Return output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} run -d -p 12389:2376 ${harbor-image-tagged} -tls -local
 
     # Verify 12389 could not be accessed with -local due to dockerd only monitors local unix socket
-    ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12389 --tls ps
-    Log  ${output}
+    :FOR  ${IDX}  IN RANGE  5
+    \   ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12389 --tls ps
+    \   Log  ${output}
+    \   ${status}=  Run Keyword and Return Status  Should Not Contain  ${output}  'Is the docker daemon running'
+    \   Exit For Loop If  ${status} == True
+    \   Sleep  3s 
     Should Be Equal As Integers  ${rc}  1
     Should Contain  ${output}  Cannot connect to the Docker daemon at tcp://${VCH-IP}:12389
 
