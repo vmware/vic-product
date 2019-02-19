@@ -6,11 +6,6 @@ vSphere Integrated Containers Engine exploits the portability of the Docker imag
 
 If you consider a Venn diagram with "What vSphere Does" in one circle and "What Docker Does" in another, the overlap is significant. The objective of vSphere Integrated Containers Engine is to take as much of vSphere as possible and layer whatever Docker capabilities are missing on top, reusing as much of Docker's own code as possible. The  result does not sacrifice the portability of the Docker image format and should be completely transparent to a Docker client. The following sections describe key concepts and components that make this possible.
 
-- [Container VMs](#containervm) 
-- [Virtual Container Hosts](#vch) 
-- [The VCH Endpoint VM](#endpoint) 
-- [The vic-machine Utility](#vic-machine) 
-
 ## Container VMs <a id="containervm"></a>
 
 The container VMs that vSphere Integrated Containers Engine creates have all of the characteristics of software containers:

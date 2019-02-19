@@ -2,27 +2,13 @@
 
 If you use vSphere Integrated Containers Registry, or if container developers need to access Docker images that are stored in other private registry servers, you must configure virtual container hosts (VCHs) to allow them to connect to these private registry servers when you deploy the VCHs. VCHs can connect to both secure and insecure private registry servers. You can also configure VCHs so that they can only access images from a whitelist of approved registries.
 
-- [Obtain the vSphere Integrated Containers Registry Certificate](#regcert)
-- [Options](#options)
-  - [Whitelist Registry Mode](#whitelist-registry)
-     - [Whitelisting Secure Registries](#vch-whitelist-secure) 
-     - [Whitelisting Insecure Registries](#vch-whitelist-insecure)
-     - [VCH Whitelists and Registry Lists in vSphere Integrated Containers Management Portal](#vch-whitelist-mp)
-     - [VCH Whitelists and Content Trust](#vch-content-trust)
-  - [Insecure Registry Access](#insecure-registry)
-  - [Additional Registry Certificates](#registry-ca)
-- [Examples](#examples)
-  - [Authorize Access to a Whitelist of Secure and Insecure Registries](#whitelist)
-  - [Authorize Access to Secure and Insecure Private Registry Servers](#secure-insecure)
-- [What to Do Next](#whatnext)
-
 ## Obtain the vSphere Integrated Containers Registry Certificate <a id="regcert"></a>
 
 To configure a VCH so that it can connect to vSphere Integrated Containers Registry, you must obtain the registry certificate and pass it to the VCH when you create that VCH.
 
 When you deployed the vSphere Integrated Containers appliance, vSphere Integrated Containers Registry auto-generated a Certificate Authority (CA) certificate. You can download the registry CA certificate from the vSphere Integrated Containers Management Portal.
 
-**Procedure**
+## Procedure
 
 1. In a browser, go to the vSphere Integrated Containers appliance welcome page.
 

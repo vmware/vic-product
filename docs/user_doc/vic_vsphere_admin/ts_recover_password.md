@@ -4,7 +4,7 @@ If you forget the root password for the vSphere Integrated Containers appliance,
 
 **NOTE**: During the initial deployment of the appliance, the installer uses `ovfenv` to set the root password on first boot. Subsequent boots ignore the `ovfenv` field.
 
-**Procedure**
+## Procedure
 
 1. In the vSphere Client, open a remote console for the appliance VM.
 
@@ -32,6 +32,6 @@ umount /
 reboot -f
 ```
 
-**Result**
+## Result
 
 You can use the new root password to log in to the vSphere Integrated Containers appliance.

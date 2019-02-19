@@ -2,11 +2,11 @@
 
 You access the logs for vSphere Integrated Containers by using SSH to connect to the appliance. You can also access logs and configure log retention for each of the different vSphere Integrated Containers components. In most cases, it is sufficient to generate the support bundle, but advanced users can access individual logs if required.
 
-**Prerequisites**
+## Prerequisites
 
 Make sure that SSH access to the appliance is enabled. To enable SSH access to the appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.md).
 
-**Procedure**
+## Procedure
 
 1. Use SSH to connect to the appliance as root user.<pre>$ ssh root@vic_appliance_address</pre>When prompted for the password, enter the appliance password that you specified when you deployed the appliance.
 

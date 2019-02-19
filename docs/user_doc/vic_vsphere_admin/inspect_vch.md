@@ -36,7 +36,7 @@ The following example includes the `--tls-cert-path` option, for a VCH that stor
     --tls-cert-path <i>path_to_certificates</i>
 </pre>
 
-### Output
+## Output
 
 The `vic-machine inspect` command displays general information about the VCH, its version and upgrade status, and details about how to connect to the VCH:
 

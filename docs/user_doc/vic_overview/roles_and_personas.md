@@ -8,24 +8,18 @@ The following image shows how the different roles manage and use the different c
 
 Permissions per role are described in the following sections in reversed order, as every next role listed inherits the permissions of the previous role and has additional ones.
 
-- [V. Viewer](#viewer)
-- [IV. Developer](#developer)
-- [III. DevOps Administrator](#devopsadmin)
-- [II. Management Portal Administrator](#cloudadmin)
-- [I. Virtual Infrastructure Administrator](#viadmin)
-
-## V. Viewer <a id="viewer"></a>
+## Viewer <a id="viewer"></a>
 
 Role assigned per project. This role only has view access to the repositories for a project in vSphere Integrated Containers Management Portal.
 
-## IV. Developer <a id="developer"></a>
+## Developer <a id="developer"></a>
 
 Role assigned per project. In addition to the view access, for their assigned projects developers can also:
 - Provision containers
 - Push images into registries
 - Create and import templates
 
-## III. DevOps Administrator <a id="devopsadmin"></a>
+## DevOps Administrator <a id="devopsadmin"></a>
 
 Role assigned per project. For their assigned projects, DevOps administrators can perform additional actions in vSphere Integrated Containers Management Portal:
 
@@ -33,7 +27,7 @@ Role assigned per project. For their assigned projects, DevOps administrators ca
 - Add new registries to their project
 - Change the project configurations, such as making the project registry public, changing deployment security settings, and enabling vulnerability scanning
 
-## II. Management Portal Administrator <a id="cloudadmin"></a>
+## Management Portal Administrator <a id="cloudadmin"></a>
 
 The Management Portal administrator, sometimes referred to as the Cloud administrator, is the global administrator for all projects in vSphere Integrated Containers Management Portal. The Management Portal Administrator role is assigned to the Administrators group for vCenter Server during the installation of vSphere Integrated Containers. Through the management portal, you can revoke that role for the Administrators group, only after you assign the role to another group. Management Portal administrators can also assign the role to individual users.
 
@@ -48,7 +42,7 @@ The following global permissions are unique to the Management Portal Administrat
 - Set global configurations for registries
 - View system logs
 
-## I. Virtual Infrastructure Administrator <a id="viadmin"></a>
+## Virtual Infrastructure Administrator <a id="viadmin"></a>
 
 vSphere administrators prepare, install, and set up vSphere Integrated Containers. The typical workflow includes the following actions:
 - Deploy the vSphere Integrated Containers appliance

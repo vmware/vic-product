@@ -8,9 +8,6 @@ vSphere Integrated Containers Management Portal is a highly scalable and very li
 
 For more information about vSphere Integrated Containers Management Portal, see [vSphere Integrated Containers Management Portal Administration](../vic_cloud_admin/).
 
-- [Projects and Role-Based Access Control](#projects)
-- [User Authentication](#authentication)
-
 ## Projects and Role-Based Access Control <a id="projects"></a>
 
 In vSphere Integrated Containers Management Portal, you organize repositories in projects. "Repository" is Docker terminology for a collection of container images that have the same name but that have different tags. You assign users, registries, and VCHs to the projects and you assign roles with different permissions to the users in each project. There are two types of project in vSphere Integrated Containers:  

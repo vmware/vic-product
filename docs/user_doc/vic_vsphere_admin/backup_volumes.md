@@ -35,7 +35,7 @@ Taking snapshots and making clones of NFS volumes is handled by the system that 
 
 This example uses a VCH with two VMDK volume stores and one NFS volume store to demonstrate how data persists in container volumes. 
 
-**Procedure**
+## Procedure
 
 1. Run `vic-machine create` with the following options to deploy a VCH with three volume stores,<pre>--volume-store vsanDatastore/volumes/my-vch-data:replicated-encrypted 
 --volume-store iSCSI-nvme/volumes/my-vch-logs:default

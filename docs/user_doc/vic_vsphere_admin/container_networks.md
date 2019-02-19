@@ -5,16 +5,6 @@ Container networks are vSphere networks that the vSphere administrator makes dir
 The mapped networks are available for use by the Docker API. 
 Running `docker network ls` lists the container networks, and container developers can attach them to containers in the normal way by using commands such as `docker run` or `create` with the `--network=mapped-network-name` option, or `docker network connect`. 
 
-- [Advantages of Container Networks](#advantages)
-- [Options](#options)
-  - [Container Network](#container-network) 
-  - [IP Address Range](#ip-range)
-  - [Gateway](#gateway)
-  - [DNS](#dns)
-  - [Firewall Policy](#container-network-firewall)
-- [What to Do Next](#whatnext)
-- [Example `vic-machine` Command](#example)
-
 **IMPORTANT**: 
 
 - For information about VCH networking requirements, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).

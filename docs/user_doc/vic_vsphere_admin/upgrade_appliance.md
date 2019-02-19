@@ -12,7 +12,7 @@ For information about the supported upgrade paths for all versions of vSphere In
 
 **NOTE**: You cannot upgrade between untagged, open source builds of the same release. For example, you cannot upgrade from an earlier,  open source build of 1.5.0 to the official 1.5.0 release. You can only upgrade from one official release to another. Upgrading from one tagged open source build to another is possible but is not supported.
 
-**Prerequisites**
+## Prerequisites
 
 - You have completed the pre-upgrade tasks listed in [Tasks to Perform Before Upgrading the vSphere Integrated Containers Appliance](pre_upgrade_tasks.md).
 - If you deployed the old version of the vSphere Integrated Containers appliance with a static IP address, and you want the new appliance to retain the same IP address after the upgrade, reconfigure the old appliance to use a temporary IP address before you start the upgrade procedure. For information about how to reconfigure the old appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.md).
@@ -27,7 +27,7 @@ For information about the supported upgrade paths for all versions of vSphere In
 - Log in to the vSphere Client for the vCenter Server instance on which the previous version is running and on which you deployed the new version. 
 - Do not power off the older version of the appliance.
 
-**Procedure**
+## Procedure
 
 1. Use SSH to connect to the new appliance as root user.
 
@@ -68,11 +68,11 @@ For information about the supported upgrade paths for all versions of vSphere In
   - If the script detects your upgrade path correctly, enter `y` to proceed with the upgrade.
   - If the upgrade script detects the upgrade path incorrectly, enter `n` to abort the upgrade and contact VMware support.
 
-**Result**
+## Result
 
 After you see confirmation that the upgrade has completed successfully, the upgraded appliance initializes. When the upgraded appliance has initialized, you can access its appliance welcome page at http://<i>new_appliance_address</i>.
 
-**What to Do Next**
+## What to Do Next
 
 - If you answered `y` at the prompt to `Upgrade VIC UI Plugin`, access the  vSphere Integrated Containers plug-in for vSphere Client:
    1. Log out of the HTML5 vSphere Client and log back in again. You should see a banner that states `There are plug-ins that were installed or updated`.
@@ -89,7 +89,7 @@ After you see confirmation that the upgrade has completed successfully, the upgr
 - Download the new vSphere Integrated Containers Engine bundle and upgrade  your VCHs. For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).
 - If you answered `n` at the prompt to `Upgrade VIC UI Plugin`, and you want to upgrade the plug-in later, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md). 
 
-**Troubleshooting**
+## Troubleshooting
 
 If upgrade fails, generate a log bundle and obtain the upgrade log to provide to VMware support. For information about obtaining the logs, see [Access and Configure Appliance Logs](appliance_logs.md).
 

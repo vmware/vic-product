@@ -7,7 +7,7 @@ The vSphere Integrated Containers Engine bundle includes:
 - Scripts that you run to install, upgrade, or remove the vSphere Client plug-in for vSphere Integrated Containers.
 - The `vic-machine` command line utility, that you use to deploy virtual container hosts (VCHs) and manage their lifecycle. 
 
-**Prerequisites**
+## Prerequisites
 
 - You deployed the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 - Your working machine runs a 64-bit version of the following Windows, Mac OS, or Linux OS systems.   
@@ -20,7 +20,7 @@ The vSphere Integrated Containers Engine bundle includes:
 
 The `vic-machine` utility has been tested and verified on the operating systems above. Other recent 64-bit OS versions should work but are untested.
 
-**Procedure**
+## Procedure
 
 1. In a browser, go to the vSphere Integrated Containers appliance welcome page.
 
@@ -34,7 +34,7 @@ The `vic-machine` utility has been tested and verified on the operating systems 
 2. Scroll down to **Infrastructure deployment tools** and click the link to **download the vSphere Integrated Containers Engine bundle**.
 3. Unpack the bundle on your working machine.
 
-**Result**
+## Result
 
 When you unpack the vSphere Integrated Containers Engine bundle, you obtain following files:
 
@@ -49,7 +49,7 @@ When you unpack the vSphere Integrated Containers Engine bundle, you obtain foll
 |`README`|Contains a link to the vSphere Integrated Containers Engine repository on GitHub. |
 |`LICENSE`|The license file. |
 
-**What to Do Next**
+## What to Do Next
 
 - If you did not do so when deploying the appliance, install the vSphere Client plug-in. For information, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md). By default, the plug-in is installed automatically.   
 - Use either the `vic-machine` CLU utility or the Create Virtual Container Host wizard in the vSphere Client to [Deploy Virtual Container Hosts](deploy_vch.md).

@@ -2,13 +2,6 @@
 
 You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. 
 
-- [Deployment Examples for vSphere Integrated Containers Registry](#examples)
-  - [Two-Way Image Replication](#replication) 
-  - [User Roles](#roles)
-  - [Hub and Spoke Configuration](#hub)
-  - [Separate Development from Production](#dev-prod)
-- [vSphere Integrated Containers Plug-in and Multiple Appliance Deployments](#client) 
-
 ## Deployment Examples for vSphere Integrated Containers Registry <a id="examples"></a>
 
 The main reason why you might deploy multiple vSphere Integrated Containers appliances is to take advantage of the image replication and user management features that vSphere Integrated Containers Registry provides.

@@ -6,25 +6,6 @@ For information about how VCHs and Docker use certificates, see [Virtual Contain
 
 For information about how to deploy VCHs that do not verify  connections from clients, see [Disable Client Authentication](tls_unrestricted.md).
 
-- [Options](#options)
-  - [Client Certificates](#client)
-     - [Select CA Certificate PEM File](#ca-pem)
-  -  [Server Certificates](#server)
-     - [Common Name (CN)](#tls-cname)
-     - [Organization (O)](#org)
-     - [Certificate Key Size](#keysize)
-     - [Certificate Path](#cert-path)
-     - [Server Certificate](#server-cert)
-     - [Server Private Key](#server-key)
-  - [How to Connect to VCHs with Client Verification](#connect)  
-- [Examples](#examples)
-  - [Automatically Generate Server, Client, and CA Certificates](#full-auto)
-  - [Automatically Generate Server Certificates and Use a Custom CA for Client Certificates](#auto-server)
-  - [Use a Custom Server Certificate and a Custom CA for Client Certificates](#all-custom)
-  - [Use a Custom Server Certificate and Automatically Generate a CA for Client Certificates](#custom-server-auto-client-ca)
-- [Troubleshooting](#troubleshooting)
-- [What to Do Next](#whatnext)
-
 # Options <a id="options"></a>
 
 The following sections each correspond to an entry in the Security page of the Create Virtual Container Host wizard. Each section also includes a description of the corresponding `vic-machine create` option. 

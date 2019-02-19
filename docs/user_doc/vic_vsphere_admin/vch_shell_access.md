@@ -26,7 +26,7 @@ This example sets a password to allow shell access to the VCH.<pre>$ vic-machine
      --thumbprint <i>certificate_thumbprint</i>
      --rootpw '<i>new_p@ssword</i>' </pre>
 
-### Output
+## Output
 
 The output of the `vic-machine debug` command includes confirmation that SSH access is enabled:
 

@@ -4,11 +4,11 @@ The vSphere Integrated Containers appliance provides an API that, after deployme
 
 The appliance exposes the registration API endpoint at https://<i>vic_appliance_address</i>:9443/register. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, 9443 is replaced with the appropriate port.
 
-**Prerequistes**
+## Prerequisites
 
 You deployed an instance of the vSphere Integrated Containers appliance without completing the registration wizard that appears in the **Complete VIC appliance installation** panel when you first go to the vSphere Integrated Containers appliance welcome page.
 
-**Procedure**
+## Procedure
 
 1. On your usual working system, create a file named `payload.json`, to include information about your vSphere environment.
 
@@ -38,11 +38,11 @@ You deployed an instance of the vSphere Integrated Containers appliance without 
 </pre>If successful, you see the message `operation complete
 200`. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, replace 9443 with the appropriate port.
 
-**Result**
+## Result
 
 The appliance registers with the Platforms Services Controller. After registration, vSphere Integrated Containers services are available at  https://<i>vic_appliance_address</i>:9443.
 
-**Example**
+## Example
 
 Here is an example of a completed `payload.json` file: 
 

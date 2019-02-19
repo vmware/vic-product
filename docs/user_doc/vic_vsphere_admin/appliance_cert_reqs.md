@@ -4,12 +4,6 @@ vSphere Integrated Containers authenticates connections between its various comp
 
 **IMPORTANT**: The certificate requirements for the appliance and for virtual container hosts (VCHs) are different. For information about how VCHs use certificates, see [Virtual Container Host Certificate Requirements](vch_cert_reqs.md). 
 
-- [Overview of vSphere Integrated Containers Appliance Certificate Use](#overview)
-- [vSphere Integrated Containers Appliance Certificate](#appliance)
-- [vSphere Integrated Containers Registry Root CA](#registry)
-- [VCH Client Certificate](#client)
-- [vCenter Server Certificate](#vcenter)
-
 ## Overview of vSphere Integrated Containers Appliance Certificate Use <a id="overview"></a>
 
 This diagram shows how the vSphere Integrated Containers appliance uses certificates to authenticate connections between the different components. The diagram shows a deployment in which verification of client certificates is enabled on virtual container hosts (VCHs).

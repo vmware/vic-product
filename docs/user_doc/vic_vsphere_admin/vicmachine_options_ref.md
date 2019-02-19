@@ -2,17 +2,6 @@
 
 This topic includes lists of all of the options of the different `vic-machine` commands, with links to the sections of the documentation that describe them.
 
-- [`vic-machine create` Options](#create)
-- [`vic-machine configure` Options](#configure)
-- [`vic-machine debug` Options](#debug)
-- [`vic-machine delete` Options](#delete)
-- [`vic-machine inspect` Options](#inspect)
-- [`vic-machine inspect config` Options](#inspect-config)
-- [`vic-machine ls` Options](#ls)
-- [`vic-machine update firewall` Options](#update)
-- [`vic-machine upgrade` Options](#upgrade)
-- [`vic-machine version` Options](#version)
-
 ## `vic-machine create` Options <a id="create"></a>
 
 |**Option**|**Documentation**|  
@@ -42,7 +31,7 @@ This topic includes lists of all of the options of the different `vic-machine` c
 |`--dns-server`|[Configure the Public Network](public_network.md#dns-server)|
 |`--endpoint-cpu`|[Virtual Container Host Compute Capacity](vch_compute.md#endpointcpu)|
 |`--endpoint-memory`|[Virtual Container Host Compute Capacity](vch_compute.md#endpointmemory)|
-|`--force`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#force)|
+|`--force`|[Basic `vic-machine create` Options](using_vicmachine.md#force)|
 |`--image-store`|[Specify the Image Datastore](image_store.md)|
 |`--insecure-registry`|[Configure Registry Access](vch_registry.md#insecure-registry)|
 |`--http-proxy`|[Configure VCHs to Use Proxy Servers](vch_proxy.md#http)|
@@ -61,22 +50,22 @@ This topic includes lists of all of the options of the different `vic-machine` c
 |`--ops-password`|[Configure the Operations User](set_up_ops_user.md#credentials)|
 |`--ops-user`|[Configure the Operations User](set_up_ops_user.md)|
 |`--organization`|[Virtual Container Host Certificate Options](vch_cert_options.md#org)|
-|`--password`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#password)|
+|`--password`|[Basic `vic-machine create` Options](using_vicmachine.md#password)|
 |`--public-network`|[Configure the Public Network](public_network.md)|
 |`--public-network-gateway`|[Configure the Public Network](public_network.md#gateway)|
 |`--public-network-ip`|[Configure the Public Network](public_network.md#static-ip)|
 |`--registry-ca`|[Configure Registry Access](vch_registry.md#registry-ca)|
 |`--storage-quota`|[Specify the Image Datastore](image_store.md#quota)|
 |`--syslog-address`|[General Virtual Container Host Settings](vch_general_settings.md#syslog)|
-|`--target`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#target)|
-|`--thumbprint`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#thumbprint)|
-|`--timeout`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#timeout)|
+|`--target`|[Basic `vic-machine create` Options](using_vicmachine.md#target)|
+|`--thumbprint`|[Basic `vic-machine create` Options](using_vicmachine.md#thumbprint)|
+|`--timeout`|[Basic `vic-machine create` Options](using_vicmachine.md#timeout)|
 |`--tls-ca`|[Virtual Container Host Certificate Options](vch_cert_options.md#ca-pem)|
 |`--tls-cert-path`|[Virtual Container Host Certificate Options](vch_cert_options.md#cert-path)|
 |`--tls-cname`|[Virtual Container Host Certificate Options](vch_cert_options.md#tls-cname)|
 |`--tls-server-cert`|[Virtual Container Host Certificate Options](vch_cert_options.md#server-cert)|
 |`--tls-server-key`|[Virtual Container Host Certificate Options](vch_cert_options.md#server-key)|
-|`--user`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#user)|
+|`--user`|[Basic `vic-machine create` Options](using_vicmachine.md#user)|
 |`--volume-store`|[Specify Volume Datastores](volume_stores.md)|
 |`--whitelist-registry`|[Configure Registry Access](vch_registry.md#whitelist-registry)|
 

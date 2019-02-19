@@ -4,11 +4,11 @@ In addition to the integrated vSphere Integrated Containers Registry and the glo
 
 You can also configure namespaces for the registries that you add. If you add a new registry and configure a namespace for it, developers cannot search, browse, or deploy images that are outside of that namespace. You can add a registry multiple times to allow developers to reach different namespaces in that registry.   
 
-**Prerequisites** 
+## Prerequisites 
 
 Log in to vSphere Integrated Containers Management Portal with a vSphere administrator, Management Portal administrator, or DevOps administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 
-**Procedure**
+## Procedure
 
 1. Navigate to **Administration** > **Projects** and click your project.
 2. On the Project Registries tab, click **+ New Project Registry**.
@@ -23,6 +23,6 @@ Log in to vSphere Integrated Containers Management Portal with a vSphere adminis
 	5. After successful verification, click **Save**.
 
 
-**Result**
+## Result
 
 The registry appears on the Project Registries page and you can access the images stored in that registry.

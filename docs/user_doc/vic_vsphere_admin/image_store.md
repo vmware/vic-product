@@ -4,13 +4,6 @@ When you deploy a virtual container host (VCH), you must specify a datastore or 
 
 You can also optionally change the base image size for container images. 
 
-- [Options](#options)
-  - [Datastore](#imagestore)
-  - [Base Image Size](#baseimagesize)
-  - [Storage Quota](#quota)
-- [What to Do Next](#whatnext)
-- [Example `vic-machine` Command](#example)
-
 ## Options <a id="options"></a>
 
 The sections in this topic each correspond to an entry in the Image Datastore section of the Storage Capacity page of the Create Virtual Container Host wizard, and to the  corresponding `vic-machine create` options.

@@ -2,7 +2,7 @@
 
 The process of uninstalling vSphere Integrated Containers depends on the way that you use the product. In general, you stop the running containers, delete the VCHs that you deployed, and delete the vSphere Integrated Containers virtual appliance. If you perform the three operations, no significant footprint stays in your environment. To make sure that no vSphere Integrated Containers elements persist, also unregister the vSphere Integrated Containers plug-in and delete the product-specific users from your Platform Services Controller.
 
-**Procedure**
+## Procedure
 
 1. Stop any running containers on your VCHs.
 2. Delete all VCHs in your environment.

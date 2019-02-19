@@ -4,12 +4,6 @@ When you deploy a virtual container host (VCH), you must use an account with vSp
 
 If you use the Create Virtual Container Host wizard to deploy VCHs, it is **mandatory** to specify an operations user. If you use `vic-machine`, specifying an operations user is recommended but optional. The user account that you specify as the operations user must exist before you deploy the VCH. For information about how to create an operations user account, see [Create the Operations User Account](create_ops_user.md).
 
-- [Options](#options)
-  - [vSphere User Credentials](#credentials)
-  - [Grant Any Necessary Permissions](#perms)
-- [Example](#example)
-- [What to Do Next](#whatnext)
-
 ## Options <a id="options"></a>
 
 The following sections each correspond to an entry in the Operations User page of the Create Virtual Container Host wizard. Each section also includes a description of the corresponding `vic-machine create` option. 

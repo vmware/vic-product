@@ -2,14 +2,14 @@
 
 After you have deployed the vSphere Integrated Containers appliance, you can reconfigure the settings that you provided to the OVA installer during deployment. You can also reconfigure the appliance VM itself, for example to expand the size of the different disks, or to increase memory and processing power.
 
-**Prerequisites**
+## Prerequisites
 
 Log in to the vSphere Client:
 
 - If you use vCenter Server 6.7 update 1 or later, you can use the HTML5 vSphere Client to reconfigure the appliance.
 - If you use a version of vCenter Server that pre-dates 6.7 update 1, you must use the Flex-based vSphere Web Client. You cannot reconfigure the appliance in the HTML5 vSphere Client .
 
-**Procedure**
+## Procedure
 
 1. Shut down the vSphere Integrated Containers appliance by selecting **Shut Down Guest OS**.
 
@@ -43,6 +43,6 @@ Log in to the vSphere Client:
 
    **NOTE**: It is not recommended to modify the **Deployment** and **Authoring** settings.
 
-**Result**
+## Result
 
 When you power the appliance back on, the new settings are automatically applied. If you resized one or more of the hard disks, the appliance automatically handles the partitioning of the disks during the boot process.  

@@ -121,7 +121,7 @@ Enabling content trust on a project automatically modifies the registry whitelis
 - For information about content trust in vSphere Integrated Containers, see [Enabling Content Trust in Projects](../vic_cloud_admin/content_trust.md) in *vSphere Integrated Containers Management Portal Administration*.
 - For information about how enabling content trust affects VCHs, see [VCH Whitelists and Content Trust](../vic_vsphere_admin/vch_registry.md#vch-content-trust) in *vSphere Integrated Containers for vSphere Administrators*.
 
-**Procedure**
+## Procedure
 
 1. If you are using a self-signed certificate, copy the CA root certificate to the Docker certificates folder.
 

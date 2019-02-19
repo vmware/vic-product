@@ -2,14 +2,6 @@
 
 The management network is the network on which the VCH endpoint VM connects to vCenter Server and ESXi hosts. By designating a specific management network, you isolate connections to vSphere resources from the public network. The VCH uses this network to provide the `attach` function of the Docker API. 
 
-- [Options](#options)
-  - [Management Network](#management-network) 
-  - [Static IP Address](#static-ip)
-  - [Routing Destination and Gateway](#gateway)
-  - [Asymmetric Routes](#asymmetric-routes)
-- [What to Do Next](#whatnext)
-- [Example `vic-machine` Command](#example)
-
 **IMPORTANT**: For information about VCH networking requirements, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
 
 ## Options <a id="options"></a>

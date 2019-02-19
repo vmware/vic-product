@@ -1,18 +1,6 @@
 # Networking Requirements #
 
-- [Appliance Networking Requirements](#networkreqs)
-- [Understanding Docker and VCH Networking](#understanding)
-- [Networking Requirements for VCH Deployment](#vchnetworkreqs)
-  - [vSphere Port Groups](#portgroups)
-  - [NSX Data Center for vSphere Logical Switches](#nsx)
-  - [NSX-T Data Center Logical Switches](#nsxt)
-- [VCH Networks](#vchnetworks)
-  - [Bridge Networks](#bridge)
-  - [Public Network](#public)
-  - [Client and Management Networks](#client-mgmt)
-  - [Container Networks](#container)
-  - [Network Isolation](#isolation)
-- [Ports and Protocols](#ports)
+The vSphere Integrated Containers appliance and virtual container hosts (VCHs) have specific network requirements. 
 
 ## Appliance Networking Requirements <a id="networkreqs"></a>
 

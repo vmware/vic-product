@@ -6,12 +6,12 @@ Optionally, you can log in by using one of the example user accounts that were c
 
 For more information about users and roles, see [vSphere Integrated Containers Roles and Personas](../vic_overview/roles_and_personas.md).
 
-**Prerequisites**
+## Prerequisites
 
 - You or the vSphere administrator deployed the vSphere Integrated Containers appliance and registered it with vCenter Server.
 - You have a vCenter Server Single Sign-On user account with vSphere administrator privileges, or a user account that has been granted the Management Portal Administrator, DevOps administrator, developer, or viewer role in vSphere Integrated Containers.
 
-**Procedure**
+## Procedure
 
 1. Enter the IP address or FQDN of the vSphere Integrated Containers appliance in a browser.
 

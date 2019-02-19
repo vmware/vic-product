@@ -2,12 +2,12 @@
 
 vSphere Integrated Containers keeps a log of all of the operations that users perform in a project. You can apply filters to help you to search the logs.
 
-**Prerequisites**
+## Prerequisites
 
 - Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Management Portal administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 - You have a created project.
 
-**Procedure**
+## Procedure
 
 1. Select the **Administration** tab and click **Logs**.
 

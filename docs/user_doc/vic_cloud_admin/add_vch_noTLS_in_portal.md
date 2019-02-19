@@ -8,7 +8,7 @@ If a Docker host or a vSphere Integrated Containers virtual container host (VCH)
 
 Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Management Portal administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 
-**Procedure**
+## Procedure
 
 1. In the **Home** view, click the **Project**  drop-down menu and select the project to which to add the host.
 2. Navigate to **Infrastructure** > **Container Hosts** and click **+Host**.
@@ -19,10 +19,10 @@ Log in to vSphere Integrated Containers Management Portal with a vSphere adminis
 
 	    For example, *http://*hostname*:2375*.
 
-**Result**
+## Result
 
 The host appears on the Container Hosts page for the selected project. You can also see the hosts that you added to a project by navigating to **Administration** > **Projects** > *project* > **Infrastructure**.
 
-**What to Do Next**
+## What to Do Next
 
 [Configure Project Settings](manage_projects.md)

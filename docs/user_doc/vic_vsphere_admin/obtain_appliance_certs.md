@@ -4,7 +4,7 @@ If you do not provide custom certificates during deployment, the OVA installer g
 
 The vSphere administrator can obtain the thumbprint and CA file and passes them to other users who need to access the appliance welcome page or the vSphere Integrated Containers Management Portal. 
 
-**Procedure**
+## Procedure
 
 1. Use SSH to connect to the vSphere Integrated Containers appliance as `root` user.<pre>$ ssh root@<i>vic_appliance_address</i></pre>
 2. Use `openssl` to view the certificate fingerprint. 

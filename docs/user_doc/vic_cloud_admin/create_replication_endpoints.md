@@ -4,12 +4,12 @@ To replicate image repositories from one instance of vSphere Integrated Containe
 
 You can create replication endpoints independently of projects, or you can create new endpoints when you create replication rule for a project. This procedure describes how to create endpoints independently of projects.
 
-**Prerequisites**
+## Prerequisites
 
 - Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Management Portal administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 - You deployed at least two instances of vSphere Integrated Containers Registry. 
 
-**Procedure**
+## Procedure
 
 1. Select the **Administration** tab, click **Global Registries** > **Replication Endpoints** and click the **+ New Endpoint** button.
 3. Enter a suitable name for the new replication endpoint.
@@ -26,10 +26,10 @@ You can create replication endpoints independently of projects, or you can creat
 6. Click **Test Connection**.
 7. When you have successfully tested the connection, click **OK**.
 
-**Result**
+## Result
 
 The endpoint registry that you created is available for selection when you create replication rules for projects.
 
-**What to Do Next**
+## What to Do Next
 
 Create a replication rule for a project.

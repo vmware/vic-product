@@ -2,21 +2,28 @@
 
 	"title": "VMware vSphere Integrated Containers 1.5 Documentation",
         "gitbook": "3.x.x",
-        "plugins": ["insert-logo", "chapter-fold", "edit-link", "noembed"],
+        "plugins": ["page-toc-button", "noembed", "chapter-fold", "insert-logo", "edit-link", "analytics"],
         "pluginsConfig": {
-            "insert-logo": {
+
+	   "analytics": {
+                "google": "UA-133830113-1"
+            },
+		
+           "page-toc-button": {
+              "maxTocDepth": 2,
+              "minTocSize": 3
+           },
+		   
+           "insert-logo": {
                 "url": "VMW_logo.png",
                 "style": "background: none"
-        },
-            "edit-link": {
+           },
+		   
+	   "edit-link": {
                 "base": "https://github.com/vmware/vic-product/tree/master/docs/user_doc",
                 "label": "Edit this Page"
             }
-        },
-	"pdf": {
-		"headerTemplate": "_TITLE_",
-		"footerTemplate": "_PAGENUM_",
-                "paperSize": "letter"
-	}
+ 
+        }
          
 }

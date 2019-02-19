@@ -4,12 +4,6 @@ Virtual container hosts (VCHs) provide log bundles that you can download from th
 
 It is recommended that you collect the log bundles with container logs and no just the different log bundles unless unable to do so or otherwise instructed.
 
-- [Collecting Log Bundles](#collect-logs)
-- [Viewing Logs Live](#live-logs)
-- [Collecting Logs Manually](#manual)
-- [Setting the Log Size Cap](#log-size-cap)
-- [Troubleshooting VCH Creation Errors](#troubleshooting)
-
 ## Collecting Log Bundles <a id="collect-logs"></a>
 
 1. Access the VCH Admin Portal at https://<i>vch_address</i>:2378. For more information about the VCH Admin portal, see [VCH Administration Portal](access_vicadmin.md).

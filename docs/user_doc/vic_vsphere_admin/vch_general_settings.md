@@ -2,16 +2,6 @@
 
 When you deploy a virtual container host (VCH), you can configure a name for the VCH, a naming convention for container VMs, and debugging levels. 
 
-- [Options](#options)
-  - [VCH Name](#name)
-  - [Container VM Name Template](#container-name-convention)
-  - [Debug](#debug)
-  - [Syslog](#syslog)
-- [What to Do Next](#whatnext)
-- [Example `vic-machine` Commands](#examples)
-  - [Set a Container Name Convention](#convention) 
-  - [Configure Debugging and Sylog on a VCH](#syslog)
-
 ## Options <a id="options"></a>
 
 The sections in this topic each correspond to an entry in the General Settings page of the Create Virtual Container Host wizard and to the  corresponding `vic-machine create` options.

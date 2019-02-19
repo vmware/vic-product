@@ -2,9 +2,6 @@
 
 Sizing of virtual container hosts (VCHs) depends on the workload that you need to run. While deploying a VCH, consider the sizing guidelines and resources that are consumed by a VCH during boot.
 
-- [Guidelines](#guidelines)
-- [Resources Consumed](#resourceconsumption)
-
 ##Guidelines <a id="guidelines"></a> ##
 Sizing of VCHs can be modifed by configuring resource pool limits. If a VCH requires more resources, or if it consumes too many resources, you can configure CPU and memory allocations on the VCH resource pool by using the different `vic-machine configure --memory` and `--cpu options`.
 

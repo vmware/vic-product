@@ -6,11 +6,11 @@ For more information about working with local users and identity sources in the 
 
 For more information about users and roles in vSphere Integrated Containers, see [vSphere Integrated Containers Roles and Personas](../vic_overview/roles_and_personas.md).
 
-**Prerequisites**
+## Prerequisites
 
 Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Management Portal administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 
-**Procedure**
+## Procedure
 
 1. Select **Administration** > **Identity Management** > **Users & Groups**.
 4. In the search box, enter all or part of a user name, email address, or user group name and press Enter.
@@ -23,11 +23,11 @@ Log in to vSphere Integrated Containers Management Portal with a vSphere adminis
 
 9. Click **OK**. 
 
-**Result**
+## Result
 
 The projects that you assigned to the user are listed in the **Projects** column. You can remove a user from a project by selecting the user, clicking **Assign Project Roles**, and clicking the minus (**-**) symbol for a project.
 
-**What to Do Next**
+## What to Do Next
 
 [Add Container Hosts to Projects](vchs_and_mgmt_portal.md)
 

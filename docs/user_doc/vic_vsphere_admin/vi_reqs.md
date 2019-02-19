@@ -2,15 +2,6 @@
 
 You must ensure that the vCenter Server instance and ESXi hosts on which you are deploying the vSphere Integrated Containers appliance and virtual container hosts (VCHs) meet certain requirements.
 
-- [License Requirements](#license)
-- [vSphere Integrated Containers Appliance Requirements](#appliancereqs)
-- [vSphere Client Requirements](#client)
-- [Supported Configurations for VCH Deployment](#configs)
-- [ESXi Host Firewall Requirements](#firewall)
-- [ESXi Host Storage Requirements for vCenter Server Clusters](#storage)
-- [Clock Synchronization](#clocksync)
-- [User Accounts for VCH Deployment and Operation](#users)
-
 ## License Requirements <a id="license"></a>
 vSphere Integrated Containers depends on certain features that are included in the following vSphere Editions:
 
