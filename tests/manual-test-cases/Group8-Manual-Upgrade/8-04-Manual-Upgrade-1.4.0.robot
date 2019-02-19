@@ -13,7 +13,7 @@
 # limitations under the License
 
 *** Settings ***
-Documentation  Test 8-01 - Manual Upgrade 1.4.0
+Documentation  Test 8-04 - Manual Upgrade 1.4.0
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  Test Environment Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
