@@ -124,5 +124,7 @@
          * [Image Store Error](ts_imagestore_error.md)
      * [Install Packages in VCHs](vch_install_packages.md)
          * [Mount an NFS Share Point](vch_mount_nfsshare.md)
+     * [Upgrade Operation](ts_upgrade_op.md)
+        * [Container VMs Orphaned After Upgrade](ts_orphaned_cvms.md)
   * [Security Reference](security_reference.md)
   * [`vic-machine` Options Reference](vicmachine_options_ref.md)
