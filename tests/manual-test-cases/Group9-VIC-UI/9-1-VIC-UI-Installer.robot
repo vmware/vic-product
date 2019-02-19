@@ -23,29 +23,19 @@ Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  
 Attempt To Install To A Non vCenter Server
     ${status}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  ${html5}  not-a-vcenter-server
     Should Contain  ${status}  ${fail}
-    ${status}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  ${flex}  not-a-vcenter-server
-    Should Contain  ${status}  ${fail}
 
 Attempt To Install With Wrong Vcenter Credentials
     ${status}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  ${html5}  %{TEST_URL}  %{TEST_USERNAME}_nope  %{TEST_PASSWORD}_nope
-    Should Contain  ${status}  ${fail}
-    ${status}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  ${flex}  %{TEST_URL}  %{TEST_USERNAME}_nope  %{TEST_PASSWORD}_nope
     Should Contain  ${status}  ${fail}
     
 Attempt to Install With Unmatching Fingerprint
     ${status}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  ${html5}  %{TEST_URL}  %{TEST_USERNAME}  %{TEST_PASSWORD}  ff:ff
     Should Contain  ${status}  ${fail}
-    ${status}=  Run Keyword And Ignore Error  Install UI Plugin  %{OVA_IP}  ${flex}  %{TEST_URL}  %{TEST_USERNAME}  %{TEST_PASSWORD}  ff:ff
-    Should Contain  ${status}  ${fail}
 
 Install Plugin Successfully
     ${status}=  Install UI Plugin  %{OVA_IP}  ${html5}
     Should Be Equal As Integers  ${status}  ${ok}
-    ${status}=  Install UI Plugin  %{OVA_IP}  ${flex}
-    Should Be Equal As Integers  ${status}  ${ok}
 
 Upgrade Plugin Successfully
     ${status}=  Upgrade UI Plugin  %{OVA_IP}  ${html5}
-    Should Be Equal As Integers  ${status}  ${ok}
-    ${status}=  Upgrade UI Plugin  %{OVA_IP}  ${flex}
     Should Be Equal As Integers  ${status}  ${ok}

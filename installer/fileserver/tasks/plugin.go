@@ -22,7 +22,6 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
-	"strings"
 
 	"github.com/vmware/govmomi/object"
 	"github.com/vmware/vic-product/installer/fileserver/tasks/ova"
@@ -34,15 +33,12 @@ import (
 )
 
 const (
-	h5ClientPluginName      = "vSphere Integrated Containers-H5Client"
-	h5ClientPluginSummary   = "Plugin for vSphere Integrated Containers-H5Client"
-	h5ClientPluginKey       = "com.vmware.vic"
-	flexClientPluginName    = "vSphere Integrated Containers-FlexClient"
-	flexClientPluginSummary = "Plugin for vSphere Integrated Containers-FlexClient"
-	flexClientPluginKey     = "com.vmware.vic.ui"
-	pluginCompany           = "VMware"
-	pluginEntityType        = "VicApplianceVM"
-	fileserverPluginsPath   = "/opt/vmware/fileserver/files/"
+	h5ClientPluginName    = "vSphere Integrated Containers-H5Client"
+	h5ClientPluginSummary = "Plugin for vSphere Integrated Containers-H5Client"
+	h5ClientPluginKey     = "com.vmware.vic"
+	pluginCompany         = "VMware"
+	pluginEntityType      = "VicApplianceVM"
+	fileserverPluginsPath = "/opt/vmware/fileserver/files/"
 )
 
 var (
@@ -113,21 +109,6 @@ func NewH5UIPlugin(target *lib.LoginInfo) *Plugin {
 	return p
 }
 
-// NewFlexUIPlugin Returns a UI Plugin struct populated defaults for an Flex Client install
-func NewFlexUIPlugin(target *lib.LoginInfo) *Plugin {
-	p := NewUIPlugin(target)
-	p.Version = pluginVersion
-	p.EntityType = pluginEntityType
-	p.Company = pluginCompany
-	p.Key = flexClientPluginKey
-	p.Name = flexClientPluginName
-	p.Summary = flexClientPluginSummary
-	p.Configure = true
-	p.Insecure = true
-
-	return p
-}
-
 func (p *Plugin) Install(op trace.Operation) error {
 	defer trace.End(trace.Begin("", op))
 
@@ -137,10 +118,6 @@ func (p *Plugin) Install(op trace.Operation) error {
 		return err
 	}
 	vCenterVersion := p.Target.Session.Client.ServiceContent.About.Version
-	if p.denyInstall(op, vCenterVersion) {
-		op.Warnf("Refusing to install Flex plugin on vSphere %s", vCenterVersion)
-		return nil
-	}
 
 	op.Infof("### Installing UI Plugin against vSphere %s ####", vCenterVersion)
 	op.Infof("%+v", p.Target.URL)
@@ -422,27 +399,4 @@ func (p *Plugin) processInfoParams(op trace.Operation) error {
 		return errors.New("key must be specified")
 	}
 	return nil
-}
-
-func (p *Plugin) denyInstall(op trace.Operation, version string) bool {
-	vCenterVersion := strings.Split(version, ".")
-
-	if len(vCenterVersion) < 2 {
-		op.Debugf("Cannot filter vSphere version (%s) because it is not a semantic version", strings.Join(vCenterVersion, "."))
-		return false
-	}
-	semver := map[string]string{
-		"major": vCenterVersion[0],
-		"minor": vCenterVersion[1],
-	}
-	// Deny install if:
-	// Plugin is the flex plugin AND
-	// -- major version us 6 AND
-	// -- -- minor version is greater than Or equal to 7 OR
-	// -- major version is greater than or equal to 7
-	return p.Key == flexClientPluginKey &&
-		((semver["major"] == "6" && semver["minor"] == "7") ||
-			(semver["major"] == "6" && strings.Compare(semver["minor"], "7") == 1) ||
-			(strings.Compare(semver["major"], "6") == 1))
-
 }

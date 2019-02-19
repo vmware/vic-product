@@ -19,7 +19,6 @@ Resource  ../resources/Util.robot
 *** Variables ***
 ${ok}=  204
 ${html5}=  H5
-${flex}=  FLEX
 ${fail}=  FAIL
 
 *** Keywords ***

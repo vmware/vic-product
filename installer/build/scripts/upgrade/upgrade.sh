@@ -117,23 +117,6 @@ function callPluginUpgradeEndpoint {
 }
 
 function upgradeAppliancePlugin {
-  # Upgrade the flex client...
-  tab_retries=0
-  max_tab_retries=30 # 5 minutes
-
-  ret=$(callPluginUpgradeEndpoint FLEX)
-  while [[ "$ret" != *"204"* && "$ret" != *"5"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
-    log "Waiting for appliance flex plugin upgrade..."
-    sleep 10
-    let "tab_retries+=1"
-    ret=$(callPluginUpgradeEndpoint FLEX)
-  done
-
-  if [[ ${tab_retries} -eq ${max_tab_retries} || "$ret" == *"5"* ]]; then
-    log "WARNING: Plugin upgrade failed for the FLEX client. This is expected on vCenter versions 6.7 or higher."
-    log "WARNING: If you expected this to pass on older versions of vSphere, please check your credentials and try again, or contact VMware Support."
-  fi
-
   # Upgrade the H5 client...
   tab_retries=0
   ret=$(callPluginUpgradeEndpoint H5)

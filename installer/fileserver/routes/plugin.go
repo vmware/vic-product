@@ -289,8 +289,6 @@ func decodePluginPayload(op trace.Operation, req *http.Request) (*tasks.Plugin, 
 	switch p.Plugin.Preset {
 	case "H5":
 		plugin = tasks.NewH5UIPlugin(loginInfo)
-	case "FLEX":
-		plugin = tasks.NewFlexUIPlugin(loginInfo)
 	default:
 		plugin = tasks.NewUIPlugin(loginInfo)
 		plugin.Configure = p.Plugin.Configure

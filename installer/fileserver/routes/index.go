@@ -118,12 +118,6 @@ func indexFormHandler(op trace.Operation, req *http.Request, html *IndexHTMLOpti
 		if err := h5.Install(op); err != nil {
 			return err
 		}
-
-		flex := tasks.NewFlexUIPlugin(PSCConfig.Admin)
-		flex.Force = true
-		if err := flex.Install(op); err != nil {
-			return err
-		}
 	}
 
 	return nil
