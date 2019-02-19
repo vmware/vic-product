@@ -46,13 +46,6 @@ sed -i "s/H5 Client Plugin for vSphere Integrated Containers Engine/vSphere Clie
 zip -9 -r ${VIC_BIN_ROOT}ui/plugin-packages/com.vmware.vic-${VIC_UI_VER_STRING}.zip ./*
 cd ${TMP_FOLDER}
 
-# update plugin-package.xml for Flex Client plugin
-echo "Updating description for Flex Client plugin to \"vSphere Client Plugin for vSphere Integrated Containers Engine (v${VIC_ENGINE_VER_STRING})\""
-cd ${VIC_BIN_ROOT}ui/vsphere-client-serenity/com.vmware.vic.ui-${VIC_UI_VER_STRING}
-sed -i "s/Flex Client Plugin for vSphere Integrated Containers Engine/vSphere Client Plugin for vSphere Integrated Containers Engine \(v${VIC_ENGINE_VER_STRING}\)/" plugin-package.xml 
-zip -9 -r ${VIC_BIN_ROOT}ui/vsphere-client-serenity/com.vmware.vic.ui-${VIC_UI_VER_STRING}.zip ./*
-cd ${TMP_FOLDER}
-
 echo "version from the vic-ui repo is:  ${VIC_UI_VER_STRING}"
 echo "version from vic-engine is:    ${VIC_ENGINE_VER_STRING}"
 
