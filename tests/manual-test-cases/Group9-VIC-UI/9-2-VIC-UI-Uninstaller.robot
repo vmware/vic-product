@@ -29,23 +29,15 @@ Uninstall OVA Setup
 Attempt To Uninstall From A Non vCenter Server
     ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${html5}  not-a-vcenter-server
     Should Contain  ${status}  ${fail}
-    ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${flex}  not-a-vcenter-server
-    Should Contain  ${status}  ${fail}
 
 Attempt To Uninstall With Wrong Vcenter Credentials
     ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${html5}  %{TEST_URL}  %{TEST_USERNAME}_nope  %{TEST_PASSWORD}_nope
-    Should Contain  ${status}  ${fail}
-    ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${flex}  %{TEST_URL}  %{TEST_USERNAME}_nope  %{TEST_PASSWORD}_nope
     Should Contain  ${status}  ${fail}
 
 Uninstall Successfully
     ${status}=  Remove UI Plugin  %{OVA_IP}  ${html5}
     Should Be Equal As Integers  ${status}  ${ok}
-    #${status}=  Remove UI Plugin  %{OVA_IP}  ${flex}
-    #Should Be Equal As Integers  ${status}  ${ok}
 
 Attempt To Uninstall Plugin That Is Already Gone
     ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${html5}
-    Should Contain  ${status}  ${fail}
-    ${status}=  Run Keyword And Ignore Error  Remove UI Plugin  %{OVA_IP}  ${flex}
     Should Contain  ${status}  ${fail}
