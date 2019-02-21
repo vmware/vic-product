@@ -1,0 +1,11 @@
+[Unit]
+Description=Configure forwarding local files
+After=admiral.service vic-machine-server.service
+Requires=admiral.service vic-machine-server.service
+
+[Service]
+EnvironmentFile=/etc/vmware/environment
+ExecStart=/etc/vmware/configure-rsyslog-localfiles.sh
+
+[Install]
+WantedBy=vic-appliance.target

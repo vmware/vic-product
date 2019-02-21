@@ -31,6 +31,8 @@ systemctl enable admiral.service
 systemctl enable harbor.service
 systemctl enable landing_server.service fileserver.service
 systemctl enable vic-machine-server.service
+systemctl enable vic-appliance-rsyslog-forwarding.service
+systemctl enable vic-appliance-rsyslog-localfiles.service
 
 # Set our vic target as the default boot target
 systemctl set-default vic-appliance.target
