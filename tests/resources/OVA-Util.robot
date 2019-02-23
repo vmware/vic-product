@@ -406,8 +406,51 @@ Deploy OVA And Install UI Plugin And Run Regression Tests
     # create vch using UI
     # retry UI steps if failed
     Wait Until Keyword Succeeds  3x  1m  Create VCH using UI And Set Docker Parameters  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}
+   
+    Cache VCH Test Variable
+    Test VCH Table Show State  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}
+
+    Reload VCH Test Variable
     # run vch regression tests
     Run Docker Regression Tests For VCH
+    Delete VCH Using UI
+    Delete VCH Using UI
+
+Cache VCH Test Variable
+    [Arguments]  ${vch_ip}=${VCH-IP}  ${vch_port}=${VCH-PORT}  ${vch_admin}=${VIC-ADMIN}  ${vch_params}=${VCH-PARAMS}  ${vch_name}=${VCH-NAME}
+    Set Test Variable  ${cache_vch_ip}  ${vch_ip}
+    Set Test Variable  ${cache_vch_port}  ${vch_port}
+    Set Test Variable  ${cache_vch_admin}  ${vch_admin}
+    Set Test Variable  ${cache_vch_params}  ${vch_params}
+    Set Test Variable  ${cache_vch_name}  ${vch_name}
+
+Reload VCH Test Variable
+    [Arguments]  ${vch_ip}=${cache_vch_ip}  ${vch_port}=${cache_vch_port}  ${vch_admin}=${cache_vch_admin}  ${vch_params}=${cache_vch_params}  ${vch_name}=${cache_vch_name}
+    Set Test Variable  ${VCH-IP}  ${vch_ip}
+    Set Test Variable  ${VCH-PORT}  ${vch_port}
+    Set Test Variable  ${VIC-ADMIN}  ${vch_admin}
+    Set Test Variable  ${VCH-PARAMS}  ${vch_params}
+    Set Test Variable  ${VCH-NAME}  ${vch_name}
+
+Test VCH Table Show State
+    [Arguments]  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}=1
+    Set Environment Variable  DRONE_BUILD_NUMBER  0  
+    ${vch_list}=  Create List
+    :FOR  ${i}  IN RANGE  30
+    \  Reload Page
+    \  ${visible}=  Check VCH Fail Alert
+    \  Should Not Be True  ${visible}
+    \  ${vch_count}=  Get Create VCH Count
+    \  Should Be True  ${vch_count}
+    \  ${is_zero}=  Evaluate  ${i}\%10
+    \  ${vch-name}=  Run Keyword If  ${is_zero} == 0  Test Create VCH Using UI  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}
+    \  Run Keyword If  ${is_zero} == 0  Append To List  ${vch_list}  ${vch-name}
+    \  Run Keyword If  ${is_zero} == 0  Reload Page
+    \  ${vch_count}=  Run Keyword If  ${is_zero} == 0  Get Create VCH Count
+    \  ...            ELSE            Evaluate  ${vch_count}
+    \  ${create_vch_count}=  Get Length  ${vch_list}
+    \  ${vch_add}=  Evaluate  ${create_vch_count}+1
+    \  Should Be Equal As Integers  ${vch_count}  ${vch_add}
 
 # TODO Remove after end of 1.2.1 support
 Copy and Attach Disk v1.2.1
