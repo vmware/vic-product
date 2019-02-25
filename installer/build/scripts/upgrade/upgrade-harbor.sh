@@ -76,7 +76,8 @@ function checkHarborPSCToken {
 
 # Run the harbor migrator docker image
 function runMigratorCmd {
-  local migrator_image="goharbor/harbor-migrator:v1.7.0"
+  local migrator_image=$(docker images goharbor/harbor-migrator --format "{{.Repository}}:{{.Tag}}")
+  log "harbor-migrator version: ${migrator_image}"
 
   docker run -i \
     -e DB_USR=${DB_USER} \
