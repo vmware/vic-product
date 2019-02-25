@@ -13,15 +13,15 @@
 # limitations under the License
 
 *** Settings ***
-Documentation  Test 7-04 - Upgrade 1.4.4
+Documentation  Test 7-06 - Upgrade 1.5.0
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  OVA Upgrade Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
 
 *** Variables ***
-${old-ova-file-name}=  vic-v1.4.4-6375-0a6da3d4.ova
-${old-ova-version}=  v1.4.4
+${old-ova-file-name}=  vic-v1.5.0-6915-e18e6647.ova
+${old-ova-version}=  v1.5.0
 ${old-ova-cert-path}=  /storage/data/admiral/ca_download
 ${new-ova-cert-path}=  /storage/data/admiral/ca_download
 
@@ -30,5 +30,5 @@ OVA Upgrade Setup
     Setup Simple VC And Test Environment with Shared iSCSI Storage
 
 *** Test Cases ***
-Upgrade OVA 1.4.4
-    Auto Upgrade OVA With Verification  7-04-UPGRADE-1-4-4  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  dc1
+Upgrade OVA 1.5.0
+    Auto Upgrade OVA With Verification  7-06-UPGRADE-1-5-0  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  dc1

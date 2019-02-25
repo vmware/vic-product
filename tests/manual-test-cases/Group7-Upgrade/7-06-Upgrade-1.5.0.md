@@ -1,8 +1,8 @@
-Test 7-04 - Upgrade 1.4.4
+Test 7-06 - Upgrade 1.5.0
 =======
 
 # Purpose:
-To verify the VIC OVA appliance v1.4.4 upgrades to latest with auto upgrade process works as expected
+To verify the VIC OVA appliance v1.5.0 upgrades to latest with auto upgrade process works as expected
 
 # References:
 

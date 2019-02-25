@@ -13,7 +13,7 @@
 # limitations under the License
 
 *** Settings ***
-Documentation  Test 8-01 - Manual Upgrade 1.4.4
+Documentation  Test 8-06 - Manual Upgrade 1.5.0
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  Test Environment Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
@@ -32,11 +32,11 @@ Test Environment Setup
     Set Global Variable       ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
 
 *** Test Cases ***
-Upgrade from v1.4.4
-    ${old-ova-file-name}=        Set Variable  vic-v1.4.4-6375-0a6da3d4.ova
-    ${old-ova-version}=          Set Variable  v1.4.4
+Upgrade from v1.5.0
+    ${old-ova-file-name}=        Set Variable  vic-v1.5.0-6915-e18e6647.ova
+    ${old-ova-version}=          Set Variable  v1.5.0
     ${old-appliance-name}=       Set Variable  manual-upgrade-${old-ova-file-name}
-    ${new-appliance-name}=       Set Variable  manual-upgrade-from-1.4.4-LATEST
+    ${new-appliance-name}=       Set Variable  manual-upgrade-from-1.5.0-LATEST
     ${old-appliance-cert-path}=  Set Variable  /storage/data/admiral/ca_download
     ${new-appliance-cert-path}=  Set Variable  /storage/data/admiral/ca_download
 
