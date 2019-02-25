@@ -265,7 +265,7 @@ pipeline:
       - tests/bundle_dev_builds.sh
     when:
       repo: vmware/vic-product
-      event: [push, tag]
+      event: [push, tag,  pull_request]
       branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
@@ -322,7 +322,7 @@ pipeline:
     cache_control: 'public,max-age=3600'
     when:
       repo: vmware/vic-product
-      event: [push]
+      event: [push, pull_request]
       branch: [master]
       status: success
 
