@@ -1,4 +1,3 @@
-
 workspace:
   base: /go
   path: src/github.com/vmware/vic-product
@@ -67,52 +66,6 @@ pipeline:
     when:
       status: success
 
-  dch-build:
-    group: build
-    image: 'gcr.io/eminent-nation-87317/vic-product-build:latest'
-    pull: true
-    privileged: true
-    environment:
-      TERM: xterm
-    secrets:
-      - github_automation_api_key
-      - harbor_ci_registry
-      - test_username
-      - test_password
-    volumes:
-      - '/dev:/dev'
-      - '/var/run/docker.sock:/var/run/docker.sock'
-      - '/etc/docker:/etc/docker'
-    commands:
-      - 'docker ps'
-      - 'dinv/ci.sh build'
-    when:
-      branch: master
-      repo: vmware/vic-product
-      event: [push, pull_request, tag, deployment]
-      status: success
-
-  dch-push:
-    image: 'gcr.io/eminent-nation-87317/vic-product-build:latest'
-    pull: true
-    privileged: true
-    environment:
-      TERM: xterm
-    secrets:
-      - docker_user
-      - docker_password
-      - github_automation_api_key
-    volumes:
-      - '/dev:/dev'
-      - '/var/run/docker.sock:/var/run/docker.sock'
-    commands:
-      - 'docker ps'
-      - 'dinv/ci.sh push'
-    when:
-      branch: master
-      repo: vmware/vic-product
-      event: [push, tag, deployment]
-      status: success
 
   unified-ova-build:
     group: build
@@ -121,8 +74,9 @@ pipeline:
     privileged: true
     environment:
       TERM: xterm
-      ADMIRAL: v1.5.0
-      HARBOR: https://storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.1.tgz
+      HARBOR: https://storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.1-build.1025.tgz
+      ADMIRAL: v1.5.0-rc3
+
     secrets:
       - admiral
       - build_admiral_release
@@ -141,85 +95,6 @@ pipeline:
       event: [push, pull_request, tag, deployment]
       branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: success
-
-  integration-test-ova-setup:
-    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
-    pull: true
-    privileged: true
-    environment:
-      BIN: bin
-      GOPATH: /go
-      SHELL: /bin/bash
-    secrets:
-      - bridge_network
-      - public_network
-      - test_datastore
-      - test_password
-      - test_resource
-      - test_url
-      - test_username
-    volumes:
-      - /tmp
-    commands:
-      - 'pybot -d robot-logs/ova-setup-logs -s OVA-Setup tests/common-ova'
-    when:
-      repo: vmware/vic-product
-      event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
-      status: success
-
-  integration-test:
-    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
-    pull: true
-    privileged: true
-    environment:
-      BIN: bin
-      GOPATH: /go
-      SHELL: /bin/bash
-    secrets:
-      - harbor_ci_registry
-      - bridge_network
-      - public_network
-      - test_datastore
-      - test_password
-      - test_resource
-      - test_url
-      - test_username
-      - vch_timeout
-    volumes:
-      - /tmp
-    commands:
-      - tests/robot-run.sh
-    when:
-      repo: vmware/vic-product
-      event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
-      status: success
-
-  integration-test-ova-cleanup:
-    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
-    pull: true
-    environment:
-      BIN: bin
-      GOPATH: /go
-      SHELL: /bin/bash
-    secrets:
-      - bridge_network
-      - public_network
-      - test_datastore
-      - test_password
-      - test_resource
-      - test_url
-      - test_username
-    volumes:
-      - /tmp
-    commands:
-      - 'pybot -d robot-logs/ova-cleanup-logs -s OVA-Cleanup tests/common-ova'
-    when:
-      repo: vmware/vic-product
-      event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
-      status: [success, failure]
 
   bundle-logs:
     group: post-build
@@ -266,7 +141,7 @@ pipeline:
       - tests/bundle_dev_builds.sh
     when:
       repo: vmware/vic-product
-      event: [push, tag]
+      event: [push, tag, pull_request]
       branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
@@ -326,6 +201,22 @@ pipeline:
       event: [push]
       branch: [master]
       status: success
+
+  publish-gcs-master-builds-pr:
+    image: 'victest/drone-gcs:1'
+    pull: true
+    secrets:
+    - google_key
+    source: bundle
+    target: vic-product-ova-builds/pull/${DRONE_PULL_REQUEST}/
+    acl:
+    - 'allUsers:READER'
+    cache_control: 'public,max-age=3600'
+    when:
+      repo: vmware/vic-product
+      event: [pull_request]
+      branch: [master]
+      status: [failure, success]
 
   publish-gcs-branch-builds-push:
     image: 'victest/drone-gcs:1'
@@ -481,5 +372,5 @@ services:
       SE_OPTS: '-port 4447'
       HUB_PORT_4444_TCP_ADDR: selenium-grid-hub
       HUB_PORT_4444_TCP_PORT: '4444'
-      DISPLAY: ':99.0'
 
+      DISPLAY: ':99.0'
