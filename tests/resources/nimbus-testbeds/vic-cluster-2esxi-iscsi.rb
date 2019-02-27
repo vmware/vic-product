@@ -24,7 +24,7 @@ $testbed = Proc.new do
     "iscsi" => [
       {
         "name" => "iscsi.0",
-        "luns" => [200],
+        "luns" => [800],
         "iqnRandom" => "nimbus1"
       }
     ],

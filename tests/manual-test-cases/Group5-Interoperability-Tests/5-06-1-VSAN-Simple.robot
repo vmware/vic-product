@@ -18,48 +18,47 @@ Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  Simple VSAN Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
+Test Timeout  90 minutes
 
 *** Keywords ***
 Simple VSAN Setup
-    [Timeout]    110 minutes
+    [Timeout]    60 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
     ${name}=  Evaluate  'vic-vsan-' + str(random.randint(1000,9999))  modules=random
     Set Suite Variable  ${user}  %{NIMBUS_PERSONAL_USER}
     ${out}=  Deploy Nimbus Testbed  spec=vic-vsan.rb  args=--plugin testng --noSupportBundles --vcvaBuild "${VC_VERSION}" --esxPxeDir "${ESX_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vic-vsan-simple-pxeBoot-vcva --runName ${name}
-
     Log  ${out}
     Should Contain  ${out}  "deployment_result"=>"PASS"
 
-    ${out}=  Split To Lines  ${out}
-    :FOR  ${line}  IN  @{out}
-    \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  .vc.0' is up. IP:
-    \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
-    \   Run Keyword If  ${status}  Set Suite Variable  ${vc-ip}  ${ip}
-    \   Exit For Loop If  ${status}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
+    ${vc_ip}=  Fetch From Right  ${out}  ${SPACE}
+    Log  ${vc_ip}
 
-    Set Suite Variable  @{list}  ${user}-${name}.vc.0  ${user}-${name}.esx.0  ${user}-${name}.esx.1  ${user}-${name}.esx.2  ${user}-${name}.esx.3  ${user}-${name}.nfs.0  ${user}-${name}.iscsi.0
-    Log To Console   Finished Creating Simple VSAN
-
-    Log To Console  Set environment variables up for GOVC
-    Set Environment Variable  GOVC_INSECURE  1
-    Set Environment Variable  GOVC_URL  ${vc-ip}
-    Set Environment Variable  GOVC_USERNAME  Administrator@vsphere.local
-    Set Environment Variable  GOVC_PASSWORD  Admin\!23
+    ${pod}=  Fetch Pod  ${name}
+    Log  ${pod}
+    # set nimbus variable
+    Set Suite Variable  ${nimbus_pod}  ${pod}
+    Set Suite Variable  ${testbedname}  ${name}
 
     Log To Console  Deploy VIC to the VC cluster
-    Set Environment Variable  TEST_URL_ARRAY  ${vc-ip}
-    Set Environment Variable  TEST_URL  ${vc-ip}
+    Set Environment Variable  TEST_URL  ${vc_ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Remove Environment Variable  TEST_DATACENTER
     Set Environment Variable  TEST_DATASTORE  vsanDatastore
-    Set Environment Variable  TEST_RESOURCE  /dc1/host/cls
+    Set Environment Variable  TEST_RESOURCE  /dc1/host/cls1
     Set Environment Variable  VCH_TIMEOUT  30m0s
+
+    # govc env variables
+    Set Environment Variable  GOVC_URL  %{TEST_URL}
+    Set Environment Variable  GOVC_USERNAME  %{TEST_USERNAME}
+    Set Environment Variable  GOVC_PASSWORD  %{TEST_PASSWORD}
+    Set Environment Variable  GOVC_INSECURE  1
 
 *** Test Cases ***
 Simple VSAN
+    [Timeout]    90 minutes
     Log To Console  \nStarting test...
     Wait Until Keyword Succeeds  10x  30s  Check No VSAN DOMs In Datastore  %{TEST_DATASTORE}
     # install ova and verify

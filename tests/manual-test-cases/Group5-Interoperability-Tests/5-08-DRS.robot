@@ -18,26 +18,18 @@ Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  DRS Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
+Test Timeout  90 minutes
 
 *** Keywords ***
 DRS Setup
-    [Timeout]    110 minutes
+    [Timeout]    60 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
-    ${esx1}  ${esx2}  ${esx3}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${esx3-ip}  ${vc-ip}=  Create a Simple VC Cluster
-    Set Suite Variable  @{list}  ${esx1}  ${esx2}  ${esx3}  %{NIMBUS_PERSONAL_USER}-${vc}
+    Setup Simple VC And Test Environment with Shared iSCSI Storage
 
     Log To Console  Disable DRS on the cluster
-    ${rc}  ${out}=  Run And Return Rc And Output  govc cluster.change -drs-enabled=false /ha-datacenter/host/cls
+    ${rc}  ${out}=  Run And Return Rc And Output  govc cluster.change -drs-enabled=false %{TEST_RESOURCE}
     Should Be Empty  ${out}
     Should Be Equal As Integers  ${rc}  0
-
-    Set Environment Variable  TEST_URL  ${vc-ip}
-    Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
-    Set Environment Variable  TEST_PASSWORD  Admin\!23
-    Set Environment Variable  BRIDGE_NETWORK  bridge
-    Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Set Environment Variable  TEST_DATASTORE  datastore1
-    Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls/Resources
 
 *** Test Cases ***
 Test
@@ -45,7 +37,7 @@ Test
     Deploy OVA And Install UI Plugin And Run Regression Tests  5-08-NO-DRS  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
 
     Log To Console  Enable DRS on the cluster....
-    ${rc}  ${out}=  Run And Return Rc And Output  govc cluster.change -drs-enabled /ha-datacenter/host/cls
+    ${rc}  ${out}=  Run And Return Rc And Output  govc cluster.change -drs-enabled %{TEST_RESOURCE}
     Should Be Empty  ${out}
     Should Be Equal As Integers  ${rc}  0
 
