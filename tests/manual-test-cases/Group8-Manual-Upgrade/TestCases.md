@@ -13,3 +13,5 @@ Group 8 - Manual Upgrade
 -
 [Test 8-06 - Manual Upgrade 1.5.0](8-06-Manual-Upgrade-1.5.0.md)
 -
+[Test 8-07 - Manual Upgrade 1.5.1](8-07-Manual-Upgrade-1.5.1.md)
+-
