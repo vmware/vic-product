@@ -82,7 +82,7 @@ VIC UI OVA Setup
     Set Environment Variable  OVA_NAME  ${ova-name}
     Set Environment Variable  DOMAIN              eng.vmware.com
     
-    Setup Simple VC And Test Environment
+    Setup Simple VC And Test Environment with Shared iSCSI Storage
     Global Environment Setup
     Set Test VC Variables
     

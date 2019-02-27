@@ -39,7 +39,7 @@ Get IP
 
 Fetch POD
       [Arguments]  ${name}
-      ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl list | grep ${name}
+      ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl list | grep ${name} | awk '{print $1}' | uniq
       Should Not Be Empty  ${out}
       ${len}=  Get Line Count  ${out}
       Should Be Equal As Integers  ${len}  1
@@ -203,17 +203,26 @@ Deploy Nimbus Testbed
     Open Connection  %{NIMBUS_GW}
     Wait Until Keyword Succeeds  2 min  30 sec  Login  ${user}  ${password}
 
-    ${specarg}=  Set Variable If  '${spec}' == '${EMPTY}'  ${EMPTY}  --testbedSpecRubyFile ./%{BUILD_TAG}/testbeds/${spec}    
+    ${suffix}=  Generate Random String  5
+    ${specarg}=  Set Variable If  '${spec}' == '${EMPTY}'  ${EMPTY}  --testbedSpecRubyFile ./%{BUILD_TAG}/testbeds/${spec}-${suffix}    
+
+    :FOR  ${index}  IN RANGE  1  5
+    \    Exit For Loop If  '${spec}' == '${EMPTY}'
+    \    ${status}=  Run Keyword And Return Status  Put File  tests/resources/nimbus-testbeds/${spec}  destination=./%{BUILD_TAG}/testbeds/${spec}-${suffix}
+    \    Log  ${status}
+    \    Exit For Loop If  ${status} == True
+    \    Sleep  5
 
     :FOR  ${IDX}  IN RANGE  1  5
-    \   Run Keyword Unless  '${spec}' == '${EMPTY}'  Put File  tests/resources/nimbus-testbeds/${spec}  destination=./%{BUILD_TAG}/testbeds/
     \   ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=${personal_user} nimbus-testbeddeploy --lease 0.25 ${specarg} ${args}
     \   Log  ${out}
     \   # Make sure the deploy actually worked
     \   ${status}=  Run Keyword And Return Status  Should Contain  ${out}  "deployment_result"=>"PASS"
+    \   Run Keyword If  ${status} and '${spec}' != '${EMPTY}'  Execute Command  rm -rf ./%{BUILD_TAG}/testbeds/${spec}-${suffix}
     \   Return From Keyword If  ${status}  ${out}
     \   Log To Console  Nimbus deployment ${IDX} failed, trying again in 1 minute
     \   Sleep  1 minutes
+    Run Keyword Unless  '${spec}' == '${EMPTY}'  Execute Command  rm -rf ./%{BUILD_TAG}/testbeds/${spec}-${suffix}
     Fail  Deploy Nimbus Testbed Failed 5 times over the course of more than 5 minutes
 
 Kill Nimbus Server
@@ -239,6 +248,13 @@ Nimbus Cleanup
     [Arguments]  ${vm_list}  ${collect_log}=True  ${dontDelete}=${false}
     ${list}=  Catenate  @{vm_list}
     Run Keyword   Nimbus Cleanup Single VM  ${list}  ${collect_log}  ${dontDelete}  ${true}
+
+Nimbus Pod Cleanup
+    [Arguments] ${nimbus_pod_name}  ${testbedname}
+    Open Connection  %{NIMBUS_GW}
+    Wait Until Keyword Succeeds  10 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
+    Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl --nimbus=${nimbus_pod_name} kill ${testbedname}
+    Close Connection
 
 # Cleans up a vm (or space separated string list of vms) but does not delete pxe folder on nimbus gateway
 Nimbus Cleanup Single VM

@@ -16,7 +16,7 @@
 Documentation  Test 5-04 - Multiple Clusters
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  Multiple Cluster Setup
-Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Suite Teardown  Run Keyword And Ignore Error  Nimbus Pod Cleanup ${nimbus_pod}  ${testbedname}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
 
 *** Keywords ***
@@ -30,54 +30,63 @@ Combine Dictionaries
     [Return]  ${dict1}
 
 Multiple Cluster Setup
-    [Timeout]    110 minutes
-    Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
-    &{esxes}=  Create Dictionary
-    ${num_of_esxes}=  Evaluate  2
-    :FOR  ${i}  IN RANGE  3
-    # Deploy some ESXi instances
-    \    &{new_esxes}=  Deploy Multiple Nimbus ESXi Servers in Parallel  ${num_of_esxes}
-    \    ${esxes}=  Combine Dictionaries  ${esxes}  ${new_esxes}
+No Cluster Setup
+# set up nimbus test bed and env variables
+    [Timeout]    90 minutes
+    ${testbedname}=  Evaluate  'vic-multi-cluster-' + str(random.randint(1000,9999))  modules=random
+    Log To Console  Create a new simple vc cluster with spec vic-multi-cls.rb...
+    ${out}=  Deploy Nimbus Testbed  spec=vic-multi-cls.rb  args=--noSupportBundles --plugin testng --vcvaBuild "${VC_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vic-multi-cluster --runName ${name}
+    Log  ${out}
+    Log To Console  Finished creating cluster ${name}
 
-    # Investigate to see how many were actually deployed
-    \    ${len}=  Get Length  ${esxes}
-    \    ${num_of_esxes}=  Evaluate  ${num_of_esxes} - ${len}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
+    ${vc_ip}=  Fetch From Right  ${out}  ${SPACE}
+    Log  ${vc_ip}
 
-    # Exit if we've got enough & continue loop if we don't
-    \    Exit For Loop If  ${len} >= 2
-    \    Log To Console  Only got ${len} ESXi instance(s); Trying again
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.esx.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.esx.0
+    ${esx0_ip}=  Fetch From Right  ${out}  ${SPACE}
+    Log  ${esx0_ip}
 
-    @{esx-names}=  Get Dictionary Keys  ${esxes}
-    @{esx-ips}=  Get Dictionary Values  ${esxes}
-    ${esx1}=  Get From List  ${esx-names}  0
-    ${esx2}=  Get From List  ${esx-names}  1
-    ${esx1-ip}=  Get From List  ${esx-ips}  0
-    ${esx2-ip}=  Get From List  ${esx-ips}  1
+    ${pod}=  Fetch Pod  ${testbedname}
+    Log  ${pod}
+    # set nimbus variable
+    Set Suite Variable  ${nimbus_pod}  ${pod}
+    Set Suite Variable  ${testbedname}  ${testbedname}
 
-    ${esx3}  ${esx4}  ${esx5}  ${vc}  ${esx3-ip}  ${esx4-ip}  ${esx5-ip}  ${vc-ip}=  Create a Simple VC Cluster  datacenter1  cls1
-    Set Suite Variable  @{list}  ${esx1}  ${esx2}  ${esx3}  ${esx4}  ${esx5}  %{NIMBUS_PERSONAL_USER}-${vc}
-
-    Log To Console  Create cluster2 on the VC
-    ${out}=  Run  govc cluster.create cls2
-    Should Be Empty  ${out}
-    ${out}=  Run  govc cluster.add -hostname=${esx1-ip} -username=root -dc=datacenter1 -cluster=cls2 -password=e2eFunctionalTest -noverify=true
-    Should Contain  ${out}  OK
-
-    Log To Console  Create cluster3 on the VC
-    ${out}=  Run  govc cluster.create cls3
-    Should Be Empty  ${out}
-    ${out}=  Run  govc cluster.add -hostname=${esx2-ip} -username=root -dc=datacenter1 -cluster=cls3 -password=e2eFunctionalTest -noverify=true
-    Should Contain  ${out}  OK
-
-    Set Environment Variable  TEST_URL  ${vc-ip}
+    # set test variables
+    Set Environment Variable  TEST_URL  ${vc_ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Set Environment Variable  TEST_RESOURCE  /datacenter1/host/cls1
+    Set Environment Variable  TEST_RESOURCE  /ds1/host/cls1
     # Make sure we use correct datastore
-    ${datastore}=  Get Name of First Local Storage For Host  ${esx3-ip}
+    #${datastore}=  Get Name of First Local Storage For Host  esx0_ip
+    # to get cls1 shared_datastore and test_esx
+    ${datastore}=  Get Datastore From Cluster  cls1  prefix='sharedVmfs-'
+    ${esx_ip}=  Get Random ESX From Cluster   cls1
+
     Set Environment Variable  TEST_DATASTORE  ${datastore}
+    Set Environment Variable  TEST_ESX  ${esx_ip}
+    
+    # set VC variables
+    Set Test VC Variables
+    # set VCH variables
+    Set Environment Variable  DRONE_BUILD_NUMBER  0
+    Set Environment Variable  VCH_TIMEOUT  20m0s
+    # set docker variables
+    # not using dind but host dockerd for these nightly tests
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER}  docker
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER_ENDPOINT}  unix:///var/run/docker.sock
+    # set harbor variables
+    Set Global Variable  ${DEFAULT_HARBOR_PROJECT}  default-project
+    # govc env variables
+    Set Environment Variable  GOVC_URL  %{TEST_URL}
+    Set Environment Variable  GOVC_USERNAME  %{TEST_USERNAME}
+    Set Environment Variable  GOVC_PASSWORD  %{TEST_PASSWORD}
+    Set Environment Variable  GOVC_INSECURE  1
+    # check VC
+    Check VCenter
 
 *** Test Cases ***
 Test

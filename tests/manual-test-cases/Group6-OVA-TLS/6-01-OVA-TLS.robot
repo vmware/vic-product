@@ -26,7 +26,7 @@ ${datacenter}=  ha-datacenter
 *** Keywords ***
 Test Environment Setup
     [Timeout]    110 minutes
-    Setup Simple VC And Test Environment
+    Setup Simple VC And Test Environment with Shared iSCSI Storage
     Set Environment Variable  DOMAIN              eng.vmware.com
     Set Test VC Variables
 
