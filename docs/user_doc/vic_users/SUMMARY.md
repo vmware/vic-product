@@ -6,6 +6,7 @@
   * [Running Development Projects](../vic_app_dev/run_dev_project.md) 
   * [Provisioning Container VMs](provision_containers_portal.md)
      * [Configuring Links for Templates and Images](configuring_links.md)
+     * [Provisioning Container Volumes Using Templates](provisioning_volumes_templates.md)
      * [Configuring Health Checks for Templates and Images](configuring_health_checks.md)
      * [Configuring Cluster Size and Scale](configuring_clusters.md)  
   * [Create New Networks for Provisioning Containers](create_network.md)

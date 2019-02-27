@@ -40,5 +40,6 @@ For information about using Docker environment variables, see [Environment varia
 **Related topics**
 
 - [Configuring Links](configuring_links.md)
+- [Provisioning Container Volumes Using Templates](provisioning_volumes_templates.md)
 - [Configuring Health Checks](configuring_health_checks.md)
 - [Configuring Cluster Size and Scale](configuring_clusters.md)
