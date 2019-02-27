@@ -122,7 +122,7 @@ pipeline:
     environment:
       TERM: xterm
       ADMIRAL: v1.5.0
-      HARBOR: https://storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.1.tgz
+      HARBOR: https://storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.4-build.1142.tgz
     secrets:
       - admiral
       - build_admiral_release
