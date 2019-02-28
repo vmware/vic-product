@@ -1,4 +1,4 @@
-## Build, Push, and Pull an Image with `dch-photon`  ##
+# Build, Push, and Pull an Image with `dch-photon` 
 
 After you have loaded the vSphere Integrated Containers Registry certificate into a `dch-photon` container VM, you can test the `dch-photon` Docker host by building an image and pushing it to vSphere Integrated Containers Registry. Then, you can pull the image into a virtual container host (VCH) to deploy it. 
 

@@ -22,9 +22,13 @@ Container Host wizard in the vSphere Client.
     At the end of a successful deployment, you can see the connection details for this VCH in the Virtual Container Hosts view.
 6. (Optional) When the deployment has succeeded, click the link to the VCH Admin Portal for this VCH.
 
+**NOTE**: The Create Virtual Container Host wizard does not include any escape characters in the generated `vic-machine` command. Consequently, if any of the values that you specified in the wizard include special characters or spaces, you must edit the saved `vic-machine` command to wrap those values in quotes before you can reuse the command to create similar VCHs. For information about using quotes to escape special characters and spaces, see Specifying Option Arguments in [Using the `vic-machine` CLI Utility](using_vicmachine.md#args). 
+
 ## What to Do Next
 
-The Create Virtual Container Host wizard does not include any escape characters in the generated `vic-machine` command. Consequently, if any of the values that you specified in the wizard include special characters or spaces, you must edit the saved `vic-machine` command to wrap those values in quotes before you can reuse the command to create similar VCHs. For information about using quotes to escape special characters and spaces, see Specifying Option Arguments in [Using the `vic-machine` CLI Utility](using_vicmachine.md#args). 
+- To experiment further with deploying VCHs, follow the procedures in [Deploy a Virtual Container Host to an ESXi Host with No vCenter Server](deploy_vch_esxi.md) or [Deploy a Virtual Container Host with a Volume Store and vSphere Integrated Containers Registry Access](deploy_vch_dchphoton.md). 
+- To manage the VCHs that you have deployed, see [Virtual Container Host Administration](vch_admin.md).
+- To register your VCHs with vSphere Integrated Containers Management Portal, see [Add Container Hosts to Projects](../vic_cloud_admin/vchs_and_mgmt_portal.md) in *vSphere Integrated Containers Management Portal Administration*.
 
 ## Troubleshooting
 

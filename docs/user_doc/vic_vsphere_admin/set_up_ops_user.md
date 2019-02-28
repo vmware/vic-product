@@ -93,4 +93,4 @@ This example `vic-machine create` command deploys a VCH with the following optio
 
 ## What to Do Next <a id="whatnext"></a>
 
-If you are using the Create Virtual Container Host wizard, click **Next** to review the configuration that you have made.
+If you are using the Create Virtual Container Host wizard, click **Next** to review the configuration that you have made and [Finish VCH Deployment](complete_vch_deployment_client.md).

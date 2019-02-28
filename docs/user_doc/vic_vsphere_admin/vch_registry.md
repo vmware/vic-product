@@ -272,6 +272,6 @@ This example `vic-machine create` uses the `--registry-ca` and `--insecure-regis
 
 The VCH can access the insecure registries in the domain specified, as well as the standalone insecure registry at 192.168.100.207 and the vSphere Integrated Containers Registry instance. Because whitelist mode is not enabled, it can also access public registries like Docker Hub.
 
-## What to Do Next <a id="whatnext"></a>
+# What to Do Next <a id="whatnext"></a>
 
 If you are using the Create Virtual Container Host wizard, click **Next** to configure the [Operations User](set_up_ops_user.md).

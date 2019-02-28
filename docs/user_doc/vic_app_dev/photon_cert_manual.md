@@ -1,4 +1,4 @@
-## Manually Add the Registry Certificate to a `dch-photon` Container VM ##
+# Manually Add the Registry Certificate to a `dch-photon` Container VM 
 
 To manually add the vSphere Integrated Containers CA certificate to  `dch-photon`, you can create a `dch-photon` container VM, then use `docker cp` to copy the certificate into it. 
 

@@ -1,4 +1,4 @@
-## Add the Registry Certificate to a Custom `dch-photon` Image ##
+# Add the Registry Certificate to a Custom `dch-photon` Image 
 
 The recommended method of passing the vSphere Integrated Containers Registry CA certificate to `dch-photon` is to create a custom `dch-photon` image that includes the certificate. You can then push the image to the vSphere Integrated Containers Registry and verify that it works by deploying it to a virtual container host (VCH).
 

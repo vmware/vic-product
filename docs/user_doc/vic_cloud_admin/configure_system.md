@@ -21,4 +21,4 @@ Log in to vSphere Integrated Containers Management Portal with a vSphere adminis
 
 ## What to Do Next
 
-Add users to the system.
+Start [Working with Projects](working_with_projects.md) and [Working with Registries](working_with_registries.md).

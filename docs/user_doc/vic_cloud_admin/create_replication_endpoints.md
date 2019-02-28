@@ -32,4 +32,4 @@ The endpoint registry that you created is available for selection when you creat
 
 ## What to Do Next
 
-Create a replication rule for a project.
+Create [Create Replication Rules](create_replication_rules.md).
