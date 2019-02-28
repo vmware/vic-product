@@ -16,7 +16,6 @@
 Documentation  Test 7-06 - Upgrade 1.5.0
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  OVA Upgrade Setup
-Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
 
 *** Variables ***
