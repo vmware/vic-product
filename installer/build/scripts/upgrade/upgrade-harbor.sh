@@ -25,7 +25,7 @@ harbor_database="${harbor_db_mount}/database"
 harbor_psc_token_file="/etc/vmware/psc/harbor/tokens.properties"
 harbor_upgrade_status="/etc/vmware/harbor/upgrade_status"
 harbor_backup="/storage/data/harbor_backup"
-
+harbor_migrator_image=$(docker images goharbor/harbor-migrator --format "{{.Repository}}:{{.Tag}}")
 DB_USER=""
 DB_PASSWORD=""
 
@@ -74,10 +74,17 @@ function checkHarborPSCToken {
   fi
 }
 
+function migrateHarborCfg {
+  log "Back up harbor data to : ${harbor_backup}"
+  mkdir -p "${harbor_backup}"
+  tar czf "${harbor_backup}/database.tar.gz" "${harbor_database}"
+  tar czf "${harbor_backup}/data.tar.gz" "${harbor_data_mount}"
+  log "harbor-migrator version: ${harbor_migrator_image}"
+  docker run --rm -e SKIP_CONFIRM=y -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg ${harbor_migrator_image} --cfg up
+}
 # Run the harbor migrator docker image
 function runMigratorCmd {
-  local migrator_image=$(docker images goharbor/harbor-migrator --format "{{.Repository}}:{{.Tag}}")
-  log "harbor-migrator version: ${migrator_image}"
+  log "harbor-migrator version: ${harbor_migrator_image}"
 
   docker run -i \
     -e DB_USR=${DB_USER} \
@@ -86,7 +93,7 @@ function runMigratorCmd {
     -v ${harbor_database}:/var/lib/mysql \
     -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg \
     -v ${harbor_backup}:/harbor-migration/backup \
-    ${migrator_image} "$@"
+    ${harbor_migrator_image} "$@"
 
   if [ $1 == "up" ]; then
     docker run -i \
@@ -96,7 +103,7 @@ function runMigratorCmd {
       -v ${harbor_database}:/var/lib/postgresql/data \
       -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg \
       -v ${harbor_backup}:/harbor-migration/backup \
-      ${migrator_image} up
+      ${harbor_migrator_image} up
 
     docker run -i \
       -e SKIP_CONFIRM=y \
@@ -104,7 +111,7 @@ function runMigratorCmd {
       -v ${harbor_database}:/var/lib/postgresql/data \
       -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg \
       -v ${harbor_backup}:/harbor-migration/backup \
-      ${migrator_image} up
+      ${harbor_migrator_image} up
   fi
 }
 
