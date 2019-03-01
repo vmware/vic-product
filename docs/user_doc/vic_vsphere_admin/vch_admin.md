@@ -6,4 +6,3 @@ You can monitor and perform administration tasks on virtual container hosts (VCH
 * [Virtual Container Host Administration with `vic-machine`](vch_admin_vicmachine.md)
 * [Delete Virtual Container Hosts](remove_vch.md)
 * [Virtual Container Host Administration Portal](access_vicadmin.md)
-* [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](obtain_appliance_certs.md)

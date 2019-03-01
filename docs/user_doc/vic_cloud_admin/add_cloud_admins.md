@@ -6,11 +6,11 @@ For more information about working with local users and identity sources in the 
 
 For more information about users and roles in vSphere Integrated Containers, see [vSphere Integrated Containers Roles and Personas](../vic_overview/roles_and_personas.md).
 
-**Prerequisites**
+## Prerequisites
 
 Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Management Portal administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 
-**Procedure**
+## Procedure
 
 1. Select **Administration** > **Identity Management**, and click **Users & Groups**.
 3. In the search box, enter a group name, user name, email address, or the user's full name and press Enter.
@@ -22,6 +22,7 @@ Log in to vSphere Integrated Containers Management Portal with a vSphere adminis
 	The user is now a Management Portal administrator for vSphere Integrated Containers. You can use the same workflow to unassign the role from a current Management Portal Administrator user or group.
 
    
-**What to Do Next**
+## What to Do Next
 
-Create projects and assign the users to those projects.
+Start [Working with Projects](working_with_projects.md) and [Working with Registries](working_with_registries.md).
+

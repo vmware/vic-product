@@ -2,11 +2,6 @@
 
 To understand vSphere Integrated Containers, you must first understand the main concepts of containers, Docker technnology, and container registries.
 
-- [General Education Resources](#resources)
-- [Container Images and Volumes](#images)
-  - [Container Runtime](#runtime)
-  - [Container Packaging](#packaging)
-
 ## General Education Resources <a id="resources"></a>
 
 For an introduction to containers, Docker, and container registries before reading further, watch the videos on the [VMware Cloud-Native YouTube Channel](https://www.youtube.com/channel/UCdkGV51Nu0unDNT58bHt9bg):

@@ -4,9 +4,6 @@ The `vic-machine create` utility provides options that change the location of th
 
 You can also replace the standard Photon OS 2.0 kernel that runs in container VMs by uploading a custom `bootstrap.iso` file to a VCH. For example, you can upload a custom RedHat Linux ISO file so that container VMs run on RedHat rather than on Photon OS.
 
-- [`vic-machine` Options](#options)
-- [Example `vic-machine` Commands](#examples)
-
 ## `vic-machine` Options <a id="options"></a>
 
 The options in this topic are only available with the `vic-machine create` command. They are not available in the Create Virtual Container Host wizard in the vSphere Client.

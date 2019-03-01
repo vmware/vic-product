@@ -1,10 +1,10 @@
-## Manually Add the Registry Certificate to a `dch-photon` Container VM ##
+# Manually Add the Registry Certificate to a `dch-photon` Container VM 
 
 To manually add the vSphere Integrated Containers CA certificate to  `dch-photon`, you can create a `dch-photon` container VM, then use `docker cp` to copy the certificate into it. 
 
 **NOTE**: This method requires you to copy the certificate to every `dch-photon` container VM that you deploy. To avoid having to copy the certificate every time, the recommended method is to create a custom `dch-photon` image. For information about creating a custom image, see [Add the Registry Certificate to a Custom `dch-photon` Image](photon_cert_custom.html).
 
-**Prerequisites**
+## Prerequisites
 
 - You have a known user account that has at least the Developer role in the `default-project` in vSphere Integrated Containers Management Portal.
 - You have an instance of Docker Engine running on your local sytem.
@@ -12,7 +12,7 @@ To manually add the vSphere Integrated Containers CA certificate to  `dch-photon
 - You have access to a virtual container host (VCH) that the vSphere administrator configured so that it can connect to the registry to pull the `dch-photon` image. The VCH must also have a volume store named `default`. For information about how deploy a VCH that is suitable for use with `dch-photon`, see the [Deploy a Virtual Container Host with a Volume Store and vSphere Integrated Containers Registry Access](../vic_vsphere_admin/deploy_vch_dchphoton.md) in *vSphere Integrated Containers for vSphere Administrators*. 
 - For simplicity, this example uses a VCH that was deployed with the `--no-tlsverify` option. If your VCH implements TLS verification of clients, you must import the VCH certificates into your Docker client and adapt the Docker commands accordingly. For information about how to connect a Docker client to a VCH that uses full TLS authentication, see [Connecting to the VCH](configure_docker_client.md#connectvch) in Configure the Docker Client for Use with vSphere Integrated Containers.
 
-**Procedure**
+## Procedure
 
 1. Log in to vSphere Integrated Containers Registry from your VCH.
 
@@ -48,11 +48,11 @@ To manually add the vSphere Integrated Containers CA certificate to  `dch-photon
 
     <pre>docker -H <i>vch_address</i>:2376 --tls start build-slave</pre>
     
-**Result**
+## Result
 
 You have a running Docker host named `build-slave`, that is exposed on port 12375 of your VCH. You configured `build-slave` to push and pull images to and from vSphere Integrated Containers Registry.
 
-**What to Do Next**
+## What to Do Next
 
 To test the Docker host, see [Build, Push, and Pull an Image with `dch-photon`](test_photon.md).
     

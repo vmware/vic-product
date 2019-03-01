@@ -6,9 +6,6 @@ If you deploy VCHs from the vSphere Client, the Create Virtual Container Host wi
 
 You can use either SSH and OpenSSL or the Platform Services Controller to obtain certificate thumbprints, either before you run `vic-machine` commands, or to confirm that a thumbprint in an error message is valid.
 
-- [vCenter Server Appliance or ESXi Host](#cert_vc_esx) 
-- [Platform Services Controller](#cert_psc)
-
 ## vCenter Server Appliance or ESXi Host <a id="cert_vc_esx"></a>
 
 You can use SSH and OpenSSL to obtain the certificate thumbprint for a vCenter Server Appliance instance or an ESXi host. 

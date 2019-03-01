@@ -8,7 +8,7 @@ Manually upgrading the vSphere Integrated Containers appliance requires you to c
 
 During a manual upgrade, all configurations that you made in vSphere Integrated Containers Management Portal and Registry in the previous installation transfer to the upgraded appliance. The old appliance is no longer functional after you move the disks.
 
-**Prerequisites**
+## Prerequisites
 
 - You have completed the pre-upgrade tasks listed in [Tasks to Perform Before Upgrading the vSphere Integrated Containers Appliance](pre_upgrade_tasks.md).
 - If you deployed the old version of the vSphere Integrated Containers appliance with a static IP address, and you want the new appliance to retain the same IP address after the upgrade, reconfigure the old appliance to use a temporary IP address before you start the upgrade procedure. For information about how to reconfigure the old appliance, see [Reconfigure the vSphere Integrated Containers Appliance](reconfigure_appliance.md).
@@ -21,7 +21,7 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
   - Do not power on the new version of the appliance.
 - Log in to the vSphere Client for the vCenter Server instance on which the previous version is running and on which you deployed the new version. 
 
-**Procedure**
+## Procedure 1: Copy Disks
 
 1.  In the **Hosts and Clusters** view of the vSphere Client, right-click the new version of the appliance and select **Edit Settings**.
 2.  Remove the following hard disks from the new appliance.
@@ -103,8 +103,11 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
    4. Expand **New Hard Disk** and make sure that the Virtual Device Node for the disk is set to **SCSI(0:1)**.
    5. Repeat the procedure to attach <code>&lt;appliance_name&gt;_2.vmdk</code> to **SCSI(0:2)** and <code>&lt;appliance_name&gt;_3.vmdk</code> to **SCSI(0:3)**.
    6. Click **OK**.
+   
 
-6. Power on the new version of the vSphere Integrated Containers appliance and wait for it to boot up. 
+## Procedure 2: Run the Upgrade Script
+
+1. Power on the new version of the vSphere Integrated Containers appliance and wait for it to boot up. 
 
     Booting up can take a few minutes. Go to  https://<i>vic_appliance_address</i>:9443 and wait until the **Complete VIC appliance installation** panel appears.
 
@@ -141,11 +144,11 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
   - If the script detects your upgrade path correctly, enter `y` to proceed with the upgrade.
   - If the upgrade script detects the upgrade path incorrectly, enter `n` to abort the upgrade and contact VMware support.
 
-**Result**
+## Result
 
 After you see confirmation that the upgrade has completed successfully, the upgraded appliance initializes. When the upgraded appliance has initialized, you can access its appliance welcome page at http://<i>new_appliance_address</i>.
 
-**What to Do Next**
+## What to Do Next
 
 - If you answered `y` at the prompt to `Upgrade VIC UI Plugin`, access the  vSphere Integrated Containers plug-in for vSphere Client:
    1. Log out of the HTML5 vSphere Client and log back in again. You should see a banner that states `There are plug-ins that were installed or updated`.
@@ -161,6 +164,6 @@ After you see confirmation that the upgrade has completed successfully, the upgr
 - Download the new vSphere Integrated Containers Engine bundle and upgrade  your VCHs. For information about upgrading VCHs, see [Upgrade Virtual Container Hosts](upgrade_vch.md).
 - If you answered `n` at the prompt to `Upgrade VIC UI Plugin`, and you want to upgrade the plug-in later, see [Reinitialize the vSphere Integrated Containers Appliance](reinitialize_appliance.md). 
 
-**Troubleshooting**
+## Troubleshooting
 
 If upgrade fails, generate a log bundle and obtain the upgrade log to provide to VMware support. For information about obtaining the logs, see [Access and Configure Appliance Logs](appliance_logs.md).

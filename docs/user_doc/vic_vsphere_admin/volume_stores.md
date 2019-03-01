@@ -2,15 +2,6 @@
 
 Volume stores for virtual container hosts (VCHs) are storage locations in your infrastructure, in which to create volumes when container developers use the `docker volume create` command or deploy containers that use volumes. You can specify a mix of volume stores backed by vSphere datastores or NFSv3 shares. The volume stores that are available to a VCH appear under `VolumeStores` when you run `docker info` against the VCH.
 
-- [About Volume Stores](#about)
-  - [vSphere Datastores](#vsphereusage)
-  - [NFS Volume Stores](#nfsusage)
-  - [Anonymous Volumes](#default)
-- [Add Volume Datastores](#volume-store)
-- [What to Do Next](#whatnext)
-- [Example `vic-machine` Command](#example)
-- [Troubleshooting](#troubleshooting)
-
 ## About Volume Stores <a id="about"></a>
 
 For information about how Docker containers use volumes, see [Use volumes](https://docs.docker.com/engine/admin/volumes/volumes/) in the Docker documentation.

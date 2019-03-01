@@ -27,3 +27,8 @@ You can obtain open source builds of vSphere Integrated Containers Engine, vSphe
 
 - You can obtain community support for open source builds by [reporting bugs and creating issues on Github](https://github.com/vmware/vic-product#contributing-to-vsphere-integrated-containers). 
 - For general questions, visit the [vSphere Integrated Containers channel on Slack.com](https://vmwarecode.slack.com/messages/vic-product). If you do not have an @vmware.com or @emc.com email address, sign up at https://code.vmware.com/home to get an invitation.
+
+
+## What to Do Next
+
+[Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md)

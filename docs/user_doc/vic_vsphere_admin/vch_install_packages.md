@@ -13,12 +13,12 @@ Error(1304) : Hawkey - I/O error
 
 **IMPORTANT**: Any changes that you make to the VCH endpoint VM, including installing packages, are non-persistent and are lost if the endpoint VM reboots.
 
-**Prerequisite**
+## Prerequisite
 
 - Enable SSH access to the VCH endpoint VM. For information about enabling SSH access, see [Debug Running Virtual Container Hosts](debug_vch.md).
 - Ensure that the VCH can access the Photon OS repositories at https://vmware.bintray.com/, either via the Internet or via a mirror on the local network.
 
-**Procedure**
+## Procedure
 
 1. Use SSH to connect to the VCH endpoint VM as `root` user.
 2. Open the Photon OS updates repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-updates-local.repo</pre>
@@ -34,7 +34,7 @@ Error(1304) : Hawkey - I/O error
 9. Run the command to rebuild the database in the endpoint VM.<pre>rpm --rebuilddb</pre>
 3. Run a Tiny DNF command to test the reconfiguration.<pre>tdnf list installed</pre>The `tdnf list installed` command should display information about the installed packages. 
 
-**Result**
+## Result
 
 You can now use Tiny DNF to install new packages in the VCH endpoint VM.
 
@@ -43,6 +43,6 @@ You can now use Tiny DNF to install new packages in the VCH endpoint VM.
 - Any installations and configurations that you perform by using Tiny DNF in the endpoint VM do not persist if you reboot the endpoint VM.
 - Running `rpm --rebuilddb` results in an unpopulated database. Consequently, when you use Tiny DNF to install a package, it tries to install all of the dependencies for that package in the endpoint VM, even if those dependencies are already present.
 
-**What to Do Next**
+## What to Do Next
 
 For an example of how to install a package in the VCH endpoint VM, see [Mount an NFS Share Point in the VCH Endpoint VM](vch_mount_nfsshare.md).

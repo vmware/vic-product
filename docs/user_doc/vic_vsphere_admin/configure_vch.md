@@ -2,21 +2,7 @@
 
 You can configure certain settings on an existing virtual container host (VCH) by using the `vic-machine configure` command.
 
-When you run `vic-machine configure`, you use the options described in [Common `vic-machine` Options](common_vic_options.md) to identify the VCH to configure. In addition to these options, the `vic-machine configure` command provides options that allow you to perform the following modifications on VCHs:
-
-- [Update vCenter Server Credentials](#vccreds)
-- [Update vCenter Server Certificates](#vccert)
-- [Add or Update Registry Server Certificates](#registries)
-- [Update Security Configuration](#tlscerts)
-- [Update Affinity Group Settings](#affinity)
-- [Set or Update Storage Quotas](#quota)
-- [Add Volume Stores](#volumes)
-- [Add and Reset DNS Servers](#dns)
-- [Configure Container Network Settings](#containernet)
-- [Add, Configure, or Remove Proxy Servers](#proxies)
-- [Configure Debug Mode](#debug)
-- [Configure CPU and Memory Allocations](#cpumem)
-- [Reset Upgrade or Configuration Progress](#resetprogress)
+When you run `vic-machine configure`, you use the options described in [Common `vic-machine` Options](common_vic_options.md) to identify the VCH to configure. In addition to these options, the `vic-machine configure` command provides options that allow you to perform modifications on VCHs.
 
 ## Using `vic-machine configure` <a id="using"></a>
 

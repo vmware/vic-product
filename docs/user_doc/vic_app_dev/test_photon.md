@@ -1,8 +1,8 @@
-## Build, Push, and Pull an Image with `dch-photon`  ##
+# Build, Push, and Pull an Image with `dch-photon` 
 
 After you have loaded the vSphere Integrated Containers Registry certificate into a `dch-photon` container VM, you can test the `dch-photon` Docker host by building an image and pushing it to vSphere Integrated Containers Registry. Then, you can pull the image into a virtual container host (VCH) to deploy it. 
 
-**Prerequisites**
+## Prerequisites
 
 - You performed one of the procedures in either [Add the Registry Certificate to a Custom Image](photon_cert_custom.md) or [Manually Add the Registry Certificate to a `dch-photon` VM](photon_cert_manual.md) to create an instance of the `dch-photon` Docker Engine, named `build-slave`. 
   - The `build-slave` container VM includes the CA certificate of your vSphere Integrated Containers Registry instance. 
@@ -12,7 +12,7 @@ After you have loaded the vSphere Integrated Containers Registry certificate int
 
 vSphere Integrated Containers 1.5.x supports `dch-photon` version 17.06.
 
-**Procedure**
+## Procedure
 
 1. Run `docker info` to test that the Docker host running in the `dch-photon` container VM has started correctly. 
 
@@ -81,7 +81,7 @@ vSphere Integrated Containers 1.5.x supports `dch-photon` version 17.06.
 
     You should see the `test-container` image in the list of repositories for `default-project` and the `test-container` container VM in the list of containers.
     
-**Result**
+## Result
 
 You built a `test-container` image in a `dch-photon` Docker Engine and pushed it from the `dch-photon` instance to vSphere Integrated Containers Registry. You pulled the `test-container` image from the registry into a VCH and ran it. The resulting `test-container` container VM appears in the list of containers that have run in the VCH. 
 

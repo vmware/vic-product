@@ -4,11 +4,6 @@ It is possible deploy a very basic virtual container host (VCH) with a minimal c
 
 However, in real-world deployments, you usually need to access private registries, and commonly used container images very often need to create volumes. Consequently, to create a useful test VCH, you should configure it for private registry access and add at least one volume store. In environments in which DHCP is not available, you must also configure a static IP address for the VCH endpoint VM on at least the public network. 
 
-- [Example](#example)
-- [Test the Deployment of the VCH](#test)
-
-## Example <a id="example"></a>
-
 This example shows how to use both the Create Virtual Container Host wizard and `vic-machine` to create a VCH with the following configuration:
 
 - A static IP address for the VCH endpoint VM on the public network.
@@ -19,7 +14,7 @@ For simplicity, this example deploys a VCH without client certificate verificati
 
 **NOTE**: If this is the first time that you are deploying a VCH, it is recommended to use the Create Virtual Container Host wizard rather than `vic-machine`.
 
-### Prerequisites
+## Prerequisites
 
 * Deploy the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 * Download the vSphere Integrated Containers Engine bundle from the appliance and unpack it on your usual working machine. For information about how to download the bundle, see [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md). 
@@ -34,14 +29,14 @@ For simplicity, this example deploys a VCH without client certificate verificati
     **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](network_reqs.md).
 * Make sure that the correct firewall ports are open on the ESXi hosts. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 * Obtain the vCenter Server certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
-* If you intend to use the CLI utility to deploy the VCH, familiarize yourself with the basic options of the `vic-machine create` command described in [Running vic-machine Commands](running_vicmachine_cmds.md).
+* If you intend to use the CLI utility to deploy the VCH, familiarize yourself with the basic options of the `vic-machine create` command described in [Using the `vic-machine` CLI Utility](using_vicmachine.md).
 * Familiarize yourself with the bridge network, public network, image store, and volume store as described in [Configure Bridge Networks](bridge_network.md), [Configure the Public Network](public_network.md), and [Virtual Container Host Storage Capacity](vch_storage.md).
 * Familiarize yourself with the way in which VCHs use certificates to authenticate connections from clients. For information about certificate use by VCHs and Docker, see the [Virtual Container Host Certificate Requirements](vch_cert_reqs.md).
 * Obtain the root certificate for vSphere Integrated Containers Registry. For information about how to obtain the certificate, see [Obtain the vSphere Integrated Containers Registry Certificate](vch_registry.md#regcert).
 * If you intend to use the Create Virtual Container Host wizard in the vSphere Client, create a vSphere user account for the operations user. For information about creating the operations user account, see [Create the Operations User Account](create_ops_user.md).
 * Install a Docker client so that you can test the deployment.
 
-### Create VCH Wizard
+## Create VCH Wizard
 
 1. Log in to the HTML5 vSphere Client, click the vSphere Client logo in the top left corner, and click **vSphere Integrated Containers**.
 3. Click **vSphere Integrated Containers** in the main panel, select the **Virtual Container Hosts** tab, and click **+ New Virtual Container Host**.
@@ -67,11 +62,11 @@ For simplicity, this example deploys a VCH without client certificate verificati
 12. Click **Finish**.
 
 
-**Result**
+### Result
 
 At the end of a successful deployment, the Virtual Container Hosts tab displays connection information for the new VCH.
  
-### vic-machine Command
+## vic-machine Command
 
 1. Open a terminal on the system on which you downloaded and unpacked the vSphere Integrated Containers Engine binary bundle.
 2. Navigate to the directory that contains the `vic-machine` utility:
@@ -151,7 +146,7 @@ The `vic-machine create` command in this example specifies the following options
 
 You could also specify <code>--volume-store nfs://<i>nfs_server</i>/path_to_share_point:default</code> to designate an NFS share point as the default volume store.
 
-**Result**
+### Result
 
 At the end of a successful deployment, `vic-machine` displays information about the new VCH:
    
@@ -170,7 +165,7 @@ Installer completed successfully</pre>
 
 Now you can [Test the Deployment of the VCH](#test).
 
-### Troubleshooting
+## Troubleshooting
 
 If you see errors during deployment, see [Troubleshoot Virtual Container Host Deployment](ts_deploy_vch.md).
 
@@ -236,7 +231,7 @@ vSphere Integrated Containers 1.5.x supports `dch-photon` version 17.06.
 
      You should see that vSphere Integrated Containers Engine has created a folder named `VIC` at the top level of the datastore. This folder contains a subfolder named `volumes`, that contains folders for the volumes created by the `dch-photon` container VM. These folders contain the VDMK files for those volumes.
 
-### What to Do Next
+## What to Do Next
 
 The VCH and the `dch-photon` container VM are ready for container developers to use. For information about how developers connect to vSphere Integrated Containers Registry from Docker clients, and how  they can use `dch-photon`, see the following topics in *Developing Applications with vSphere Integrated Containers*:
 

@@ -39,11 +39,11 @@ The user account that you specify as the operations user must exist before you d
 
 You can use the same user account as the operations user for multiple VCHs.
 
-**Prerequisite**
+### Prerequisite
 
 Log into the vSphere Client with a vSphere administrator account.
 
-**Procedure**
+### Procedure
 
 1. In Home page of the vSphere Web Client, click **Administration**.
 2. Click **Users and Groups** in the Navigator menu.
@@ -51,6 +51,6 @@ Log into the vSphere Client with a vSphere administrator account.
 4. Enter a user name for the operations user account, for example `vic-ops`.
 5. Enter and confirm the password for this account, optionally provide the additional information, and click **OK**. 
 
-**Result**
+### Result
 
 You can use the new user as the operations user account for VCHs. You must use the option to grant any necessary permissions to the user account when you deploy the VCH.

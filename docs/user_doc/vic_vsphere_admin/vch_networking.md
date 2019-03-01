@@ -2,13 +2,6 @@
 
 You must configure networks on a virtual container host (VCH) that tie your Docker development environment into the vSphere infrastructure. You define the networks that are available to a VCH when you deploy the VCH.
 
-- [Bridge Networks](#bridge) 
-- [Public Network](#public) 
-- [Client Network](#client) 
-- [Management Network](#mgmt) 
-- [Container Networks](#container) 
-- [Host Firewall Configuration](#firewall)
-
 You can direct traffic between containers, the VCH, the external Internet, and your vSphere environment to different networks. VCH network interfaces can be either standard vSphere port groups, NSX Data Center for vSphere logical switches, or NSX-T Data Center logical switches. 
 
 **IMPORTANT**: For information about VCH networking requirements, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).

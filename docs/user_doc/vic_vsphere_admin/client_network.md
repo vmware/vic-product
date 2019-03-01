@@ -2,13 +2,6 @@
 
 The client network is the network on which the VCH endpoint VM makes the Docker API available to Docker clients. By designating a specific client network, you isolate Docker endpoints from the public network. Virtual container hosts (VCHs) access vSphere Integrated Containers Management Portal and vSphere Integrated Containers Registry over the client network. 
 
-- [`vic-machine` Option](#options)
-  - [Client Network](#client-network) 
-  - [Static IP Address](#static-ip)
-  - [Routing Destination and Gateway](#gateway)
-- [What to Do Next](#whatnext)
-- [Example `vic-machine` Command](#example)
-
 **IMPORTANT**: For information about VCH networking requirements, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
 
 ## Options <a id="options"></a>

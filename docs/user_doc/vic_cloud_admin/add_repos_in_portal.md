@@ -2,12 +2,12 @@
 
 You can add multiple global registries that are added by the Management Portal Admin and are available to all users of the management portal. Global registries that are allowed by the Management Portal administrator cannot be disabled or removed by other users. 
 
-**Prerequisites**
+## Prerequisites
 
 Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Management Portal administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 
 
-**Procedure**
+## Procedure
 
 1. Navigate to **Administration** > **Global Registries** > **Source Registries** and click **+Registry**.
 
@@ -22,6 +22,6 @@ Log in to vSphere Integrated Containers Management Portal with a vSphere adminis
 	5. After successful verification, click **Save**.
 
 
-**Result**
+## Result
 
 The registry appears on the Global Registries page and all users can access the images stored in that registry.

@@ -1,14 +1,6 @@
 # vSphere Integrated Containers Security Reference
 The Security Reference provides information to allow you to secure your vSphere Integrated Containers implementation.
 
-- [Service Accounts, Privileges, and User Authentication](#accounts)
-- [Network Security](#network)
-- [External Interfaces, Ports, and Services](#open_ports)
-- [Apply Security Updates and Patches](#patches)
-- [Security Related Log Messages](#logs)
-- [Sensitive Data](#data)
-- [Certificates](#certs)
-
 ## Service Accounts, Privileges, and User Authentication <a id="accounts"></a>
 vSphere Integrated Containers does not create service accounts and does not assign any vSphere privileges. The vSphere Integrated Containers appliance uses vCenter Single Sign-On user accounts to manage user authentication. You can optionally create example Single Sign-On user accounts for vSphere Integrated Containers Management Portal when you deploy the appliance. For information about the example user accounts, see [User Authentication](../vic_overview/intro_to_vic_mp.md#authentication) and [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 
@@ -22,7 +14,7 @@ For information about how vSphere Integrated Containers uses certificates, see t
 
 Using `vic-machine` to deploy and manage virtual container hosts (VCHs) requires a user account with vSphere administrator privileges. The `vic-machine create --ops-user` and `--ops-password` options allow a VCH to operate with less-privileged credentials than those that are required to deploy a new VCH. For information about the `--ops-user` option and the permissions that it requires, see [Create the Operations User Account](create_ops_user.md).
 
-When deploying VCHs, you must provide the certificate thumbprint of the vCenter Server or ESXi host on which you are deploying the VCH. For information about how to obtain and verify vSphere certificate thumbprints, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). Be aware that it is possible to use the `--force` option to run `vic-machine` commands that bypass vSphere certificate verification. For information about the `--force` option, see [`--force`](running_vicmachine_cmds.md#force) in the topic on running `vic-machine` commands.
+When deploying VCHs, you must provide the certificate thumbprint of the vCenter Server or ESXi host on which you are deploying the VCH. For information about how to obtain and verify vSphere certificate thumbprints, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). Be aware that it is possible to use the `--force` option to run `vic-machine` commands that bypass vSphere certificate verification. For information about the `--force` option, see [`--force`](using_vicmachine.md#force) in the topic on running `vic-machine` commands.
 
 ### Docker Client and Management Portal Authentication with VCHs
 

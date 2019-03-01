@@ -6,13 +6,6 @@ If access to the Internet or to your private image registries requires the use o
 
 You can add, reconfigure, or remove proxy servers after you have deployed a VCH by using the `vic-machine configure --https-proxy` and `--http-proxy` options. For information about adding, reconfiguring, or removing proxy servers, see Add, Configure, or Remove Proxy Servers in [Configure Running Virtual Container Hosts](configure_vch.md#proxies).
 
-- [Options](#options)
-  - [HTTP Proxy](#http)
-  - [HTTPS Proxy](#https) 
-  - [No Proxy](#noproxy)
-- [What to Do Next](#whatnext)
-- [Example `vic-machine` Command](#example)
-
 ## Options <a id="options"></a>
 
 The sections in this topic each correspond to an entry in the Configure Networks page of the Create Virtual Container Host wizard, and to the  corresponding `vic-machine create` options.

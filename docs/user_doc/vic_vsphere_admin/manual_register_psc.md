@@ -6,7 +6,7 @@ If the credentials for the Platform Services Controller change after you deploye
 
 **NOTE**: To update the registration, you must log into the appliance VM and run commands manually. You cannot update the registration by using the Re-Initialize button on the vSphere Integrated Containers appliance welcome page.
 
-**Procedure**
+## Procedure
 
 1. Use SSH to connect to the appliance VM as `root` user, using the root password that you specified during the OVA deployment.
 
@@ -81,7 +81,7 @@ If the credentials for the Platform Services Controller change after you deploye
 
     This command prevents the login window from reappearing on subsequent visits to the appliance welcome page.
 
-**Result** 
+## Result 
 
 The appliance is registered with the Platform Services Controller with the new credentials. vSphere Integrated Containers services are available at https://<i>vic_appliance_address</i>:8282.
 

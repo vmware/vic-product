@@ -17,7 +17,7 @@ You should reinitialize the appliance in the following circumstances:
 * You need to update the details for the Platform Services Controller.
 * You chose not to install or upgrade the vSphere Client plug-in when you installed or upgraded the appliance, and you now wish to do so. 
 
-**Procedure**:
+## Procedure:
 
 1. In a browser, go to the vSphere Integrated Containers appliance welcome page.
 
@@ -38,7 +38,7 @@ You should reinitialize the appliance in the following circumstances:
 4. To install or upgrade the vSphere Client plug-in, leave the **Install UI Plugun** checkbox selected, and click **Continue**.
 6. Verify that the certificate thumbprint for vCenter Server is valid, and click **Continue** to initialize the appliance.
 
-**Result**
+## Result
 
 You see a green success message on the vSphere Integrated Containers appliance welcome page. The reinitialization has performed some or all of the following tasks:
 

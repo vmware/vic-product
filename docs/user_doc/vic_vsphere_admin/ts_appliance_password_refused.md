@@ -21,6 +21,6 @@ A startup process failed on the first boot of the appliance. This caused the app
 4. When you are logged in, reboot the appliance.<pre>$ reboot now</pre> 
 
 
-**Result** 
+## Result 
 
 After the reboot, the password is set to the one that you specified during OVA deployment, even if you had to specify a different, throwaway password in order to log in. When the initial password that you specified during OVA deployment expires, the next time that you log in you must set a new password that complies with the strength check.

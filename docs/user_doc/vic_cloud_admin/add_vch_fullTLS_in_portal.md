@@ -4,12 +4,12 @@ If a Docker host or a vSphere Integrated Containers virtual container host (VCH)
 
 **IMPORTANT**: You should only register a VCH with one project at a time. Similarly, you should not add the same VCH to projects in multiple instances of vSphere Integrated Containers.
 
-**Prerequisites**
+## Prerequisites
 
 - Obtain the client private key, `key.pem`, and client public key, `cert.pem`, for the VCH or Docker host from the vSphere or Docker administrator. For information about VCH certificates, see [Virtual Container Host Certificate Requirements](../vic_vsphere_admin/vch_cert_reqs.md) in *vSphere Integrated Containers for vSphere Administrators*.
 - Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Management Portal administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 
-**Procedure**
+## Procedure
 
 1. Navigate to **Administration** > **Identity Management** and click **Credentials** to configure the certificates to be used for authentication with the host.
 	1. Click **+Credential** to add new entry.
@@ -32,10 +32,10 @@ If a Docker host or a vSphere Integrated Containers virtual container host (VCH)
 
     3. As Credentials, select the certificates that you configured for that host and click **Save**.
 
-**Result**
+## Result
 
 The host appears on the Container Hosts page for the selected project. You can also see the hosts that you added to a project by navigating to **Administration** > **Projects** > *project* > **Infrastructure**.
 
-**What to Do Next**
+## What to Do Next
 
 [Configure Project Settings](manage_projects.md)

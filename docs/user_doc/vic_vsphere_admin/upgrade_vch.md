@@ -12,7 +12,7 @@ You use `vic-machine upgrade` to upgrade VCHs to newer versions. You can run `vi
 
 For descriptions of the options that `vic-machine upgrade` includes in addition to the [Common `vic-machine` Options](common_vic_options.md) , see [VCH Upgrade Options](upgrade_vch_options.md).
 
-**Prerequisites**
+## Prerequisites
 
 - You deployed one or more VCHs with an older version of `vic-machine`.
 - You downloaded a new version of the vSphere Integrated Containers Engine bundle.
@@ -21,7 +21,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
 - Obtain the vCenter Server or ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 
 
-**Procedure**
+## Procedure
 
 1. On the system on which you run `vic-machine`, navigate to the directory that contains the new version of the `vic-machine` utility.
 2. Run the `vic-machine upgrade` command. 
@@ -74,7 +74,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
   --rollback</pre>
 
 
-**Result**
+## Result
 
 During the upgrade process, `vic-machine upgrade` performs the following operations:
 

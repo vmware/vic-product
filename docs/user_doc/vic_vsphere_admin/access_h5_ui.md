@@ -6,12 +6,12 @@ If you have installed the HTML5 plug-in for vSphere Integrated Containers, you c
 
 **NOTE**: More functionality will be added to the vSphere Integrated Containers plug-in in future releases.
 
-**Prerequisites**
+## Prerequisites
 
 - You are running vCenter Server 6.7 or vCenter Server 6.5.0d or later. The vSphere Integrated Containers view does not function with earlier versions of vCenter Server 6.5.0.
 - You installed the HTML5 plug-in for vSphere Integrated Containers.
 
-**Procedure**
+## Procedure
 
 1. Log in to the HTML5 vSphere Client and click the **vSphere Client** logo in the top left corner.
 2. Under Inventories, click **vSphere Integrated Containers**.

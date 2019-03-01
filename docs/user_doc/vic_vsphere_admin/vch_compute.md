@@ -2,27 +2,6 @@
 
 When you deploy a virtual container host (VCH), you must select the compute resource in your virtual infrastructure in which to deploy the VCH. You can optionally configure resource usage limits on the VCH.
 
-- [Options](#options)
-  - [Compute Resource](#compute-resource)
-  - [CPU](#cpu)
-  - [Memory](#memory)
-- [Advanced Options](#advanced)
-  - [CPU Reservation](#cpures)
-  - [CPU Shares](#cpushares)
-  - [Memory Reservation](#memoryres)
-  - [Memory Shares](#memoryshares)
-  - [Endpoint VM CPUs](#endpointcpu)
-  - [Endpoint VM Memory](#endpointmemory)
-  - [VM-Host Affinity](#hostaffinity)
-- [What to Do Next](#whatnext)
-- [Example `vic-machine` Commands](#examples)
-  - [Deploy to a vCenter Server Cluster with Multiple Datacenters and Datastores](#cluster)
-  - [Deploy to a Specific Standalone Host in vCenter Server](#standalone)
-  - [Deploy to a Resource Pool on an ESXi Host](#rp_host)
-  - [Deploy to a Resource Pool in a vCenter Server Cluster](#rp_cluster)
-  - [Set Limits on Resource Use](#customized)
-  - [Deploy VCH that specifies Host Affinity Group](#affinitygroup) 
-
 ## Options <a id="options"></a>
 
 The sections in this topic each correspond to an entry in the Compute Capacity page of the Create Virtual Container Host wizard and to the  corresponding `vic-machine create` options.

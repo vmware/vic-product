@@ -4,21 +4,6 @@ Virtual container hosts (VCHs) authenticate connections from Docker API clients 
 
 **IMPORTANT**: The certificate requirements for VCHs and for the vSphere Integrated Containers appliance are different. For information about how the appliance uses certificates, see [vSphere Integrated Containers Appliance Certificate Requirements](appliance_cert_reqs.md).
 
-- [Certificate Usage in Docker](#docker_certs)
-- [Certificate Usage in VCHs](#vch_cert_use)
-  - [Automatically Generated Certificates](#auto)
-  - [Custom Certificates](#custom)
-  - [Converting PKCS#7 Certificate Keys for Use with VCHs](#convertcerts)
-- [VCH Server Certificate](#servercert)
-  - [Automatically Generated Server Certificate](#auto-servercert)
-  - [Custom Server Certificate](#custom-servercert)
-- [VCH Client Certificate](#clientcert)
-  - [Automatically Generated Client Certificate](#auto-clientcert)
-  - [Custom Client Certificate](#custom-clientcert) 
-- [vSphere Integrated Containers Registry Root CA](#registry)
-- [vCenter Server or ESXi Host Certificate](#vcenter)
-- [VCH Administration Portal Certificate](#vch_admin)
-
 ## Certificate Usage in Docker <a id="docker_certs"></a>
 
 There are four certificates in use in a Docker `tlsverify` configuration:

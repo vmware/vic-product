@@ -6,17 +6,6 @@ vSphere administrators can use the vSphere Client to view and manage the vSphere
 - VCHs have some specific requirements when using certain vSphere features and other VMware products.
 
 This topic describes how vSphere features and other VMware products interact with vSphere Integrated Containers, VCHs, and container VMs. 
-
-- [VMware NSX Data Center](#nsx)
-- [VMware vSAN and Other Storage](#vsan)
-- [VMware vSphere vMotion](#vmotion)
-- [VMware vSphere Distributed Resource Scheduler](#drs)
-- [VMware vRealize Suite](#vrealize)
-- [General vSphere Operation and Other Features](#vsphere)
-  - [VMware vSphere High Availability](#ha)
-  - [Maintenance Mode](#maintmode)
-  - [Enhanced Linked Mode Environments](#elm)
-  - [vSphere Features Not Supported in This Release](#notsupported)
   
 For information about the supported versions of VMware software that are compatible with vSphere Integrated Containers, see the [VMware Product Interoperability Matrices](https://partnerweb.vmware.com/comp_guide2/sim/interop_matrix.php#interop&149=&0=).
 

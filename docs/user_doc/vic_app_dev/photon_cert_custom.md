@@ -1,10 +1,10 @@
-## Add the Registry Certificate to a Custom `dch-photon` Image ##
+# Add the Registry Certificate to a Custom `dch-photon` Image 
 
 The recommended method of passing the vSphere Integrated Containers Registry CA certificate to `dch-photon` is to create a custom `dch-photon` image that includes the certificate. You can then push the image to the vSphere Integrated Containers Registry and verify that it works by deploying it to a virtual container host (VCH).
 
 By creating a custom image, you can deploy multiple instances of `dch-photon` that have the correct registry certificate, without having to manually copy the certificate into each `dch-photon` container VM.
 
-**Prerequisites**
+## Prerequisites
 
 - You have a known user account that has at least the Developer role in the `default-project` in vSphere Integrated Containers Management Portal.
 - You have an instance of Docker Engine running on your local sytem.
@@ -13,7 +13,7 @@ By creating a custom image, you can deploy multiple instances of `dch-photon` th
 - For simplicity, this example uses a VCH that was deployed with the `--no-tlsverify` option. If your VCH implements TLS verification of clients, you must import the VCH certificates into your Docker client and adapt the Docker commands accordingly. For information about how to connect a Docker client to a VCH that uses full TLS authentication, see [Connecting to the VCH](configure_docker_client.md#connectvch).
 
 
-**Procedure**
+## Procedure
 
 1. Log in to vSphere Integrated Containers Registry from your local Docker client.
 
@@ -54,11 +54,11 @@ By creating a custom image, you can deploy multiple instances of `dch-photon` th
 
     <pre>docker -H <i>vch_address</i>:2376 --tls run --name build-slave -d -p 12375:2375 <i>registry_address</i>/default-project/dch-photon:17.06-cert</pre> 
 
-**Result**
+## Result
 
 - You have a custom `dch-photon` image in your vSphere Integrated Containers Registry that contains the correct certificate so that it can build, pull, and push images to and from that registry.
 - You deployed a `dch-photon` container VM named `build-slave` from that image, that exposes Docker Engine on port 12375 of your VCH. 
 
-**What to Do Next**
+## What to Do Next
 
 To test the  `dch-photon` Docker Engine, see [Build, Push, and Pull an Image with `dch-photon`](test_photon.md).

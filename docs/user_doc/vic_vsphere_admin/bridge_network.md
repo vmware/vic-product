@@ -4,12 +4,6 @@ Bridge networks are the network or networks that container VMs use to communicat
 
 In Docker terminology, the bridge network on a VCH corresponds to the default bridge network, or `docker0` interface, on a Docker host. Container application developers can use `docker network create` to create additional, user-defined bridge networks when they run containers. For information about default bridge networks and user-defined networks, see [Docker container networking](https://docs.docker.com/engine/userguide/networking/) in the Docker documentation.
 
-- [Options](#options)
-  - [Bridge Network](#bridge)
-  - [Bridge Network Range](#bridge-range)
-- [What to Do Next](#whatnext)
-- [Example `vic-machine` Command](#example)
-
 **IMPORTANT**: 
 
 - For information about VCH networking requirements, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).

@@ -2,11 +2,11 @@
 
 You can verify the self-signed certificate and trust the certificate authority (CA) for the vSphere Integrated Containers appliance welcome page and the vSphere Integrated Containers Management Portal. Trusting the CA prevents browsers from giving security warnings and potentially locking you out of vSphere Integrated Containers for security reasons.
 
-**Prerequisites**
+## Prerequisites
 
 To verify and trust the vSphere Integrated Containers appliance certificate, you must obtain the thumbprint and CA file either directly from the appliance, or from the vSphere administrator. For information about how to obtain certificate information, see [Obtain the Thumbprint and CA File of the vSphere Integrated Containers Appliance Certificate](../vic_vsphere_admin/obtain_appliance_certs.md).
 
-**Procedure**
+## Procedure
 
 1. In a browser, go to the appliance welcome page at https://<i>vic_appliance_address</i>:9443.
 
@@ -23,6 +23,6 @@ To verify and trust the vSphere Integrated Containers appliance certificate, you
 
     How you import a CA file into the root certificate store depends on the operating system of your local machine. 
 
-**Result**
+## Result
 
 When you access the appliance welcome page and vSphere Integrated Containers Management Portal, your browser shows that the connection is secure.
