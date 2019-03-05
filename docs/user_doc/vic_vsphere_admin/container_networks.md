@@ -140,11 +140,11 @@ If you do not set a trust level, the default level of trust is `published`. As a
 
 You can use `vic-machine configure --container-network-firewall` to change the trust level after deployment of the VCH. For information about configuring container network firewalls, see *Configure Container Network Settings* in [Configure Running Virtual Container Hosts](configure_vch.md#containernet).
 
-#### Create VCH Wizard
+### Create VCH Wizard
 
 Leave the default policy of **Published**, or use the **Firewall policy** drop-down menu to select **Closed**, **Outbound**, **Peers**, or **Open**.
 
-#### vic-machine Option  
+### vic-machine Option  
 
 `--container-network-firewall`, `--cnf`
 
