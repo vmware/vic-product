@@ -81,6 +81,7 @@ This topic includes lists of all of the options of the different `vic-machine` c
 |`--container-network-firewall`|[Configure Container Network Settings](configure_vch.md#containernet)|
 |`--container-network-gateway`|[Configure Container Network Settings](configure_vch.md#containernet)|
 |`--container-network-ip-range`|[Configure Container Network Settings](configure_vch.md#containernet)|
+|`--containers`|[Set or Update Container VM Limit](configure_vch.md#container-limit)|
 |`--cpu`|[Configure CPU and Memory Allocations](configure_vch.md#cpumem)|
 |`--cpu-reservation`|[Configure CPU and Memory Allocations](configure_vch.md#cpumem)|
 |`--cpu-shares`|[Configure CPU and Memory Allocations](configure_vch.md#cpumem)|

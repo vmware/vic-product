@@ -97,7 +97,7 @@ This option is not available in the Create VCH wizard
 
 `--containers`, no short name
 
-Specify an integer. If not specified, `vic-machine create` does not set a maximum limit on the number of container VMs that the VCH can host.
+Specify an integer. If not specified, or if you specify `0`, `vic-machine create` does not set a maximum limit on the number of container VMs that the VCH can host.
 
 <pre>--containers 100</pre>
 
