@@ -24,6 +24,7 @@ This topic includes lists of all of the options of the different `vic-machine` c
 |`--container-network-firewall`|[Configure Container Networks](container_networks.md#container-network-firewall)|
 |`--container-network-gateway`|[Configure Container Networks](container_networks.md#gateway)|
 |`--container-network-ip-range`|[Configure Container Networks](container_networks.md#ip-range)|
+|`--containers`|[Specify the Image Datastore](image_store.md#container-limit)|
 |`--cpu`|[Virtual Container Host Compute Capacity](vch_compute.md#cpu)|
 |`--cpu-reservation`|[Virtual Container Host Compute Capacity](vch_compute.md#cpures)|
 |`--cpu-shares`|[Virtual Container Host Compute Capacity](vch_compute.md#cpushares)|
