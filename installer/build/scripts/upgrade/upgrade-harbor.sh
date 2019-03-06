@@ -76,7 +76,6 @@ function checkHarborPSCToken {
 
 function migrateHarborCfg {
   log "Back up harbor data to : ${harbor_backup}"
-  mkdir -p "${harbor_backup}"
   tar czf "${harbor_backup}/database.tar.gz" "${harbor_database}"
   tar czf "${harbor_backup}/data.tar.gz" "${harbor_data_mount}"
   log "harbor-migrator version: ${harbor_migrator_image}"
@@ -117,6 +116,12 @@ function runMigratorCmd {
 
 # https://github.com/goharbor/harbor/blob/master/docs/migration_guide.md
 function migrateHarbor {
+  major_ver=$(echo ${HARBOR_VER:1:3} | tr -d '.')
+  # Only upgrade harbor configure if VIC version >= 1.5.0
+  if [[ "${major_ver}" -ge 15 ]]; then
+    migrateHarborCfg
+    exit 0
+  fi
   if [ "$HARBOR_VER" == "$VER_1_2_1" ]; then
     harbor_old_database_dir="/storage/data/harbor"
     mkdir -p "${harbor_db_mount}"
