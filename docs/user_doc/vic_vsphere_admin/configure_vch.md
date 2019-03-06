@@ -188,7 +188,7 @@ If you set a new limit on a VCH that is lower than the number of container VMs t
 
 **NOTE**: This option is available in vSphere Integrated Containers 1.5.2 and later.
 
-The `vic-machine configure --containers` option functions in the same way as the equivalent `vic-machine create` option. For information about the `vic-machine create --containers` option, see [Container VM Limit](image_store.md#container-limit) in Specify the Image Datastore.
+The `vic-machine configure --containers` option functions in the same way as the equivalent `vic-machine create` option. For information about the `vic-machine create --containers` option, see [Container VM Limit](vch_general_settings.md#container-limit) in General Virtual Container Host Settings.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_address</i>

@@ -83,31 +83,13 @@ Specify a value in GB. If not specified, `vic-machine create` does not set a max
 
 <pre>--storage-quota 500</pre>
 
-### Container VM Limit <a id="container-limit"></a>
-
-To prevent a VCH from using too many resources, you can set a limit on the number of container VMs that the VCH can host. You might need to set this limit to prevent a VCH from exhausting the pool of available IP addresses, especially if multiple VCHs share a subnet for container networks. The limit applies to all container VMs that are deployed to the VCH, not just to running container VMs. When the limit is reached, attempts to deploy more container VMs to the VCH fail with an error message, until the appropriate number of container VMs has been deleted. If a user deploys a number of container VMs concurrently, the first container VMs to start will deploy successfully, until the limit is reached. The remaining container VMs will not start until other container VMs have been deleted.
-
-**NOTE**: This option is available in vSphere Integrated Containers 1.5.2 and later.
-
-#### Create VCH Wizard
-
-This option is not available in the Create VCH wizard
-
-#### vic-machine Option 
-
-`--containers`, no short name
-
-Specify an integer. If not specified, or if you specify `0`, `vic-machine create` does not set a maximum limit on the number of container VMs that the VCH can host.
-
-<pre>--containers 100</pre>
-
 ## What to Do Next <a id="whatnext"></a>
 
 If you are using the Create Virtual Container Host wizard, scroll down the page to specify [Volume Datastores](volume_stores.md).
 
 ## Example `vic-machine` Commmand <a id="example"></a>
 
-This example `vic-machine create` command deploys a VCH that uses the folder `vch1_images` in `datastore1` as the image store,  limits the amount of space that the VCH can use to 500GB, and limits the number of container VMs that can exist in the VCH to 150. 
+This example `vic-machine create` command deploys a VCH that uses the folder `vch1_images` in `datastore1` as the image store and  limits the amount of space that the VCH can use to 500GB. 
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
@@ -118,6 +100,5 @@ This example `vic-machine create` command deploys a VCH that uses the folder `vc
 --name vch1
 --thumbprint <i>certificate_thumbprint</i>
 --storage-quota 500
---containers 150
 --no-tlsverify
 </pre>
