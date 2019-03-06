@@ -654,14 +654,8 @@ function main {
 
   log "\n-------------------------\nStarting Admiral Upgrade ${TIMESTAMP}\n"
   upgradeAdmiral
-  # Only upgrade harbor if VIC version is less than 1.5.0
-  major_ver=$(echo ${ver:1:3} | tr -d '.')
   log "\n-------------------------\nStarting Harbor Upgrade ${TIMESTAMP}\n"
-  if [[ "${major_ver}" -lt 15 ]]; then
-    upgradeHarbor "$ver"
-  else
-    migrateHarborCfg
-  fi
+  upgradeHarbor "$ver"
 
   setDataVersion
   writeTimestamp ${appliance_upgrade_status}
