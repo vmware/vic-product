@@ -184,6 +184,8 @@ To remove an existing storage quota from a VCH, so that the VCH can consume an u
 
 If you deployed a VCH with a limit on the number of container VMs that it can host, you can modify the limit after deployment. You can also set a limit on the number of container VMs if you did not set one when you deployed the VCH. 
 
+If you set a new limit on a VCH that is lower than the number of container VMs that already exist on the VCH, all existing container VMs continue to run. For example, if a VCH hosts 60 container VMs and you set a new limit of 50, all 60 container VMs continue to run. However, attempts to deploy additional container VMs fail until you delete enough container VMs to bring the total to below the new limit.
+
 The `vic-machine configure --containers` option functions in the same way as the equivalent `vic-machine create` option. For information about the `vic-machine create --containers` option, see [Container VM Limit](image_store.md#container-limit) in Specify the Image Datastore.
 
 <pre>$ vic-machine-<i>operating_system</i> configure

@@ -85,7 +85,7 @@ Specify a value in GB. If not specified, `vic-machine create` does not set a max
 
 ### Container VM Limit <a id="container-limit"></a>
 
-To prevent a VCH from using too many resources, you can set a limit on the number of container VMs that the VCH can host. You might need to set this limit to prevent a VCH from exhausting the pool of available IP addresses, especially if multiple VCHs share a subnet for container networks. The limit applies to all container VMs that are deployed to the VCH, not just to running container VMs.
+To prevent a VCH from using too many resources, you can set a limit on the number of container VMs that the VCH can host. You might need to set this limit to prevent a VCH from exhausting the pool of available IP addresses, especially if multiple VCHs share a subnet for container networks. The limit applies to all container VMs that are deployed to the VCH, not just to running container VMs. When the limit is reached, attempts to deploy more container VMs to the VCH fail with an error message, until the appropriate number of container VMs has been deleted. If a user deploys a number of container VMs concurrently, the first container VMs to start will deploy successfully, until the limit is reached. The remaining container VMs will not start until other container VMs have been deleted.
 
 **NOTE**: This option is available in vSphere Integrated Containers 1.5.2 and later.
 
