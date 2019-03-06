@@ -2,14 +2,6 @@
 
 The following sections present examples of how to perform container networking operations when using vSphere Integrated Containers Engine as your Docker endpoint.
 
-- [Publish a Container Port](#port)
-- [Container VM Port Forwarding](#portforwarding)
-- [Add Containers to a New Bridge Network](#newbridge)
-- [Bridged Containers with an Exposed Port](#bridgeport)
-- [Deploy Containers on Multiple Bridge Networks](#multibridge)
-- [Deploy Containers That Combine Bridge Networks with a Container Network](#containerbridge)
-- [Deploy a Container with a Static IP Address](#staticip)
-
 To perform certain networking operations on containers, your Docker environment and your virtual container hosts (VCHs) must be configured in a specific way.
 
 - For information about the default Docker networks, see https://docs.docker.com/engine/userguide/networking/.
@@ -180,6 +172,14 @@ $ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                         NAMES
 50ca68165532        tomcat:alpine       "catalina.sh run"   7 minutes ago       Up 5 minutes        192.168.78.159:80->8080/tcp   priceless_tesla
 ```
+
+## Create a Bridge Network with Non-Default Subnet Mask
+
+By default, user-defined bridge networks in VCHs have a subnet mask value of 16. The vSphere administrator can also configure a VCH with a different default subnet mask by using the [`--bridge-network-width`](../vic_vsphere_admin/bridge_network.md#bridge-width) option when they deploy the VCH. 
+
+To override the default subnet mask, you can specify a new value by using the `docker network create --subnet` option.
+
+<pre>$ docker network create --subnet <i>value</i></pre>
 
 ## Deploy a Container with a Static IP Address <a id="staticip"></a>
 
