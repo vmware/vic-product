@@ -49,8 +49,8 @@ A range of IP addresses that additional bridge networks can use when container a
 
 When you specify a bridge network IP range, you specify the IP range as a CIDR. 
 
-- In releases up to and including vSphere Integrated containers 1.5.1, the smallest subnet that you can specify is /16.
-- In 1.5.2 and later, the default subnet is /16, but you can set smaller subnet values. If you set a subnet in the `--bridge-network-range` option that is larger than the default of 16, you must also use the `--bridge-network-width` option to increase the size of the default subnet mask for user-defined bridge networks.
+- In releases up to and including vSphere Integrated Containers 1.5.1, the smallest subnet that you can specify is /16.
+- In vSphere Integrated Containers 1.5.2 and later, the default subnet is /16, but you can configure smaller default subnets. If you set a subnet value in the `--bridge-network-range` option that is larger than the default of 16, you must also use the `--bridge-network-width` option to increase the size of the default subnet mask for user-defined bridge networks.
 
 #### Create VCH Wizard
 
@@ -70,7 +70,7 @@ If you specify an invalid value for `--bridge-network-range`, `vic-machine creat
 
 If you need to configure bridge networks to have subnet masks that are smaller than the default of 16 bits, you can set a new default bridge network width. For example, if container application developers use `docker network create` to create multiple new user-defined networks in their VCHs, you might need to configure a smaller subnet mask to avoid overuse of the VLANs that are assigned to those VCHs. 
 
-The value that you specify must be larger than the subnet specified in the `--bridge-network-range` option. This is because a larger subnet mask value results in a smaller range of available IP addresses. So, for example, if you set the default bridge network range to 172.16.0.0.0/22, you must set the default bridge network width to 24 or greater. If you use the default bridge network range subnet mask value of 16, you must set a value of 18 or more.
+The value that you specify must be larger than the subnet value specified in the `--bridge-network-range` option. This is because a larger subnet mask value results in a smaller range of available IP addresses. So, for example, if you set the default bridge network range to 172.16.0.0.0/22, you must set the default bridge network width to 22 or greater. If you use the default bridge network range subnet mask value of 16, you must set a value of 16 or more.
 
 If you change the default bridge network width, any additional bridge networks that  container application developers create in the VCH will have the specified subnet mask. Container application developers can override the default value by specifying `docker network create --subnet` when they create a new bridge network. 
 
