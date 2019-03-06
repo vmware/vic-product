@@ -89,7 +89,7 @@ If you are using the Create Virtual Container Host wizard, scroll down the page 
 
 ## Example `vic-machine` Commmand <a id="example"></a>
 
-This example `vic-machine create` command deploys a VCH that uses the folder `vch1_images` in `datastore1` as the image store and  limits the amount of space that the VCH can use to 500GB. 
+This example `vic-machine create` command deploys a VCH that uses the folder `vch1_images` in `datastore1` as the image store, and limits the amount of space that the VCH can use to 500GB. 
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
