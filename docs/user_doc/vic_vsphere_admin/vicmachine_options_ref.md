@@ -13,6 +13,7 @@ This topic includes lists of all of the options of the different `vic-machine` c
 |`--bootstrap-iso`|[Virtual Container Host Boot Options](vch_boot_options.md#bootstrap-iso)|
 |`--bridge-network`|[Configure Bridge Networks](bridge_network.md)|
 |`--bridge-network-range`|[Configure Bridge Networks](bridge_network.md#bridge-range)|
+|`--bridge-network-width`|[Configure Bridge Networks](bridge_network.md#bridge-width)|
 |`--certificate-key-size`|[Virtual Container Host Certificate Options](vch_cert_options.md#keysize)|
 |`--client-network`|[Configure the Client Network](client_network.md)|
 |`--client-network-gateway`|[Configure the Client Network](client_network.md#gateway)|

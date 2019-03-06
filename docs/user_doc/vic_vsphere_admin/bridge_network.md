@@ -63,6 +63,20 @@ If the default range of 172.16.0.0.0/12 is in use in your network, specify a new
 
 If you specify an invalid value for `--bridge-network-range`, `vic-machine create` fails with an error.
 
+### Bridge Network Width <a id="bridge-width"></a>
+
+If you need to create bridge networks with netmasks that are smaller than the default of 16, you can set a new default value.
+
+#### Create VCH Wizard
+
+Enter a value in the **Bridge network width** text box.
+
+#### vic-machine Option
+
+`--bridge-network-width`, `--bnw`
+ 
+<pre>--bridge-network-width 24</pre>
+
 ## What to Do Next <a id="whatnext"></a>
 
 If you are using the Create Virtual Container Host wizard, stay on the Configure Networks page and [Configure the Public Network](public_network.md) settings.
