@@ -11,7 +11,9 @@ The vSphere Integrated Containers appliance runs various services, such as vSphe
 
 The separation of different types of data between disks allows you to upgrade the appliance with an existing data disk from a previous installation. It also allows you to back up and restore the different disks separately, if necessary.
 
-The recommended methods for backing up the appliance are either by copying the OVF environment or by cloning VMDK files.
+The recommended way to back up the appliance is to copy the base disks. You can then restore the appliance by attaching the cloned disks to a new instance of the appliance.
+
+<!--
 
 ## Copy the OVF Environment Configuration
 
@@ -37,13 +39,15 @@ Flex-based vSphere Web Client:
 
 You can restore the appliance VM by importing an OVF environment file that you have saved as a backup. You can use the vCenter Server Managed Object Browser (MOB), PowerCLI, or `govc` to import the backup of an `ovfEnv` file into the appliance.
 
+-->
+
 ## Copy the Base Disks 
 
 You can copy the base disks manually by copying the VMDK files in the vSphere Client. 
 
 ### Procedure
   
-1. Go to the **Storage** view of the vSphere Client and navigate to the datastore and datastore folder that contain the VM files for the old version of the appliance.
+1. Go to the **Storage** view of the vSphere Client and navigate to the datastore and datastore folder that contain the VM files for the version of the appliance that you want to back up.
 2. Use ctrl-click to select the following VMDK disk files from the old version of the appliance.
 
     <table>
@@ -76,15 +80,14 @@ Alternatively, you can use `vmkfstools` to clone the disks and manually copy the
 
 ## Restoring Cloned Disks ##
 
-To restore one or more of the different disks, you copy the cloned VMDK files into the appliance datastore and attach them to the appropriate virtual device nodes on the appliance VM. 
+To restore the appliance from cloned disks, deploy a new instance of the vSphere Integrated Containers appliance of the same version as the one you backed up. You then copy the cloned VMDK files into the new appliance datastore and attach them to the appropriate virtual device nodes on the new appliance VM. 
+
+**IMPORTANT**: After you deploy the new instance of the appliance, do not power it on or fill in the Complete VIC appliance installation panel.
 
 ### Procedure
 
-1. In the **Hosts and Clusters** view of the vSphere Client, right-click the appliance VM and select **Power** > **Shut Down Guest OS** to shut down the appliance VM.  
-
-  **IMPORTANT**: Do not select **Power Off**.
-1. Right-click the appliance VM and select **Edit Settings**.
-2. Remove one or more of the hard disks from the appliance.
+1. Right-click the new appliance VM and select **Edit Settings**.
+2. Remove the hard disks from the new appliance.
 
     <table>
   <tr>
@@ -110,11 +113,11 @@ To restore one or more of the different disks, you copy the cloned VMDK files in
 </table>
 
    1.  Hover your pointer over each hard disk and click the **Remove** button on the right-hand side of the row.
-   2.  For each disk, optionally select the **Delete files from this datastore** checkbox.
+   2.  For each disk, select the **Delete files from this datastore** checkbox.
    3. When you have marked the disks for removal, click **OK**.
-1. Go to the **Storage** view of the vSphere Client and navigate to the datastore and datastore folder that contain the backup disk files of the appliance.
-1. Click **Upload Files** to upload the backup VMDK files that you  copied previously.
-1. Attach the backup disk files to the appropriate nodes on the  appliance.
+1. Go to the **Storage** view of the vSphere Client and navigate to the datastore and datastore folder that contain the backup disk files that you copied from the old appliance.
+1. Select the appropriate VDMK files and click **Copy to** to copy the backup VMDK files to the datastore folder of the new appliance.
+1. Attach the backup VMDK files to the appropriate nodes on the new  appliance.
 
     <table>
   <tr>
@@ -147,7 +150,7 @@ To restore one or more of the different disks, you copy the cloned VMDK files in
    4. Expand **New Hard Disk** and make sure that the Virtual Device Node for the disk is set to **SCSI(0:0)**.
    5. Repeat the procedure to attach <code>&lt;appliance_name&gt;_1.vmdk</code> to **SCSI(0:1)**,  <code>&lt;appliance_name&gt;_2.vmdk</code> to **SCSI(0:2)**, and <code>&lt;appliance_name&gt;_3.vmdk</code> to **SCSI(0:3)**.
    6. Click **OK**.
-1. Power on the appliance VM.   
+1. Power on the new appliance VM.   
 
 ## Take Snapshots of the Appliance VM
 
@@ -162,5 +165,5 @@ You must shut down the appliance VM before you take the snapshot. Taking snapsho
 1. Right-click the appliance VM and elect **Power** > **Shut Down Guest OS** to shut down the appliance VM.  
 
   **IMPORTANT**: Do not select **Power Off**.
-1. Take a snapshot of the appliance VM, selecting the option to take a snapshot of the VM's memory.
+1. Take a snapshot of the appliance VM.
 1. Power on the appliance VM.
