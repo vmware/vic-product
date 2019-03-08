@@ -175,11 +175,11 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 ## Create a Bridge Network with Non-Default Subnet Mask
 
-By default, user-defined bridge networks in VCHs have a subnet mask value of 16. The vSphere administrator can also configure a VCH with a different default subnet mask by using the [`--bridge-network-width`](../vic_vsphere_admin/bridge_network.md#bridge-width) option when they deploy the VCH. 
-
 To override the default subnet mask, you can specify a new value by using the `docker network create --subnet` option.
 
 <pre>$ docker network create --subnet <i>value</i></pre>
+
+By default, user-defined bridge networks in VCHs have a subnet mask value of 16. The vSphere administrator can also configure a VCH with a different default subnet mask by using the [`--bridge-network-width`](../vic_vsphere_admin/bridge_network.md#bridge-width) option when they deploy the VCH. 
 
 ## Deploy a Container with a Static IP Address <a id="staticip"></a>
 
