@@ -87,7 +87,7 @@ Alternatively, you can use `vmkfstools` to clone the disks and manually copy the
 
 To restore the appliance from cloned disks, deploy a new instance of the vSphere Integrated Containers appliance of the same version as the one you backed up. You then copy the cloned VMDK files into the new appliance datastore and attach them to the appropriate virtual device nodes on the new appliance VM. 
 
-**IMPORTANT**: After you deploy the new instance of the appliance, do not power it on or fill in the Complete VIC appliance installation panel.
+**IMPORTANT**: After you deploy the new instance of the appliance, do not power it on. If you do power it on, power off without filling in the Complete VIC appliance installation panel, that registers the appliance with vCenter Server.
 
 ### Procedure
 
