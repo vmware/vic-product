@@ -70,15 +70,13 @@ The default route for the VCH endpoint VM is always on the public network. As a 
 
 Ensure that the address ranges that you specify include all of the systems that will connect to this VCH instance. 
 
-If you specify a static IP address for the VCH endpoint VM on the client network, you must specify a gateway. You specify gateway addresses as IP addresses without a network mask.
-
 #### Create VCH Wizard
 
-If you set a static IP address on the client network, enter a comma-separated list of CIDRs and the IP address of the gateway in the **Routing destination:Gateway** text box. 
+If you set a static IP address on the client network, you can enter a comma-separated list of CIDRs and the IP address of the gateway in the **Routing destination:Gateway** text box. 
 
 For example, enter `192.168.2.0/24,192.168.128.0/24` for the routing destination and `192.168.2.1` for the gateway.
 
-You must enter a gateway address even if the client network is L2 adjacent to the gateway.
+In the Create Virtual Host wizard in vSphere Integrated Containers 1.5.2 and later, specifying a routing destination and gateway is not required if the client network is L2 adjacent to its gateway. In previous releases, specifying a routing destination and gateway address is mandatory in the wizard, even if the client network is L2 adjacent to the gateway.
 
 #### vic-machine Option 
 
