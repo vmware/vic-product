@@ -46,7 +46,12 @@ You can restore the appliance VM by importing an OVF environment file that you h
 You can copy the base disks manually by copying the VMDK files in the vSphere Client. 
 
 ### Procedure
-  
+
+1. Right-click the appliance VM and elect **Power** > **Shut Down Guest OS** to shut down the appliance VM.  
+
+  **IMPORTANT**: Do not select **Power Off**.   
+
+  You must shut down the VM in order to quiesce the database before the backup. Also, if you use NFS datastores, you cannot copy disk files while the VM is powered on.    
 1. Go to the **Storage** view of the vSphere Client and navigate to the datastore and datastore folder that contain the VM files for the version of the appliance that you want to back up.
 2. Use ctrl-click to select the following VMDK disk files from the old version of the appliance.
 
