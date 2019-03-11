@@ -116,6 +116,11 @@
     "destination": "/etc/vmware/upgrade/util.sh"
   },
   {
+    "type": "file",
+    "source": "scripts/upgrade/notary-migration-fix.sh",
+    "destination": "/etc/vmware/upgrade/notary-migration-fix.sh"
+  },
+  {
     "type": "shell",
     "script": "scripts/provisioners/provision_admiral.sh"
   },
