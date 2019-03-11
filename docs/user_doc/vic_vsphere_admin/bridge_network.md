@@ -47,7 +47,10 @@ If you do not specify `--bridge-network` or if you specify an invalid port group
 
 A range of IP addresses that additional bridge networks can use when container application developers use `docker network create` to create new user-defined networks. VCHs create these additional user-defined bridge networks by using IP address segregation within a set address range, so user-defined bridge networks do not require you to assign dedicated port groups. By default, all VCHs use the standard Docker range of 172.16.0.0/12 for additional user-defined networks. You can override the default range if that range is already in use in your network. You can reuse the same network address range across all VCHs.  
 
-When you specify a bridge network IP range, you specify the IP range as a CIDR. The smallest subnet that you can specify is /16.
+When you specify a bridge network IP range, you specify the IP range as a CIDR. 
+
+- In releases up to and including vSphere Integrated Containers 1.5.1, the smallest subnet that you can specify is /16.
+- In vSphere Integrated Containers 1.5.2 and later, the default subnet is /16, but you can configure different default subnets. If you set a subnet value in the `--bridge-network-range` option that is larger than the default of 16, you must also use the `--bridge-network-width` option to increase the size of the default subnet mask for user-defined bridge networks.
 
 #### Create VCH Wizard
 
@@ -62,6 +65,28 @@ If the default range of 172.16.0.0.0/12 is in use in your network, specify a new
 <pre>--bridge-network-range <i>network_address</i>/<i>subnet</i></pre>
 
 If you specify an invalid value for `--bridge-network-range`, `vic-machine create` fails with an error.
+
+### Bridge Network Width <a id="bridge-width"></a>
+
+If you need to configure bridge networks to have subnet masks that are smaller than the default of 16 bits, you can set a new default bridge network width. For example, if container application developers use `docker network create` to create multiple new user-defined networks in their VCHs, you might need to configure a smaller subnet mask to avoid overuse of the VLANs that are assigned to those VCHs. By default the IP range is 172.16.0.0/12 and the network allocation width is /16.
+
+The value that you specify must be larger than the subnet value specified in the `--bridge-network-range` option. This is because a larger subnet mask value results in a smaller range of available IP addresses. So, for example, if you set the default bridge network range to 172.16.0.0.0/22, you must set the default bridge network width to 22 or greater. If you use the default bridge network range subnet mask value of 16, you must set a value of 16 or more.
+
+If you change the default bridge network width, any additional bridge networks that  container application developers create in the VCH will have the specified subnet mask. Container application developers can override the default value by specifying `docker network create --subnet` when they create a new bridge network. 
+
+**NOTE**: This option is available in vSphere Integrated Containers 1.5.2 and later.
+
+#### Create VCH Wizard
+
+Enter a value in the **Bridge network width** text box. For example, enter **24** to reduce the size of the subnet mask.
+
+#### vic-machine Option
+
+`--bridge-network-width`, `--bnw`
+
+If the default subnet mask for the bridge network is too large, specify a new subnet mask in the `--bridge-network-width` option.
+ 
+<pre>--bridge-network-width 24</pre>
 
 ## What to Do Next <a id="whatnext"></a>
 
