@@ -164,10 +164,7 @@ function migrateHarbor {
     sed -i -r "s/^$cfg_key\s*=/${MANAGED_KEY}\n$cfg_key =/g" $harbor_cfg
   done;
   chmod 600 ${harbor_cfg}
-  # Harbor below 1.5.0 need to run this patch for notary migration
-  if [[ "${major_ver}" -lt 14 ]]; then
-    /etc/vmware/upgrade/notary-migration-fix.sh
-  fi
+  /etc/vmware/upgrade/notary-migration-fix.sh
 }
 
 # Upgrade entry point from upgrade.sh
