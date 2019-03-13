@@ -1,4 +1,4 @@
-# Tutorial: Running Portainer on VIC
+Running Portainer on VIC
 
 
 ### Point your DOCKER_HOST variable to the VCH
@@ -39,4 +39,4 @@ bca7a78c9b6f        portainer/portainer   "/portainer -H tcp:/…"   56 seconds 
 ### Access the UI 
 
 <img src="images/1.png" width=80%>
-<img src="images/2.png" width=80%>
+<img src="images/2.png">
