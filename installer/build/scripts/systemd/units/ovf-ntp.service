@@ -1,0 +1,11 @@
+[Unit]
+Description=NTP customization based on user provided parameter
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/etc/vmware/ntp-config.sh
+
+[Install]
+WantedBy=vic-appliance-ready.target

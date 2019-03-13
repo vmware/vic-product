@@ -2,28 +2,18 @@
 
 This topic includes lists of all of the options of the different `vic-machine` commands, with links to the sections of the documentation that describe them.
 
-- [`vic-machine create` Options](#create)
-- [`vic-machine configure` Options](#configure)
-- [`vic-machine debug` Options](#debug)
-- [`vic-machine delete` Options](#delete)
-- [`vic-machine inspect` Options](#inspect)
-- [`vic-machine inspect config` Options](#inspect-config)
-- [`vic-machine ls` Options](#ls)
-- [`vic-machine update firewall` Options](#update)
-- [`vic-machine upgrade` Options](#upgrade)
-- [`vic-machine version` Options](#version)
-
 ## `vic-machine create` Options <a id="create"></a>
 
 |**Option**|**Documentation**|  
 |---|---|
-|`--affinity-vm-group`|[Add Virtual Container Hosts to a DRS Affinity Group](vch_affinity_group.md)|
+|`--affinity-vm-group`|[Virtual Container Host Compute Capacity](vch_compute.md)|
 |`--appliance-iso`|[Virtual Container Host Boot Options](vch_boot_options.md#appliance-iso)|
 |`--asymmetric-routes`|[Configure the Management Network](mgmt_network.md#asymmetric-routes)|
 |`--base-image-size`|[Specify the Image Datastore](image_store.md#baseimagesize)|
 |`--bootstrap-iso`|[Virtual Container Host Boot Options](vch_boot_options.md#bootstrap-iso)|
 |`--bridge-network`|[Configure Bridge Networks](bridge_network.md)|
 |`--bridge-network-range`|[Configure Bridge Networks](bridge_network.md#bridge-range)|
+|`--bridge-network-width`|[Configure Bridge Networks](bridge_network.md#bridge-width)|
 |`--certificate-key-size`|[Virtual Container Host Certificate Options](vch_cert_options.md#keysize)|
 |`--client-network`|[Configure the Client Network](client_network.md)|
 |`--client-network-gateway`|[Configure the Client Network](client_network.md#gateway)|
@@ -35,6 +25,7 @@ This topic includes lists of all of the options of the different `vic-machine` c
 |`--container-network-firewall`|[Configure Container Networks](container_networks.md#container-network-firewall)|
 |`--container-network-gateway`|[Configure Container Networks](container_networks.md#gateway)|
 |`--container-network-ip-range`|[Configure Container Networks](container_networks.md#ip-range)|
+|`--containers`|[General Virtual Container Host Settings](vch_general_settings.md#container-limit)|
 |`--cpu`|[Virtual Container Host Compute Capacity](vch_compute.md#cpu)|
 |`--cpu-reservation`|[Virtual Container Host Compute Capacity](vch_compute.md#cpures)|
 |`--cpu-shares`|[Virtual Container Host Compute Capacity](vch_compute.md#cpushares)|
@@ -42,7 +33,7 @@ This topic includes lists of all of the options of the different `vic-machine` c
 |`--dns-server`|[Configure the Public Network](public_network.md#dns-server)|
 |`--endpoint-cpu`|[Virtual Container Host Compute Capacity](vch_compute.md#endpointcpu)|
 |`--endpoint-memory`|[Virtual Container Host Compute Capacity](vch_compute.md#endpointmemory)|
-|`--force`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#force)|
+|`--force`|[Basic `vic-machine create` Options](using_vicmachine.md#force)|
 |`--image-store`|[Specify the Image Datastore](image_store.md)|
 |`--insecure-registry`|[Configure Registry Access](vch_registry.md#insecure-registry)|
 |`--http-proxy`|[Configure VCHs to Use Proxy Servers](vch_proxy.md#http)|
@@ -54,27 +45,29 @@ This topic includes lists of all of the options of the different `vic-machine` c
 |`--memory-reservation`|[Virtual Container Host Compute Capacity](vch_compute.md#memoryres)|
 |`--memory-shares`|[Virtual Container Host Compute Capacity](vch_compute.md#memoryshares)|
 |`--name`|[General Virtual Container Host Settings](vch_general_settings.md#name)|
+|`--no-proxy`|[Configure VCHs to Use Proxy Servers](vch_proxy.md#noproxy)|
 |`--no-tls`|[Disable Client Verification](tls_unrestricted.md#no-tls)|
 |`--no-tlsverify`|[Disable Client Verification](tls_unrestricted.md#no-tlsverify)|
 |`--ops-grant-perms`|[Configure the Operations User](set_up_ops_user.md#perms)|
 |`--ops-password`|[Configure the Operations User](set_up_ops_user.md#credentials)|
 |`--ops-user`|[Configure the Operations User](set_up_ops_user.md)|
 |`--organization`|[Virtual Container Host Certificate Options](vch_cert_options.md#org)|
-|`--password`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#password)|
+|`--password`|[Basic `vic-machine create` Options](using_vicmachine.md#password)|
 |`--public-network`|[Configure the Public Network](public_network.md)|
 |`--public-network-gateway`|[Configure the Public Network](public_network.md#gateway)|
 |`--public-network-ip`|[Configure the Public Network](public_network.md#static-ip)|
 |`--registry-ca`|[Configure Registry Access](vch_registry.md#registry-ca)|
+|`--storage-quota`|[Specify the Image Datastore](image_store.md#quota)|
 |`--syslog-address`|[General Virtual Container Host Settings](vch_general_settings.md#syslog)|
-|`--target`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#target)|
-|`--thumbprint`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#thumbprint)|
-|`--timeout`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#timeout)|
+|`--target`|[Basic `vic-machine create` Options](using_vicmachine.md#target)|
+|`--thumbprint`|[Basic `vic-machine create` Options](using_vicmachine.md#thumbprint)|
+|`--timeout`|[Basic `vic-machine create` Options](using_vicmachine.md#timeout)|
 |`--tls-ca`|[Virtual Container Host Certificate Options](vch_cert_options.md#ca-pem)|
 |`--tls-cert-path`|[Virtual Container Host Certificate Options](vch_cert_options.md#cert-path)|
 |`--tls-cname`|[Virtual Container Host Certificate Options](vch_cert_options.md#tls-cname)|
 |`--tls-server-cert`|[Virtual Container Host Certificate Options](vch_cert_options.md#server-cert)|
 |`--tls-server-key`|[Virtual Container Host Certificate Options](vch_cert_options.md#server-key)|
-|`--user`|[Basic `vic-machine create` Options](running_vicmachine_cmds.md#user)|
+|`--user`|[Basic `vic-machine create` Options](using_vicmachine.md#user)|
 |`--volume-store`|[Specify Volume Datastores](volume_stores.md)|
 |`--whitelist-registry`|[Configure Registry Access](vch_registry.md#whitelist-registry)|
 
@@ -89,6 +82,7 @@ This topic includes lists of all of the options of the different `vic-machine` c
 |`--container-network-firewall`|[Configure Container Network Settings](configure_vch.md#containernet)|
 |`--container-network-gateway`|[Configure Container Network Settings](configure_vch.md#containernet)|
 |`--container-network-ip-range`|[Configure Container Network Settings](configure_vch.md#containernet)|
+|`--containers`|[Set or Update Container VM Limit](configure_vch.md#container-limit)|
 |`--cpu`|[Configure CPU and Memory Allocations](configure_vch.md#cpumem)|
 |`--cpu-reservation`|[Configure CPU and Memory Allocations](configure_vch.md#cpumem)|
 |`--cpu-shares`|[Configure CPU and Memory Allocations](configure_vch.md#cpumem)|
@@ -109,6 +103,7 @@ This topic includes lists of all of the options of the different `vic-machine` c
 |`--password`|[Common `vic-machine` Options](common_vic_options.md#password)|
 |`--registry-ca value`|[Add or Update Registry Server Certificates](configure_vch.md#registries)|
 |`--reset-progress`|[Reset Upgrade or Configuration Progress](configure_vch.md#resetprogress)|
+|`--storage-quota`|[Set or Update Storage Quotas](configure_vch.md#quota)|
 |`--target`|[Common `vic-machine` Options](common_vic_options.md#target)|
 |`--thumbprint`|[Common `vic-machine` Options](common_vic_options.md#thumbprint)|
 |`--timeout`|[Common `vic-machine` Options](common_vic_options.md#timeout)|

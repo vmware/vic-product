@@ -11,7 +11,7 @@ VCH Admin checks the status of the processes that the VCH runs:
 - The port layer server, that presents an API of low-level container primitive operations, and implements those container operations via the vSphere APIs.
 - VCH Admin server, that runs the VCH Admin portal. 
 - The vSphere Integrated Containers Engine initialization service and watchdog service for the other components. 
-- The Docker engine server, that exposes the Docker API and semantics, translating those composite operations into port layer primitives.
+- The Docker Engine server, that exposes the Docker API and semantics, translating those composite operations into port layer primitives.
 
 ### Error ###
 

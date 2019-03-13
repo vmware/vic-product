@@ -15,8 +15,8 @@
 *** Settings ***
 Documentation  Test 5-03 - Multiple Datacenters
 Resource  ../../resources/Util.robot
-Suite Setup  Wait Until Keyword Succeeds  10x  10m  Multiple Datacenter Setup
-Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Suite Setup  Nimbus Suite Setup  Multiple Datacenter Setup
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
 
 *** Keywords ***
 # Insert elements from dict2 into dict1, overwriting conflicts in dict1 & returning new dict
@@ -35,7 +35,7 @@ Multiple Datacenter Setup
     ${num_of_esxes}=  Evaluate  2
     :FOR  ${i}  IN RANGE  3
     # Deploy some ESXi instances
-    \    &{new_esxes}=  Deploy Multiple Nimbus ESXi Servers in Parallel  ${num_of_esxes}  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
+    \    &{new_esxes}=  Deploy Multiple Nimbus ESXi Servers in Parallel  ${num_of_esxes}
     \    ${esxes}=  Combine Dictionaries  ${esxes}  ${new_esxes}
 
     # Investigate to see how many were actually deployed
@@ -54,7 +54,7 @@ Multiple Datacenter Setup
     ${esx2-ip}=  Get From List  ${esx-ips}  1
 
     ${esx3}  ${esx4}  ${esx5}  ${vc}  ${esx3-ip}  ${esx4-ip}  ${esx5-ip}  ${vc-ip}=  Create a Simple VC Cluster  datacenter1  cls1
-    Set Suite Variable  @{list}  ${esx1}  ${esx2}  ${esx3}  ${esx4}  ${esx5}  %{NIMBUS_USER}-${vc}
+    Set Suite Variable  @{list}  ${esx1}  ${esx2}  ${esx3}  ${esx4}  ${esx5}  %{NIMBUS_PERSONAL_USER}-${vc}
 
     Log To Console  Create datacenter2 on the VC
     ${out}=  Run  govc datacenter.create datacenter2

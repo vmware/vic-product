@@ -15,9 +15,9 @@
 *** Settings ***
 Documentation  Test 6-01 - OVA TLS
 Resource  ../../resources/Util.robot
-Suite Setup     Wait Until Keyword Succeeds  10x  10m  Test Environment Setup
+Suite Setup  Nimbus Suite Setup  Test Environment Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
-Test Teardown   Cleanup VIC Product OVA  %{OVA_NAME}
+Test Teardown  Run Keyword  Test Case Teardown
 
 *** Variables ***
 ${esx_number}=  3
@@ -28,7 +28,12 @@ Test Environment Setup
     [Timeout]    110 minutes
     Setup Simple VC And Test Environment
     Set Environment Variable  DOMAIN              eng.vmware.com
+    Set Test VC Variables
 
+Test Case Teardown
+    Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
+    Cleanup VIC Product OVA  %{OVA_NAME}
+    
 *** Test Cases ***
 User Provided Certificate
     Log To Console  \nStarting user provided certificate test...
@@ -50,7 +55,7 @@ User Provided Certificate
     Log  ${tls_cert_key}
     Log  ${ca_cert}
 
-    ${ova-ip}=  Install VIC Product OVA And Initialize Using UI  vic-*.ova  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
+    ${ova-ip}=  Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
 
     Wait Until Keyword Succeeds  10x  15s  Verify VIC Appliance TLS Certificates  ${ova-ip}  issuer=/C=US/ST=California/L=Los Angeles/O=Stark Enterprises/OU=Stark Enterprises Certificate Authority/CN=Stark Enterprises Global CA
     Cleanup Generated Certificate
@@ -76,7 +81,7 @@ User Provided Certificate PKCS8
     Log  ${tls_cert_key}
     Log  ${ca_cert}
 
-    ${ova-ip}=  Install VIC Product OVA And Initialize Using UI  vic-*.ova  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
+    ${ova-ip}=  Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}
 
     Wait Until Keyword Succeeds  10x  15s  Verify VIC Appliance TLS Certificates  ${ova-ip}  issuer=/C=US/ST=California/L=Los Angeles/O=Stark Enterprises/OU=Stark Enterprises Certificate Authority/CN=Stark Enterprises Global CA
     Cleanup Generated Certificate

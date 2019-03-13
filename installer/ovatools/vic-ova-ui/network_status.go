@@ -39,6 +39,19 @@ func (nstat *NetworkStatus) GetDNSStatus() string {
 	return nstat.addressPresenceExec(dnsExpected, command)
 }
 
+func (nstat *NetworkStatus) GetNTPStatus() string {
+	ntpExpected := strings.FieldsFunc(nstat.ovfProps["network.ntp"],
+		func(char rune) bool { return char == ',' || char == ' ' })
+
+	var command string
+	if len(ntpExpected) == 0 {
+		command = `systemctl status systemd-timesyncd.service | grep Status | awk -F'[()]' '{print $2}'`
+	} else {
+		command = `grep -v '^#' /etc/systemd/timesyncd.conf | grep 'NTP=' | awk -F'=' '{print $2}' | tr ' ' '\n'`
+	}
+	return nstat.addressPresenceExec(ntpExpected, command)
+}
+
 func (nstat *NetworkStatus) GetIPStatus() string {
 	ipsExpected := strings.FieldsFunc(nstat.ovfProps["network.ip0"],
 		func(char rune) bool { return char == ',' || char == ' ' })

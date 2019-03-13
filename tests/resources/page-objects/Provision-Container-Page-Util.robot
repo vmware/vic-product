@@ -40,5 +40,6 @@ Submit Provision New Container Details
     Input Text  ${pc-input-container-name}  ${container-name}
     Input Text  ${pc-input-command}  ${command}
     Click Button  ${pc-button-provision}
+    Capture Page Screenshot
     Verify Containers Page
     Capture Page Screenshot

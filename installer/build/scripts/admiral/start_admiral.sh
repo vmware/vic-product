@@ -25,6 +25,7 @@ admiral_xenon_opts="--publicUri=https://${OVA_VM_IP}:8282/ --bindAddress=0.0.0.0
 
 /usr/bin/docker run -p ${ADMIRAL_EXPOSED_PORT}:8282 \
   --name vic-admiral \
+  --cap-drop ALL \
   -v "$ADMIRAL_DATA_LOCATION:/var/admiral" \
   -v "$ADMIRAL_DATA_LOCATION/configs:/configs" \
   -v /storage/log/admiral:/admiral/log \

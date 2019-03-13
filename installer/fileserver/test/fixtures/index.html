@@ -1,0 +1,227 @@
+<div class="main-container">
+    <header class="header header-4">
+        <div class="branding">
+            <a href="http://www.vmware.com"><img src="images/vmw-logo.svg" class="logo"></a>
+            <span class="title">vSphere Integrated Containers</span>
+        </div>
+    </header>
+    <main class="content-container">
+        <div class="content-area" id="contentArea">
+            <div id="getting-started-items-container" class="mt-0">
+                    {{if .InitErrorFeedback }}
+                    <div id="feedback-alert" class="alert alert-danger">
+                        <div class="alert-item">
+                            <span class="alert-text">{{ .InitErrorFeedback}}</span>
+                            <div class="alert-actions">
+                                <a href="/?login=true" title="Login" class="alert-action">Re-initialize</a>
+                            </div>
+                        </div>
+                    </div>
+                    {{ end }} 
+                    {{if .InitSuccessFeedback }}
+                    <div id="feedback-alert" class="alert alert-success">
+                        <div class="alert-item">
+                            <span class="alert-text">{{ .InitSuccessFeedback }}</span>
+                        </div>
+                    </div>
+                    {{ end }}
+                <div class="row flex-items-xs-middle my-1 mx-0 pl-3">
+                    <div class="col-xs text-left">
+                        <h1 class="mx-0 mb-2 pl-0">vSphere Integrated
+                        Containers Appliance</h1>
+                    </div>
+                    <div class="col-xs text-right">
+                        <a href="https://vmware.github.io/vic-product/assets/files/html/1.5/" target="_blank" title="Documentation" class="btn btn-primary mx-1">Documentation</a>
+                    </div>                      
+                </div>
+                <div class="row flex-items-xs-center mx-0">
+                    <div class="col-xs-10">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                                <div class="card">
+                                    <div class="card-block">
+                                        <div class="card-title">
+                                            <clr-icon shape="group" size="24"></clr-icon> Open the Management Portal
+                                        </div>
+                                        <div class="card-text">
+                                            <a href="{{ .AdmiralAddr }}" target="_blank">Go to the vSphere Integrated Containers Management Portal</a> to manage registries, provision containers, and create projects and manage users.
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <a class="btn btn-sm btn-link" href="{{ .AdmiralAddr }}" target="_blank">Open</a>
+                                        <a class="btn btn-sm btn-link" target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.5/vic_cloud_admin/">Read more</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                                <div class="card transparent">
+                                    <div class="card-block">
+                                        <div class="card-title">
+                                            <clr-icon shape="list" size="24"></clr-icon> Post-Install &amp; Deployment Tasks
+                                        </div>
+                                        <div class="card-text">
+                                            These tasks are usually performed by the vSphere admin.
+                                            <ol>
+                                                <li><a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.5/vic_vsphere_admin/deploy_vch.html">Deploy VCHs</a></li>
+                                                <li><a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.5/vic_vsphere_admin/vch_admin.html">Manage VCHs</a></li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                                <div class="card transparent">
+                                    <div class="card-block">
+                                        <div class="card-title">
+                                            <clr-icon shape="list" size="24"></clr-icon> Configuration Tasks
+                                        </div>
+                                        <div class="card-text">
+                                            These tasks are usually performed by the Cloud or DevOps admins.
+                                            <ol>
+                                                <li><a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.5/vic_cloud_admin/configure_system.html">Configure the management portal</a></li>
+                                                <li><a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.5/vic_cloud_admin/create_projects.html">Create projects</a></li>
+                                                <li><a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.5/vic_cloud_admin/add_users.html">Add users</a></li>
+                                                <li><a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.5/vic_cloud_admin/vchs_and_mgmt_portal.html">Add hosts to the management portal</a></li>
+                                                <li><a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.5/vic_cloud_admin/add_repos_in_portal.html">Add registries to the management portal</a></li>
+                                                <li><a target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.5/vic_app_dev/run_dev_project.html">Run projects and provision containers</a></li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-items-xs-center mx-0" id="infra-deploy-tools-container">
+                <div class="col-xs-10">
+                    <h4>Infrastructure Deployment Tools</h4>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                            <div class="card">
+                                <div class="card-block">
+                                    <div class="card-title">
+                                        <clr-icon shape="host" size="24"></clr-icon> Deploy a VCH
+                                    </div>
+                                    <div class="card-text">
+                                        <a href="{{ .FileserverAddr }}" target="_blank">Download the vSphere Integrated Containers Engine bundle.</a>
+                                            vSphere Integrated Containers Engine provides a command-line utility named vic-machine that you use to deploy virtual container hosts (VCHs) in production.
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a class="btn btn-sm btn-link" href="{{ .FileserverAddr }}" target="_blank">Download</a>
+                                    <a class="btn btn-sm btn-link" target="_blank" href="https://vmware.github.io/vic-product/assets/files/html/1.5/vic_vsphere_admin/deploy_vch.html">Read more</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div><a href="/?login=true" id="feedback-link"
+                    class="btn btn-link px-0 mt-1 mb-0">
+                        Re-initialize the vSphere Integrated Container Appliance
+                    </a></div>
+                </div>
+            </div>
+            {{if .NeedLogin}}
+            <div class="modal" id="plugin-modal" style="display: none">
+                        <div class="modal-dialog" role="dialog"aria-hidden="false">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">Complete VIC appliance installation</h3>
+                                </div>
+                                <div id="plugin-spinner" style="display: none;text-align: center">
+                                    <div class="spinner"></div>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="plugin-form" method="post"  class="pt-0">
+                                        <div id="plugin-body">
+                                            
+                                            <p class="mt-0 mb-1">
+                                                Certificate thumbprint for
+                                                vCenter Server <label id="vcenter"></label>
+                                            </p>
+                                            <input id="thumbprint-show" type="text" style="width: 85%;" value="" onkeyup="checkThumbrintInput()"></input>
+                                            <p class="mt-1 mb-1">
+                                                    Click Continue to validate
+                                                    this certificate or cancel
+                                                    if the thumbprint is not valid
+                                            </p>
+                                            <a href="https://vmware.github.io/vic-product/assets/files/html/1.5/vic_vsphere_admin/obtain_thumbprint.html" target="_blank" class="btn btn-link" >Read more...</a>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-outline" type="button" onclick="window.location.href='/?login=true'">Cancel</button>
+                                            <button id="plugin-submit" class="btn btn-primary" type="submit">Continue</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-backdrop" id="areaBackdrop" aria-hidden="true"></div>
+            <div class="modal" id="login-modal">
+                <div class="modal-dialog" role="dialog" aria-hidden="true">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Complete VIC appliance installation</h3>
+                        </div>
+                        <div id="login-spinner" style="display: none">
+                            <div class="spinner"></div>
+                        </div>
+                        <div class="modal-body">
+                            <form id="login-form" method="post" class="pt-0">
+                                <div id="login-body">
+                                    {{if .ValidationError }}
+                                    <div class="alert alert-danger mt-0 mb-2">
+                                        <div class="alert-item">
+                                            <span class="alert-text">
+                                                Validation failed: {{ .ValidationError }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {{ end }}
+                                    <div class="alert alert-danger mt-0 mb-2" style="display: none" id="thumbprint-alert-div">
+                                            <div class="alert-item">
+                                                <span id="thumbprint-alert-span" class="alert-text">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    <p class="mt-0 mb-1">
+                                        Please enter your vCenter credentials to complete the vSphere Integrated
+                                        Containers Appliance installation and PSC settings if using an external instance.
+                                    </p>
+                                    <div class="form-group">
+                                        <label for="target" class="required">vCenter Server</label>
+                                        <input id="target" type="text" name="target" placeholder="FQDN or IP" onkeyup="checkRegistryForm()" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user" class="required">vCenter Server credentials</label>
+                                        <input id="user" type="text" name="user" placeholder="username@domain.local" onkeyup="checkRegistryForm()" value="">
+                                        <input id="password" type="password" name="password" placeholder="Password" autocomplete="off" onkeyup="checkRegistryForm()" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="psc">External PSC Instance</label>
+                                        <input id="psc" type="text" name="psc" placeholder="FQDN">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pscDomain">External PSC Admin Domain</label>
+                                        <input id="pscDomain" type="text" name="pscDomain" placeholder="vsphere.local">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user" class="required">VIC Appliance Password</label>
+                                        <input id="appliancePwd" type="password" name="appliancePwd" placeholder="Password" onkeyup="checkRegistryForm()" value="">
+                                    </div>
+                                    Install UI Plugin <input id="needuiplugin" type="checkbox" name="needuiplugin" value="true" checked>
+                                    <input id="thumbprint" type="hidden" name="thumbprint" placeholder="">
+                                </div>
+                                <div class="text-sm-right">
+                                    <button id="login-submit" onclick="submitRegistration(event)" disabled class="btn btn-primary">Continue</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop" aria-hidden="true"></div>
+            {{ end }}
+        </div>
+    </main>
+</div>

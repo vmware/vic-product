@@ -6,12 +6,12 @@ Optionally, you can log in by using one of the example user accounts that were c
 
 For more information about users and roles, see [vSphere Integrated Containers Roles and Personas](../vic_overview/roles_and_personas.md).
 
-**Prerequisites**
+## Prerequisites
 
-- You or the vSphere administrator deployed and initialized the vSphere Integrated Containers appliance.
+- You or the vSphere administrator deployed the vSphere Integrated Containers appliance and registered it with vCenter Server.
 - You have a vCenter Server Single Sign-On user account with vSphere administrator privileges, or a user account that has been granted the Management Portal Administrator, DevOps administrator, developer, or viewer role in vSphere Integrated Containers.
 
-**Procedure**
+## Procedure
 
 1. Enter the IP address or FQDN of the vSphere Integrated Containers appliance in a browser.
 
@@ -24,8 +24,8 @@ For more information about users and roles, see [vSphere Integrated Containers R
 
 ## Troubleshooting ##
 
-To remove security warnings when you connect to the Getting Started page or management portal, see [Obtain the Thumbprints and CA Files of the vSphere Integrated Containers Appliance Certificates](../vic_vsphere_admin/obtain_appliance_certs.md) and [Verify and Trust vSphere Integrated Containers Appliance Certificates](trust_vic_certs.md).
+To remove security warnings when you connect to the appliance welcome page or management portal, see [Obtain the Thumbprint and CA File of the vSphere Integrated Containers Appliance Certificate](../vic_vsphere_admin/obtain_appliance_certs.md) and [Verify and Trust the vSphere Integrated Containers Appliance Certificate](trust_vic_certs.md).
 
-If you see a certificate error when you attempt to go to the vSphere Integrated Containers Getting Started page at https://<i>vic_appliance_address</i>:9443, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](../vic_vsphere_admin/ts_cert_error.md).
+If you see a certificate error when you attempt to go to the vSphere Integrated Containers appliance welcome page at https://<i>vic_appliance_address</i>:9443, see [Browser Rejects Certificates with `ERR_CERT_INVALID` Error](../vic_vsphere_admin/ts_cert_error.md).
 
 If you are unable to log in to vSphere Integrated Containers Management Portal, see [Troubleshoot Post-Deployment Operation](../vic_vsphere_admin/ts_post_deployment_op.md). 

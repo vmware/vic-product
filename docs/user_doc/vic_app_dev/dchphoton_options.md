@@ -1,8 +1,10 @@
-# Advanced `dch-photon` Deployment 
+# Advanced `dch-photon` Deployment Options
 
-You do not need to specify any options when you use `docker run` to deploy `dch-photon` container VMs for use with vSphere Integrated Containers Registry. However, you can optionally specify `dch-photon` options in the `docker run` command to run `dch-photon` with TLS authentication.
+You do not need to specify any options when you use `docker run` to deploy `dch-photon` Docker Engine instances for use with vSphere Integrated Containers Registry. However, you can optionally specify `dch-photon` options in the `docker run` command to run the  `dch-photon` Docker Engine with TLS authentication.
 
-You can also specify `dch-photon` options to connect `dch-photon` container VMs to registries other than vSphere Integrated Containers Registry.
+You can also specify `dch-photon` options to connect `dch-photon` Docker Engine instances to registries other than vSphere Integrated Containers Registry.
+
+vSphere Integrated Containers 1.5.x supports `dch-photon` version 17.06.
 
 - [`dch-photon` Options](#options)
 - [Using `dch-photon` with TLS Authentication](#auth)
@@ -12,12 +14,12 @@ You can also specify `dch-photon` options to connect `dch-photon` container VMs 
 
 ## `dch-photon` Options <a id="options"></a>
 
-You can specify the following options when you deploy `dch-photon` container VMs:
+You can specify the following options when you deploy `dch-photon` Docker Engine instances:
 
 - `-insecure-registry`: Enable insecure registry communication. Set this option multiple times to create a list of registries to which `dch-photon` applies no security considerations. You cannot use this option when connecting to vSphere Integrated Containers Registry.
 - `-local`: Do not bind the Docker API to external interfaces. Set this option to prevent the Docker API endpoint from binding to the external interface. Docker Engine only listens on `/var/run/docker.sock`.
 - `-storage`: Sets the Docker storage driver that Docker Engine uses. By default, the storage driver is `overlay2`, which is the recommended driver when running Docker Engine as a container VM.
-- `-tls`: Use TLS authentication for all connections. Implied by `-tlsverify`. This option enables secure communication with no verification of the remote end. To use custom certificates, copy them into the `/certs` folder in the `dch-photon` container. Certificates are generated automatically in `/certs` if you do not provide them. 
+- `-tls`: Use TLS authentication for all connections. Implied by `-tlsverify`. This option enables secure communication with no verification of the remote end. To use custom certificates, copy them into the `/certs` folder in the `dch-photon` container VM. Certificates are generated automatically in `/certs` if you do not provide them. 
 
    -  Server certificate: `/certs/docker.crt`
    -  Key for the server certificate: `/certs/docker.key`
@@ -40,7 +42,7 @@ To configure the same certificate-based authentication for a `dch-photon` as you
 
 1. Create a `dch-photon` container without starting it.
 
-    This example runs `dch-photon` behind a port mapping and specifies the `-tlsverify` option.<pre>docker create -p 12376:2376 --name dch-photon-tlsverify <i>registry_address</i>/default-project/dch-photon:1.13 -tlsverify</pre>
+    This example runs `dch-photon` behind a port mapping and specifies the `-tlsverify` option.<pre>docker create -p 12376:2376 --name dch-photon-tlsverify <i>registry_address</i>/default-project/dch-photon:17.06 -tlsverify</pre>
 
 2. Copy the certificates into the `dch-photon` container.<pre> docker cp <i>cert_folder</i>/ca.pem dch-photon-tlsverify:/certs/ca.crt</pre><pre> docker cp <i>cert_folder</i>/server-cert.pem dch-photon-tlsverify:/certs/docker.crt</pre><pre> docker cp <i>cert_folder</i>/server-key.pem dch-photon-tlsverify:/certs/docker.key</pre>   
 3. Start the `dch-photon` container.<pre>docker start dch-photon-tlsverify</pre>
@@ -50,7 +52,7 @@ To configure the same certificate-based authentication for a `dch-photon` as you
 
 1. Create a `dch-photon` container without starting it.
 
-    This example runs `dch-photon` behind a port mapping and specifies the `-tls` option.<pre>docker create -p 12376:2376 --name dch-photon-tls <i>registry_address</i>/default-project/dch-photon:1.13 -tls</pre>
+    This example runs `dch-photon` behind a port mapping and specifies the `-tls` option.<pre>docker create -p 12376:2376 --name dch-photon-tls <i>registry_address</i>/default-project/dch-photon:17.06 -tls</pre>
 
 2. Copy the certificates into the `dch-photon` container.<pre> docker cp <i>cert_folder</i>/server-cert.pem dch-photon-tls:/certs/docker.crt</pre><pre> docker cp <i>cert_folder</i>/server-key.pem dch-photon-tls:/certs/docker.key</pre>   
 3. Start the `dch-photon` container.<pre>docker start dch-photon-tls</pre>

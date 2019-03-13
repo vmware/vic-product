@@ -2,12 +2,12 @@
 
 When you have completed all of the pages in the Create Virtual Container Host wizard, you can review the details of the virtual container host (VCH) that you have configured. You can also copy the generated `vic-machine create` command. 
 
-**Prerequisites**
+## Prerequisites
 
 You completed all of the pages of the Create Virtual 
 Container Host wizard in the vSphere Client.
 
-**Procedure**
+## Procedure
 
 1. In the Summary page, review the details of the VCH that you have configured.
 
@@ -22,11 +22,15 @@ Container Host wizard in the vSphere Client.
     At the end of a successful deployment, you can see the connection details for this VCH in the Virtual Container Hosts view.
 6. (Optional) When the deployment has succeeded, click the link to the VCH Admin Portal for this VCH.
 
-**What to Do Next**
+**NOTE**: The Create Virtual Container Host wizard does not include any escape characters in the generated `vic-machine` command. Consequently, if any of the values that you specified in the wizard include special characters or spaces, you must edit the saved `vic-machine` command to wrap those values in quotes before you can reuse the command to create similar VCHs. For information about using quotes to escape special characters and spaces, see Specifying Option Arguments in [Using the `vic-machine` CLI Utility](using_vicmachine.md#args). 
 
-The Create Virtual Container Host wizard does not include any escape characters in the generated `vic-machine` command. Consequently, if any of the values that you specified in the wizard include special characters or spaces, you must edit the saved `vic-machine` command to wrap those values in quotes before you can reuse the command to create similar VCHs. For information about using quotes to escape special characters and spaces, see [Specifying Option Arguments](running_vicmachine_cmds.md#args). 
+## What to Do Next
 
-**Troubleshooting**
+- To experiment further with deploying VCHs, follow the procedures in [Deploy a Virtual Container Host to an ESXi Host with No vCenter Server](deploy_vch_esxi.md) or [Deploy a Virtual Container Host with a Volume Store and vSphere Integrated Containers Registry Access](deploy_vch_dchphoton.md). 
+- To manage the VCHs that you have deployed, see [Virtual Container Host Administration](vch_admin.md).
+- To register your VCHs with vSphere Integrated Containers Management Portal, see [Add Container Hosts to Projects](../vic_cloud_admin/vchs_and_mgmt_portal.md) in *vSphere Integrated Containers Management Portal Administration*.
+
+## Troubleshooting
 
 If you see errors during deployment, see [Troubleshoot Virtual Container Host Deployment](ts_deploy_vch.md).
 

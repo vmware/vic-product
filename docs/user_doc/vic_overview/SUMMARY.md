@@ -9,3 +9,4 @@
      * [Management Portal](intro_to_vic_mp.md)
      * [Registry](intro_to_vic_registry.md)
      * [Roles and Personas](roles_and_personas.md)
+     * [Deployment Topologies](vic_deployment_topos.md)

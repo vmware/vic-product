@@ -1,21 +1,18 @@
 # Upgrade Virtual Container Hosts #
 
-You upgrade virtual container hosts (VCHs) by downloading a new version of vSphere Integrated Containers Engine and running the `vic-machine upgrade` command.
+You upgrade virtual container hosts (VCHs) by downloading a new version of vSphere Integrated Containers Engine and running the `vic-machine upgrade` command. You can upgrade VCHs from 1.3.x and 1.4.x to 1.5.x, or from 1.5.x to a later 1.5.y update release.
 
-You can use `vic-machine upgrade` to upgrade VCHs to newer versions. You can run `vic-machine upgrade` on VCHs that are either running or powered off. When you upgrade a running VCH, the VCH goes temporarily offline, but container workloads continue as normal during the upgrade process. Upgrading a VCH does not affect any mapped container networks that you defined by setting the `vic-machine create --container-network` option. The following operations are not available during upgrade:
+You use `vic-machine upgrade` to upgrade VCHs to newer versions. You can run `vic-machine upgrade` on VCHs that are either running or powered off. When you upgrade a running VCH, the VCH goes temporarily offline, but container workloads continue as normal during the upgrade process. Upgrading a VCH does not affect any mapped container networks that you defined by setting the `vic-machine create --container-network` option. The following operations are not available during upgrade:
 
 - You cannot access container logs
 - You cannot attach to a container
 - NAT based port forwarding is unavailable
 
-**IMPORTANT**: 
-
-- By default, vSphere Integrated Containers 1.2.x deployed VCHs as vApps, unless you explicitly deployed them as resource pools by using the `vic-machine create --use-rp` option. Versions of vSphere Integrated Containers 1.3.x and later always deploy VCHs as resource pools, rather than as vApps. If you upgrade vApp VCHs from version 1.2.x to version 1.4.x, these VCHs remain vApps after the upgrade. Any new container VMs that are deployed after the upgrade are deployed in the existing vApp. It is recommended that you delete any remaining vApp VCHs that were deployed with version 1.2.x or earlier, and recreate them as version 1.4.x VCHs rather than upgrading them. Any container VMs that were provisioned in the vApp VCH should be recreated as version 1.4.x container VMs in the new version 1.4.x VCH.
-- Upgrading a VCH does not upgrade any existing container VMs that the VCH manages. For container VMs to boot from the latest version of `bootstrap.iso`, container developers must recreate them.
+**IMPORTANT**: Upgrading a VCH does not upgrade any existing container VMs that the VCH manages. For container VMs to boot from the latest version of `bootstrap.iso`, container developers must recreate them.
 
 For descriptions of the options that `vic-machine upgrade` includes in addition to the [Common `vic-machine` Options](common_vic_options.md) , see [VCH Upgrade Options](upgrade_vch_options.md).
 
-**Prerequisites**
+## Prerequisites
 
 - You deployed one or more VCHs with an older version of `vic-machine`.
 - You downloaded a new version of the vSphere Integrated Containers Engine bundle.
@@ -24,7 +21,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
 - Obtain the vCenter Server or ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
 
 
-**Procedure**
+## Procedure
 
 1. On the system on which you run `vic-machine`, navigate to the directory that contains the new version of the `vic-machine` utility.
 2. Run the `vic-machine upgrade` command. 
@@ -77,7 +74,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
   --rollback</pre>
 
 
-**Result**
+## Result
 
 During the upgrade process, `vic-machine upgrade` performs the following operations:
 
@@ -89,10 +86,3 @@ During the upgrade process, `vic-machine upgrade` performs the following operati
 - After you upgrade a VCH, any new container VMs will boot from the new version of the `bootstrap.iso` file.
 - If the upgrade times out while waiting for the VCH service to start, the upgrade fails and rolls back to the previous version.
 - If the upgrade fails with the error `another upgrade/configure operation is in progress`, a previous attempt at upgrading the VCH might have been interrupted without rolling back. In this case, run `vic-machine configure` with the `--reset-progress` option. For information about `vic-machine configure --reset-progress`, see [Reset Upgrade or Configuration Progress](configure_vch.md#resetprogress).
-
-**What to Do Next**
-
-Upgrade the HTML5 vSphere Client plug-in.
-
-- [Upgrade the HTML5 vSphere Client Plug-In on vCenter Server for Windows](upgrade_h5_plugin_windows.md)
-- [Upgrade the HTML5 vSphere Client Plug-In on a vCenter Server Appliance](upgrade_h5_plugin_vcsa.md)

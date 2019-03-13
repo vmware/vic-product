@@ -2,16 +2,6 @@
 
 To deploy a virtual container host (VCH) that does not restrict access to the Docker API but still encrypts communication between clients and the VCH, you can disable client certificate verification. If you use `vic-machine` to deploy VCHs, you can also completely disable TLS authentication and encryption on both the client and server sides.
 
-- [Options](#options)
-  - [Disable Client Certificate Verification](#no-tlsverify) 
-  - [Disable Secure Access](#no-tls)
-- [Examples](#examples)
-  - [Automatically Generate a Server Certificate and Disable Client Certificate Verification](#auto-notlsverify)
-  - [Use Custom Server Certificates and Disable Client Certificate Verification](#custom_notlsverify)
-  - [Automatically Generate a Generic Server Certificate and Disable Client Certificate Verification](#generic_no-tlsverify)
-  - [Disable Secure Access](#example_no-tls)
-- [What to Do Next](#whatnext)
-
 ## Options <a id="options"></a>
 
 The following sections each correspond to an entry in the Security page of the Create Virtual Container Host wizard. Each section also includes a description of the corresponding `vic-machine create` option. 

@@ -11,14 +11,14 @@ To assign permissions to the operations user account, you create roles, assign p
 
 When creating roles manually, the privileges are not as granular as when you use the option to grant permissions automatically. VMware recommends that you use the option to grant permissions automatically whenever possible.
 
-**Prerequisites**
+## Prerequisites
 
 - Create one or more user accounts to use as the operations user for VCHs.
-- Log into the Flex-based vSphere Web Client with a vSphere administrator account. You cannot use the HTML5 vSphere Client to create user accounts.
+- Log into the vSphere Client with a vSphere administrator account.
 
-**Procedure**
+## Procedure
 
-1. In the vSphere Web Client, create a user group, for example `VIC Ops Users`, and add the appropriate user accounts to the user group.
+1. In the vSphere Client, create a user group, for example `VIC Ops Users`, and add the appropriate user accounts to the user group.
 
     The best practice when assigning roles in vSphere is to assign the roles to user groups and then to add users to those groups, rather than assigning roles to the users directly.
 
@@ -188,7 +188,7 @@ Host &gt; Configuration &gt; System management</td>
 </tr>
 </tbody></table>
 
-**What to Do Next**
+## What to Do Next
 
 You can use the user accounts in the user group that you created as operations users for VCHs. When you deploy VCHs you do not need to select the option to grant all necessary permissions in the Create Virtual Container Host wizard, or specify `--ops-grant-perms` in `vic-machine create` commands.
 

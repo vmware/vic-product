@@ -15,27 +15,33 @@
 *** Settings ***
 Documentation  Test 5-16 - vMotion VCH Appliance
 Resource  ../../resources/Util.robot
-Suite Setup    Wait Until Keyword Succeeds  10x  10m  vMotion Setup
+Suite Setup  Nimbus Suite Setup  vMotion Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
-Test Teardown  Run Keyword If Test Failed  Gather All vSphere Logs
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Gather Logs
 
 *** Keywords ***
+Gather Logs
+    Gather All vSphere Logs
+    Collect Appliance and VCH Logs  ${VCH-NAME}
+
 vMotion Setup
     [Timeout]    110 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
     ${name}=  Evaluate  '5-16-vic-vmotion-' + str(random.randint(1000,9999))  modules=random
-    Set Suite Variable  ${user}  %{NIMBUS_USER}
-    ${out}=  Deploy Nimbus Testbed  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}  --plugin testng --vcfvtBuildPath /dbc/pa-dbc1111/mhagen/ --noSupportBundles --vcvaBuild ${VC_VERSION} --esxPxeDir ${ESX_VERSION} --esxBuild ${ESX_VERSION} --testbedName vic-vsan-simple-pxeBoot-vcva --runName ${name}
-    Should Contain  ${out}  "deployment_result"=>"PASS"
+    Set Suite Variable  ${user}  %{NIMBUS_PERSONAL_USER}
+    ${out}=  Deploy Nimbus Testbed  spec=vic-vsan.rb  args=--plugin testng --noSupportBundles --vcvaBuild "${VC_VERSION}" --esxPxeDir "${ESX_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vic-vsan-simple-pxeBoot-vcva --runName ${name}
+
     Log  ${out}
+    Should Contain  ${out}  "deployment_result"=>"PASS"
 
     Log To Console   Get VC IP ...
     Open Connection  %{NIMBUS_GW}
     Wait Until Keyword Succeeds  10 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
-    ${vc-ip}=  Get IP  ${name}.vcva-${VC_VERSION}
+    ${vc-ip}=  Get IP  ${name}.vc.0
+    
     Close Connection
 
-    Set Suite Variable  @{list}  ${user}-${name}.vcva-${VC_VERSION}  ${user}-${name}.esx.0  ${user}-${name}.esx.1  ${user}-${name}.esx.2  ${user}-${name}.esx.3  ${user}-${name}.nfs.0  ${user}-${name}.iscsi.0
+    Set Suite Variable  @{list}  ${user}-${name}.vc.0  ${user}-${name}.esx.0  ${user}-${name}.esx.1  ${user}-${name}.esx.2  ${user}-${name}.esx.3  ${user}-${name}.nfs.0  ${user}-${name}.iscsi.0
 
     Log To Console  Set environment variables up for GOVC
     Set Environment Variable  GOVC_INSECURE  1
@@ -43,10 +49,8 @@ vMotion Setup
     Set Environment Variable  GOVC_USERNAME  Administrator@vsphere.local
     Set Environment Variable  GOVC_PASSWORD  Admin\!23
 
-    Add Host To Distributed Switch  /vcqaDC/host/cls
-
     Log To Console  Enable DRS on the cluster
-    ${out}=  Run  govc cluster.change -drs-enabled /vcqaDC/host/cls
+    ${out}=  Run  govc cluster.change -drs-enabled /dc1/host/cls
     Should Be Empty  ${out}
 
     Log To Console  Deploy VIC to the VC cluster
@@ -57,7 +61,7 @@ vMotion Setup
     Set Environment Variable  PUBLIC_NETWORK  vm-network
     Remove Environment Variable  TEST_DATACENTER
     Set Environment Variable  TEST_DATASTORE  vsanDatastore
-    Set Environment Variable  TEST_RESOURCE  /vcqaDC/host/cls
+    Set Environment Variable  TEST_RESOURCE  /dc1/host/cls
 
     Gather Host IPs
     Log To Console   Finished Creating vMotion Setup

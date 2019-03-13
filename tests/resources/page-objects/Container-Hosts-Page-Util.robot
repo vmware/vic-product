@@ -24,8 +24,7 @@ ${ch-title}  css=.content-area .title
 ${ch-button-new-host}  css=.toolbar button
 ${ch-card-name}  css=.card-item .titleHolder div:nth-of-type(1)
 ${ch-card-status}  css=.card-item .status
-${ch-button-card-dropdown}  css=.card button.dropdown-toggle
-${ch-link-delete}  css=card > div > div.card-header > div > clr-dropdown > clr-dropdown-menu > button.dropdown-item.remove-cluster
+${ch-button-delete}  xpath://button[contains(text(),'Remove')]
 
 # expected text values
 ${ch-card-status-on}  ON
@@ -68,18 +67,20 @@ Add New Container Host And Verify Card
     Navigate To Container Hosts Page
     Click New Host Button
     Add New Container Host  ${vch-name}  ${VCH-URL}
+    Capture Page Screenshot
     Verify VCH Card  ${vch-name}
+    Capture Page Screenshot
 
-Delete VCH Card Using Dropdown Menu
+Delete VCH Card
     [Arguments]  ${card-name}
     Navigate To Container Hosts Page
+    Wait Until Element Is Visible  ${ch-card-name}  timeout=${EXPLICIT_WAIT}
+    Sleep  1
     ${card-index}=  Get VCH Card Index  ${card-name}
-    @{dropdown-buttons}=  Get Webelements  ${ch-button-card-dropdown}
-    ${dropdown}=  Get From List  ${dropdown-buttons}  ${card-index}
-    Focus  ${dropdown}
-    Click Button  ${dropdown}
-    Focus  ${ch-link-delete}
-    Click Button  ${ch-link-delete}
+    @{remove-buttons}=  Get Webelements  ${ch-button-delete}
+    ${remove-button}=  Get From List  ${remove-buttons}  ${card-index}
+    Focus  ${remove-button}
+    Click Button  ${remove-button}
     Verify Modal for Remove Container Host
     Click Remove On Remove Container Host
     Verify Container Hosts Page

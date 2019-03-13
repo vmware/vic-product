@@ -8,13 +8,13 @@ You use the `--allow` and `--deny` flags to enable and disable a firewall rule n
 
 The `vic-machine create` command does not modify the firewall. Run `vic-machine update firewall --allow` before you run `vic-machine create`.
 
-**Prerequisites**
+## Prerequisites
 
 * Deploy the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 * Download the vSphere Integrated Containers Engine bundle from the appliance to your usual working machine. For information about how to download the bundle, see [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md). 
 * If your vSphere environment uses untrusted, self-signed certificates, you must specify the thumbprint of the vCenter Server instance or ESXi host in the `--thumbprint` option. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md). 
  
-**Procedure**
+## Procedure
 
 1. Open a terminal on the system on which you downloaded and unpacked the vSphere Integrated Containers Engine binary bundle.
 2. Navigate to the directory that contains the `vic-machine` utility:

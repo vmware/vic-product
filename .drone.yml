@@ -22,6 +22,22 @@ pipeline:
       - 'git log -5'
       - 'git log -1 --pretty=oneline | grep "^${DRONE_COMMIT}" > /dev/null && echo ''Build matches'' || (git log -1 --pretty=oneline | grep "Merge ${DRONE_COMMIT}" > /dev/null && echo ''Build is of a merge commit'' || (echo ''Build does not match!'' && exit 1))'
 
+  wait-for-build:
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
+    pull: true
+    environment:
+      BIN: bin
+      GOPATH: /go
+      SHELL: /bin/bash
+    secrets:
+      - drone_server
+      - drone_token
+      - test_url
+    commands:
+      - export TEST_URL_ARRAY="$TEST_URL"
+      - tests/wait_until_previous_builds_complete.sh
+
+
   check-org-membership:
     image: 'wdc-harbor-ci.eng.vmware.com/default-project/vic-integration-test:1.44'
     pull: true
@@ -34,6 +50,20 @@ pipeline:
     commands:
       - echo ${DRONE_COMMIT_AUTHOR}
       - /bin/bash -c '[[ ! $(curl --silent "https://api.github.com/orgs/vmware/members/${DRONE_COMMIT_AUTHOR}?access_token=$GITHUB_AUTOMATION_API_KEY") ]]'
+    when:
+      status: success
+
+  vic-product-unit-test:
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:node-chrome'
+    pull: true
+    environment:
+      BIN: bin
+      GOPATH: /go
+      SHELL: /bin/bash
+    secrets:
+      - github_automation_api_key
+    commands:
+      - cd installer/fileserver/test && npm install && npm test
     when:
       status: success
 
@@ -86,11 +116,13 @@ pipeline:
 
   unified-ova-build:
     group: build
-    image: 'gcr.io/eminent-nation-87317/vic-product-build:33e3b968'
+    image: 'gcr.io/eminent-nation-87317/vic-product-build'
     pull: true
     privileged: true
     environment:
       TERM: xterm
+      ADMIRAL: v1.5.2
+      HARBOR: https://storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.4.tgz
     secrets:
       - admiral
       - build_admiral_release
@@ -107,11 +139,11 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: success
 
   integration-test-ova-setup:
-    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
     pull: true
     privileged: true
     environment:
@@ -133,11 +165,11 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: success
 
   integration-test:
-    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
     pull: true
     privileged: true
     environment:
@@ -161,11 +193,11 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: success
 
   integration-test-ova-cleanup:
-    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
     pull: true
     environment:
       BIN: bin
@@ -186,7 +218,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
   bundle-logs:
@@ -207,7 +239,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
   publish-logs:
@@ -223,7 +255,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
   bundle-dev-builds:
@@ -231,20 +263,11 @@ pipeline:
     image: 'wdc-harbor-ci.eng.vmware.com/default-project/golang:1.8'
     pull: true
     commands:
-      - 'mkdir bundle'
-      - 'cd installer/bin'
-      - 'TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-dev-/")'
-      - 'if [ "${DRONE_BUILD_EVENT}" == "push" ] && [ "${DRONE_BRANCH}" != "master" ]; then FOLDER=${DRONE_BRANCH} ; fi'
-      - 'echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/${FOLDER}${FOLDER:+/}${TMP}"'
-      - 'echo "Renaming build artifact to $TMP..."'
-      - 'mv vic-*.ova ../../bundle/$TMP'
-      - 'cd ../../bundle'
-      - 'ls -l'
-      - 'echo "--------------------------------------------------"; stat --printf="Filesize (%n) = %s\n" $TMP; sha256sum --tag $TMP; sha1sum --tag $TMP; md5sum --tag $TMP'
+      - tests/bundle_dev_builds.sh
     when:
       repo: vmware/vic-product
       event: [push, tag]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
   bundle-stage-builds:
@@ -304,7 +327,7 @@ pipeline:
       branch: [master]
       status: success
 
-  publish-gcs-release-builds-push:
+  publish-gcs-branch-builds-push:
     image: 'victest/drone-gcs:1'
     pull: true
     secrets:
@@ -317,7 +340,7 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push]
-      branch: ['releases/*']
+      branch: ['releases/*', 'feature/*']
       status: success
 
   publish-gcs-builds-tag:
@@ -383,21 +406,8 @@ pipeline:
     when:
       repo: vmware/vic-product
       event: [push, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: failure
-
-  notify-slack-on-fail:
-    image: plugins/slack
-    secrets:
-      - source: slack_url
-        target: slack_webhook
-    username: drone
-    template: "Build {{ build.link }} failed from the event {{ build.event }} by {{ lowercase build.author }}.\n"
-    when:
-      repo: vmware/vic-product
-      event: [push, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
-      status: [failure]
 
   notify-slack:
     image: plugins/slack
@@ -405,11 +415,11 @@ pipeline:
       - source: product_slack_url
         target: slack_webhook
     username: drone
-    template: "Build '{{ build.link }}' completed with a '{{ build.status }}' status from the event '{{ build.event }}' by '{{ lowercase build.author }}'\n"
+    template: '{{#equal build.event "push"}}Push to `{{build.branch}}`{{/equal}}{{#equal build.event "pull_request"}}Pull request #{{build.pull}}{{/equal}}{{#equal build.event "tag"}}Tag ({{build.tag}}){{/equal}}{{#equal build.event "deployment"}}{{#equal build.deployTo "staging"}}Staging{{/equal}}{{#equal build.deployTo "release"}}Release{{/equal}}{{/equal}} build <{{build.link}}|{{repo.owner}}/{{repo.name}}#{{build.number}}> {{#success build.status}}succeeded{{else}}{{#failure build.status}}failed{{else}}completed with status {{build.status}}{{/failure}}{{/success}}.{{#failure build.status}} Latest commit <https://github.com/{{repo.owner}}/{{repo.name}}/commit/{{build.commit}}|{{build.commit}}> by <https://github.com/{{lowercase build.author}}|{{lowercase build.author}}>.{{/failure}}'
     when:
       repo: vmware/vic-product
       event: [push, tag, deployment]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
       status: [success, failure]
 
   notify-slack-on-successful-release:
@@ -418,11 +428,11 @@ pipeline:
       - source: product_slack_url
         target: slack_webhook
     username: drone
-    template: "The latest version of VIC OVA has been released, find the build here: https://console.cloud.google.com/storage/browser/vic-product-ova-releases\n"
+    template: ':mega: Version {{build.tag}} of the VIC OVA has been {{#equal build.deployTo "staging"}}staged{{/equal}}{{#equal build.deployTo "release"}}released{{/equal}}. {{#equal build.deployTo "staging"}}Proof-read{{/equal}}{{#equal build.deployTo "release"}}Read{{/equal}} the <https://github.com/vmware/vic-product/releases/tag/{{build.tag}}|release notes> or <https://storage.googleapis.com/vic-product-ova-{{#equal build.deployTo "staging"}}builds/vic-stage{{/equal}}{{#equal build.deployTo "release"}}releases/vic{{/equal}}-{{build.tag}}-{{build.number}}-{{truncate build.commit 8}}.ova|download the build>.'
     when:
       repo: vmware/vic-product
       event: [deployment]
-      environment: [release]
+      environment: [staging, release]
       branch: ['releases/*', 'refs/tags/*']
       status: [success]
 
@@ -438,6 +448,23 @@ pipeline:
       - slack_url
     commands:
       - tests/pass-rate.sh
+
+  publish-docs:
+    image: 'wdc-harbor-ci.eng.vmware.com/default-project/published-docs-test:1.0'
+    pull: true
+    environment:
+      BIN: bin
+      GOPATH: /go
+      SHELL: /bin/bash
+    secrets:
+      - github_automation_api_key
+    commands:
+      - tests/auto_published_docs.sh
+    when:
+      repo: vmware/vic-product
+      event: [push]
+      branch: [master]
+      status: [success, failure]
 
 services:
 

@@ -116,6 +116,11 @@
     "destination": "/etc/vmware/upgrade/util.sh"
   },
   {
+    "type": "file",
+    "source": "scripts/upgrade/notary-migration-fix.sh",
+    "destination": "/etc/vmware/upgrade/notary-migration-fix.sh"
+  },
+  {
     "type": "shell",
     "script": "scripts/provisioners/provision_admiral.sh"
   },
@@ -165,6 +170,11 @@
   },
   {
     "type": "file",
+    "source": "scripts/verify.py",
+    "destination": "/etc/vmware/verify.py"
+  },
+  {
+    "type": "file",
     "source": "../fileserver/html",
     "destination": "/opt/vmware/fileserver/html"
   },
@@ -172,11 +182,6 @@
     "type": "file",
     "source": "../fileserver/files/open_source_license.txt",
     "destination": "/opt/vmware/fileserver/files/open_source_license.txt"
-  },
-  {
-    "type": "file",
-    "source": "../fileserver/files/error_index.html",
-    "destination": "/opt/vmware/fileserver/index.html"
   },
   {
     "type": "file",

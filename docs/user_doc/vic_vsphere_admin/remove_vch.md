@@ -2,7 +2,7 @@
 
 You delete virtual container hosts (VCHs) by using the `vic-machine delete` command. 
 
-You can also delete VCHs by using the vSphere Integrated Containers plug-in for the HTML5 vSphere Client. For information about using the plug-in, see [View All VCH and Container Information in the HTML5 vSphere Client](access_h5_ui.md).
+You can also delete VCHs by using the vSphere Integrated Containers plug-in for the HTML5 vSphere Client. For information about using the plug-in, see [View vSphere Integrated Containers Information in the HTML5 vSphere Client](access_h5_ui.md).
 
 The `vic-machine delete` includes one option in addition to the [Common `vic-machine` Options](common_vic_options.md), `--force`.
 

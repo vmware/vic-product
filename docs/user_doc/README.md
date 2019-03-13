@@ -2,9 +2,9 @@
 
 The vSphere Integrated Containers Documentation provides information about how to install, configure, and use VMware vSphere&reg; Integrated Containers&trade;.
 
-**Product version: 1.4**
+**Product version: 1.5**
 
-This documentation applies to all 1.4.x releases.
+This documentation applies to all 1.5.x releases.
 
 ## Intended Audiences
 
@@ -21,7 +21,7 @@ This information is intended for the following audiences:
 
 ----------
 
-Copyright &copy; 2016-2018 VMware, Inc. All rights reserved. [Copyright and trademark information](http://pubs.vmware.com/copyright-trademark.html). Any feedback you provide to VMware is subject to the terms at [www.vmware.com/community_terms.html](http://www.vmware.com/community_terms.html).
+Copyright &copy; 2016-2019 VMware, Inc. All rights reserved. [Copyright and trademark information](http://pubs.vmware.com/copyright-trademark.html). Any feedback you provide to VMware is subject to the terms at [www.vmware.com/community_terms.html](http://www.vmware.com/community_terms.html).
 
 **VMware, Inc.**<br>
 3401 Hillview Ave.<br>

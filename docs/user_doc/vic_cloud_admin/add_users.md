@@ -6,11 +6,11 @@ For more information about working with local users and identity sources in the 
 
 For more information about users and roles in vSphere Integrated Containers, see [vSphere Integrated Containers Roles and Personas](../vic_overview/roles_and_personas.md).
 
-**Prerequisites**
+## Prerequisites
 
 Log in to vSphere Integrated Containers Management Portal with a vSphere administrator, Management Portal administrator, or DevOps administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 
-**Procedure**
+## Procedure
 
 1. Select **Administration** > **Projects**, and click a project to add users to.
 3. Click the **Members** tab and click **+ Add** to add a new user or group to that project.
@@ -21,6 +21,6 @@ Log in to vSphere Integrated Containers Management Portal with a vSphere adminis
 	1. From the table with users, select the check box next to a user and click **Edit**.
 	2. In the **Edit member role in project** window, select new role for that user and click **OK**.
 
-**What to Do Next**
+## What to Do Next
 
 [Add Container Hosts to Projects](vchs_and_mgmt_portal.md)

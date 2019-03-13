@@ -36,6 +36,7 @@ VCENTER_DATACENTER=""
 EXTERNAL_PSC=""
 PSC_DOMAIN=""
 VCENTER_FINGERPRINT=""
+UPGRADE_APPLIANCE_PASSWORD=""
 
 APPLIANCE_TARGET=""
 APPLIANCE_USERNAME=""
@@ -46,6 +47,7 @@ DESTROY_ENABLED=""
 MANUAL_DISK_MOVE=""
 EMBEDDED_PSC=""
 INSECURE_SKIP_VERIFY=""
+UPGRADE_UI_PLUGIN=""
 
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S %z %Z")
 export REDIRECT_ENABLED=0
@@ -55,6 +57,11 @@ VER_1_3_0="v1.3.0"
 VER_1_3_1="v1.3.1"
 VER_1_4_0="v1.4.0"
 VER_1_4_1="v1.4.1"
+VER_1_4_2="v1.4.2"
+VER_1_4_3="v1.4.3"
+VER_1_4_4="v1.4.4"
+VER_1_5_0="v1.5.0"
+VER_1_5_1="v1.5.1"
 
 function usage {
     echo -e "Usage: $0 [args...]
@@ -69,42 +76,87 @@ function usage {
       [--target value]:                VC Target IP Address for PSC registration.
       [--username value]:              VC Username for PSC registration.
       [--password value]:              VC Password for PSC registration.
-      [--dc value]:                    VC Target Datacenter of the old VIC Appliance.
+      [--upgrade-password value]:      Root Password for this appliance.
+      [--dc value]:                    VC Target Datacenter of the old VIC Appliance. (Ignored if --manual-disks is specified.)
       [--fingerprint value]:           VC Target fingerprint in GOVC format (govc about.cert -k -thumbprint).
 
       [--external-psc value]:          External PSC IP Address.
       [--external-psc-domain value]:   External PSC Domain Name.
 
-      [--appliance-username value]:    Username of the old appliance.
-      [--appliance-password value]:    Password of the old appliance.
-      [--appliance-target value]:      IP Address of the old appliance.
-      [--appliance-version value]:     Version of the old appliance. v1.2.1, v1.3.0, v1.3.1, v1.4.0, or v1.4.1.
+      [--appliance-username value]:    Username of the old appliance. (Ignored if --manual-disks is specified.)
+      [--appliance-password value]:    Password of the old appliance. (Ignored if --manual-disks is specified.)
+      [--appliance-target value]:      IP Address of the old appliance. (Ignored if --manual-disks is specified.)
+      [--appliance-version value]:     Version of the old appliance. v1.2.1, v1.3.0, v1.3.1, v1.4.0, v1.4.1, v1.4.2, v1.4.3, v1.4.4, v1.5.0 or v1.5.1.
 
-      [--destroy]:                     Destroy the old appliance after upgrade is finished.
+      [--destroy]:                     Destroy the old appliance after upgrade is finished. (Ignored if --manual-disks is specified.)
       [--manual-disks]:                Skip the automated govc disk migration.
 
       [--embedded-psc]:                Using embedded PSC. Do not prompt for external PSC options.
       [--ssh-insecure-skip-verify]:    Skip host key checking when SSHing to the old appliance.
+      [--upgrade-ui-plugin]:           Upgrade ui plugin.
     "
 }
 
-function callRegisterEndpoint {
+# A plugin upgrade is a forced plugin install
+function callPluginUpgradeEndpoint {
+  local preset=$1
+  local vc='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
+  local vc_info='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'"}'
+  local plugin='{"preset":"'"${preset}"'","force":true}'
+  local app_info='{"vicpassword":"'"${UPGRADE_APPLIANCE_PASSWORD}"'"}'
+  local payload='{"vc":'"${vc}"',"appliance":'"${app_info}"',"plugin":'"${plugin}"'}'
+  local payload_info='{"vc":'"${vc_info}"',"plugin":'"${plugin}"'}'
+  echo "register payload - ${payload_info}" >> $upgrade_log_file 2>&1
   /usr/bin/curl \
     -k \
-    --write-out '%{http_code}' \
+    -s \
+    -o /dev/null \
+    --write-out "%{http_code}\\n" \
     --header "Content-Type: application/json" \
     -X POST \
-    --data '{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'"}' \
+    --data "${payload}" \
+    https://localhost:9443/plugin/upgrade
+}
+
+function upgradeAppliancePlugin {
+  # Upgrade the H5 client...
+  tab_retries=0
+  ret=$(callPluginUpgradeEndpoint H5)
+  while [[ "$ret" != *"204"* && "$ret" != *"5"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
+    log "Waiting for appliance h5 plugin upgrade..."
+    sleep 10
+    let "tab_retries+=1"
+    ret=$(callPluginUpgradeEndpoint H5)
+  done
+
+  if [[ ${tab_retries} -eq ${max_tab_retries} || "$ret" == *"5"* ]]; then
+    log "Failed to upgrade appliance h5 plugin. Check vCenter target settings, or contact VMware support."
+    exit 1
+  fi
+}
+
+function callRegisterEndpoint {
+  local payload='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","password":"'"${VCENTER_PASSWORD}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'","vicpassword":"'"${UPGRADE_APPLIANCE_PASSWORD}"'"}'
+  local payload_info='{"target":"'"${VCENTER_TARGET}"'","user":"'"${VCENTER_USERNAME}"'","thumbprint":"'"${VCENTER_FINGERPRINT}"'","externalpsc":"'"${EXTERNAL_PSC}"'","pscdomain":"'"${PSC_DOMAIN}"'"}'
+  echo "register payload - ${payload_info}" >> $upgrade_log_file 2>&1
+  /usr/bin/curl \
+    -k \
+    -s \
+    -o /dev/null \
+    --write-out "%{http_code}\\n" \
+    --header "Content-Type: application/json" \
+    -X POST \
+    --data "${payload}" \
     https://localhost:9443/register
 }
 
 # Register appliance for content trust
 function registerAppliance {
-
+  log "Registering the appliance in PSC"
   tab_retries=0
   max_tab_retries=30 # 5 minutes
   while [[ "$(callRegisterEndpoint)" != *"200"* && ${tab_retries} -lt ${max_tab_retries} ]]; do
-    log "Waiting for register appliance..."
+    log "Waiting for appliance registration..."
     sleep 10
     let "tab_retries+=1"
   done
@@ -113,7 +165,6 @@ function registerAppliance {
     log "Failed to register appliance. Check vCenter target and credentials and provided PSC settings."
     exit 1
   fi
-
 }
 
 # Get PSC tokens for SSO integration
@@ -165,18 +216,23 @@ function enableServicesStart {
   systemctl start harbor.service
 }
 
-### Valid upgrade paths to v1.4.2
+### Valid upgrade paths to v1.5.2
 #   v1.2.1 /data/version has "appliance=v1.2.1"
 #   v1.3.0 /storage/data/version has "appliance=v1.3.0-3033-f8cc7317"
 #   v1.3.1 /storage/data/version has "appliance=v1.3.1-3409-132fb13d"
 #   v1.4.0 /storage/data/version
 #   v1.4.1 /storage/data/version
+#   v1.4.2 /storage/data/version
+#   v1.4.3 /storage/data/version
+#   v1.4.4 /storage/data/version
+#   v1.5.0 /storage/data/version
+#   v1.5.1 /storage/data/version
 ###
 function proceedWithUpgrade {
   checkUpgradeStatus "VIC Appliance" ${appliance_upgrade_status}
   local ver="$1"
 
-  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ] || [ "$ver" == "$VER_1_4_0" ] || [ "$ver" == "$VER_1_4_1" ]; then
+  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ] || [ "$ver" == "$VER_1_4_0" ] || [ "$ver" == "$VER_1_4_1" ] || [ "$ver" == "$VER_1_4_2" ] || [ "$ver" == "$VER_1_4_3" ] || [ "$ver" == "$VER_1_4_4" ] || [ "$ver" == "$VER_1_5_0" ] || [ "$ver" == "$VER_1_5_1" ]; then
     log ""
     log "Detected old appliance's version as $ver."
 
@@ -447,6 +503,10 @@ function main {
         VCENTER_PASSWORD="$2"
         shift # past argument
         ;;
+      --upgrade-password)
+        UPGRADE_APPLIANCE_PASSWORD="$2"
+        shift # past argument
+        ;;
       --external-psc)
         EXTERNAL_PSC="$2"
         shift # past argument
@@ -487,6 +547,9 @@ function main {
       --ssh-insecure-skip-verify)
         INSECURE_SKIP_VERIFY="1"
         ;;
+      --upgrade-ui-plugin)
+        UPGRADE_UI_PLUGIN="y"
+        ;;
       -h|--help|*)
         usage
         exit 0
@@ -520,20 +583,30 @@ function main {
       echo "TLS connection is not secure, unable to proceed with upgrade. Please contact VMware support. Exiting..."
       exit 1
     fi
+    export VCENTER_FINGERPRINT="$(echo "${fingerprint}" | awk '{print $2}')"
     echo "${fingerprint}" > $GOVC_TLS_KNOWN_HOSTS
   else
     log "Using provided vCenter fingerprint from --fingerprint ${VCENTER_FINGERPRINT}"
     echo "${VCENTER_FINGERPRINT}" > $GOVC_TLS_KNOWN_HOSTS
+    export VCENTER_FINGERPRINT="$(echo "${VCENTER_FINGERPRINT}" | awk '{print $2}')"
   fi
 
-  [ -z "${VCENTER_DATACENTER}" ] && read -p "Enter vCenter Datacenter of the old VIC appliance: " VCENTER_DATACENTER
-  export GOVC_DATACENTER="$VCENTER_DATACENTER"
-  [ -z "${APPLIANCE_TARGET}" ] && read -p "Enter old VIC appliance IP: " APPLIANCE_TARGET
-  [ -z "${APPLIANCE_USERNAME}" ] && read -p "Enter old VIC appliance username: " APPLIANCE_USERNAME
+  if [ -z "$UPGRADE_APPLIANCE_PASSWORD" ] ; then
+    echo -n "Enter VIC appliance root password: "
+    read -s UPGRADE_APPLIANCE_PASSWORD
+    echo ""
+  fi
 
-  if [ -n "${DESTROY_ENABLED}" ] ; then
+  [ -z "${MANUAL_DISK_MOVE}" ] && [ -z "${VCENTER_DATACENTER}" ] && read -p "Enter vCenter Datacenter of the old VIC appliance: " VCENTER_DATACENTER
+  export GOVC_DATACENTER="$VCENTER_DATACENTER"
+  [ -z "${MANUAL_DISK_MOVE}" ] && [ -z "${APPLIANCE_TARGET}" ] && read -p "Enter old VIC appliance IP: " APPLIANCE_TARGET
+  [ -z "${MANUAL_DISK_MOVE}" ] && [ -z "${APPLIANCE_USERNAME}" ] && read -p "Enter old VIC appliance username: " APPLIANCE_USERNAME
+
+  [ -z "${UPGRADE_UI_PLUGIN}" ] && read -p "Upgrade VIC UI Plugin? (y/n): " UPGRADE_UI_PLUGIN
+
+  if [ -z "${MANUAL_DISK_MOVE}" ] && [ -n "${DESTROY_ENABLED}" ] ; then
     local resp=""
-    read -p "Destroy option enabled. This will delete the old VIC appliance after upgrade. Are you sure? (y/n):" resp
+    read -p "Destroy option enabled. This will delete the old VIC appliance after upgrade. Are you sure? (y/n): " resp
     if [ "$resp" != "y" ]; then
       echo "Exiting..."
       exit 1
@@ -574,6 +647,11 @@ function main {
   ### -------------------- ###
   ###  Component Upgrades  ###
   ### -------------------- ###
+  if [ "$UPGRADE_UI_PLUGIN" == "y" ]; then
+    log "\n-------------------------\nStarting VIC UI Plugin Upgrade ${TIMESTAMP}\n"
+    upgradeAppliancePlugin
+  fi
+
   log "\n-------------------------\nStarting Admiral Upgrade ${TIMESTAMP}\n"
   upgradeAdmiral
   log "\n-------------------------\nStarting Harbor Upgrade ${TIMESTAMP}\n"
@@ -583,7 +661,7 @@ function main {
   writeTimestamp ${appliance_upgrade_status}
   enableServicesStart
 
-  if [ -n "${DESTROY_ENABLED}" ] ; then
+  if [ -z "${MANUAL_DISK_MOVE}" ] && [ -n "${DESTROY_ENABLED}" ] ; then
     log "Destroying the old VIC appliance"
     govc vm.destroy "$OLD_VM_NAME"
     log "Old VIC appliance destroyed"
@@ -603,7 +681,11 @@ function finish() {
   if [ "$rc" -eq 0 ]; then
     log ""
     log "-------------------------"
-    log "Upgrade completed successfully. Exiting."
+    if [ "$UPGRADE_UI_PLUGIN" == "y" ]; then
+      log "Upgrade completed successfully. Exiting. All vSphere Client users must log out and log back in again twice to see the vSphere Integrated Containers plug-in."
+    else
+      log "Upgrade completed successfully. Exiting."
+    fi
     log "-------------------------"
     log ""
   else

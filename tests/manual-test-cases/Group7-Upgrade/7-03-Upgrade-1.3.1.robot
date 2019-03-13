@@ -15,8 +15,9 @@
 *** Settings ***
 Documentation  Test 7-03 - Upgrade 1.3.1
 Resource  ../../resources/Util.robot
-Suite Setup  Wait Until Keyword Succeeds  10x  10m  OVA Upgrade Setup
+Suite Setup  Nimbus Suite Setup  OVA Upgrade Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
 
 *** Variables ***
 ${old-ova-file-name}=  vic-v1.3.1-3409-132fb13d.ova
@@ -26,8 +27,8 @@ ${new-ova-cert-path}=  /storage/data/admiral/ca_download
 
 *** Keywords ***
 OVA Upgrade Setup
-    Setup Simple VC And Test Environment
+     Setup Simple VC And Test Environment with Shared iSCSI Storage
 
 *** Test Cases ***
 Upgrade OVA 1.3.1
-    Auto Upgrade OVA With Verification  7-03-UPGRADE-1-3-1  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  ha-datacenter
+    Auto Upgrade OVA With Verification  7-03-UPGRADE-1-3-1  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  dc1

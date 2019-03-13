@@ -17,6 +17,7 @@ Documentation  Test 2-05 - Static IP
 Resource  ../../resources/Util.robot
 Suite Setup  Setup VC With Static IP
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
 
 *** Variables ***
 ${dns-nimbus}=  10.170.16.48
@@ -25,12 +26,11 @@ ${searchpath-nimbus}=  eng.vmware.com
 *** Keywords ***
 Setup VC With Static IP
     ${name}=  Evaluate  'vic-2-05-' + str(random.randint(1000,9999))  modules=random
-    Wait Until Keyword Succeeds  10x  10m  Create Simple VC Cluster With Static IP  ${name}
+    Nimbus Suite Setup  Create Simple VC Cluster With Static IP  ${name}
 
 *** Test Cases ***
 Deploy OVA With Static IP
     Log To Console  \nStarting test...
-    Custom Testbed Keepalive  /dbc/pa-dbc1111/mhagen
     
     Set Environment Variable  OVA_NAME  OVA-2-05-TEST
     Set Global Variable  ${OVA_USERNAME_ROOT}  root

@@ -2,29 +2,25 @@
 
 This topic provides instructions for using `vic-machine` to deploy a virtual container host (VCH) to an ESXi host that is not managed by vCenter Server. This is the most straightforward way to deploy a VCH, and is ideal for testing. 
 
-- [Example](#example)
-- [Test the Deployment of the VCH](#test)
-
-## Example <a id="example"></a>
-
 The VCH in this example is very basic and results in a VCH with extremely limited capabilities. For an example of how to deploy a more advanced VCH to a vCenter Server cluster, see [Deploy a Virtual Container Host with a Volume Store and vSphere Integrated Containers Registry Access](deploy_vch_dchphoton.md).
 
 The ESXi host to which you deploy the VCH must match the specifications listed in the prerequisites. The example `vic-machine create` command deploys a VCH by using the minimum `vic-machine create` options possible, for demonstration purposes. You cannot use the Create Virtual Container Host wizard in the vSphere Client to deploy a VCH directly on an ESXi host.
 
-### Prerequisites
+## Prerequisites
 
 * Deploy the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 * Download the vSphere Integrated Containers Engine bundle from the appliance and unpack it on your usual working machine. For information about how to download the bundle, see [Download the vSphere Integrated Containers Engine Bundle](vic_engine_bundle.md).  
 * Create or obtain an ESXi host with one datastore. You can use a nested ESXi host for this example.
 * Verify that the ESXi host meets the requirements in [Environment Prerequisites for VCH Deployment](vic_installation_prereqs.md). 
 
-    **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](vic_installation_prereqs.md#vchnetworkreqs).
+    **IMPORTANT**: Pay particular attention to the [Networking Requirements for VCH Deployment](network_reqs.md).
 * Make sure that the correct firewall port is open on the ESXi host. For information about how to open ports on ESXi hosts, see [Open the Required Ports on ESXi Hosts](open_ports_on_hosts.md).
 * Obtain the ESXi host certificate thumbprint. For information about how to obtain the certificate thumbprint, see [Obtain vSphere Certificate Thumbprints](obtain_thumbprint.md).
-* Familiarize yourself with the basic options of the `vic-machine create` command described in [Running vic-machine Commands](running_vicmachine_cmds.md).
+* Familiarize yourself with the basic options of the `vic-machine create` command described in [Using the `vic-machine` CLI Utility](using_vicmachine.md).
+* Familiarize yourself with the way in which VCHs use certificates to authenticate connections from clients. For information about certificate use by VCHs and Docker, see the [Virtual Container Host Certificate Requirements](vch_cert_reqs.md).
 * Install a Docker client so that you can test the deployment.
 
-### Procedure
+## Procedure
 
 1. Open a terminal on the system on which you downloaded and unpacked the vSphere Integrated Containers Engine binary bundle.
 2. Navigate to the directory that contains the `vic-machine` utility:
@@ -70,11 +66,12 @@ When deploying to an ESXi host, `vic-machine create` creates a standard virtual 
 
 This example `vic-machine create` command deploys a VCH with the default name `virtual-container-host`.
 
-### Result
+## Result
 
 At the end of a successful deployment, `vic-machine` displays information about the new VCH:
    
 <pre>Initialization of appliance successful
+VCH ID: <i>vch_id</i>
 VCH Admin Portal:
 https://<i>vch_address</i>:2378
 Published ports can be reached at:
@@ -86,7 +83,7 @@ Connect to docker:
 docker -H <i>vch_address</i>:2376 --tls info
 Installer completed successfully</pre>
 
-#### Troubleshooting
+## Troubleshooting
 
 If you see errors during deployment, see [Troubleshoot Virtual Container Host Deployment](ts_deploy_vch.md).
 

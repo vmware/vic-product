@@ -122,7 +122,7 @@ func main() {
 	}
 
 	netHeader := "Network Status:\n\nSettings with 'MATCH' indicate the system network \nconfiguration matches the OVF network configuration.\n\n"
-	netInfo := fmt.Sprintf("%s\nDNS: %s\n\nIP: %s\n\nGateway: %s\n", netHeader, netstat.GetDNSStatus(), netstat.GetIPStatus(), netstat.GetGatewayStatus())
+	netInfo := fmt.Sprintf("%s\nDNS: %s\n\nIP: %s\n\nGateway: %s\n\nNTP: %s\n", netHeader, netstat.GetDNSStatus(), netstat.GetIPStatus(), netstat.GetGatewayStatus(), netstat.GetNTPStatus())
 	netInfo = fmt.Sprintf("%s\n\n\nPress the left arrow key to view service info...", netInfo)
 
 	// yellow := ui.ColorRGB(4, 4, 1)

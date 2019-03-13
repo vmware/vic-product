@@ -15,7 +15,7 @@
 *** Settings ***
 Documentation  Test 4-01 Harbor
 Resource  ../../resources/Util.robot
-Test Timeout  5 minutes
+Test Timeout  20 minutes
 Test Setup  Run Keyword  Setup Base State
 Test Teardown  Close All Browsers
 
@@ -60,7 +60,7 @@ Push an image to harbor and create a container
     # create container from harbor image
     Download VIC Engine If Not Already  %{OVA_IP}
     Download CA Cert  %{OVA_IP}
-    ${vch-name}=  Install VCH  additional-args=--registry-ca=./ca.crt
+    ${vch-name}=  Install VCH  additional-args=--registry-ca=./ca.crt  certs=${false}
     Add New Container Host And Verify Card  ${vch-name}
     Navigate To Containers Page
     Select Containers Page Iframe

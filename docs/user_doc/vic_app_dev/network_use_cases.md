@@ -2,13 +2,6 @@
 
 The following sections present examples of how to perform container networking operations when using vSphere Integrated Containers Engine as your Docker endpoint.
 
-- [Publish a Container Port](#port)
-- [Add Containers to a New Bridge Network](#newbridge)
-- [Bridged Containers with an Exposed Port](#bridgeport)
-- [Deploy Containers on Multiple Bridge Networks](#multibridge)
-- [Deploy Containers That Combine Bridge Networks with a Container Network](#containerbridge)
-- [Deploy a Container with a Static IP Address](#staticip)
-
 To perform certain networking operations on containers, your Docker environment and your virtual container hosts (VCHs) must be configured in a specific way.
 
 - For information about the default Docker networks, see https://docs.docker.com/engine/userguide/networking/.
@@ -19,11 +12,21 @@ To perform certain networking operations on containers, your Docker environment 
 
 ## Publish a Container Port <a id="port"></a>
 
-Connect a container to an external mapped port on the public network of the VCH:
+Connect a container VM to an external mapped port on the public network of the VCH:
 
 `$ docker run -p 8080:80 --name test1 my_container my_app`
 
 **Result:**  You can access Port 80 on `test1` from the public network interface on the VCH at port 8080.
+
+## Container VM Port Forwarding <a id="portforwarding"></a>
+
+When a container VM is connected to a container-network as the primary network, you can forward a port on the container VM, in the same way you can via NAT on the endpoint VM:
+
+`$ docker run --net=published-container-net -p 80:8080 -d tomcat:alpine`
+
+The above example allows you to access the Tomcat webserver via port 80 on the container VM, via `published-container-net`, instead of being fixed to port 8080 as defined in the Tomcat Dockerfile. This makes it significantly simpler for you to expose services directly via container networks, without having to modify images.
+
+For an example of port forwarding when a container VM is connected to both the bridge network and a container network, see [Deploy Containers That Combine Bridge Networks with a Container Network](#containerbridge).
 
 ## Add Containers to a New Bridge Network <a id="newbridge"></a>
 
@@ -119,7 +122,7 @@ A "container" network is a vSphere port group that a container can be connected 
 
 **NOTE**: Multiple bridge networks are backed by the same port group as the default bridge, segregated via IP address management. Container networks are strongly isolated from all other networks.
 
-A container network is specified when the VCH is installed using `vic-machine --container-network [existing-port-group]` and should be visible when you run `docker network ls` from a docker client.
+A container network is specified when the VCH is installed using `vic-machine --container-network [existing-port-group]` and should be visible when you run `docker network ls` from a Docker client.
 
 	$ docker network ls
 	NETWORK ID          NAME                DRIVER              SCOPE
@@ -154,7 +157,29 @@ Create and run the web container(s) and make sure one is on both networks. In th
 - `db` and `web-model` cannot communicate externally
 - `web-view` has its own external IP address and its service is available on port 80 of that IP address
 
-**Note**: Given that a container network manifests as a vNIC on the container VM, it has its own distinct network interface in the container.
+**NOTE**: Given that a container network manifests as a vNIC on the container VM, it has its own distinct network interface in the container.
+
+If you implement port forwarding when a container VM is connected to both the bridge network and a container network, the port mapping applies to the network that you use on the `create` command. It does not apply to networks that are connected after creation.
+
+The following example example shows mapping in the container VM and serving to the container network:
+```
+$ docker create -p 80:8080 --net=public tomcat:alpine
+50ca681655326775da27462ee062f3a74c4157ff04470fcfda9b176470270d6a
+$ docker network connect bridge 50
+$ docker start 50
+50
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                         NAMES
+50ca68165532        tomcat:alpine       "catalina.sh run"   7 minutes ago       Up 5 minutes        192.168.78.159:80->8080/tcp   priceless_tesla
+```
+
+## Create a Bridge Network with Non-Default Subnet Mask
+
+To override the default subnet mask, you can specify a new value by using the `docker network create --subnet` option.
+
+<pre>$ docker network create --subnet <i>value</i></pre>
+
+By default, user-defined bridge networks in VCHs have a subnet mask value of 16. The vSphere administrator can also configure a VCH with a different default subnet mask by using the [`--bridge-network-width`](../vic_vsphere_admin/bridge_network.md#bridge-width) option when they deploy the VCH. 
 
 ## Deploy a Container with a Static IP Address <a id="staticip"></a>
 

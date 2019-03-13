@@ -108,7 +108,7 @@ function getApplianceVersion() {
   local VER_1_1_1="v1.1.1"
   local VER_1_2_0="v1.2.0"
   local VER_1_2_1="v1.2.1"
-  local VALID_VER=($VER_1_2_1 "v1.3.0" "v1.3.1" "v1.4.0" "v1.4.1")
+  local VALID_VER=($VER_1_2_1 "v1.3.0" "v1.3.1" "v1.4.0" "v1.4.1" "v1.4.2" "v1.4.3" "v1.4.4" "v1.5.0" "v1.5.1")
   local COPIED_DIR="$1"
   local ver=""
   local tag=""

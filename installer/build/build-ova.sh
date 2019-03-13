@@ -57,6 +57,10 @@ do
       VICENGINE="$2"
       shift 2 # past argument
       ;;
+    --vicui)
+      VICUI="$2"
+      shift 2 # past argument
+      ;;
     --vicmachineserver)
       VIC_MACHINE_SERVER="$2"
       shift 2 # past argument
@@ -84,10 +88,16 @@ if [ -z "${VICENGINE}" ]; then
 fi
 setenv VICENGINE "$url"
 
+url=""
+if [ -z "${VICUI}" ]; then
+    url=$(gsutil ls -l "gs://vic-ui-builds" | grep -v TOTAL | grep vic_ | sort -k2 -r | (trap '' PIPE; head -1) | xargs | cut -d " " -f 3 | sed 's/gs:\/\//https:\/\/storage.googleapis.com\//')
+fi
+setenv VICUI "$url"
+
 #set Harbor
 url=""
 if [ -z "${HARBOR}" ]; then
-    url=$(curl --silent https://storage.googleapis.com/harbor-builds/master.stable)
+    url=$(curl --silent https://storage.googleapis.com/harbor-builds/latest.build)
     if [[ ! "$url" =~ ^http://|^https:// ]]; then
         echo "Cannot find proper harbor archive for link '$url'"
         exit 1
@@ -95,7 +105,7 @@ if [ -z "${HARBOR}" ]; then
 fi
 setenv HARBOR "$url"
 
-export BUILD_DCHPHOTON_VERSION="1.13"
+export BUILD_DCHPHOTON_VERSION="17.06"
 
 ENV_FILE="${CACHE}/installer.env"
 touch $ENV_FILE
@@ -104,6 +114,8 @@ export BUILD_HARBOR_FILE=${BUILD_HARBOR_FILE:-}
 export BUILD_HARBOR_URL=${BUILD_HARBOR_URL:-}
 export BUILD_VICENGINE_FILE=${BUILD_VICENGINE_FILE:-}
 export BUILD_VICENGINE_URL=${BUILD_VICENGINE_URL:-}
+export BUILD_VICUI_FILE=${BUILD_VICUI_FILE:-}
+export BUILD_VICUI_URL=${BUILD_VICUI_URL:-}
 export BUILD_VIC_MACHINE_SERVER_REVISION=${BUILD_VIC_MACHINE_SERVER_REVISION:-}
 export BUILD_ADMIRAL_REVISION=${BUILD_ADMIRAL_REVISION:-}
 export BUILD_OVA_REVISION=${BUILD_OVA_REVISION:-}
@@ -134,6 +146,7 @@ drone deploy --param VICENGINE=${BUILD_VICENGINE_URL:-} \\
              --param VIC_MACHINE_SERVER=${BUILD_VIC_MACHINE_SERVER_REVISION:-} \\
              --param ADMIRAL=${BUILD_ADMIRAL_REVISION:-} \\
              --param HARBOR=${BUILD_HARBOR_URL:-} \\
+             --param VICUI=${BUILD_VICUI_URL:-} \\
              vmware/vic-product ${DRONE_BUILD_NUMBER:-} staging
 EOF
 elif [ "deployment" == "${DRONE_BUILD_EVENT}" -a "staging" == "${DRONE_DEPLOY_TO}" ]; then
@@ -144,6 +157,7 @@ drone deploy --param VICENGINE=${BUILD_VICENGINE_URL:-} \\
              --param VIC_MACHINE_SERVER=${BUILD_VIC_MACHINE_SERVER_REVISION:-} \\
              --param ADMIRAL=${BUILD_ADMIRAL_REVISION:-} \\
              --param HARBOR=${BUILD_HARBOR_URL:-} \\
+             --param VICUI=${BUILD_VICUI_URL:-} \\
              vmware/vic-product ${DRONE_BUILD_NUMBER:-} release
 EOF
 fi

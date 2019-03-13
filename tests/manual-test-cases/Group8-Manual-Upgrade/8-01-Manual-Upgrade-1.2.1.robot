@@ -15,8 +15,9 @@
 *** Settings ***
 Documentation  Test 8-01 - Manual Upgrade 1.2.1
 Resource  ../../resources/Util.robot
-Suite Setup     Wait Until Keyword Succeeds  10x  10m  Test Environment Setup
+Suite Setup  Nimbus Suite Setup  Test Environment Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
 
 *** Variables ***
 ${datacenter}=  ha-datacenter
@@ -25,7 +26,7 @@ ${sample-image-tag}=  test
 
 *** Keywords ***
 Test Environment Setup
-    Setup Simple VC And Test Environment
+    Setup Simple VC And Test Environment with Shared iSCSI Storage
     # Used by Install VIC Appliance Secret keyword
     Set Global Variable       ${OVA_USERNAME_ROOT}  root
     Set Global Variable       ${OVA_PASSWORD_ROOT}  e2eFunctionalTest

@@ -157,6 +157,7 @@ harbor=harbor-offline-installer-v1.5.0-rc4.tgz
 engine=vic_v1.4.0-rc2.tar.gz
 admiral=vmware/admiral:vic_v1.4.0-rc4 45a773ffae33
 vic-machine-server=gcr.io/eminent-nation-87317/vic-machine-server:latest b3412e003674
+vic-ui=vic_ui_v1.4.0-rc2.tar.gz
 ```
 ### [Changes from v1.3.1](https://github.com/vmware/vic-product/compare/v1.3.1...v1.4.0-rc3)
 

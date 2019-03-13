@@ -1,10 +1,12 @@
 # Build certgen in separate container
 FROM golang:1.8 AS build-env
+# copy the non-version specific files first so version specific can overwrite
 ADD . /go/src/dinv
+ADD ./dch-photon-17.06/* /go/src/dinv/
 RUN cd /go/src/dinv && go get -v ./... && go build -o dinv && strip dinv
 
 # Build photon base image
-FROM photon:1.0 as base
+FROM photon:2.0 as base
 
 # Create temporary chroot environment
 ENV TEMP_CHROOT /temp_chroot
@@ -12,21 +14,19 @@ ENV TEMP_CHROOT /temp_chroot
 RUN mkdir /data &&\
     mkdir $TEMP_CHROOT &&\
     mkdir -p $TEMP_CHROOT/var/lib/rpm &&\
+    tdnf install -y rpm &&\
     rpm --root $TEMP_CHROOT/ --initdb &&\
     rpm --root $TEMP_CHROOT --import /etc/pki/rpm-gpg/VMWARE-RPM-GPG-KEY
 
 RUN echo "> Installing photon base system in chroot, killing output to avoid offending drone" &&\
-    tdnf --releasever 1.0 --installroot $TEMP_CHROOT/ --refresh install -y \
-    bash-4.3.30-9.ph1 \
-    coreutils-8.25-2.ph1 \
-    filesystem-1.0-10.ph1 \
-    photon-release-1.0-6.ph1 \
-    photon-repos-1.0-4.ph1 \
-    tdnf-1.1.0-1.ph1 \
-    docker-17.06.0-3.ph1 \
-    openssl-1.0.2o-2.ph1 \
-    procps-ng-3.3.11-4.ph1 \
-    iptables-1.6.0-6.ph1 > /dev/null 2>&1
+    tdnf --releasever 2.0 --installroot $TEMP_CHROOT/ --refresh install -y \
+    bash-4.4.12-3.ph2 \
+    photon-release-2.0-2.ph2 \
+    photon-repos-2.0-2.ph2 \
+    tdnf-1.2.3-4.ph2 \
+    docker-17.06.0-9.ph2 \
+    procps-ng-3.3.15-2.ph2 \
+    iptables-1.6.1-4.ph2 > /dev/null 2>&1
 
 RUN cp /etc/resolv.conf $TEMP_CHROOT/etc/
 RUN mkdir $TEMP_CHROOT/certs
@@ -42,6 +42,8 @@ RUN cd $TEMP_CHROOT && cp -pr etc/skel/. root/.
 FROM scratch
 
 LABEL maintainer "fabio@vmware.com"
+
+ENV TERM linux
 
 COPY --from=base /temp_chroot /
 

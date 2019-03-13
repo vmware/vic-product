@@ -32,59 +32,77 @@ function set_base() {
   rpm --root "${rt}/" --import "${rt}/etc/pki/rpm-gpg/VMWARE-RPM-GPG-KEY"
 
   log3 "configuring ${brprpl}yum repos${reset}"
-  mkdir -p "${rt}/etc/yum.repos.d/"
-  rm /etc/yum.repos.d/{photon,photon-updates}.repo
-  cp "${DIR}"/repo/*-remote.repo /etc/yum.repos.d/
-  # TODO: Use local yum repo in CI
-  # if [[ $DRONE_BUILD_NUMBER && $DRONE_BUILD_NUMBER > 0 ]]; then
-  #   mkdir -p /etc/yum.repos.d.old/
-  #   mv /etc/yum.repos.d/* /etc/yum.repos.d.old/
-  #   cp repo/*-local.repo /etc/yum.repos.d/
-  # fi
-  cp -a /etc/yum.repos.d/ "${rt}/etc/"
+  cp -a /etc/yum.repos.d "${rt}/etc/"
+
+  log3 "configuring tdnf.conf"
+  cp "${DIR}"/repo/tdnf.conf "${rt}/tdnf.conf"
+  sed -i "s|\$ROOTFS|${rt}|g" "${rt}/tdnf.conf"
+
+  if [[ ${DRONE_BUILD_NUMBER} && ${DRONE_BUILD_NUMBER} > 0 ]]; then
+    log3 "Use local tdnf repo to install packages for CI build ${DRONE_BUILD_NUMBER}"
+    mv "${rt}/etc/yum.repos.d" "${rt}/etc/yum.repos.d.bak"
+    mkdir -p "${rt}/etc/yum.repos.d"
+    cp "${DIR}"/repo/*-local.repo "${rt}/etc/yum.repos.d"
+  fi
   cp /etc/resolv.conf "${rt}/etc/"
 
+  TDNF_OPTS="-c ${rt}/tdnf.conf --installroot ${rt}/ --refresh"
+  # baseurl is something like https://dl.bintray.com/vmware/photon_release_$releasever_$basearch.
+  # releasever in tdnf.conf does not render to baseurl in /etc/yum.repos.d/*.repo, so it is required
+  # to specify releasever as 2.0 when it is built from remote repo.
+  if [[ -z ${DRONE_BUILD_NUMBER} || ${DRONE_BUILD_NUMBER} -eq 0 ]]; then
+    TDNF_OPTS="$TDNF_OPTS --releasever 2.0"
+  fi
+
   log3 "verifying yum and tdnf setup"
-  tdnf repolist --refresh
+  tdnf ${TDNF_OPTS} repolist
 
   log3 "installing ${brprpl}filesystem bash shadow coreutils findutils${reset}"
-  tdnf install --installroot "${rt}/" --refresh -y \
+  tdnf ${TDNF_OPTS} install -y \
     filesystem bash shadow coreutils findutils
 
-  log3 "installing ${brprpl}systemd linux-esx tdnf ca-certificates sed gzip tar glibc${reset}"
-  tdnf install --installroot "${rt}/" --refresh -y \
+  log3 "installing ${brprpl}systemd linux-esx tdnf ca-certificates sed gzip tar glibc rpm${reset}"
+  tdnf ${TDNF_OPTS} install -y \
     systemd util-linux \
     pkgconfig dbus cpio\
     photon-release tdnf \
     openssh linux-esx sed \
-    gzip tar xz bzip2 \
+    gzip zip tar xz bzip2 \
     glibc iana-etc \
     ca-certificates \
     curl which initramfs \
     krb5 motd procps-ng \
-    bc kmod libdb
+    bc kmod libdb rpm
 
-  log3 "installing ${brprpl}tzdata glibc-lang vim${reset}"
-  tdnf install --installroot "${rt}/" --refresh -y \
-    tzdata glibc-lang vim
+  log3 "installing ${brprpl}tzdata glibc-lang vim glibc-i18n${reset}"
+  tdnf ${TDNF_OPTS} install -y \
+    tzdata glibc-lang vim glibc-i18n
 
   log3 "installing system dependencies"
-  tdnf install --installroot "${rt}/" --refresh -y \
+  tdnf ${TDNF_OPTS} install -y \
     haveged ethtool gawk \
     socat git nfs-utils \
     cifs-utils ebtables \
     iproute2 iptables iputils \
     cdrkit xfsprogs sudo \
     lvm2 parted gptfdisk \
-    e2fsprogs docker-17.12.1-1.ph1 gzip \
+    e2fsprogs docker-17.06.0-9.ph2 gzip \
     net-tools logrotate sshpass
 
   log3 "installing package dependencies"
-  tdnf install --installroot "${rt}/" --refresh -y \
-    openjre python-pip
+  tdnf ${TDNF_OPTS} install -y \
+    openjre8 python-pip
 
   log3 "installing ${brprpl}root${reset}"
   cp -a "${src}/root/." "${rt}/"
+
+  rm -f "${rt}/tdnf.conf"
+
+  if [[ ${DRONE_BUILD_NUMBER} && ${DRONE_BUILD_NUMBER} > 0 ]]; then
+    log3 "reset tdnf repos to remote"
+    rm -rf "${rt}/etc/yum.repos.d"
+    mv "${rt}/etc/yum.repos.d.bak" "${rt}/etc/yum.repos.d"
+  fi
 }
 
 function usage() {
@@ -114,9 +132,3 @@ fi
 log2 "install OS to ${ROOT}"
 
 set_base "${DIR}" "${ROOT}"
-
-# TODO: Use local yum repo in CI
-# log3 "reset yum repos to remote"
-# REPOS=$(find ${IMG1ROOT}/etc/yum.repos.d/ | grep -E "*-remote.repo|*-local.repo")
-# [ -n "$REPOS" ] && echo $REPOS | while read repo; do rm $repo; done
-# cp repo/*-remote.repo "${IMG1ROOT}/etc/yum.repos.d/"

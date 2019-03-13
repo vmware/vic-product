@@ -1,0 +1,11 @@
+{
+  "name": "vic-uis-auto-installer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jquery": "^3.3.1"
+  }
+}

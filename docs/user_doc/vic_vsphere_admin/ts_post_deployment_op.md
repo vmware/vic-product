@@ -7,3 +7,4 @@ This section provides solutions for common problems that you might encounter whe
 * [Default Volume Store Error](ts_volume_store_error.md)
 * [Deleting or Inspecting a VCH Fails with a Not a VCH or Resource Pool Not Found Error](ts_delete_inspect_error.md)
 * [Logging in to vSphere Integrated Containers Registry from Docker Fails](ts_dockerlogin_error.md)
+* [Pulling Images into VCHs Fails with Image Store Error](ts_imagestore_error.md)

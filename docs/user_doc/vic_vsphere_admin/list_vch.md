@@ -21,7 +21,7 @@ The `vic-machine ls` command does not include any options in addition to the com
 </pre>
 
 
-### Output
+## Output
 
 The `vic-machine ls` command lists the VCHs that are running on the ESXi host or vCenter Server instance that you specified.
 

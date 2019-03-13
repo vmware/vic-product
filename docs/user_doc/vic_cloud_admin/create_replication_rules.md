@@ -8,14 +8,14 @@ You replicate image repositories between vSphere Integrated Containers Registry 
 - If users delete images from the source registry, the replication rule deletes the image from the endpoint registry.
 - Replication rules are unidirectional. To establish two-way replication, so that users can push images to either project and keep the projects in sync, you must create replication rules in both registry instances.
 
-**Prerequisites**
+## Prerequisites
 
 - Log in to vSphere Integrated Containers Management Portal with a vSphere administrator or Management Portal administrator account. For information about logging in to vSphere Integrated Containers Management Portal, see [Logging In to the Management Portal](logging_in_mp.md).
 - You have two vSphere Integrated Containers Registry instances, one that contains the images to replicate and one to act as the replication endpoint registry.
 - You created at least one project, and pushed at least one image to that project.
 - You configured the target registry as a replication endpoint.
 
-**Procedure**
+## Procedure
 
 1. Navigate to **Administration** > **Global Registries**,  and click **New Replication Rule**.
 3. In the New Replication Rule dialog box, configure the new rule.
@@ -30,6 +30,6 @@ You replicate image repositories between vSphere Integrated Containers Registry 
 6. Click **Save**.
 
 
-**Result**
+## Result
 
 Depending on the size of the images and the speed of the network connection, replication might take some time to complete. An image is not available in the endpoint registry until all of its layers have been synchronized from the source registry. If a replication job fails due to a network issue, vSphere Integrated Containers Registry reschedules the job to retry it a few minutes later.

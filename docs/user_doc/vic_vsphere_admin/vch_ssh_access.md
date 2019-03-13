@@ -29,7 +29,7 @@ This example authorizes SSH access and provides a public key file.
      --rootpw '<i>new_p@ssword</i>' 
      --authorized-key <i>path_to_public_key_file</i>/<i>key_file</i>.pub</pre>
   
-### Output
+## Output
 
 The output of the `vic-machine debug` command includes confirmation that SSH access is enabled:
 

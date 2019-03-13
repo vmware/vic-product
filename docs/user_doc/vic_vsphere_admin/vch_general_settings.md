@@ -2,16 +2,6 @@
 
 When you deploy a virtual container host (VCH), you can configure a name for the VCH, a naming convention for container VMs, and debugging levels. 
 
-- [Options](#options)
-  - [VCH Name](#name)
-  - [Container VM Name Template](#container-name-convention)
-  - [Debug](#debug)
-  - [Syslog](#syslog)
-- [What to Do Next](#whatnext)
-- [Example `vic-machine` Commands](#examples)
-  - [Set a Container Name Convention](#convention) 
-  - [Configure Debugging and Sylog on a VCH](#syslog)
-
 ## Options <a id="options"></a>
 
 The sections in this topic each correspond to an entry in the General Settings page of the Create Virtual Container Host wizard and to the  corresponding `vic-machine create` options.
@@ -53,6 +43,24 @@ Specify a prefix and/or suffix to apply to container names, and add `{name}` or 
 <pre>--container-name-convention <i>cVM_name_prefix</i>-{name}</pre>
 <pre>--container-name-convention {id}-<i>cVM_name_suffix</i></pre>
 <pre>--container-name-convention <i>cVM_name_prefix</i>-{name}<i>cVM_name_suffix</i></pre>
+
+### Container VM Limit <a id="container-limit"></a>
+
+To prevent a VCH from using too many resources, you can set a limit on the number of container VMs that the VCH can host. You might need to set this limit to prevent a VCH from exhausting the pool of available IP addresses, especially if multiple VCHs share a subnet for container networks. The limit applies to all container VMs that are deployed to the VCH, not just to running container VMs. When the limit is reached, attempts to deploy more container VMs to the VCH fail with an error message, until the appropriate number of container VMs has been deleted. If a user deploys a number of container VMs concurrently, the first container VMs to start will deploy successfully, until the limit is reached. The remaining container VMs will not start until other container VMs have been deleted.
+
+**NOTE**: This option is available in vSphere Integrated Containers 1.5.2 and later.
+
+#### Create VCH Wizard
+
+This option is not available in the Create VCH wizard
+
+#### vic-machine Option 
+
+`--containers`, no short name
+
+Specify an integer. If not specified, or if you specify `0`, `vic-machine create` does not set a maximum limit on the number of container VMs that the VCH can host.
+
+<pre>--containers 100</pre>
 
 ### Debug <a id="debug"></a>
 
@@ -112,9 +120,9 @@ If you are using the Create Virtual Container Host wizard, click **Next** to go 
 
 The following examples show `vic-machine create` commands that use the options described in this topic. For simplicity, the examples all use the `--no-tlsverify` option to automatically generate server certificates but disable client authentication. The examples use an existing port group named `vch1-bridge` for the bridge network, a port group named `vic-public` for the public network, designate `datastore1` as the image store, and deploy the VCH to `cluster1` in datacenter `dc1`. 
 
-### Set a Container Name Convention <a id="convention"></a>
+### Set a Container Name Convention and Container VM Limit<a id="convention"></a>
 
-This example `vic-machine create` command deploys a VCH that specifies `--container-name-convention` so that the vCenter Server display names of all container VMs include the prefix `vch1`, followed by the container name, and the suffix `project1`.
+This example `vic-machine create` command deploys a VCH that specifies `--container-name-convention` so that the vCenter Server display names of all container VMs include the prefix `vch1`, followed by the container name, and the suffix `project1`. It also specifies `--containers` to limit the number of container VMs that can exist in the VCH to 150
 
 <pre>vic-machine-<i>operating_system</i> create
 --target 'Administrator@vsphere.local':<i>password</i>@<i>vcenter_server_address</i>/dc1
@@ -126,6 +134,7 @@ This example `vic-machine create` command deploys a VCH that specifies `--contai
 --thumbprint <i>certificate_thumbprint</i>
 --no-tlsverify
 --container-name-convention vch1-{name}-project1
+--containers 150
 </pre>
 
 ### Configure Debugging and Sylog on a VCH <a id="syslog"></a>

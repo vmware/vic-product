@@ -16,7 +16,8 @@
 # This file contains upgrade processes specific to the Harbor component.
 set -euf -o pipefail && [ -n "$DEBUG" ] && set -x
 source /installer.env
-. "${0%/*}"/util.sh
+FILE_DIR="${0%/*}"
+. "${FILE_DIR}"/util.sh
 
 harbor_data_mount="/storage/data/harbor"
 harbor_db_mount="/storage/db/harbor"
@@ -25,7 +26,7 @@ harbor_database="${harbor_db_mount}/database"
 harbor_psc_token_file="/etc/vmware/psc/harbor/tokens.properties"
 harbor_upgrade_status="/etc/vmware/harbor/upgrade_status"
 harbor_backup="/storage/data/harbor_backup"
-
+harbor_migrator_image=$(docker images goharbor/harbor-migrator --format "{{.Repository}}:{{.Tag}}")
 DB_USER=""
 DB_PASSWORD=""
 
@@ -74,22 +75,54 @@ function checkHarborPSCToken {
   fi
 }
 
+function migrateHarborCfg {
+  log "Back up harbor data to : ${harbor_backup}"
+  tar czf "${harbor_backup}/database.tar.gz" "${harbor_database}"
+  tar czf "${harbor_backup}/data.tar.gz" "${harbor_data_mount}"
+  log "harbor-migrator version: ${harbor_migrator_image}"
+  docker run --rm -e SKIP_CONFIRM=y -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg ${harbor_migrator_image} --cfg up
+}
 # Run the harbor migrator docker image
 function runMigratorCmd {
-  local migrator_image="vmware/harbor-migrator:v1.5.0"
+  log "harbor-migrator version: ${harbor_migrator_image}"
 
-  docker run --rm \
+  docker run -i \
     -e DB_USR=${DB_USER} \
     -e DB_PWD=${DB_PASSWORD} \
     -e SKIP_CONFIRM=y \
     -v ${harbor_database}:/var/lib/mysql \
-    -v ${harbor_data_mount}:/harbor-migration/harbor-cfg \
+    -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg \
     -v ${harbor_backup}:/harbor-migration/backup \
-    ${migrator_image} "$@"
+    ${harbor_migrator_image} "$@"
+
+  if [ $1 == "up" ]; then
+    docker run -i \
+      -e DB_USR=${DB_USER} \
+      -e SKIP_CONFIRM=y \
+      -v ${harbor_db_mount}/notary-db/:/var/lib/mysql \
+      -v ${harbor_database}:/var/lib/postgresql/data \
+      -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg \
+      -v ${harbor_backup}:/harbor-migration/backup \
+      ${harbor_migrator_image} up
+
+    docker run -i \
+      -e SKIP_CONFIRM=y \
+      -v ${harbor_db_mount}/clair-db/:/clair-db \
+      -v ${harbor_database}:/var/lib/postgresql/data \
+      -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg \
+      -v ${harbor_backup}:/harbor-migration/backup \
+      ${harbor_migrator_image} up
+  fi
 }
 
-# https://github.com/vmware/harbor/blob/master/docs/migration_guide.md
+# https://github.com/goharbor/harbor/blob/master/docs/migration_guide.md
 function migrateHarbor {
+  major_ver=$(echo ${HARBOR_VER:1:3} | tr -d '.')
+  # Only upgrade harbor configure if VIC version >= 1.5.0
+  if [[ "${major_ver}" -ge 15 ]]; then
+    migrateHarborCfg
+    exit 0
+  fi
   if [ "$HARBOR_VER" == "$VER_1_2_1" ]; then
     harbor_old_database_dir="/storage/data/harbor"
     mkdir -p "${harbor_db_mount}"
@@ -175,7 +208,8 @@ function upgradeHarbor {
     log "[=] Please contact VMware support"
     exit 1
   fi
-
+  # Patch fix for notary db
+  . "${FILE_DIR}"/notary-migration-fix.sh
   log "[=] Successfully migrated Harbor configuration and data"
   log "Harbor upgrade complete"
 

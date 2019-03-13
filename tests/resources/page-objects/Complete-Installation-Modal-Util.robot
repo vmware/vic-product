@@ -18,11 +18,14 @@ Resource  Getting-Started-Page-Util.robot
 
 *** Variables ***
 # css locators
-${cim-title}  css=.modal-title
+${cim-title}  css=#login-modal .modal-title
+${cim-thumbprint-title}  css=#plugin-modal .modal-title
 ${cim-input-target}  id=target
 ${cim-input-user}  id=user
-${cim-input-password}  css=input[type=password]
+${cim-input-password}  id=password
+${cim-input-appliancePwd}  id=appliancePwd
 ${cim-button-continue}  id=login-submit
+${cim-thumbprint-button-continue}  id=plugin-submit
 
 # expected text values
 ${cim-title-text}  Complete VIC appliance installation
@@ -34,6 +37,9 @@ Navigate To Complete Installation Login Modal
 Verify Complete Installation Modal
     Element Text Should Be  ${cim-title}  ${cim-title-text}  message=Complete Installation Log In modal is not displayed
 
+Verify Thumbprint Modal
+    Element Text Should Be  ${cim-thumbprint-title}  ${cim-title-text}  message=Verify Thumbprint modal is not displayed
+
 Log In And Complete OVA Installation
     [Tags]  secret
     Navigate To Complete Installation Login Modal
@@ -41,5 +47,9 @@ Log In And Complete OVA Installation
     Input Text  ${cim-input-target}   %{TEST_URL}
     Input Text  ${cim-input-user}   %{TEST_USERNAME}
     Input Text  ${cim-input-password}   %{TEST_PASSWORD}
+    Input Text  ${cim-input-appliancePwd}  ${OVA_PASSWORD_ROOT}
     Click Button  ${cim-button-continue}
+    Sleep  1
+    Verify Thumbprint Modal
+    Click Button  ${cim-thumbprint-button-continue}
     Verify Complete Installation Message

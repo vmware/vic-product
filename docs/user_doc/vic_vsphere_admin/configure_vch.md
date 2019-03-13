@@ -2,20 +2,7 @@
 
 You can configure certain settings on an existing virtual container host (VCH) by using the `vic-machine configure` command.
 
-When you run `vic-machine configure`, you use the options described in [Common `vic-machine` Options](common_vic_options.md) to identify the VCH to configure. In addition to these options, the `vic-machine configure` command provides options that allow you to perform the following modifications on VCHs:
-
-- [Update vCenter Server Credentials](#vccreds)
-- [Update vCenter Server Certificates](#vccert)
-- [Add or Update Registry Server Certificates](#registries)
-- [Update Security Configuration](#tlscerts)
-- [Update Affinity Group Settings](#affinity)
-- [Add Volume Stores](#volumes)
-- [Add and Reset DNS Servers](#dns)
-- [Configure Container Network Settings](#containernet)
-- [Add, Configure, or Remove Proxy Servers](#proxies)
-- [Configure Debug Mode](#debug)
-- [Configure CPU and Memory Allocations](#cpumem)
-- [Reset Upgrade or Configuration Progress](#resetprogress)
+When you run `vic-machine configure`, you use the options described in [Common `vic-machine` Options](common_vic_options.md) to identify the VCH to configure. In addition to these options, the `vic-machine configure` command provides options that allow you to perform modifications on VCHs.
 
 ## Using `vic-machine configure` <a id="using"></a>
 
@@ -60,7 +47,7 @@ You can also use the `vic-machine configure --ops-user` and `--ops-password` opt
     --ops-password <i>password</i>
     --ops-grant-perms</pre>
 
-For more information about the operations user, see [Configure the Operations User](set_up_ops_user.md) in the VCH Deployment Options section.
+For more information about the operations user, see [Create the Operations User Account](create_ops_user.md) and [Configure the Operations User](set_up_ops_user.md).
 
 ## Update vCenter Server Certificates <a id="vccert"></a>
 
@@ -153,9 +140,7 @@ This example sets `--no-tlsverify` to disable the verification of client certifi
 
 After the deployment of a VCH, you can instruct vSphere Integrated Containers to automatically create a DRS VM group in vSphere for the VCH endpoint VM and its container VMs. If you use this option to reconfigure an existing VCH, you can use the resulting VM group in DRS VM-Host affinity rules, to restrict the set of hosts on which the VCH endpoint VM and its container VMs can run. 
 
-**NOTE**: This option is available in vSphere Integrated Containers 1.4.1 and later.
-
-The `vic-machine configure --affinity-vm-group` option functions in the same way as the equivalent `vic-machine create` option. For information about the `vic-machine create --affinity-vm-group` option, see [Add Virtual Container Hosts to a DRS Affinity Group](vch_affinity_group.md).
+The `vic-machine configure --affinity-vm-group` option functions in the same way as the equivalent `vic-machine create` option. For information about the `vic-machine create --affinity-vm-group` option, see [Virtual Container Host Compute Capacity](vch_compute.md).
 
 To create a VM group for an existing VCH that was not deployed with this option, use the `vic-machine create --affinity-vm-group` option with no arguments.
 
@@ -178,6 +163,42 @@ To remove a VCH that was deployed with the `vic-machine create affinity-vm-group
     --affinity-vm-group=false</pre>
 
 When you specify `--affinity-vm-group=false`, vSphere Integrated Containers deletes the automatically created VM group from vSphere.
+
+## Set or Update Storage Quotas <a id="quota"></a>
+
+If you deployed a VCH with a storage quota, that limits the amount of space that a VCH can consume in the image store, you can modify the quota after deployment. You can also set a storage quota if you did not set one when you deployed the VCH. 
+
+The `vic-machine configure --storage-quota` option functions in the same way as the equivalent `vic-machine create` option. For information about the `vic-machine create --storage-quota` option, see [Storage Quota](image_store.md#quota) in Specify the Image Datastore.
+
+<pre>$ vic-machine-<i>operating_system</i> configure
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
+    --thumbprint <i>certificate_thumbprint</i>
+    --id <i>vch_id</i>
+    --storage-quota <i>new_limit</i></pre>
+    
+To remove an existing storage quota from a VCH, so that the VCH can consume an unlimited amount of storage, set `--storage-quota 0`.
+
+## Set or Update Container VM Limit <a id="container-limit"></a>
+
+If you deployed a VCH with a limit on the number of container VMs that it can host, you can modify the limit after deployment. You can also set a limit on the number of container VMs if you did not set one when you deployed the VCH. 
+
+If you set a new limit on a VCH that is lower than the number of container VMs that already exist on the VCH, all existing container VMs continue to run. For example, if a VCH hosts 60 container VMs and you set a new limit of 50, all 60 container VMs continue to run. However, attempts to deploy additional container VMs fail until you delete enough container VMs to bring the total to below the new limit.
+
+**NOTE**: This option is available in vSphere Integrated Containers 1.5.2 and later.
+
+The `vic-machine configure --containers` option functions in the same way as the equivalent `vic-machine create` option. For information about the `vic-machine create --containers` option, see [Container VM Limit](vch_general_settings.md#container-limit) in General Virtual Container Host Settings.
+
+<pre>$ vic-machine-<i>operating_system</i> configure
+    --target <i>vcenter_server_address</i>
+    --user Administrator@vsphere.local
+    --password <i>password</i>
+    --thumbprint <i>certificate_thumbprint</i>
+    --id <i>vch_id</i>
+    --containers <i>new_limit</i></pre>
+    
+To remove an existing container VM limit from a VCH, so that the VCH can host an unlimited number of VMs, set `--containers 0`.
 
 ## Add Volume Stores <a id="volumes"></a>
 

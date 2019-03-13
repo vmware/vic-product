@@ -1,15 +1,12 @@
 # Introduction to vSphere Integrated Containers Management Portal
 
-vSphere Integrated Containers Management Portal is a highly scalable and very lightweight container management platform for deploying and managing container based applications. The management portal runs as a container in the vSphere Integrated Containers virtual appliance. It is designed to have a small footprint and boot extremely quickly. vSphere Integrated Containers Management Portal is intended to provide DevOps administrators with automated deployment and lifecycle management of containers.
+vSphere Integrated Containers Management Portal is a highly scalable and very lightweight container management platform for deploying and managing container based applications. The management portal is built on the VMware Admiral project and runs as a container in the vSphere Integrated Containers virtual appliance. It is designed to have a small footprint and boot extremely quickly. vSphere Integrated Containers Management Portal is intended to provide DevOps administrators with automated deployment and lifecycle management of containers.
 
 - Resource management, allowing DevOps administrators to set deployment preferences that let vSphere Integrated Containers Management Portal manage container placement.
 - Live state updates that provide a live view of the container system.
 - Multi-container template management, that enables logical multi-container application deployments.
 
 For more information about vSphere Integrated Containers Management Portal, see [vSphere Integrated Containers Management Portal Administration](../vic_cloud_admin/).
-
-- [Projects and Role-Based Access Control](#projects)
-- [User Authentication](#authentication)
 
 ## Projects and Role-Based Access Control <a id="projects"></a>
 

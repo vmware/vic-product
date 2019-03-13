@@ -4,7 +4,7 @@ If you forget the root password for the vSphere Integrated Containers appliance,
 
 **NOTE**: During the initial deployment of the appliance, the installer uses `ovfenv` to set the root password on first boot. Subsequent boots ignore the `ovfenv` field.
 
-**Procedure**
+## Procedure
 
 1. In the vSphere Client, open a remote console for the appliance VM.
 
@@ -17,7 +17,7 @@ If you forget the root password for the vSphere Integrated Containers appliance,
 5. Press the `F10` key.
 6. At the bash command prompt, enter `passwd` then enter and reenter a new root password for the appliance.
 
-    The password must meet the minimum requirements that Photon OS imposes.
+    The password must meet the minimum requirements that Photon OS 2.0 imposes.
 ```
 passwd
 New password:
@@ -32,6 +32,6 @@ umount /
 reboot -f
 ```
 
-**Result**
+## Result
 
 You can use the new root password to log in to the vSphere Integrated Containers appliance.

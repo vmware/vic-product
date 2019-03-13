@@ -28,6 +28,6 @@ for version in "${versions[@]}"; do
   name="${version%-*}"
   rev="${version##*-}"
   echo "[${name}:${rev}] Building ${name}:${rev}"
-  docker build -t "${namespace}/${name}:${rev}" "$version"
+  docker build -t "${namespace}/${name}:${rev}" -f "$version"/Dockerfile .
   echo "[${name}:${rev}] You can now push with: \"docker push ${namespace}/${name}:${rev}\""
 done

@@ -42,6 +42,7 @@ Default values:
 --harbor <latest in harbor-builds bucket>
 --vicengine <latest in vic-engine-builds bucket>
 --vicmachineserver dev <vic-machine-server:dev tag>
+--vicui <latest in vic-ui-builds bucket>
 
 DCH Photon is pinned to 1.13 tag
 ```
@@ -53,14 +54,13 @@ Admiral tag `vic_dev` (since `--admiral` was not specified it defaults to the `v
 ./build/build.sh ova-dev --harbor harbor.tgz --vicengine vic_XXXX.tar.gz
 ```
 
-If called with the values below, `build.sh` will include the Harbor and VIC Engine versions
+If called with the values below, `build.sh` will include the Harbor, VIC Engine and VIC UI versions
 specified by their respective URLs, Admiral tag `vic_v1.1.1`, and VIC Machine Server tag `latest`.
 ```
-./build/build.sh ova-dev --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic_XXXX.tar.gz --vicmachineserver latest
+./build/build.sh ova-dev --admiral v1.1.1 --harbor https://example.com/harbor.tgz --vicengine https://example.com/vic_XXXX.tar.gz --vicui https://example.com/vic_ui_XXXX.tar.gz --vicmachineserver latest
 ```
 
 Note: the VIC Engine artifact used when building the OVA must be named following the `vic_*.tar.gz` format.
-This is required by the OVA in order to automatically configure the VIC Engine UI plugins correctly for installation.
 
 ###### Build Script Flow
 
@@ -141,12 +141,71 @@ VIC Product build is auto-triggered from the successful completion of the follow
 
 [Harbor](https://ci-vic.vmware.com/vmware/harbor)
 
-There is also a separate build for [VIC UI](https://ci-vic.vmware.com/vmware/vic-ui) which publishes the [artifact](https://console.cloud.google.com/storage/browser/vic-ui-builds) consumed by VIC Engine builds. VIC Engine publishes vic engine artifacts and vic machine server image.
+There is also a separate build for [VIC UI](https://ci-vic.vmware.com/vmware/vic-ui) which publishes the [artifact](https://console.cloud.google.com/storage/browser/vic-ui-builds) consumed by VIC Product builds. VIC Engine publishes vic engine artifacts and vic machine server image.
 Harbor build publishes harbor installer and Admiral build publishes admiral image. All these artifacts are published to Google cloud except Admiral image which is published to Docker hub.
 
-For every auto-triggered build, by default, VIC Product consumes the latest artifacts from [vic engine](https://storage.googleapis.com/vic-engine-builds) and [harbor](https://storage.googleapis.com/harbor-builds) buckets, recent `dev` tagged images for [admiral](https://hub.docker.com/r/vmware/admiral/) and [vic machine server](https://console.cloud.google.com/gcr/images/eminent-nation-87317/GLOBAL/vic-machine-server?project=eminent-nation-87317&gcrImageListsize=50) and publishes [OVA artifact](https://storage.googleapis.com/vic-product-ova-builds) after successful build and test.
+### Dependency Relationship
 
-Refer to the next section `Staging and Release` on how to build OVA with specific dependent component versions.
+The version of each dependency VIC Product consumes varies based on the type of build being performed.
+
+| Admiral                 | `master`                                                | `releases/*`                                                   |
+| -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
+|`pull_request`           | [image][a] tagged with `vic_dev`                        | [image][a] tagged with `vic_dev`                               |
+|`push`                   | [image][a] tagged with `vic_dev`                        | [image][a] tagged with `vic_dev`                               |
+|`tag` (containing `dev`) | [image][a] tagged with `vic_dev`                        | [image][a] tagged with `vic_dev`                               |
+|`tag` (other)            | latest [image][a] that has a tag beginning with `vic_v` | latest [image][a] that has a tag beginning with `vic_v`        |
+|`deployment`             | manually specified                                      | manually specified                                             |
+
+| Harbor                  | `master`                                                | `releases/*`                                                   |
+| -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
+|`pull_request`           | the build from [`harbor-builds/master.stable`][hb]      | latest build published to [`harbor-releases`][hr]              |
+|`push`                   | the build from [`harbor-builds/master.stable`][hb]      | latest build published to [`harbor-releases`][hr]              |
+|`tag` (containing `dev`) | the build from [`harbor-builds/master.stable`][hb]      | latest build published to [`harbor-releases`][hr]              |
+|`tag` (other)            | latest build published to [`harbor-releases`][hr]       | latest build published to [`harbor-releases`][hr]              |
+|`deployment`             | manually specified                                      | manually specified                                             |
+
+| Engine                  | `master`                                                | `releases/*`                                                   |
+| -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
+|`pull_request`           | latest build published to [`vic-engine-builds`][vb]     | latest build published to [`vic-engine-builds/releases/*`][vb] |
+|`push`                   | latest build published to [`vic-engine-builds`][vb]     | latest build published to [`vic-engine-builds/releases/*`][vb] |
+|`tag` (containing `dev`) | latest build published to [`vic-engine-builds`][vb]     | latest build published to [`vic-engine-builds/releases/*`][vb] |
+|`tag` (other)            | latest build published to [`vic-engine-releases`][vr]   | latest build published to [`vic-engine-releases`][vr]          |
+|`deployment`             | manually specified                                      | manually specified                                             |
+
+| vic-ui                  | `master`                                                | `releases/*`                                                   |
+| -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
+|`pull_request`           | latest build published to [`vic-ui-builds`][ub]         | latest build published to [`vic-ui-builds/releases/*`][ub]     |
+|`push`                   | latest build published to [`vic-ui-builds`][ub]         | latest build published to [`vic-ui-builds/releases/*`][ub]     |
+|`tag` (containing `dev`) | latest build published to [`vic-ui-builds`][ub]         | latest build published to [`vic-ui-builds/releases/*`][ub]     |
+|`tag` (other)            | latest build published to [`vic-ui-releases`][ur]       | latest build published to [`vic-ui-releases`][ur]              |
+|`deployment`             | manually specified                                      | manually specified                                             |
+
+| `vic-machine-server`    | `master`                                                | `releases/*`                                                   |
+| -----------------------:| ------------------------------------------------------- | -------------------------------------------------------------- |
+|`pull_request`           | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with the release's version number   |
+|`push`                   | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with the release's version number   |
+|`tag` (containing `dev`) | [image][vms] tagged with `dev`                          | latest [image][vms] tagged with the release's version number   |
+|`tag` (other)            | latest [image][vms] tagged with a version number        | latest [image][vms] tagged with a version number               |
+|`deployment`             | manually specified                                      | manually specified                                             |
+
+[a]:https://hub.docker.com/r/vmware/admiral/
+[hb]:https://storage.googleapis.com/harbor-builds
+[hr]:https://storage.googleapis.com/harbor-releases
+[vb]:https://storage.googleapis.com/vic-engine-builds
+[vr]:https://storage.googleapis.com/vic-engine-releases
+[ub]:https://storage.googleapis.com/vic-ui-builds
+[ur]:https://storage.googleapis.com/vic-ui-releases
+[vms]:https://console.cloud.google.com/gcr/images/eminent-nation-87317/GLOBAL/vic-machine-server?project=eminent-nation-87317&gcrImageListsize=50
+
+The OVA artifact is published to:
+ * [`vic-product-ova-builds`](https://storage.googleapis.com/vic-product-ova-builds) after successful build and test following `push` to `master`
+ * [`vic-product-ova-builds/releases/*`](https://storage.googleapis.com/vic-product-ova-builds) after successful build and test following `push` to `releases/*`
+ * [`vic-product-ova-builds`](https://storage.googleapis.com/vic-product-ova-builds) after successful build and test following creation of a `tag`
+ * [`vic-product-ova-builds`](https://storage.googleapis.com/vic-product-ova-builds) after successful build and test following `deployment` to `staging`
+ * [`vic-product-ova-releases`](https://storage.googleapis.com/vic-product-ova-releases) after successful build and test following `deployment` to `release`
+ * [`vic-product-failed-builds`](https://storage.googleapis.com/vic-product-failed-builds) after a failure building or testing
+
+Refer to the next section `Staging and Release` on how to build OVA with specific dependent component versions ("manually specified").
 
 ## Staging and Release
 
@@ -162,6 +221,7 @@ drone deploy --param VICENGINE=<vic_engine_version> \
              --param VIC_MACHINE_SERVER=<vic_machine_server> \
              --param ADMIRAL=<admiral_tag> \
              --param HARBOR=<harbor_version> \
+             --param VICUI=<vic_ui_version> \
              vmware/vic-product <ci_build_number_to_promote> staging
 ```
 
@@ -172,6 +232,7 @@ drone deploy --param VICENGINE=<vic_engine_version> \
              --param VIC_MACHINE_SERVER=<vic_machine_server> \
              --param ADMIRAL=<admiral_tag> \
              --param HARBOR=<harbor_version> \
+             --param VICUI=<vic_ui_version> \
              vmware/vic-product <ci_build_number_to_promote> release
 ```
 
@@ -182,6 +243,7 @@ drone deploy --param VICENGINE=https://storage.googleapis.com/vic-engine-release
              --param VIC_MACHINE_SERVER=latest \
              --param ADMIRAL=v1.4.0 \
              --param HARBOR=https://storage.googleapis.com/harbor-releases/harbor-offline-installer-v1.5.0.tgz \
+             --param VICUI=https://storage.googleapis.com/vic-ui-releases/vic_ui_v1.4.0.tar.gz \
              vmware/vic-product <ci_build_number_to_promote> release
 ```
 

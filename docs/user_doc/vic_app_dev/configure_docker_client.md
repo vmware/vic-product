@@ -2,10 +2,11 @@
 
 If your container development environment uses vSphere Integrated Containers, you must run Docker commands with the appropriate options, and configure your Docker client accordingly. 
 
-vSphere Integrated Containers Engine 1.4 supports Docker client 1.13.0. The supported version of the Docker API is 1.25.
+vSphere Integrated Containers Engine 1.5 supports Docker client 1.13.0. The supported version of the Docker API is 1.25.
 
 - [Connecting to the VCH](#connectvch)
 - [Using Docker Environment Variables](#variables)
+- [Using `docker-compose` with TLS](#compose)
 - [Install the  vSphere Integrated Containers Registry Certificate](#registry)
   - [Obtain the vSphere Integrated Containers Registry CA Certificate](#getcert)
   - [Configure the Docker Client on Linux](#certlinux)
@@ -24,8 +25,8 @@ How you connect to your virtual container host (VCH) depends on the security opt
   --tlskey=<i>path_to_client_key</i>/key.pem 
   --tlscacert=<i>path</i>/ca.pem 
   info</pre>
-  - By setting Docker environment variables:<pre>DOCKER_CERT_PATH=<i>client_certificate_path</i>/cert.pem
-  DOCKER_TLS_VERIFY=1</pre>
+  - By setting Docker environment variables:<pre>DOCKER_CERT_PATH=<i>client_certificate_path</i>
+  DOCKER_TLS_VERIFY=1</pre>The <i>client_certificate_path</i> should contain the `cert.pem` and `key.pem` files, as well as the `ca.pem` file for the CA chain that signed the VCH server certificate. If server certificates are not signed by a trusted certificate authority, you might also require the `server-cert.pem` and `server-key.pem` server certificate files in <i>client_certificate_path</i>.
 - If the VCH uses server certificates but does not authenticate the Docker client, no client certificate is required and any client can connect to the VCH. This configuration is commonly referred to as `no-tlsverify` in documentation about containers and Docker. In this configuration, the VCH has a server certificate and connections are encrypted, requiring you to run Docker commands with the `--tls` option. For example:<pre>docker -H <i>vch_address</i>:2376 --tls info</pre>In this case, do not set the `DOCKER_TLS_VERIFY` environment variable. Setting `DOCKER_TLS_VERIFY` to 0 or to `false` has no effect.
 - If TLS is completely disabled on the VCH, you connect to the VCH at *vch_address*:2375. Any Docker client can connect to the VCH and communications are not encrypted. As a consequence, you do not need to specify any additional TLS options in Docker commands or set any environment variables. This configuration is not recommended in production environments. For example:<pre>docker -H <i>vch_address</i>:2375 info</pre>
 
@@ -37,11 +38,23 @@ The contents of the `env` files are different depending on the level of authenti
 
 - Mutual TLS authentication with client and server certificates:  <pre>DOCKER_TLS_VERIFY=1 
 DOCKER_CERT_PATH=<i>client_certificate_path</i>\<i>vch_name</i> 
-DOCKER_HOST=<i>vch_address</i>:2376</pre>
-- TLS authentication with server certificates without client authentication:<pre>DOCKER_HOST=<i>vch_address</i>:2376</pre>
+DOCKER_HOST=<i>vch_address</i>:2376
+COMPOSE_TLS_VERSION=TLSv1_2</pre>
+- TLS authentication with server certificates without client authentication:<pre>DOCKER_HOST=<i>vch_address</i>:2376
+COMPOSE_TLS_VERSION=TLSv1_2</pre>
 - No `env` file is generated if the VCH does not implement TLS authentication.
 
 For information about how to obtain the `env` file, see [Obtain a VCH](obtain_vch.md). For information about the `env` files in Docker, see [`docker-machine env`](https://docs.docker.com/machine/reference/env/) in the Docker documentation.
+
+## Using `docker-compose` with TLS <a id="compose"></a>
+
+vSphere Integrated Containers supports TLS v1.2, so you must configure `docker-compose` to use TLS 1.2. However, `docker-compose` does not allow you to specify the TLS version on the command line. You must use environment variables to set the TLS version for `docker-compose`. For more information, see [`docker-compose` issue 4651](https://github.com/docker/compose/issues/4651). Furthermore, `docker-compose` has a limitation that requires you to set TLS options either by using command line options or by using environment variables. You cannot use a mixture of both command line options and environment variables. 
+
+To use `docker-compose` with vSphere Integrated Containers and TLS, set the following environment variables:<pre>COMPOSE_TLS_VERSION=TLSv1_2
+DOCKER_TLS_VERIFY=1
+DOCKER_CERT_PATH="<i>path to your certificate files</i>"</pre>
+
+You can find the exact variables to set in the <code><i>vch_name</i>.env</code> file that is generated during VCH deployment. The certificate file path must lead to `CA.pem`, `key.pem`, and `cert.pem`. You can run `docker-compose` with the following command:<pre>docker-compose -H <i>vch_address</i> up</pre>
 
 ## Install the  vSphere Integrated Containers Registry Certificate <a id="registry"></a>
 
@@ -75,8 +88,7 @@ This example configures a Linux Docker client so that you can log into vSphere I
 
 This example configures a Linux Docker client so that you can log into vSphere Integrated Containers Registry by using its IP address.
 
-**NOTE**: The current version of vSphere Integrated Containers uses the registry's IP address as the Subject Alternate Name when auto-generating certificates for vSphere Integrated Containers Registry. Consequently, when you run `docker login`, you must use the IP address of the registry rather than the FQDN. 
- 
+
 1. Copy the certificate file to the Linux machine on which you run the Docker client.
 2. Switch to `sudo` user.<pre>$ sudo su</pre>
 2. Create a subfolder in the Docker certificates folder, using the registry's IP address as the folder name.<pre>$ mkdir -p /etc/docker/certs.d/<i>registry_ip</i></pre>
@@ -109,7 +121,7 @@ Enabling content trust on a project automatically modifies the registry whitelis
 - For information about content trust in vSphere Integrated Containers, see [Enabling Content Trust in Projects](../vic_cloud_admin/content_trust.md) in *vSphere Integrated Containers Management Portal Administration*.
 - For information about how enabling content trust affects VCHs, see [VCH Whitelists and Content Trust](../vic_vsphere_admin/vch_registry.md#vch-content-trust) in *vSphere Integrated Containers for vSphere Administrators*.
 
-**Procedure**
+## Procedure
 
 1. If you are using a self-signed certificate, copy the CA root certificate to the Docker certificates folder.
 

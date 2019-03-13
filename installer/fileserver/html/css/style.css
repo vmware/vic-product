@@ -57,3 +57,7 @@
 #feedback-link {
     max-width: inherit;
 }
+
+#login-body .form-group input {
+    width: 175px;
+}
