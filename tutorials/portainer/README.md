@@ -1,4 +1,4 @@
-Running Portainer on VIC
+# Running Portainer on VIC
 
 
 ### Point your DOCKER_HOST variable to the VCH
