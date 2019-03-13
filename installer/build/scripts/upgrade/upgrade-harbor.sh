@@ -16,7 +16,8 @@
 # This file contains upgrade processes specific to the Harbor component.
 set -euf -o pipefail && [ -n "$DEBUG" ] && set -x
 source /installer.env
-. "${0%/*}"/util.sh
+FILE_DIR="${0%/*}"
+. "${FILE_DIR}"/util.sh
 
 harbor_data_mount="/storage/data/harbor"
 harbor_db_mount="/storage/db/harbor"
@@ -164,7 +165,6 @@ function migrateHarbor {
     sed -i -r "s/^$cfg_key\s*=/${MANAGED_KEY}\n$cfg_key =/g" $harbor_cfg
   done;
   chmod 600 ${harbor_cfg}
-  /etc/vmware/upgrade/notary-migration-fix.sh
 }
 
 # Upgrade entry point from upgrade.sh
@@ -208,7 +208,8 @@ function upgradeHarbor {
     log "[=] Please contact VMware support"
     exit 1
   fi
-
+  # Patch fix for notary db
+  . "${FILE_DIR}"/notary-migration-fix.sh
   log "[=] Successfully migrated Harbor configuration and data"
   log "Harbor upgrade complete"
 
