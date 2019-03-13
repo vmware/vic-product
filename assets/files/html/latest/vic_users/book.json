@@ -1,0 +1,12 @@
+{
+
+	"title": "Using vSphere Integrated Containers as a DevOps Administrator, Developer, or Viewer",
+        "gitbook": "3.x.x",
+        "plugins": ["noembed"],
+	"pdf": {
+		"headerTemplate": "_TITLE_",
+		"footerTemplate": "_PAGENUM_",
+                "paperSize": "letter"
+	}
+         
+}

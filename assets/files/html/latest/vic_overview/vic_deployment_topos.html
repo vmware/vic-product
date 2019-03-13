@@ -1,0 +1,3172 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <title>Deployment Topologies · VMware vSphere Integrated Containers 1.5 Documentation</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.0">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-page-toc-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-noembed/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-chapter-fold/chapter-fold.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-insert-logo/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../vic_vsphere_admin/" />
+    
+    
+    <link rel="prev" href="roles_and_personas.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">vSphere Integrated Containers 1.5</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1" data-path="../vic_quickstart.html">
+            
+                <a href="../vic_quickstart.html">
+            
+                    
+                    Quick Start Links
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="intro_to_containers.html">
+            
+                <a href="intro_to_containers.html">
+            
+                    
+                    Containers, Docker, Registries
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="intro_to_vic.html">
+            
+                <a href="intro_to_vic.html">
+            
+                    
+                    vSphere Integrated Containers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.2.1" data-path="intro_to_vic_engine.html">
+            
+                <a href="intro_to_vic_engine.html">
+            
+                    
+                    Engine
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.2" data-path="intro_to_vic_mp.html">
+            
+                <a href="intro_to_vic_mp.html">
+            
+                    
+                    Management Portal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.3" data-path="intro_to_vic_registry.html">
+            
+                <a href="intro_to_vic_registry.html">
+            
+                    
+                    Registry
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2.4" data-path="roles_and_personas.html">
+            
+                <a href="roles_and_personas.html">
+            
+                    
+                    Roles and Personas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.1.2.5" data-path="vic_deployment_topos.html">
+            
+                <a href="vic_deployment_topos.html">
+            
+                    
+                    Deployment Topologies
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../vic_vsphere_admin/">
+            
+                <a href="../vic_vsphere_admin/">
+            
+                    
+                    vSphere Administrator
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../vic_vsphere_admin/vic_installation_prereqs.html">
+            
+                <a href="../vic_vsphere_admin/vic_installation_prereqs.html">
+            
+                    
+                    Deployment Prerequisites
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1.1" data-path="../vic_vsphere_admin/vi_reqs.html">
+            
+                <a href="../vic_vsphere_admin/vi_reqs.html">
+            
+                    
+                    Virtual Infrastructure Requirements
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.1.2" data-path="../vic_vsphere_admin/network_reqs.html">
+            
+                <a href="../vic_vsphere_admin/network_reqs.html">
+            
+                    
+                    Networking Requirements
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.1.3" data-path="../vic_vsphere_admin/vic_cert_use.html">
+            
+                <a href="../vic_vsphere_admin/vic_cert_use.html">
+            
+                    
+                    Certificate Requirements
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1.3.1" data-path="../vic_vsphere_admin/appliance_cert_reqs.html">
+            
+                <a href="../vic_vsphere_admin/appliance_cert_reqs.html">
+            
+                    
+                    Appliance Certificate Requirements
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.1.3.2" data-path="../vic_vsphere_admin/vch_cert_reqs.html">
+            
+                <a href="../vic_vsphere_admin/vch_cert_reqs.html">
+            
+                    
+                    VCH Certificate Requirements
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.1.3.3" data-path="../vic_vsphere_admin/obtain_thumbprint.html">
+            
+                <a href="../vic_vsphere_admin/obtain_thumbprint.html">
+            
+                    
+                    Obtain vSphere Thumbprints
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.1.4" data-path="../vic_vsphere_admin/interop.html">
+            
+                <a href="../vic_vsphere_admin/interop.html">
+            
+                    
+                    Interoperability
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../vic_vsphere_admin/installing_vic.html">
+            
+                <a href="../vic_vsphere_admin/installing_vic.html">
+            
+                    
+                    Installation
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.2.1" data-path="../vic_vsphere_admin/download_vic.html">
+            
+                <a href="../vic_vsphere_admin/download_vic.html">
+            
+                    
+                    Download Installer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2.2" data-path="../vic_vsphere_admin/deploy_vic_appliance.html">
+            
+                <a href="../vic_vsphere_admin/deploy_vic_appliance.html">
+            
+                    
+                    Deploy the Appliance
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.2.2.1" data-path="../vic_vsphere_admin/ova_reg_api.html">
+            
+                <a href="../vic_vsphere_admin/ova_reg_api.html">
+            
+                    
+                    Appliance Registration API
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2.3" data-path="../vic_vsphere_admin/vic_engine_bundle.html">
+            
+                <a href="../vic_vsphere_admin/vic_engine_bundle.html">
+            
+                    
+                    Download Engine Bundle
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="../vic_vsphere_admin/deploy_vch.html">
+            
+                <a href="../vic_vsphere_admin/deploy_vch.html">
+            
+                    
+                    VCH Deployment
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.3.1" data-path="../vic_vsphere_admin/using_vicmachine.html">
+            
+                <a href="../vic_vsphere_admin/using_vicmachine.html">
+            
+                    
+                    Using vic-machine
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.3.1.1" data-path="../vic_vsphere_admin/vic_env_variables.html">
+            
+                <a href="../vic_vsphere_admin/vic_env_variables.html">
+            
+                    
+                    Set Environment Variables
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.2" data-path="../vic_vsphere_admin/open_ports_on_hosts.html">
+            
+                <a href="../vic_vsphere_admin/open_ports_on_hosts.html">
+            
+                    
+                    Open the Required Ports on ESXi Hosts
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.3" data-path="../vic_vsphere_admin/create_ops_user.html">
+            
+                <a href="../vic_vsphere_admin/create_ops_user.html">
+            
+                    
+                    Create the Operations User
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.3.3.1" data-path="../vic_vsphere_admin/ops_user_manual.html">
+            
+                <a href="../vic_vsphere_admin/ops_user_manual.html">
+            
+                    
+                    Manually Create Operations User
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.4" data-path="../vic_vsphere_admin/deploy_vch_client.html">
+            
+                <a href="../vic_vsphere_admin/deploy_vch_client.html">
+            
+                    
+                    Deploy VCHs in vSphere Client
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5" data-path="../vic_vsphere_admin/vch_deployment_options.html">
+            
+                <a href="../vic_vsphere_admin/vch_deployment_options.html">
+            
+                    
+                    VCH Deployment Options
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.3.5.1" data-path="../vic_vsphere_admin/vch_general_settings.html">
+            
+                <a href="../vic_vsphere_admin/vch_general_settings.html">
+            
+                    
+                    General Settings
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.2" data-path="../vic_vsphere_admin/vch_compute.html">
+            
+                <a href="../vic_vsphere_admin/vch_compute.html">
+            
+                    
+                    Compute Capacity
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.3" data-path="../vic_vsphere_admin/vch_storage.html">
+            
+                <a href="../vic_vsphere_admin/vch_storage.html">
+            
+                    
+                    Storage Capacity
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.3.5.3.1" data-path="../vic_vsphere_admin/image_store.html">
+            
+                <a href="../vic_vsphere_admin/image_store.html">
+            
+                    
+                    Image Datastore
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.3.2" data-path="../vic_vsphere_admin/volume_stores.html">
+            
+                <a href="../vic_vsphere_admin/volume_stores.html">
+            
+                    
+                    Volume Datastores
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.4" data-path="../vic_vsphere_admin/vch_networking.html">
+            
+                <a href="../vic_vsphere_admin/vch_networking.html">
+            
+                    
+                    Networks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.3.5.4.1" data-path="../vic_vsphere_admin/bridge_network.html">
+            
+                <a href="../vic_vsphere_admin/bridge_network.html">
+            
+                    
+                    Bridge Networks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.4.2" data-path="../vic_vsphere_admin/public_network.html">
+            
+                <a href="../vic_vsphere_admin/public_network.html">
+            
+                    
+                    Public Network
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.4.3" data-path="../vic_vsphere_admin/client_network.html">
+            
+                <a href="../vic_vsphere_admin/client_network.html">
+            
+                    
+                    Client Network
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.4.4" data-path="../vic_vsphere_admin/mgmt_network.html">
+            
+                <a href="../vic_vsphere_admin/mgmt_network.html">
+            
+                    
+                    Management Network
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.4.5" data-path="../vic_vsphere_admin/vch_proxy.html">
+            
+                <a href="../vic_vsphere_admin/vch_proxy.html">
+            
+                    
+                    Proxy Servers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.4.6" data-path="../vic_vsphere_admin/container_networks.html">
+            
+                <a href="../vic_vsphere_admin/container_networks.html">
+            
+                    
+                    Container Networks
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.5" data-path="../vic_vsphere_admin/vch_security.html">
+            
+                <a href="../vic_vsphere_admin/vch_security.html">
+            
+                    
+                    Security
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.3.5.5.1" data-path="../vic_vsphere_admin/vch_cert_options.html">
+            
+                <a href="../vic_vsphere_admin/vch_cert_options.html">
+            
+                    
+                    VCH Certificate Options
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.5.2" data-path="../vic_vsphere_admin/tls_unrestricted.html">
+            
+                <a href="../vic_vsphere_admin/tls_unrestricted.html">
+            
+                    
+                    Disable Client Verification
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.6" data-path="../vic_vsphere_admin/vch_registry.html">
+            
+                <a href="../vic_vsphere_admin/vch_registry.html">
+            
+                    
+                    Registry Access
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.7" data-path="../vic_vsphere_admin/set_up_ops_user.html">
+            
+                <a href="../vic_vsphere_admin/set_up_ops_user.html">
+            
+                    
+                    Operations User
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.5.8" data-path="../vic_vsphere_admin/complete_vch_deployment_client.html">
+            
+                <a href="../vic_vsphere_admin/complete_vch_deployment_client.html">
+            
+                    
+                    Finish VCH Deployment
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.6" data-path="../vic_vsphere_admin/deploy_test_vch.html">
+            
+                <a href="../vic_vsphere_admin/deploy_test_vch.html">
+            
+                    
+                    Deploy a Test VCH
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.3.6.1" data-path="../vic_vsphere_admin/deploy_vch_esxi.html">
+            
+                <a href="../vic_vsphere_admin/deploy_vch_esxi.html">
+            
+                    
+                    ESXi Host with No vCenter Server
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.6.2" data-path="../vic_vsphere_admin/deploy_vch_dchphoton.html">
+            
+                <a href="../vic_vsphere_admin/deploy_vch_dchphoton.html">
+            
+                    
+                    VCH with Volume Store and Registry
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.7" data-path="../vic_vsphere_admin/vch_boot_options.html">
+            
+                <a href="../vic_vsphere_admin/vch_boot_options.html">
+            
+                    
+                    VCH Boot Options
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.8" data-path="../vic_vsphere_admin/vch_sizing_guidelines.html">
+            
+                <a href="../vic_vsphere_admin/vch_sizing_guidelines.html">
+            
+                    
+                    VCH Sizing Guidelines
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="../vic_vsphere_admin/vch_admin.html">
+            
+                <a href="../vic_vsphere_admin/vch_admin.html">
+            
+                    
+                    VCH Administration
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.4.1" data-path="../vic_vsphere_admin/vch_admin_client.html">
+            
+                <a href="../vic_vsphere_admin/vch_admin_client.html">
+            
+                    
+                    VCH Admin in the vSphere Client
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.4.1.1" data-path="../vic_vsphere_admin/access_h5_ui.html">
+            
+                <a href="../vic_vsphere_admin/access_h5_ui.html">
+            
+                    
+                    View VIC Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.1.2" data-path="../vic_vsphere_admin/vch_portlet_ui.html">
+            
+                <a href="../vic_vsphere_admin/vch_portlet_ui.html">
+            
+                    
+                    View VCH and Container Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.2" data-path="../vic_vsphere_admin/vch_admin_vicmachine.html">
+            
+                <a href="../vic_vsphere_admin/vch_admin_vicmachine.html">
+            
+                    
+                    VCH Admin with vic-machine
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.4.2.1" data-path="../vic_vsphere_admin/vic_machine_version.html">
+            
+                <a href="../vic_vsphere_admin/vic_machine_version.html">
+            
+                    
+                    Obtain Version Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.2.2" data-path="../vic_vsphere_admin/common_vic_options.html">
+            
+                <a href="../vic_vsphere_admin/common_vic_options.html">
+            
+                    
+                    Common Options
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.2.3" data-path="../vic_vsphere_admin/list_vch.html">
+            
+                <a href="../vic_vsphere_admin/list_vch.html">
+            
+                    
+                    List VCHs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.2.4" data-path="../vic_vsphere_admin/inspect_vch.html">
+            
+                <a href="../vic_vsphere_admin/inspect_vch.html">
+            
+                    
+                    Obtain General VCH Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.2.5" data-path="../vic_vsphere_admin/inspect_vch_config.html">
+            
+                <a href="../vic_vsphere_admin/inspect_vch_config.html">
+            
+                    
+                    Obtain VCH Configuration Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.2.6" data-path="../vic_vsphere_admin/configure_vch.html">
+            
+                <a href="../vic_vsphere_admin/configure_vch.html">
+            
+                    
+                    Configure Running VCHs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.2.7" data-path="../vic_vsphere_admin/debug_vch.html">
+            
+                <a href="../vic_vsphere_admin/debug_vch.html">
+            
+                    
+                    Debug Running VCHs
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.4.2.7.1" data-path="../vic_vsphere_admin/vch_shell_access.html">
+            
+                <a href="../vic_vsphere_admin/vch_shell_access.html">
+            
+                    
+                    Enable Shell Access
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.2.7.2" data-path="../vic_vsphere_admin/vch_ssh_access.html">
+            
+                <a href="../vic_vsphere_admin/vch_ssh_access.html">
+            
+                    
+                    Authorize SSH Access
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.3" data-path="../vic_vsphere_admin/remove_vch.html">
+            
+                <a href="../vic_vsphere_admin/remove_vch.html">
+            
+                    
+                    Delete VCHs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.4" data-path="../vic_vsphere_admin/access_vicadmin.html">
+            
+                <a href="../vic_vsphere_admin/access_vicadmin.html">
+            
+                    
+                    VCH Admin Portal
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.4.4.1" data-path="../vic_vsphere_admin/browser_login.html">
+            
+                <a href="../vic_vsphere_admin/browser_login.html">
+            
+                    
+                    Browser-Based Certificate Login
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.4.2" data-path="../vic_vsphere_admin/cmdline_login.html">
+            
+                <a href="../vic_vsphere_admin/cmdline_login.html">
+            
+                    
+                    Command Line Certificate Login
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.4.3" data-path="../vic_vsphere_admin/vicadmin_status_ref.html">
+            
+                <a href="../vic_vsphere_admin/vicadmin_status_ref.html">
+            
+                    
+                    VCH Admin Status Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="../vic_vsphere_admin/upgrading_vic.html">
+            
+                <a href="../vic_vsphere_admin/upgrading_vic.html">
+            
+                    
+                    Upgrading
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.5.1" data-path="../vic_vsphere_admin/pre_upgrade_tasks.html">
+            
+                <a href="../vic_vsphere_admin/pre_upgrade_tasks.html">
+            
+                    
+                    Pre-Upgrade Tasks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5.2" data-path="../vic_vsphere_admin/upgrade_appliance.html">
+            
+                <a href="../vic_vsphere_admin/upgrade_appliance.html">
+            
+                    
+                    Upgrade the Appliance
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.5.2.1" data-path="../vic_vsphere_admin/upgrade_appliance_manual.html">
+            
+                <a href="../vic_vsphere_admin/upgrade_appliance_manual.html">
+            
+                    
+                    Copy Disks Manually
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5.3" data-path="../vic_vsphere_admin/upgrade_vch.html">
+            
+                <a href="../vic_vsphere_admin/upgrade_vch.html">
+            
+                    
+                    Upgrade VCHs
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.5.3.1" data-path="../vic_vsphere_admin/upgrade_vch_options.html">
+            
+                <a href="../vic_vsphere_admin/upgrade_vch_options.html">
+            
+                    
+                    VCH Upgrade Options
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="../vic_vsphere_admin/backup_vic.html">
+            
+                <a href="../vic_vsphere_admin/backup_vic.html">
+            
+                    
+                    Backup and Restore
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.6.1" data-path="../vic_vsphere_admin/backup_vic_appliance.html">
+            
+                <a href="../vic_vsphere_admin/backup_vic_appliance.html">
+            
+                    
+                    Appliance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6.2" data-path="../vic_vsphere_admin/backup_vch.html">
+            
+                <a href="../vic_vsphere_admin/backup_vch.html">
+            
+                    
+                    VCHs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6.3" data-path="../vic_vsphere_admin/backup_volumes.html">
+            
+                <a href="../vic_vsphere_admin/backup_volumes.html">
+            
+                    
+                    Container Volumes
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.6.3.1" data-path="../vic_vsphere_admin/backup_vmdk.html">
+            
+                <a href="../vic_vsphere_admin/backup_vmdk.html">
+            
+                    
+                    Backing Up VMDK Volumes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6.3.2" data-path="../vic_vsphere_admin/restore_vmdk.html">
+            
+                <a href="../vic_vsphere_admin/restore_vmdk.html">
+            
+                    
+                    Restoring VMDK Volumes
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="../vic_vsphere_admin/manage_appliance.html">
+            
+                <a href="../vic_vsphere_admin/manage_appliance.html">
+            
+                    
+                    Manage the Appliance
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.7.1" data-path="../vic_vsphere_admin/reconfigure_appliance.html">
+            
+                <a href="../vic_vsphere_admin/reconfigure_appliance.html">
+            
+                    
+                    Reconfigure the Appliance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.2" data-path="../vic_vsphere_admin/obtain_appliance_certs.html">
+            
+                <a href="../vic_vsphere_admin/obtain_appliance_certs.html">
+            
+                    
+                    Obtain Appliance Certificates
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.3" data-path="../vic_vsphere_admin/reinitialize_appliance.html">
+            
+                <a href="../vic_vsphere_admin/reinitialize_appliance.html">
+            
+                    
+                    Reinitialize the Appliance
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.7.3.1" data-path="../vic_vsphere_admin/retag_appliance.html">
+            
+                <a href="../vic_vsphere_admin/retag_appliance.html">
+            
+                    
+                    Re-Tag the Appliance
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.4" data-path="../vic_vsphere_admin/manual_register_psc.html">
+            
+                <a href="../vic_vsphere_admin/manual_register_psc.html">
+            
+                    
+                    Update PSC Registration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.5" data-path="../vic_vsphere_admin/service_status.html">
+            
+                <a href="../vic_vsphere_admin/service_status.html">
+            
+                    
+                    Check Service Status
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.6" data-path="../vic_vsphere_admin/restart_services.html">
+            
+                <a href="../vic_vsphere_admin/restart_services.html">
+            
+                    
+                    Restart Services
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.7" data-path="../vic_vsphere_admin/ts_recover_password.html">
+            
+                <a href="../vic_vsphere_admin/ts_recover_password.html">
+            
+                    
+                    Recover Appliance Password
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.8" data-path="../vic_vsphere_admin/uninstall_vic.html">
+            
+                <a href="../vic_vsphere_admin/uninstall_vic.html">
+            
+                    
+                    Uninstall
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="../vic_vsphere_admin/troubleshoot_vic.html">
+            
+                <a href="../vic_vsphere_admin/troubleshoot_vic.html">
+            
+                    
+                    Troubleshooting
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.8.1" data-path="../vic_vsphere_admin/access_logs.html">
+            
+                <a href="../vic_vsphere_admin/access_logs.html">
+            
+                    
+                    Access Logs
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.8.1.1" data-path="../vic_vsphere_admin/appliance_logs.html">
+            
+                <a href="../vic_vsphere_admin/appliance_logs.html">
+            
+                    
+                    Access and Configure Appliance Logs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.1.2" data-path="../vic_vsphere_admin/log_bundles.html">
+            
+                <a href="../vic_vsphere_admin/log_bundles.html">
+            
+                    
+                    Access VCH Logs
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.2" data-path="../vic_vsphere_admin/ts_deploy_appliance.html">
+            
+                <a href="../vic_vsphere_admin/ts_deploy_appliance.html">
+            
+                    
+                    Appliance Deployment
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.8.2.1" data-path="../vic_vsphere_admin/ts_appliance_boot_errors.html">
+            
+                <a href="../vic_vsphere_admin/ts_appliance_boot_errors.html">
+            
+                    
+                    Appliance Boot Errors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.2.2" data-path="../vic_vsphere_admin/ts_ovf_error.html">
+            
+                <a href="../vic_vsphere_admin/ts_ovf_error.html">
+            
+                    
+                    Appliance OVF Error
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.2.3" data-path="../vic_vsphere_admin/ts_reg_doesnt_start.html">
+            
+                <a href="../vic_vsphere_admin/ts_reg_doesnt_start.html">
+            
+                    
+                    Registry Services Do Not Start
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.2.4" data-path="../vic_vsphere_admin/ts_appliance_password_refused.html">
+            
+                <a href="../vic_vsphere_admin/ts_appliance_password_refused.html">
+            
+                    
+                    Appliance VM Password Refused
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.2.5" data-path="../vic_vsphere_admin/ts_cert_error.html">
+            
+                <a href="../vic_vsphere_admin/ts_cert_error.html">
+            
+                    
+                    Browser Rejects Certificates
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.2.6" data-path="../vic_vsphere_admin/ts_psc_registration_error.html">
+            
+                <a href="../vic_vsphere_admin/ts_psc_registration_error.html">
+            
+                    
+                    Registration with PSC Fails
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.2.7" data-path="../vic_vsphere_admin/ts_appliance_initialization_errors.html">
+            
+                <a href="../vic_vsphere_admin/ts_appliance_initialization_errors.html">
+            
+                    
+                    Appliance Initialization Errors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.2.8" data-path="../vic_vsphere_admin/ts_admiral_access_error.html">
+            
+                <a href="../vic_vsphere_admin/ts_admiral_access_error.html">
+            
+                    
+                    Access to Management Portal Fails
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.2.9" data-path="../vic_vsphere_admin/ts_appliance_running_errors.html">
+            
+                <a href="../vic_vsphere_admin/ts_appliance_running_errors.html">
+            
+                    
+                    Appliance Running Errors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.2.10" data-path="../vic_vsphere_admin/vicappliance_welcomepage_error.html">
+            
+                <a href="../vic_vsphere_admin/vicappliance_welcomepage_error.html">
+            
+                    
+                    Appliance Welcome Page Error
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.3" data-path="../vic_vsphere_admin/ts_ui_not_appearing.html">
+            
+                <a href="../vic_vsphere_admin/ts_ui_not_appearing.html">
+            
+                    
+                    Plug-In Does Not Appear
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.4" data-path="../vic_vsphere_admin/ts_deploy_vch.html">
+            
+                <a href="../vic_vsphere_admin/ts_deploy_vch.html">
+            
+                    
+                    VCH Deployment
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.8.4.1" data-path="../vic_vsphere_admin/ts_firewall_error.html">
+            
+                <a href="../vic_vsphere_admin/ts_firewall_error.html">
+            
+                    
+                    Firewall Validation Error
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.4.2" data-path="../vic_vsphere_admin/ts_vch_deployment_timeout.html">
+            
+                <a href="../vic_vsphere_admin/ts_vch_deployment_timeout.html">
+            
+                    
+                    VCH Deployment Times Out
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.4.3" data-path="../vic_vsphere_admin/ts_thumbprint_error.html">
+            
+                <a href="../vic_vsphere_admin/ts_thumbprint_error.html">
+            
+                    
+                    Certificate Verification Error
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.4.4" data-path="../vic_vsphere_admin/ts_cli_argument_error.html">
+            
+                <a href="../vic_vsphere_admin/ts_cli_argument_error.html">
+            
+                    
+                    Missing Common Name Error Even When TLS Options Are Specified Correctly
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.4.5" data-path="../vic_vsphere_admin/ts_cname_mismatch.html">
+            
+                <a href="../vic_vsphere_admin/ts_cname_mismatch.html">
+            
+                    
+                    Certificate cname Mismatch
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.4.6" data-path="../vic_vsphere_admin/ts_docker_api_check_error.html">
+            
+                <a href="../vic_vsphere_admin/ts_docker_api_check_error.html">
+            
+                    
+                    Docker API Endpoint Check Failed Error
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.4.7" data-path="../vic_vsphere_admin/ts_datastore_access_error.html">
+            
+                <a href="../vic_vsphere_admin/ts_datastore_access_error.html">
+            
+                    
+                    No Single Host Can Access All Datastores
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.4.8" data-path="../vic_vsphere_admin/ts_vch_incorrect_initialization.html">
+            
+                <a href="../vic_vsphere_admin/ts_vch_incorrect_initialization.html">
+            
+                    
+                    VCH Does Not Initialize Correctly
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.5" data-path="../vic_vsphere_admin/ts_post_deployment_op.html">
+            
+                <a href="../vic_vsphere_admin/ts_post_deployment_op.html">
+            
+                    
+                    Post-Deployment Operation
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.8.5.1" data-path="../vic_vsphere_admin/ts_clock_skew.html">
+            
+                <a href="../vic_vsphere_admin/ts_clock_skew.html">
+            
+                    
+                    Certificate and PSC Token Errors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.5.2" data-path="../vic_vsphere_admin/ts_no_access_to_vic_services.html">
+            
+                <a href="../vic_vsphere_admin/ts_no_access_to_vic_services.html">
+            
+                    
+                    Some Users Cannot Access Services
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.5.3" data-path="../vic_vsphere_admin/ts_volume_store_error.html">
+            
+                <a href="../vic_vsphere_admin/ts_volume_store_error.html">
+            
+                    
+                    Default Volume Store Error
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.5.4" data-path="../vic_vsphere_admin/ts_delete_inspect_error.html">
+            
+                <a href="../vic_vsphere_admin/ts_delete_inspect_error.html">
+            
+                    
+                    Deleting or Inspecting a VCH Fails
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.5.5" data-path="../vic_vsphere_admin/ts_dockerlogin_error.html">
+            
+                <a href="../vic_vsphere_admin/ts_dockerlogin_error.html">
+            
+                    
+                    Docker Login Fails
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.5.6" data-path="../vic_vsphere_admin/ts_imagestore_error.html">
+            
+                <a href="../vic_vsphere_admin/ts_imagestore_error.html">
+            
+                    
+                    Image Store Error
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.6" data-path="../vic_vsphere_admin/vch_install_packages.html">
+            
+                <a href="../vic_vsphere_admin/vch_install_packages.html">
+            
+                    
+                    Install Packages in VCHs
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.8.6.1" data-path="../vic_vsphere_admin/vch_mount_nfsshare.html">
+            
+                <a href="../vic_vsphere_admin/vch_mount_nfsshare.html">
+            
+                    
+                    Mount an NFS Share Point
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.7" data-path="../vic_vsphere_admin/ts_upgrade_op.md">
+            
+                <span>
+            
+                    
+                    Upgrade Operation
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.8.7.1" data-path="../vic_vsphere_admin/ts_orphaned_cvms.html">
+            
+                <a href="../vic_vsphere_admin/ts_orphaned_cvms.html">
+            
+                    
+                    Container VMs Orphaned After Upgrade
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="../vic_vsphere_admin/security_reference.html">
+            
+                <a href="../vic_vsphere_admin/security_reference.html">
+            
+                    
+                    Security Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.10" data-path="../vic_vsphere_admin/vicmachine_options_ref.html">
+            
+                <a href="../vic_vsphere_admin/vicmachine_options_ref.html">
+            
+                    
+                    vic-machine Options Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../vic_cloud_admin/">
+            
+                <a href="../vic_cloud_admin/">
+            
+                    
+                    Management Portal Administrator
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.1" data-path="../vic_cloud_admin/logging_in_mp.md">
+            
+                <span>
+            
+                    
+                    Logging In to Management Portal
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.1.1" data-path="../vic_cloud_admin/trust_vic_certs.html">
+            
+                <a href="../vic_cloud_admin/trust_vic_certs.html">
+            
+                    
+                    Verify and Trust Certificate
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2" data-path="../vic_cloud_admin/mp_initial_config.html">
+            
+                <a href="../vic_cloud_admin/mp_initial_config.html">
+            
+                    
+                    Initial Configuration
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.2.1" data-path="../vic_cloud_admin/configure_system.html">
+            
+                <a href="../vic_cloud_admin/configure_system.html">
+            
+                    
+                    Configure System Settings
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2.2" data-path="../vic_cloud_admin/add_cloud_admins.html">
+            
+                <a href="../vic_cloud_admin/add_cloud_admins.html">
+            
+                    
+                    Add Management Portal Administrators
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3" data-path="../vic_cloud_admin/working_with_projects.html">
+            
+                <a href="../vic_cloud_admin/working_with_projects.html">
+            
+                    
+                    Working with Projects
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.3.1" data-path="../vic_cloud_admin/create_projects.html">
+            
+                <a href="../vic_cloud_admin/create_projects.html">
+            
+                    
+                    Create a Project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.2" data-path="../vic_cloud_admin/add_users.html">
+            
+                <a href="../vic_cloud_admin/add_users.html">
+            
+                    
+                    Assign Users to a Project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.3" data-path="../vic_cloud_admin/assign_project_to_user.html">
+            
+                <a href="../vic_cloud_admin/assign_project_to_user.html">
+            
+                    
+                    Assign Projects to a User
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.4" data-path="../vic_cloud_admin/vchs_and_mgmt_portal.html">
+            
+                <a href="../vic_cloud_admin/vchs_and_mgmt_portal.html">
+            
+                    
+                    Add Hosts to a Project
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.3.4.1" data-path="../vic_cloud_admin/add_vch_fullTLS_in_portal.html">
+            
+                <a href="../vic_cloud_admin/add_vch_fullTLS_in_portal.html">
+            
+                    
+                    Full TLS Authentication
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.4.2" data-path="../vic_cloud_admin/add_vch_serversideTLS_in_portal.html">
+            
+                <a href="../vic_cloud_admin/add_vch_serversideTLS_in_portal.html">
+            
+                    
+                    Server-Side Authentication
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.4.3" data-path="../vic_cloud_admin/add_vch_noTLS_in_portal.html">
+            
+                <a href="../vic_cloud_admin/add_vch_noTLS_in_portal.html">
+            
+                    
+                    No Authentication
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.5" data-path="../vic_cloud_admin/content_trust.html">
+            
+                <a href="../vic_cloud_admin/content_trust.html">
+            
+                    
+                    Enable Content Trust
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.6" data-path="../vic_cloud_admin/manage_projects.html">
+            
+                <a href="../vic_cloud_admin/manage_projects.html">
+            
+                    
+                    Edit Project Settings
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.7" data-path="../vic_cloud_admin/manage_repository_registry.html">
+            
+                <a href="../vic_cloud_admin/manage_repository_registry.html">
+            
+                    
+                    Manage Internal Repositories
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3.8" data-path="../vic_cloud_admin/access_project_logs.html">
+            
+                <a href="../vic_cloud_admin/access_project_logs.html">
+            
+                    
+                    Access Project Logs
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.4" data-path="../vic_cloud_admin/working_with_registries.html">
+            
+                <a href="../vic_cloud_admin/working_with_registries.html">
+            
+                    
+                    Working with Registries
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.4.1" data-path="../vic_cloud_admin/add_repos_in_portal.html">
+            
+                <a href="../vic_cloud_admin/add_repos_in_portal.html">
+            
+                    
+                    Add Global Registries
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.4.2" data-path="../vic_cloud_admin/add_project_registry.html">
+            
+                <a href="../vic_cloud_admin/add_project_registry.html">
+            
+                    
+                    Add Project Specific Registries
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.4.3" data-path="../vic_cloud_admin/replicating_images.html">
+            
+                <a href="../vic_cloud_admin/replicating_images.html">
+            
+                    
+                    Replicating Images
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.4.3.1" data-path="../vic_cloud_admin/create_replication_endpoints.html">
+            
+                <a href="../vic_cloud_admin/create_replication_endpoints.html">
+            
+                    
+                    Create Replication Endpoints
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.4.3.2" data-path="../vic_cloud_admin/create_replication_rules.html">
+            
+                <a href="../vic_cloud_admin/create_replication_rules.html">
+            
+                    
+                    Create Replication Rules
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.4.3.3" data-path="../vic_cloud_admin/manage_replication_endpoints.html">
+            
+                <a href="../vic_cloud_admin/manage_replication_endpoints.html">
+            
+                    
+                    Manage Replication Endpoints
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.5" data-path="../vic_cloud_admin/vulnerability_scanning.html">
+            
+                <a href="../vic_cloud_admin/vulnerability_scanning.html">
+            
+                    
+                    Vulnerability Scanning
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.5.1" data-path="../vic_cloud_admin/configure_scheduled_vulnerability.html">
+            
+                <a href="../vic_cloud_admin/configure_scheduled_vulnerability.html">
+            
+                    
+                    Scan All Images
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.5.2" data-path="../vic_cloud_admin/configure_vulnerability_scanning_per_project.html">
+            
+                <a href="../vic_cloud_admin/configure_vulnerability_scanning_per_project.html">
+            
+                    
+                    Scan at Project Level
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.5.3" data-path="../vic_cloud_admin/perform_vulnerability_scan_single_image.html">
+            
+                <a href="../vic_cloud_admin/perform_vulnerability_scan_single_image.html">
+            
+                    
+                    Scan Single Image
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../vic_users/">
+            
+                <a href="../vic_users/">
+            
+                    
+                    DevOps, Developers, Viewers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1.1" data-path="../vic_app_dev/run_dev_project.html">
+            
+                <a href="../vic_app_dev/run_dev_project.html">
+            
+                    
+                    Running Development Projects
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.2" data-path="../vic_users/provision_containers_portal.html">
+            
+                <a href="../vic_users/provision_containers_portal.html">
+            
+                    
+                    Provisioning Container VMs
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1.2.1" data-path="../vic_users/configuring_links.html">
+            
+                <a href="../vic_users/configuring_links.html">
+            
+                    
+                    Configuring Links for Templates and Images
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.2.2" data-path="../vic_users/configuring_health_checks.html">
+            
+                <a href="../vic_users/configuring_health_checks.html">
+            
+                    
+                    Configuring Health Checks for Templates and Images
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.2.3" data-path="../vic_users/configuring_clusters.html">
+            
+                <a href="../vic_users/configuring_clusters.html">
+            
+                    
+                    Configuring Cluster Size and Scale
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.3" data-path="../vic_users/create_network.html">
+            
+                <a href="../vic_users/create_network.html">
+            
+                    
+                    Create New Networks for Provisioning Containers
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../vic_app_dev/">
+            
+                <a href="../vic_app_dev/">
+            
+                    
+                    Application Development
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1.1" data-path="../vic_app_dev/container_operations.html">
+            
+                <a href="../vic_app_dev/container_operations.html">
+            
+                    
+                    Supported Docker Commands
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1.1.1" data-path="../vic_app_dev/docker_compose_file_options.html">
+            
+                <a href="../vic_app_dev/docker_compose_file_options.html">
+            
+                    
+                    Supported Docker Compose File Options
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.1.2" data-path="../vic_app_dev/dockerfile_support.html">
+            
+                <a href="../vic_app_dev/dockerfile_support.html">
+            
+                    
+                    Supported Dockerfile Instructions
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.2" data-path="../vic_app_dev/obtain_vch.html">
+            
+                <a href="../vic_app_dev/obtain_vch.html">
+            
+                    
+                    Obtain a VCH
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.3" data-path="../vic_app_dev/configure_docker_client.html">
+            
+                <a href="../vic_app_dev/configure_docker_client.html">
+            
+                    
+                    Configure the Docker Client
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.4" data-path="../vic_app_dev/container_limitations.html">
+            
+                <a href="../vic_app_dev/container_limitations.html">
+            
+                    
+                    Use and Limitations
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.5" data-path="../vic_app_dev/build_push_images.html">
+            
+                <a href="../vic_app_dev/build_push_images.html">
+            
+                    
+                    Building and Pushing Images
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1.5.1" data-path="../vic_app_dev/deploy_test_dch.html">
+            
+                <a href="../vic_app_dev/deploy_test_dch.html">
+            
+                    
+                    Deploy a Test dch-photon
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1.5.1.1" data-path="../vic_app_dev/photon_cert_custom.html">
+            
+                <a href="../vic_app_dev/photon_cert_custom.html">
+            
+                    
+                    Add Certificate to Custom Image
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.5.1.2" data-path="../vic_app_dev/photon_cert_manual.html">
+            
+                <a href="../vic_app_dev/photon_cert_manual.html">
+            
+                    
+                    Manually Add Certificate
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.5.1.3" data-path="../vic_app_dev/test_photon.html">
+            
+                <a href="../vic_app_dev/test_photon.html">
+            
+                    
+                    Build, Push, and Pull and Image
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.5.2" data-path="../vic_app_dev/dch_advanced.html">
+            
+                <a href="../vic_app_dev/dch_advanced.html">
+            
+                    
+                    Advanced Use of dch-photon
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1.5.2.1" data-path="../vic_app_dev/dchphoton_options.html">
+            
+                <a href="../vic_app_dev/dchphoton_options.html">
+            
+                    
+                    Advanced Options
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.5.2.2" data-path="../vic_app_dev/dch_expand_disk.html">
+            
+                <a href="../vic_app_dev/dch_expand_disk.html">
+            
+                    
+                    Expand the Root Disk
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.5.2.3" data-path="../vic_app_dev/dch_photon_proxy.html">
+            
+                <a href="../vic_app_dev/dch_photon_proxy.html">
+            
+                    
+                    Use Proxy Servers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.5.2.4" data-path="../vic_app_dev/add_custom_ca.html">
+            
+                <a href="../vic_app_dev/add_custom_ca.html">
+            
+                    
+                    Add a Custom Registry CA
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.6" data-path="../vic_app_dev/using_volumes_with_vic.html">
+            
+                <a href="../vic_app_dev/using_volumes_with_vic.html">
+            
+                    
+                    Using Volumes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.7" data-path="../vic_app_dev/network_use_cases.html">
+            
+                <a href="../vic_app_dev/network_use_cases.html">
+            
+                    
+                    Container Networking
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.8" data-path="../vic_app_dev/creating_containerized_app_with_vic.html">
+            
+                <a href="../vic_app_dev/creating_containerized_app_with_vic.html">
+            
+                    
+                    Creating a Containerized App
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1.8.1" data-path="../vic_app_dev/putting_apps_into_production.html">
+            
+                <a href="../vic_app_dev/putting_apps_into_production.html">
+            
+                    
+                    Putting Apps into Production
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.8.2" data-path="../vic_app_dev/deploy_single_containervm.html">
+            
+                <a href="../vic_app_dev/deploy_single_containervm.html">
+            
+                    
+                    Deploy a Single Container VM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.8.3" data-path="../vic_app_dev/deploy_multiple_docker_compose.html">
+            
+                <a href="../vic_app_dev/deploy_multiple_docker_compose.html">
+            
+                    
+                    Deploy Container VMs with Compose
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../vic_vsphere_admin/feedback.html">
+            
+                <a href="../vic_vsphere_admin/feedback.html">
+            
+                    
+                    Send Doc Feedback
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" data-path="../pdf.html">
+            
+                <a href="../pdf.html">
+            
+                    
+                    Download PDF
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Deployment Topologies</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="deployment-topologies-for-the-vsphere-integrated-containers-appliance">Deployment Topologies for the vSphere Integrated Containers Appliance</h1><p>You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance.</p><h2 id="deployment-examples-for-vsphere-integrated-containers-registry-">Deployment Examples for vSphere Integrated Containers Registry <a id="examples"></a></h2><p>The main reason why you might deploy multiple vSphere Integrated Containers appliances is to take advantage of the image replication and user management features that vSphere Integrated Containers Registry provides.</p><p>For information about image replication between registries, see <a href="../vic_cloud_admin/replicating_images.html">Replicating Images</a> in <em>vSphere Integrated Containers Management Portal Administration</em>.</p><p>For information about users and user access, see <a href="roles_and_personas.html">vSphere Integrated Containers Roles and Personas</a>  in <em>Overview of vSphere Integrated Containers</em> and <a href="../vic_cloud_admin/working_with_projects.html">Working with Projects</a> in <em>vSphere Integrated Containers Management Portal Administration</em>.</p><p>The following sections provide some examples of typical deployment topologies. The examples are not exhaustive.</p><h3 id="two-way-image-replication-">Two-Way Image Replication <a id="replication"></a></h3><p>You can deploy two vSphere Integrated Containers appliances and use the vSphere Integrated Containers Registry instance in each one as the image replication endpoint for the other.</p><h3 id="user-roles-">User Roles <a id="roles"></a></h3><p>If a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller. This setup provides the following advantages:</p><ul><li>All of the user accounts that are configured in the Platform Services Controller are available to all of the vSphere Integrated Containers appliances. 
+</li>
+<li>You can assign different roles to the same user account in different instances of the appliance. For example, a user can be a vSphere Integrated Containers Management Portal administrator for one appliance, but not for another.
+</li></ul>
+<h3 id="hub-and-spoke-configuration-">Hub and Spoke Configuration <a id="hub"></a></h3><p>In a large vSphere environment, in which not all vCenter Server instances are located in the same place, or are not all in the same vCenter Single Sign On domain, you can create a hub and spoke configuration:</p><ul><li>You deploy one vSphere Integrated Containers appliance to a vCenter Server instance in a centralized location. This appliance acts as a hub. 
+</li>
+<li>You deploy one vSphere Integrated Containers appliance to each of the remote vCenter Server instances.
+</li>
+<li>You configure image replication between the registry in the central hub the vSphere Integrated Containers Registry instances in each location.
+</li></ul>
+<p>In this way, all of the remote locations have access to all of the images from the registry in the central hub. Remote locations benefit from data proximity when pulling images from their local registry. You must add the same users to projects on the different vSphere Integrated Containers instances.</p><h3 id="separate-development-from-production-">Separate Development from Production <a id="dev-prod"></a></h3><p>You can use the registries in different appliances to manage images that are under development, being tested, and are ready for production. For example:</p><table>
+<thead>
+<tr><th> <strong>Registry</strong> </th>
+<th> <strong>Push/Pull</strong> </th>
+<th> <strong>Used For</strong> </th>
+<th> <strong>Replicates To</strong> </th>
+</tr></thead><tbody>
+<tr><td style="text-align:left"> <code>Registry_1</code> </td>
+<td style="text-align:left"> Push and pull </td>
+<td style="text-align:left"> Image development and builds </td>
+<td style="text-align:left"> <code>Registry_2</code> </td>
+</tr><tr><td style="text-align:left"> <code>Registry_2</code> </td>
+<td style="text-align:left"> Pull only </td>
+<td style="text-align:left"> Quality testing of newly developed and built images </td>
+<td style="text-align:left"> <code>Registry_3</code> </td>
+</tr><tr><td style="text-align:left"> <code>Registry_3</code> </td>
+<td style="text-align:left"> Pull only </td>
+<td style="text-align:left"> Staging for images that have passed quality testing </td>
+<td style="text-align:left"> <code>Registry_4</code> </td>
+</tr><tr><td style="text-align:left"> <code>Registry_4</code> </td>
+<td style="text-align:left"> Pull only </td>
+<td style="text-align:left"> Location from which images are deployed from staging to production </td>
+<td style="text-align:left"> Spokes</td>
+</tr></tbody></table>
+
+<p>In this example, <code>Registry_4</code> could act as the hub in a hub and spoke configuration, for operations with many different physical locations.</p><h2 id="vsphere-integrated-containers-plug-in-and-multi-appliance-deployments-">vSphere Integrated Containers Plug-in and Multi-Appliance Deployments <a id="client"></a></h2><p>The vSphere Integrated Containers plug-in for the vSphere Client allows you to deploy virtual container hosts (VCHs) from the vSphere Client. The vSphere Integrated Containers plug-in deploys VCHs by calling on the <code>vic-machine</code> API server that runs in a vSphere Integrated Containers appliance.</p><p>In an environment in which multiple vSphere Integrated Containers appliances are deployed to the same vCenter Server instance, the vSphere Integrated Containers plug-in connects to the API server in one appliance only. The version of the client plug-in must correspond to the version of the appliance. However, the appliance that the client connects to might not be the one that was most recently registered with vCenter Server. Consequently, if you deploy different versions of the appliance to vCenter Server, you might or might not want to install the latest version of the client plug-in.</p><p>For information about installing the vSphere Integrated Containers plug-in, see <a href="../vic_vsphere_admin/deploy_vic_appliance.html">Deploy the vSphere Integrated Containers Appliance</a>.</p><p>For information about how to find the versions of the client plug-in and the appliance instance to which it is connected, see <a href="../vic_vsphere_admin/access_h5_ui.html">View vSphere Integrated Containers Information in the HTML5 vSphere Client</a>.</p><script src="../_gitbook_plugin_analytics.js"></script>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="roles_and_personas.html" class="navigation navigation-prev " aria-label="Previous page: Roles and Personas">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../vic_vsphere_admin/" class="navigation navigation-next " aria-label="Next page: vSphere Administrator">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Deployment Topologies","level":"2.1.2.5","depth":3,"next":{"title":"vSphere Administrator","level":"3.1","depth":1,"path":"vic_vsphere_admin/README.md","ref":"vic_vsphere_admin/README.md","articles":[{"title":"Deployment Prerequisites","level":"3.1.1","depth":2,"path":"vic_vsphere_admin/vic_installation_prereqs.md","ref":"vic_vsphere_admin/vic_installation_prereqs.md","articles":[{"title":"Virtual Infrastructure Requirements","level":"3.1.1.1","depth":3,"path":"vic_vsphere_admin/vi_reqs.md","ref":"vic_vsphere_admin/vi_reqs.md","articles":[]},{"title":"Networking Requirements","level":"3.1.1.2","depth":3,"path":"vic_vsphere_admin/network_reqs.md","ref":"vic_vsphere_admin/network_reqs.md","articles":[]},{"title":"Certificate Requirements","level":"3.1.1.3","depth":3,"path":"vic_vsphere_admin/vic_cert_use.md","ref":"vic_vsphere_admin/vic_cert_use.md","articles":[{"title":"Appliance Certificate Requirements","level":"3.1.1.3.1","depth":4,"path":"vic_vsphere_admin/appliance_cert_reqs.md","ref":"vic_vsphere_admin/appliance_cert_reqs.md","articles":[]},{"title":"VCH Certificate Requirements","level":"3.1.1.3.2","depth":4,"path":"vic_vsphere_admin/vch_cert_reqs.md","ref":"vic_vsphere_admin/vch_cert_reqs.md","articles":[]},{"title":"Obtain vSphere Thumbprints","level":"3.1.1.3.3","depth":4,"path":"vic_vsphere_admin/obtain_thumbprint.md","ref":"vic_vsphere_admin/obtain_thumbprint.md","articles":[]}]},{"title":"Interoperability","level":"3.1.1.4","depth":3,"path":"vic_vsphere_admin/interop.md","ref":"vic_vsphere_admin/interop.md","articles":[]}]},{"title":"Installation","level":"3.1.2","depth":2,"path":"vic_vsphere_admin/installing_vic.md","ref":"vic_vsphere_admin/installing_vic.md","articles":[{"title":"Download Installer","level":"3.1.2.1","depth":3,"path":"vic_vsphere_admin/download_vic.md","ref":"vic_vsphere_admin/download_vic.md","articles":[]},{"title":"Deploy the Appliance","level":"3.1.2.2","depth":3,"path":"vic_vsphere_admin/deploy_vic_appliance.md","ref":"vic_vsphere_admin/deploy_vic_appliance.md","articles":[{"title":"Appliance Registration API","level":"3.1.2.2.1","depth":4,"path":"vic_vsphere_admin/ova_reg_api.md","ref":"vic_vsphere_admin/ova_reg_api.md","articles":[]}]},{"title":"Download Engine Bundle","level":"3.1.2.3","depth":3,"path":"vic_vsphere_admin/vic_engine_bundle.md","ref":"vic_vsphere_admin/vic_engine_bundle.md","articles":[]}]},{"title":"VCH Deployment","level":"3.1.3","depth":2,"path":"vic_vsphere_admin/deploy_vch.md","ref":"vic_vsphere_admin/deploy_vch.md","articles":[{"title":"Using vic-machine","level":"3.1.3.1","depth":3,"path":"vic_vsphere_admin/using_vicmachine.md","ref":"vic_vsphere_admin/using_vicmachine.md","articles":[{"title":"Set Environment Variables","level":"3.1.3.1.1","depth":4,"path":"vic_vsphere_admin/vic_env_variables.md","ref":"vic_vsphere_admin/vic_env_variables.md","articles":[]}]},{"title":"Open the Required Ports on ESXi Hosts","level":"3.1.3.2","depth":3,"path":"vic_vsphere_admin/open_ports_on_hosts.md","ref":"vic_vsphere_admin/open_ports_on_hosts.md","articles":[]},{"title":"Create the Operations User","level":"3.1.3.3","depth":3,"path":"vic_vsphere_admin/create_ops_user.md","ref":"vic_vsphere_admin/create_ops_user.md","articles":[{"title":"Manually Create Operations User","level":"3.1.3.3.1","depth":4,"path":"vic_vsphere_admin/ops_user_manual.md","ref":"vic_vsphere_admin/ops_user_manual.md","articles":[]}]},{"title":"Deploy VCHs in vSphere Client","level":"3.1.3.4","depth":3,"path":"vic_vsphere_admin/deploy_vch_client.md","ref":"vic_vsphere_admin/deploy_vch_client.md","articles":[]},{"title":"VCH Deployment Options","level":"3.1.3.5","depth":3,"path":"vic_vsphere_admin/vch_deployment_options.md","ref":"vic_vsphere_admin/vch_deployment_options.md","articles":[{"title":"General Settings","level":"3.1.3.5.1","depth":4,"path":"vic_vsphere_admin/vch_general_settings.md","ref":"vic_vsphere_admin/vch_general_settings.md","articles":[]},{"title":"Compute Capacity","level":"3.1.3.5.2","depth":4,"path":"vic_vsphere_admin/vch_compute.md","ref":"vic_vsphere_admin/vch_compute.md","articles":[]},{"title":"Storage Capacity","level":"3.1.3.5.3","depth":4,"path":"vic_vsphere_admin/vch_storage.md","ref":"vic_vsphere_admin/vch_storage.md","articles":[{"title":"Image Datastore","level":"3.1.3.5.3.1","depth":5,"path":"vic_vsphere_admin/image_store.md","ref":"vic_vsphere_admin/image_store.md","articles":[]},{"title":"Volume Datastores","level":"3.1.3.5.3.2","depth":5,"path":"vic_vsphere_admin/volume_stores.md","ref":"vic_vsphere_admin/volume_stores.md","articles":[]}]},{"title":"Networks","level":"3.1.3.5.4","depth":4,"path":"vic_vsphere_admin/vch_networking.md","ref":"vic_vsphere_admin/vch_networking.md","articles":[{"title":"Bridge Networks","level":"3.1.3.5.4.1","depth":5,"path":"vic_vsphere_admin/bridge_network.md","ref":"vic_vsphere_admin/bridge_network.md","articles":[]},{"title":"Public Network","level":"3.1.3.5.4.2","depth":5,"path":"vic_vsphere_admin/public_network.md","ref":"vic_vsphere_admin/public_network.md","articles":[]},{"title":"Client Network","level":"3.1.3.5.4.3","depth":5,"path":"vic_vsphere_admin/client_network.md","ref":"vic_vsphere_admin/client_network.md","articles":[]},{"title":"Management Network","level":"3.1.3.5.4.4","depth":5,"path":"vic_vsphere_admin/mgmt_network.md","ref":"vic_vsphere_admin/mgmt_network.md","articles":[]},{"title":"Proxy Servers","level":"3.1.3.5.4.5","depth":5,"path":"vic_vsphere_admin/vch_proxy.md","ref":"vic_vsphere_admin/vch_proxy.md","articles":[]},{"title":"Container Networks","level":"3.1.3.5.4.6","depth":5,"path":"vic_vsphere_admin/container_networks.md","ref":"vic_vsphere_admin/container_networks.md","articles":[]}]},{"title":"Security","level":"3.1.3.5.5","depth":4,"path":"vic_vsphere_admin/vch_security.md","ref":"vic_vsphere_admin/vch_security.md","articles":[{"title":"VCH Certificate Options","level":"3.1.3.5.5.1","depth":5,"path":"vic_vsphere_admin/vch_cert_options.md","ref":"vic_vsphere_admin/vch_cert_options.md","articles":[]},{"title":"Disable Client Verification","level":"3.1.3.5.5.2","depth":5,"path":"vic_vsphere_admin/tls_unrestricted.md","ref":"vic_vsphere_admin/tls_unrestricted.md","articles":[]}]},{"title":"Registry Access","level":"3.1.3.5.6","depth":4,"path":"vic_vsphere_admin/vch_registry.md","ref":"vic_vsphere_admin/vch_registry.md","articles":[]},{"title":"Operations User","level":"3.1.3.5.7","depth":4,"path":"vic_vsphere_admin/set_up_ops_user.md","ref":"vic_vsphere_admin/set_up_ops_user.md","articles":[]},{"title":"Finish VCH Deployment","level":"3.1.3.5.8","depth":4,"path":"vic_vsphere_admin/complete_vch_deployment_client.md","ref":"vic_vsphere_admin/complete_vch_deployment_client.md","articles":[]}]},{"title":"Deploy a Test VCH","level":"3.1.3.6","depth":3,"path":"vic_vsphere_admin/deploy_test_vch.md","ref":"vic_vsphere_admin/deploy_test_vch.md","articles":[{"title":"ESXi Host with No vCenter Server","level":"3.1.3.6.1","depth":4,"path":"vic_vsphere_admin/deploy_vch_esxi.md","ref":"vic_vsphere_admin/deploy_vch_esxi.md","articles":[]},{"title":"VCH with Volume Store and Registry","level":"3.1.3.6.2","depth":4,"path":"vic_vsphere_admin/deploy_vch_dchphoton.md","ref":"vic_vsphere_admin/deploy_vch_dchphoton.md","articles":[]}]},{"title":"VCH Boot Options","level":"3.1.3.7","depth":3,"path":"vic_vsphere_admin/vch_boot_options.md","ref":"vic_vsphere_admin/vch_boot_options.md","articles":[]},{"title":"VCH Sizing Guidelines","level":"3.1.3.8","depth":3,"path":"vic_vsphere_admin/vch_sizing_guidelines.md","ref":"vic_vsphere_admin/vch_sizing_guidelines.md","articles":[]}]},{"title":"VCH Administration","level":"3.1.4","depth":2,"path":"vic_vsphere_admin/vch_admin.md","ref":"vic_vsphere_admin/vch_admin.md","articles":[{"title":"VCH Admin in the vSphere Client","level":"3.1.4.1","depth":3,"path":"vic_vsphere_admin/vch_admin_client.md","ref":"vic_vsphere_admin/vch_admin_client.md","articles":[{"title":"View VIC Information","level":"3.1.4.1.1","depth":4,"path":"vic_vsphere_admin/access_h5_ui.md","ref":"vic_vsphere_admin/access_h5_ui.md","articles":[]},{"title":"View VCH and Container Information","level":"3.1.4.1.2","depth":4,"path":"vic_vsphere_admin/vch_portlet_ui.md","ref":"vic_vsphere_admin/vch_portlet_ui.md","articles":[]}]},{"title":"VCH Admin with vic-machine","level":"3.1.4.2","depth":3,"path":"vic_vsphere_admin/vch_admin_vicmachine.md","ref":"vic_vsphere_admin/vch_admin_vicmachine.md","articles":[{"title":"Obtain Version Information","level":"3.1.4.2.1","depth":4,"path":"vic_vsphere_admin/vic_machine_version.md","ref":"vic_vsphere_admin/vic_machine_version.md","articles":[]},{"title":"Common Options","level":"3.1.4.2.2","depth":4,"path":"vic_vsphere_admin/common_vic_options.md","ref":"vic_vsphere_admin/common_vic_options.md","articles":[]},{"title":"List VCHs","level":"3.1.4.2.3","depth":4,"path":"vic_vsphere_admin/list_vch.md","ref":"vic_vsphere_admin/list_vch.md","articles":[]},{"title":"Obtain General VCH Information","level":"3.1.4.2.4","depth":4,"path":"vic_vsphere_admin/inspect_vch.md","ref":"vic_vsphere_admin/inspect_vch.md","articles":[]},{"title":"Obtain VCH Configuration Information","level":"3.1.4.2.5","depth":4,"path":"vic_vsphere_admin/inspect_vch_config.md","ref":"vic_vsphere_admin/inspect_vch_config.md","articles":[]},{"title":"Configure Running VCHs","level":"3.1.4.2.6","depth":4,"path":"vic_vsphere_admin/configure_vch.md","ref":"vic_vsphere_admin/configure_vch.md","articles":[]},{"title":"Debug Running VCHs","level":"3.1.4.2.7","depth":4,"path":"vic_vsphere_admin/debug_vch.md","ref":"vic_vsphere_admin/debug_vch.md","articles":[{"title":"Enable Shell Access","level":"3.1.4.2.7.1","depth":5,"path":"vic_vsphere_admin/vch_shell_access.md","ref":"vic_vsphere_admin/vch_shell_access.md","articles":[]},{"title":"Authorize SSH Access","level":"3.1.4.2.7.2","depth":5,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]}]}]},{"title":"Delete VCHs","level":"3.1.4.3","depth":3,"path":"vic_vsphere_admin/remove_vch.md","ref":"vic_vsphere_admin/remove_vch.md","articles":[]},{"title":"VCH Admin Portal","level":"3.1.4.4","depth":3,"path":"vic_vsphere_admin/access_vicadmin.md","ref":"vic_vsphere_admin/access_vicadmin.md","articles":[{"title":"Browser-Based Certificate Login","level":"3.1.4.4.1","depth":4,"path":"vic_vsphere_admin/browser_login.md","ref":"vic_vsphere_admin/browser_login.md","articles":[]},{"title":"Command Line Certificate Login","level":"3.1.4.4.2","depth":4,"path":"vic_vsphere_admin/cmdline_login.md","ref":"vic_vsphere_admin/cmdline_login.md","articles":[]},{"title":"VCH Admin Status Reference","level":"3.1.4.4.3","depth":4,"path":"vic_vsphere_admin/vicadmin_status_ref.md","ref":"vic_vsphere_admin/vicadmin_status_ref.md","articles":[]}]}]},{"title":"Upgrading","level":"3.1.5","depth":2,"path":"vic_vsphere_admin/upgrading_vic.md","ref":"vic_vsphere_admin/upgrading_vic.md","articles":[{"title":"Pre-Upgrade Tasks","level":"3.1.5.1","depth":3,"path":"vic_vsphere_admin/pre_upgrade_tasks.md","ref":"vic_vsphere_admin/pre_upgrade_tasks.md","articles":[]},{"title":"Upgrade the Appliance","level":"3.1.5.2","depth":3,"path":"vic_vsphere_admin/upgrade_appliance.md","ref":"vic_vsphere_admin/upgrade_appliance.md","articles":[{"title":"Copy Disks Manually","level":"3.1.5.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_appliance_manual.md","ref":"vic_vsphere_admin/upgrade_appliance_manual.md","articles":[]}]},{"title":"Upgrade VCHs","level":"3.1.5.3","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"3.1.5.3.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]}]},{"title":"Backup and Restore","level":"3.1.6","depth":2,"path":"vic_vsphere_admin/backup_vic.md","ref":"vic_vsphere_admin/backup_vic.md","articles":[{"title":"Appliance","level":"3.1.6.1","depth":3,"path":"vic_vsphere_admin/backup_vic_appliance.md","ref":"vic_vsphere_admin/backup_vic_appliance.md","articles":[]},{"title":"VCHs","level":"3.1.6.2","depth":3,"path":"vic_vsphere_admin/backup_vch.md","ref":"vic_vsphere_admin/backup_vch.md","articles":[]},{"title":"Container Volumes","level":"3.1.6.3","depth":3,"path":"vic_vsphere_admin/backup_volumes.md","ref":"vic_vsphere_admin/backup_volumes.md","articles":[{"title":"Backing Up VMDK Volumes","level":"3.1.6.3.1","depth":4,"path":"vic_vsphere_admin/backup_vmdk.md","ref":"vic_vsphere_admin/backup_vmdk.md","articles":[]},{"title":"Restoring VMDK Volumes","level":"3.1.6.3.2","depth":4,"path":"vic_vsphere_admin/restore_vmdk.md","ref":"vic_vsphere_admin/restore_vmdk.md","articles":[]}]}]},{"title":"Manage the Appliance","level":"3.1.7","depth":2,"path":"vic_vsphere_admin/manage_appliance.md","ref":"vic_vsphere_admin/manage_appliance.md","articles":[{"title":"Reconfigure the Appliance","level":"3.1.7.1","depth":3,"path":"vic_vsphere_admin/reconfigure_appliance.md","ref":"vic_vsphere_admin/reconfigure_appliance.md","articles":[]},{"title":"Obtain Appliance Certificates","level":"3.1.7.2","depth":3,"path":"vic_vsphere_admin/obtain_appliance_certs.md","ref":"vic_vsphere_admin/obtain_appliance_certs.md","articles":[]},{"title":"Reinitialize the Appliance","level":"3.1.7.3","depth":3,"path":"vic_vsphere_admin/reinitialize_appliance.md","ref":"vic_vsphere_admin/reinitialize_appliance.md","articles":[{"title":"Re-Tag the Appliance","level":"3.1.7.3.1","depth":4,"path":"vic_vsphere_admin/retag_appliance.md","ref":"vic_vsphere_admin/retag_appliance.md","articles":[]}]},{"title":"Update PSC Registration","level":"3.1.7.4","depth":3,"path":"vic_vsphere_admin/manual_register_psc.md","ref":"vic_vsphere_admin/manual_register_psc.md","articles":[]},{"title":"Check Service Status","level":"3.1.7.5","depth":3,"path":"vic_vsphere_admin/service_status.md","ref":"vic_vsphere_admin/service_status.md","articles":[]},{"title":"Restart Services","level":"3.1.7.6","depth":3,"path":"vic_vsphere_admin/restart_services.md","ref":"vic_vsphere_admin/restart_services.md","articles":[]},{"title":"Recover Appliance Password","level":"3.1.7.7","depth":3,"path":"vic_vsphere_admin/ts_recover_password.md","ref":"vic_vsphere_admin/ts_recover_password.md","articles":[]},{"title":"Uninstall","level":"3.1.7.8","depth":3,"path":"vic_vsphere_admin/uninstall_vic.md","ref":"vic_vsphere_admin/uninstall_vic.md","articles":[]}]},{"title":"Troubleshooting","level":"3.1.8","depth":2,"path":"vic_vsphere_admin/troubleshoot_vic.md","ref":"vic_vsphere_admin/troubleshoot_vic.md","articles":[{"title":"Access Logs","level":"3.1.8.1","depth":3,"path":"vic_vsphere_admin/access_logs.md","ref":"vic_vsphere_admin/access_logs.md","articles":[{"title":"Access and Configure Appliance Logs","level":"3.1.8.1.1","depth":4,"path":"vic_vsphere_admin/appliance_logs.md","ref":"vic_vsphere_admin/appliance_logs.md","articles":[]},{"title":"Access VCH Logs","level":"3.1.8.1.2","depth":4,"path":"vic_vsphere_admin/log_bundles.md","ref":"vic_vsphere_admin/log_bundles.md","articles":[]}]},{"title":"Appliance Deployment","level":"3.1.8.2","depth":3,"path":"vic_vsphere_admin/ts_deploy_appliance.md","ref":"vic_vsphere_admin/ts_deploy_appliance.md","articles":[{"title":"Appliance Boot Errors","level":"3.1.8.2.1","depth":4,"path":"vic_vsphere_admin/ts_appliance_boot_errors.md","ref":"vic_vsphere_admin/ts_appliance_boot_errors.md","articles":[]},{"title":"Appliance OVF Error","level":"3.1.8.2.2","depth":4,"path":"vic_vsphere_admin/ts_ovf_error.md","ref":"vic_vsphere_admin/ts_ovf_error.md","articles":[]},{"title":"Registry Services Do Not Start","level":"3.1.8.2.3","depth":4,"path":"vic_vsphere_admin/ts_reg_doesnt_start.md","ref":"vic_vsphere_admin/ts_reg_doesnt_start.md","articles":[]},{"title":"Appliance VM Password Refused","level":"3.1.8.2.4","depth":4,"path":"vic_vsphere_admin/ts_appliance_password_refused.md","ref":"vic_vsphere_admin/ts_appliance_password_refused.md","articles":[]},{"title":"Browser Rejects Certificates","level":"3.1.8.2.5","depth":4,"path":"vic_vsphere_admin/ts_cert_error.md","ref":"vic_vsphere_admin/ts_cert_error.md","articles":[]},{"title":"Registration with PSC Fails","level":"3.1.8.2.6","depth":4,"path":"vic_vsphere_admin/ts_psc_registration_error.md","ref":"vic_vsphere_admin/ts_psc_registration_error.md","articles":[]},{"title":"Appliance Initialization Errors","level":"3.1.8.2.7","depth":4,"path":"vic_vsphere_admin/ts_appliance_initialization_errors.md","ref":"vic_vsphere_admin/ts_appliance_initialization_errors.md","articles":[]},{"title":"Access to Management Portal Fails","level":"3.1.8.2.8","depth":4,"path":"vic_vsphere_admin/ts_admiral_access_error.md","ref":"vic_vsphere_admin/ts_admiral_access_error.md","articles":[]},{"title":"Appliance Running Errors","level":"3.1.8.2.9","depth":4,"path":"vic_vsphere_admin/ts_appliance_running_errors.md","ref":"vic_vsphere_admin/ts_appliance_running_errors.md","articles":[]},{"title":"Appliance Welcome Page Error","level":"3.1.8.2.10","depth":4,"path":"vic_vsphere_admin/vicappliance_welcomepage_error.md","ref":"vic_vsphere_admin/vicappliance_welcomepage_error.md","articles":[]}]},{"title":"Plug-In Does Not Appear","level":"3.1.8.3","depth":3,"path":"vic_vsphere_admin/ts_ui_not_appearing.md","ref":"vic_vsphere_admin/ts_ui_not_appearing.md","articles":[]},{"title":"VCH Deployment","level":"3.1.8.4","depth":3,"path":"vic_vsphere_admin/ts_deploy_vch.md","ref":"vic_vsphere_admin/ts_deploy_vch.md","articles":[{"title":"Firewall Validation Error","level":"3.1.8.4.1","depth":4,"path":"vic_vsphere_admin/ts_firewall_error.md","ref":"vic_vsphere_admin/ts_firewall_error.md","articles":[]},{"title":"VCH Deployment Times Out","level":"3.1.8.4.2","depth":4,"path":"vic_vsphere_admin/ts_vch_deployment_timeout.md","ref":"vic_vsphere_admin/ts_vch_deployment_timeout.md","articles":[]},{"title":"Certificate Verification Error","level":"3.1.8.4.3","depth":4,"path":"vic_vsphere_admin/ts_thumbprint_error.md","ref":"vic_vsphere_admin/ts_thumbprint_error.md","articles":[]},{"title":"Missing Common Name Error Even When TLS Options Are Specified Correctly","level":"3.1.8.4.4","depth":4,"path":"vic_vsphere_admin/ts_cli_argument_error.md","ref":"vic_vsphere_admin/ts_cli_argument_error.md","articles":[]},{"title":"Certificate cname Mismatch","level":"3.1.8.4.5","depth":4,"path":"vic_vsphere_admin/ts_cname_mismatch.md","ref":"vic_vsphere_admin/ts_cname_mismatch.md","articles":[]},{"title":"Docker API Endpoint Check Failed Error","level":"3.1.8.4.6","depth":4,"path":"vic_vsphere_admin/ts_docker_api_check_error.md","ref":"vic_vsphere_admin/ts_docker_api_check_error.md","articles":[]},{"title":"No Single Host Can Access All Datastores","level":"3.1.8.4.7","depth":4,"path":"vic_vsphere_admin/ts_datastore_access_error.md","ref":"vic_vsphere_admin/ts_datastore_access_error.md","articles":[]},{"title":"VCH Does Not Initialize Correctly","level":"3.1.8.4.8","depth":4,"path":"vic_vsphere_admin/ts_vch_incorrect_initialization.md","ref":"vic_vsphere_admin/ts_vch_incorrect_initialization.md","articles":[]}]},{"title":"Post-Deployment Operation","level":"3.1.8.5","depth":3,"path":"vic_vsphere_admin/ts_post_deployment_op.md","ref":"vic_vsphere_admin/ts_post_deployment_op.md","articles":[{"title":"Certificate and PSC Token Errors","level":"3.1.8.5.1","depth":4,"path":"vic_vsphere_admin/ts_clock_skew.md","ref":"vic_vsphere_admin/ts_clock_skew.md","articles":[]},{"title":"Some Users Cannot Access Services","level":"3.1.8.5.2","depth":4,"path":"vic_vsphere_admin/ts_no_access_to_vic_services.md","ref":"vic_vsphere_admin/ts_no_access_to_vic_services.md","articles":[]},{"title":"Default Volume Store Error","level":"3.1.8.5.3","depth":4,"path":"vic_vsphere_admin/ts_volume_store_error.md","ref":"vic_vsphere_admin/ts_volume_store_error.md","articles":[]},{"title":"Deleting or Inspecting a VCH Fails","level":"3.1.8.5.4","depth":4,"path":"vic_vsphere_admin/ts_delete_inspect_error.md","ref":"vic_vsphere_admin/ts_delete_inspect_error.md","articles":[]},{"title":"Docker Login Fails","level":"3.1.8.5.5","depth":4,"path":"vic_vsphere_admin/ts_dockerlogin_error.md","ref":"vic_vsphere_admin/ts_dockerlogin_error.md","articles":[]},{"title":"Image Store Error","level":"3.1.8.5.6","depth":4,"path":"vic_vsphere_admin/ts_imagestore_error.md","ref":"vic_vsphere_admin/ts_imagestore_error.md","articles":[]}]},{"title":"Install Packages in VCHs","level":"3.1.8.6","depth":3,"path":"vic_vsphere_admin/vch_install_packages.md","ref":"vic_vsphere_admin/vch_install_packages.md","articles":[{"title":"Mount an NFS Share Point","level":"3.1.8.6.1","depth":4,"path":"vic_vsphere_admin/vch_mount_nfsshare.md","ref":"vic_vsphere_admin/vch_mount_nfsshare.md","articles":[]}]},{"title":"Upgrade Operation","level":"3.1.8.7","depth":3,"path":"vic_vsphere_admin/ts_upgrade_op.md","ref":"vic_vsphere_admin/ts_upgrade_op.md","articles":[{"title":"Container VMs Orphaned After Upgrade","level":"3.1.8.7.1","depth":4,"path":"vic_vsphere_admin/ts_orphaned_cvms.md","ref":"vic_vsphere_admin/ts_orphaned_cvms.md","articles":[]}]}]},{"title":"Security Reference","level":"3.1.9","depth":2,"path":"vic_vsphere_admin/security_reference.md","ref":"vic_vsphere_admin/security_reference.md","articles":[]},{"title":"vic-machine Options Reference","level":"3.1.10","depth":2,"path":"vic_vsphere_admin/vicmachine_options_ref.md","ref":"vic_vsphere_admin/vicmachine_options_ref.md","articles":[]}]},"previous":{"title":"Roles and Personas","level":"2.1.2.4","depth":3,"path":"vic_overview/roles_and_personas.md","ref":"vic_overview/roles_and_personas.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc-button","noembed","chapter-fold","insert-logo","edit-link","analytics"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"analytics":{"context":[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/"]}]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"page-toc-button":{"maxTocDepth":2,"minTocSize":3},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_overview/vic_deployment_topos.md","mtime":"2019-03-13T10:35:51.502Z","type":"markdown"},"gitbook":{"version":"3.2.0","time":"2019-03-13T11:14:23.399Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-page-toc-button/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-noembed/scripts.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-chapter-fold/chapter-fold.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-insert-logo/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
