@@ -449,6 +449,23 @@ pipeline:
     commands:
       - tests/pass-rate.sh
 
+  publish-docs:
+    image: 'wdc-harbor-ci.eng.vmware.com/default-project/published-docs-test:1.0'
+    pull: true
+    environment:
+      BIN: bin
+      GOPATH: /go
+      SHELL: /bin/bash
+    secrets:
+      - github_automation_api_key
+    commands:
+      - tests/auto_published_docs.sh
+    when:
+      repo: vmware/vic-product
+      event: [push]
+      branch: [master]
+      status: [success, failure]
+
 services:
 
   selenium-grid-hub:
