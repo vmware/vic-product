@@ -203,8 +203,10 @@ function disableServicesStart {
   log "Disabling and stopping Admiral and Harbor"
   systemctl stop admiral.service
   systemctl stop harbor.service
+  systemctl stop reconfigure_token.path
   systemctl disable admiral.service
   systemctl disable harbor.service
+  systemctl disable reconfigure_token.path
 }
 
 # Enable Admiral and Harbor starting
@@ -212,8 +214,10 @@ function enableServicesStart {
   log "Enabling and starting Admiral and Harbor"
   systemctl enable admiral.service
   systemctl enable harbor.service
+  systemctl enable reconfigure_token.path
   systemctl start admiral.service
   systemctl start harbor.service
+  systemctl start reconfigure_token.path
 }
 
 ### Valid upgrade paths to v1.5.2
