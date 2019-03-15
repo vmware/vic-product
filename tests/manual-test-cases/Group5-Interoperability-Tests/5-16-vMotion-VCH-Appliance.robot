@@ -16,8 +16,9 @@
 Documentation  Test 5-16 - vMotion VCH Appliance
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  vMotion Setup
-Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Suite Teardown  Run Keyword And Ignore Error  Nimbus Pod Cleanup  ${nimbus_pod}  ${testbedname}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Gather Logs
+Test Timeout  90 minutes
 
 *** Keywords ***
 Gather Logs
@@ -25,46 +26,62 @@ Gather Logs
     Collect Appliance and VCH Logs  ${VCH-NAME}
 
 vMotion Setup
-    [Timeout]    110 minutes
-    Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
-    ${name}=  Evaluate  '5-16-vic-vmotion-' + str(random.randint(1000,9999))  modules=random
-    Set Suite Variable  ${user}  %{NIMBUS_PERSONAL_USER}
-    ${out}=  Deploy Nimbus Testbed  spec=vic-vsan.rb  args=--plugin testng --noSupportBundles --vcvaBuild "${VC_VERSION}" --esxPxeDir "${ESX_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vic-vsan-simple-pxeBoot-vcva --runName ${name}
-
+    [Timeout]    60 minutes
+    ${name}=  Evaluate  'vic-iscsi-cluster-' + str(random.randint(1000,9999))  modules=random
+    Log To Console  Create a new simple vc cluster with spec vic-cluster-2esxi-iscsi.rb...
+    ${out}=  Deploy Nimbus Testbed  spec=vic-cluster-2esxi-iscsi.rb  args=--noSupportBundles --plugin testng --vcvaBuild "${VC_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vic-iscsi-cluster --runName ${name}
     Log  ${out}
-    Should Contain  ${out}  "deployment_result"=>"PASS"
+    Log To Console  Finished creating cluster ${name}
 
-    Log To Console   Get VC IP ...
-    Open Connection  %{NIMBUS_GW}
-    Wait Until Keyword Succeeds  10 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
-    ${vc-ip}=  Get IP  ${name}.vc.0
-    
-    Close Connection
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
+    ${vc_ip}=  Fetch From Right  ${out}  ${SPACE}
+    Log  ${vc_ip}
 
-    Set Suite Variable  @{list}  ${user}-${name}.vc.0  ${user}-${name}.esx.0  ${user}-${name}.esx.1  ${user}-${name}.esx.2  ${user}-${name}.esx.3  ${user}-${name}.nfs.0  ${user}-${name}.iscsi.0
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.esx.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.esx.0
+    ${esx0_ip}=  Fetch From Right  ${out}  ${SPACE}
+    Log  ${esx0_ip}
 
-    Log To Console  Set environment variables up for GOVC
-    Set Environment Variable  GOVC_INSECURE  1
-    Set Environment Variable  GOVC_URL  ${vc-ip}
-    Set Environment Variable  GOVC_USERNAME  Administrator@vsphere.local
-    Set Environment Variable  GOVC_PASSWORD  Admin\!23
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.esx.1 | grep %{NIMBUS_PERSONAL_USER}-${name}.esx.1
+    ${esx1_ip}=  Fetch From Right  ${out}  ${SPACE}
+    Log  ${esx1__ip}
 
-    Log To Console  Enable DRS on the cluster
-    ${out}=  Run  govc cluster.change -drs-enabled /dc1/host/cls
-    Should Be Empty  ${out}
+    ${pod}=  Fetch Pod  ${name}
+    Log  ${pod}
 
-    Log To Console  Deploy VIC to the VC cluster
-    Set Environment Variable  TEST_URL  ${vc-ip}
+    # set nimbus variable
+    Set Suite Variable  ${nimbus_pod}  ${pod}
+    Set Suite Variable  ${testbedname}  ${name}
+  
+    Set Suite Variable  ${esx0_ip}  ${esx0_ip}
+    Set Suite Variable  ${esx1_ip}  ${esx1_ip}
+
+    # set test variables
+    Set Environment Variable  TEST_URL  ${vc_ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Remove Environment Variable  TEST_DATACENTER
-    Set Environment Variable  TEST_DATASTORE  vsanDatastore
     Set Environment Variable  TEST_RESOURCE  /dc1/host/cls
-
-    Gather Host IPs
-    Log To Console   Finished Creating vMotion Setup
+    Set Environment Variable  TEST_DATASTORE  sharedVmfs-0
+ 
+    # set VC variables
+    Set Test VC Variables
+    # set VCH variables
+    Set Environment Variable  DRONE_BUILD_NUMBER  0
+    Set Environment Variable  VCH_TIMEOUT  20m0s
+    # set docker variables
+    # not using dind but host dockerd for these nightly tests
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER}  docker
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER_ENDPOINT}  unix:///var/run/docker.sock
+    # set harbor variables
+    Set Global Variable  ${DEFAULT_HARBOR_PROJECT}  default-project
+    # govc env variables
+    Set Environment Variable  GOVC_URL  %{TEST_URL}
+    Set Environment Variable  GOVC_USERNAME  %{TEST_USERNAME}
+    Set Environment Variable  GOVC_PASSWORD  %{TEST_PASSWORD}
+    Set Environment Variable  GOVC_INSECURE  1
+    # check VC
+    Check VCenter
 
 *** Test Cases ***
 Test
@@ -74,8 +91,8 @@ Test
    Log To Console  vMotion VCH...
    ${host}=  Get VM Host By IP  ${VCH-IP}
 
-   ${status}=  Run Keyword And Return Status  Should Contain  ${host}  ${esx1-ip}
-   Run Keyword If  ${status}  Run  govc vm.migrate -host cls/${esx2-ip} ${VCH-NAME}
-   Run Keyword Unless  ${status}  Run  govc vm.migrate -host cls/${esx1-ip} ${VCH-NAME}
+   ${status}=  Run Keyword And Return Status  Should Contain  ${host}  ${esx0_ip}
+   Run Keyword If  ${status}  Run  govc vm.migrate -host cls/${esx1_ip} ${VCH-NAME}
+   Run Keyword Unless  ${status}  Run  govc vm.migrate -host cls/${esx0_ip} ${VCH-NAME}
 
    Run Docker Regression Tests For VCH

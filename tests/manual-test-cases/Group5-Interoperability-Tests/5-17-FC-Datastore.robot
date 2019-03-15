@@ -18,6 +18,7 @@ Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  FC Datastore Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
+Test Timeout  90 minutes
 
 *** Variables ***
 ${NIMBUS_LOCATION}  sc
@@ -25,7 +26,7 @@ ${NIMBUS_LOCATION_FULL}  NIMBUS_LOCATION=${NIMBUS_LOCATION}
 
 *** Keywords ***
 FC Datastore Setup
-    [Timeout]    110 minutes
+    [Timeout]    60 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
     Log To Console  Deploying test bed with FC datastore...
     ${name}=  Evaluate  'vic-fc-' + str(random.randint(1000,9999))  modules=random

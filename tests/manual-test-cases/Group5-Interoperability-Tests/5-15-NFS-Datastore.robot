@@ -16,29 +16,63 @@
 Documentation  Test 5-15 - NFS Datastore
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  NFS Datastore Setup
-Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Suite Teardown  Run Keyword And Ignore Error  Nimbus Pod Cleanup  ${nimbus_pod}  ${testbedname}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
+Test Timeout  90 minutes
 
 *** Keywords ***
 NFS Datastore Setup
-    [Timeout]    110 minutes
-    Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
-    ${esx1}  ${esx2}  ${esx3}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${esx3-ip}  ${vc-ip}=  Create a Simple VC Cluster  datacenter1  cls1
-    Set Suite Variable  @{list}  ${esx1}  ${esx2}  ${esx3}  %{NIMBUS_PERSONAL_USER}-${vc}
+    [Timeout]    60 minutes
+    ${name}=  Evaluate  'vic-nfs' + str(random.randint(1000,9999))  modules=random
+    Log To Console  Create a new simple vc cluster with spec vic-nfs.rb...
+    ${out}=  Deploy Nimbus Testbed  spec=vic-nfs.rb  args=--noSupportBundles --plugin testng --vcvaBuild "${VC_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vic-nfs --runName ${name}
+    Log  ${out}
+    Log To Console  Finished creating cluster ${name}
 
-    ${name}  ${ip}=  Deploy Nimbus NFS Datastore
-    Append To List  ${list}  ${name}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
+    ${vc_ip}=  Fetch From Right  ${out}  ${SPACE}
+    Log  ${vc_ip}
 
-    ${out}=  Run  govc datastore.create -mode readWrite -type nfs -name nfsDatastore -remote-host ${ip} -remote-path /store /datacenter1/host/cls1
-    Should Be Empty  ${out}
+    ${pod}=  Fetch Pod  ${name}
+    Log  ${pod}
+    # set nimbus variable
+    Set Suite Variable  ${nimbus_pod}  ${pod}
+    Set Suite Variable  ${testbedname}  ${name}
 
-    Set Environment Variable  TEST_DATASTORE  nfsDatastore
-    Set Environment Variable  TEST_URL  ${vc-ip}
+    # set test variables
+    Set Environment Variable  TEST_URL  ${vc_ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
     Set Environment Variable  TEST_PASSWORD  Admin\!23
+    
+    # govc env variables
+    Set Environment Variable  GOVC_URL  %{TEST_URL}
+    Set Environment Variable  GOVC_USERNAME  %{TEST_USERNAME}
+    Set Environment Variable  GOVC_PASSWORD  %{TEST_PASSWORD}
+    Set Environment Variable  GOVC_INSECURE  1
+    
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Set Environment Variable  TEST_RESOURCE  /datacenter1/host/cls1
+    Set Environment Variable  TEST_RESOURCE  /dc1/host/cls1
+    Set Environment Variable  TEST_DATASTORE  nfs0-1
+    
+    # set VC variables
+    Set Test VC Variables
+    # set VCH variables
+    Set Environment Variable  DRONE_BUILD_NUMBER  0
+    Set Environment Variable  VCH_TIMEOUT  20m0s
+    # set docker variables
+    # not using dind but host dockerd for these nightly tests
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER}  docker
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER_ENDPOINT}  unix:///var/run/docker.sock
+    # set harbor variables
+    Set Global Variable  ${DEFAULT_HARBOR_PROJECT}  default-project
+    # govc env variables
+    Set Environment Variable  GOVC_URL  %{TEST_URL}
+    Set Environment Variable  GOVC_USERNAME  %{TEST_USERNAME}
+    Set Environment Variable  GOVC_PASSWORD  %{TEST_PASSWORD}
+    Set Environment Variable  GOVC_INSECURE  1
+    # check VC
+    Check VCenter
 
 *** Test Cases ***
 Test
