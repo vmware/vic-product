@@ -16,156 +16,75 @@
 Documentation  Test 5-05 - Enhanced Linked Mode
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  Enhanced Link Mode Setup
+Suite Teardown  Run Keyword And Ignore Error  Nimbus Pod Cleanup  ${nimbus_pod}  ${testbedname}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
-
-*** Variables ***
-${NIMBUS_LOCATION}  sc
-${NIMBUS_LOCATION_FULL}  NIMBUS_LOCATION=${NIMBUS_LOCATION}
+Test Timeout  90 minutes
 
 *** Keywords ***
-# Insert elements from dict2 into dict1, overwriting conflicts in dict1 & returning new dict
-Combine Dictionaries
-    [Arguments]  ${dict1}  ${dict2}
-    ${dict2keys}=  Get Dictionary Keys  ${dict2}
-    :FOR  ${key}  IN  @{dict2keys}
-    \    ${elem}=  Get From Dictionary  ${dict2}  ${key}
-    \    Set To Dictionary  ${dict1}  ${key}  ${elem}
-    [Return]  ${dict1}
-
 Enhanced Link Mode Setup
-    [Timeout]    110 minutes
-    Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
-    ${name}=  Evaluate  'els-' + str(random.randint(1000,9999))  modules=random
-    Set Suite Variable  ${user}  %{NIMBUS_PERSONAL_USER}
-    Log To Console  \nDeploying Nimbus Testbed: ${name}
+    [Timeout]    60 minutes
+    ${name}=  Evaluate  'vic-enhancedlinkmode' + str(random.randint(1000,9999))  modules=random
+    Log To Console  Create a new simple vc cluster with spec vic-enhancedlinkmode.rb...
+    ${out}=  Deploy Nimbus Testbed  spec=vic-enhancedlinkmode.rb  args=--noSupportBundles --plugin testng --vcvaBuild "${VC_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vic-enhancedlinkmode --runName ${name}
+    Log  ${out}
+    Log To Console  Finished creating cluster ${name}
 
-    ${pid}=  Run Secret SSHPASS command  '${NIMBUS_LOCATION_FULL} USER=${user} nimbus-testbeddeploy --lease 0.25 --noStatsDump --noSupportBundles --plugin test-vpx --testbedName test-vpx-m2n2-vcva-3esx-pxeBoot-8gbmem --vcvaBuild "${VC_VERSION}" --esxPxeDir "${ESX_VERSION}" --runName ${name}'
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
+    ${psc1_ip}=  Fetch From Right  ${out}  ${SPACE}
+    Log  ${psc1_ip}
 
-    &{esxes}=  Create Dictionary
-    ${num_of_esxes}=  Evaluate  3
-    :FOR  ${i}  IN RANGE  3
-    # Deploy some ESXi instances
-    \    &{new_esxes}=  Deploy Multiple Nimbus ESXi Servers in Parallel  ${num_of_esxes}
-    \    ${esxes}=  Combine Dictionaries  ${esxes}  ${new_esxes}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.1 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.1
+    ${psc2_ip}=  Fetch From Right  ${out}  ${SPACE}
+    Log  ${psc2_ip}
 
-    # Investigate to see how many were actually deployed
-    \    ${len}=  Get Length  ${esxes}
-    \    ${num_of_esxes}=  Evaluate  3 - ${len}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.2 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.2
+    ${vc1_ip}=  Fetch From Right  ${out}  ${SPACE}
+    Log  ${vc1_ip}
 
-    # Exit if we've got enough & continue loop if we don't
-    \    Exit For Loop If  ${len} >= 3
-    \    Log To Console  Only got ${len} ESXi instance(s); Trying again
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.3 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.3
+    ${vc2_ip}=  Fetch From Right  ${out}  ${SPACE}
+    Log  ${vc2_ip}
 
-    @{esx-names}=  Get Dictionary Keys  ${esxes}
-    @{esx-ips}=  Get Dictionary Values  ${esxes}
-    ${esx1}=  Get From List  ${esx-names}  0
-    ${esx2}=  Get From List  ${esx-names}  1
-    ${esx3}=  Get From List  ${esx-names}  2
-    ${esx4-ip}=  Get From List  ${esx-ips}  0
-    ${esx5-ip}=  Get From List  ${esx-ips}  1
-    ${esx6-ip}=  Get From List  ${esx-ips}  2
+    ${pod}=  Fetch Pod  ${name}
+    Log  ${pod}
+    # set nimbus variable
+    Set Suite Variable  ${nimbus_pod}  ${pod}
+    Set Suite Variable  ${testbedname}  ${name}
 
-    # Finish test bed deploy
-    ${output}=  Wait For Process  ${pid}  timeout=70 minutes  on_timeout=terminate
-    Log  ${output.stdout}
-    Log  ${output.stderr}
-    Should Be Equal As Integers  ${output.rc}  0
-    ${output}=  Split To Lines  ${output.stdout}
-    :FOR  ${line}  IN  @{output}
-    \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  ${name}.vc.0' is up. IP:
-    \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
-    \   Run Keyword If  ${status}  Set Suite Variable  ${vc1-ip}  ${ip}
-    \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  ${name}.vc.1' is up. IP:
-    \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
-    \   Run Keyword If  ${status}  Set Suite Variable  ${vc2-ip}  ${ip}
-    \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  ${name}.esx.0' is up. IP:
-    \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
-    \   Run Keyword If  ${status}  Set Suite Variable  ${esx1-ip}  ${ip}
-    \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  ${name}.esx.1' is up. IP:
-    \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
-    \   Run Keyword If  ${status}  Set Suite Variable  ${esx2-ip}  ${ip}
-    \   ${status}=  Run Keyword And Return Status  Should Contain  ${line}  ${name}.esx.2' is up. IP:
-    \   ${ip}=  Run Keyword If  ${status}  Fetch From Right  ${line}  ${SPACE}
-    \   Run Keyword If  ${status}  Set Suite Variable  ${esx3-ip}  ${ip}
-
-    Set Suite Variable  @{list}  ${esx1}  ${esx2}  ${esx3}  ${user}-${name}.vc.0  ${user}-${name}.vc.1  ${user}-${name}.vc.2  ${user}-${name}.vc.3  ${user}-${name}.nfs.0  ${user}-${name}.esx.0  ${user}-${name}.esx.1  ${user}-${name}.esx.2
-
-    Remove Environment Variable  GOVC_PASSWORD
-    Remove Environment Variable  GOVC_USERNAME
-    Set Environment Variable  GOVC_INSECURE  1
-    :FOR  ${ip}  IN  ${esx1-ip}  ${esx2-ip}  ${esx3-ip}
-    \   Log To Console  Changing password for ${ip}
-    \   Set Environment Variable  GOVC_URL  root:@${ip}
-    \   Wait Until Keyword Succeeds  10x  3 minutes   Change ESXi Server Password  e2eFunctionalTest
-    \   Wait Until Keyword Succeeds  6x   10 sec      Check License Features
-
-    Set Environment Variable  GOVC_URL  ${vc1-ip}
-    Set Environment Variable  GOVC_USERNAME  administrator@vsphere.local
-    Set Environment Variable  GOVC_PASSWORD  Admin!23
-    Wait Until Keyword Succeeds  6x   10 sec  Check License Present
-
-    # First VC cluster
-    Log To Console  Create a datacenter on the VC
-    ${out}=  Run  govc datacenter.create ha-datacenter
-    Should Be Empty  ${out}
-
-    Log To Console  Create a cluster on the VC
-    ${out}=  Run  govc cluster.create cls
-    Should Be Empty  ${out}
-
-    Log To Console  Add ESX host to the VC
-    :FOR  ${ip}  IN  ${esx1-ip}  ${esx2-ip}  ${esx3-ip}
-    \    Log To Console  Adding ${ip} to VC
-    \    ${out}=  Run  govc cluster.add -hostname=${ip} -username=root -dc=ha-datacenter -password=e2eFunctionalTest -noverify=true
-    \    Should Contain  ${out}  OK
-
-    Create A Distributed Switch  ha-datacenter
-
-    Create Three Distributed Port Groups  ha-datacenter
-
-    Add Host To Distributed Switch  /ha-datacenter/host/cls
-
-    Log To Console  Enable DRS on the cluster
-    ${out}=  Run  govc cluster.change -drs-enabled /ha-datacenter/host/cls
-    Should Be Empty  ${out}
-
-    # Second VC cluster
-    Set Environment Variable  GOVC_URL  ${vc2-ip}
-
-    Log To Console  Create a datacenter on the VC
-    ${out}=  Run  govc datacenter.create ha-datacenter
-    Should Be Empty  ${out}
-
-    Log To Console  Create a cluster on the VC
-    ${out}=  Run  govc cluster.create cls
-    Should Be Empty  ${out}
-
-    Log To Console  Add ESX host to the VC
-    :FOR  ${ip}  IN  @{esx-ips}
-    \    ${out}=  Run  govc cluster.add -hostname=${ip} -username=root -dc=ha-datacenter -password=e2eFunctionalTest -noverify=true
-    \    Should Contain  ${out}  OK
-
-    Create A Distributed Switch  ha-datacenter
-
-    Create Three Distributed Port Groups  ha-datacenter
-
-    Add Host To Distributed Switch  /ha-datacenter/host/cls
-
-    Log To Console  Enable DRS on the cluster
-    ${out}=  Run  govc cluster.change -drs-enabled /ha-datacenter/host/cls
-    Should Be Empty  ${out}
-
-    Set Environment Variable  GOVC_URL  ${vc1-ip}
-    Set Environment Variable  TEST_URL  ${vc1-ip}
+    # set test variables
+    Set Environment Variable  TEST_URL  ${vc1_ip}
     Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
     Set Environment Variable  TEST_PASSWORD  Admin\!23
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Remove Environment Variable  TEST_DATACENTER
-    Set Environment Variable  TEST_DATASTORE  datastore1
-    Set Environment Variable  TEST_RESOURCE  /ha-datacenter/host/cls
+    Set Environment Variable  TEST_RESOURCE  /dc1/host/cls1
+    Set Environment Variable  TEST_DATASTORE  sharedVmfs-0
 
-
+    # govc env variables
+    Set Environment Variable  GOVC_URL  %{TEST_URL}
+    Set Environment Variable  GOVC_USERNAME  %{TEST_USERNAME}
+    Set Environment Variable  GOVC_PASSWORD  %{TEST_PASSWORD}
+    Set Environment Variable  GOVC_INSECURE  1
+    
+    # set VC variables
+    Set Test VC Variables
+    # set VCH variables
+    Set Environment Variable  DRONE_BUILD_NUMBER  0
+    Set Environment Variable  VCH_TIMEOUT  20m0s
+    # set docker variables
+    # not using dind but host dockerd for these nightly tests
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER}  docker
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER_ENDPOINT}  unix:///var/run/docker.sock
+    # set harbor variables
+    Set Global Variable  ${DEFAULT_HARBOR_PROJECT}  default-project
+    # govc env variables
+    Set Environment Variable  GOVC_URL  %{TEST_URL}
+    Set Environment Variable  GOVC_USERNAME  %{TEST_USERNAME}
+    Set Environment Variable  GOVC_PASSWORD  %{TEST_PASSWORD}
+    Set Environment Variable  GOVC_INSECURE  1
+    # check VC
+    Check VCenter
+    
 *** Test Cases ***
 Test
     # set external psc env variables

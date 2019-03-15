@@ -16,55 +16,46 @@
 Documentation  Test 5-09 - Network Folder
 Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  DVS Under Network Folder Setup
-Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+Suite Teardown  Run Keyword And Ignore Error  Nimbus Pod Cleanup  ${nimbus_pod}  ${testbedname}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
+Test Timeout  90 minutes
 
 *** Variables ***
-${datacenter}=  ha-datacenter
-${cluster}=  cls
+${datacenter}=  dc1
+${cluster}=  cls1
 ${esx_number}=  2
 ${dvs}=  test-ds
 ${folder}=  /${datacenter}/network/testFolder
 
 *** Keywords ***
 DVS Under Network Folder Setup
-    [Timeout]    110 minutes
-    Log To Console  \nStarting VC cluster deploy with DVS in network folder...
-    ${vc}=  Evaluate  'VC-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
-    ${pid}=  Deploy Nimbus vCenter Server Async  ${vc}
+    [Timeout]    60 minutes
+    ${name}=  Evaluate  'vic-networkfolder' + str(random.randint(1000,9999))  modules=random
+    Log To Console  Create a new simple vc cluster with spec vic-networkfolder.rb...
+    ${out}=  Deploy Nimbus Testbed  spec=vic-networkfolder.rb  args=--noSupportBundles --plugin testng --vcvaBuild "${VC_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vic-networkfolder --runName ${name}
+    Log  ${out}
+    Log To Console  Finished creating cluster ${name}
 
-    &{esxes}=  Deploy Multiple Nimbus ESXi Servers in Parallel  ${esx_number}  version="${ESX_VERSION}"
-    @{esx_names}=  Get Dictionary Keys  ${esxes}
-    @{esx_ips}=  Get Dictionary Values  ${esxes}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
+    ${vc_ip}=  Fetch From Right  ${out}  ${SPACE}
+    Log  ${vc_ip}
 
-    Set Suite Variable  @{list}  @{esx_names}[0]  @{esx_names}[1]  %{NIMBUS_PERSONAL_USER}-${vc}
+    ${pod}=  Fetch Pod  ${name}
+    Log  ${pod}
+    # set nimbus variable
+    Set Suite Variable  ${nimbus_pod}  ${pod}
+    Set Suite Variable  ${testbedname}  ${name}
 
-    # Finish vCenter deploy
-    ${output}=  Wait For Process  ${pid}
-    Should Contain  ${output.stdout}  Overall Status: Succeeded
-
-    Open Connection  %{NIMBUS_GW}
-    Wait Until Keyword Succeeds  2 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
-    ${vc_ip}=  Get IP  ${vc}
-    Close Connection
-
+    # set test variables
+    Set Environment Variable  TEST_URL  ${vc_ip}
+    Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
+    Set Environment Variable  TEST_PASSWORD  Admin\!23
+    
+    # govc env variables
+    Set Environment Variable  GOVC_URL  %{TEST_URL}
+    Set Environment Variable  GOVC_USERNAME  %{TEST_USERNAME}
+    Set Environment Variable  GOVC_PASSWORD  %{TEST_PASSWORD}
     Set Environment Variable  GOVC_INSECURE  1
-    Set Environment Variable  GOVC_USERNAME  Administrator@vsphere.local
-    Set Environment Variable  GOVC_PASSWORD  Admin!23
-    Set Environment Variable  GOVC_URL  ${vc_ip}
-
-    Log To Console  Create a datacenter on the VC
-    ${out}=  Run  govc datacenter.create ${datacenter}
-    Should Be Empty  ${out}
-
-    Log To Console  Create a cluster on the VC
-    ${out}=  Run  govc cluster.create ${cluster}
-    Should Be Empty  ${out}
-
-    Log To Console  Add ESX host to the VC
-    :FOR  ${IDX}  IN RANGE  ${esx_number}
-    \   ${out}=  Run  govc cluster.add -hostname=@{esx_ips}[${IDX}] -username=root -dc=${datacenter} -password=${NIMBUS_ESX_PASSWORD} -noverify=true
-    \   Should Contain  ${out}  OK
 
     Log To Console  Create a new network folder...
     ${out}=  Run  govc folder.create ${folder}
@@ -80,20 +71,32 @@ DVS Under Network Folder Setup
     ${out}=  Run  govc dvs.portgroup.add -nports 12 -dc=${datacenter} -dvs=${dvs} bridge
     Should Contain  ${out}  OK
 
-    Wait Until Keyword Succeeds  10x  3 minutes  Add Host To Distributed Switch  /${datacenter}/host/${cluster}  ${dvs}
+    Log  ${cluster}
+    Wait Until Keyword Succeeds  10x  1 minutes  Add Host To Distributed Switch  /${datacenter}/host/${cluster}  ${dvs}
 
     Log To Console  Enable DRS on the cluster
     ${out}=  Run  govc cluster.change -drs-enabled /${datacenter}/host/${cluster}
     Should Be Empty  ${out}
-
+ 
     Set Environment Variable  BRIDGE_NETWORK  bridge
     Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Set Environment Variable  TEST_URL  ${vc_ip}
-    Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
-    Set Environment Variable  TEST_PASSWORD  Admin\!23
-    Set Environment Variable  TEST_DATASTORE  datastore1
-    Set Environment Variable  TEST_DATACENTER  /${datacenter}
-    Set Environment Variable  TEST_RESOURCE  /${datacenter}/host/${cluster}
+    Set Environment Variable  TEST_RESOURCE  /dc1/host/cls1
+    Set Environment Variable  TEST_DATASTORE  sharedVmfs-0
+    
+    # set VC variables
+    Set Test VC Variables
+    # set VCH variables
+    Set Environment Variable  DRONE_BUILD_NUMBER  0
+    Set Environment Variable  VCH_TIMEOUT  20m0s
+    # set docker variables
+    # not using dind but host dockerd for these nightly tests
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER}  docker
+    Set Global Variable  ${DEFAULT_LOCAL_DOCKER_ENDPOINT}  unix:///var/run/docker.sock
+    # set harbor variables
+    Set Global Variable  ${DEFAULT_HARBOR_PROJECT}  default-project
+
+    # check VC
+    Check VCenter
 
 *** Test Cases ***
 Test

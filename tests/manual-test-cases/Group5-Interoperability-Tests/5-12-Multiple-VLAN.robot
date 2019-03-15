@@ -18,21 +18,13 @@ Resource  ../../resources/Util.robot
 Suite Setup  Nimbus Suite Setup  Multiple VLAN Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
+Test Timeout  90 minutes
 
 *** Keywords ***
 Multiple VLAN Setup
-    [Timeout]    110 minutes
+    [Timeout]    60 minutes
     Run Keyword And Ignore Error  Nimbus Cleanup  ${list}  ${false}
-    ${esx1}  ${esx2}  ${esx3}  ${vc}  ${esx1-ip}  ${esx2-ip}  ${esx3-ip}  ${vc-ip}=  Create a Simple VC Cluster  multi-vlan-1  cls
-    Set Suite Variable  @{list}  ${esx1}  ${esx2}  ${esx3}  %{NIMBUS_PERSONAL_USER}-${vc}
-
-    Set Environment Variable  TEST_URL  ${vc-ip}
-    Set Environment Variable  TEST_USERNAME  Administrator@vsphere.local
-    Set Environment Variable  TEST_PASSWORD  Admin\!23
-    Set Environment Variable  BRIDGE_NETWORK  bridge
-    Set Environment Variable  PUBLIC_NETWORK  vm-network
-    Set Environment Variable  TEST_RESOURCE  /multi-vlan-1/host/cls
-    Set Environment Variable  TEST_DATASTORE  datastore1
+    Setup Simple VC And Test Environment with Shared iSCSI Storage
 
     ${out}=  Run  govc dvs.portgroup.change -vlan 1 bridge
     Should Contain  ${out}  OK
