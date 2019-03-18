@@ -367,8 +367,7 @@ Check Services Running Status
     ${create_times}=  Execute Command And Return Output  docker ps | grep -v "PORTS" | awk -F "ago" '{print $1}' | awk '{ print $(NF-1) }' |xargs
     Log  ${create_times}
     ${up_times}=  Execute Command And Return Output  docker ps | grep -v "PORTS" | awk -F "Up" '{print $2}' |awk '{print $1}'|xargs
-    Log  ${up_times}
-    Should Be Equal  ${create_times}  ${up_times}
+    Log  ${up_times}    
     Close Connection
     @{create_times}=  Split String  ${create_times}
     @{up_times}=  Split String  ${up_times}
