@@ -302,7 +302,7 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
     <ProductSection ovf:class="syslog_server" ovf:required="false">
       <Info>Syslog Server Properties</Info>
       <Category>6. Syslog Configuration</Category>
-      <Property ovf:key="syslog_srv_ip" ovf:type="string" ovf:userConfigurable="true">
+      <Property ovf:key="syslog_srv_host" ovf:type="string" ovf:userConfigurable="true">
         <Label>6.1. Remote Syslog Server</Label>
         <Description>The IP address or host name for remote syslog sever. Leave blank if no syslog is desired.</Description>
       </Property>

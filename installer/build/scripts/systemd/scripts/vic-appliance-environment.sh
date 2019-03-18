@@ -50,7 +50,7 @@ NETWORK_HTTPS_PROXY="$(ovfenv --key network.https_proxy)"
 NETWORK_NO_PROXY_LIST="$(ovfenv --key network.no_proxy_list)"
 
 # syslog server configuration
-SYSLOG_SRV_IP="$(ovfenv --key syslog_server.syslog_srv_ip)"
+SYSLOG_SRV_HOST="$(ovfenv --key syslog_server.syslog_srv_host)"
 SYSLOG_SRV_PORT="$(ovfenv --key syslog_server.syslog_srv_port)"
 SYSLOG_SRV_PROTOCOL="$(ovfenv --key syslog_server.syslog_srv_protocol | tr '[:upper:]' '[:lower:]')"
 SYSLOG_SRV_PORT=${SYSLOG_SRV_PORT:-514}
@@ -135,7 +135,7 @@ echo "Using hostname: ${HOSTNAME}"
   echo "NETWORK_HTTP_PROXY=${NETWORK_HTTP_PROXY}";
   echo "NETWORK_HTTPS_PROXY=${NETWORK_HTTPS_PROXY}";
   echo "NETWORK_NO_PROXY_LIST=${NETWORK_NO_PROXY_LIST}";
-  echo "SYSLOG_SRV_IP=${SYSLOG_SRV_IP}";
+  echo "SYSLOG_SRV_HOST=${SYSLOG_SRV_HOST}";
   echo "SYSLOG_SRV_PORT=${SYSLOG_SRV_PORT}";
   echo "SYSLOG_SRV_PROTOCOL=${SYSLOG_SRV_PROTOCOL}";
 } > ${ENV_FILE}

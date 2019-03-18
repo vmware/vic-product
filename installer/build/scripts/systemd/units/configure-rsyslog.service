@@ -1,11 +1,13 @@
 [Unit]
 Description=Configure Remote Syslog Server
-After=vic-appliance-environment.service
+Before=rsyslog.service
 Requires=vic-appliance-environment.service
+After=vic-appliance-environment.service
 
 [Service]
+Type=oneshot
 EnvironmentFile=/etc/vmware/environment
-ExecStart=/etc/vmware/configure-rsyslog-forwarding.sh
+ExecStart=/etc/vmware/configure-rsyslog.sh
 
 [Install]
-WantedBy=vic-appliance-ready.target
+WantedBy=rsyslog.service

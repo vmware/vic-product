@@ -156,15 +156,19 @@ iptables -w -A INPUT -j ACCEPT -p tcp --dport "${NOTARY_PORT}"
 rm -rf /etc/vmware/harbor/common/config
 
 # Configure remote syslog server
-if [[ -n "${SYSLOG_SRV_IP}" ]]; then
+if [[ -n "${SYSLOG_SRV_HOST}" ]]; then
   HOST_NAME=$(hostname)
   setRsyslogConfInYAML "${harbor_compose_file}" "${rsyslog_conf_file}"
   echo "Configure Remote Syslog Server"
   cat <<EOF | tee "${rsyslog_conf_file}"
 \$template harbor, "%PRI%%TIMESTAMP:::date-rfc3339% ${HOST_NAME} %syslogtag:1:32%%msg:::sp-if-no-1st-sp%%msg%\"
-action(type="omfwd" Target="${SYSLOG_SRV_IP}" Port="${SYSLOG_SRV_PORT}" Protocol="${SYSLOG_SRV_PROTOCOL}" Template="harbor")
+action(type="omfwd" Target="${SYSLOG_SRV_HOST}" Port="${SYSLOG_SRV_PORT}" Protocol="${SYSLOG_SRV_PROTOCOL}" Template="harbor")
 EOF
   chown 10000:10000 "${rsyslog_conf_file}"
+else
+  # Clean up them if remote syslog server configurations is cleaned
+  sed -i '/:\/etc\/rsyslog.d\/forward.conf:z/d' "${harbor_compose_file}"
+  rm -f "${rsyslog_conf_file}"
 fi
 # Change the default SYNC_REGISTRY to true
 sed -i 's/SYNC_REGISTRY=.*/SYNC_REGISTRY=true/g' ${conf_dir}/common/templates/core/env

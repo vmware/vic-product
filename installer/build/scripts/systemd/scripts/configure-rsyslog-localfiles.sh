@@ -14,8 +14,13 @@
 # limitations under the License.
 set -euf -o pipefail
 
-if [[ -n "${SYSLOG_SRV_IP}" ]]; then
-  cat <<EOF | tee /etc/rsyslog.d/local-files.conf
+# Configure collecting local files if syslog server is configured in ova properties. This
+# can only be executed after Admiral and vic-machine-server is up and log files
+# are present on disk.
+RSYSLOG_LOCAL_FILE_CONF=/etc/rsyslog.d/local-files.conf
+if [[ -n "${SYSLOG_SRV_HOST}" ]]; then
+  if [[ ! -f "${RSYSLOG_LOCAL_FILE_CONF}" ]]; then
+    cat <<EOF | tee "${RSYSLOG_LOCAL_FILE_CONF}"
 # Load the input file module.
 \$ModLoad imfile
 
@@ -37,5 +42,6 @@ if [[ -n "${SYSLOG_SRV_IP}" ]]; then
 \$InputFileFacility local7
 \$InputRunFileMonitor
 EOF
-  systemctl restart rsyslog.service
+    systemctl restart rsyslog.service
+  fi
 fi

@@ -14,9 +14,14 @@
 # limitations under the License.
 set -euf -o pipefail
 
-if [[ -n "${SYSLOG_SRV_IP}" ]]; then
-  cat <<EOF | tee /etc/rsyslog.d/forward.conf
-action(type="omfwd" Target="${SYSLOG_SRV_IP}" Port="${SYSLOG_SRV_PORT}" Protocol="${SYSLOG_SRV_PROTOCOL}" Template="RSYSLOG_ForwardFormat")
+# Configure remote system log server if it is specified in ova properties. Clean up auto generated conf files if it is
+# removed from ova properties.
+RSYSLOG_FORWARD_CONF=/etc/rsyslog.d/forward.conf
+if [[ -n "${SYSLOG_SRV_HOST}" ]]; then
+  cat <<EOF | tee "${RSYSLOG_FORWARD_CONF}"
+action(type="omfwd" Target="${SYSLOG_SRV_HOST}" Port="${SYSLOG_SRV_PORT}" Protocol="${SYSLOG_SRV_PROTOCOL}" Template="RSYSLOG_ForwardFormat")
 EOF
-  systemctl restart rsyslog.service
+else
+  rm -f "${RSYSLOG_FORWARD_CONF}"
+  rm -f /etc/rsyslog.d/local-files.conf
 fi

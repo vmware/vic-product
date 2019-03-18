@@ -4,6 +4,7 @@ After=admiral.service vic-machine-server.service
 Requires=admiral.service vic-machine-server.service
 
 [Service]
+Type=oneshot
 EnvironmentFile=/etc/vmware/environment
 ExecStart=/etc/vmware/configure-rsyslog-localfiles.sh
 

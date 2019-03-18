@@ -22,7 +22,7 @@ Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  
 *** Variables ***
 ${dns-nimbus}=  10.170.16.48
 ${searchpath-nimbus}=  eng.vmware.com
-${syslog_srv_ip}=  10.158.214.132
+${syslog_srv_host}=  10.158.214.132
 ${syslog_srv_user}=  vic
 ${syslog_srv_passowrd}=  Admin!23
 ${syslog_srv_protocol}=  tcp
@@ -40,7 +40,7 @@ Deploy OVA With Customized Configurations
     Set Global Variable  ${OVA_USERNAME_ROOT}  root
     Set Global Variable  ${OVA_PASSWORD_ROOT}  e2eFunctionalTest
     # install ova using static ip, remote syslog server TODO: ntp, proxy
-    Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}  static-ip=&{static}[ip]  netmask=&{static}[netmask]  gateway=&{static}[gateway]  dns=${dns-nimbus}  searchpath=${searchpath-nimbus}  syslog_srv_ip=${syslog_srv_ip}  syslog_srv_protocol=${syslog_srv_protocol}  syslog_srv_port=${syslog_srv_port}
+    Install And Initialize VIC Product OVA  vic-*.ova  %{OVA_NAME}  static-ip=&{static}[ip]  netmask=&{static}[netmask]  gateway=&{static}[gateway]  dns=${dns-nimbus}  searchpath=${searchpath-nimbus}  syslog_srv_host=${syslog_srv_host}  syslog_srv_protocol=${syslog_srv_protocol}  syslog_srv_port=${syslog_srv_port}
 
 Verify Network
     # verify network details
@@ -50,7 +50,7 @@ Verify Network
 #TODO:Verify Proxy
 
 Verify Syslog
-    ${syslog-conn}=  Open Connection  ${syslog_srv_ip}
+    ${syslog-conn}=  Open Connection  ${syslog_srv_host}
     Login  ${syslog_srv_user}  ${syslog_srv_passowrd}
     ${out}=  Execute Command  cat /var/log/syslog
     Close Connection
