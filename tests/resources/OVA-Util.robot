@@ -351,7 +351,33 @@ Auto Upgrade OVA With Verification
     Install VIC Product OVA And Wait For Home Page  ${local_ova_file}  %{OVA_NAME}
 
     Execute Upgrade Script  %{OVA_IP}  %{OVA_IP_OLD}  ${old-ova-datacenter}  ${old-ova-version}
+    Check Services Running Status
     Verify Running Busybox Container And Its Pushed Harbor Image  %{OVA_IP}  ${sample-image-tag}  ${new-ova-cert-path}  docker-endpoint=${VCH-PARAMS}
+
+# check services Running state were good after upgrade
+Check Services Running Status
+    Open Connection  %{OVA_IP}
+    Wait Until Keyword Succeeds  10x  5s  Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
+    ${output}=  Execute Command And Return Output  docker ps
+    Log  ${output}
+    Should Not Contain  ${output}  seconds
+    ${service_count}=  Execute Command And Return Output  docker ps | grep -v "PORTS" | wc -l
+    Log  ${service_count}
+    Should Be Equal As Integers  ${service_count}  15
+    ${create_times}=  Execute Command And Return Output  docker ps | grep -v "PORTS" | awk -F "ago" '{print $1}' | awk '{ print $(NF-1) }' |xargs
+    Log  ${create_times}
+    ${up_times}=  Execute Command And Return Output  docker ps | grep -v "PORTS" | awk -F "Up" '{print $2}' |awk '{print $1}'|xargs
+    Log  ${up_times}    
+    Should Be Equal  ${create_times}  ${up_times}
+    Close Connection
+    @{create_times}=  Split String  ${create_times}
+    @{up_times}=  Split String  ${up_times}
+    
+    :FOR  ${IDX}  IN RANGE  ${service_count}
+    \   ${lower_limit}=  Evaluate  int(@{create_times}[${IDX}])-2
+    \   ${up_time}=  Evaluate  int(@{up_times}[${IDX}])
+    \   ${upper_limit}=  Evaluate  int(@{create_times}[${IDX}])
+    \   Should Be True  ${lower_limit} <= ${up_time} <= ${upper_limit}
 
 Execute Upgrade Script
     # SSH into OVA appliance and execute ./upgrade script
@@ -375,11 +401,19 @@ Execute Upgrade Script
     \    Run Keyword If  ${status} == True  Exit For Loop
 
     # run upgrade script
-    Log To Console  upgrade ova...
-    Run Keyword Unless  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --upgrade-password ${OVA_PASSWORD_ROOT} --upgrade-ui-plugin
+    Run Keyword Unless  ${manual-disk}  Write  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password Admin\\!23 --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --upgrade-password ${OVA_PASSWORD_ROOT} --upgrade-ui-plugin
 
-    Run Keyword If  ${manual-disk}  Execute Command And Return Output  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password %{TEST_PASSWORD} --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --upgrade-password ${OVA_PASSWORD_ROOT} --manual-disks --upgrade-ui-plugin
-    
+    Run Keyword If  ${manual-disk}  Write  cd /etc/vmware/upgrade && ./upgrade.sh --target %{TEST_URL} --username %{TEST_USERNAME} --password Admin\\!23 --embedded-psc --fingerprint '${fingerprint}' --ssh-insecure-skip-verify --appliance-version ${old-appliance-version} --dc ${datacenter} --appliance-username ${OVA_USERNAME_ROOT} --appliance-password ${OVA_PASSWORD_ROOT} --appliance-target ${old-appliance-ip} --upgrade-password ${OVA_PASSWORD_ROOT} --manual-disks --upgrade-ui-plugin
+    # Sleep for ensuring normal output when executing upgrade script
+    Sleep  1m
+    ${temp_output}=  Read
+    Log  ${temp_output}
+    ${status}=  Run Keyword And Return Status  Should Contain  ${temp_output}  Do you wish to proceed? [y/n]
+    Run Keyword If  ${status}  Write  y
+    ${result}=  Custom Read Until
+    Log  ${result}
+    Should Not Contain Any  ${result}  failed  Error
+        
     Sleep  120
     Log To Console  to check docker ps 
     :FOR  ${index}  IN RANGE  1  4
@@ -387,6 +421,15 @@ Execute Upgrade Script
     \   Log  ${out}
     \   Sleep  120
     Copy Support Bundle  ${new-appliance-ip}
+
+Custom Read Until
+    :FOR  ${idx}  IN RANGE  1  20
+    \   Sleep  1m
+    \   ${output}=  Read
+    \   ${status}=  Run Keyword And Return Status  Should Contain  ${output}  Do you wish to proceed? [y/n]
+    \   Run Keyword If  ${status}  Write  y
+    \   ${end_status}=  Run Keyword And Return Status  Should Contain  ${output}  root@localhost
+    \   Return From Keyword If  ${end_status}  ${output}
 
 Deploy OVA And Install UI Plugin And Run Regression Tests
     # Deploy OVA and then install UI plugin
