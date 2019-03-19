@@ -19,6 +19,7 @@ Resource  ../../resources/Util.robot
 *** Variables ***
 # css locators
 ${vic-home-iframe}  css=iframe[ng-src*='view=vch-view']
+${vic-delete-iframe}  css=iframe[ng-src*='view=delete-vch']
 ${vch-name-input}  css=#nameInput
 ${next-button}  css=.clr-wizard-btn--primary
 ${datastore-dropdown}  css=select#image-store-selector
@@ -204,3 +205,120 @@ Create VCH using UI And Set Docker Parameters
     Set Test Variable   ${VCH-NAME}  ${name}
     # retrieve docker parameters from UI
     Set Docker Host Parameters
+
+Test Create VCH Using UI
+    [Arguments]  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}=1
+    Navigate To VCH Tab
+    Click New Virtual Container Host Button
+
+    #general
+    ${name}=  Evaluate  'VCH-${test-name}-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
+    Input VCH Name  ${name}
+    Click Next Button
+    # compute capacity
+    Log To Console  Selecting compute resource...
+    # if cluster is present
+    # There're 2 types of tree-node, if it's a index number, locator will be defined by CSS, if it's a IP address, locator will be defined by xpath 
+    ${tree-node-len}=  Get Length  '${tree-node}'
+    ${host_locator}=  set variable if  ${tree-node-len}<5  css=.clr-treenode-children clr-tree-node:nth-of-type(${tree-node}) .cc-resource  xpath://clr-tree-node//button[contains(., '${tree-node}')]
+    Wait Until Element Is Enabled  ${host_locator}
+    Click Button  ${host_locator}
+
+    Click Next Button
+    # storage capacity
+    Select Image Datastore  ${datastore}
+    Click Next Button
+    #networks
+    Select Bridge Network  ${bridge-network}
+    Select Public Network  ${public-network}
+    Click Next Button
+    # security
+    Toggle Client Certificate Option
+    Click Next Button
+    #registry access
+    Click Next Button
+    # ops-user
+    Input Ops User Name  ${ops-user}
+    Input Ops User Password  ${ops-pwd}
+    Click Next Button
+    # summary
+    Click Finish Button
+    Unselect Frame
+    Wait Until Page Does Not Contain  VCH name
+    Set Test Variable   ${VCH-NAME}  ${name}
+    # retrieve docker parameters from UI
+    Set Docker Host Parameters
+    [Return]  ${name}
+
+Check VCH Fail Alert
+    Wait Until Element Is Visible And Enabled  ${vic-home-iframe}
+    Select Frame  ${vic-home-iframe}
+    ${visible}=  Run Keyword And Return Status  Wait Until Page Contains Element  css=span.alert-text
+    ${alert_text}=  Run Keyword If  ${visible}  Get Text  css=span.alert-text
+    Run Keyword If  ${visible}  Log  ${alert_text}
+    Unselect Frame
+    [Return]  ${visible}
+
+Get Create VCH Count
+    Wait Until Element Is Visible And Enabled  ${vic-home-iframe}
+    Select Frame  ${vic-home-iframe}
+    ${visible}=  Run Keyword And Return Status  Wait Until Page Contains Element  css=div.datagrid-foot-description
+    ${foot_text}=  Run Keyword If  ${visible}  Get Text  css=div.datagrid-foot-description
+    ...            ELSE  Set Variable  ${EMPTY}
+    Log  ${foot_text}
+    ${rc}  ${vch_count}=  Run And Return Rc And Output  echo '${foot_text}' | cut -d ' ' -f 5
+    Log  ${vch_count}
+    Should Be Equal As Integers  ${rc}  0
+    Unselect Frame
+    Return From Keyword If  '${foot_text}' != '${EMPTY}'  ${vch_count}
+    [Return]  ${False}
+
+Delete VCH Using UI
+    ${cur_vch_count}=  Get Create VCH Count
+    Should Be True  ${cur_vch_count}
+    Wait Until Element Is Visible And Enabled  ${vic-home-iframe}
+    Select Frame  ${vic-home-iframe}
+    ${visible}=  Run Keyword And Return Status  Wait Until Page Contains Element  css=button.datagrid-action-toggle > clr-icon
+    Should Be True  ${visible}
+    @{ele}=  Run Keyword If  ${visible}  Get WebElements  css=button.datagrid-action-toggle > clr-icon
+    ...      ELSE                        Set Variable  ${EMPTY}
+    Log  '${ele}'
+    ${ele_count}=  Get Length  ${ele}
+    Run Keyword If  ${ele_count} != 0  Click Element  @{ele}[-1]
+
+    Wait Until Element Is Visible And Enabled  css=button.action-item.action-item-delete
+    Click Element  css=button.action-item.action-item-delete
+    Unselect Frame
+  
+    Wait Until Element Is Visible And Enabled  ${vic-delete-iframe}
+    Select Frame  ${vic-delete-iframe}
+    Wait Until Element Is Visible And Enabled  css=input#delete-volumes
+    Click Element  css=div.checkbox > label
+    Wait Until Element Is Visible And Enabled  css=button.btn.btn-danger
+    Click Button  css=button.btn.btn-danger
+    Unselect Frame
+    Ensure Delete Succeed
+    ${del_after_vch_count}=  Get Create VCH Count
+    ${del_count}=  Evaluate  int(${cur_vch_count})-int(${del_after_vch_count})
+    Should Be Equal As Integers  ${del_count}  1  
+    
+Ensure Delete Succeed
+    :FOR  ${idx}  IN RANGE  60
+    \   Sleep  2
+    \   ${status}=  Run Keyword And Return Status  Wait Until Element Is Visible And Enabled  ${vic-delete-iframe}
+    \   Return From Keyword If  ${status} == ${false}  
+    Fail  this element is still showing.
+
+Delete All VCH Using UI
+    Open Firefox Browser
+    Navigate To VC UI Home Page
+    Login On Single Sign-On Page
+    Verify VC Home Page
+    Navigate To VCH Creation Wizard
+    Navigate To VCH Tab
+    :FOR  ${idx}  IN RANGE  999
+    \   Delete VCH Using UI
+    \   ${vch_count}=  Get Create VCH Count
+    \   Exit For Loop If  ${vch_count} == 0
+    Close Browser
+
