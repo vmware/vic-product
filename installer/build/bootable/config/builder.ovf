@@ -299,6 +299,22 @@ EVALUATION LICENSE. If You are licensing the Software for evaluation purposes, Y
         <Description>Password to be used to create Example Users. The password must follow the rules set for vSphere.</Description>
       </Property>
     </ProductSection>
+    <ProductSection ovf:class="syslog_server" ovf:required="false">
+      <Info>Syslog Server Properties</Info>
+      <Category>6. Syslog Configuration</Category>
+      <Property ovf:key="syslog_srv_host" ovf:type="string" ovf:userConfigurable="true">
+        <Label>6.1. Remote Syslog Server</Label>
+        <Description>The IP address or host name for remote syslog sever. Leave blank if no syslog is desired.</Description>
+      </Property>
+      <Property ovf:key="syslog_srv_protocol" ovf:type="string" ovf:userConfigurable="true" ovf:value="UDP">
+        <Label>6.2. Syslog server protocol</Label>
+        <Description>Protocol used by syslog server to upload logs (the default protocol will be UDP, if you select TCP, please make sure the syslog server supports it.)</Description>
+      </Property>
+      <Property ovf:key="syslog_srv_port" ovf:type="string" ovf:userConfigurable="true" ovf:value="514">
+        <Label>6.3. Syslog Server Port</Label>
+        <Description>Remote syslog server port (default port is 514)</Description>
+      </Property>
+    </ProductSection>
     <ProductSection ovf:class="vm" ovf:required="false">
       <Info>VM specific properties</Info>
       <Property ovf:key="vmname" ovf:type="string" ovf:value="vic"/>

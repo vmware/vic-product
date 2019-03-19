@@ -56,18 +56,18 @@ Set Test OVA IP If Available
 Install VIC Appliance Secret
     # Requires OVA_PASSWORD_ROOT set as global variable
     [Tags]  secret
-    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}  ${power}=True
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}  ${power}=True  ${syslog_srv_host}=${EMPTY}  ${syslog_srv_protocol}=${EMPTY}  ${syslog_srv_port}=${EMPTY}
     Log To Console  \nInstalling VIC appliance...
-    ${output}=  Run Keyword If  ${power}  Run  ovftool --datastore='%{TEST_DATASTORE}' --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:appliance.tls_cert="${tls_cert}" --prop:appliance.tls_cert_key="${tls_cert_key}" --prop:appliance.ca_cert="${ca_cert}" --prop:network.ip0="${static-ip}" --prop:network.netmask0="${netmask}" --prop:network.gateway="${gateway}" --prop:network.DNS="${dns}" --prop:network.searchpath="${searchpath}" --prop:network.fqdn="${fqdn}" --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}/%{TEST_RESOURCE}'
+    ${output}=  Run Keyword If  ${power}  Run  ovftool --datastore='%{TEST_DATASTORE}' --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:appliance.tls_cert="${tls_cert}" --prop:appliance.tls_cert_key="${tls_cert_key}" --prop:appliance.ca_cert="${ca_cert}" --prop:network.ip0="${static-ip}" --prop:network.netmask0="${netmask}" --prop:network.gateway="${gateway}" --prop:network.DNS="${dns}" --prop:network.searchpath="${searchpath}" --prop:network.fqdn="${fqdn}" --prop:syslog_server.syslog_srv_host="${syslog_srv_host}" --prop:syslog_server.syslog_srv_protocol="${syslog_srv_protocol}" --prop:syslog_server.syslog_srv_port="${syslog_srv_port}" --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}/%{TEST_RESOURCE}'
     Return From Keyword If  ${power}  ${output}  # Preserve output and return
 
-    ${output}=  Run Keyword Unless  ${power}  Run  ovftool --datastore='%{TEST_DATASTORE}' --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:appliance.tls_cert="${tls_cert}" --prop:appliance.tls_cert_key="${tls_cert_key}" --prop:appliance.ca_cert="${ca_cert}" --prop:network.ip0="${static-ip}" --prop:network.netmask0="${netmask}" --prop:network.gateway="${gateway}" --prop:network.DNS="${dns}" --prop:network.searchpath="${searchpath}" --prop:network.fqdn="${fqdn}" --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}/%{TEST_RESOURCE}'
+    ${output}=  Run Keyword Unless  ${power}  Run  ovftool --datastore='%{TEST_DATASTORE}' --noSSLVerify --acceptAllEulas --name=${ova-name} --diskMode=thin --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd='${OVA_PASSWORD_ROOT}' --prop:appliance.permit_root_login=True --prop:appliance.tls_cert="${tls_cert}" --prop:appliance.tls_cert_key="${tls_cert_key}" --prop:appliance.ca_cert="${ca_cert}" --prop:network.ip0="${static-ip}" --prop:network.netmask0="${netmask}" --prop:network.gateway="${gateway}" --prop:network.DNS="${dns}" --prop:network.searchpath="${searchpath}" --prop:network.fqdn="${fqdn}" --prop:syslog_server.syslog_srv_host="${syslog_srv_host}" --prop:syslog_server.syslog_srv_protocol="${syslog_srv_protocol}" --prop:syslog_server.syslog_srv_port="${syslog_srv_port}" --net:"Network"="%{PUBLIC_NETWORK}" ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}/%{TEST_RESOURCE}'
     [Return]  ${output}
 
 Deploy VIC Appliance
     # Deploy but do not initialize
-    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}  ${power}=True
-    ${output}=  Install VIC Appliance Secret  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}  ${power}
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}  ${power}=True  ${syslog_srv_host}=${EMPTY}  ${syslog_srv_protocol}=${EMPTY}  ${syslog_srv_port}=${EMPTY}
+    ${output}=  Install VIC Appliance Secret  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}  ${power}  ${syslog_srv_host}  ${syslog_srv_protocol}  ${syslog_srv_port}
     Log  ${output}
     Should Contain  ${output}  Completed successfully
     Run Keyword If  ${power}  Should Contain  ${output}  Received IP address:
@@ -91,9 +91,9 @@ Install VIC Product OVA And Wait For Home Page
 
 Install And Initialize VIC Product OVA
     # Deploy OVA and initialize it using API
-    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}  ${power}=True
+    [Arguments]  ${ova-file}  ${ova-name}  ${tls_cert}=${EMPTY}  ${tls_cert_key}=${EMPTY}  ${ca_cert}=${EMPTY}  ${static-ip}=${EMPTY}  ${netmask}=${EMPTY}  ${gateway}=${EMPTY}  ${dns}=${EMPTY}  ${searchpath}=${EMPTY}  ${fqdn}=${EMPTY}  ${power}=True  ${syslog_srv_host}=${EMPTY}  ${syslog_srv_protocol}=${EMPTY}  ${syslog_srv_port}=${EMPTY}
     Log To Console  \nInstalling VIC appliance
-    Deploy VIC Appliance  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}  ${power}
+    Deploy VIC Appliance  ${ova-file}  ${ova-name}  ${tls_cert}  ${tls_cert_key}  ${ca_cert}  ${static-ip}  ${netmask}  ${gateway}  ${dns}  ${searchpath}  ${fqdn}  ${power}  ${syslog_srv_host}  ${syslog_srv_protocol}  ${syslog_srv_port}
     Initialize OVA From API  %{OVA_IP}
 
     # wait for component services to get started
@@ -367,12 +367,12 @@ Check Services Running Status
     ${create_times}=  Execute Command And Return Output  docker ps | grep -v "PORTS" | awk -F "ago" '{print $1}' | awk '{ print $(NF-1) }' |xargs
     Log  ${create_times}
     ${up_times}=  Execute Command And Return Output  docker ps | grep -v "PORTS" | awk -F "Up" '{print $2}' |awk '{print $1}'|xargs
-    Log  ${up_times}    
+    Log  ${up_times}
     Should Be Equal  ${create_times}  ${up_times}
     Close Connection
     @{create_times}=  Split String  ${create_times}
     @{up_times}=  Split String  ${up_times}
-    
+
     :FOR  ${IDX}  IN RANGE  ${service_count}
     \   ${lower_limit}=  Evaluate  int(@{create_times}[${IDX}])-2
     \   ${up_time}=  Evaluate  int(@{up_times}[${IDX}])
@@ -413,7 +413,7 @@ Execute Upgrade Script
     ${result}=  Custom Read Until
     Log  ${result}
     Should Not Contain Any  ${result}  failed  Error
-        
+
     Sleep  120
     Log To Console  to check docker ps 
     :FOR  ${index}  IN RANGE  1  4
@@ -449,7 +449,7 @@ Deploy OVA And Install UI Plugin And Run Regression Tests
     # create vch using UI
     # retry UI steps if failed
     Wait Until Keyword Succeeds  3x  1m  Create VCH using UI And Set Docker Parameters  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}
-   
+
     Cache VCH Test Variable
     Test VCH Table Show State  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}
 
@@ -477,7 +477,7 @@ Reload VCH Test Variable
 
 Test VCH Table Show State
     [Arguments]  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}=1
-    Set Environment Variable  DRONE_BUILD_NUMBER  0  
+    Set Environment Variable  DRONE_BUILD_NUMBER  0
     ${vch_list}=  Create List
     :FOR  ${i}  IN RANGE  30
     \  Reload Page
