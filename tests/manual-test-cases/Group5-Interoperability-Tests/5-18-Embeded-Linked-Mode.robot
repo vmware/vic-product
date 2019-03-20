@@ -1,4 +1,4 @@
-# Copyright 2018 VMware, Inc. All Rights Reserved.
+# Copyright 2019 VMware, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,35 +13,27 @@
 # limitations under the License
 
 *** Settings ***
-Documentation  Test 5-05 - Enhanced Linked Mode
+Documentation  Test 5-18 - Embeded Linked Mode
 Resource  ../../resources/Util.robot
-Suite Setup  Nimbus Suite Setup  Enhanced Link Mode Setup
+Suite Setup  Nimbus Suite Setup  Embeded Linked Mode Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Pod Cleanup  ${nimbus_pod}  ${testbedname}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
 Test Timeout  90 minutes
 
 *** Keywords ***
-Enhanced Link Mode Setup
+Embeded Linked Mode Setup
     [Timeout]    90 minutes
-    ${name}=  Evaluate  'vic-enhancedlinkmode' + str(random.randint(1000,9999))  modules=random
+    ${name}=  Evaluate  'vic-embededlinkedmode' + str(random.randint(1000,9999))  modules=random
     Log To Console  Create a new simple vc cluster with spec vic-enhancedlinkmode.rb...
-    ${out}=  Deploy Nimbus Testbed  spec=vic-enhancedlinkmode.rb  args=--noSupportBundles --plugin testng --vcvaBuild "${VC_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vic-enhancedlinkmode --runName ${name}
+    ${out}=  Deploy Nimbus Testbed  spec=vic-embededlinkmode.rb  args=--noSupportBundles --plugin testng --vcvaBuild "${VC_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vic-enhancedlinkmode --runName ${name}
     Log  ${out}
     Log To Console  Finished creating cluster ${name}
 
     ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
-    ${psc1_ip}=  Fetch From Right  ${out}  ${SPACE}
-    Log  ${psc1_ip}
-
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.1 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.1
-    ${psc2_ip}=  Fetch From Right  ${out}  ${SPACE}
-    Log  ${psc2_ip}
-
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.2 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.2
     ${vc1_ip}=  Fetch From Right  ${out}  ${SPACE}
     Log  ${vc1_ip}
 
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.3 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.3
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.1 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.1
     ${vc2_ip}=  Fetch From Right  ${out}  ${SPACE}
     Log  ${vc2_ip}
 
@@ -87,9 +79,4 @@ Enhanced Link Mode Setup
     
 *** Test Cases ***
 Test
-    # set external psc env variables
-    ${psc}=  Get PSC Instance  %{TEST_URL}  root  vmware
-    Set Environment Variable  EXTERNAL_PSC  ${psc}
-    Set Environment Variable  PSC_DOMAIN  vsphere.local
-
-    Deploy OVA And Install UI Plugin And Run Regression Tests  5-05-TEST  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
+    Deploy OVA And Install UI Plugin And Run Regression Tests  5-18-TEST  vic-*.ova  %{TEST_DATASTORE}  %{BRIDGE_NETWORK}  %{PUBLIC_NETWORK}  %{TEST_USERNAME}  %{TEST_PASSWORD}
