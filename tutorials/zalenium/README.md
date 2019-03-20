@@ -25,11 +25,11 @@ $ docker exec -it zalenium-host /bin/bash
 
 Pull the selenium and Zalenium containers on the DCH. These commands need to be run from DCH console after executing step 3.
 ```
- # Pull docker-selenium
- root [ / ]# docker pull elgalu/selenium
+# Pull docker-selenium
+root [ / ]# docker pull elgalu/selenium
 
- # Pull Zalenium
- root [ / ]# docker pull dosel/zalenium
+# Pull Zalenium
+root [ / ]# docker pull dosel/zalenium
 ```
 
 
@@ -37,7 +37,7 @@ Pull the selenium and Zalenium containers on the DCH. These commands need to be 
 
 Run the Zalenium container on DCH by executing the command below. Note that this command is run from within the DCH console. 
 ```
- root [ / ]# docker run --rm -ti --name zalenium -p 4444:4444 \
+root [ / ]# docker run --rm -ti --name zalenium -p 4444:4444 \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v /tmp/videos:/home/seluser/videos \
     --privileged dosel/zalenium start
