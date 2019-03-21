@@ -140,8 +140,7 @@
          * [Image Store Error](vic_vsphere_admin/ts_imagestore_error.md)
      * [Install Packages in VCHs](vic_vsphere_admin/vch_install_packages.md)
          * [Mount an NFS Share Point](vic_vsphere_admin/vch_mount_nfsshare.md)
-     * [Upgrade Operation](vic_vsphere_admin/ts_upgrade_op.md)
-        * [Container VMs Orphaned After Upgrade](vic_vsphere_admin/ts_orphaned_cvms.md)
+     * [Container VMs Orphaned After Upgrade](vic_vsphere_admin/ts_orphaned_cvms.md)
   * [Security Reference](vic_vsphere_admin/security_reference.md)
   * [`vic-machine` Options Reference](vic_vsphere_admin/vicmachine_options_ref.md)
 
