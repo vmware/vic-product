@@ -1,6 +1,6 @@
-# Using vSphere Integrated Containers as a DevOps Administrator, Developer, or Viewer
+# Running Development Projects as a DevOps Administrator or Developer
 
-*Using vSphere Integrated Containers as a DevOps Administrator, Developer, or Viewer* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; Management Portal as a user with the DevOps administrator, Developer, or Viewer role.
+*Running Development Projects as a DevOps Administrator or Developer* provides information about how to use VMware vSphere&reg; Integrated Containers&trade; Management Portal as a user with the DevOps Administrator or Developer role.
 
 **Product version: 1.5**
 
@@ -8,7 +8,7 @@ This documentation applies to all 1.5.x releases.
 
 ## Intended Audience
 
-This information is intended for vSphere Integrated Containers users who have the DevOps Administrator, Developer, or Viewer roles in vSphere Integrated Containers Management Portal. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is assumed.
+This information is intended for vSphere Integrated Containers users who have the DevOps Administrator or Developer roles in vSphere Integrated Containers Management Portal. Knowledge of [container technology](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) and [Docker](https://docs.docker.com/) is assumed.
 
 ----------
 
