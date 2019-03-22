@@ -8,4 +8,4 @@ This section includes information about how to access vSphere Integrated Contain
 - [Troubleshoot Virtual Container Host Deployment](ts_deploy_vch.md)
 - [Troubleshoot Post-Deployment Operation](ts_post_deployment_op.md)
 - [Install Packages in the VCH](vch_install_packages.md)
-- [Upgrade Operation](ts_upgrade_op.md)
+- [Container VMs Orphaned After Upgrade](ts_orphaned_cvms.md)
