@@ -310,13 +310,14 @@ Ensure Delete Succeed
     Fail  this element is still showing.
 
 Delete All VCH Using UI
+    Set Browser Variables
     Open Firefox Browser
     Navigate To VC UI Home Page
     Login On Single Sign-On Page
     Verify VC Home Page
     Navigate To VCH Creation Wizard
     Navigate To VCH Tab
-    :FOR  ${idx}  IN RANGE  999
+    :FOR  ${idx}  IN RANGE  99
     \   Delete VCH Using UI
     \   ${vch_count}=  Get Create VCH Count
     \   Exit For Loop If  ${vch_count} == 0

@@ -57,7 +57,9 @@ Custom Auto Upgrade Specific OVA With Verification
     Execute Upgrade Script  %{OVA_IP}  %{OVA_IP_OLD}  ${old-ova-datacenter}  ${old-ova-version}
     Check Services Running Status
     Verify Running Busybox Container And Its Pushed Harbor Image  %{OVA_IP}  ${sample-image-tag}  ${new-ova-cert-path}  docker-endpoint=${VCH-PARAMS}
+    Stop All Containers
     Second Auto Upgrade To Latest  7-05-UPGRADE-1-5-0  ${local_ova_file}  1.5.0  ${old-ova-datacenter}  
+    Stop All Containers    
 
 Custom Install Specific OVA Version Without Initialize
     [Arguments]  ${ova-file}  ${ova-name}
@@ -86,3 +88,4 @@ Second Auto Upgrade To Latest
 *** Test Cases ***
 Upgrade OVA 1.4.4
     Custom Auto Upgrade Specific OVA With Verification  7-05-UPGRADE-1-4-4  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  dc1
+    Delete All VCH Using UI

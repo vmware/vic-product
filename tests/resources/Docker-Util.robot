@@ -125,6 +125,16 @@ Wait Until Container Stops
     \   Sleep  ${sleep-time}
     Fail  Container did not stop within 60 seconds
 
+Stop All Containers
+    ${rc}  ${container_ids}=  Run And Return Rc And Output  docker ${VCH-PARAMS} ps -q
+    Log  ${container_ids}
+    Should Be Equal As Integers  ${rc}  0
+    @{container_ids}=  Split To Lines  ${container_ids}
+    :FOR  ${container_id}  IN  @{container_ids}
+    \   ${rc}  ${output}=  Run And Return Rc And Output  docker ${VCH-PARAMS} stop ${container_id}
+    \   Should Be Equal As Integers  ${rc}  0
+    \   Wait Until Container Stops  ${container_id} 
+
 Run Docker Regression Tests For VCH
     Log To Console  \nRunning VCH regression tests...
     ${rc}  ${output}=  Run And Return Rc And Output  docker ${VCH-PARAMS} pull ${busybox}
