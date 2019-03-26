@@ -16,7 +16,7 @@
 Documentation  Test 2-05 - Customized Configurations
 Resource  ../../resources/Util.robot
 Suite Setup  Setup VC With Static IP
-Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
+#Suite Teardown  Run Keyword And Ignore Error  Nimbus Cleanup  ${list}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Copy Support Bundle  %{OVA_IP}
 
 *** Variables ***
@@ -52,6 +52,7 @@ Verify Network
 Verify Syslog
     ${syslog-conn}=  Open Connection  ${syslog_srv_host}
     Login  ${syslog_srv_user}  ${syslog_srv_passowrd}
+    Wait Until Keyword Succeeds  10x  30s  Execute Command And Return Output  docker-compose -f /etc/vmware/harbor/docker-compose.yml top | grep rsyslogd
     ${out}=  Execute Command  cat /var/log/syslog
     Close Connection
     Log  ${out}
