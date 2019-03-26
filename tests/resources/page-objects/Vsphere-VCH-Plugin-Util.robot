@@ -268,6 +268,8 @@ Get Create VCH Count
     Log  ${foot_text}
     ${rc}  ${vch_count}=  Run And Return Rc And Output  echo '${foot_text}' | cut -d ' ' -f 5
     Log  ${vch_count}
+    ${status}=  Run Keyword And Return Status  Should Contain  ${vch_count}  VCH
+    Run Keyword If  ${status}  Capture Page Screenshot  get-vchfail-screenshot-{index}.png
     Should Be Equal As Integers  ${rc}  0
     Unselect Frame
     Return From Keyword If  '${foot_text}' != '${EMPTY}'  ${vch_count}
