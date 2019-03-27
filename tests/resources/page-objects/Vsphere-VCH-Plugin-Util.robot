@@ -134,11 +134,7 @@ Set Docker Host Parameters
     Log To Console  Set docker host paramenters...
     Wait Until Element Is Visible And Enabled  ${vic-home-iframe}
     Select Frame  ${vic-home-iframe}
-    :FOR  ${i}  IN RANGE  999999
-    \  Run Keyword And Ignore Error  Click Link  ${refresh-table-link}
-    \  ${passed}=  Run Keyword And Return Status  Element Should Be Visible  ${refresh-table-link}
-    \  Exit For Loop If  ${passed} == ${false}
-    \  Log  ${i}
+    Ensure Fetch VCH IP
 
     # latest one is in the last row
     ${last-row}=  Get Text  css=clr-dg-table-wrapper.datagrid-table-wrapper clr-dg-row:last-of-type
@@ -155,6 +151,14 @@ Set Docker Host Parameters
     Set Test Variable  ${VIC-ADMIN}  https://${ip}:2378
     Run Keyword If  ${port} == 2376  Set Test Variable  ${VCH-PARAMS}  -H ${docker-host} --tls
     Run Keyword If  ${port} == 2375  Set Test Variable  ${VCH-PARAMS}  -H ${docker-host}
+
+Ensure Fetch VCH IP
+    :FOR  ${i}  IN RANGE  30
+    \   Sleep  20
+    \   Run Keyword And Ignore Error  Click Link  ${refresh-table-link}
+    \   ${passed}=  Run Keyword And Return Status  Element Should Be Visible  ${refresh-table-link}
+    \   Return From Keyword If  ${passed} == ${false}
+    Fail  fetch vch ip failure.
 
 Create VCH using UI And Set Docker Parameters
     # navigate to the wizard and create a VCH
@@ -275,8 +279,17 @@ Get Create VCH Count
     Return From Keyword If  '${foot_text}' != '${EMPTY}'  ${vch_count}
     [Return]  ${False}
 
+Ensure Get VCH Count
+    :FOR  ${IDX}  IN RANGE  3
+    \   ${vch_count}=  Get Create VCH Count
+    \   ${status}=  Run Keyword And Return Status  Should Contain  ${vch_count}  VCH
+    \   Run Keyword If  ${status}  Reload Page
+    \   Run Keyword If  ${status}  Sleep  3
+    \   Return From Keyword If  ${status} == ${False}  ${vch_count}
+    Fail  fetch vch count failure.
+
 Delete VCH Using UI
-    ${cur_vch_count}=  Get Create VCH Count
+    ${cur_vch_count}=  Ensure Get VCH Count
     Should Be True  ${cur_vch_count}
     Wait Until Element Is Visible And Enabled  ${vic-home-iframe}
     Select Frame  ${vic-home-iframe}
@@ -321,7 +334,7 @@ Delete All VCH Using UI
     Navigate To VCH Tab
     :FOR  ${idx}  IN RANGE  99
     \   Delete VCH Using UI
-    \   ${vch_count}=  Get Create VCH Count
+    \   ${vch_count}=  Ensure Get VCH Count
     \   Exit For Loop If  ${vch_count} == 0
     Close Browser
 

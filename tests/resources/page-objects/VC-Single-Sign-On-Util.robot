@@ -40,6 +40,10 @@ Login On Single Sign-On Page
 
 Verify VC Home Page
 	Log To Console  Verifying VC home page...
+    :FOR  ${i}  IN RANGE  20
+    \   ${status}=  Run Keyword And Return Status  Wait Until Page Contains  Summary
+    \   Exit For Loop If  ${status}
+    \   Sleep  3
     Wait Until Page Contains  Summary
     Wait Until Page Contains  Monitor
     Wait Until Page Contains  Configure
