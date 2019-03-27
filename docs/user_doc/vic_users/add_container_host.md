@@ -1,4 +1,4 @@
-# Add Container Hosts #
+# Adding Container Hosts #
 
 As a Management Portal administrator, you can add existing Docker hosts or vSphere Integrated Containers virtual container hosts (VCHs) to projects. After adding the hosts, you can provision containers, view live stats and manage the hosts in the Management Portal.
 
@@ -22,4 +22,9 @@ For more information about adding container hosts, see [Add Container Hosts to P
 
 **Result**
 
-The container host is added to your project. 
+The container host is added to your project.
+
+## What to Do Next ##
+
+Start [Creating New Networks](create_network.md) and [Creating New Volumes](create_volumes.md).
+

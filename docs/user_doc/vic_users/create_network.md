@@ -1,6 +1,6 @@
-# Create New Networks #
+# Creating New Networks #
 
-You can create, modify, and attach network configurations to containers and container templates. When you create a network, you add a network that you have configured on the virtual container host (VCH).
+You can create, modify, and attach network configurations to containers,  container templates, and applications. When you create a network, you add a network that you have configured on the virtual container host (VCH).
 
 You can create the following types of networks:
 
@@ -8,6 +8,10 @@ You can create the following types of networks:
 - Public networks
 - Client networks
 - Management networks
+- Container networks
+- Proxy servers
+
+You can dissociate a network from a container by deleting it.
 
 For more information about the networks, see [Virtual Container Host Networks](../vic_vsphere_admin/vch_networking.md)
 

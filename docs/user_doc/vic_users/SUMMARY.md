@@ -3,7 +3,8 @@
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
 * [Running Development Projects](README.md)
-  * [Using the Management Portal](run_dev_project.md) 
+  * [DevOps Administrator and Developer Tasks](admin_dev_tasks.md)
+  * [Working with Projects](working_with_projects_vicui.md)
   * [Adding a Container Host](add_container_host.md)
   * [Creating New Networks](create_network.md)
   * [Creating New Volumes](create_volumes.md)
@@ -15,9 +16,13 @@
     - [Environment configuration](container_environment.md)
     - [Health configuration](container_healthconfig.md)
     - [Logging configuration](container_logconfig.md)
+    - [Example of Provisioning an Individual Container](example_container.md)
   * [Creating Templates and Applications](creating_applications_and_templates.md)
-     * [Configuring Links for Templates and Images](configuring_links.md)
-     * [Provisioning Container Volumes Using Templates](provisioning_volumes_templates.md)
-     * [Configuring Health Checks for Templates and Images](configuring_health_checks.md)
-     * [Configuring Cluster Size and Scale](configuring_clusters.md)  
-  
+        * [Creating Templates](creating_templates.md)
+        * [Creating Applications](creating_applications.md)
+        * [Template Configuration Tasks](template_tasks.md)
+        * [Example of Creating an Application from a Template](example_application.md)
+  - [Viewing Library and Logs](view_library_and_logs.md)
+      - [Built-in Repositories](built-in_repositories.md)
+      - [Repositories](repositories.md)
+      - [Recent Activity](recent_activity.md)

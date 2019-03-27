@@ -8,7 +8,20 @@ You can customize your deployment by using the available settings. You can eithe
 
 You can provision containers, templates, or images. 
 
-When you create containers from the Containers page in the management portal, you can configure the following settings:
+**Procedure**
+
+1. In the management portal, navigate to **Deployments** > **Containers** and click **+Container**.
+2. On the Provision a Container page, configure the following settings:
+    - Basic configuration
+    - Network configuration
+    - Storage configuration
+    - Policy configuration
+    - Environment configuration
+    - Health configuration
+    - Logging configuration
+3. Click **PROVISION** to provision the container with the configured settings. Click **SAVE AS TEMPLATE** to save the configured container as a template. 
+
+When you create containers, configure the following settings:
 
 - [Basic configuration](container_basic.md)
 - [Network configuration](container_network.md)
@@ -18,9 +31,4 @@ When you create containers from the Containers page in the management portal, yo
 - [Health configuration](container_healthconfig.md)
 - [Logging configuration](container_logconfig.md)
 
-**Related topics**
 
-- [Configuring Links](configuring_links.md)
-- [Provisioning Container Volumes Using Templates](provisioning_volumes_templates.md)
-- [Configuring Health Checks](configuring_health_checks.md)
-- [Configuring Cluster Size and Scale](configuring_clusters.md)
