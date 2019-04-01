@@ -50,7 +50,13 @@ Verify Network
 #TODO:Verify Proxy
 
 Verify Syslog
-    ${syslog-conn}=  Open Connection  ${syslog_srv_host}
+    Log To Console  Check harbor is up
+    Open Connection  %{OVA_IP}
+    Login  ${OVA_USERNAME_ROOT}  ${OVA_PASSWORD_ROOT}
+    Wait Until Keyword Succeeds  10x  30s  Execute Command And Return Output  docker-compose -f /etc/vmware/harbor/docker-compose.yml top | grep rsyslogd
+    Close Connection
+    Log To Console  Get syslog
+    Open Connection  ${syslog_srv_host}
     Login  ${syslog_srv_user}  ${syslog_srv_passowrd}
     ${out}=  Execute Command  cat /var/log/syslog
     Close Connection
