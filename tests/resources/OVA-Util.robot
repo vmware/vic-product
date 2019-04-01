@@ -338,8 +338,9 @@ Auto Upgrade OVA With Verification
     # setup and deploy old version of ova
     Setup And Install Specific OVA Version  ${old-ova-save-file}  ${test-name}
     # install VCH, create running container and push image to harbor
-    Download VIC Engine If Not Already  %{OVA_IP}
-    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}
+    Run  mkdir -p bin/${old-ova-version}
+    Download VIC Engine If Not Already  %{OVA_IP}  bin/${old-ova-version}
+    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}  bin/${old-ova-version}
     # save IP of old ova appliance
     Set Environment Variable  OVA_IP_OLD  %{OVA_IP}
 
@@ -478,21 +479,22 @@ Test VCH Table Show State
     [Arguments]  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}=1
     Set Environment Variable  DRONE_BUILD_NUMBER  0
     ${vch_list}=  Create List
-    :FOR  ${i}  IN RANGE  30
+    :FOR  ${i}  IN RANGE  10
     \  Reload Page
     \  ${visible}=  Check VCH Fail Alert
     \  Should Not Be True  ${visible}
-    \  ${vch_count}=  Get Create VCH Count
+    \  ${vch_count}=  Ensure Get VCH Count
     \  Should Be True  ${vch_count}
-    \  ${is_zero}=  Evaluate  ${i}\%10
+    \  ${is_zero}=  Evaluate  ${i}\%3
     \  ${vch-name}=  Run Keyword If  ${is_zero} == 0  Test Create VCH Using UI  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}
     \  Run Keyword If  ${is_zero} == 0  Append To List  ${vch_list}  ${vch-name}
     \  Run Keyword If  ${is_zero} == 0  Reload Page
-    \  ${vch_count}=  Run Keyword If  ${is_zero} == 0  Get Create VCH Count
+    \  ${vch_count}=  Run Keyword If  ${is_zero} == 0  Ensure Get VCH Count
     \  ...            ELSE            Evaluate  ${vch_count}
     \  ${create_vch_count}=  Get Length  ${vch_list}
     \  ${vch_add}=  Evaluate  ${create_vch_count}+1
     \  Should Be Equal As Integers  ${vch_count}  ${vch_add}
+    \  Sleep  20
 
 # TODO Remove after end of 1.2.1 support
 Copy and Attach Disk v1.2.1

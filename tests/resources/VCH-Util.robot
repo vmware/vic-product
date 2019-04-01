@@ -131,7 +131,7 @@ Secret Curl Container Logs
 Install VCH And Create Running Busybox Container
     [Arguments]  ${ova-ip}  ${target_dir}=bin
     Log To Console  \nInstall VCH and create running busybox container...
-    ${vch-name}=  Install VCH  certs=${false}
+    ${vch-name}=  Install VCH  vic-machine=${target_dir}/vic-machine-linux  appliance-iso=${target_dir}/appliance.iso  bootstrap-iso=${target_dir}/bootstrap.iso  certs=${false}
     # create a running busybox container
     Log To Console  Creating running docker container...
     ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} ${VCH-PARAMS} pull ${busybox}
@@ -148,10 +148,10 @@ Install VCH And Create Running Busybox Container
     [Return]  ${container}
 
 Install VCH With Busybox Container And Push That Image to Harbor
-    [Arguments]  ${ova-ip}  ${image-tag}  ${harbor-project}=${DEFAULT_HARBOR_PROJECT}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker-endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
+    [Arguments]  ${ova-ip}  ${image-tag}  ${target_dir}=bin  ${harbor-project}=${DEFAULT_HARBOR_PROJECT}  ${docker}=${DEFAULT_LOCAL_DOCKER}  ${docker-endpoint}=-H ${DEFAULT_LOCAL_DOCKER_ENDPOINT}
     # install a vch
     # create a running busybox container
-    Install VCH And Create Running Busybox Container  ${ova-ip}
+    Install VCH And Create Running Busybox Container  ${ova-ip}  ${target_dir}
     # tag and push an image to harbor
     ${harbor-image-name}=  Set Variable  ${ova-ip}/${harbor-project}/${busybox}
     ${harbor-image-tagged}=  Set Variable  ${harbor-image-name}:${image-tag}
