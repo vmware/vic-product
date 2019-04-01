@@ -1,18 +1,20 @@
-# Using vSphere Integrated Containers Management Portal as a DevOps Administrator or Developer #
+# DevOps Administrator and Developer Tasks #
 
 As a developer, you can perform the following tasks in vSphere Integrated Containers Management Portal:
 
-- Add networks to virtual container hosts. For more information, see [Create New Networks for Provisioning Containers](../vic_users/create_network.html).
-- Add volumes to virtual container hosts. For more information, see
-- Provision containers. For more information, see [Provisioning Container VMs in the Management Portal](../vic_users/provision_containers_portal.html).
-- Create templates and provision containers from templates.
-- Create application templates and deploy applications.
-- View the repositories and virtual container hosts for your project.
+- Add networks to containers. For more information, see [Creating New Networks](../vic_users/create_network.md).
+- Add volumes to containers. For more information, see [Creating New Volumes](../vic_users/create_volumes.md).
+- Provision containers. For more information, see [Provisioning Container VMs](../vic_users/provision_containers_portal.md).
+- Create templates and provision containers from templates. For more information, see [Creating Templates](../vic_users/creating_templates.md).
+- Create application templates and deploy applications. [Creating Applications](../vic_users/creating_applications.md).
+- View the repositories and virtual container hosts for your project. For more information, see [Viewing Library and Logs](../vic_users/view_library_and_logs.md).
 
-
-As a DevOps administrator, in addition to developer tasks, you can perform the following tasks in vSphere Integrated Containers Management Portal:
+As a Management Portal Administrator, in addition to developer tasks, you can perform the following tasks in vSphere Integrated Containers Management Portal:
 
 - Add developers and viewers projects and assign other DevOps administrators. For more information, see [Add Viewers, Developers, or DevOps Administrators to Projects](../vic_cloud_admin/add_users.html).
-- Add container hosts. 
+- Add container hosts. For more information, see [Adding Container Hosts](../vic_users/add_container_host.md).
 - Change project configurations, such as making the project registry public, changing deployment security settings, and enabling vulnerability scanning. For more information, see [Configure Project Settings](../vic_cloud_admin/manage_projects.html).
 
+## What to Do Next ##
+
+Start [Working with Projects](../vic_users/working_with_projects_vicui.md).

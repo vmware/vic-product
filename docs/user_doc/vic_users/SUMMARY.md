@@ -3,7 +3,7 @@
 <!-- USE THIS SUMMARY FILE FOR PDF GENERATION ONLY -->
 
 * [Running Development Projects](README.md)
-  * [DevOps Administrator and Developer Tasks](admin_dev_tasks.md)
+  * [DevOps Administrator and Developer Tasks](../vic_app_dev/run_dev_project.md)
   * [Working with Projects](working_with_projects_vicui.md)
   * [Adding a Container Host](add_container_host.md)
   * [Creating New Networks](create_network.md)

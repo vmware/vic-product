@@ -179,11 +179,11 @@
 ----
 
 * [Running Development Projects](vic_users/README.md)
-  * [DevOps Administrator and Developer Tasks](vic_users/admin_dev_tasks.md)
+  * [DevOps Administrator and Developer Tasks](vic_app_dev/run_dev_project.md)
   * [Working with Projects](vic_users/working_with_projects_vicui.md) 
   * [Adding a Container Host](vic_users/add_container_host.md)
   * [Creating New Networks](vic_users/create_network.md)
-  * [Creating New Volumes](cvic_users/reate_volumes.md)
+  * [Creating New Volumes](vic_users/create_volumes.md)
   * [Provisioning Container VMs](vic_users/provision_containers_portal.md)
     - [Basic configuration](vic_users/container_basic.md)
     - [Network configuration](vic_users/container_network.md)
