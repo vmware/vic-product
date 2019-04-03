@@ -338,9 +338,9 @@ Auto Upgrade OVA With Verification
     # setup and deploy old version of ova
     Setup And Install Specific OVA Version  ${old-ova-save-file}  ${test-name}
     # install VCH, create running container and push image to harbor
-    Run  mkdir -p bin/${old-ova-version}
-    Download VIC Engine If Not Already  %{OVA_IP}  bin/${old-ova-version}
-    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}  bin/${old-ova-version}
+    Run  mkdir -p ./auto/${old-ova-version}
+    Download VIC Engine If Not Already  %{OVA_IP}  auto/${old-ova-version}
+    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}  auto/${old-ova-version}
     # save IP of old ova appliance
     Set Environment Variable  OVA_IP_OLD  %{OVA_IP}
 
