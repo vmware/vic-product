@@ -42,9 +42,9 @@ Custom Auto Upgrade Specific OVA With Verification
     # setup and deploy old version of ova
     Setup And Install Specific OVA Version  ${old-ova-save-file}  ${test-name}
     # install VCH, create running container and push image to harbor
-    Run  mkdir -p bin/${old-ova-version}
-    Download VIC Engine If Not Already  %{OVA_IP}  bin/${old-ova-version}
-    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}  bin/${old-ova-version}
+    Run  mkdir -p ./auto/${old-ova-version}
+    Download VIC Engine If Not Already  %{OVA_IP}  auto/${old-ova-version}
+    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}  auto/${old-ova-version}
     # save IP of old ova appliance
     Set Environment Variable  OVA_IP_OLD  %{OVA_IP}
 
@@ -73,9 +73,9 @@ Custom Install Specific OVA Version Without Initialize
 
 Second Auto Upgrade To Latest
     [Arguments]  ${test-name}  ${ova-file}  ${image-tag}  ${old-ova-datacenter}
-    Run  mkdir -p bin/${image-tag}
-    Download VIC Engine If Not Already  %{OVA_IP}  bin/${image-tag}
-    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${image-tag}  bin/${image-tag}
+    Run  mkdir -p ./auto/${image-tag}
+    Download VIC Engine If Not Already  %{OVA_IP}  auto/${image-tag}
+    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${image-tag}  auto/${image-tag}
     Set Environment Variable  OVA_IP_OLD  %{OVA_IP}
     Log To Console  \nInstall latest version of OVA and auto upgrade...
     Set Environment Variable  OVA_NAME  ${test-name}-latest
@@ -90,4 +90,8 @@ Second Auto Upgrade To Latest
 *** Test Cases ***
 Upgrade OVA 1.4.4
     Custom Auto Upgrade Specific OVA With Verification  7-05-UPGRADE-1-4-4  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  dc1
-    Delete All VCH Using UI
+    ${rc}  ${output}=  Run And Return Rc And Output  govc about -u=%{TEST_URL}
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    ${status}=  Run Keyword And Return Status  Should Contain  ${output}  6.0
+    Run Keyword Unless  ${status}  Delete All VCH Using UI

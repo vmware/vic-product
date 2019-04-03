@@ -32,5 +32,9 @@ OVA Upgrade Setup
 *** Test Cases ***
 Upgrade OVA 1.4.0
     Auto Upgrade OVA With Verification  7-04-UPGRADE-1-4-0  ${old-ova-file-name}  ${old-ova-version}  ${old-ova-cert-path}  ${new-ova-cert-path}  dc1
-    Stop All Containers
-    Delete All VCH Using UI
+    ${rc}  ${output}=  Run And Return Rc And Output  govc about -u=%{TEST_URL}
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    ${status}=  Run Keyword And Return Status  Should Contain  ${output}  6.0
+    Run Keyword Unless  ${status}  Stop All Containers
+    Run Keyword Unless  ${status}  Delete All VCH Using UI
