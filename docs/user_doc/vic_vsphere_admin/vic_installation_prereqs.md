@@ -32,6 +32,8 @@ The different components of vSphere Integrated Containers have different virtual
 You deploy the vSphere Integrated Containers appliance on a vCenter Server instance. Deploying the appliance directly on an ESXi host is not supported.
 
 - vCenter Server 6.0, 6.5, or 6.7.
+
+  **NOTE**: vSphere Integrated Containers 1.4.x does not support vSphere 6.7u2. To run vSphere Integrated Containers with vSphere 6.7u2, you must upgrade to vSphere Integrated Containers 1.5.x.
 - ESXi 6.0, 6.5, or 6.7 for all hosts.
 - At least 2 vCPUs.
 - At least 8GB RAM.
