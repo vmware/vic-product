@@ -6,24 +6,6 @@ You must only add a given VCH to one project at a time. Adding the same VCH to m
 
 For more information about adding container hosts, see [Add Container Hosts to Projects](../vic_cloud_admin/vchs_and_mgmt_portal.md)
 
-**Procedure**
-
-1. In the management portal, navigate to **Deployments** > **Networks** and click **+ Network**.
-2. On the Create Network page, select the **Advanced** check box to access all available settings.
-2. Configure the following settings:
-    
-      - **Name**: Name of the container host in the project
-      - **Description**: Description of the container host. 
-      - **Type**: Type of container host. Select **VCH** or **Docker** from the list.
-      - **URL**: The IP Address of the container host.
-      - **Credentials**: The signed certificates that you used while creating the VCH.
- 
-1. Clck **Save**.
-
-**Result**
-
-The container host is added to your project.
-
 ## What to Do Next ##
 
 Start [Creating New Networks](create_network.md) and [Creating New Volumes](create_volumes.md).

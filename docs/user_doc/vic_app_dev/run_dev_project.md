@@ -9,11 +9,12 @@ As a developer, you can perform the following tasks in vSphere Integrated Contai
 - Create application templates and deploy applications. [Creating Applications](../vic_users/creating_applications.md).
 - View the repositories and virtual container hosts for your project. For more information, see [Viewing Library and Logs](../vic_users/view_library_and_logs.md).
 
-As a Management Portal Administrator, in addition to developer tasks, you can perform the following tasks in vSphere Integrated Containers Management Portal:
+As a Devops Administrator, in addition to developer tasks, you can perform the following tasks in vSphere Integrated Containers Management Portal:
 
 - Add developers and viewers projects and assign other DevOps administrators. For more information, see [Add Viewers, Developers, or DevOps Administrators to Projects](../vic_cloud_admin/add_users.html).
-- Add container hosts. For more information, see [Adding Container Hosts](../vic_users/add_container_host.md).
 - Change project configurations, such as making the project registry public, changing deployment security settings, and enabling vulnerability scanning. For more information, see [Configure Project Settings](../vic_cloud_admin/manage_projects.html).
+
+For information about the tasks that the Management Portal Administator can perform such as, creating projects and adding hosts, see [vSphere Integrated Containers Management Portal Administration](../vic_cloud_admin/readme.md).
 
 ## What to Do Next ##
 

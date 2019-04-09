@@ -1,6 +1,6 @@
 # Creating Applications #
 
-Applications are comprised of multiple containers. When you create an application, you create a template that leverages multiple containers and enables them to communicate between each other. 
+Applications are comprised of multiple containers. When you create an application, you create a template that leverages multiple containers, shares storage, and enables them to communicate between each other. 
 
 **Procedure**
 

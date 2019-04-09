@@ -12,4 +12,4 @@ In vSphere Integrated Containers, you create different projects to which you ass
 1. [Create Templates and Applications](creating_applications_and_templates.md)
 1. [View Library and Logs](view_library_and_logs.md)
 
-The first three tasks can only be performed by users with the Management Portal Administrator role. The others task can be performed by users with Developer or DevOps Administrator roles.
+The first four tasks can only be performed by users with the Management Portal Administrator role. The other tasks can be performed by users with DevOps Administrator or Developer roles.
