@@ -1,6 +1,6 @@
 # Example of Creating an Application from a Template #
 
-This section illustrates how you can provision an application with a PostgreSQL container and a Tomcat container. The PostgreSQL container contains a form that use to collect data. The Tomcat container stores the data that is collected. 
+This section illustrates how you can provision an application with a PostgreSQL container and a Tomcat container. The PostgreSQL container contains a form that collects data. The Tomcat container stores the data that is collected. 
 
 ## Prerequisities ##
 

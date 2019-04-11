@@ -47,7 +47,7 @@ Create a template and add the `postgres` container to it.
 1. On the Network tab, configure the following:
     1. Select **Publish All Ports**.
     1. In the list under **Networks**, select **Add Network**. 
-    1. Select the **Existing** checkbox and click in the search field under **Name** to see a list of added netwroks. Select `datanet` from the list 
+    1. Select the **Existing** checkbox and click in the search field under **Name** to see a list of added networks. Select `datanet` from the list 
 1. On the Storage tab, in **Volumes**, enter `pgdata` as **Host** and `/var/lib/postgresql/data` as **Container**.
 1. On the Policy tab, configure the following:
     1. Select `Always` under **Restart Policy**.
