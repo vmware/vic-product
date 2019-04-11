@@ -29,6 +29,7 @@ Your organization could use VMware vRealize Automation to provide a self-provisi
 - vRealize Automation 7.3 supports vSphere Integrated Containers 1.1.x. 
 - vRealize Automation 7.4 supports vSphere Integrated Containers 1.3.x. 
 - vRealize Automation 7.5 supports vSphere Integrated Containers 1.3.x and 1.4.x, up to and including 1.4.2. 
+- vRealize Automation 7.6 supports vSphere Integrated Containers 1.4.x and 1.5.x, up to and including 1.5.2.
 
 For the most up-to-date information about compatibility with vRealize Automation, see the [VMware Product Interoperability Matrices](https://partnerweb.vmware.com/comp_guide2/sim/interop_matrix.php#interop&114=&149=).
 
