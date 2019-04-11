@@ -40,7 +40,12 @@ tls_ca_cert="${APPLIANCE_TLS_CA_CERT}"
 function formatCert {
   content=$1
   file=$2
-  echo "$content" | sed -r 's/(-{5}BEGIN [A-Z ]+-{5})/&\n/g; s/(-{5}END [A-Z ]+-{5})/\n&\n/g' | sed -r 's/.{64}/&\n/g; /^\s*$/d' | sed -r '/^$/d' > "$file"
+  # transfer the one line cert content into cert file pattern
+  # The cert pattern from HTML5 and Flex are different
+  # Flex transfers the cert content in one line with no space added
+  # HTML5 tansfers the cert content in one line with one space added
+  # also consider the cert chain scenarios
+  echo "$content" | sed -r 's/(-{5}BEGIN [A-Z ]+-{5})/&\n/g; s/(-{5}END [A-Z ]+-{5})/\n&\n/g' | sed -r 's/^ -/-/g' | sed -r '/(-{5}BEGIN [A-Z ]+-{5})/{n; s/ //g;}' | sed -r 's/.{64}/&\n/g; /^\s*$/d' | sed -r '/^$/d' > "$file"
 }
 
 # Check if private key is valid
