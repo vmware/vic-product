@@ -10,7 +10,7 @@ After you create a template, you can add one or more containers in the the Edit 
 2. Select the container you require and click **Continue**. 
 2. Specify the configuration for the container and click **Add**.
 
-For information about the configuration, see [Provisioning Container VMs](provision_containers_portal.md).
+For information about the configuration, see [Container Provisioning Options Reference](container_provisioning_options_reference.md).
 
 ## Add Volumes to a Template ##
 

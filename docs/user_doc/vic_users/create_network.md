@@ -4,7 +4,7 @@ You can create and attach network configurations to containers, container templa
 
 You can dissociate a network from a container by deleting it.
 
-For more information about container networks and how to configure them, see [Configure Container Networks](../vic_vsphere_admin/container_networks.md)
+For more information about container networks and how to configure them, see [Configure Container Networks](../vic_vsphere_admin/container_networks.md).
 
 **Procedure**
 

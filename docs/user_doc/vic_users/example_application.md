@@ -1,12 +1,12 @@
 # Example of Creating an Application from a Template #
 
-This section illustrates how you can provision an application with a PostgreSQL container and a Tomcat container.
+This section illustrates how you can provision an application with a PostgreSQL container and a Tomcat container. The PostgreSQL container contains a form that use to collect data. The Tomcat container stores the data that is collected. 
 
 ## Prerequisities ##
 
 Verify that you have perfomed the following steps:
 
-- Installed a virtual container host (VCH) and registered it with vCenter Server.
+- Deployed a virtual container host (VCH).
 - Have a vCenter Server Single Sign-On user account with vSphere administrator privileges, or a user account that has been granted the Management Portal Administrator role in vSphere Integrated Containers.
 - Created a project, assigned users to the project, and added the container host to the project.
 - Created a volume with the name `webapp` and network with name `web`.
@@ -31,12 +31,14 @@ Perform the following steps:
     2. **Networks**. Select `web`.
 2. On the Storage tab, in **Volumes**, enter `webapp` for **Host** and `/usr/local/tomcat/webapps` for **Container**.
 2. On the Policy tab, select `Always` as the **Restart Policy**.
-1. Click **Add** to add the container.
-
-The container `tomcat` is provisioned.
-
-## Run the Application
+1. Click **Add** to add the container. 
 
 Once you configure the two containers, they appear in the Edit Template page.
 
-Click the **PROVISION** icon to provision `Postgres-DB-Application`.
+In the `tomcat` container that is created, click **+** next to **Links** and select `postgres` from the list. 
+
+The `tomcat` container is now linked to the `postgres` container.
+
+## Run the Application
+
+Click the  ![PROVISION](ProvisionIcon.png) icon on the right hand top corner of the page to provision `Postgres-DB-Application`.

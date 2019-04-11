@@ -29,8 +29,8 @@ Configure the following settings:
 
 - **Port Bindings**. A list of the exposed container ports and the host port that they should bind to.
 - **Publish All Ports**. Select this option to publish all ports exposed by the container.
-- **Hostname**. The virtual container host (VCH) or Docker host of the container.
-- **Network mode. The networking mode of the container. Select one of the following options:
+- **Hostname**. Specify the IP address or FQDN of the container.
+- **Network mode**. The networking mode of the container. Select one of the following options:
     - **Bridge**. The default network.
     - **None**. Select this option to indicate that the container is a standalone container.
     - **Host**. Selct this option if you want the container to use the networking stack of the virtual container host (VCH). In this case, both the container and the VCH will have the same networing stack.
@@ -78,7 +78,7 @@ When you configure a container, on the **Environment** tab, you can add industry
 
 Configure the following properties:
 
-- **Environment Variables**. Configure the variables and values that you want to associate with the container For example, if you are creating a PostgreSQL container, you enter `POSTGRES_PASSWORD` in **Name** and the password in **Value**.
+- **Environment Variables**. Configure the variables and values that you want to associate with the container. For example, if you are creating a PostgreSQL container, you enter `POSTGRES_PASSWORD` in **Name** and the password in **Value**.
 - **Custom Properties**.
 
 For information about using Docker environment variables, see [Environment variables in Compose](https://docs.docker.com/compose/environment-variables/) in the Docker documentation.
