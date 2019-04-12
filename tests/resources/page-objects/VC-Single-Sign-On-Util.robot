@@ -33,6 +33,11 @@ Navigate To VC UI Home Page
 Login On Single Sign-On Page
     [Tags]  secret
     Log To Console  Login into single sign-on...
+    ${rc}  ${output}=  Run And Return Rc And Output  govc about -u=%{TEST_URL}
+    Log  ${output}
+    Should Be Equal As Integers  ${rc}  0
+    ${status}=  Run Keyword And Return Status  Should Contain  ${output}  6.7
+    ${vcsso-image-title}=  Set Variable If  ${status}  id=titleVmware  ${vcsso-image-title}
     Wait Until Element Is Visible  ${vcsso-image-title}  timeout=${EXPLICIT_WAIT_FOR_VCSSO_PAGE}
     Input Text  ${vcsso-username}  %{TEST_USERNAME}
     Input Text  ${vcsso-password}  %{TEST_PASSWORD}
