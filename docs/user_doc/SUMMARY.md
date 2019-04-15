@@ -178,13 +178,24 @@
 
 ----
 
-* [DevOps, Developers, Viewers](vic_users/README.md)
-  * [Running Development Projects](vic_app_dev/run_dev_project.md) 
+* [Running Development Projects](vic_users/README.md)
+  * [DevOps Administrator and Developer Tasks](vic_app_dev/run_dev_project.md)
+  * [Working with Projects](vic_users/working_with_projects_vicui.md) 
+  * [Adding a Container Host](vic_users/add_container_host.md)
+  * [Creating New Networks](vic_users/create_network.md)
+  * [Creating New Volumes](vic_users/create_volumes.md)
   * [Provisioning Container VMs](vic_users/provision_containers_portal.md)
-     * [Configuring Links for Templates and Images](vic_users/configuring_links.md)
-     * [Configuring Health Checks for Templates and Images](vic_users/configuring_health_checks.md)
-     * [Configuring Cluster Size and Scale](vic_users/configuring_clusters.md)  
-  * [Create New Networks for Provisioning Containers](vic_users/create_network.md)
+    - [Container Provisioning Options Reference](vic_users/container_provisioning_options_reference.md)
+    - [Example of Provisioning an Individual Container](vic_users/example_container.md)
+  * [Creating Templates and Applications](vic_users/creating_applications_and_templates.md)
+    * [Creating Templates](vic_users/creating_templates.md)
+    * [Creating Applications](vic_users/creating_applications.md)
+    * [Template Configuration Tasks](vic_users/template_tasks.md)
+    * [Example of Creating an Application from a Template](vic_users/example_application.md)
+  - [Viewing Library and Logs](vic_users/view_library_and_logs.md)
+    - [Built-in Repositories](vic_users/built-in_repositories.md)
+    - [Repositories](vic_users/repositories.md)
+    - [Recent Activity](vic_users/recent_activity.md)
 
 ----  
 
