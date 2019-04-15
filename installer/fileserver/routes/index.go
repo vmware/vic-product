@@ -27,7 +27,7 @@ import (
 )
 
 const inValidVICPwd = "VIC appliance password is incorrect." // #nosec
-const vicPwdMaxLength = 30
+const vicPwdMaxLength = 128
 
 // IndexHTMLOptions contains fields for html templating in index.html
 type IndexHTMLOptions struct {
