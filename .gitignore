@@ -27,3 +27,4 @@ secrets-e2e.yml
 VCH-*
 
 **/node_modules
+docs/user_doc/node_modules/*
