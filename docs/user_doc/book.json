@@ -9,7 +9,7 @@
                "context": [ {
                 "vendor": "google",
                 "token": "UA-133830113-1",
-                "base": "https://vmware.github.io/vic-product/"
+                "base": "https://vmware.github.io/vic-product/assets/files/html/1.5/"
                 }
                 ]
             },
