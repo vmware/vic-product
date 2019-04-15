@@ -1,5 +1,5 @@
 var GA_TOKEN;
-[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/"]}].forEach(function(T) {
+[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/assets/files/html/1.5/"]}].forEach(function(T) {
 	var L = window.location;
 	var M = true
 		&& (!T.host || T.host.indexOf(L.host) >= 0)
