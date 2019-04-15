@@ -24,7 +24,7 @@ For more information about container networks and how to configure them, see [Co
         - `bridge.name`: `docker0`,
         - `driver.mtu`: `9001`
        
-    - **Hosts**. Specify the IP address or FQDN of the container.
+    - **Hosts**. Specify the virtual container host (VCH) that you want to create the network in.
 3. Click **Create**.
 
 ## Result

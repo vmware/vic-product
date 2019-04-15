@@ -29,11 +29,11 @@ Configure the following settings:
 
 - **Port Bindings**. A list of the exposed container ports and the host port that they should bind to.
 - **Publish All Ports**. Select this option to publish all ports exposed by the container.
-- **Hostname**. Specify the IP address or FQDN of the container.
+- **Hostname**. Specify the host name of the container. Host name is the DNS name of the system.
 - **Network mode**. The networking mode of the container. Select one of the following options:
     - **Bridge**. The default network.
     - **None**. Select this option to indicate that the container is a standalone container.
-    - **Host**. Selct this option if you want the container to use the networking stack of the virtual container host (VCH). In this case, both the container and the VCH will have the same networing stack.
+    - **Host**. Select this option if you want the container to use the networking stack of the virtual container host (VCH). In this case, both the container and the VCH will have the same networing stack.
 
 ## Storage Configuration ##
 
@@ -63,7 +63,7 @@ Configure the following cluster settings on the **Policy** tab of the Provision 
 - **Restart Policy**. The restart behavior that should be applied when the container exits. You can select one of the following options:
     - **None**. Default behavior.
     - **On-failure**. Indicates that the container must restart only when the process running on it fails. If you select this, you must specify the maximum number of restarts.
-    - **Always**. Indicates that the container must restart when the process it is running completes.
+    - **Always**. Indicates that the container must restart irrespective of the exit code of the process it is running.
 - **Max Restarts**. The maximum number of times that the container tries to restart when it fails.
 - **CPU shares**. An integer value that specifies the CPU shares for this container in relation to the other container VMs in the VCH resource pool.
 - **Memory Limit**. The quantity of memory for use by the VCH resource pool. This limit also applies to the container VMs that run in the VCH resource pool. Specify the memory reservation value in MB.
@@ -74,12 +74,12 @@ For more information, see [Virtual Container Host Compute Capacity](../vic_vsphe
 
 ## Environment Configuration ##
 
-When you configure a container, on the **Environment** tab, you can add industry standard variables.
+When you configure a container, on the **Environment** tab, you can add environment variables.
 
 Configure the following properties:
 
 - **Environment Variables**. Configure the variables and values that you want to associate with the container. For example, if you are creating a PostgreSQL container, you enter `POSTGRES_PASSWORD` in **Name** and the password in **Value**.
-- **Custom Properties**.
+- **Custom Properties**. Specify the attributes of containers that you want to provision.
 
 For information about using Docker environment variables, see [Environment variables in Compose](https://docs.docker.com/compose/environment-variables/) in the Docker documentation.
 
