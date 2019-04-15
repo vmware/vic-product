@@ -15,8 +15,9 @@ During a manual upgrade, all configurations that you made in vSphere Integrated 
 - Deploy the latest version of the vSphere Integrated Containers appliance. For information about deploying the appliance, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).  
   - If you use vCenter Server 6.7 update 1 or later, you can use the HTML5 vSphere Client to deploy the appliance. If you use an older version of vCenter Server, you must use the Flex-based vSphere Web Client to deploy the appliance. You cannot deploy OVA files from versions of the HTML5 vSphere Client that pre-date vCenter Server 6.7 update 1. 
   - When you deploy the new version of the apppliance, you can optionally configure the network settings to use the same static IP address as you used on the old version.
-  - The upgrade process copies data, including the certificates, from the old appliance to the new appliance. Consequently, if you deployed the appliances to a cluster, the virtual disks for the two appliances must be located in the same datastore cluster.
-  - **IMPORTANT:** Do not disable SSH access to the new appliance. You require SSH access to the appliance during the upgrade procedure.
+  - The upgrade process copies data from the old appliance to the new appliance. Consequently, if you deployed the appliances to a cluster, the virtual disks for the two appliances must be located in the same datastore cluster.
+  - **IMPORTANT**: If you used custom certificates when you deployed the previous version of the appliance, you must use the same certificates when you deploy the new version of the appliance. If you do not provide the certificate details when you deploy the new version, self-signed certificates are generated.
+  - Do not disable SSH access to the new appliance. You require SSH access to the appliance during the upgrade procedure.
   - Deploy the new version of the appliance to the same vCenter Server instance as the one on which the previous version is running, or to a vCenter Server instance that is managed by the same Platform Services Controller.
   - Do not power on the new version of the appliance.
 - Log in to the vSphere Client for the vCenter Server instance on which the previous version is running and on which you deployed the new version. 
