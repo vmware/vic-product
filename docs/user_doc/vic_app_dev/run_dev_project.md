@@ -14,7 +14,7 @@ As a Devops Administrator, in addition to developer tasks, you can perform the f
 - Add developers and viewers to projects and assign other DevOps administrators. For more information, see [Add Viewers, Developers, or DevOps Administrators to Projects](../vic_cloud_admin/add_users.html).
 - Change project configurations, such as making the project registry public, changing deployment security settings, and enabling vulnerability scanning. For more information, see [Configure Project Settings](../vic_cloud_admin/manage_projects.html).
 
-For information about the tasks that the Management Portal Administator can perform such as, creating projects and adding hosts, see [vSphere Integrated Containers Management Portal Administration](../vic_cloud_admin/readme.md).
+For information about the tasks that the Management Portal Administator can perform such as, creating projects and adding hosts, see [vSphere Integrated Containers Management Portal Administration](../vic_cloud_admin/README.md).
 
 ## What to Do Next ##
 

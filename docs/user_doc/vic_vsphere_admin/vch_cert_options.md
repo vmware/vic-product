@@ -23,7 +23,7 @@ If you do not use an automatically generated CA, you must provide the public por
 You must provide `cert.pem` and `key.pem` client certificate files that are signed by this CA to container developers, so that they can connect Docker clients to the VCH. vSphere Integrated Containers Management Portal administrators require these files when they add VCHs to projects in management portal.
 
 - For information about how to connect Docker clients to VCHs, see [Configure the Docker Client for Use with vSphere Integrated Containers](../vic_app_dev/configure_docker_client.md).
-- For information about how to add VCHs to management portal, see [Add Container Hosts with Full TLS Authentication](add_vch_fullTLS_in_portal.md) in *vSphere Integrated Containers Management Portal Administration*. 
+- For information about how to add VCHs to management portal, see [Add Container Hosts with Full TLS Authentication](../vic_cloud_admin/add_vch_fullTLS_in_portal.md) in *vSphere Integrated Containers Management Portal Administration*. 
 - For information about the requirements for client certificates, see the section on custom certificates in [Virtual Container Host Certificate Requirements](vch_cert_reqs.md#custom).
 
 #### Create VCH Wizard
