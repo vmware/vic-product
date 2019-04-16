@@ -21,7 +21,7 @@ mkdir -p /etc/vmware/psc/harbor
 mkdir -p /etc/vmware/psc/engine
 mkdir -p /etc/vmware/psc/admiral
 
-PSC_BINARY="/etc/vmware/admiral/admiral-auth-psc-1.3.2-SNAPSHOT-command.jar"
+PSC_BINARY="/etc/vmware/admiral/admiral-auth-psc-1.5.3-SNAPSHOT-command.jar"
 
 function getToken() {
   /usr/bin/java -jar ${PSC_BINARY} --command=get-token --configFile="$1" --tokenFile="$2"
