@@ -26,7 +26,9 @@ If you need to deploy multiple appliances, you can use the initialization API to
 - If you intend to use a custom certificate for the vSphere Integrated Containers appliance, verify that the certificate meets the criteria described in [vSphere Integrated Containers Appliance Certificate Requirements](appliance_cert_reqs.md).
 - If you use vCenter Server 6.7 update 1 or later, you can use the HTML5 vSphere Client to deploy the appliance. If you use an older version of vCenter Server, you must use the Flex-based vSphere Web Client to deploy the appliance. You cannot deploy OVA files from versions of the HTML5 vSphere Client that pre-date vCenter Server 6.7 update 1. 
 
-    **NOTE**: Versions of the HTML5 client that pre-date 6.7 update 1 do not prevent you from deploying OVA files and deployment appears to succeed. However, the resulting appliance [does not function correctly due to an issue with the HTML5 client](ts_reg_doesnt_start.md). This issue is fixed in version 6.7 update 1 of the vSphere Client. 
+    **NOTE**: Versions of the HTML5 client that pre-date 6.7 update 1 do not prevent you from deploying OVA files and deployment appears to succeed. However, the resulting appliance [does not function correctly due to an issue with the HTML5 client](ts_reg_doesnt_start.md). This issue is fixed in version 6.7 update 1 of the vSphere Client.
+    
+    vSphere Integrated Containers 1.5.2 and later versions do not include the Flex-based vSphere Web Client.
 
 ## Procedure 1: Deploy the OVA
 

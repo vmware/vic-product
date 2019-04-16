@@ -12,6 +12,8 @@ After you have installed the client plug-in for vSphere Integrated Containers, y
   - The vSphere Integrated Containers plug-in for the HTML5 vSphere Client plug-in is available in vSphere 6.5 and 6.7.
   - The vSphere Integrated Containers plug-in for the Flex-based vSphere  Web Client is available in vSphere 6.0.
 
+**NOTE**: vSphere Integrated Containers 1.5.2 and later versions do not include the Flex-based vSphere Web Client.
+
 ## Procedure
 
 1. Log in to the vSphere Client.
