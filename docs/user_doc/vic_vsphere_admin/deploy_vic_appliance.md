@@ -20,6 +20,8 @@ By default, the vSphere Integrated Containers plug-in for the vSphere Client is 
 
 If you need to deploy multiple appliances, you can use the initialization API to initialize appliances without manual intervention. For information about the initialization API, see [Initialize the Appliance by Using the Initialization API](ova_reg_api.md).
 
+You can deploy the vSphere Integrated Containers Appliance using the `ovftool` command. For more information, see [Deploy the vSphere Integrated Containers Appliance Using ovftool](deploy_vic_appliance_ovftool.md).
+
 ## Prerequisites
 
 - You downloaded an official build or an open-source build of the OVA installer. For information about where to download the installer, see [Download the vSphere Integrated Containers Installer](download_vic.md).
