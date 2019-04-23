@@ -2005,16 +2005,48 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.8.7" data-path="ts_orphaned_cvms.html">
+        <li class="chapter " data-level="3.1.8.7" data-path="ts_upgrade_op.html">
             
-                <a href="ts_orphaned_cvms.html">
+                <a href="ts_upgrade_op.html">
             
                     
-                    Container VMs Orphaned After Upgrade
+                    Troubleshoot Upgrade Operation
             
                 </a>
             
 
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.8.7.1" data-path="ts_upgrade_customcerts.html">
+            
+                <a href="ts_upgrade_customcerts.html">
+            
+                    
+                    Certificates Not Copied
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.7.2" data-path="ts_orphaned_cvms.html">
+            
+                <a href="ts_orphaned_cvms.html">
+            
+                    
+                    Container VMs Orphaned
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -3179,9 +3211,11 @@
 </li>
 <li>When you deploy the new version of the apppliance, you can optionally configure the network settings to use the same static IP address as you used on the old version.
 </li>
-<li>The upgrade process copies data, including the certificates, from the old appliance to the new appliance. Consequently, if you deployed the appliances to a cluster, the virtual disks for the two appliances must be located in the same datastore cluster.
+<li>The upgrade process copies data from the old appliance to the new appliance. Consequently, if you deployed the appliances to a cluster, the virtual disks for the two appliances must be located in the same datastore cluster.
 </li>
-<li><strong>IMPORTANT:</strong> Do not disable SSH access to the new appliance. You require SSH access to the appliance during the upgrade procedure.
+<li><strong>IMPORTANT</strong>: If you used custom certificates when you deployed the previous version of the appliance, you must use the same certificates when you deploy the new version of the appliance. If you do not provide the certificate details when you deploy the new version, self-signed certificates are generated.
+</li>
+<li>Do not disable SSH access to the new appliance. You require SSH access to the appliance during the upgrade procedure.
 </li>
 <li>Deploy the new version of the appliance to the same vCenter Server instance as the one on which the previous version is running, or to a vCenter Server instance that is managed by the same Platform Services Controller.
 </li>
@@ -3289,7 +3323,7 @@
 
 
 
-<p>You can bypass some or all of the following steps by specifying additional optional arguments when you run the upgrade script. For information about the arguments that you can specify, see <a href="upgrade_appliance.html#upgradeoptions">Specify Command Line Options During Appliance Upgrade</a>.</p></li>
+<p>To track the progress of the initialization, run <code>watch docker ps -a</code> and wait for the <code>vic-machine-server</code> container to start.</p><p>You can bypass some or all of the following steps by specifying additional optional arguments when you run the upgrade script. For information about the arguments that you can specify, see <a href="upgrade_appliance.html#upgradeoptions">Specify Command Line Options During Appliance Upgrade</a>.</p></li>
 <li><p>Enter the IP address or FQDN of the vCenter Server instance on which you deployed the new appliance.</p></li>
 <li><p>Enter the Single Sign-On user name and password of a vSphere administrator account.</p><p>The script requires these credentials to access the disk files of the old appliance, and to register the new version of vSphere Integrated Containers with the VMware Platform Services Controller.</p></li>
 <li><p>If vCenter Server is managed by an external Platform Services Controller, enter the IP address or FQDN and the administrator domain of the Platform Services Controller.</p><p>If vCenter Server is managed by an embedded Platform Services Controller, press Enter at each prompt without entering anything.</p></li>
@@ -3364,7 +3398,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Copy Disks Manually","level":"3.1.5.2.1","depth":4,"next":{"title":"Upgrade VCHs","level":"3.1.5.3","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"3.1.5.3.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},"previous":{"title":"Upgrade the Appliance","level":"3.1.5.2","depth":3,"path":"vic_vsphere_admin/upgrade_appliance.md","ref":"vic_vsphere_admin/upgrade_appliance.md","articles":[{"title":"Copy Disks Manually","level":"3.1.5.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_appliance_manual.md","ref":"vic_vsphere_admin/upgrade_appliance_manual.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["page-toc-button","noembed","chapter-fold","insert-logo","edit-link","analytics"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"analytics":{"context":[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/assets/files/html/1.5/"]}]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"page-toc-button":{"maxTocDepth":2,"minTocSize":3},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_appliance_manual.md","mtime":"2019-04-19T07:47:03.970Z","type":"markdown"},"gitbook":{"version":"3.2.0","time":"2019-04-19T08:22:49.655Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Copy Disks Manually","level":"3.1.5.2.1","depth":4,"next":{"title":"Upgrade VCHs","level":"3.1.5.3","depth":3,"path":"vic_vsphere_admin/upgrade_vch.md","ref":"vic_vsphere_admin/upgrade_vch.md","articles":[{"title":"VCH Upgrade Options","level":"3.1.5.3.1","depth":4,"path":"vic_vsphere_admin/upgrade_vch_options.md","ref":"vic_vsphere_admin/upgrade_vch_options.md","articles":[]}]},"previous":{"title":"Upgrade the Appliance","level":"3.1.5.2","depth":3,"path":"vic_vsphere_admin/upgrade_appliance.md","ref":"vic_vsphere_admin/upgrade_appliance.md","articles":[{"title":"Copy Disks Manually","level":"3.1.5.2.1","depth":4,"path":"vic_vsphere_admin/upgrade_appliance_manual.md","ref":"vic_vsphere_admin/upgrade_appliance_manual.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["page-toc-button","noembed","chapter-fold","insert-logo","edit-link","analytics"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"analytics":{"context":[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/assets/files/html/1.5/"]}]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"page-toc-button":{"maxTocDepth":2,"minTocSize":3},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/upgrade_appliance_manual.md","mtime":"2019-04-23T13:47:15.297Z","type":"markdown"},"gitbook":{"version":"3.2.0","time":"2019-04-23T14:26:32.015Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
