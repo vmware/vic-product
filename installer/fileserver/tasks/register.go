@@ -35,7 +35,7 @@ import (
 const (
 	// InitServicesTimestamp exists on the local fs when registration first succeeds
 	InitServicesTimestamp = "./registration-timestamps.txt"
-	pscBinaryPath         = "/etc/vmware/admiral/admiral-auth-psc-1.3.2-SNAPSHOT-command.jar"
+	pscBinaryPath         = "/etc/vmware/admiral/admiral-auth-psc-1.5.3-SNAPSHOT-command.jar"
 	vcHostnameOption      = "config.vpxd.hostnameUrl"
 	pscConfDir            = "/etc/vmware/psc"
 	pscConfFileName       = "psc-config.properties"
