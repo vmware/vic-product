@@ -34,7 +34,7 @@ IP_ADDRESS=""
 DEFAULT_USERS_CREATE_DEF_USERS="$(ovfenv -k default_users.create_def_users)"
 DEFAULT_USERS_DEF_USER_PREFIX="$(ovfenv -k default_users.def_user_prefix)"
 DEFAULT_USERS_DEF_USER_PASSWORD="$(ovfenv -k default_users.def_user_password)"
-REGISTRY_GC_ENABLED="$(ovfenv --key registry.gc_enabled)"
+REGISTRY_GC_ENABLED="$(ovfenv --key registry.gc_enabled | tr '[:upper:]' '[:lower:]')"
 
 # TODO split into separate unit to run before ovf-network and network-online
 APPLIANCE_PERMIT_ROOT_LOGIN="$(ovfenv --key appliance.permit_root_login)"
