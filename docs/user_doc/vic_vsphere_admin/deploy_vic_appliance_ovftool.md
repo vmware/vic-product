@@ -1,6 +1,6 @@
-# Deploy the vSphere Integrated Containers Appliance Using ovftool #
+# Deploy the vSphere Integrated Containers Appliance Using VMware OVF Tool #
 
-You can deploy the vSphere Integrated Containers Appliance using the `ovftool` command. 
+You can deploy the vSphere Integrated Containers Appliance using the VMware OVF Tool. 
 
 The vSphere Integrated Containers Engine bundle includes the `OVA-util` utility. The `OVA-util` utility is a command-line utility that allows you to import and export OVF packages. This utility contains the `ovftool` command that you can use to deploy the vSphere Integrated Containers Appliance at the command line.
 
@@ -8,10 +8,11 @@ The vSphere Integrated Containers Engine bundle includes the `OVA-util` utility.
 * [Specifying Option Arguments](#specifying-option-arguments)
 * [Basic `ovftool` Options](#basic-ovftool-options)
 * [Advanced `ovftool` Options](#advanced-ovftool-options)
+* [Example `ovftool` Command](#example-ovftool-command)
 
 ## Running the `ovftool` Command 
 
-You run the `ovftool` command by specifying the source locator, target locator, and options for the command. 
+You run `ovftool` by specifying the source locator, target locator, and options for the command. 
 
 At the command-line prompt, run the command as follows: 
 
@@ -79,7 +80,7 @@ Target datastore name for a vSphere locator.
 
 Skips SSL verification for vSphere connections. 
 
-**Usage*
+**Usage**
 
 <pre>--noSSLVerify</pre>
 
@@ -201,7 +202,7 @@ ${ova-file} 'vi://%{TEST_USERNAME}:%{TEST_PASSWORD}@%{TEST_URL}/%{TEST_RESOURCE}
 
 ### `--X:injectOvfEnv` 
 
-If you are deploying with the `ovftool` command from an ESXi host, you must “inject” the parameters into the resulting VM when it is powered on. This is because the ESXi host lacks a cache to store the OVF parameters, as in vCenter Server. Therefore, you must use the `--X:injectOvfEnv` debug option with the `--powerOn` flag in the command line if you are deploying a virtual machine from ESXi.
+If you are running `ovftool` on an ESXi host, you must “inject” the parameters into the resulting VM when it is powered on. This is because the ESXi host lacks a cache to store the OVF parameters, as in vCenter Server. Therefore, you must use the `--X:injectOvfEnv` debug option with the `--powerOn` flag in the command line if you are deploying a virtual machine from ESXi.
 
 **Usage**:
 
@@ -266,4 +267,16 @@ Add transfer header data to the log. Use this option with care. The default valu
 
 <pre>--X:logTransferHeaderData</pre>
 
-For more information about the OVF Tool and how to use it, see the [OVF Tool Documentation](https://www.vmware.com/support/developer/ovf/).
+## Example `ovftool` Command
+
+The following command sets the appliance root password and uses the default values for other options:
+
+    ovftool --datastore=vsanDatastore --noSSLVerify --acceptAllEulas --name=<vch_name> --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd=<root_pwd>' --prop:appliance.permit_root_login=True --net:"Network"="vm-network" installer/bin/vic-*.ova 'vi://<vc_username>:<vc_pwd>@10.160.222.221/vcqaDC/host/cls' 2>&1
+    
+
+For more information about the VMware OVF Tool and how to use it, see the [OVF Tool Documentation](https://www.vmware.com/support/developer/ovf/).
+
+The following sources also provide useful information:
+
+- [OVF Tool Advanced Options](https://www.virtuallyghetto.com/2014/07/quick-tip-handy-ovftool-4-0-advanced-options.html)
+- [Deploying vSphere Integrated Containers with the OVF Tool](https://virsed.net/2017/08/11/deploying-vsphere-integrated-containers-with-the-ovf-tool/)

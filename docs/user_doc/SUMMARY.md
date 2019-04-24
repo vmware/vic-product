@@ -32,7 +32,7 @@
  * [Installation](vic_vsphere_admin/installing_vic.md)
      * [Download Installer](vic_vsphere_admin/download_vic.md) 
      * [Deploy the Appliance](vic_vsphere_admin/deploy_vic_appliance.md)
-     * [Deploy the Appliance Using ovftool](vic_vsphere_admin/deploy_vic_appliance_ovftool.md)
+         * [Deploy the Appliance Using VMware OVF Tool](vic_vsphere_admin/deploy_vic_appliance_ovftool.md)
          * [Appliance Registration API](vic_vsphere_admin/ova_reg_api.md) 
      * [Download Engine Bundle](vic_vsphere_admin/vic_engine_bundle.md)
   * [VCH Deployment](vic_vsphere_admin/deploy_vch.md)
