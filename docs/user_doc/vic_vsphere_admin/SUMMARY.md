@@ -14,7 +14,7 @@
  * [Installation](installing_vic.md)
      * [Download Installer](download_vic.md) 
      * [Deploy the Appliance](deploy_vic_appliance.md)
-     * [Deploy the Appliance Using VMware OVF Tool](deploy_vic_appliance_ovftool.md)
+         * [Deploy the Appliance Using VMware OVF Tool](deploy_vic_appliance_ovftool.md)
          * [Appliance Registration API](ova_reg_api.md) 
      * [Download Engine Bundle](vic_engine_bundle.md)
  * [VCH Deployment](deploy_vch.md)
