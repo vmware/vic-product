@@ -41,6 +41,10 @@ function gc {
   echo "===================================================="
 }
 
+if [ ! -d /var/log/harbor ]; then
+  mkdir -p /var/log/harbor
+fi
+
 # From vic-appliance-environment
 if [ "${REGISTRY_GC_ENABLED}" == "true" ]; then
   gc 2>&1 >> /var/log/harbor/gc.log || true
