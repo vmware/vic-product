@@ -4,11 +4,16 @@ You can deploy the vSphere Integrated Containers Appliance using the VMware OVF 
 
 The vSphere Integrated Containers Engine bundle includes the `OVA-util` utility. The `OVA-util` utility is a command-line utility that allows you to import and export OVF packages. This utility contains the `ovftool` command that you can use to deploy the vSphere Integrated Containers Appliance at the command line.
 
+* [Prerequisites](#prerequisites)
 * [Running the `ovftool` Command](#running-the-ovftool-command)
 * [Specifying Option Arguments](#specifying-option-arguments)
 * [Basic `ovftool` Options](#basic-ovftool-options)
 * [Advanced `ovftool` Options](#advanced-ovftool-options)
 * [Example `ovftool` Command](#example-ovftool-command)
+
+## Prerequisites
+
+Download the VMware OVF Tool from [https://code.vmware.com/web/tool/4.3.0/ovf](https://code.vmware.com/web/tool/4.3.0/ovf).
 
 ## Running the `ovftool` Command 
 
