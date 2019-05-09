@@ -121,6 +121,7 @@
          * [Deleting or Inspecting a VCH Fails](ts_delete_inspect_error.md)
          * [Docker Login Fails](ts_dockerlogin_error.md)
          * [Image Store Error](ts_imagestore_error.md)
+         * [Deployment of Container that supports DHCP Network Fails](ts_dhcpip_error.md)
      * [Install Packages in VCHs](vch_install_packages.md)
          * [Mount an NFS Share Point](vch_mount_nfsshare.md)
      * [Troubleshoot Upgrade Operation](ts_upgrade_op.md)

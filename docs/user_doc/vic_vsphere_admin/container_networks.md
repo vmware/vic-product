@@ -69,7 +69,7 @@ The range of IP addresses that container VMs can use if the network that you spe
 - You must specify an IP address range if container developers need to deploy containers with static IP addresses. 
 - If you specify a gateway for a container network but do not specify an IP address range, the IP range for container VMs is the entire subnet that you specify in the gateway. 
 
-**Note**:
+**NOTE**:
 
 If you use a network container that supports DHCP and the Docker run command to deploy the container, you must specify the DNS server for the container to get an IP address from DHCP server. If you do not specify a DNS server, the command times out with the following error:
  
