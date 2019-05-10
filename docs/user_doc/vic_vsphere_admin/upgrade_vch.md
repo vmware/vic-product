@@ -6,7 +6,7 @@ You use `vic-machine upgrade` to upgrade VCHs to newer versions. You can run `vi
 
 - You cannot access container logs
 - You cannot attach to a container
-- NAT based port forwarding is unavailable
+- NAT based port forwarding is unavailable. These are ports that containers expose with the `docker create -p` command when connected to the default bridge network and made available on the public interface of the VCH endpoint VM via network address translation (NAT). Containers that are on container networks are not affected.
 
 **IMPORTANT**: Upgrading a VCH does not upgrade any existing container VMs that the VCH manages. For container VMs to boot from the latest version of `bootstrap.iso`, container developers must recreate them.
 
