@@ -188,3 +188,11 @@ Deploy a container that has a static IP address on the container network. For yo
 <pre>$ docker network connect --ip <i>ip_address</i> container-net container1</pre>
 
 **Result:**  The container `container1` runs with the specified IP address on the `container-net` network.
+
+## Deploy a Network Container that supports DHCP
+
+Deploy a container that supports DHCP by specifying the DHCP network in the docker run command. 
+
+The adminstrator must have specified the [`--container-network`](../vic_vsphere_admin/container_networks.md#ip-range) option when they deployed the VCH. For the container to get an IP address from DHCP server., you must specify the DNS server in the `--dns` option of the `docker run` command.  If you do not specify a DNS server, the command times out with the following error:
+ 
+`docker: Error response from daemon: Server error from portlayer: unable to wait for process launch status`
