@@ -73,7 +73,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="ova_reg_api.html" />
+    <link rel="next" href="deploy_vic_appliance_ovftool.html" />
     
     
     <link rel="prev" href="download_vic.html" />
@@ -440,7 +440,20 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.2.2.1" data-path="ova_reg_api.html">
+        <li class="chapter " data-level="3.1.2.2.1" data-path="deploy_vic_appliance_ovftool.html">
+            
+                <a href="deploy_vic_appliance_ovftool.html">
+            
+                    
+                    Deploy the Appliance Using VMware OVF Tool
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2.2.2" data-path="ova_reg_api.html">
             
                 <a href="ova_reg_api.html">
             
@@ -3227,7 +3240,7 @@
 <p>You can deploy multiple vSphere Integrated Containers appliances to the same vCenter Server instance. Also, if a Platform Services Controller manages multiple vCenter Server instances, you can deploy multiple appliances to different vCenter Server instances that share that Platform Services Controller. For information about deploying multiple appliances, see <a href="../vic_overview/vic_deployment_topos.html">Deployment Topologies for the vSphere Integrated Containers Appliance</a>.</p><p>By default, the vSphere Integrated Containers plug-in for the vSphere Client is installed automatically. The installer installs the following plug-ins:</p><ul><li>A plug-in for the HTML5 vSphere Client on vCenter Server 6.5 and 6.7. The HTML5 plug-in allows you to to deploy and interact with virtual container hosts (VCHs) directly in the vSphere Client.
 </li>
 <li><p>A basic informational plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0.</p><p><strong>NOTE</strong>: vSphere Integrated Containers 1.5.2 and later versions do not include the Flex-based vSphere Web Client.</p></li></ul>
-<p>If you need to deploy multiple appliances, you can use the initialization API to initialize appliances without manual intervention. For information about the initialization API, see <a href="ova_reg_api.html">Initialize the Appliance by Using the Initialization API</a>.</p><h2 id="prerequisites">Prerequisites</h2><ul><li>You downloaded an official build or an open-source build of the OVA installer. For information about where to download the installer, see <a href="download_vic.html">Download the vSphere Integrated Containers Installer</a>.
+<p>If you need to deploy multiple appliances, you can use the initialization API to initialize appliances without manual intervention. For information about the initialization API, see <a href="ova_reg_api.html">Initialize the Appliance by Using the Initialization API</a>.</p><p>You can also deploy the vSphere Integrated Containers Appliance using the <code>ovftool</code> command line utility. For more information, see <a href="deploy_vic_appliance_ovftool.html">Deploy the vSphere Integrated Containers Appliance Using VMware OVF Tool</a>.</p><h2 id="prerequisites">Prerequisites</h2><ul><li>You downloaded an official build or an open-source build of the OVA installer. For information about where to download the installer, see <a href="download_vic.html">Download the vSphere Integrated Containers Installer</a>.
 </li>
 <li>Verify that the environment in which you are deploying the appliance meets the prerequisites described in <a href="vic_installation_prereqs.html">Deployment Prerequisites for vSphere Integrated Containers</a>.
 </li>
@@ -3382,7 +3395,7 @@ root_CA_certificate_contents
                 </a>
                 
                 
-                <a href="ova_reg_api.html" class="navigation navigation-next " aria-label="Next page: Appliance Registration API">
+                <a href="deploy_vic_appliance_ovftool.html" class="navigation navigation-next " aria-label="Next page: Deploy the Appliance Using VMware OVF Tool">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -3393,7 +3406,7 @@ root_CA_certificate_contents
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Deploy the Appliance","level":"3.1.2.2","depth":3,"next":{"title":"Appliance Registration API","level":"3.1.2.2.1","depth":4,"path":"vic_vsphere_admin/ova_reg_api.md","ref":"vic_vsphere_admin/ova_reg_api.md","articles":[]},"previous":{"title":"Download Installer","level":"3.1.2.1","depth":3,"path":"vic_vsphere_admin/download_vic.md","ref":"vic_vsphere_admin/download_vic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc-button","noembed","chapter-fold","insert-logo","edit-link","analytics"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"analytics":{"context":[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/assets/files/html/1.5/"]}]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"page-toc-button":{"maxTocDepth":2,"minTocSize":3},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/deploy_vic_appliance.md","mtime":"2019-05-10T07:19:34.710Z","type":"markdown"},"gitbook":{"version":"3.2.0","time":"2019-05-10T08:01:12.475Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Deploy the Appliance","level":"3.1.2.2","depth":3,"next":{"title":"Deploy the Appliance Using VMware OVF Tool","level":"3.1.2.2.1","depth":4,"path":"vic_vsphere_admin/deploy_vic_appliance_ovftool.md","ref":"vic_vsphere_admin/deploy_vic_appliance_ovftool.md","articles":[]},"previous":{"title":"Download Installer","level":"3.1.2.1","depth":3,"path":"vic_vsphere_admin/download_vic.md","ref":"vic_vsphere_admin/download_vic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc-button","noembed","chapter-fold","insert-logo","edit-link","analytics"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"analytics":{"context":[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/assets/files/html/1.5/"]}]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"page-toc-button":{"maxTocDepth":2,"minTocSize":3},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/deploy_vic_appliance.md","mtime":"2019-05-10T08:06:51.412Z","type":"markdown"},"gitbook":{"version":"3.2.0","time":"2019-05-10T08:46:08.281Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
