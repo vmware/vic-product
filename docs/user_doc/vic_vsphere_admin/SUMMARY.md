@@ -4,7 +4,6 @@
 
 * [vSphere Administrator](README.md)
  * [Deployment Prerequisites](vic_installation_prereqs.md)
-     * 
      * [Virtual Infrastructure Requirements](vi_reqs.md)
      * [Networking Requirements](network_reqs.md)
      * [Certificate Requirements](vic_cert_use.md)
@@ -15,6 +14,7 @@
  * [Installation](installing_vic.md)
      * [Download Installer](download_vic.md) 
      * [Deploy the Appliance](deploy_vic_appliance.md)
+         * [Deploy the Appliance Using VMware OVF Tool](deploy_vic_appliance_ovftool.md)
          * [Appliance Registration API](ova_reg_api.md) 
      * [Download Engine Bundle](vic_engine_bundle.md)
  * [VCH Deployment](deploy_vch.md)
