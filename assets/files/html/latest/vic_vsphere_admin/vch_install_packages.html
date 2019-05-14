@@ -3229,44 +3229,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="install-packages-in-the-virtual-container-host-endpoint-vm">Install Packages in the Virtual Container Host Endpoint VM</h1><p>In certain circumstances, you might need to install a capability in the virtual container host (VCH) endpoint VM that does not exist by default. For example, you might want to install an NFS client in the endpoint VM, to test or debug connections from the VCH to an NFS server.</p><p>The VCH endpoint VM runs <a href="https://vmware.github.io/photon/" target="_blank">Photon OS 2.0</a>. Photon OS provides a package manager named Tiny DNF, or <code>tdnf</code>, that is the default means of installing packages. For information about Tiny DNF, see <a href="https://vmware.github.io/photon/assets/files/html/1.0-2.0/tdnf.html" target="_blank">Tiny DNF for Package Management</a> in the <em>Photon OS Administration Guide</em>.</p><p>Before you can use Tiny DNF to install packages in the endpoint VM, you must run the <code>rpm --rebuilddb</code> command to rebuild the embedded database. To run <code>rpm --rebuilddb</code>, you must first modify the Photon OS configuration to satisfy certain dependencies that are not present in the VCH endpoint VM by default. If you do not successfully run <code>rpm --rebuilddb</code>, attempts to run certain Tiny DNF commands in the endpoint VM result in the following error:</p><pre>
-root@ [ ~ ]# tdnf info
-Error(1304) : Hawkey - I/O error
-</pre>
-
-
-
-<p><strong>IMPORTANT</strong>: Any changes that you make to the VCH endpoint VM, including installing packages, are non-persistent and are lost if the endpoint VM reboots.</p><h2 id="prerequisite">Prerequisite</h2><ul><li>Enable SSH access to the VCH endpoint VM. For information about enabling SSH access, see <a href="debug_vch.html">Debug Running Virtual Container Hosts</a>.
-</li>
-<li>Ensure that the VCH can access the Photon OS repositories at <a href="https://vmware.bintray.com/" target="_blank">https://vmware.bintray.com/</a>, either via the Internet or via a mirror on the local network.
-</li></ul>
-<h2 id="procedure">Procedure</h2><ol><li>Use SSH to connect to the VCH endpoint VM as <code>root</code> user.
-</li>
-<li>Open the Photon OS updates repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-updates-local.repo</pre>
-</li>
-<li>Update the entry for the repository URL and save the change.<pre>baseurl=https://vmware.bintray.com/photon_updates_1.0_x86_64/</pre>
-</li>
-<li>Open the Photon OS repository configuration file in a text editor.<pre>vi /etc/yum.repos.d/photon-local.repo</pre>
-</li>
-<li>Update the entry for the repository URL and save the change.<pre>baseurl=https://vmware.bintray.com/photon_release_1.0_x86_64/</pre>
-</li>
-<li><p>Create a folder for <code>rpm</code> and initialize the <code>rpm</code> database.</p><ol><li><code>mkdir /root/rpm</code>
-</li>
-<li><code>rpm --root /root/rpm -initdb</code>
-</li></ol>
-</li>
-<li><p>Install the dependencies that Tiny DNF requires to install packages.<pre>tdnf --installroot /root/rpm --nogpgcheck install haveged systemd openssh iptables e2fsprogs procps-ng iputils iproute2 iptables net-tools sudo tdnf vim gzip lsof logrotate photon-release</pre></p></li>
-<li>Copy the <code>/root/rpm/var/lib/rpm/Packages</code> file to the following location.<pre>cp /root/rpm/var/lib/rpm/Packages /var/lib/rpm/Packages</pre>
-</li>
-<li>Run the command to rebuild the database in the endpoint VM.<pre>rpm --rebuilddb</pre>
-</li>
-<li>Run a Tiny DNF command to test the reconfiguration.<pre>tdnf list installed</pre>The <code>tdnf list installed</code> command should display information about the installed packages. 
-</li></ol>
-<h2 id="result">Result</h2><p>You can now use Tiny DNF to install new packages in the VCH endpoint VM.</p><p><strong>IMPORTANT</strong>:</p><ul><li>Any installations and configurations that you perform by using Tiny DNF in the endpoint VM do not persist if you reboot the endpoint VM.
-</li>
-<li>Running <code>rpm --rebuilddb</code> results in an unpopulated database. Consequently, when you use Tiny DNF to install a package, it tries to install all of the dependencies for that package in the endpoint VM, even if those dependencies are already present.
-</li></ul>
-<h2 id="what-to-do-next">What to Do Next</h2><p>For an example of how to install a package in the VCH endpoint VM, see <a href="vch_mount_nfsshare.html">Mount an NFS Share Point in the VCH Endpoint VM</a>.</p><script src="../_gitbook_plugin_analytics.js"></script>
+                                <h1 id="install-packages-in-the-virtual-container-host-endpoint-vm">Install Packages in the Virtual Container Host Endpoint VM</h1><p>In certain circumstances, you might need to install a capability in the virtual container host (VCH) endpoint VM that does not exist by default. For example, you might want to install an NFS client in the endpoint VM, to test or debug connections from the VCH to an NFS server.</p><p>The VCH endpoint VM runs <a href="https://vmware.github.io/photon/" target="_blank">Photon OS 2.0</a>. Photon OS provides a package manager named Tiny DNF, or <code>tdnf</code>, that is the default means of installing packages. For information about Tiny DNF, see <a href="https://vmware.github.io/photon/assets/files/html/1.0-2.0/tdnf.html" target="_blank">Tiny DNF for Package Management</a> in the <em>Photon OS Administration Guide</em>.</p><p><strong>IMPORTANT</strong>:</p><p>Any installations and configurations that you perform by using Tiny DNF in the endpoint VM do not persist if you reboot the endpoint VM.</p><h2 id="what-to-do-next">What to Do Next</h2><p>For an example of how to install a package in the VCH endpoint VM, see <a href="vch_mount_nfsshare.html">Mount an NFS Share Point in the VCH Endpoint VM</a>.</p><script src="../_gitbook_plugin_analytics.js"></script>
                                 
                                 </section>
                             
@@ -3309,7 +3272,7 @@ Error(1304) : Hawkey - I/O error
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Install Packages in VCHs","level":"3.1.8.6","depth":3,"next":{"title":"Mount an NFS Share Point","level":"3.1.8.6.1","depth":4,"path":"vic_vsphere_admin/vch_mount_nfsshare.md","ref":"vic_vsphere_admin/vch_mount_nfsshare.md","articles":[]},"previous":{"title":"Deployment of Container that supports DHCP Network Fails","level":"3.1.8.5.7","depth":4,"path":"vic_vsphere_admin/ts_dhcpip_error.md","ref":"vic_vsphere_admin/ts_dhcpip_error.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc-button","noembed","chapter-fold","insert-logo","edit-link","analytics"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"analytics":{"context":[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/assets/files/html/1.5/"]}]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"page-toc-button":{"maxTocDepth":2,"minTocSize":3},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_install_packages.md","mtime":"2019-05-14T08:16:38.564Z","type":"markdown"},"gitbook":{"version":"3.2.0","time":"2019-05-14T08:56:36.501Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Install Packages in VCHs","level":"3.1.8.6","depth":3,"next":{"title":"Mount an NFS Share Point","level":"3.1.8.6.1","depth":4,"path":"vic_vsphere_admin/vch_mount_nfsshare.md","ref":"vic_vsphere_admin/vch_mount_nfsshare.md","articles":[]},"previous":{"title":"Deployment of Container that supports DHCP Network Fails","level":"3.1.8.5.7","depth":4,"path":"vic_vsphere_admin/ts_dhcpip_error.md","ref":"vic_vsphere_admin/ts_dhcpip_error.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc-button","noembed","chapter-fold","insert-logo","edit-link","analytics"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"analytics":{"context":[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/assets/files/html/1.5/"]}]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"page-toc-button":{"maxTocDepth":2,"minTocSize":3},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/vch_install_packages.md","mtime":"2019-05-14T15:46:42.222Z","type":"markdown"},"gitbook":{"version":"3.2.0","time":"2019-05-14T16:25:08.843Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
