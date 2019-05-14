@@ -2,7 +2,7 @@
 
 vSphere Integrated Containers Registry provides a Docker Notary server that allows you to implement content trust by signing and verifying the images in the registry. 
 
-Content trust is enabled at the project level. If content trust is enabled on a project, users can only push and pull images to and from that project if they are signed and verified by the Notary server. The registry will refuse to serve images to a client from a project with content trust enabled if they are not signed and verified.
+Content trust is enabled at the project level. Though a project can store both signed and unsigned images at the same time, if content trust is enabled on it, users can only push and pull images to and from the project if they are signed and verified by the Notary server. The registry will refuse to serve images to a client from a project with content trust enabled if they are not signed and verified.
 
 Enabling content trust on a project automatically modifies the registry whitelist settings of any virtual container hosts (VCHs) that are registered with the project. Consequently, when content trust is enabled, the VCHs in the project can only pull signed and verified images from the registry instance that is running in the vSphere Integrated Containers appliance. Furthermore, updating the whitelist settings of the VCH by enabling content trust requires that the existing whitelist settings of the VCH permit pulling from the registry. The VCH will reject the content trust update if it would result in a more permissive configuration than the one currently configured by the  vSphere administrator.
 
