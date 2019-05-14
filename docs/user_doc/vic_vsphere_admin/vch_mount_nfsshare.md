@@ -28,7 +28,7 @@ If you deploy VCHs that use NFS share points as volume stores, you can test  the
            `-1028 /usr/sbin/rpcbind -w
 Mar 06 16:15:17 Linux systemd[1]: Starting RPC Bind Service...
 Mar 06 16:15:17 Linux systemd[1]: Started RPC Bind Service.</pre>
-5. Mount the NFS share point in the VCH endpoint VM.<pre>mount -t nfs <i>nfs_sharepoint_url</i> -o vers=3</pre>For information about how to specify the NFS sharepoint URL, see the description of the `vic-machine create --volume-store` option in [Specify Volume Datastores](volume_stores.md#nfsoptions).
+5. Mount the NFS share point in the VCH endpoint VM.<pre>mount.nfs <i>nfs_sharepoint_url</i> -o vers=3</pre>For information about how to specify the NFS sharepoint URL, see the description of the `vic-machine create --volume-store` option in [Specify Volume Datastores](volume_stores.md#nfsoptions).
 
 ## Result
 

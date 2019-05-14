@@ -142,6 +142,7 @@ You can also specify the URL, UID, and GID of a shared NFS mount point when you 
 - If your NFS server uses a different `anon` UID/GID to the default, you must specify the UID/GID in the `--volume-store` option. Configuring a VCH to use a different default `anon` UID/GID for NFS volume stores is not supported. For containers, the user that is running the process in the container needs to have the correct permissions on the mount to read and write.
 - vSphere Integrated Containers mounts NFS volumes as `root`. Consequently, if you specify a UID/GID, it must be valid for `root`. Additionally, if containers are to run as non-root users, the export of the volume must grant the correct permissions to the non-root users so that they can access the volume store.
 - For more information about the preceding points, see [About NFS Volume Stores and Permissions](#nfs_perms) above.
+- To test the connections to NFS share points, you can mount the NFS server from within the VCH endpoint VM. For more information, see [Mount an NFS Share Point in the VCH Endpoint VM](vch_mount_nfsshare.md).
 
 Use the label `default` to allow container developers to create anonymous volumes:
 
