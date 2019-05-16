@@ -46,7 +46,7 @@ You can also deploy the vSphere Integrated Containers Appliance using the `ovfto
 
 3. On the **Customize template** page, expand **Appliance Configuration**.
 
-    - Set the root password for the appliance VM. Setting the root password for the appliance is mandatory. The root password cannot exceed 30 characters.
+    - Set the root password for the appliance VM. Setting the root password for the appliance is mandatory. In vSphere Integrated Containers 1.5.3 and later versions, the root password cannot exceed 128 characters. In earlier versions, the root password cannot exceed 30 characters.  
     - Optionally uncheck the **Permit Root Login** checkbox.
   
     **IMPORTANT**: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Only use SSH to access the appliance when instructed to do so in the documentation, or under the guidance of VMware GSS.
