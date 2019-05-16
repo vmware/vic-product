@@ -15,3 +15,5 @@ Group 7 - OVA Upgrade
 -
 [Test 7-07 - Upgrade 1.5.1](7-07-Upgrade-1.5.1.md)
 -
+[Test 7-08 - Upgrade 1.5.2](7-08-Upgrade-1.5.2.md)
+-
