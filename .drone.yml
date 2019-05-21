@@ -265,29 +265,8 @@ pipeline:
       - tests/bundle_dev_builds.sh
     when:
       repo: vmware/vic-product
-      event: [push, tag]
-      branch: [master, 'releases/*', 'feature/*', 'refs/tags/*']
-      status: [success, failure]
-
-  bundle-stage-builds:
-    group: post-build
-    image: 'wdc-harbor-ci.eng.vmware.com/default-project/golang:1.8'
-    pull: true
-    commands:
-      - 'mkdir bundle'
-      - 'cd installer/bin'
-      - 'TMP=$(echo "$(ls -1t | grep "\.ova")" | sed "s/-/-stage-/")'
-      - 'echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-builds/$TMP"'
-      - 'echo "Renaming build artifact to $TMP..."'
-      - 'mv vic-*.ova ../../bundle/$TMP'
-      - 'cd ../../bundle'
-      - 'ls -l'
-      - 'echo "--------------------------------------------------"; stat --printf="Filesize (%n) = %s\n" $TMP; sha256sum --tag $TMP; sha1sum --tag $TMP; md5sum --tag $TMP'
-    when:
-      repo: vmware/vic-product
-      event: [deployment]
-      environment: [staging]
-      branch: [master, 'releases/*', 'refs/tags/*']
+      event: [push]
+      branch: [master, 'releases/*', 'feature/*']
       status: [success, failure]
 
   bundle-release-builds:
@@ -295,19 +274,17 @@ pipeline:
     image: 'wdc-harbor-ci.eng.vmware.com/default-project/golang:1.8'
     pull: true
     commands:
-      - 'mkdir bundle'
+      - 'mkdir bundle-release'
       - 'cd installer/bin'
       - 'TMP=$(echo vic-*.ova)'
-      - 'echo "Passed build will have artifact at https://storage.googleapis.com/vic-product-ova-releases/$TMP"'
-      - 'mv vic-*.ova ../../bundle/'
-      - 'cd ../../bundle'
+      - 'mv vic-*.ova ../../bundle-release/'
+      - 'cd ../../bundle-release'
       - 'ls -l'
       - 'echo "--------------------------------------------------"; stat --printf="Filesize (%n) = %s\n" $TMP; sha256sum --tag $TMP; sha1sum --tag $TMP; md5sum --tag $TMP'
     when:
       repo: vmware/vic-product
-      event: [deployment]
-      environment: [release]
-      branch: ['releases/*', 'refs/tags/*']
+      event: [tag]
+      branch: ['refs/tags/*']
       status: [success, failure]
 
   publish-gcs-master-builds-push:
@@ -342,55 +319,26 @@ pipeline:
       branch: ['releases/*', 'feature/*']
       status: success
 
-  publish-gcs-builds-tag:
-    image: 'victest/drone-gcs:1'
+  publish-gcs-releases:
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
     pull: true
+    environment:
+      BIN: bin
+      GOPATH: /go
+      SHELL: /bin/bash
+      SOURCE: bundle-release
+      TARGET: vic-product-ova-releases
     secrets:
-      - google_key
-    source: bundle
-    target: vic-product-ova-builds/
-    acl:
-      - 'allUsers:READER'
-    cache_control: 'public,max-age=3600'
+      - gs_private_key
+      - gs_client_email
+      - gs_project_id
+    commands:
+      - tests/publish-ova-releases.sh
     when:
       repo: vmware/vic-product
       event: [tag]
-      branch: [master, 'releases/*', 'refs/tags/*']
-      status: success
-
-  publish-gcs-stage:
-    image: 'victest/drone-gcs:1'
-    pull: true
-    secrets:
-      - google_key
-    source: bundle
-    target: vic-product-ova-builds/
-    acl:
-      - 'allUsers:READER'
-    cache_control: 'public,max-age=3600'
-    when:
-      repo: vmware/vic-product
-      event: [deployment]
-      environment: [staging]
-      branch: [master, 'releases/*', 'refs/tags/*']
-      status: success
-
-  publish-gcs-releases:
-    image: 'victest/drone-gcs:1'
-    pull: true
-    secrets:
-      - google_key
-    source: bundle
-    target: vic-product-ova-releases/
-    acl:
-      - 'allUsers:READER'
-    cache_control: 'public,max-age=3600'
-    when:
-      repo: vmware/vic-product
-      event: [deployment]
-      environment: [release]
-      branch: ['releases/*', 'refs/tags/*']
-      status: success
+      branch: ['refs/tags/*']
+      status: [success]
 
   publish-gcs-builds-on-fail:
     image: 'victest/drone-gcs:1'
