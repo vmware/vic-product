@@ -101,7 +101,12 @@ You can also deploy the vSphere Integrated Containers Appliance using the `ovfto
     - In the **Password for Example Users** text boxes, modify the password for the example user account from the default, `VicPro!23`. The new password must comply with the password policy for the Platform Services Controller, otherwise the creation of the example user accounts fails. If you unchecked the **Create Example Users** checkbox, this option is ignored. 
 
         **IMPORTANT**: If you did not uncheck the **Create Example Users** checkbox, it is strongly recommended that you change the default password for the example users.
-8. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
+8. Expand the **Syslog Configuration** to optionally configure the Syslog server to forward the appliance logs. 
+
+    - In the **Remote Syslog Server** text box, specify the IP address or host name of the Syslog server that you want to forward the appliance logs to. Leave this property blank if you do not want to forward the logs.
+    - In the **Syslog server protocol** property, specify the protocol used by the Syslog server to upload logs. The default protocol is `UDP`. You can also specify `TCP` as the protocol. If you specify `TCP`, the Syslog server must support the TCP protocol.
+    -  In the **Syslog Server Port** textbox, specify the remote Syslog server  port. Default port is `514`.
+9. Click **Next** and **Finish** to deploy the vSphere Integrated Containers appliance.
 
 
 ## Procedure 2: Register the Appliance with vCenter Server
