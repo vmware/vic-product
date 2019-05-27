@@ -564,9 +564,9 @@ Manual Upgrade Environment Setup
 
     Set Environment Variable  OVA_NAME  ${old-appliance-name}
     Install And Initialize VIC Product OVA  ${old-ova-save-file}  %{OVA_NAME}
-
-    Download VIC Engine If Not Already  %{OVA_IP}
-    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}
+    ${rand_dir}=  Generate Random String  length=6  chars=[LOWER]
+    Download VIC Engine If Not Already  %{OVA_IP}  manual/${rand_dir}
+    Install VCH With Busybox Container And Push That Image to Harbor  %{OVA_IP}  ${sample-image-tag}  manual/${rand_dir}
     Set Environment Variable  OLD_OVA_IP  %{OVA_IP}
 
     # Deploy new appliance but do not power on
