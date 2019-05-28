@@ -78,7 +78,7 @@ This example updates the certificate for a registry that this VCH already uses.
     --id <i>vch_id</i>
     --registry-ca <i>path_to_new_ca_cert_for_existing_registry</i></pre>
 
-If you are adding registry certificates to a VCH that already has one or more registry certificates, you must also specify each existing registry certificate in a separate instance of `--registry-ca`. This example passes the CA certificate for a new registry to a VCH and specifies the existing certificate for a registry that this VCH already uses.
+If you are adding registry certificates to a VCH that already has one or more registry certificates, you must also specify each existing registry certificate in a separate instance of `--registry-ca`. This is because the `--registry-ca` option replaces certificates instead of just adding them. This example passes the CA certificate for a new registry to a VCH and specifies the existing certificate for a registry that this VCH already uses.
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_address</i>
