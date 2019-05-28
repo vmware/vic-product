@@ -61,7 +61,7 @@ For information about the supported upgrade paths for all versions of vSphere In
 7. Provide information about the old version of the appliance.
 
     1. Enter the name of the datacenter that contains the old version of the appliance.
-    2. Enter the IP address or FQDN of the old version of the appliance. You can enter either the IP address or FQDN in vSphere Integrated Containers 1.5.3 and later versions. For earlier versions, you can only enter the IP address.
+    2. Enter the IP address of the old version of the appliance.The upgrade script does not accept FQDN addresses for the old appliance.
     3. For the old appliance user name, enter `root`.
 8. To automatically upgrade the vSphere Integrated Containers plug-in for vSphere Client, enter `y` at the prompt to `Upgrade VIC UI Plugin`.
 
