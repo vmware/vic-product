@@ -71,26 +71,25 @@ iptables -w -A INPUT -j ACCEPT -p tcp --dport "${ADMIRAL_PORT}"
 
 touch $data_dir/custom.conf
 
-# Configure the integration URL
-echo "harbor.tab.url=https://${HOSTNAME}:${REGISTRY_PORT}" > $data_dir/custom.conf
-
-# Configure the proxy
-if [ -n "${NETWORK_HTTPS_PROXY}" ]; then
-  echo "registry.proxy=${NETWORK_HTTPS_PROXY}" >> $data_dir/custom.conf
-elif [ -n "${NETWORK_HTTP_PROXY}" ]; then
-  echo "registry.proxy=${NETWORK_HTTP_PROXY}" >> $data_dir/custom.conf
-fi
-if [ -n "${NETWORK_NO_PROXY_LIST}" ]; then
-  echo "registry.no.proxy.list=${NETWORK_NO_PROXY_LIST}" >> $data_dir/custom.conf
-fi
-
 # Copy files needed by Admiral into one directory
 cp $appliance_jks $config_dir
 cp $appliance_tls_key $config_dir
 cp $appliance_tls_cert $config_dir
-cp $data_dir/custom.conf $config_dir/config.properties
+cp -f $data_dir/custom.conf $config_dir/config.properties
 cp $admiral_psc_dir/psc-config.keystore $config_dir
 cp $admiral_psc_dir/psc-config.properties $config_dir
+
+# Configure the harbor integration URL
+echo "harbor.tab.url=https://${HOSTNAME}:${REGISTRY_PORT}" >> $config_dir/config.properties
+
+# Configure the proxy
+if [ -n "${NETWORK_HTTPS_PROXY}" ] || [ -n "${NETWORK_HTTP_PROXY}" ]; then
+  echo "registry.proxy=${NETWORK_HTTPS_PROXY:-$NETWORK_HTTP_PROXY}" >> $config_dir/config.properties
+  echo "registry.no.proxy.list=localhost, 127.0.0.1, ui, ${HOSTNAME}${NETWORK_NO_PROXY_LIST:+, }${NETWORK_NO_PROXY_LIST}" >> $config_dir/config.properties
+else
+  echo "registry.proxy=__null" >> $config_dir/config.properties
+  echo "registry.no.proxy.list=__null" >> $config_dir/config.properties
+fi
 
 echo "Copying CA certificate to $ca_download_dir"
 cp $appliance_ca_cert $ca_download_dir/
