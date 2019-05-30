@@ -42,7 +42,7 @@ Short name: None
 
 Rolls a VCH back to its previous version, for example if upgrade failed. Before starting the upgrade process, `vic-machine upgrade` takes a snapshot of the existing VCH. The upgrade process deletes older snapshots from any previous upgrades. The `--rollback` option reverts an upgraded VCH to the snapshot of the previous deployment. Because `vic-machine upgrade` only retains one snapshot, you can only use `--rollback` to revert the VCH to the version that immediately precedes the most recent upgrade.  
 
-**IMPORTANT**: Since `vic-machine configure` also takes a snapshot of the VCH, when you have to run both `vic-machine upgrade` and c`vic-machine configure` commands, you must run `vic-machine configure --rollback` before `vic-machine upgrade --rollback` in order to roll a VCH back to its previous version.
+**IMPORTANT**: Since `vic-machine configure` also takes a snapshot of the VCH, when you attempt to rollback a VCH that has been upgraded with `vic-machine upgrade` and has undergone a configuration change with `vic-machine configure`, you must run `vic-machine configure --rollback` to roll back the configuration to the previous settings before running `vic-machine upgrade --rollback` to roll the VCH back to its previous version.
 
 <pre>--rollback</pre>
 

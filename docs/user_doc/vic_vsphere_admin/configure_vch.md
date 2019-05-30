@@ -424,10 +424,10 @@ To clear the flag so that you can attempt further `vic-machine upgrade` or `vic-
 
 If the VCH configuration changes and you want to revert the changes, you can roll back the configuration to the previous settings by using the `--rollback` option. 
 
-Before making changes to the configuration, `vic-machine configure` takes a snapshot of the existing VCH configuration. The configuration process deletes older snapshots of any previous settings. The `--rollback` option reverts  th cofiguration of the VCH to the snapshot of the previous settings. Because `vic-machine uconfigure` only retains one snapshot, you can only use `--rollback` to revert the VCH to the configuration that immediately precedes the most recent change.
+Before making changes to the configuration, `vic-machine configure` takes a snapshot of the existing VCH configuration. The configuration process deletes older snapshots of any previous settings. The `--rollback` option reverts the cofiguration of the VCH to the snapshot of the previous settings. Because `vic-machine configure` only retains one snapshot, you can only use `--rollback` to revert the VCH to the configuration that immediately precedes the most recent change.
 
 To revert the configuration to the previous settings, run `vic-machine configure` with the `--rollback` option.
 
 <pre>$ vic-machine-<i>operating_system</i> configure --rollback</pre>
 
-**Note**: If you are attempting to rollback a VCH upgrade and have to run both `vic-machine upgrade` and c`vic-machine configure` commands, you must run `vic-machine configure --rollback` before `vic-machine upgrade --rollback` in order to roll a VCH back to its previous version.
+**Note**: If you attempt to rollback a VCH that has been upgraded with `vic-machine upgrade` and has undergone a configuration change with `vic-machine configure`, you must run `vic-machine configure --rollback` to roll back the configuration to the previous settings before running `vic-machine upgrade --rollback` to roll the VCH back to its previous version.
