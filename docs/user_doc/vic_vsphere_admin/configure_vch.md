@@ -419,3 +419,15 @@ To clear the flag so that you can attempt further `vic-machine upgrade` or `vic-
 </pre>
 
 **IMPORTANT**: Before you run `vic-machine configure --reset-progress`, check in Recent Tasks in the vSphere Client that there are indeed no update or configuration operations in progress on the VCH endoint VM.
+
+## Roll Back to Previous Configuration
+
+If the VCH configuration changes and you want to revert the changes, you can roll back the configuration to the previous settings by using the `--rollback` option. 
+
+Before making changes to the configuration, `vic-machine configure` takes a snapshot of the existing VCH configuration. The configuration process deletes older snapshots of any previous settings. The `--rollback` option reverts  th cofiguration of the VCH to the snapshot of the previous settings. Because `vic-machine uconfigure` only retains one snapshot, you can only use `--rollback` to revert the VCH to the configuration that immediately precedes the most recent change.
+
+To revert the configuration to the previous settings, run `vic-machine configure` with the `--rollback` option.
+
+<pre>$ vic-machine-<i>operating_system</i> configure --rollback</pre>
+
+**Note**: If you are attempting to rollback a VCH upgrade and have to run both `vic-machine upgrade` and c`vic-machine configure` commands, you must run `vic-machine configure --rollback` before `vic-machine upgrade --rollback` in order to roll a VCH back to its previous version.

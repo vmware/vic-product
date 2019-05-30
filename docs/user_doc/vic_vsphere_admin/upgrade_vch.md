@@ -73,6 +73,7 @@ For descriptions of the options that `vic-machine upgrade` includes in addition 
   --id <i>vch_id</i>
   --rollback</pre>
 
+	**IMPORTANT**: Since `vic-machine configure` also takes a snapshot of the VCH, when you have to run both `vic-machine upgrade` and c`vic-machine configure` commands, you must run `vic-machine configure --rollback` before `vic-machine upgrade --rollback` in order to roll a VCH back to its previous version.
 
 ## Result
 
