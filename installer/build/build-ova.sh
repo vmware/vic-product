@@ -105,7 +105,7 @@ if [ -z "${HARBOR}" ]; then
 fi
 setenv HARBOR "$url"
 
-export BUILD_DCHPHOTON_VERSION="17.06"
+export BUILD_DCHPHOTON_VERSION="18.06"
 
 ENV_FILE="${CACHE}/installer.env"
 touch $ENV_FILE
