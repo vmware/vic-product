@@ -16,7 +16,7 @@ You can deploy the vSphere Integrated Containers appliance on NSX Data Center fo
 VCHs require a dedicated network interface for the bridge network. It is also recommended to use a dedicated network interface for the public network. You can also optionally use separate network interfaces for the management, client, and container  networks. 
 
 - You can deploy VCHs to NSX Data Center for vSphere networks if those networks are configured to provide distributed port groups.
-- You can deploy VCHs that use NSX-T Data Center logical switches instead of port groups. vSphere Integrated Containers supports NSX-T Data Center versions 2.0, 2.1, 2.2, and 2.3.
+- You can deploy VCHs that use NSX-T Data Center logical switches instead of port groups. vSphere Integrated Containers supports NSX-T Data Center versions 2.0, 2.1, 2.2, and 2.3. vSphere Integrated Containers version 1.5.3 supports NSX-T Data Center version 2.4.
 
 For more information about how to use NSX Data Center and NSX-T Data Center networks with vSphere Integrated Containers, see [Networking Requirements for VCH Deployment](network_reqs.md#vchnetworkreqs).
 
