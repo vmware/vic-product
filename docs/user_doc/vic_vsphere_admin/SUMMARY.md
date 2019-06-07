@@ -82,6 +82,7 @@
   * [Manage the Appliance](manage_appliance.md)
      * [Reconfigure the Appliance](reconfigure_appliance.md)
      * [Obtain Appliance Certificates](obtain_appliance_certs.md)
+     * [Change Appliance TLS Certificates](change_appliance_TLS_certs.md)
      * [Reinitialize the Appliance](reinitialize_appliance.md)
          * [Re-Tag the Appliance](retag_appliance.md)
      * [Update PSC Registration](manual_register_psc.md)
