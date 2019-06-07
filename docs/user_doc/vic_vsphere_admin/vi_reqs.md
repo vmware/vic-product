@@ -14,7 +14,7 @@ All of the ESXi hosts in a cluster require an appropriate license. Deployment of
 
 You deploy the vSphere Integrated Containers appliance on a vCenter Server instance. Deploying the appliance directly on an ESXi host is not supported.
 
-- vCenter Server 6.0, 6.5, 6.7, or 6.7 update 2.
+- vCenter Server 6.0, 6.5, 6.7, 6.7 update 1, or 6.7 update 2.
 - ESXi 6.0, 6.5, or 6.7 for all hosts.
 - At least 2 vCPUs.
 - At least 8GB RAM.
@@ -33,8 +33,8 @@ vSphere Integrated Containers provides an interactive plug-in for the HTML5 vSph
 
 You can deploy VCHs in the following types of setup:
 
-* vCenter Server 6.0, 6.5, 6.7, or 6.7 update 2, managing a cluster of ESXi  6.0, 6.5, or 6.7 hosts. VMware recommends that you enable VMware vSphere Distributed Resource Scheduler (DRS) on clusters whenever possible, but this is not a requirement.
-* vCenter Server 6.0, 6.5, 6.7, or 6.7 update 2, managing one or more standalone ESXi 6.0, 6.5, or 6.7 hosts.
+* vCenter Server 6.0, 6.5, 6.7, 6.7 update 1, or 6.7 update 2, managing a cluster of ESXi  6.0, 6.5, or 6.7 hosts. VMware recommends that you enable VMware vSphere Distributed Resource Scheduler (DRS) on clusters whenever possible, but this is not a requirement.
+* vCenter Server 6.0, 6.5, 6.7, 6.7 update 1, or 6.7 update 2, managing one or more standalone ESXi 6.0, 6.5, or 6.7 hosts.
 * Standalone ESXi 6.0, 6.5, or 6.7 host that is not managed by a vCenter Server instance.
 
 Caveats and limitations:
