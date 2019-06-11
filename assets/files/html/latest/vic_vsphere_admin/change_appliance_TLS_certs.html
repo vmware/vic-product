@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <html lang="" >
     <head>
-        <title>Appliance Registration API · VMware vSphere Integrated Containers 1.5 Documentation</title>
+        <title>Change Appliance TLS Certificates · VMware vSphere Integrated Containers 1.5 Documentation</title>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -73,10 +73,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="vic_engine_bundle.html" />
+    <link rel="next" href="reinitialize_appliance.html" />
     
     
-    <link rel="prev" href="deploy_vic_appliance_ovftool.html" />
+    <link rel="prev" href="obtain_appliance_certs.html" />
     
 
     </head>
@@ -453,7 +453,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.1.2.2.2" data-path="ova_reg_api.html">
+        <li class="chapter " data-level="3.1.2.2.2" data-path="ova_reg_api.html">
             
                 <a href="ova_reg_api.html">
             
@@ -1443,7 +1443,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.3" data-path="change_appliance_TLS_certs.html">
+        <li class="chapter active" data-level="3.1.7.3" data-path="change_appliance_TLS_certs.html">
             
                 <a href="change_appliance_TLS_certs.html">
             
@@ -3227,7 +3227,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Appliance Registration API</a>
+        <a href=".." >Change Appliance TLS Certificates</a>
     </h1>
 </div>
 
@@ -3242,35 +3242,27 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="register-the-appliance-by-using-the-registration-api">Register the Appliance by Using the Registration API</h1><p>The vSphere Integrated Containers appliance provides an API that, after deployment, allows you to register the appliance with vCenter Server without having to manually enter information in the appliance welcome page. This API helps you to automate the deployment of appliances without manual intervention.</p><p>The appliance exposes the registration API endpoint at https://<i>vic_appliance_address</i>:9443/register. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, 9443 is replaced with the appropriate port.</p><h2 id="prerequisites">Prerequisites</h2><p>You deployed an instance of the vSphere Integrated Containers appliance without completing the registration wizard that appears in the <strong>Complete VIC appliance installation</strong> panel when you first go to the vSphere Integrated Containers appliance welcome page.</p><h2 id="procedure">Procedure</h2><ol><li><p>On your usual working system, create a file named <code>payload.json</code>, to include information about your vSphere environment.</p><p>vCenter Server with an embedded Platform Services Controller:<pre>{
-&quot;target&quot;:&quot;<i>vcenter_server_address</i>&quot;,
-&quot;user&quot;:&quot;<i>sso_administrator_account</i>&quot;,
-&quot;password&quot;:&quot;<i>vcenter_sso_administrator_password</i>&quot;,
-&quot;thumbprint&quot;:&quot;<i>vc_thumbprint</i>&quot;,
-&quot;vicpassword&quot;:&quot;<i>vic_appliance_root_password</i>&quot;
-}</pre></p><p>vCenter Server with an external Platform Services Controller:<pre>{
-&quot;target&quot;:&quot;<i>vcenter_server_address</i>&quot;,
-&quot;user&quot;:&quot;<i>sso_administrator_account</i>&quot;,
-&quot;password&quot;:&quot;<i>vcenter_sso_administrator_password</i>&quot;,
-&quot;thumbprint&quot;:&quot;<i>vc_thumbprint</i>&quot;,
-&quot;externalpsc&quot;:&quot;psc_address&quot;,
-&quot;pscdomain&quot;:&quot;psc_domain&quot;,
-&quot;vicpassword&quot;:&quot;<i>vic_appliance_root_password</i>&quot;
-}</pre></p><p><strong>NOTE</strong>: The registration API does not include an option to skip the installation or upgrade of the vSphere Integrated Containers plug-in for the vSphere Client.</p></li>
-<li><p>Run a <code>curl</code> command to pass the <code>payload.json</code> file to the initialization API endpoint.</p><p>Copy the command as shown, replacing <i>vic_appliance_address</i> with the address of the appliance.<pre>curl -k -w &apos;%{http_code}&apos; -d @payload.json https://<i>vic_appliance_address</i>:9443/register
-</pre>If successful, you see the message <code>operation complete
-200</code>. If the vSphere Integrated Containers appliance was configured to expose the file server on a different port, replace 9443 with the appropriate port.</p></li></ol>
-<h2 id="result">Result</h2><p>The appliance registers with the Platforms Services Controller. After registration, vSphere Integrated Containers services are available at  https://<i>vic_appliance_address</i>:9443.</p><h2 id="example">Example</h2><p>Here is an example of a completed <code>payload.json</code> file:</p><pre>{
-  &quot;target&quot;:&quot;vcenter-server1.mycompany.org&quot;,
-  &quot;user&quot;:&quot;Administrator@vsphere.local&quot;,
-  &quot;password&quot;:&quot;p@ssw0rd!&quot;,
-  &quot;thumbprint&quot;:&quot;12:34:F3:B2:85:2F:F7:95:B3:1E:99:F4:FB:28:4E:E7:5E:E0:5B:33&quot;,
-  &quot;externalpsc&quot;:&quot;psc1.mycompany.org&quot;,
-  &quot;pscdomain&quot;:&quot;vsphere.local&quot;,
-  &quot;vicpassword&quot;:&quot;<i>vic_appliance_root_password</i>&quot;
-}</pre> 
-
-<script src="../_gitbook_plugin_analytics.js"></script>
+                                <h1 id="change-vsphere-integrated-containers-appliance-tls-certificates">Change vSphere Integrated Containers Appliance TLS Certificates</h1><p>If you do not provide TLS certificates during vSphere Integrated Containers appliance deployment, the OVA installer uses auto-generated certificates. You can reconfigure the appliance settings to change the TLS certificates after you have deployed it.</p><h2 id="prerequisites">Prerequisites</h2><p>Log in to the vSphere Client:</p><ul><li>If you use vCenter Server 6.7 update 1 or later, you can use the HTML5 vSphere Client to reconfigure the appliance.
+</li>
+<li>If you use a version of vCenter Server that pre-dates 6.7 update 1, you must use the Flex-based vSphere Web Client. You cannot reconfigure the appliance in the HTML5 vSphere Client.
+</li></ul>
+<h2 id="procedure">Procedure</h2><ol><li><p>Shut down the vSphere Integrated Containers appliance by selecting <strong>Shut Down Guest OS</strong>.</p><p><strong>IMPORTANT</strong>: Do not select <strong>Power Off</strong>.</p></li>
+<li><p>Modify the TLS certificates:</p><p>In the Flex-based vSphere Web Client, stay in the Edit Settings window and select <strong>vApp Options</strong>.</p><p>In the HTML5 vSphere Client (vCenter Server 6.7 update 1 and later), you access the <strong>vApp Options</strong> as follows:</p><ol><li>Exit the <strong>Edit Settings</strong> window.
+</li>
+<li>Select the appliance VM and select the <strong>Configure</strong> tab.
+</li>
+<li>Select <strong>vApp Options</strong> and scroll to the Properties section.
+</li>
+<li>Click <strong>Category</strong> to sort the settings into the order in which they appear in the OVA installer.
+</li>
+<li><p>For each setting that you want to change, select the corresponding row and click <strong>Set Value</strong>.</p><p>You can modify the following settings in the <strong>Appliance Configuration</strong> section:</p></li>
+<li><p>In the <strong>Appliance TLS Certificate</strong> text box, paste the contents of the server certificate PEM file.</p></li>
+<li>In the <strong>Appliance TLS Certificate Key</strong> text box, paste the contents of  certificate key.
+</li>
+<li>In the <strong>Certificate Authority Certificate</strong> text box, paste the contents of the Certificate Authority (CA) file. To use a certificate that uses a chain of intermediate CAs, paste the contents of a certificate chain PEM file. The PEM file must include a chain of the intermediate CAs all the way down to the root CA.
+</li></ol>
+</li></ol>
+<h2 id="result">Result</h2><p>When you power the appliance back on, the TLS certificates are automatically applied.</p><script src="../_gitbook_plugin_analytics.js"></script>
                                 
                                 </section>
                             
@@ -3297,12 +3289,12 @@
 
             
                 
-                <a href="deploy_vic_appliance_ovftool.html" class="navigation navigation-prev " aria-label="Previous page: Deploy the Appliance Using VMware OVF Tool">
+                <a href="obtain_appliance_certs.html" class="navigation navigation-prev " aria-label="Previous page: Obtain Appliance Certificates">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="vic_engine_bundle.html" class="navigation navigation-next " aria-label="Next page: Download Engine Bundle">
+                <a href="reinitialize_appliance.html" class="navigation navigation-next " aria-label="Next page: Reinitialize the Appliance">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -3313,7 +3305,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Appliance Registration API","level":"3.1.2.2.2","depth":4,"next":{"title":"Download Engine Bundle","level":"3.1.2.3","depth":3,"path":"vic_vsphere_admin/vic_engine_bundle.md","ref":"vic_vsphere_admin/vic_engine_bundle.md","articles":[]},"previous":{"title":"Deploy the Appliance Using VMware OVF Tool","level":"3.1.2.2.1","depth":4,"path":"vic_vsphere_admin/deploy_vic_appliance_ovftool.md","ref":"vic_vsphere_admin/deploy_vic_appliance_ovftool.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc-button","noembed","chapter-fold","insert-logo","edit-link","analytics"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"analytics":{"context":[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/assets/files/html/1.5/"]}]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"page-toc-button":{"maxTocDepth":2,"minTocSize":3},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/ova_reg_api.md","mtime":"2019-06-11T08:20:03.943Z","type":"markdown"},"gitbook":{"version":"3.2.0","time":"2019-06-11T08:57:28.429Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Change Appliance TLS Certificates","level":"3.1.7.3","depth":3,"next":{"title":"Reinitialize the Appliance","level":"3.1.7.4","depth":3,"path":"vic_vsphere_admin/reinitialize_appliance.md","ref":"vic_vsphere_admin/reinitialize_appliance.md","articles":[{"title":"Re-Tag the Appliance","level":"3.1.7.4.1","depth":4,"path":"vic_vsphere_admin/retag_appliance.md","ref":"vic_vsphere_admin/retag_appliance.md","articles":[]}]},"previous":{"title":"Obtain Appliance Certificates","level":"3.1.7.2","depth":3,"path":"vic_vsphere_admin/obtain_appliance_certs.md","ref":"vic_vsphere_admin/obtain_appliance_certs.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc-button","noembed","chapter-fold","insert-logo","edit-link","analytics"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"analytics":{"context":[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/assets/files/html/1.5/"]}]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"page-toc-button":{"maxTocDepth":2,"minTocSize":3},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/change_appliance_TLS_certs.md","mtime":"2019-06-11T08:20:03.927Z","type":"markdown"},"gitbook":{"version":"3.2.0","time":"2019-06-11T08:57:28.429Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
