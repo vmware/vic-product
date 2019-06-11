@@ -310,6 +310,8 @@ When you run this command, `vic-machine create` performs the following operation
 
 You must provide the custom `cert.pem`, `key.pem`, and `ca.pem` files to all container developers who need to connect Docker clients to this VCH.
 
+**Note**: You must specify the `--tls-cname` option because you are generating the certificate automatically, signing it with the custom CA, and there is no static IP defined for the client network. If there were a static client IP defined, then you would not need to specify the `--tls-cname` option.
+
 ## Use a Custom Server Certificate and a Custom CA for Client Certificates <a id="all-custom"></a>
 
 This example deploys a VCH with the following security configuration: 

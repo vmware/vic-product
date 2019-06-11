@@ -96,15 +96,14 @@ If you are adding registry certificates to a VCH that already has one or more re
 You can configure the security settings of a VCH by using the different TLS options of the `vic-machine configure` command.
 
 - To configure TLS authentication with automatically generated certificates on a VCH that currently implements no TLS authentication, or to regenerate automatically generated certificates, use the `vic-machine configure --tls-cname` option.
+- To configure the path to an existing `ca.pem` file for the custom CA that you use to sign client certificates. Include the filename in the path. You can specify `--tls-ca` multiple times.
 - To configure TLS authentication with custom certificates on a VCH that currently implements no TLS authentication, or that uses automatically generated certificates, or to replace existing custom certificates, use the `vic-machine configure --tls-server-cert` and `--tls-server-key` options. 
 - To disable verification of client certificates, use the `vic-machine configure --no-tlsverify` option.
 - To change the location in which to search for and store certificates, use the `vic-machine configure --tls-cert-path` option.
 
 The `vic-machine configure` TLS options function in the same way as the equivalent `vic-machine create` options. For information about the `vic-machine create` security options, see [Virtual Container Hosts Security](vch_security.md).
 
-**NOTE**: The `vic-machine configure` command does not include an equivalent to `vic-machine create --tls-ca` option.
-
-This example  sets the `vic-machine configure --tls-cname` option to  implement TLS authentication with automatically generated server and client certificates. Before the configuration, the VCH either has no authentication or uses automatically generated certificates that you want to regenerate. The `--tls-cert-path` option specifies the folder in which to store the generated certificate.
+This example sets the `vic-machine configure --tls-cname` option to implement TLS authentication with automatically generated server and client certificates. Before the configuration, the VCH either has no authentication or uses automatically generated certificates that you want to regenerate. The `--tls-cert-path` option specifies the folder in which to store the generated certificate.
 
 <pre>$ vic-machine-<i>operating_system</i> configure	
 -    --target <i>vcenter_server_address</i>
@@ -115,7 +114,17 @@ This example  sets the `vic-machine configure --tls-cname` option to  implement 
 -    --tls-cname *.example.com	
 -    --tls-cert-path <i>path_to_cert_folder</i></pre>
 
-This example  uses the `vic-machine configure --tls-server-cert` and `--tls-server-key` options to implement TLS authentication with custom certificates. Before the configuration, the VCH either has no TLS authentication, or it uses automatically generated certificates, or it uses custom certificates that require replacement. 
+This example uses the `vic-machine configure --tls-cname` and the `--tls-ca` options to implement options for the custom CA that you use to sign client certificates. You must specify the `--tls-cname` option with the `--tls-ca` option when there is no static IP defined for the client network. 
+
+<pre>$ vic-machine-i>operating_system</i> configure 
+   --target w<i>vcenter_server_address</i>
+   --user Administrator@vsphere.local
+   --password '<i>password</i> 
+   --thumbprint <i>certificate_thumbprint</i> 
+   --tls-ca <i>path_to_ca_file/</i>ca.pem 
+   --tls-cname <i>cname_from_server_cert</i></pre>
+
+This example uses the `vic-machine configure --tls-server-cert` and `--tls-server-key` options to implement TLS authentication with custom certificates. Before the configuration, the VCH either has no TLS authentication, or it uses automatically generated certificates, or it uses custom certificates that require replacement. 
 
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_address</i>
