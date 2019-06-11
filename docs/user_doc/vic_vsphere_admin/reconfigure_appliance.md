@@ -35,7 +35,7 @@ Log in to the vSphere Client:
  
   You can modify the following settings:
 
-   - In **Appliance Configuration**, update the password for the appliance root account, enable or disable SSH log in, and add or update certificates.
+   - In **Appliance Configuration**, update the password for the appliance root account, enable or disable SSH log in, and add or update certificates. For information about changing TLS certificates, see [Change Appliance TLS Certificates](change_appliance_TLS_certs.md).
    - Reconfigure **Networking Properties** to set a static IP address, update the network configuration, or remove all settings to enable DHCP.
    - Reconfigure **Registry Configuration** to change the ports on which the registry publishes services, or to enable or disable garbage collection.
    - Reconfigure **Management Portal Configuration** to change the port on which the portal publishes services.
