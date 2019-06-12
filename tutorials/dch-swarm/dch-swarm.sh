@@ -9,7 +9,7 @@ NUM_WORKERS=3
 CONTAINER_NET=routable
 # Docker Container Host (DCH) image to use 
 # see https://hub.docker.com/r/vmware/dch-photon/tags/ for list of available Docker Engine versions
-DCH_IMAGE="vmware/dch-photon:17.06"
+DCH_IMAGE="vmware/dch-photon:18.06"
 
 ## NO NEED TO MODIFY BEYOND THIS POINT
 # pull the image
