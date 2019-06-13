@@ -84,8 +84,8 @@ Get PSC Instance
     ${rc}  ${output}=  Run And Return Rc And Output  govc about -u=%{TEST_URL}
     Log  ${output}
     Should Be Equal As Integers  ${rc}  0
-    ${status}=  Run Keyword And Return Status  Should Contain  ${output}  6.7.2
-    ${psc}=  Run Keyword If  ${status}  Execute Command And Return Output  /usr/lib/vmware-vmafd/bin/vmafd-cli get-ls-location --server-name localhost | awk -F/ '{print $3}' | cut -d : -f 1
+    ${status}=  Run Keyword And Return Status  Should Contain  ${output}  6.0  6.5  6.7.1
+    ${psc}=  Run Keyword Unless  ${status}  Execute Command And Return Output  /usr/lib/vmware-vmafd/bin/vmafd-cli get-ls-location --server-name localhost | awk -F/ '{print $3}' | cut -d : -f 1
     ...      ELSE  Set Variable  ${psc}  
  
     Close Connection
