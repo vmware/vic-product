@@ -36,8 +36,8 @@ Login On Single Sign-On Page
     ${rc}  ${output}=  Run And Return Rc And Output  govc about -u=%{TEST_URL}
     Log  ${output}
     Should Be Equal As Integers  ${rc}  0
-    ${status}=  Run Keyword And Return Status  Should Contain  ${output}  6.7.2
-    ${vcsso-image-title}=  Set Variable If  ${status}  id=titleVmware  ${vcsso-image-title}
+    ${status}=  Run Keyword And Return Status  Should Contain Any  ${output}  6.0  6.5  6.7.1
+    ${vcsso-image-title}=  Set Variable If  ${status}  ${vcsso-image-title}  id=titleVmware
     Wait Until Element Is Visible  ${vcsso-image-title}  timeout=${EXPLICIT_WAIT_FOR_VCSSO_PAGE}
     Input Text  ${vcsso-username}  %{TEST_USERNAME}
     Input Text  ${vcsso-password}  %{TEST_PASSWORD}
