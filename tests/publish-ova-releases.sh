@@ -43,6 +43,7 @@ fi
 if [ -f ${source_dir}/${ova_file_name} ]; then
   if [[ ${DRONE_TAG} =~ ^v([0-9]+\.){2}[0-9]+$ ]]; then
       if gsutil cp ${source_dir}/${ova_file_name} gs://${target_bucket}; then
+        gsutil acl ch -u AllUsers:R gs://${target_bucket}/${ova_file_name}
         echo "Upload ova file successfully to ${target_bucket}. download url: https://storage.googleapis.com/${target_bucket}/${ova_file_name}"
       else
         echo "upload failed-----------------"
@@ -50,6 +51,7 @@ if [ -f ${source_dir}/${ova_file_name} ]; then
       fi
   else
     if gsutil cp ${source_dir}/${ova_file_name} gs://vic-product-ova-builds; then
+      gsutil acl ch -u AllUsers:R gs://vic-product-ova-builds/${ova_file_name}
       echo "Upload ova file successfully to vic-product-ova-builds. download url: https://storage.googleapis.com/vic-product-ova-builds/${ova_file_name}"
     else
       echo "upload failed-----------------"
