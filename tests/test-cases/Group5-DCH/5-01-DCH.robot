@@ -40,7 +40,7 @@ Verify non-tls is enabled for dch-photon
     :FOR  ${IDX}  IN RANGE  5
     \   ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12375 info 
     \   Log  ${output}
-    \   ${status}=  Run Keyword and Return Status  Should Not Contain  ${output}  'Is the docker daemon running'
+    \   ${status}=  Run Keyword and Return Status  Should Not Contain  ${output}  Is the docker daemon running
     \   Exit For Loop If  ${status} == True
     \   Sleep  3s 
     Should Be Equal As Integers  ${rc}  0
@@ -59,7 +59,7 @@ Verify tls enabled scenario for dch-photon
     :FOR  ${IDX}  IN RANGE  5
     \   ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12376 --tls info
     \   Log  ${output}
-    \   ${status}=  Run Keyword and Return Status  Should Not Contain  ${output}  'Is the docker daemon running'
+    \   ${status}=  Run Keyword and Return Status  Should Not Contain  ${output}  Is the docker daemon running
     \   Exit For Loop If  ${status} == True
     \   Sleep  3s 
     Should Be Equal As Integers  ${rc}  0
@@ -78,7 +78,7 @@ Verify tlsverify enabled scenario for dch-photon
     :FOR  ${IDX}  IN RANGE  5
     \   ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12386 --tls info
     \   Log  ${output}
-    \   ${status}=  Run Keyword and Return Status  Should Not Contain  ${output}  'Is the docker daemon running'
+    \   ${status}=  Run Keyword and Return Status  Should Not Contain  ${output}  Is the docker daemon running
     \   Exit For Loop If  ${status} == True
     \   Sleep  3s 
     Should Be Equal As Integers  ${rc}  1
@@ -128,7 +128,7 @@ Verify local enabled scenario for dch-photon
     :FOR  ${IDX}  IN RANGE  5
     \   ${rc}  ${output}=  Run And Return Rc And Output  ${DEFAULT_LOCAL_DOCKER} -H ${VCH-IP}:12389 --tls ps
     \   Log  ${output}
-    \   ${status}=  Run Keyword and Return Status  Should Not Contain  ${output}  'Is the docker daemon running'
+    \   ${status}=  Run Keyword and Return Status  Should Not Contain  ${output}  Is the docker daemon running
     \   Exit For Loop If  ${status} == True
     \   Sleep  3s 
     Should Be Equal As Integers  ${rc}  1
