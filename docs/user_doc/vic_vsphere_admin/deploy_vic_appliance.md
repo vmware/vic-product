@@ -101,6 +101,7 @@ You can also deploy the vSphere Integrated Containers Appliance using the `ovfto
     - In the **Password for Example Users** text boxes, modify the password for the example user account from the default, `VicPro!23`. The new password must comply with the password policy for the Platform Services Controller, otherwise the creation of the example user accounts fails. If you unchecked the **Create Example Users** checkbox, this option is ignored. 
 
         **IMPORTANT**: If you did not uncheck the **Create Example Users** checkbox, it is strongly recommended that you change the default password for the example users.
+
 8. Expand the **Syslog Configuration** to optionally configure the Syslog server to forward the appliance logs. 
 
     - In the **Remote Syslog Server** text box, specify the IP address or host name of the Syslog server that you want to forward the appliance logs to. Leave this property blank if you do not want to forward the logs.
@@ -116,10 +117,10 @@ You can also deploy the vSphere Integrated Containers Appliance using the `ovfto
     If you deployed the appliance so that it obtains its address via DHCP, go to the **Summary** tab for the appliance VM and note the address.
 
 1. (Optional) If you provided a static network configuration, view the network status of the appliance.
-
+    
     1. In the **Summary** tab for the appliance VM, launch the VM console
     2. In the VM console, press the right arrow key. 
-
+    
     The network status shows whether the network settings that you provided during the deployment match the settings with which the appliance is running. If there are mismatches, power off the appliance and select **Edit Settings** > **vApp Options** to correct the network settings.
     
 1. In a browser, go to the vSphere Integrated Containers appliance welcome page.
@@ -142,9 +143,11 @@ You can also deploy the vSphere Integrated Containers Appliance using the `ovfto
     **IMPORTANT**: The installation process requires administrator credentials to register vSphere Integrated Containers Management Portal and Registry with the Platform Services Controller and to tag the appliance VM for use in Docker content trust. Administrator credentials are not stored on the appliance VM after use in the installation process. The vSphere Integrated Containers Management Portal and Registry services cannot start if you do not complete this step.
 
 1. Enter the root password for the vSphere Integrated Containers appliance, that you set when you deployed the OVA.
+    
 1. To automatically install the vSphere Integrated Containers plug-in for vSphere Client, leave the **Install UI Plugin** check box selected, and click **Continue**.
+    
+    **NOTE**: By default, in an environment in which multiple vSphere Integrated Containers are deployed to the same vCenter Server instance, the vSphere Integrated Containers plug-in connects to one appliance only. This appliance instance might not be the one that registered most recently with vCenter Server. Consequently, if there are older instances of the appliance registered with vCenter Server and you do not want the plug-in to automatically upgrade to the latest version, deselect the **Install UI Plugin** check box. You can see version information about the plug-in and the appliance in the Summary     tab of the vSphere Integrated Containers plug-in. If you deselect the **Install UI Plugin** check box, you can install or upgrade the plug-in later. 
 
-    **NOTE**: By default, in an environment in which multiple vSphere Integrated Containers are deployed to the same vCenter Server instance, the vSphere Integrated Containers plug-in connects to one appliance only. This appliance instance might not be the one that registered most recently with vCenter Server. Consequently, if there are older instances of the appliance registered with vCenter Server and you do not want the plug-in to automatically upgrade to the latest version, deselect the **Install UI Plugin** check box. You can see version information about the plug-in and the appliance in the Summary tab of the vSphere Integrated Containers plug-in. If you deselect the **Install UI Plugin** check box, you can install or upgrade the plug-in later. 
 1. Verify that the certificate thumbprint for vCenter Server is valid, and click **Continue** to complete the installation of the appliance.
 
 ## Result
