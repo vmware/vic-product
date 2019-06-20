@@ -276,8 +276,9 @@ Add transfer header data to the log. Use this option with care. The default valu
 
 The following command sets the appliance root password and uses the default values for other options:
 
-    ovftool --datastore=vsanDatastore --noSSLVerify --acceptAllEulas --name=<vch_name> --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd=<root_pwd>' --prop:appliance.permit_root_login=True --net:"Network"="vm-network" installer/bin/vic-*.ova 'vi://<vc_username>:<vc_pwd>@10.160.222.221/vcqaDC/host/cls' 2>&1
+    ovftool --datastore=vsanDatastore --noSSLVerify --acceptAllEulas --name=<ova_name> --diskMode=thin --powerOn --X:waitForIp --X:injectOvfEnv --X:enableHiddenProperties --prop:appliance.root_pwd=<root_pwd>' --prop:appliance.permit_root_login=True --net:"Network"="vm-network" installer/bin/vic-*.ova 'vi://<vc_username>:<vc_pwd>@10.160.222.221/vcqaDC/host/cls' 2>&1
     
+    For password requirements, see [Deploy the vSphere Integrated Containers Appliance](deploy_vic_appliance.md).
 
 For more information about the VMware OVF Tool and how to use it, see the [OVF Tool Documentation](https://www.vmware.com/support/developer/ovf/).
 

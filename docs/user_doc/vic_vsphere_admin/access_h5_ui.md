@@ -25,28 +25,30 @@ If you have installed the HTML5 plug-in for vSphere Integrated Containers, you c
     - The version of the vSphere Integrated Containers plug-in for the vSphere Client.
     - The number of VCHs registered with this vCenter Server instance.
     - The version of the vSphere Integrated Containers appliance to which the client plug-in is connected.
-    - The IP address of the vSphere Integrated Containers appliance. You can click on the IP address to go to the the vSphere Integrated Containers Getting Started page. 
+    - The IP address of the vSphere Integrated Containers appliance. You can click on the IP address to go to the vSphere Integrated Containers Getting Started page. 
     
     This information allows you to know which appliance instance is providing the vSphere Integrated Containers API endpoint. This is useful in environments in which you have deployed multiple appliances. The appliance that the client connects to might not be the one that was most recently registered with vCenter Server. Consequently, if you have deployed different versions of the appliance to vCenter Server, it is useful to know which one the client is connecting to.
-
+    
 4. Select the **Virtual Container Hosts** tab. 
 
     The **Virtual Container Hosts** tab provides information about the VCHs that are registered with this vCenter Server instance: 
-
+    
     - Lists all VCHs by name. You can click the VCH name to go to the Summary tab for the VCH endpoint VM.
     - Indicates that the VCH is running correctly.
     - Displays the `DOCKER_HOST` environment variable that container developers use to connect to this VCH.
     - Provides the link to the VCH Admin Portal for this VCH.
+    
 5. (Optional) Click the 3 vertical dots next to a VCH.
-
+    
     - Select **Delete** to remove the VCH. 
     - Select **Download VCH certificate** to download the server certificate for the VCH. Container developers might require the server certificate when they run Docker commands in `--tlsverify` client mode, if you use certificates that are not signed by a trusted certificate authority. 
-
+    
         **NOTE**: You cannot download client certificates for VCHs from the vSphere Client. vSphere administrators distribute client certificates directly.
+    
 5. Select the **Containers** tab.
-
+    
     The **Containers** tab shows information about all of the container VMs that are running in this vCenter Server instance, for all VCHs:
-
+    
     - Lists all containers by name.
     - Indicates whether the container VM is powered on or off.
     - Provides information about the memory, CPU, and storage consumption of the container VM.
