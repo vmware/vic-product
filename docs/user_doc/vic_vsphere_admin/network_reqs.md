@@ -104,6 +104,8 @@ You can share the public network with the client and management networks. For in
 
 Optionally create either a standard vSphere port group or an NSX Datacenter for vSphere or NSX-T Data Center logical switch for each of the management and client networks. You can use the same network as the management and client network for multiple VCHs. Use a trusted network for the management network. Connections between Docker clients and the VCH are encrypted via TLS unless you explicitly disable TLS. The client network does not need to be trusted.
 
+**IMPORTANT**: The network on which you run `vic-machine` commands must be able to communicate with the client network on the VCH. The client interface must be able to route back to the machine on which you run `vic-machine` commands.
+
 For information about VCH client and management networks, see [Configure the Client Network](client_network.md) and [Configure the Management Network](mgmt_network.md).
 
 ### Container Networks <a id="container"></a>
