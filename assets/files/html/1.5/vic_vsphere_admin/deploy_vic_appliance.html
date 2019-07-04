@@ -73,7 +73,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="ova_reg_api.html" />
+    <link rel="next" href="deploy_vic_appliance_ovftool.html" />
     
     
     <link rel="prev" href="download_vic.html" />
@@ -440,7 +440,20 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.2.2.1" data-path="ova_reg_api.html">
+        <li class="chapter " data-level="3.1.2.2.1" data-path="deploy_vic_appliance_ovftool.html">
+            
+                <a href="deploy_vic_appliance_ovftool.html">
+            
+                    
+                    Deploy the Appliance Using VMware OVF Tool
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2.2.2" data-path="ova_reg_api.html">
             
                 <a href="ova_reg_api.html">
             
@@ -1430,7 +1443,20 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.3" data-path="reinitialize_appliance.html">
+        <li class="chapter " data-level="3.1.7.3" data-path="change_appliance_TLS_certs.html">
+            
+                <a href="change_appliance_TLS_certs.html">
+            
+                    
+                    Change Appliance TLS Certificates
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.4" data-path="reinitialize_appliance.html">
             
                 <a href="reinitialize_appliance.html">
             
@@ -1444,7 +1470,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.7.3.1" data-path="retag_appliance.html">
+        <li class="chapter " data-level="3.1.7.4.1" data-path="retag_appliance.html">
             
                 <a href="retag_appliance.html">
             
@@ -1462,7 +1488,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.4" data-path="manual_register_psc.html">
+        <li class="chapter " data-level="3.1.7.5" data-path="manual_register_psc.html">
             
                 <a href="manual_register_psc.html">
             
@@ -1475,7 +1501,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.5" data-path="service_status.html">
+        <li class="chapter " data-level="3.1.7.6" data-path="service_status.html">
             
                 <a href="service_status.html">
             
@@ -1488,7 +1514,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.6" data-path="restart_services.html">
+        <li class="chapter " data-level="3.1.7.7" data-path="restart_services.html">
             
                 <a href="restart_services.html">
             
@@ -1501,7 +1527,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.7" data-path="ts_recover_password.html">
+        <li class="chapter " data-level="3.1.7.8" data-path="ts_recover_password.html">
             
                 <a href="ts_recover_password.html">
             
@@ -1514,7 +1540,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.8" data-path="uninstall_vic.html">
+        <li class="chapter " data-level="3.1.7.9" data-path="uninstall_vic.html">
             
                 <a href="uninstall_vic.html">
             
@@ -1968,6 +1994,19 @@
             
         </li>
     
+        <li class="chapter " data-level="3.1.8.5.7" data-path="ts_dhcpip_error.html">
+            
+                <a href="ts_dhcpip_error.html">
+            
+                    
+                    Deployment of Container that supports DHCP Network Fails
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2005,16 +2044,48 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.8.7" data-path="ts_orphaned_cvms.html">
+        <li class="chapter " data-level="3.1.8.7" data-path="ts_upgrade_op.html">
             
-                <a href="ts_orphaned_cvms.html">
+                <a href="ts_upgrade_op.html">
             
                     
-                    Container VMs Orphaned After Upgrade
+                    Troubleshoot Upgrade Operation
             
                 </a>
             
 
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.8.7.1" data-path="ts_upgrade_customcerts.html">
+            
+                <a href="ts_upgrade_customcerts.html">
+            
+                    
+                    Certificates Not Copied
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.7.2" data-path="ts_orphaned_cvms.html">
+            
+                <a href="ts_orphaned_cvms.html">
+            
+                    
+                    Container VMs Orphaned
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -3184,9 +3255,12 @@
 <p>By default, the vSphere Integrated Containers plug-in for the vSphere Client is installed automatically. The installer installs the following plug-ins:</p>
 <ul>
 <li>A plug-in for the HTML5 vSphere Client on vCenter Server 6.5 and 6.7. The HTML5 plug-in allows you to to deploy and interact with virtual container hosts (VCHs) directly in the vSphere Client.</li>
-<li>A basic informational plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0. </li>
+<li><p>A basic informational plug-in for the Flex-based vSphere Web Client on vCenter Server 6.0. </p>
+<p>  <strong>NOTE</strong>: vSphere Integrated Containers 1.5.2 and later versions do not include the Flex-based vSphere Web Client.</p>
+</li>
 </ul>
 <p>If you need to deploy multiple appliances, you can use the initialization API to initialize appliances without manual intervention. For information about the initialization API, see <a href="ova_reg_api.html">Initialize the Appliance by Using the Initialization API</a>.</p>
+<p>You can also deploy the vSphere Integrated Containers Appliance using the <code>ovftool</code> command line utility. For more information, see <a href="deploy_vic_appliance_ovftool.html">Deploy the vSphere Integrated Containers Appliance Using VMware OVF Tool</a>.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>You downloaded an official build or an open-source build of the OVA installer. For information about where to download the installer, see <a href="download_vic.html">Download the vSphere Integrated Containers Installer</a>.</li>
@@ -3194,7 +3268,7 @@
 <li>Obtain the vCenter Server certificate thumbprint. For information about how to obtain the certificate thumbprint, see <a href="obtain_thumbprint.html">Obtain vSphere Certificate Thumbprints</a>.</li>
 <li>If you intend to use a custom certificate for the vSphere Integrated Containers appliance, verify that the certificate meets the criteria described in <a href="appliance_cert_reqs.html">vSphere Integrated Containers Appliance Certificate Requirements</a>.</li>
 <li><p>If you use vCenter Server 6.7 update 1 or later, you can use the HTML5 vSphere Client to deploy the appliance. If you use an older version of vCenter Server, you must use the Flex-based vSphere Web Client to deploy the appliance. You cannot deploy OVA files from versions of the HTML5 vSphere Client that pre-date vCenter Server 6.7 update 1. </p>
-<p>  <strong>NOTE</strong>: Versions of the HTML5 client that pre-date 6.7 update 1 do not prevent you from deploying OVA files and deployment appears to succeed. However, the resulting appliance <a href="ts_reg_doesnt_start.html">does not function correctly due to an issue with the HTML5 client</a>. This issue is fixed in version 6.7 update 1 of the vSphere Client. </p>
+<p>  <strong>NOTE</strong>: Versions of the HTML5 client that pre-date 6.7 update 1 do not prevent you from deploying OVA files and deployment appears to succeed. However, the resulting appliance <a href="ts_reg_doesnt_start.html">does not function correctly due to an issue with the HTML5 client</a>. This issue is fixed in version 6.7 update 1 of the vSphere Client.</p>
 </li>
 </ul>
 <h2 id="procedure-1-deploy-the-ova">Procedure 1: Deploy the OVA</h2>
@@ -3212,7 +3286,7 @@
 </li>
 <li><p>On the <strong>Customize template</strong> page, expand <strong>Appliance Configuration</strong>.</p>
 <ul>
-<li>Set the root password for the appliance VM. Setting the root password for the appliance is mandatory. The root password cannot exceed 30 characters.</li>
+<li>Set the root password for the appliance VM. Setting the root password for the appliance is mandatory. In vSphere Integrated Containers 1.5.3 and later versions, the root password cannot exceed 128 characters. In earlier versions, the root password cannot exceed 30 characters.  </li>
 <li><p>Optionally uncheck the <strong>Permit Root Login</strong> checkbox.</p>
 <p><strong>IMPORTANT</strong>: You require SSH access to the vSphere Integrated Containers appliance to perform upgrades. You can also use SSH access in exceptional cases that you cannot handle through standard remote management or CLI tools. Only use SSH to access the appliance when instructed to do so in the documentation, or under the guidance of VMware GSS.</p>
 </li>
@@ -3272,6 +3346,13 @@ root_CA_certificate_contents
 </li>
 </ul>
 </li>
+<li><p>Expand the <strong>Syslog Configuration</strong> to optionally configure the Syslog server to forward the appliance logs. </p>
+<ul>
+<li>In the <strong>Remote Syslog Server</strong> text box, specify the IP address or host name of the Syslog server that you want to forward the appliance logs to. Leave this property blank if you do not want to forward the logs.</li>
+<li>In the <strong>Syslog server protocol</strong> property, specify the protocol used by the Syslog server to upload logs. The default protocol is <code>UDP</code>. You can also specify <code>TCP</code> as the protocol. If you specify <code>TCP</code>, the Syslog server must support the TCP protocol.</li>
+<li>In the <strong>Syslog Server Port</strong> textbox, specify the remote Syslog server  port. Default port is <code>514</code>.</li>
+</ul>
+</li>
 <li>Click <strong>Next</strong> and <strong>Finish</strong> to deploy the vSphere Integrated Containers appliance.</li>
 </ol>
 <h2 id="procedure-2-register-the-appliance-with-vcenter-server">Procedure 2: Register the Appliance with vCenter Server</h2>
@@ -3309,9 +3390,10 @@ root_CA_certificate_contents
 <li><p>Enter the root password for the vSphere Integrated Containers appliance, that you set when you deployed the OVA.</p>
 </li>
 <li><p>To automatically install the vSphere Integrated Containers plug-in for vSphere Client, leave the <strong>Install UI Plugin</strong> check box selected, and click <strong>Continue</strong>.</p>
-<p> <strong>NOTE</strong>: By default, in an environment in which multiple vSphere Integrated Containers are deployed to the same vCenter Server instance, the vSphere Integrated Containers plug-in connects to one appliance only. This appliance instance might not be the one that registered most recently with vCenter Server. Consequently, if there are older instances of the appliance registered with vCenter Server and you do not want the plug-in to automatically upgrade to the latest version, deselect the <strong>Install UI Plugin</strong> check box. You can see version information about the plug-in and the appliance in the Summary tab of the vSphere Integrated Containers plug-in. If you deselect the <strong>Install UI Plugin</strong> check box, you can install or upgrade the plug-in later. </p>
+<p> <strong>NOTE</strong>: By default, in an environment in which multiple vSphere Integrated Containers are deployed to the same vCenter Server instance, the vSphere Integrated Containers plug-in connects to one appliance only. This appliance instance might not be the one that registered most recently with vCenter Server. Consequently, if there are older instances of the appliance registered with vCenter Server and you do not want the plug-in to automatically upgrade to the latest version, deselect the <strong>Install UI Plugin</strong> check box. You can see version information about the plug-in and the appliance in the Summary     tab of the vSphere Integrated Containers plug-in. If you deselect the <strong>Install UI Plugin</strong> check box, you can install or upgrade the plug-in later. </p>
 </li>
-<li>Verify that the certificate thumbprint for vCenter Server is valid, and click <strong>Continue</strong> to complete the installation of the appliance.</li>
+<li><p>Verify that the certificate thumbprint for vCenter Server is valid, and click <strong>Continue</strong> to complete the installation of the appliance.</p>
+</li>
 </ol>
 <h2 id="result">Result</h2>
 <p>You see the vSphere Integrated Containers appliance welcome page. The appliance welcome page includes the following links: </p>
@@ -3375,7 +3457,7 @@ root_CA_certificate_contents
                 </a>
                 
                 
-                <a href="ova_reg_api.html" class="navigation navigation-next " aria-label="Next page: Appliance Registration API">
+                <a href="deploy_vic_appliance_ovftool.html" class="navigation navigation-next " aria-label="Next page: Deploy the Appliance Using VMware OVF Tool">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -3386,7 +3468,7 @@ root_CA_certificate_contents
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Deploy the Appliance","level":"3.1.2.2","depth":3,"next":{"title":"Appliance Registration API","level":"3.1.2.2.1","depth":4,"path":"vic_vsphere_admin/ova_reg_api.md","ref":"vic_vsphere_admin/ova_reg_api.md","articles":[]},"previous":{"title":"Download Installer","level":"3.1.2.1","depth":3,"path":"vic_vsphere_admin/download_vic.md","ref":"vic_vsphere_admin/download_vic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc-button","noembed","chapter-fold","insert-logo","edit-link","analytics"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"analytics":{"context":[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/assets/files/html/1.5/"]}]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"page-toc-button":{"maxTocDepth":2,"minTocSize":3},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/deploy_vic_appliance.md","mtime":"2019-04-15T11:00:15.709Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-04-15T11:27:33.101Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Deploy the Appliance","level":"3.1.2.2","depth":3,"next":{"title":"Deploy the Appliance Using VMware OVF Tool","level":"3.1.2.2.1","depth":4,"path":"vic_vsphere_admin/deploy_vic_appliance_ovftool.md","ref":"vic_vsphere_admin/deploy_vic_appliance_ovftool.md","articles":[]},"previous":{"title":"Download Installer","level":"3.1.2.1","depth":3,"path":"vic_vsphere_admin/download_vic.md","ref":"vic_vsphere_admin/download_vic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc-button","noembed","chapter-fold","insert-logo","edit-link","analytics"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"analytics":{"context":[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/assets/files/html/1.5/"]}]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"page-toc-button":{"maxTocDepth":2,"minTocSize":3},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/deploy_vic_appliance.md","mtime":"2019-06-27T08:09:36.681Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-04T07:35:00.415Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -440,7 +440,20 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.2.2.1" data-path="ova_reg_api.html">
+        <li class="chapter " data-level="3.1.2.2.1" data-path="deploy_vic_appliance_ovftool.html">
+            
+                <a href="deploy_vic_appliance_ovftool.html">
+            
+                    
+                    Deploy the Appliance Using VMware OVF Tool
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2.2.2" data-path="ova_reg_api.html">
             
                 <a href="ova_reg_api.html">
             
@@ -1430,7 +1443,20 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.3" data-path="reinitialize_appliance.html">
+        <li class="chapter " data-level="3.1.7.3" data-path="change_appliance_TLS_certs.html">
+            
+                <a href="change_appliance_TLS_certs.html">
+            
+                    
+                    Change Appliance TLS Certificates
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7.4" data-path="reinitialize_appliance.html">
             
                 <a href="reinitialize_appliance.html">
             
@@ -1444,7 +1470,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.7.3.1" data-path="retag_appliance.html">
+        <li class="chapter " data-level="3.1.7.4.1" data-path="retag_appliance.html">
             
                 <a href="retag_appliance.html">
             
@@ -1462,7 +1488,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.4" data-path="manual_register_psc.html">
+        <li class="chapter " data-level="3.1.7.5" data-path="manual_register_psc.html">
             
                 <a href="manual_register_psc.html">
             
@@ -1475,7 +1501,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.5" data-path="service_status.html">
+        <li class="chapter " data-level="3.1.7.6" data-path="service_status.html">
             
                 <a href="service_status.html">
             
@@ -1488,7 +1514,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.6" data-path="restart_services.html">
+        <li class="chapter " data-level="3.1.7.7" data-path="restart_services.html">
             
                 <a href="restart_services.html">
             
@@ -1501,7 +1527,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.7" data-path="ts_recover_password.html">
+        <li class="chapter " data-level="3.1.7.8" data-path="ts_recover_password.html">
             
                 <a href="ts_recover_password.html">
             
@@ -1514,7 +1540,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7.8" data-path="uninstall_vic.html">
+        <li class="chapter " data-level="3.1.7.9" data-path="uninstall_vic.html">
             
                 <a href="uninstall_vic.html">
             
@@ -1968,6 +1994,19 @@
             
         </li>
     
+        <li class="chapter " data-level="3.1.8.5.7" data-path="ts_dhcpip_error.html">
+            
+                <a href="ts_dhcpip_error.html">
+            
+                    
+                    Deployment of Container that supports DHCP Network Fails
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2005,16 +2044,48 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.8.7" data-path="ts_orphaned_cvms.html">
+        <li class="chapter " data-level="3.1.8.7" data-path="ts_upgrade_op.html">
             
-                <a href="ts_orphaned_cvms.html">
+                <a href="ts_upgrade_op.html">
             
                     
-                    Container VMs Orphaned After Upgrade
+                    Troubleshoot Upgrade Operation
             
                 </a>
             
 
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.8.7.1" data-path="ts_upgrade_customcerts.html">
+            
+                <a href="ts_upgrade_customcerts.html">
+            
+                    
+                    Certificates Not Copied
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8.7.2" data-path="ts_orphaned_cvms.html">
+            
+                <a href="ts_orphaned_cvms.html">
+            
+                    
+                    Container VMs Orphaned
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -3228,7 +3299,7 @@
     --id <i>vch_id</i>
     --registry-ca <i>path_to_new_ca_cert_for_existing_registry</i></pre>
 
-<p>If you are adding registry certificates to a VCH that already has one or more registry certificates, you must also specify each existing registry certificate in a separate instance of <code>--registry-ca</code>. This example passes the CA certificate for a new registry to a VCH and specifies the existing certificate for a registry that this VCH already uses.</p>
+<p>If you are adding registry certificates to a VCH that already has one or more registry certificates, you must also specify each existing registry certificate in a separate instance of <code>--registry-ca</code>. This is because the <code>--registry-ca</code> option replaces certificates instead of just adding them. This example passes the CA certificate for a new registry to a VCH and specifies the existing certificate for a registry that this VCH already uses.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_address</i>
     --user Administrator@vsphere.local
@@ -3243,13 +3314,13 @@
 <p>You can configure the security settings of a VCH by using the different TLS options of the <code>vic-machine configure</code> command.</p>
 <ul>
 <li>To configure TLS authentication with automatically generated certificates on a VCH that currently implements no TLS authentication, or to regenerate automatically generated certificates, use the <code>vic-machine configure --tls-cname</code> option.</li>
+<li>To configure the path to an existing <code>ca.pem</code> file for the custom CA that you use to sign client certificates. Include the filename in the path. You can specify <code>--tls-ca</code> multiple times.</li>
 <li>To configure TLS authentication with custom certificates on a VCH that currently implements no TLS authentication, or that uses automatically generated certificates, or to replace existing custom certificates, use the <code>vic-machine configure --tls-server-cert</code> and <code>--tls-server-key</code> options. </li>
 <li>To disable verification of client certificates, use the <code>vic-machine configure --no-tlsverify</code> option.</li>
 <li>To change the location in which to search for and store certificates, use the <code>vic-machine configure --tls-cert-path</code> option.</li>
 </ul>
 <p>The <code>vic-machine configure</code> TLS options function in the same way as the equivalent <code>vic-machine create</code> options. For information about the <code>vic-machine create</code> security options, see <a href="vch_security.html">Virtual Container Hosts Security</a>.</p>
-<p><strong>NOTE</strong>: The <code>vic-machine configure</code> command does not include an equivalent to <code>vic-machine create --tls-ca</code> option.</p>
-<p>This example  sets the <code>vic-machine configure --tls-cname</code> option to  implement TLS authentication with automatically generated server and client certificates. Before the configuration, the VCH either has no authentication or uses automatically generated certificates that you want to regenerate. The <code>--tls-cert-path</code> option specifies the folder in which to store the generated certificate.</p>
+<p>This example sets the <code>vic-machine configure --tls-cname</code> option to implement TLS authentication with automatically generated server and client certificates. Before the configuration, the VCH either has no authentication or uses automatically generated certificates that you want to regenerate. The <code>--tls-cert-path</code> option specifies the folder in which to store the generated certificate.</p>
 <pre>$ vic-machine-<i>operating_system</i> configure    
 -    --target <i>vcenter_server_address</i>
     --user Administrator@vsphere.local
@@ -3259,7 +3330,16 @@
 -    --tls-cname *.example.com    
 -    --tls-cert-path <i>path_to_cert_folder</i></pre>
 
-<p>This example  uses the <code>vic-machine configure --tls-server-cert</code> and <code>--tls-server-key</code> options to implement TLS authentication with custom certificates. Before the configuration, the VCH either has no TLS authentication, or it uses automatically generated certificates, or it uses custom certificates that require replacement. </p>
+<p>This example uses the <code>vic-machine configure --tls-cname</code> and the <code>--tls-ca</code> options to implement options for the custom CA that you use to sign client certificates. You must specify the <code>--tls-cname</code> option with the <code>--tls-ca</code> option when there is no static IP defined for the client network. </p>
+<pre>$ vic-machine-i&gt;operating_system configure 
+   --target w<i>vcenter_server_address</i>
+   --user Administrator@vsphere.local
+   --password &apos;<i>password</i> 
+   --thumbprint <i>certificate_thumbprint</i> 
+   --tls-ca <i>path_to_ca_file/</i>ca.pem 
+   --tls-cname <i>cname_from_server_cert</i></pre>
+
+<p>This example uses the <code>vic-machine configure --tls-server-cert</code> and <code>--tls-server-key</code> options to implement TLS authentication with custom certificates. Before the configuration, the VCH either has no TLS authentication, or it uses automatically generated certificates, or it uses custom certificates that require replacement. </p>
 <pre>$ vic-machine-<i>operating_system</i> configure
     --target <i>vcenter_server_address</i>
     --user Administrator@vsphere.local
@@ -3504,6 +3584,13 @@
 </pre>
 
 <p><strong>IMPORTANT</strong>: Before you run <code>vic-machine configure --reset-progress</code>, check in Recent Tasks in the vSphere Client that there are indeed no update or configuration operations in progress on the VCH endoint VM.</p>
+<h2 id="roll-back-to-previous-configuration">Roll Back to Previous Configuration</h2>
+<p>If the VCH configuration changes and you want to revert the changes, you can roll back the configuration to the previous settings by using the <code>--rollback</code> option. </p>
+<p>Before making changes to the configuration, <code>vic-machine configure</code> takes a snapshot of the existing VCH configuration. The configuration process deletes older snapshots of any previous settings. The <code>--rollback</code> option reverts the cofiguration of the VCH to the snapshot of the previous settings. Because <code>vic-machine configure</code> only retains one snapshot, you can only use <code>--rollback</code> to revert the VCH to the configuration that immediately precedes the most recent change.</p>
+<p>To revert the configuration to the previous settings, run <code>vic-machine configure</code> with the <code>--rollback</code> option.</p>
+<pre>$ vic-machine-<i>operating_system</i> configure --rollback</pre>
+
+<p><strong>Note</strong>: If you attempt to rollback a VCH that has been upgraded with <code>vic-machine upgrade</code> and has undergone a configuration change with <code>vic-machine configure</code>, you must run <code>vic-machine configure --rollback</code> to roll back the configuration to the previous settings before running <code>vic-machine upgrade --rollback</code> to roll the VCH back to its previous version.</p>
 <script src="_gitbook_plugin_analytics.js"></script>
                                 
                                 </section>
@@ -3547,7 +3634,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configure Running VCHs","level":"3.1.4.2.6","depth":4,"next":{"title":"Debug Running VCHs","level":"3.1.4.2.7","depth":4,"path":"vic_vsphere_admin/debug_vch.md","ref":"vic_vsphere_admin/debug_vch.md","articles":[{"title":"Enable Shell Access","level":"3.1.4.2.7.1","depth":5,"path":"vic_vsphere_admin/vch_shell_access.md","ref":"vic_vsphere_admin/vch_shell_access.md","articles":[]},{"title":"Authorize SSH Access","level":"3.1.4.2.7.2","depth":5,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]}]},"previous":{"title":"Obtain VCH Configuration Information","level":"3.1.4.2.5","depth":4,"path":"vic_vsphere_admin/inspect_vch_config.md","ref":"vic_vsphere_admin/inspect_vch_config.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc-button","noembed","chapter-fold","insert-logo","edit-link","analytics"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"analytics":{"context":[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/assets/files/html/1.5/"]}]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"page-toc-button":{"maxTocDepth":2,"minTocSize":3},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/configure_vch.md","mtime":"2019-04-15T11:00:15.693Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-04-15T11:27:33.101Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configure Running VCHs","level":"3.1.4.2.6","depth":4,"next":{"title":"Debug Running VCHs","level":"3.1.4.2.7","depth":4,"path":"vic_vsphere_admin/debug_vch.md","ref":"vic_vsphere_admin/debug_vch.md","articles":[{"title":"Enable Shell Access","level":"3.1.4.2.7.1","depth":5,"path":"vic_vsphere_admin/vch_shell_access.md","ref":"vic_vsphere_admin/vch_shell_access.md","articles":[]},{"title":"Authorize SSH Access","level":"3.1.4.2.7.2","depth":5,"path":"vic_vsphere_admin/vch_ssh_access.md","ref":"vic_vsphere_admin/vch_ssh_access.md","articles":[]}]},"previous":{"title":"Obtain VCH Configuration Information","level":"3.1.4.2.5","depth":4,"path":"vic_vsphere_admin/inspect_vch_config.md","ref":"vic_vsphere_admin/inspect_vch_config.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc-button","noembed","chapter-fold","insert-logo","edit-link","analytics"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"analytics":{"context":[{"token":"UA-133830113-1","base":["https://vmware.github.io/vic-product/assets/files/html/1.5/"]}]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"page-toc-button":{"maxTocDepth":2,"minTocSize":3},"noembed":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit this Page","base":"https://github.com/vmware/vic-product/tree/master/docs/user_doc"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none","url":"VMW_logo.png"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"VMware vSphere Integrated Containers 1.5 Documentation","gitbook":"3.x.x"},"file":{"path":"vic_vsphere_admin/configure_vch.md","mtime":"2019-06-12T08:41:03.268Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-04T07:35:00.415Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
