@@ -53,7 +53,7 @@ For the most up-to-date information about compatibility with vRealize Automation
 
 ### VMware vSphere High Availability <a id="ha"></a>
 
-You can apply vSphere High Availability to clusters on which VCHs and container VMs run. If the host on which a VCH or container VMs are running goes offline, the VCH and container VMs migrate to another host in the cluster. VCHs restart on the new host immediately. Container VMs that were running before the migration restart one by one, after the VCH has restarted. For more information about VCHs and High Availability, see [Backing Up Virtual Container Host Data](backup_vch.md).
+In vSphere Integrated Containers 1.5.4 and later, you can apply vSphere High Availability to clusters on which VCHs and container VMs run. If the host on which a VCH or container VMs are running goes offline, the VCH and container VMs migrate to another host in the cluster. VCHs restart on the new host immediately. Container VMs that were running before the migration restart one by one, after the VCH has restarted. For more information about VCHs and High Availability, see [Backing Up Virtual Container Host Data](backup_vch.md).
 
 ### vCenter Server High Availabilty
 
