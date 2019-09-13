@@ -84,6 +84,8 @@ You can also deploy the vSphere Integrated Containers Appliance using the `ovfto
     - To specify a fully qualified domain name (FQDN) for the appliance, set the **FQDN** setting. The appliance uses the FQDN to register with the Platform Services Controller and runs the Registry, Management Portal, and file server services at that FQDN. To use DHCP, leave this property blank. 
     - To specify one or more network time protocol (NTP) servers, set the **NTP Servers** setting. To use an NTP server provided by DHCP, leave this property blank. 
     - To configure the appliance to use proxies, and to identify hosts or domains that do not use proxies, set the **HTTP Proxy URL**, **HTTPS Proxy URL**, and **No Proxy List** settings.
+    
+     **NOTE**: If you intend to implement image scanning with Clair in vSphere Integrated Containers Registry, and if your environment uses proxies, you must set both of the HTTP and HTTPS proxy URL settings. You can set the same URL in both fields. This is because the Clair updater requires HTTPS.
 
 6. Expand **Registry Configuration** to configure the deployment of vSphere Integrated Containers Registry. 
 
