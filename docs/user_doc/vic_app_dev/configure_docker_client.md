@@ -2,7 +2,9 @@
 
 If your container development environment uses vSphere Integrated Containers, you must run Docker commands with the appropriate options, and configure your Docker client accordingly. 
 
-vSphere Integrated Containers Engine 1.5 supports Docker client 1.13.0. The supported version of the Docker API is 1.25.
+vSphere Integrated Containers 1.5.0 to 1.5.3 support Docker client 1.13.0. The supported version of the Docker API is 1.25. 
+
+vSphere Integrated Containers 1.5.4 and later versions support Docker client 18.09.6.
 
 - [Connecting to the VCH](#connectvch)
 - [Using Docker Environment Variables](#variables)

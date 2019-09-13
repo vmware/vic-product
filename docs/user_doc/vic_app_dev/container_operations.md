@@ -1,6 +1,8 @@
 # Supported Docker Commands
 
- vSphere Integrated Containers Engine 1.5 supports Docker client 1.13.0. The supported version of the Docker API is 1.25. 
+vSphere Integrated Containers 1.5.0 to 1.5.3 support Docker client 1.13.0. The supported version of the Docker API is 1.25. 
+
+vSphere Integrated Containers 1.5.4 and later versions support Docker client 18.09.6.
 
 - [Docker Management Commands](#mgmt)
 - [Image Commands](#image)
@@ -100,7 +102,9 @@ For more information about volume operations with vSphere Integrated Containers 
 
 ## Docker Compose Commands <a id="compose"></a>
 
-vSphere Integrated Containers Engine 1.5 supports Docker Compose version 1.11.2.
+vSphere Integrated Containers 1.5.0 to 1.5.3 support Docker Compose version 1.11.2.
+
+vSphere Integrated Containers 1.5.4 and later versions support Docker Compose version 1.24.0.
 
 For more information about using Docker Compose with vSphere Integrated Containers Engine, see [Creating a Containerized Application with vSphere Integrated Containers Engine](creating_containerized_app_with_vic.md).
 
