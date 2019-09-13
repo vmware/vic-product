@@ -100,7 +100,7 @@ For information about how to automatically generate a server certificate during 
 Custom server certificates for VCHs must meet the following requirements:
 
 - You must use an X.509 server certificate.
-- The Common Name (CN) in the server certificate must match the FQDN or  IP address of the system from which the Docker client accesses the server, or a wildcard domain that matches all of the FQDNs in a specific subdomain.
+- The Common Name (CN) in the server certificate must match the FQDN or IP address of the system from which the Docker client accesses the server, or a wildcard domain that matches all of the FQDNs in a specific subdomain.
 - Server certificates must have the following certificate usages:
   - `KeyEncipherment`
   - `DigitalSignature`
@@ -109,8 +109,6 @@ Custom server certificates for VCHs must meet the following requirements:
 - Server keys must not be encrypted. 
 
 If you use certificates that are not signed by a trusted certificate authority, container developers might require the server certificate when they run Docker commands in `--tlsverify` client mode. You can download the server certificate for a VCH from the vSphere Client. For information about downloading server certificates, see [View All VCH and Container Information in the HTML5 vSphere Client](access_h5_ui.md).
-
-For information about how to upload custom client certificates during VCH deployment, see the section [Server Certificates](vch_cert_options.md#server) in *Virtual Container Host Certificate Options*.
 
 ## VCH Client Certificate <a id="clientcert"></a>
 
@@ -128,16 +126,15 @@ For information about how to automatically generate a client certificate during 
 
 ### Custom Client Certificate <a id="clientcert"></a>
 
-For the VCH to trust the CA that you use to sign the client certificate, the CA must include the following elements:
+For the VCH to trust the CA that you use to sign the client certificate, the client certificate must include the following elements:
 
 - The name or address of the system from which the Docker client accesses the server in the subject or subject alternative name. This can be an FQDN or a wildcard domain.
 - Key usage in the v3 extensions that match the key usage chosen for the VCH server certificate:
   - `KeyEncipherment`
   - `KeyAgreement`
+  - `clientAuth`
 
 You cannot download client certificates for VCHs from the vSphere Client. vSphere administrators distribute client certificates directly.
-
-For information about how to upload custom client certificates during VCH deployment, see the section [Client Certificates](vch_cert_options.md#client) in *Virtual Container Host Certificate Options*.
 
 ## vSphere Integrated Containers Registry Root CA <a id="registry"></a>
 
