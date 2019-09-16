@@ -12,12 +12,14 @@ vSphere Integrated Containers depends on certain features that are available in 
 
 You can obtain open source builds of vSphere Integrated Containers Engine, vSphere Integrated Containers Portal, and vSphere Integrated Containers Registry, that have different levels of stability.
 
- * Download recent builds of the [vSphere Integrated Containers OVA installer](https://console.cloud.google.com/storage/browser/vic-product-ova-builds). Builds happen approximately weekly. You need a Google account to access these builds. 
+ * Download built binaries of the individual components. Builds usually happen after every successful merge into the source code. These builds have been minimally tested for integration.  You need a Google account to access these builds.  
+   * [vSphere Integrated Containers OVA installer](https://console.cloud.google.com/storage/browser/vic-product-ova-builds)
+   * [vSphere Integrated Containers Engine ](https://console.cloud.google.com/storage/browser/vic-engine-builds/) 
+   * [vSphere Integrated Containers UI ](https://console.cloud.google.com/storage/browser/vic-ui-builds/)
  * Download tagged open source software (OSS) versions of the vSphere Integrated Containers components that have been tested and released to the open source community, but that might not reflect the most up-to-date version of the code: 
    * [vSphere Integrated Containers Engine](https://github.com/vmware/vic/releases)
    * [vSphere Integrated Containers Registry](https://github.com/vmware/harbor/releases)
-   * [vSphere Integrated Containers Portal](https://github.com/vmware/admiral/releases)
- * Download built [vSphere Integrated Containers Engine binaries](https://console.cloud.google.com/storage/browser/vic-engine-builds/). Builds usually happen after every successful merge into the source code. These builds have been minimally tested for integration.  You need a Google account to access these builds. 
+   * [vSphere Integrated Containers Portal](https://github.com/vmware/admiral/releases)   
  * Build the latest source version of the vSphere Integrated Containers components:
    * [vSphere Integrated Containers Engine](https://github.com/vmware/vic/blob/master/README.md#building)
    * [vSphere Integrated Containers Registry](https://github.com/vmware/harbor/blob/master/README.md)
