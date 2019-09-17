@@ -126,10 +126,7 @@ For information about how to automatically generate a client certificate during 
 
 ### Custom Client Certificate <a id="clientcert"></a>
 
-For the VCH to trust the CA that you use to sign the client certificate, the client certificate must include the following elements:
-
-- The name or address of the system from which the Docker client accesses the server in the subject or subject alternative name. This can be an FQDN or a wildcard domain.
-- Key usage in the v3 extensions that match the key usage chosen for the VCH server certificate:
+Key usage in the v3 extensions that match the key usage chosen for the VCH server certificate:
   - `KeyEncipherment`
   - `KeyAgreement`
   - `clientAuth`
