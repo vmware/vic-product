@@ -142,7 +142,7 @@ You can configure the trust level of container networks. The following table des
 |`published`|Only connections to published ports is permitted.|
 |`open`|All traffic is permitted and developers can decide which ports to expose.|
 
-If you do not set a trust level, the default level of trust is `published`. As a consequence, if you do not set a trust level, container developers must explicitly specify `-p 80` in `docker run` and `docker create` commands to publish port 80 on a container. Obliging developers to specify the ports to expose improves security and gives you more awareness of your environment and applications. 
+If you do not set a trust level, the default level of trust is `published`. As a consequence, if you do not set a trust level, container developers must explicitly specify `-p 80` in `docker run` and `docker create` commands to publish port 80 on a container. Obliging developers to specify the ports to expose improves security and gives you more awareness of your environment and applications. To open ports on container networks when using the `published` firewall policy, use the `expose` option with Docker compose.
 
 You can use `vic-machine configure --container-network-firewall` to change the trust level after deployment of the VCH. For information about configuring container network firewalls, see *Configure Container Network Settings* in [Configure Running Virtual Container Hosts](configure_vch.md#containernet).
 
