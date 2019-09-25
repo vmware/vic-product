@@ -16,7 +16,7 @@ Core Maintainers
 * Steven Ren ([@renmaosheng](https://github.com/renmaosheng)), Engineering Manager
 * James Zabala ([@clouderati](https://github.com/clouderati)), Product Manager
 * Stuart Clements ([@stuclem](https://github.com/stuclem)), Technical Writer
-* Vidya Vasudevan ([@vidya-v](https://github.com/vidya-v)), Technical Writer
+* Vinod Isaac ([@VinodJIsaac](https://github.com/VinodJIsaac)), Technical Writer
 * George Hicken ([@hickeng](https://github.com/hickeng))
 * Jun Wang ([@wjun](https://github.com/wjun))
 * Yang Yu ([@yuyangbj](https://github.com/yuyangbj))
