@@ -1,6 +1,6 @@
 # Introduction to Containers, Docker, and Registries
 
-To understand vSphere Integrated Containers, you must first understand the main concepts of containers, Docker technnology, and container registries.
+To fully understand vSphere Integrated Containers, you must understand the main concepts of containers, Docker technnology, and container registries.
 
 ## General Education Resources <a id="resources"></a>
 
