@@ -30,6 +30,7 @@ RUN echo "> Installing photon base system in chroot, killing output to avoid off
     sed \
     vim \
     nano \
+    git \
     iptables-1.6.1-4.ph2 > /dev/null 2>&1
 
 #RUN ls -al /etc/
@@ -54,7 +55,7 @@ ENV TERM=linux \
 
 COPY --from=base /temp_chroot /
 
-RUN echo -e VMware@12345\\\nVMware@12345\\\n|passwd && \
+RUN echo -e 'VMware1!\nVMware1!\n'|passwd && \
 sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
 sed -i 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config && \
 sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && \
