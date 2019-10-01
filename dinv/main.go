@@ -49,10 +49,20 @@ func init() {
 	flag.StringVar(&storage, "storage", "overlay2", "Storage driver to use")
 	flag.StringVar(&insecureRegistry, "insecure-registry", "", "Enable insecure registry communication")
 	flag.StringVar(&vicIP, "vic-ip", "", "Set IP for automatic certificate creation")
-}	
+}
 
 func main() {
 	flag.Parse()
+
+	// Starting the sshd Daemon
+	ssh_cmd := exec.Command("/sbin/sshd")
+
+	ssh_cmd.Stdout = os.Stdout
+	ssh_cmd.Stderr = os.Stderr
+
+	if err := ssh_cmd.Run(); err != nil {
+		log.Fatal(err)
+	}
 
 	if os.Getenv("DEBUG") != "" {
 		log.Level = logrus.DebugLevel
@@ -158,5 +168,15 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// Starting the sshd Daemon
+
+	/* 	ssh_cmd := exec.Command("/sbin/sshd")
+
+	   	ssh_cmd.Stdout = os.Stdout
+	   	ssh_cmd.Stderr = os.Stderr
+
+	   	if err := ssh_cmd.Run(); err != nil {
+	   		log.Fatal(err)
+	   	} */
 	os.Exit(0)
 }
