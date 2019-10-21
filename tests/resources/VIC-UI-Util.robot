@@ -71,8 +71,6 @@ Download VIC And Install UI Plugin
     #restart service to make registration sucessful for next steps
     Execute Command And Return Output  service-control --stop vsphere-ui
     Execute Command And Return Output  service-control --start vsphere-ui
-    Execute Command And Return Output  service-control --stop vsphere-client
-    Execute Command And Return Output  service-control --start vsphere-client
     Close Connection
 
 VIC UI OVA Setup
@@ -80,7 +78,7 @@ VIC UI OVA Setup
     Set Environment Variable  DRONE_BUILD_NUMBER  0
     ${ova-name}=  Get Test OVA Name
     Set Environment Variable  OVA_NAME  ${ova-name}
-    Set Environment Variable  DOMAIN              eng.vmware.com
+    Set Environment Variable  DOMAIN    eng.vmware.com
     
     Setup Simple VC And Test Environment with Shared iSCSI Storage
     Global Environment Setup

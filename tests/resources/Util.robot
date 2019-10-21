@@ -141,5 +141,4 @@ Execute Command And Return Output
     ...           return_stdout=${true}  return_rc=${true}
     Log  ${output}
     Should Be Equal As Integers  ${rc}  0
-    [Return]  ${output}
-    
+    [Return]  ${output}   
