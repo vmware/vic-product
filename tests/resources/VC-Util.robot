@@ -79,18 +79,16 @@ Get PSC Instance
     Open Connection  ${vc-ip}
     Wait Until Keyword Succeeds  10x  5s  Login  ${vc-root-user}  ${vc-root-pwd}
 
-    ${psc}=  Execute Command And Return Output  /usr/lib/vmware-vmafd/bin/vmafd-cli get-ls-location --server-name localhost | awk -F/ '{print $3}'
+    ${psc}=  Execute Command And Return Output  /usr/lib/vmware-vmafd/bin/vmafd-cli get-ls-location --server-name localhost | awk -F/ '{print $3}' | cut -d : -f 1
 
-    ${rc}  ${output}=  Run And Return Rc And Output  govc about -u=%{TEST_URL}
-    Log  ${output}
-    Should Be Equal As Integers  ${rc}  0
-    ${status}=  Run Keyword And Return Status  Should Contain  ${output}  6.0  6.5  6.7.1
-    ${psc}=  Run Keyword If  ${status} == ${False}  Execute Command And Return Output  /usr/lib/vmware-vmafd/bin/vmafd-cli get-ls-location --server-name localhost | awk -F/ '{print $3}' | cut -d : -f 1
-    ...      ELSE  Set Variable  ${psc}  
- 
     Close Connection
 
     [Return]  ${psc}
+
+Get VC Api Version
+    ${rc}  ${apiVersion}=  Run And Return Rc And Output  govc about -u=%{TEST_URL} --json | jq -r ".About.ApiVersion"
+    Should Be Equal As Integers  ${rc}  0
+    [Return]  ${apiVersion}   
 
 Gather All vSphere Logs
     ${hostList}=  Run  govc ls -t HostSystem host/cls | xargs
