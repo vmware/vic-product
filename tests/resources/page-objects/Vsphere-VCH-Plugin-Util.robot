@@ -46,8 +46,8 @@ Navigate To Summary Tab
 
 Navigate To VCH Tab
     Log To Console  Navigating to VCH tab...
-    Wait Until Element Is Visible And Enabled  css=ul.nav.nav-tabs > li:nth-child(2)
-    Click Element  css=ul.nav.nav-tabs > li:nth-child(2)
+    Wait Until Element Is Visible And Enabled  xpath://*[contains(text(),'Virtual Container Hosts')]
+    Click Element  xpath://*[contains(text(),'Virtual Container Hosts')]
 
     Wait Until Element Is Visible And Enabled  ${vic-home-iframe}
     Select Frame  ${vic-home-iframe}
@@ -212,7 +212,6 @@ Create VCH using UI And Set Docker Parameters
 
 Test Create VCH Using UI
     [Arguments]  ${test-name}  ${datastore}  ${bridge-network}  ${public-network}  ${ops-user}  ${ops-pwd}  ${tree-node}=1
-    Navigate To VCH Tab
     Click New Virtual Container Host Button
 
     #general
