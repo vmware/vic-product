@@ -1,0 +1,7 @@
+/var/log/cron {
+    size 200M
+    rotate 5
+    compress
+    delaycompress
+    missingok
+}
