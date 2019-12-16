@@ -78,6 +78,11 @@
   },
   {
     "type": "file",
+    "source": "scripts/appliance/appliance-logrotate",
+    "destination": "/etc/logrotate.d/appliance"
+  },
+  {
+    "type": "file",
     "source": "scripts/harbor/harbor.service",
     "destination": "/usr/lib/systemd/system/harbor.service"
   },
