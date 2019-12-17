@@ -63,7 +63,7 @@ pipeline:
     secrets:
       - github_automation_api_key
     commands:
-      - npm config set proxy http://proxy.vmware.com:3128 && cd installer/fileserver/test && npm install && npm test
+      - cd installer/fileserver/test && npm --registry http://build-artifactory.eng.vmware.com/artifactory/api/npm/npm install && npm test
     when:
       status: success
 
@@ -407,7 +407,7 @@ pipeline:
     secrets:
       - github_automation_api_key
     commands:
-      - npm config set proxy http://proxy.vmware.com:3128 && tests/auto_published_docs.sh
+      - npm config set registry http://build-artifactory.eng.vmware.com/artifactory/api/npm/npm && tests/auto_published_docs.sh
     when:
       repo: vmware/vic-product
       event: [push]
