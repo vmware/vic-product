@@ -63,7 +63,7 @@ pipeline:
     secrets:
       - github_automation_api_key
     commands:
-      - cd installer/fileserver/test && npm --registry http://build-artifactory.eng.vmware.com/artifactory/api/npm/npm install && npm test
+      - cd installer/fileserver/test && node -v && npm -v && npm install --registry http://build-artifactory.eng.vmware.com/artifactory/api/npm/npm && npm test
     when:
       status: success
 
