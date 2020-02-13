@@ -61,10 +61,10 @@
   version = "v1.1.0"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/davecgh/go-xdr"
+  branch = "improvements"
+  name = "github.com/rasky/go-xdr"
   packages = ["xdr2"]
-  revision = "e6a2ba005892b6a5b27cb5352f64c2e96942dd28"
+  revision = "4930550ba2e22f87187498acfd78348b15f4e7a8"
 
 [[projects]]
   name = "github.com/docker/docker"
