@@ -19,6 +19,7 @@ Suite Setup  Nimbus Suite Setup  Enhanced Link Mode Setup
 Suite Teardown  Run Keyword And Ignore Error  Nimbus Pod Cleanup  ${nimbus_pod}  ${testbedname}
 Test Teardown  Run Keyword If  '${TEST STATUS}' != 'PASS'  Collect Appliance and VCH Logs  ${VCH-NAME}
 Test Timeout  90 minutes
+Force Tags  vsphere70-not-support
 
 *** Keywords ***
 Enhanced Link Mode Setup
