@@ -47,6 +47,8 @@ To deploy to a vCenter Server instance that has multiple standalone hosts that a
 
 To deploy to a vCenter Server with multiple clusters, specify the name of the target cluster: <pre>--compute-resource <i>cluster_name</i></pre>
 
+To deploy to a vCenter Server when the cluster is under a folder, specify the full path to the cluster: <pre>--compute-resource <i>/Campus/host/TBE/IT-TBE-3PAR-01/SE-TBE-HP-BC-02</i></pre>
+
 To deploy to a specific resource pool on a standalone host that is managed by vCenter Server, or to a specific resource pool in a cluster, if the resource pool name is unique across all hosts and clusters, specify the name of the resource pool:<pre>--compute-resource <i>resource_pool_name</i></pre>
 
 To deploy to a specific resource pool on a standalone host that is managed by vCenter Server, if the resource pool name is not unique across all hosts, specify the IPv4 address or FQDN of the target host and name of the resource pool:<pre>--compute-resource <i>host_name</i>/<i>resource_pool_name</i></pre>
