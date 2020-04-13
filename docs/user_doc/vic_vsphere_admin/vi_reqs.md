@@ -14,8 +14,10 @@ All of the ESXi hosts in a cluster require an appropriate license. Deployment of
 
 You deploy the vSphere Integrated Containers appliance on a vCenter Server instance. Deploying the appliance directly on an ESXi host is not supported.
 
-- vCenter Server 6.5, 6.7, 6.7 update 1, or 6.7 update 2.
-- ESXi 6.5, or 6.7 for all hosts.
+- vSphere Integrated Containers 1.5.5: 6.7 vCenter Server update 3, 7.0
+- vSphere Integrated Containers 1.5.0-1.5.4: vCenter Server 6.5, 6.7, 6.7 update 1, or 6.7 update 2.
+- vSphere Integrated Containers 1.5.5: ESXi 6.7, 7.0 for all hosts.
+- vSphere Integrated Containers 1.5.0-1.5.4: ESXi 6.5, or 6.7 for all hosts.
 - At least 2 vCPUs.
 - At least 8GB RAM.
 - At least 80GB free disk space on the datastore. The disk space for the appliance uses thin provisioning.
