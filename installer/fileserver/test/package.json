@@ -11,7 +11,7 @@
     "jasmine": "^3.1.0",
     "jasmine-jquery": "^2.1.1",
     "jasmine-spec-reporter": "^4.2.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "karma": "^4.4.1",
     "karma-chrome-launcher": "~2.2.0",
     "karma-cli": "^2.0.0",
