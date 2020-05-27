@@ -19,10 +19,10 @@ import (
 )
 
 func GetTLSServerConfig(cert tls.Certificate) *tls.Config {
-	// forcing tls 1.1, cipher from https://github.com/denji/golang-tls#perfect-ssl-labs-score-with-go
+	// forcing tls 1.2, cipher from https://github.com/denji/golang-tls#perfect-ssl-labs-score-with-go
 	// and https://wiki.mozilla.org/Security/TLS_Configurations#Go
 	return &tls.Config{
-		MinVersion:               tls.VersionTLS11,
+		MinVersion:               tls.VersionTLS12,
 		CurvePreferences:         []tls.CurveID{tls.CurveP521, tls.CurveP384, tls.CurveP256},
 		PreferServerCipherSuites: true,
 		CipherSuites: []uint16{
