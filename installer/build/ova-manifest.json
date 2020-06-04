@@ -102,6 +102,11 @@
   },
   {
     "type": "file",
+    "source": "scripts/harbor/cleanup_redis_cache.sh",
+    "destination": "/etc/vmware/harbor/cleanup_redis_cache.sh"
+  },
+  {
+    "type": "file",
     "source": "scripts/upgrade/upgrade.sh",
     "destination": "/etc/vmware/upgrade/upgrade.sh"
   },

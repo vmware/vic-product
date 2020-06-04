@@ -16,6 +16,7 @@ ExecStartPre=-/usr/bin/docker rm dch-push
 ExecStartPre=/usr/bin/bash /etc/vmware/harbor/configure_harbor.sh
 ExecStartPre=/usr/bin/python /etc/vmware/harbor/prepare --conf /storage/data/harbor/harbor.cfg --with-notary --with-clair
 ExecStart=/etc/vmware/harbor/start_harbor.sh
+ExecStartPost=/etc/vmware/harbor/cleanup_redis_cache.sh
 ExecStop=/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml down -v
 ExecStopPost=/usr/local/bin/docker-compose -f /etc/vmware/harbor/docker-compose.yml -f /etc/vmware/harbor/docker-compose.notary.yml -f /etc/vmware/harbor/docker-compose.clair.yml rm -f
 
