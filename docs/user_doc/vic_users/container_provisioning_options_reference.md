@@ -45,7 +45,7 @@ Configure the following settings:
 
     For example, enter **Host** as `pgdata` and **Container** as `/var/lib/postgresql/data`.
 
-- **Read Only**. Select this option to configure your volume as read only. For example, if you have an application that contains a Web and database service and the Web service shares its volume with the database service, you might want to configure the volume as read only.
+- **Read Only**. This option is not supported by virtual container hosts. Do not select this option.
 - **Volumes From**. A list of volumes to inherit from another container.
 - **Working Directory**. The working directory for the commands to run in.
 
