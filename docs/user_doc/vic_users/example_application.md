@@ -30,7 +30,6 @@ Perform the following steps:
     2. **Port Bindings**. Enter `8080` for **Host Port** and `80` for **Container Port**.
     2. **Networks**. Select `web`.
 2. On the Storage tab, in **Volumes**, enter `webapp` for **Host** and `/usr/local/tomcat/webapps` for **Container**.
-2. On the Policy tab, select `Always` as the **Restart Policy**.
 1. Click **Add** to add the container. 
 
 Once you configure the two containers, they appear in the Edit Template page.
