@@ -121,7 +121,7 @@ pipeline:
     privileged: true
     environment:
       TERM: xterm
-      ADMIRAL: v1.5.5
+      ADMIRAL: dev
       HARBOR: https://github.com/goharbor/harbor/releases/download/v1.7.7-rc1/harbor-offline-installer-v1.7.7-rc1.tgz
     secrets:
       - admiral
