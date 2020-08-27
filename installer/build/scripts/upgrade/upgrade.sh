@@ -65,6 +65,7 @@ VER_1_5_1="v1.5.1"
 VER_1_5_2="v1.5.2"
 VER_1_5_3="v1.5.3"
 VER_1_5_4="v1.5.4"
+VER_1_5_5="v1.5.5"
 
 function usage {
     echo -e "Usage: $0 [args...]
@@ -89,7 +90,7 @@ function usage {
       [--appliance-username value]:    Username of the old appliance. (Ignored if --manual-disks is specified.)
       [--appliance-password value]:    Password of the old appliance. (Ignored if --manual-disks is specified.)
       [--appliance-target value]:      IP Address of the old appliance. (Ignored if --manual-disks is specified.)
-      [--appliance-version value]:     Version of the old appliance. v1.2.1, v1.3.0, v1.3.1, v1.4.0, v1.4.1, v1.4.2, v1.4.3, v1.4.4, v1.5.0 v1.5.1 v1.5.2 v1.5.3 or v1.5.4.
+      [--appliance-version value]:     Version of the old appliance. v1.2.1, v1.3.0, v1.3.1, v1.4.0, v1.4.1, v1.4.2, v1.4.3, v1.4.4, v1.5.0 v1.5.1 v1.5.2 v1.5.3 v1.5.4 or v1.5.5.
 
       [--destroy]:                     Destroy the old appliance after upgrade is finished. (Ignored if --manual-disks is specified.)
       [--manual-disks]:                Skip the automated govc disk migration.
@@ -239,7 +240,7 @@ function proceedWithUpgrade {
   checkUpgradeStatus "VIC Appliance" ${appliance_upgrade_status}
   local ver="$1"
 
-  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ] || [ "$ver" == "$VER_1_4_0" ] || [ "$ver" == "$VER_1_4_1" ] || [ "$ver" == "$VER_1_4_2" ] || [ "$ver" == "$VER_1_4_3" ] || [ "$ver" == "$VER_1_4_4" ] || [ "$ver" == "$VER_1_5_0" ] || [ "$ver" == "$VER_1_5_1" ] || [ "$ver" == "$VER_1_5_2" ] || [ "$ver" == "$VER_1_5_3" ] || [ "$ver" == "$VER_1_5_4" ]; then
+  if [ "$ver" == "$VER_1_2_1" ] || [ "$ver" == "$VER_1_3_0" ] || [ "$ver" == "$VER_1_3_1" ] || [ "$ver" == "$VER_1_4_0" ] || [ "$ver" == "$VER_1_4_1" ] || [ "$ver" == "$VER_1_4_2" ] || [ "$ver" == "$VER_1_4_3" ] || [ "$ver" == "$VER_1_4_4" ] || [ "$ver" == "$VER_1_5_0" ] || [ "$ver" == "$VER_1_5_1" ] || [ "$ver" == "$VER_1_5_2" ] || [ "$ver" == "$VER_1_5_3" ] || [ "$ver" == "$VER_1_5_4" ] || [ "$ver" == "$VER_1_5_5" ]; then
     log ""
     log "Detected old appliance's version as $ver."
 
