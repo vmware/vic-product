@@ -6,7 +6,7 @@
     "test": "karma start"
   },
   "author": "meinaz@vmware.com",
-  "license": "ISC",
+  "license": "ISC", 
   "devDependencies": {
     "jasmine": "^3.1.0",
     "jasmine-jquery": "^2.1.1",
