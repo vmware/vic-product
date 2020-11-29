@@ -19,12 +19,6 @@ Test Timeout  20 minutes
 Test Setup  Run Keyword  Setup Base State
 Test Teardown  Close All Browsers
 
-*** Variables ***
-${busybox-docker-image-name}  registry.hub.docker.com/library/busybox
-${busybox-docker-image-tag}  latest
-${sample-command-exit}  ls
-${cp-card-status-stopped}  STOPPED
-
 *** Keywords ***
 Setup Base State
     Sleep  3 minutes
@@ -46,7 +40,6 @@ Add VCH to default project and create a container
     Navigate To Containers Page
     Select Containers Page Iframe
     Verify Containers Page
-    Provision And Verify New Container  ${busybox-docker-image-name}  ${busybox-docker-image-tag}  ${sample-command-exit}  ${cp-card-status-stopped}
     Unselect Containers Page Iframe
 
     Delete VCH Card  ${vch-name}
