@@ -17,7 +17,7 @@ Documentation  This resource provides any keywords related to VIC Product OVA
 Resource  ../resources/Util.robot
 
 *** Variables ***
-${busybox}=  busybox
+${busybox}=  gcr.io/eminent-nation-87317/busybox
 ${sample-image-tag}=  test
 
 *** Keywords ***

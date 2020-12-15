@@ -20,7 +20,7 @@ Test Setup  Run Keyword  Setup Base State
 Test Teardown  Close All Browsers
 
 *** Variables ***
-${sample-image-name}  busybox
+${sample-image-name}  gcr.io/eminent-nation-87317/busybox
 ${sample-image-tag}  test
 ${sample-command-exit}  ls
 ${card-status-stopped}  STOPPED

@@ -122,7 +122,7 @@ pipeline:
     environment:
       TERM: xterm
       ADMIRAL: v1.5.6
-      HARBOR: https://github.com/goharbor/harbor/releases/download/v1.7.7/harbor-offline-installer-v1.7.7.tgz
+      HARBOR: https://github.com/goharbor/harbor/releases/download/v1.7.8-rc1/harbor-offline-installer-v1.7.8-rc1.tgz
     secrets:
       - admiral
       - build_admiral_release
@@ -131,6 +131,8 @@ pipeline:
       - vic_machine_server
       - vicengine
       - gs_token_key
+      - docker_user
+      - docker_password
     volumes:
       - '/dev:/dev'
       - '/var/run/docker.sock:/var/run/docker.sock'
@@ -417,7 +419,7 @@ pipeline:
 services:
 
   selenium-grid-hub:
-    image: 'selenium/hub:3.7.1'
+    image: 'selenium/hub:3.8.1'
     ports:
       - '4444:4444'
     environment:
@@ -425,7 +427,7 @@ services:
       - GRID_BROWSER_TIMEOUT=180000
 
   selenium-node-firefox-1:
-    image: 'selenium/node-firefox:3.7.1'
+    image: 'selenium/node-firefox:3.8.1'
     environment:
       SE_OPTS: '-port 4445'
       HUB_PORT_4444_TCP_ADDR: selenium-grid-hub
@@ -433,7 +435,7 @@ services:
       DISPLAY: ':97.0'
 
   selenium-node-firefox-2:
-    image: 'selenium/node-firefox:3.7.1'
+    image: 'selenium/node-firefox:3.8.1'
     environment:
       SE_OPTS: '-port 4446'
       HUB_PORT_4444_TCP_ADDR: selenium-grid-hub
@@ -441,7 +443,7 @@ services:
       DISPLAY: ':98.0'
 
   selenium-node-firefox-3:
-    image: 'selenium/node-firefox:3.7.1'
+    image: 'selenium/node-firefox:3.8.1'
     environment:
       SE_OPTS: '-port 4447'
       HUB_PORT_4444_TCP_ADDR: selenium-grid-hub

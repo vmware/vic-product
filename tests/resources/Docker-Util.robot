@@ -18,7 +18,7 @@ Library  OperatingSystem
 Library  Process
 
 *** Variables ***
-${busybox}  busybox
+${busybox}  gcr.io/eminent-nation-87317/busybox
 
 *** Keywords ***
 # The local dind version is embedded in Dockerfile

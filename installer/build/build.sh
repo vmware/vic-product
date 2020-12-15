@@ -75,6 +75,8 @@ elif [ "$step" == "ova-ci" ]; then
   export DRONE_BUILD_NUMBER=${DRONE_BUILD_NUMBER}
   export DRONE_BUILD_EVENT=${DRONE_BUILD_EVENT}
   export DRONE_DEPLOY_TO=${DRONE_DEPLOY_TO}
+  echo "login to docker hub..."
+  docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
   ./build/build-ova.sh $*
 else
   usage
