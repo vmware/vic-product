@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-curl -s https://api.github.com/repos/vmware/vic-product/commits?access_token=$GITHUB_AUTOMATION_API_KEY | jq -r ".[].sha" | xargs -n1 -I{} curl -s https://api.github.com/repos/vmware/vic-product/statuses/{}?access_token=$GITHUB_AUTOMATION_API_KEY | jq -r ".[-0].state" > status.out
+curl -s -H "Authorization: token $GITHUB_AUTOMATION_API_KEY" https://api.github.com/repos/vmware/vic-product/commits | jq -r ".[].sha" | xargs -n1 -I{} curl -s -H "Authorization: token $GITHUB_AUTOMATION_API_KEY" https://api.github.com/repos/vmware/vic-product/statuses/{} | jq -r ".[-0].state" > status.out
 
 failures=$(cat status.out | grep -c failure)
 echo "Number of failed merges to master in the last 30 merges: $failures"
