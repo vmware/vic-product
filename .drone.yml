@@ -48,8 +48,7 @@ pipeline:
     secrets:
       - github_automation_api_key
     commands:
-      - echo ${DRONE_COMMIT_AUTHOR}
-      - /bin/bash -c '[[ ! $(curl --silent "https://api.github.com/orgs/vmware/members/${DRONE_COMMIT_AUTHOR}?access_token=$GITHUB_AUTOMATION_API_KEY") ]]'
+      - tests/check-org-membership.sh
     when:
       status: success
 
