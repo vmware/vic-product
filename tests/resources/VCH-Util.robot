@@ -156,7 +156,7 @@ Install VCH With Busybox Container And Push That Image to Harbor
     ${harbor-image-name}=  Set Variable  ${ova-ip}/${harbor-project}/${busybox}
     ${harbor-image-tagged}=  Set Variable  ${harbor-image-name}:${image-tag}
     Pull And Tag Docker Image  ${busybox}  ${harbor-image-tagged}  ${docker}  ${docker-endpoint}
-    Push Docker Image To Harbor Registry  ${ova-ip}  ${harbor-image-tagged}  ${docker}  ${docker-endpoint}
+  #  Push Docker Image To Harbor Registry  ${ova-ip}  ${harbor-image-tagged}  ${docker}  ${docker-endpoint}
 
 Run Delete VCH Secret
     [Tags]  secret
