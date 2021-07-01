@@ -24,6 +24,10 @@ warrow="\033[0;00;97m=>\033[0m"
 barrow="\033[0;00;94m=>\033[0m"
 yarrow="\033[0;00;93m=>\033[0m"
 
+buildimages=(
+  "vmware/fileserver:${BUILD_OVA_REVISION},fileserver/Dockerfile,."
+)
+
 # cache docker images
 images=(
   vmware/admiral:vic_${BUILD_ADMIRAL_REVISION}
@@ -95,6 +99,26 @@ function cacheOther() {
   timecho "${warrow} saved all downloads"
 }
 
+function buildImages() {
+  timecho "${warrow} building container images"
+  mkdir -p ${CACHE}/docker/
+  for params in "${buildimages[@]}"; do
+    img=$(echo "${params}" | awk -F',' '{print $1}')
+    docker_file=$(echo "${params}" | awk -F',' '{print $2}')
+    context=$(echo "${params}" | awk -F',' '{print $3}')
+    timecho "${barrow} building ${brprpl}${img}${reset}"
+    docker build --no-cache -t ${img} -f ${docker_file} ${context}
+
+    archive="${CACHE}/docker/$(echo "${img##*/}" | tr ':' '-').tar.gz"
+    timecho "${yarrow} saving ${brprpl}${archive##*/}${reset}"
+    docker save "$img" | gzip > "$archive"
+
+    timecho "${warrow} ${img} details \n$(docker images --digests -f "dangling=false" --format "tag: {{.Tag}}, digest: {{.Digest}}, age: {{.CreatedSince}}" $(echo ${img} | cut -d ':' -f1))\n"
+  done
+
+  timecho "${warrow} built all images"
+}
+
 function usage() {
 timecho "Usage: $0 -c cache-directory" 1>&2
 exit 1
@@ -124,3 +148,4 @@ fi
 
 cacheImages
 cacheOther
+buildImages
