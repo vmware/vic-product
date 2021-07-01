@@ -82,7 +82,7 @@ ERROR op=363.7: dial tcp <i>nfs_server</i>:111: getsockopt: connection refused
 After you deploy a VCH, you can test that an NFS share point is configured correctly so that containers can access it by running the following commands:
 
 <pre>docker volume create --name test --opt VolumeStore=nfs
-docker run -it test:/mnt/test alpine /bin/ash</pre>
+docker run -it -v test:/mnt/test alpine /bin/ash</pre>
 
 You can also test the configuration mounting the NFS share point directly in the VCH endpoint VM. For information about how to perform this test, see [Install Packages in the Virtual Container Host Endpoint VM](vch_install_packages.md) and [Mount an NFS Share Point in the VCH Endpoint VM](vch_mount_nfsshare.md).
 
