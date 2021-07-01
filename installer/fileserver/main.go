@@ -47,6 +47,7 @@ type serverConfig struct {
 	installerPort  string
 	vicTarName     string
 	logLevel       string
+	logPath        string
 }
 
 type serverRoute struct {
@@ -70,6 +71,7 @@ func parseServerConfig(op trace.Operation, conf *serverConfig) {
 	flag.StringVar(&conf.keyPath, "key", "", "Path to server certificate key in PEM format")
 	flag.StringVar(&conf.serveDir, "dir", "/opt/vmware/fileserver", "Directory to serve and contain html data")
 	flag.StringVar(&conf.logLevel, "level", "debug", "Set's the log level to [info|debug|warning]; defaults to debug")
+	flag.StringVar(&conf.logPath, "path", "/var/log/fileserver", "Path to log directory; defaults to /var/log/fileserver")
 	flag.Parse()
 
 	routes.SetRenderPath(conf.serveDir)
@@ -83,11 +85,23 @@ func parseServerConfig(op trace.Operation, conf *serverConfig) {
 		trace.Logger.Level = log.DebugLevel
 	}
 
+	var err error
+
+	if _, err := os.Stat(conf.logPath); os.IsNotExist(err) {
+		os.MkdirAll(conf.logPath, 0700)
+	}
+	logPath := filepath.Join(conf.logPath, "fileserver.log")
+	logFile, err := os.OpenFile(logPath, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0600)
+	if err != nil {
+		log.Errorf("Failed to open log file %s: %s", logPath, err)
+		os.Exit(1)
+	}
+	trace.Logger.Out = logFile
+
 	if (conf.certPath == "" && conf.keyPath != "") || (conf.certPath != "" && conf.keyPath == "") {
 		op.Errorf("Both certificate and key must be specified")
 	}
 
-	var err error
 	if conf.certPath != "" {
 		op.Infof("Loading certificate %s and key %s", conf.certPath, conf.keyPath)
 		conf.cert, err = tls.LoadX509KeyPair(conf.certPath, conf.keyPath)
