@@ -218,7 +218,7 @@ Deploy Nimbus Testbed
     \    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=${personal_user} nimbus-testbeddeploy --lease 0.25 ${specarg} ${args}
     \    Log  ${out}
     \    # Make sure the deploy actually worked
-    \    ${status}=  Run Keyword And Return Status  Should Contain  ${out}  "deployment_result"=>"PASS"
+    \    ${status}=  Run Keyword And Return Status  Should Contain  ${out}  END TESTBED DEPLOYMENT
     \    Run Keyword If  ${status} and '${spec}' != '${EMPTY}'  Execute Command  rm -rf ./%{BUILD_TAG}/testbeds/${spec}-${suffix}
     \    Return From Keyword If  ${status}  ${out}
     \    Log To Console  Nimbus deployment ${index} failed, trying again in 1 minute
@@ -229,7 +229,7 @@ Deploy Nimbus Testbed
     \   ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=${personal_user} nimbus-testbeddeploy --lease 0.25 ${specarg} ${args}
     \   Log  ${out}
     \   # Make sure the deploy actually worked
-    \   ${status}=  Run Keyword And Return Status  Should Contain  ${out}  "deployment_result"=>"PASS"
+    \   ${status}=  Run Keyword And Return Status  Should Contain  ${out}  END TESTBED DEPLOYMENT
     \   Return From Keyword If  ${status}  ${out}
     \   Log To Console  Nimbus deployment ${index} failed, trying again in 1 minute
     \   Sleep  1 minutes

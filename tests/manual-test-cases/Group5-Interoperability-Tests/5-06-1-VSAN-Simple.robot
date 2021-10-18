@@ -28,7 +28,6 @@ Simple VSAN Setup
     Set Suite Variable  ${user}  %{NIMBUS_PERSONAL_USER}
     ${out}=  Deploy Nimbus Testbed  spec=vic-vsan.rb  args=--plugin testng --noSupportBundles --vcvaBuild "${VC_VERSION}" --esxPxeDir "${ESX_VERSION}" --esxBuild "${ESX_VERSION}" --testbedName vic-vsan-simple-pxeBoot-vcva --runName ${name}
     Log  ${out}
-    Should Contain  ${out}  "deployment_result"=>"PASS"
 
     ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
     ${vc_ip}=  Fetch From Right  ${out}  ${SPACE}
