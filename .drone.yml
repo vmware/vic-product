@@ -39,7 +39,7 @@ pipeline:
 
 
   check-org-membership:
-    image: 'wdc-harbor-ci.eng.vmware.com/default-project/vic-integration-test:1.44'
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
     pull: true
     environment:
       BIN: bin
@@ -224,7 +224,7 @@ pipeline:
 
   bundle-logs:
     group: post-build
-    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.37'
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
     pull: true
     environment:
       SHELL: /bin/bash
@@ -387,7 +387,7 @@ pipeline:
 
   pass-rate:
     group: post-build
-    image: 'wdc-harbor-ci.eng.vmware.com/default-project/vic-integration-test:1.44'
+    image: 'gcr.io/eminent-nation-87317/vic-integration-test:1.48'
     pull: true
     environment:
       BIN: bin
