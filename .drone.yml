@@ -162,7 +162,7 @@ pipeline:
     volumes:
       - /tmp
     commands:
-      - 'pybot -d robot-logs/ova-setup-logs -s OVA-Setup tests/common-ova'
+      - 'pybot -d robot-logs/ova-setup-logs --removekeywords TAG:secret --exclude skip -s OVA-Setup tests/common-ova'
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
@@ -215,7 +215,7 @@ pipeline:
     volumes:
       - /tmp
     commands:
-      - 'pybot -d robot-logs/ova-cleanup-logs -s OVA-Cleanup tests/common-ova'
+      - 'pybot -d robot-logs/ova-cleanup-logs --removekeywords TAG:secret --exclude skip -s OVA-Cleanup tests/common-ova'
     when:
       repo: vmware/vic-product
       event: [push, pull_request, tag, deployment]
@@ -248,8 +248,6 @@ pipeline:
     pull: true
     source: robot-bundle
     target: vic-ci-logs
-    acl:
-      - 'allUsers:READER'
     cache_control: 'public,max-age=3600'
     secrets:
       - google_key
