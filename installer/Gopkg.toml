@@ -20,7 +20,7 @@
 #  name = "github.com/x/y"
 #  version = "2.4.0"
 
-required = ["github.com/golang/dep", "github.com/GoASTScanner/gas", "github.com/go-yaml/yaml", "github.com/golang/lint/golint"]
+required = ["github.com/golang/dep", "github.com/go-yaml/yaml", "github.com/golang/lint/golint"]
 
 [[constraint]]
   name = "github.com/vmware/vic"
@@ -33,10 +33,6 @@ required = ["github.com/golang/dep", "github.com/GoASTScanner/gas", "github.com/
 [[constraint]]
   name = "github.com/golang/dep"
   version = "0.3.2"
-
-[[constraint]]
-  name = "github.com/GoASTScanner/gas"
-  revision = "6de76c92610b387855cdfdd53c99b149928916f7"
 
 [prune]
   non-go = true

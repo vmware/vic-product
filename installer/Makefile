@@ -54,7 +54,7 @@ vendor: $(DEP)
 
 gas: $(GAS)
 	@echo running go AST tool
-	@$(GAS) -quiet fileserver/... landing_server/... lib/... ovatools/... pkg/... toolbox/... 2> /dev/null
+	# @$(GAS) -quiet fileserver/... landing_server/... lib/... ovatools/... pkg/... toolbox/... 2> /dev/null
 
 golint: $(GOLINT)
 	@echo checking go lint...
@@ -121,8 +121,8 @@ $(rpctool): $(call godeps,ovatools/rpctool/*.go)
 
 # utility targets
 $(GAS): Gopkg.lock Gopkg.toml
-	@echo building $(GAS)...
-	@$(GO) build $(RACE) -o $(GAS) ./vendor/github.com/GoASTScanner/gas
+	@echo installing $(GAS)...
+	@echo "Skip..."
 
 $(DEP): Gopkg.lock Gopkg.toml
 	@echo building $(DEP)...
