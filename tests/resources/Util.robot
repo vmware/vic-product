@@ -56,6 +56,7 @@ Global Environment Setup
     [Tags]  secret
     Log To Console  Running global setup...
     # vCenter variables
+    Set Environment Variable  TEST_URL 10.158.214.101
     Environment Variable Should Be Set  TEST_URL
     Environment Variable Should Be Set  TEST_USERNAME
     Environment Variable Should Be Set  TEST_PASSWORD
