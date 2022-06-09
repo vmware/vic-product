@@ -30,7 +30,7 @@ Multiple Datacenter Setup
     Log  ${out}
     Log To Console  Finished creating cluster ${name}
 
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
     ${vc_ip}=  Fetch From Right  ${out}  ${SPACE}
     Log  ${vc_ip}
 
