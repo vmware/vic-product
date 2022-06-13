@@ -30,19 +30,19 @@ Enhanced Link Mode Setup
     Log  ${out}
     Log To Console  Finished creating cluster ${name}
 
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
     ${psc1_ip}=  Fetch From Right  ${out}  ${SPACE}
     Log  ${psc1_ip}
 
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.1 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.1
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.1 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.1
     ${psc2_ip}=  Fetch From Right  ${out}  ${SPACE}
     Log  ${psc2_ip}
 
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.2 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.2
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.2 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.2
     ${vc1_ip}=  Fetch From Right  ${out}  ${SPACE}
     Log  ${vc1_ip}
 
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.3 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.3
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.3 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.3
     ${vc2_ip}=  Fetch From Right  ${out}  ${SPACE}
     Log  ${vc2_ip}
 

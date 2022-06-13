@@ -25,7 +25,7 @@ ${NIMBUS_LOCATION_FULL}  NIMBUS_LOCATION=${NIMBUS_LOCATION}
 *** Keywords ***
 Fetch IP
     [Arguments]  ${name}
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name} | grep %{NIMBUS_PERSONAL_USER}-${name}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name} | grep %{NIMBUS_PERSONAL_USER}-${name}
     Should Not Be Empty  ${out}
     ${len}=  Get Line Count  ${out}
     Should Be Equal As Integers  ${len}  1
@@ -39,7 +39,7 @@ Get IP
 
 Fetch POD
       [Arguments]  ${name}
-      ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl list | grep ${name} | awk '{print $1}' | uniq
+      ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-ctl list | grep ${name} | awk '{print $1}' | uniq
       Should Not Be Empty  ${out}
       ${len}=  Get Line Count  ${out}
       Should Be Equal As Integers  ${len}  1
@@ -54,7 +54,7 @@ Deploy Nimbus ESXi Server
     Wait Until Keyword Succeeds  2 min  30 sec  Login  ${user}  ${password}
 
     :FOR  ${IDX}  IN RANGE  1  5
-    \   ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=${personal_user} nimbus-esxdeploy ${name} --disk=48000000 --ssd=24000000 --memory=8192 --lease=0.25 --nics 2 ${version}
+    \   ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=${personal_user} %{NIMBUS_CLI_PATH}/nimbus-esxdeploy ${name} ‐‐resultsDir %{RESULTS_DIR} --disk=48000000 --ssd=24000000 --memory=8192 --lease=0.25 --nics 2 ${version}
     \   Log  ${out}
     \   # Make sure the deploy actually worked
     \   ${status}=  Run Keyword And Return Status  Should Contain  ${out}  To manage this VM use
@@ -143,7 +143,7 @@ Deploy Nimbus vCenter Server
     Wait Until Keyword Succeeds  2 min  30 sec  Login  ${user}  ${password}
 
     :FOR  ${IDX}  IN RANGE  1  5
-    \   ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=${personal_user} vcvadeploy --lease=0.25 --vcvaBuild ${version} ${name}
+    \   ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=${personal_user} %{NIMBUS_CLI_PATH}/vcvadeploy ‐‐resultsDir %{RESULTS_DIR} --lease=0.25 --vcvaBuild ${version} ${name}
     \   Log  ${out}
     \   # Make sure the deploy actually worked
     \   ${status}=  Run Keyword And Return Status  Should Contain  ${out}  Overall Status: Succeeded
@@ -170,7 +170,7 @@ Deploy Nimbus ESXi Server Async
     [Tags]  secret
     [Arguments]  ${name}  ${version}=${ESX_VERSION}
     Log To Console  \nDeploying Nimbus ESXi server: ${name}
-    ${out}=  Run Secret SSHPASS command  '${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-esxdeploy ${name} --disk\=80000000 --ssd\=40000000 --memory\=8192 --lease=0.25 --nics 2 ${version}'
+    ${out}=  Run Secret SSHPASS command  '${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-esxdeploy ${name} ‐‐resultsDir %{RESULTS_DIR} --disk\=80000000 --ssd\=40000000 --memory\=8192 --lease=0.25 --nics 2 ${version}'
     [Return]  ${out}
 
 Run Secret SSHPASS command
@@ -185,7 +185,7 @@ Deploy Nimbus vCenter Server Async
     [Arguments]  ${name}  ${version}=${VC_VERSION}
     Log To Console  \nDeploying Nimbus VC server: ${name}
 
-    ${out}=  Run Secret SSHPASS command  '${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-vcvadeploy --lease=0.25 --vcvaBuild ${version} ${name}'
+    ${out}=  Run Secret SSHPASS command  '${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-vcvadeploy ‐‐resultsDir %{RESULTS_DIR} --lease=0.25 --vcvaBuild ${version} ${name}'
     [Return]  ${out}
 
 # Deploys a nimbus testbed based on the specified testbed spec and options
@@ -215,10 +215,10 @@ Deploy Nimbus Testbed
     \    Log  ${status}
     \    Run Keyword If  ${status}== False  Continue For Loop
     \    Sleep  3
-    \    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=${personal_user} nimbus-testbeddeploy --lease 0.25 ${specarg} ${args}
+    \    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=${personal_user} %{NIMBUS_CLI_PATH}/nimbus-testbeddeploy --lease 0.25 --resultsDir %{RESULTS_DIR} ${specarg} ${args}
     \    Log  ${out}
     \    # Make sure the deploy actually worked
-    \    ${status}=  Run Keyword And Return Status  Should Contain  ${out}  "deployment_result"=>"PASS"
+    \    ${status}=  Run Keyword And Return Status  Should Contain  ${out}  END TESTBED DEPLOYMENT
     \    Run Keyword If  ${status} and '${spec}' != '${EMPTY}'  Execute Command  rm -rf ./%{BUILD_TAG}/testbeds/${spec}-${suffix}
     \    Return From Keyword If  ${status}  ${out}
     \    Log To Console  Nimbus deployment ${index} failed, trying again in 1 minute
@@ -226,10 +226,10 @@ Deploy Nimbus Testbed
 
     :FOR  ${index}  IN RANGE  1  5
     \   Exit For Loop If  '${spec}' != '${EMPTY}'  
-    \   ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=${personal_user} nimbus-testbeddeploy --lease 0.25 ${specarg} ${args}
+    \   ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=${personal_user} %{NIMBUS_CLI_PATH}/nimbus-testbeddeploy --lease 0.25 --resultsDir %{RESULTS_DIR} ${specarg} ${args}
     \   Log  ${out}
     \   # Make sure the deploy actually worked
-    \   ${status}=  Run Keyword And Return Status  Should Contain  ${out}  "deployment_result"=>"PASS"
+    \   ${status}=  Run Keyword And Return Status  Should Contain  ${out}  END TESTBED DEPLOYMENT
     \   Return From Keyword If  ${status}  ${out}
     \   Log To Console  Nimbus deployment ${index} failed, trying again in 1 minute
     \   Sleep  1 minutes
@@ -241,7 +241,7 @@ Kill Nimbus Server
     [Arguments]  ${name}  ${user}=%{NIMBUS_USER}  ${password}=%{NIMBUS_PASSWORD}  ${personal_user}=%{NIMBUS_PERSONAL_USER}
     Open Connection  %{NIMBUS_GW}
     Wait Until Keyword Succeeds  2 min  30 sec  Login  ${user}  ${password}
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=${personal_user} nimbus-ctl kill ${name}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=${personal_user} %{NIMBUS_CLI_PATH}/nimbus-ctl kill ${name}
     Log  ${out}
     Close connection
 
@@ -265,7 +265,7 @@ Nimbus Pod Cleanup
     [Arguments]  ${nimbus_pod_name}  ${testbedname}
     Open Connection  %{NIMBUS_GW}
     Wait Until Keyword Succeeds  10 min  30 sec  Login  %{NIMBUS_USER}  %{NIMBUS_PASSWORD}
-    Execute Command  USER=%{NIMBUS_PERSONAL_USER} NIMBUS=${nimbus_pod_name} nimbus-ctl --nimbusLocation=${NIMBUS_LOCATION} --testbed kill ${testbedname}
+    Execute Command  USER=%{NIMBUS_PERSONAL_USER} NIMBUS=${nimbus_pod_name} %{NIMBUS_CLI_PATH}/nimbus-ctl --nimbusLocation=${NIMBUS_LOCATION} --testbed kill ${testbedname}
     Close Connection
 
 # Cleans up a vm (or space separated string list of vms) but does not delete pxe folder on nimbus gateway
@@ -488,7 +488,7 @@ Deploy Nimbus NFS Datastore
     Open Connection  %{NIMBUS_GW}
     Wait Until Keyword Succeeds  2 min  30 sec  Login  ${user}  ${password}
 
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-nfsdeploy ${name} ${additional-args}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-nfsdeploy ${name} ‐‐resultsDir %{RESULTS_DIR} ${additional-args}
     Log  ${out}
     # Make sure the deploy actually worked
     Should Contain  ${out}  To manage this VM use
@@ -615,13 +615,13 @@ Create Simple VC Cluster With Spec File
 
     Log To Console  Finished creating cluster ${name}
 
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.vc.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.vc.0
     ${vc-ip}=  Fetch From Right  ${out}  ${SPACE}
 
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.esx.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.esx.0
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.esx.0 | grep %{NIMBUS_PERSONAL_USER}-${name}.esx.0
     ${esx0-ip}=  Fetch From Right  ${out}  ${SPACE}
 
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.esx.1 | grep %{NIMBUS_PERSONAL_USER}-${name}.esx.1
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-ctl ip %{NIMBUS_PERSONAL_USER}-${name}.esx.1 | grep %{NIMBUS_PERSONAL_USER}-${name}.esx.1
     ${esx1-ip}=  Fetch From Right  ${out}  ${SPACE}
 
     [Return]  %{NIMBUS_PERSONAL_USER}-${name}.esx.0  %{NIMBUS_PERSONAL_USER}-${name}.esx.1  %{NIMBUS_PERSONAL_USER}-${name}.vc.0  ${esx0-ip}  ${esx1-ip}  ${vc-ip}
@@ -632,7 +632,7 @@ Create Static IP Worker
     Log To Console  Create a new static ip address worker...
     ${name}=  Evaluate  'static-worker-' + str(random.randint(1000,9999)) + str(time.clock())  modules=random,time
     Log To Console  \nDeploying static ip worker: ${name}
-    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-ctl --silentObjectNotFoundError kill '%{NIMBUS_PERSONAL_USER}-static-worker' && ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} nimbus-worker-deploy --nimbus ${NIMBUS_POD} --enableStaticIpService ${name}
+    ${out}=  Execute Command  ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-ctl --silentObjectNotFoundError kill '%{NIMBUS_PERSONAL_USER}-static-worker' && ${NIMBUS_LOCATION_FULL} USER=%{NIMBUS_PERSONAL_USER} %{NIMBUS_CLI_PATH}/nimbus-worker-deploy --nimbus ${NIMBUS_POD} --enableStaticIpService ${name}
     Should Contain  ${out}  "deploy_status": "success"
 
     ${pod}=  Fetch POD  ${name}
