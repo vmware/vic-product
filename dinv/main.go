@@ -95,9 +95,6 @@ func main() {
 				"/certs/docker.key",
 				"/certs/docker.crt",
 				"/certs/ca.crt",
-				"/certs/ca-key.pem",
-				"/certs/docker-client.key",
-				"/certs/docker-client.crt",
 			}
 
 			if err := certsExist(files); err != nil {
