@@ -50,6 +50,7 @@ pipeline:
     commands:
       - tests/check-org-membership.sh
     when:
+      event: [push]
       status: success
 
   dch-build:
