@@ -47,6 +47,7 @@ Verify default harbor registry is displayed
     Verify Column Value In Registries Table  2  ${DEFAULT_HARBOR_NAME}
     Unselect Registries Page Iframe
 
+
 Push an image to harbor and create a container
     Setup Docker Daemon
     # verify push image to harbor
