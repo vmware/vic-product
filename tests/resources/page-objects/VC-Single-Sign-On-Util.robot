@@ -48,7 +48,7 @@ Verify VC Home Page
     :FOR  ${i}  IN RANGE  20
     \   ${status}=  Run Keyword And Return Status  Wait Until Page Contains  Summary
     \   Exit For Loop If  ${status}
-    \   Sleep  3
+    \   Sleep  10
     Wait Until Page Contains  Summary
     Wait Until Page Contains  Monitor
     Wait Until Page Contains  Configure
